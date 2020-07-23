@@ -1,0 +1,131 @@
+name: "$(SourceBranchName)+$(BuildID)"
+
+# Prevents building every commit or on PR
+trigger: none
+pr: none
+
+# Consume an artifact from the build pipeline as soon as it becomes available.
+resources:
+  pipelines:
+    - pipeline: "summary-care-record"
+      source: "Summary-Care-Record-Build"
+      trigger:
+        branches:
+          include:
+            - refs/tags/v*
+  repositories:
+    - repository: templates
+      type: github
+      name: NHSDigital/api-management-utils
+      endpoint: NHSDigital
+
+# env variables
+variables:
+  SERVICE_NAME: summary-care-record
+  SERVICE_BASE_PATH: summary-care-record
+  SPEC_FILE_NAME: summary-care-record
+  PRODUCT_DISPLAY_NAME: Summary Care Record API
+  PRODUCT_DESCRIPTION: This is a generated template API
+  AWS_ENV: ptl
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+stages:
+- stage: DeployInternalDev
+  displayName: internal-dev
+  variables:
+  - group: apigee-nonprod
+  - group: env-internal-dev
+  - name: PROXY_NAME
+    value: live
+  jobs:
+    - deployment: DeployService
+      displayName: Deploy Service
+      environment: 'internal-dev'
+      strategy:
+        runOnce:
+          deploy:
+            steps:
+              - template: az/templates/pre-tasks.yml@templates
+              - template: az/templates/setup-build-name.yml@templates
+              - template: az/templates/deploy-service.yml@templates
+
+- stage: DeployInternalQA
+  displayName: internal-qa
+  dependsOn: DeployInternalDev
+  variables:
+    - group: apigee-nonprod
+    - group: env-internal-qa
+    - name: PROXY_NAME
+      value: live
+  jobs:
+    - deployment: DeployService
+      displayName: Deploy Service
+      environment: 'internal-qa'
+      strategy:
+        runOnce:
+          deploy:
+            steps:
+              - template: az/templates/pre-tasks.yml@templates
+              - template: az/templates/setup-build-name.yml@templates
+              - template: az/templates/deploy-service.yml@templates
+
+- stage: DeployInternalQASandbox
+  displayName: internal-qa-sandbox
+  dependsOn: DeployInternalDev
+  variables:
+    - group: apigee-nonprod
+    - group: env-internal-qa-sandbox
+    - name: PROXY_NAME
+      value: sandbox
+  jobs:
+    - deployment: DeployService
+      displayName: Deploy Service
+      environment: 'internal-qa-sandbox'
+      strategy:
+        runOnce:
+          deploy:
+            steps:
+              - template: az/templates/pre-tasks.yml@templates
+              - template: az/templates/setup-build-name.yml@templates
+              - template: az/templates/deploy-service.yml@templates
+
+- stage: DeployInternalPortal
+  displayName: internal-portal
+  dependsOn: DeployInternalDev
+  variables:
+    - group: apigee-nonprod
+    - group: env-internal-portal
+  jobs:
+    - deployment: DeploySpecs
+      displayName: Deploy Specs
+      environment: 'internal-portal'
+      strategy:
+        runOnce:
+          deploy:
+            steps:
+              - template: az/templates/pre-tasks.yml@templates
+              - template: az/templates/deploy-specs.yml@templates
+
+- stage: DeployRef
+  displayName: ref
+  dependsOn: 
+    - DeployInternalQA
+    - DeployInternalQASandbox
+  variables:
+    - group: apigee-nonprod
+    - group: env-ref
+    - name: PROXY_NAME
+      value: live
+  jobs:
+    - deployment: DeployService
+      displayName: Deploy Service
+      environment: 'ref'
+      strategy:
+        runOnce:
+          deploy:
+            steps:
+              - template: az/templates/pre-tasks.yml@templates
+              - template: az/templates/setup-build-name.yml@templates
+              - template: az/templates/deploy-service.yml@templates
