@@ -1,0 +1,17 @@
+version: '3'
+
+services:
+  scr:
+    image: local/summary-care-record-api:${BUILD_TAG}
+    build:
+      context: ./service
+      dockerfile: Dockerfile
+    ports:
+        - "8080:8080"
+  
+  mock-spine-service:
+    build:
+      context: ./service
+      dockerfile: Dockerfile
+    ports:
+        - "8081:8081"
