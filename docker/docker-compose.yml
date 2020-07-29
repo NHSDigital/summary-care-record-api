@@ -11,7 +11,7 @@ services:
   
   mock-spine-service:
     build:
-      context: ./service
+      context: ./mock-spine-service
       dockerfile: Dockerfile
     ports:
         - "8081:8081"

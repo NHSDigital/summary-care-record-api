@@ -1,7 +1,7 @@
 FROM gradle:jdk11 AS build
 COPY --chown=gradle:gradle . /home/gradle/src
 WORKDIR /home/gradle/src
-RUN gradle build --no-daemon -x test -x integrationTest
+RUN gradle build --no-daemon -x test -x checkstyleMain -x checkstyleTest -x spotbugsMain -x spotbugsTest
 
 FROM adoptopenjdk/openjdk11-openj9:jre
 
