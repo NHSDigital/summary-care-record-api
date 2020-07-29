@@ -1,0 +1,85 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '2.3.1.RELEASE'
+    id "io.freefair.lombok" version "5.1.0"
+    id "checkstyle"
+    id "com.github.spotbugs" version "4.4.4"
+}
+
+apply plugin: 'java'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'checkstyle'
+apply plugin: "com.github.spotbugs"
+
+repositories {
+    mavenCentral()
+    maven {
+        url "https://dl.bintray.com/ems-test-harness/iucds-schema"
+    }
+}
+
+dependencies {
+    implementation('org.springframework.boot:spring-boot-starter-webflux')
+    implementation "org.springframework.boot:spring-boot-starter-web:2.3.1.RELEASE"
+    implementation "ca.uhn.hapi.fhir:hapi-fhir-structures-dstu3:4.2.0"
+
+    testImplementation "junit:junit:4.13"
+    testImplementation "org.mockito:mockito-core:3.3.3"
+    testImplementation "org.assertj:assertj-core:3.16.1"
+    testImplementation "org.springframework.boot:spring-boot-starter-test:2.3.1.RELEASE"
+    testImplementation "io.rest-assured:rest-assured:4.3.0"
+    testImplementation "ca.uhn.hapi.fhir:hapi-fhir-validation-resources-dstu3:4.2.0"
+}
+
+lombok {
+    config['lombok.log.fieldName'] = 'LOGGER'
+}
+
+sourceSets {
+    integrationTest {
+        java {
+            compileClasspath += main.output + test.output
+            runtimeClasspath += main.output + test.output
+            srcDir file('src/integration-test/java')
+        }
+
+        resources {
+            srcDir file('src/integration-test/resources')
+        }
+    }
+}
+
+configurations {
+    integrationTestCompileOnly.extendsFrom testCompileOnly
+    integrationTestImplementation.extendsFrom testImplementation
+    integrationTestRuntime.extendsFrom testRuntime
+    integrationTestAnnotationProcessor.extendsFrom testAnnotationProcessor
+}
+
+task integrationTest(type: Test) {
+    testClassesDirs = sourceSets.integrationTest.output.classesDirs
+    classpath = sourceSets.integrationTest.runtimeClasspath
+    outputs.upToDateWhen { false }
+}
+
+task staticCodeAnalysis(type: GradleBuild) {
+    tasks = [
+            'clean',
+            'checkstyleMain',
+            'checkstyleTest',
+            'checkstyleIntegrationTest',
+            'spotbugsMain',
+            'spotbugsTest',
+            'spotbugsIntegrationTest',
+    ]
+}
+
+tasks.withType(com.github.spotbugs.snom.SpotBugsTask) {
+    excludeFilter = rootProject.file('config/spotbugs/exclude.xml')
+    reports {
+        xml.enabled = true
+        html.enabled = false
+    }
+}
+
+integrationTest.mustRunAfter test
