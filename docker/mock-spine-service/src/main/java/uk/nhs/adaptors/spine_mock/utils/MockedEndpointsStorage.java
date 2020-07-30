@@ -1,10 +1,9 @@
-package uk.nhs.adaptors.scr.utils;
-
-import java.util.HashMap;
+package uk.nhs.adaptors.spine_mock.utils;
 
 import org.springframework.stereotype.Component;
-
 import uk.nhs.adaptors.scr.models.requests.EndpointMockData;
+
+import java.util.HashMap;
 
 @Component
 public class MockedEndpointsStorage {
@@ -20,7 +19,7 @@ public class MockedEndpointsStorage {
         return map.getOrDefault(keyName, null);
     }
 
-    public void reset(){
+    public void reset() {
         map.clear();
     }
 
