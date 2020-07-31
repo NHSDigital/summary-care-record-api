@@ -1,4 +1,4 @@
-package uk.nhs.adaptors.scr.utils.spineMockSetup;
+package uk.nhs.adaptors.scr.utils.spine.mock;
 
 import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
@@ -11,9 +11,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import uk.nhs.adaptors.scr.utils.EndpointMockData;
-import uk.nhs.adaptors.scr.utils.spineMockSetup.interfaces.SpineMockSetupForHttpMethod;
-import uk.nhs.adaptors.scr.utils.spineMockSetup.interfaces.SpineMockSetupWithResponseContent;
-import uk.nhs.adaptors.scr.utils.spineMockSetup.interfaces.SpineMockSetupWithHttpStatusCode;
+import uk.nhs.adaptors.scr.utils.spine.mock.interfaces.SpineMockSetupForHttpMethod;
+import uk.nhs.adaptors.scr.utils.spine.mock.interfaces.SpineMockSetupWithHttpStatusCode;
+import uk.nhs.adaptors.scr.utils.spine.mock.interfaces.SpineMockSetupWithResponseContent;
 
 @Component
 public class SpineMockSetupEndpoint {
@@ -26,7 +26,8 @@ public class SpineMockSetupEndpoint {
         return builder;
     }
 
-    private static class Builder implements SpineMockSetupWithHttpStatusCode, SpineMockSetupForHttpMethod, SpineMockSetupWithResponseContent {
+    private static class Builder implements SpineMockSetupWithHttpStatusCode, SpineMockSetupForHttpMethod,
+        SpineMockSetupWithResponseContent {
         private String url;
         private String httpMethod;
         private Integer httpStatusCode;
@@ -67,8 +68,7 @@ public class SpineMockSetupEndpoint {
                     .then()
                     .statusCode(OK.value())
                     .extract();
-            }
-            catch (JsonProcessingException e) {
+            } catch (JsonProcessingException e) {
                 // skip
             }
         }

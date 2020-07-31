@@ -13,7 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import uk.nhs.adaptors.scr.clients.SpineClient;
-import uk.nhs.adaptors.scr.utils.spineMockSetup.SpineMockSetupEndpoint;
+import uk.nhs.adaptors.scr.utils.spine.mock.SpineMockSetupEndpoint;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = RANDOM_PORT)
@@ -44,7 +44,7 @@ public class SpineMockServiceTest {
         spineMockSetupEndpoint
             .forUrl("/sample")
             .forHttpMethod("GET")
-            .withHttpStatusCode(200)
+            .withHttpStatusCode(OK.value())
             .withResponseContent(message);
 
         String dataFromSpine = spineClient.getSampleEndpoint();
