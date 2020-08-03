@@ -32,10 +32,10 @@ public class ScrTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @Value("classpath:simple.fhir.json")
+    @Value("classpath:bundle.fhir.json")
     private Resource simpleFhirJson;
 
-    @Value("classpath:simple.fhir.xml")
+    @Value("classpath:bundle.fhir.xml")
     private Resource simpleFhirXml;
 
     @Test

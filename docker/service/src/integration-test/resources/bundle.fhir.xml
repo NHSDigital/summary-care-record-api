@@ -1,0 +1,207 @@
+<Bundle xmlns="http://hl7.org/fhir">
+  <id value="f61e545c-d52c-4b62-9668-3dcc6c27fc50"/>
+  <identifier>
+    <system value="https://tools.ietf.org/html/rfc4122"/>
+    <value value="1ff370b6-fc5b-40a1-9721-2a942e301666"/>
+  </identifier>
+  <type value="document"/>
+  <timestamp value="2007-03-15T01:00:00Z"/>
+  <entry>
+    <fullUrl value="urn:uuid:2880eedf-76f0-4f38-9681-dc158e937da7"/>
+    <resource>
+      <Composition>
+        <id value="2880eedf-76f0-4f38-9681-dc158e937da7"/>
+        <identifier>
+          <system value="https://tools.ietf.org/html/rfc4122"/>
+          <value value="2b5d459b-df79-4a2b-9b0c-95b2a7ee2ca4"/>
+        </identifier>
+        <status value="final"/>
+        <type>
+          <coding>
+            <system value="http://snomed.info/sct"/>
+            <code value="196981000000101"/>
+            <display value="General Practice Summary"/>
+          </coding>
+        </type>
+        <subject>
+          <reference value="urn:uuid:b6f5dd89-fc3a-466d-baad-126c0aac46fc"/>
+        </subject>
+        <date value="2007-03-15T01:00:00Z"/>
+        <author>
+          <reference value="urn:uuid:83c26c8f-ee72-4534-8891-0136972b2106"/>
+          <display value="Dr Steve Jones"/>
+        </author>
+        <title value="General Practice Summary"/>
+        <section>
+          <title value="General Practice Summary"/>
+          <text>
+            <status value="generated"/>
+            --- We have skipped the narrative for better readability of the resource ---
+          </text>
+        </section>
+        <section>
+          <title value="Allergies and Adverse Reactions"/>
+          <text>
+            <status value="generated"/>
+            --- We have skipped the narrative for better readability of the resource ---
+          </text>
+        </section>
+        <section>
+          <title value="Repeat Medication"/>
+          <text>
+            <status value="generated"/>
+            --- We have skipped the narrative for better readability of the resource ---
+          </text>
+        </section>
+        <section>
+          <title value="Acute Medication"/>
+          <text>
+            <status value="generated"/>
+            --- We have skipped the narrative for better readability of the resource ---
+          </text>
+        </section>
+        <section>
+          <title value="Discontinued Repeat Medication"/>
+          <text>
+            <status value="generated"/>
+            --- We have skipped the narrative for better readability of the resource ---
+          </text>
+        </section>
+        <section>
+          <title value="Risks to Care professional or Third Party"/>
+          <text>
+            <status value="generated"/>
+            --- We have skipped the narrative for better readability of the resource ---
+          </text>
+        </section>
+        <section>
+          <title value="Diagnoses"/>
+          <text>
+            <status value="generated"/>
+            --- We have skipped the narrative for better readability of the resource ---
+          </text>
+        </section>
+        <section>
+          <title value="Problems and issues"/>
+          <text>
+            <status value="generated"/>
+            --- We have skipped the narrative for better readability of the resource ---
+          </text>
+        </section>
+        <section>
+          <title value="Clinical Observation and Findings"/>
+          <text>
+            <status value="generated"/>
+            --- We have skipped the narrative for better readability of the resource ---
+          </text>
+        </section>
+        <section>
+          <title value="Treatments"/>
+          <text>
+            <status value="generated"/>
+            --- We have skipped the narrative for better readability of the resource ---
+          </text>
+        </section>
+        <section>
+          <title value="Investigations"/>
+          <text>
+            <status value="generated"/>
+            --- We have skipped the narrative for better readability of the resource ---
+          </text>
+        </section>
+        <section>
+          <title value="Provision of Advice and Information to Patients and Carers"/>
+          <text>
+            <status value="generated"/>
+            --- We have skipped the narrative for better readability of the resource ---
+          </text>
+        </section>
+        <section>
+          <title value="Personal Preferences"/>
+          <text>
+            <status value="generated"/>
+            --- We have skipped the narrative for better readability of the resource ---
+          </text>
+        </section>
+        <section>
+          <title value="Social and Personal Circumstances"/>
+          <text>
+            <status value="generated"/>
+            --- We have skipped the narrative for better readability of the resource ---
+          </text>
+        </section>
+        <section>
+          <title value="Services, Care Professionals and Carers"/>
+          <text>
+            <status value="generated"/>
+            --- We have skipped the narrative for better readability of the resource ---
+          </text>
+        </section>
+        <section>
+          <title value="Lifestyle"/>
+          <text>
+            <status value="generated"/>
+            --- We have skipped the narrative for better readability of the resource ---
+          </text>
+        </section>
+        <section>
+          <title value="Family History"/>
+          <text>
+            <status value="generated"/>
+            --- We have skipped the narrative for better readability of the resource ---
+          </text>
+        </section>
+      </Composition>
+    </resource>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:83c26c8f-ee72-4534-8891-0136972b2106"/>
+    <resource>
+      <PractitionerRole>
+        <id value="83c26c8f-ee72-4534-8891-0136972b2106"/>
+        <identifier>
+          <system value="http://fhir.nhs.net/Id/sds-role-profile-id"/>
+          <value value="673836492727"/>
+        </identifier>
+        <practitioner>
+          <reference value="urn:uuid:b1a41ee5-b88b-4f66-bd83-24343bf63dd8"/>
+        </practitioner>
+      </PractitionerRole>
+    </resource>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:b1a41ee5-b88b-4f66-bd83-24343bf63dd8"/>
+    <resource>
+      <Practitioner>
+        <id value="b1a41ee5-b88b-4f66-bd83-24343bf63dd8"/>
+        <name>
+          <family value="Jones"/>
+          <given value="Steve"/>
+          <prefix value="Dr"/>
+        </name>
+      </Practitioner>
+    </resource>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:b6f5dd89-fc3a-466d-baad-126c0aac46fc"/>
+    <resource>
+      <Patient>
+        <id value="b6f5dd89-fc3a-466d-baad-126c0aac46fc"/>
+        <identifier>
+          <extension
+            url="https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-NHSNumberVerificationStatus-1">
+            <valueCodeableConcept>
+              <coding>
+                <system value="https://fhir.hl7.org.uk/STU3/CodeSystem/CareConnect-NHSNumberVerificationStatus-1"/>
+                <code value="01"/>
+                <display value="Number present and verified"/>
+              </coding>
+            </valueCodeableConcept>
+          </extension>
+          <system value="https://fhir.nhs.uk/Id/nhs-number"/>
+          <value value="9900004948"/>
+        </identifier>
+      </Patient>
+    </resource>
+  </entry>
+</Bundle>

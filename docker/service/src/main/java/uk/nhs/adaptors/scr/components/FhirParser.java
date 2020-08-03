@@ -1,18 +1,22 @@
 package uk.nhs.adaptors.scr.components;
 
+import static uk.nhs.adaptors.scr.controllers.FhirMediaTypes.APPLICATION_FHIR_JSON;
+import static uk.nhs.adaptors.scr.controllers.FhirMediaTypes.APPLICATION_FHIR_XML;
+
+import java.util.List;
+import java.util.function.Function;
+
+import org.hl7.fhir.instance.model.api.IBaseResource;
+import org.hl7.fhir.r4.model.Bundle;
+import org.springframework.http.MediaType;
+import org.springframework.stereotype.Component;
+import org.springframework.web.HttpMediaTypeNotAcceptableException;
+
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.parser.DataFormatException;
 import ca.uhn.fhir.parser.IParser;
 import ca.uhn.fhir.parser.StrictErrorHandler;
-import org.hl7.fhir.instance.model.api.IBaseResource;
-import org.springframework.http.MediaType;
-import org.springframework.stereotype.Component;
-import org.springframework.web.HttpMediaTypeNotAcceptableException;
-import uk.nhs.adaptors.scr.controllers.FhirMediaTypes;
 import uk.nhs.adaptors.scr.exceptions.FhirValidationException;
-
-import java.util.List;
-import java.util.function.Function;
 
 @Component
 public class FhirParser {
@@ -40,26 +44,26 @@ public class FhirParser {
         return parser.setPrettyPrint(true).encodeResourceToString(resource);
     }
 
-    public IBaseResource parseResource(MediaType contentType, String body) throws HttpMediaTypeNotAcceptableException {
+    public Bundle parseResource(MediaType contentType, String body) throws HttpMediaTypeNotAcceptableException {
         Function<String, IBaseResource> parser;
-        if (contentType.equalsTypeAndSubtype(FhirMediaTypes.APPLICATION_FHIR_JSON)) {
+        if (contentType.equalsTypeAndSubtype(APPLICATION_FHIR_JSON)) {
             parser = this::parseJson;
-        } else if (contentType.equalsTypeAndSubtype(FhirMediaTypes.APPLICATION_FHIR_XML)) {
+        } else if (contentType.equalsTypeAndSubtype(APPLICATION_FHIR_XML)) {
             parser = this::parseXml;
         } else {
-            throw new HttpMediaTypeNotAcceptableException(List.of(FhirMediaTypes.APPLICATION_FHIR_JSON, FhirMediaTypes.APPLICATION_FHIR_XML));
+            throw new HttpMediaTypeNotAcceptableException(List.of(APPLICATION_FHIR_JSON, APPLICATION_FHIR_XML));
         }
-        return parser.apply(body);
+        return (Bundle) parser.apply(body);
     }
 
     public String encodeResource(MediaType contentType, IBaseResource resource) throws HttpMediaTypeNotAcceptableException {
         Function<IBaseResource, String> encoder;
-        if (contentType.equalsTypeAndSubtype(FhirMediaTypes.APPLICATION_FHIR_JSON)) {
+        if (contentType.equalsTypeAndSubtype(APPLICATION_FHIR_JSON)) {
             encoder = this::encodeToJson;
-        } else if (contentType.equalsTypeAndSubtype(FhirMediaTypes.APPLICATION_FHIR_XML)) {
+        } else if (contentType.equalsTypeAndSubtype(APPLICATION_FHIR_XML)) {
             encoder = this::encodeToXml;
         } else {
-            throw new HttpMediaTypeNotAcceptableException(List.of(FhirMediaTypes.APPLICATION_FHIR_JSON, FhirMediaTypes.APPLICATION_FHIR_XML));
+            throw new HttpMediaTypeNotAcceptableException(List.of(APPLICATION_FHIR_JSON, APPLICATION_FHIR_XML));
         }
         return encoder.apply(resource);
     }
