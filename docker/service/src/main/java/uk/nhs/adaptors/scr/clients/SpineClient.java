@@ -20,7 +20,7 @@ public class SpineClient {
 
     private RestTemplate prepareRestTemplate() {
         var restTemplate = new RestTemplate();
-        restTemplate.setUriTemplateHandler(new DefaultUriBuilderFactory(spineConfiguration.getBaseUrl()));
+        restTemplate.setUriTemplateHandler(new DefaultUriBuilderFactory(spineConfiguration.getUrl()));
         return restTemplate;
     }
 }

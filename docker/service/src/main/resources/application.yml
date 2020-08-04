@@ -10,5 +10,5 @@ management:
         include: info, health, metrics
 
 spine:
-  baseUrl: http://localhost:8081
+  url: http://localhost:8081
   sampleEndpoint: /sample

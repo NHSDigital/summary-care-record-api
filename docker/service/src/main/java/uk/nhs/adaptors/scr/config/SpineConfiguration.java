@@ -11,6 +11,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class SpineConfiguration {
-    private String baseUrl;
+    private String url;
     private String sampleEndpoint;
 }
