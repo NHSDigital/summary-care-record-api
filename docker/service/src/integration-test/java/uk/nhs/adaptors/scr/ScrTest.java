@@ -1,7 +1,12 @@
 package uk.nhs.adaptors.scr;
 
 import com.google.common.base.Charsets;
+
+import ca.uhn.fhir.context.FhirContext;
 import lombok.extern.slf4j.Slf4j;
+import uk.nhs.adaptors.scr.components.FhirParser;
+
+import org.hl7.fhir.r4.model.OperationOutcome;
 import org.junit.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
@@ -13,9 +18,11 @@ import org.springframework.core.io.Resource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 
 import java.nio.file.Files;
 
+import static org.junit.Assert.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -37,6 +44,9 @@ public class ScrTest {
 
     @Value("classpath:bundle.fhir.xml")
     private Resource simpleFhirXml;
+
+    @Autowired
+    private FhirParser fhirParser;
 
     @Test
     public void whenGetHealthCheck_expect200() throws Exception {
@@ -65,18 +75,34 @@ public class ScrTest {
     }
 
     @Test
-    public void whenUnableToParseData_expect400() throws Exception {
-        //TODO: assert response is OperationOutcome
-        mockMvc.perform(
+    public void whenUnableToParseJsonData_expect400() throws Exception {
+        MvcResult result = mockMvc.perform(
             post(FHIR_ENDPOINT)
                 .contentType("application/fhir+json")
                 .content("qwe"))
-            .andExpect(status().isBadRequest());
+            .andExpect(status().isBadRequest())
+            .andReturn();
 
-        mockMvc.perform(
+        FhirContext ctx = FhirContext.forR4();
+        String responseBody = result.getResponse().getContentAsString();
+        var response = ctx.newJsonParser().parseResource(responseBody);
+
+        assertTrue(response instanceof OperationOutcome);
+    }
+
+    @Test
+    public void whenUnableToParseXmlData_expect400() throws Exception {
+        MvcResult result = mockMvc.perform(
             post(FHIR_ENDPOINT)
                 .contentType("application/fhir+xml")
                 .content("qwe"))
-            .andExpect(status().isBadRequest());
+            .andExpect(status().isBadRequest())
+            .andReturn();
+
+        FhirContext ctx = FhirContext.forR4();
+        String responseBody = result.getResponse().getContentAsString();
+        var response = ctx.newXmlParser().parseResource(responseBody);
+
+        assertTrue(response instanceof OperationOutcome);
     }
 }
