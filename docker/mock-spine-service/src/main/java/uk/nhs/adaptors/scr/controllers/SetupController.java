@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import uk.nhs.adaptors.scr.models.requests.EndpointMockData;
-import uk.nhs.adaptors.spine_mock.utils.MockedEndpointsStorage;
+import uk.nhs.adaptors.scr.utils.MockedEndpointsStorage;
 
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.OK;

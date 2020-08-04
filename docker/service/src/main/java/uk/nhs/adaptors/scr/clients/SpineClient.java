@@ -4,6 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.DefaultUriBuilderFactory;
+
 import uk.nhs.adaptors.scr.config.SpineConfiguration;
 
 @Component
@@ -12,7 +14,13 @@ public class SpineClient {
     private final SpineConfiguration spineConfiguration;
 
     public String getSampleEndpoint() {
-        return new RestTemplate()
+        return prepareRestTemplate()
             .getForObject(spineConfiguration.getSampleEndpoint(), String.class);
+    }
+
+    private RestTemplate prepareRestTemplate() {
+        var restTemplate = new RestTemplate();
+        restTemplate.setUriTemplateHandler(new DefaultUriBuilderFactory(spineConfiguration.getBaseUrl()));
+        return restTemplate;
     }
 }

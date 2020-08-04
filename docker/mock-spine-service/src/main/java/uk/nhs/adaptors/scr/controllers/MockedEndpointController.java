@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 import uk.nhs.adaptors.scr.models.requests.EndpointMockData;
-import uk.nhs.adaptors.spine_mock.utils.MockedEndpointsStorage;
+import uk.nhs.adaptors.scr.utils.MockedEndpointsStorage;
 
 import javax.servlet.http.HttpServletRequest;
 

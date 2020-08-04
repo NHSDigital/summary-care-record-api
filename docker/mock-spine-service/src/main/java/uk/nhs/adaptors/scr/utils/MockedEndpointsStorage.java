@@ -1,4 +1,4 @@
-package uk.nhs.adaptors.spine_mock.utils;
+package uk.nhs.adaptors.scr.utils;
 
 import org.springframework.stereotype.Component;
 import uk.nhs.adaptors.scr.models.requests.EndpointMockData;
