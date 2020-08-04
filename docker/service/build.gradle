@@ -83,7 +83,7 @@ task staticCodeAnalysis(type: GradleBuild) {
 check.dependsOn integrationTest
 
 tasks.withType(com.github.spotbugs.snom.SpotBugsTask) {
-//    excludeFilter = rootProject.file('config/spotbugs/exclude.xml')
+    excludeFilter = rootProject.file('config/spotbugs/exclude.xml')
     reports {
         xml.enabled = true
         html.enabled = false
