@@ -49,13 +49,13 @@ public class ScrTest {
     private FhirParser fhirParser;
 
     @Test
-    public void whenGetHealthCheck_expect200() throws Exception {
+    public void whenGetHealthCheckThenExpect200() throws Exception {
         mockMvc.perform(get(HEALTHCHECK_ENDPOINT))
             .andExpect(status().isOk());
     }
 
     @Test
-    public void whenPostingFhirJson_expect200() throws Exception {
+    public void whenPostingFhirJsonThenExpect200() throws Exception {
         String requestBody = Files.readString(simpleFhirJson.getFile().toPath(), Charsets.UTF_8);
         mockMvc.perform(
             post(FHIR_ENDPOINT)
@@ -65,7 +65,7 @@ public class ScrTest {
     }
 
     @Test
-    public void whenPostingFhirXml_expect200() throws Exception {
+    public void whenPostingFhirXmlThenExpect200() throws Exception {
         String requestBody = Files.readString(simpleFhirXml.getFile().toPath(), Charsets.UTF_8);
         mockMvc.perform(
             post(FHIR_ENDPOINT)
@@ -75,7 +75,7 @@ public class ScrTest {
     }
 
     @Test
-    public void whenUnableToParseJsonData_expect400() throws Exception {
+    public void whenUnableToParseJsonDataThenExpect400() throws Exception {
         MvcResult result = mockMvc.perform(
             post(FHIR_ENDPOINT)
                 .contentType("application/fhir+json")
@@ -91,7 +91,7 @@ public class ScrTest {
     }
 
     @Test
-    public void whenUnableToParseXmlData_expect400() throws Exception {
+    public void whenUnableToParseXmlDataThenExpect400() throws Exception {
         MvcResult result = mockMvc.perform(
             post(FHIR_ENDPOINT)
                 .contentType("application/fhir+xml")

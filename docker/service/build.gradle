@@ -2,10 +2,13 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '2.3.1.RELEASE'
     id "io.freefair.lombok" version "5.1.0"
-//    id "checkstyle"
+    id "checkstyle"
     id "com.github.spotbugs" version "4.4.4"
     id 'io.spring.dependency-management' version '1.0.9.RELEASE'
 }
+
+apply plugin: 'checkstyle'
+apply plugin: "com.github.spotbugs"
 
 group = 'uk.nhs.digital.nhsconnect'
 version = '0.0.1-SNAPSHOT'
@@ -68,10 +71,9 @@ task integrationTest(type: Test) {
 task staticCodeAnalysis(type: GradleBuild) {
     tasks = [
             'clean',
-//TODO: fix
-//            'checkstyleMain',
-//            'checkstyleTest',
-//            'checkstyleIntegrationTest',
+            'checkstyleMain',
+            'checkstyleTest',
+            'checkstyleIntegrationTest',
             'spotbugsMain',
             'spotbugsTest',
             'spotbugsIntegrationTest',

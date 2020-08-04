@@ -7,7 +7,7 @@ import java.util.HashMap;
 
 @Component
 public class MockedEndpointsStorage {
-    HashMap<String, EndpointMockData> map = new HashMap<>();
+    private HashMap<String, EndpointMockData> map = new HashMap<>();
 
     public void add(EndpointMockData data) {
         String keyName = getKeyName(data.getHttpMethod(), data.getUrl());
