@@ -3,15 +3,10 @@ version: '3'
 services:
   scr:
     image: uk.nhs/summary-care-record-api:0.0.1-SNAPSHOT
-    build:
-      context: ./service
-      dockerfile: Dockerfile
     ports:
         - "8080:8080"
-  
+
   mock-spine-service:
-    build:
-      context: ./mock-spine-service
-      dockerfile: Dockerfile
+    image: uk.nhs/spine-mock:0.0.1-SNAPSHOT
     ports:
         - "8081:8081"
