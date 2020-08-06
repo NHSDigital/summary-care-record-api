@@ -1,30 +1,26 @@
 package uk.nhs.adaptors.scr.clients;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.DefaultUriBuilderFactory;
 
 import uk.nhs.adaptors.scr.config.SpineConfiguration;
 
 @Component
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class SpineClient {
-    private final WebClient webClient;
     private final SpineConfiguration spineConfiguration;
 
-    @Autowired
-    public SpineClient(WebClient.Builder webClientBuilder, SpineConfiguration spineConfiguration) {
-        this.spineConfiguration = spineConfiguration;
-        this.webClient = webClientBuilder
-            .baseUrl(spineConfiguration.getUrl())
-            .build();
+    public String getSampleEndpoint() {
+        return prepareRestTemplate()
+            .getForObject(spineConfiguration.getSampleEndpoint(), String.class);
     }
 
-    public String getSampleEndpoint() {
-        return this.webClient
-            .get()
-            .uri(spineConfiguration.getSampleEndpoint())
-            .retrieve()
-            .bodyToMono(String.class)
-            .block();
+    private RestTemplate prepareRestTemplate() {
+        var restTemplate = new RestTemplate();
+        restTemplate.setUriTemplateHandler(new DefaultUriBuilderFactory(spineConfiguration.getUrl()));
+        return restTemplate;
     }
 }

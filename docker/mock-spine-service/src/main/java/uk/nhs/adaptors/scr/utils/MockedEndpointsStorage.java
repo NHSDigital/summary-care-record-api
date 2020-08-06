@@ -1,14 +1,13 @@
 package uk.nhs.adaptors.scr.utils;
 
-import java.util.HashMap;
-
 import org.springframework.stereotype.Component;
-
 import uk.nhs.adaptors.scr.models.requests.EndpointMockData;
+
+import java.util.HashMap;
 
 @Component
 public class MockedEndpointsStorage {
-    HashMap<String, EndpointMockData> map = new HashMap<>();
+    private HashMap<String, EndpointMockData> map = new HashMap<>();
 
     public void add(EndpointMockData data) {
         String keyName = getKeyName(data.getHttpMethod(), data.getUrl());
@@ -20,7 +19,7 @@ public class MockedEndpointsStorage {
         return map.getOrDefault(keyName, null);
     }
 
-    public void reset(){
+    public void reset() {
         map.clear();
     }
 
