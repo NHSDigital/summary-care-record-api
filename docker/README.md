@@ -4,6 +4,16 @@ National Integration Adaptors - Summary Care Record
 ## Requirements:
 1. JDK 14
 
+## How to run service:
+* Navigate to `docker`
+* Run script: `start-local-environment.sh`
+
+In terminal navigate to docker/docker and run command `chmod +x build-image.sh`
+
+If gradle-wrapper.jar doesn't exist navigate to docker/service in terminal and run:
+* If gradle isn't installed `brew install gradle`
+* Update gradle `gradle wrapper`
+
 ## How to run unit tests:
 * Navigate to `service`
 * Run: `./gradlew test`
