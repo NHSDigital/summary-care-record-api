@@ -10,6 +10,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import uk.nhs.adaptors.scr.clients.SpineClient;
@@ -48,6 +49,23 @@ public class SpineMockServiceTest {
             .withResponseContent(message);
 
         String dataFromSpine = spineClient.getSampleEndpoint();
+
+        assertThat(dataFromSpine).isEqualTo(message);
+    }
+
+    @Test
+    public void setResourceEndpointShouldReturnMockedData() {
+        String message = "hello";
+
+        ResponseEntity responseEntity = new ResponseEntity(OK);
+
+        spineMockSetupEndpoint
+            .forUrl("/summary-care-record/consent")
+            .forHttpMethod("POST")
+            .withHttpStatusCode(OK.value())
+            .withResponseEntity(responseEntity);
+
+        ResponseEntity dataFromSpine = spineClient.sendToACSEndpoint(message);
 
         assertThat(dataFromSpine).isEqualTo(message);
     }

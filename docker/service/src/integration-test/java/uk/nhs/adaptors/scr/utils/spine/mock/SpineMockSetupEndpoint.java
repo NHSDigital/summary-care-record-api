@@ -5,6 +5,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 import static io.restassured.RestAssured.given;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -14,6 +15,7 @@ import uk.nhs.adaptors.scr.utils.EndpointMockData;
 import uk.nhs.adaptors.scr.utils.spine.mock.interfaces.SpineMockSetupForHttpMethod;
 import uk.nhs.adaptors.scr.utils.spine.mock.interfaces.SpineMockSetupWithHttpStatusCode;
 import uk.nhs.adaptors.scr.utils.spine.mock.interfaces.SpineMockSetupWithResponseContent;
+import uk.nhs.adaptors.scr.utils.spine.mock.interfaces.SpineMockSetupWithResponseEntity;
 
 @Component
 public class SpineMockSetupEndpoint {
@@ -27,11 +29,12 @@ public class SpineMockSetupEndpoint {
     }
 
     private static class Builder implements SpineMockSetupWithHttpStatusCode, SpineMockSetupForHttpMethod,
-        SpineMockSetupWithResponseContent {
+        SpineMockSetupWithResponseContent, SpineMockSetupWithResponseEntity {
         private String url;
         private String httpMethod;
         private Integer httpStatusCode;
         private String responseContent;
+        private ResponseEntity responseEntity;
 
         @Override
         public SpineMockSetupWithHttpStatusCode forHttpMethod(String httpMethod) {
@@ -51,12 +54,19 @@ public class SpineMockSetupEndpoint {
             setupEndpoint();
         }
 
+        @Override
+        public void withResponseEntity(ResponseEntity responseEntity) {
+            this.responseEntity = responseEntity;
+            setupEndpoint();
+        }
+
         private void setupEndpoint() {
             EndpointMockData endpointMockData = new EndpointMockData();
             endpointMockData.setUrl(url);
             endpointMockData.setHttpMethod(httpMethod);
             endpointMockData.setHttpStatusCode(httpStatusCode);
             endpointMockData.setResponseContent(responseContent);
+            endpointMockData.setResponseEntity(responseEntity);
 
             try {
                 given()
@@ -71,6 +81,7 @@ public class SpineMockSetupEndpoint {
             } catch (JsonProcessingException e) {
                 // skip
             }
+            int test =1;
         }
     }
 }
