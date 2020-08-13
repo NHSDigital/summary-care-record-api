@@ -38,7 +38,7 @@ public class AcsController {
                 String sampleResponse = ResourcesUtils.getResourceAsString(GET_RESOURCE_PERMISSION_SAMPLE_MESSAGE_PATH);
                 return new ResponseEntity<>(sampleResponse, OK);
             } else if (isNodeExists(document, SET_RESOURCE_PERMISSIONS_NODE)) {
-                // TODO
+                return new ResponseEntity<>(OK);
             }
 
             return new ResponseEntity<>(BAD_REQUEST);

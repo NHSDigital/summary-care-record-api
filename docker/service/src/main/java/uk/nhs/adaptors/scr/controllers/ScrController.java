@@ -3,6 +3,7 @@ package uk.nhs.adaptors.scr.controllers;
 import static java.util.UUID.randomUUID;
 
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
+import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.http.MediaType.APPLICATION_XML_VALUE;
 import static org.springframework.http.MediaType.TEXT_XML_VALUE;
@@ -42,8 +43,8 @@ public class ScrController {
         produces = {APPLICATION_JSON_VALUE})
     @ResponseStatus(HttpStatus.ACCEPTED)
     public ResponseEntity<?> setResourcePermissions(@RequestBody ACSPayload acsSetResourceObject) {
-        String acsResponse = acsService.setResourcePermissions(acsSetResourceObject);
-        return new ResponseEntity<>(acsResponse, OK);
+        acsService.setResourcePermissions(acsSetResourceObject);
+        return new ResponseEntity<>(OK);
     }
 
     @GetMapping(
@@ -56,7 +57,7 @@ public class ScrController {
             return new ResponseEntity<>(acsResponse, OK);
         } catch (DocumentException e) {
             LOGGER.error(BAD_REQUEST.toString() + e.getMessage());
-            throw new ResponseStatusException(BAD_REQUEST, "Not valid XML response from ACS", e);
+            throw new ResponseStatusException(INTERNAL_SERVER_ERROR, "Not valid XML response from ACS", e);
         } catch (SoapClientException e) {
             LOGGER.error(BAD_REQUEST.toString() + e.getMessage());
             throw new ResponseStatusException(BAD_REQUEST, e.getReason(), e);
