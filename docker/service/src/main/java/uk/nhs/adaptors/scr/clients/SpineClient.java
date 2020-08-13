@@ -25,9 +25,9 @@ public class SpineClient {
     public ResponseEntity sendToACSEndpoint(String message) {
 //        return prepareRestTemplate()
 //            .postForObject(spineConfiguration.getAcsSetResourcePermissionEndpoint(), message, ResponseEntity.class);
-        prepareRestTemplate()
-                    .postForObject(spineConfiguration.getAcsSetResourcePermissionEndpoint(), message, ResponseEntity.class);
-        return new ResponseEntity(OK);
+        ResponseEntity<String> responseEntity = prepareRestTemplate()
+            .postForEntity(spineConfiguration.getAcsSetResourcePermissionEndpoint(), message, String.class);
+        return responseEntity;
     }
 
     private RestTemplate prepareRestTemplate() {

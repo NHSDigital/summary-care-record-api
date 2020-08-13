@@ -10,5 +10,4 @@ public class EndpointMockData {
     private String httpMethod;
     private Integer httpStatusCode;
     private String responseContent;
-    private ResponseEntity responseEntity;
 }

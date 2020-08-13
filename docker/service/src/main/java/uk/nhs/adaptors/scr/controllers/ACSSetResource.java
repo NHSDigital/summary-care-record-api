@@ -1,12 +1,11 @@
 package uk.nhs.adaptors.scr.controllers;
 
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
@@ -23,10 +22,9 @@ public class ACSSetResource {
     private SpineClient spineClient;
 
     @PostMapping(
-        path = "/summary-care-record/set-consent",
-        consumes = {MediaType.APPLICATION_JSON_VALUE},
-        produces = {MediaType.APPLICATION_JSON_VALUE})
-    @ResponseStatus(HttpStatus.ACCEPTED)
+        path = "/summary-care-record/consent",
+        consumes = APPLICATION_JSON_VALUE,
+        produces = APPLICATION_JSON_VALUE)
     public ResponseEntity<?> acceptACSSetResource(
         @RequestBody ACSPayload acsSetResourceObject) {
 
