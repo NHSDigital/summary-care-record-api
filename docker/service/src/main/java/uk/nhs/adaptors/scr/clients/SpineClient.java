@@ -2,6 +2,8 @@ package uk.nhs.adaptors.scr.clients;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.DefaultUriBuilderFactory;
@@ -13,9 +15,9 @@ import uk.nhs.adaptors.scr.config.SpineConfiguration;
 public class SpineClient {
     private final SpineConfiguration spineConfiguration;
 
-    public String getSampleEndpoint() {
+    public ResponseEntity<String> sendAcsRequest(String request) {
         return prepareRestTemplate()
-            .getForObject(spineConfiguration.getSampleEndpoint(), String.class);
+            .postForEntity(spineConfiguration.getAcsEndpoint(), request, String.class);
     }
 
     private RestTemplate prepareRestTemplate() {
