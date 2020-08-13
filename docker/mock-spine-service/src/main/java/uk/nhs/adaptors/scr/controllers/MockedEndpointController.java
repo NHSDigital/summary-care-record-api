@@ -33,5 +33,4 @@ public class MockedEndpointController {
         }
         return new ResponseEntity(endpointMockData.getResponseContent(), HttpStatus.valueOf(endpointMockData.getHttpStatusCode()));
     }
-
 }

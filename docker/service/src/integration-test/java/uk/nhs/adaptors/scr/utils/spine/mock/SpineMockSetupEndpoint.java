@@ -71,7 +71,6 @@ public class SpineMockSetupEndpoint {
             } catch (JsonProcessingException e) {
                 // skip
             }
-            int test =1;
         }
     }
 }

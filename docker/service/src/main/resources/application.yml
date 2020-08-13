@@ -12,4 +12,3 @@ management:
 spine:
   url: http://localhost:8081
   sampleEndpoint: /sample
-  acsSetResourcePermissionEndpoint: /summary-care-record/consent

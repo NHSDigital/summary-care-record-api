@@ -17,11 +17,19 @@ import uk.nhs.adaptors.scr.models.ACSPayload;
 public class ACSService {
 
     private static final String SET_RESOURCE_PERMISSIONS_TEMPLATE_PATH = "set_resource_permissions_template.mustache";
+    private static final Mustache SET_RESOURCE_PERMISSIONS_TEMPLATE = loadSuccessTemplate();
 
-    public String handleMessage(ACSPayload acsSetResourceObject) {
+    private static Mustache loadSuccessTemplate() {
+        return getResourceAsString(SET_RESOURCE_PERMISSIONS_TEMPLATE_PATH);
+    }
 
+    private static Mustache getResourceAsString(String path) {
         MustacheFactory mf = new DefaultMustacheFactory();
-        Mustache m = mf.compile(SET_RESOURCE_PERMISSIONS_TEMPLATE_PATH);
+        Mustache m = mf.compile(path);
+        return m;
+    }
+
+    public String handleMessage(ACSPayload acsSetResourceObject) throws IOException {
 
         StringWriter writer = new StringWriter();
         String setResourcePermissions = "";
@@ -30,10 +38,10 @@ public class ACSService {
         context.put("ACSPayload", acsSetResourceObject.getPayload());
 
         try {
-            m.execute(writer, context).flush();
+            SET_RESOURCE_PERMISSIONS_TEMPLATE.execute(writer, context).flush();
             setResourcePermissions += writer.toString();
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new IOException(e);
         }
 
         return setResourcePermissions;

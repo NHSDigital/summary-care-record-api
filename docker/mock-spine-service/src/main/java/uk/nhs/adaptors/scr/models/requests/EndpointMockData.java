@@ -1,7 +1,5 @@
 package uk.nhs.adaptors.scr.models.requests;
 
-import org.springframework.http.ResponseEntity;
-
 import lombok.Getter;
 
 @Getter
