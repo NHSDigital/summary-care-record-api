@@ -1,6 +1,5 @@
 package uk.nhs.adaptors.scr;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 import static org.springframework.http.HttpStatus.OK;
 
@@ -35,20 +34,5 @@ public class SpineMockServiceTest {
             .get(HEALTHCHECK_ENDPOINT)
             .then()
             .statusCode(OK.value()).extract();
-    }
-
-    @Test
-    public void sampleEndpointShouldReturnMockedData() {
-        String message = "It's working!";
-
-        spineMockSetupEndpoint
-            .forUrl("/sample")
-            .forHttpMethod("GET")
-            .withHttpStatusCode(OK.value())
-            .withResponseContent(message);
-
-        String dataFromSpine = spineClient.getSampleEndpoint();
-
-        assertThat(dataFromSpine).isEqualTo(message);
     }
 }
