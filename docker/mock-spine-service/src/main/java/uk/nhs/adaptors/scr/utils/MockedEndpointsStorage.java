@@ -4,10 +4,11 @@ import org.springframework.stereotype.Component;
 import uk.nhs.adaptors.scr.models.requests.EndpointMockData;
 
 import java.util.HashMap;
+import java.util.Map;
 
 @Component
 public class MockedEndpointsStorage {
-    private HashMap<String, EndpointMockData> map = new HashMap<>();
+    private Map<String, EndpointMockData> map = new HashMap<>();
 
     public void add(EndpointMockData data) {
         String keyName = getKeyName(data.getHttpMethod(), data.getUrl());
