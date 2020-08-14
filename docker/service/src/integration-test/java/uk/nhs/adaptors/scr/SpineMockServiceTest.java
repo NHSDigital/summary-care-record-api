@@ -47,7 +47,7 @@ public class SpineMockServiceTest {
         String message = "response";
 
         spineMockSetupEndpoint
-            .forUrl("/acs")
+            .forUrl("/sample")
             .forHttpMethod("POST")
             .withHttpStatusCode(OK.value())
             .withResponseContent("response");
@@ -63,7 +63,7 @@ public class SpineMockServiceTest {
         String message = "response";
 
         spineMockSetupEndpoint
-            .forUrl("/acs")
+            .forUrl("/sample")
             .forHttpMethod("POST")
             .withHttpStatusCode(BAD_REQUEST.value())
             .withResponseContent("response");
@@ -76,53 +76,11 @@ public class SpineMockServiceTest {
         String message = "response";
 
         spineMockSetupEndpoint
-            .forUrl("/acs")
+            .forUrl("/sample")
             .forHttpMethod("POST")
             .withHttpStatusCode(INTERNAL_SERVER_ERROR.value())
             .withResponseContent("response");
 
         spineClient.sendAcsRequest(message);
-    }
-
-    @Test
-    public void setResourceEndpointShouldReturn200OK() {
-        String message = "response";
-
-        spineMockSetupEndpoint
-            .forUrl("/sample")
-            .forHttpMethod("POST")
-            .withHttpStatusCode(OK.value())
-            .withResponseContent("response");
-
-        ResponseEntity dataFromSpine = spineClient.sendToACSEndpoint(message);
-
-        assertThat(dataFromSpine.getStatusCode()).isEqualTo(OK);
-        assertThat(dataFromSpine.getBody().toString()).isEqualTo(message);
-    }
-
-    @Test(expected = HttpClientErrorException.BadRequest.class)
-    public void setResourceEndpointShouldReturn400BadRequest() {
-        String message = "response";
-
-        spineMockSetupEndpoint
-            .forUrl("/sample")
-            .forHttpMethod("POST")
-            .withHttpStatusCode(BAD_REQUEST.value())
-            .withResponseContent("response");
-
-        spineClient.sendToACSEndpoint(message);
-    }
-
-    @Test(expected = HttpServerErrorException.InternalServerError.class)
-    public void setResourceEndpointShouldReturn500InternalServerError() {
-        String message = "response";
-
-        spineMockSetupEndpoint
-            .forUrl("/sample")
-            .forHttpMethod("POST")
-            .withHttpStatusCode(INTERNAL_SERVER_ERROR.value())
-            .withResponseContent("response");
-
-        spineClient.sendToACSEndpoint(message);
     }
 }
