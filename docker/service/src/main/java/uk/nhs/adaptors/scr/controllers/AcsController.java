@@ -29,7 +29,7 @@ import uk.nhs.adaptors.scr.services.AcsService;
 @RequestMapping("summary-care-record")
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Slf4j
-public class ScrController {
+public class AcsController {
     private final AcsService acsService;
 
     @PostMapping(
