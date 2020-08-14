@@ -1,6 +1,5 @@
 package uk.nhs.adaptors.scr.controllers;
 
-import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
@@ -25,15 +24,8 @@ public class ACSSetResource {
         path = "/summary-care-record/consent",
         consumes = APPLICATION_JSON_VALUE,
         produces = APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> acceptACSSetResource(
-        @RequestBody ACSPayload acsSetResourceObject) {
-
-        try {
-            String setResourcePermissionsINUK01 = acsService.handleMessage(acsSetResourceObject);
-        } catch (IOException e) {
-            return new ResponseEntity<>(INTERNAL_SERVER_ERROR);
-        }
-
+    public ResponseEntity<?> setScrConsent(@RequestBody ACSPayload acsSetResourceObject) throws IOException {
+        acsService.sendAcsSetResource(acsSetResourceObject);
         return new ResponseEntity<>(OK);
     }
 }

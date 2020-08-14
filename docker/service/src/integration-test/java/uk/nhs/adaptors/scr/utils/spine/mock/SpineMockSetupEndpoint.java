@@ -5,12 +5,17 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 import static io.restassured.RestAssured.given;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.DefaultUriBuilderFactory;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import uk.nhs.adaptors.scr.config.SpineConfiguration;
 import uk.nhs.adaptors.scr.utils.EndpointMockData;
+import uk.nhs.adaptors.scr.utils.SpineRequest;
 import uk.nhs.adaptors.scr.utils.spine.mock.interfaces.SpineMockSetupForHttpMethod;
 import uk.nhs.adaptors.scr.utils.spine.mock.interfaces.SpineMockSetupWithHttpStatusCode;
 import uk.nhs.adaptors.scr.utils.spine.mock.interfaces.SpineMockSetupWithResponseContent;
@@ -19,6 +24,9 @@ import uk.nhs.adaptors.scr.utils.spine.mock.interfaces.SpineMockSetupWithRespons
 public class SpineMockSetupEndpoint {
     private static final String SETUP_ENDPOINT = "/setup";
     private static final int PORT = 8081;
+
+    @Autowired
+    private SpineConfiguration spineConfiguration;
 
     public SpineMockSetupForHttpMethod forUrl(String url) {
         Builder builder = new Builder();
@@ -69,8 +77,18 @@ public class SpineMockSetupEndpoint {
                     .statusCode(OK.value())
                     .extract();
             } catch (JsonProcessingException e) {
-                // skip
+                throw new RuntimeException(e);
             }
         }
+    }
+
+    private RestTemplate prepareRestTemplate() {
+        var restTemplate = new RestTemplate();
+        restTemplate.setUriTemplateHandler(new DefaultUriBuilderFactory(spineConfiguration.getUrl()));
+        return restTemplate;
+    }
+
+    public SpineRequest getLatestRequest() {
+        return prepareRestTemplate().getForEntity("latest-request", SpineRequest.class).getBody();
     }
 }
