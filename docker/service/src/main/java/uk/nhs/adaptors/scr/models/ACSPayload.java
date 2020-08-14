@@ -1,6 +1,6 @@
 package uk.nhs.adaptors.scr.models;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.stereotype.Component;
 
@@ -11,5 +11,5 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ACSPayload {
-    private ArrayList<ACSSetResourceObject> payload;
+    private List<ACSSetResourceObject> payload;
 }

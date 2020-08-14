@@ -25,14 +25,15 @@ public class AcsService {
     private SpineClient spineClient;
 
     private static final String TEMPLATES_DIRECTORY = "templates";
-    private static final String SET_RESOURCE_PERMISSIONS_TEMPLATE_NAME = "set_resource_permissions.mustache";
-    private static final String GET_RESOURCE_PERMISSIONS_TEMPLATE_NAME = "get_resource_permissions.mustache";
+
+    private static final Mustache SET_RESOURCE_PERMISSIONS_TEMPLATE = loadTemplate("set_resource_permissions.mustache");
+    private static final Mustache GET_RESOURCE_PERMISSIONS_TEMPLATE = loadTemplate("get_resource_permissions.mustache");
 
     public void setResourcePermissions(ACSPayload acsSetResourceObject) {
         Map<String, Object> context = new HashMap<>();
         context.put("ACSPayload", acsSetResourceObject.getPayload());
 
-        String acsRequest = prepareAcsRequest(SET_RESOURCE_PERMISSIONS_TEMPLATE_NAME, context);
+        String acsRequest = prepareAcsRequest(SET_RESOURCE_PERMISSIONS_TEMPLATE, context);
         spineClient.sendAcsRequest(acsRequest);
     }
 
@@ -40,7 +41,7 @@ public class AcsService {
         Map<String, Object> context = new HashMap<>();
         context.put("patientId", patientId);
 
-        String acsRequest = prepareAcsRequest(GET_RESOURCE_PERMISSIONS_TEMPLATE_NAME, context);
+        String acsRequest = prepareAcsRequest(GET_RESOURCE_PERMISSIONS_TEMPLATE, context);
         String acsResponse = spineClient
             .sendAcsRequest(acsRequest)
             .getBody();
@@ -50,20 +51,23 @@ public class AcsService {
         return response;
     }
 
-    private String prepareAcsRequest(String templateName, Object content) {
-        MustacheFactory mf = new DefaultMustacheFactory(TEMPLATES_DIRECTORY);
-        Mustache m = mf.compile(templateName);
-
+    private String prepareAcsRequest(Mustache template, Object content) {
         StringWriter writer = new StringWriter();
         String acsRequest = "";
 
         try {
-            m.execute(writer, content).flush();
+            template.execute(writer, content).flush();
             acsRequest += writer.toString();
         } catch (IOException e) {
             e.printStackTrace();
         }
 
         return acsRequest;
+    }
+
+    private static Mustache loadTemplate(String templateName) {
+        MustacheFactory mf = new DefaultMustacheFactory(TEMPLATES_DIRECTORY);
+        Mustache m = mf.compile(templateName);
+        return m;
     }
 }
