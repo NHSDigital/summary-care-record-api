@@ -1,3 +1,11 @@
 spine:
-  url: http://localhost:8081
-  sampleEndpoint: /sample
+    url: http://localhost:8081
+    sampleEndpoint: /sample
+
+management:
+    endpoints:
+        web:
+            base-path: /
+            path-mapping.health: healthcheck
+            exposure:
+                include: info, health, metrics
