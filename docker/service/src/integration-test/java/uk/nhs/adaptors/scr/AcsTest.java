@@ -6,7 +6,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.http.HttpMethod.POST;
 import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import static com.google.common.base.Charsets.UTF_8;
@@ -24,6 +26,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 import lombok.extern.slf4j.Slf4j;
+import uk.nhs.adaptors.scr.utils.ResourcesUtils;
 import uk.nhs.adaptors.scr.utils.SpineRequest;
 import uk.nhs.adaptors.scr.utils.spine.mock.SpineMockSetupEndpoint;
 
@@ -33,7 +36,9 @@ import uk.nhs.adaptors.scr.utils.spine.mock.SpineMockSetupEndpoint;
 @AutoConfigureMockMvc
 @Slf4j
 public class AcsTest {
-    private static final String ACS_ENDPOINT = "/summary-care-record/consent";
+    private static final String ACS_SET_RESOURCES_ENDPOINT = "/summary-care-record/consent";
+    private static final String ACS_GET_RESOURCES_ENDPOINT = "/summary-care-record/consent/{id}";
+    private static final String ACS_ENDPOINT = "/acs";
 
     @Autowired
     private MockMvc mockMvc;
@@ -47,14 +52,14 @@ public class AcsTest {
     @Test
     public void whenPostingAcsSetResourceThenExpect200() throws Exception {
         spineMockSetupEndpoint
-            .forUrl("/sample")
+            .forUrl(ACS_ENDPOINT)
             .forHttpMethod("POST")
             .withHttpStatusCode(OK.value())
             .withResponseContent("response");
 
         String requestBody = readString(acsSetResourceRequest.getFile().toPath(), UTF_8);
         mockMvc.perform(
-            post(ACS_ENDPOINT)
+            post(ACS_SET_RESOURCES_ENDPOINT)
                 .contentType(APPLICATION_JSON_VALUE)
                 .content(requestBody))
             .andExpect(status().isOk());
@@ -62,5 +67,35 @@ public class AcsTest {
         SpineRequest latestRequest = spineMockSetupEndpoint.getLatestRequest();
         assertThat(latestRequest.getHttpMethod()).isEqualTo(POST.toString());
         //TODO assert url and body
+    }
+
+    @Test
+    public void whenPostingAcsGetResourceThenExpect200() throws Exception {
+        spineMockSetupEndpoint
+            .forUrl(ACS_ENDPOINT)
+            .forHttpMethod("POST")
+            .withHttpStatusCode(OK.value())
+            .withResponseContent(ResourcesUtils.getResourceAsString("/responses/get_resource_permissions.xml"));
+
+        mockMvc.perform(
+            get(ACS_GET_RESOURCES_ENDPOINT, 123)
+                .contentType(APPLICATION_JSON_VALUE))
+            .andDo(print())
+            .andExpect(status().isOk());
+    }
+
+    @Test
+    public void whenPostingAcsReturnsInvalidXmlThenGetResourceShouldReturn500() throws Exception {
+        spineMockSetupEndpoint
+            .forUrl(ACS_ENDPOINT)
+            .forHttpMethod("POST")
+            .withHttpStatusCode(OK.value())
+            .withResponseContent("response");
+
+        mockMvc.perform(
+            get(ACS_GET_RESOURCES_ENDPOINT, 123)
+                .contentType(APPLICATION_JSON_VALUE))
+            .andDo(print())
+            .andExpect(status().isInternalServerError());
     }
 }

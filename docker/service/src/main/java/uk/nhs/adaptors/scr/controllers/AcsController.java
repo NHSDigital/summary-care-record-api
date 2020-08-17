@@ -20,13 +20,12 @@ import org.springframework.web.server.ResponseStatusException;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import uk.nhs.adaptors.scr.exceptions.SoapClientException;
 import uk.nhs.adaptors.scr.models.ACSPayload;
 import uk.nhs.adaptors.scr.models.responses.ConsentsResponse;
 import uk.nhs.adaptors.scr.services.AcsService;
 
 @RestController
-@RequestMapping("summary-care-record")
+@RequestMapping("/summary-care-record")
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Slf4j
 public class AcsController {
@@ -53,9 +52,6 @@ public class AcsController {
         } catch (DocumentException e) {
             LOGGER.error(BAD_REQUEST.toString() + e.getMessage());
             throw new ResponseStatusException(INTERNAL_SERVER_ERROR, "Not valid XML response from ACS", e);
-        } catch (SoapClientException e) {
-            LOGGER.error(BAD_REQUEST.toString() + e.getMessage());
-            throw new ResponseStatusException(BAD_REQUEST, e.getReason(), e);
         }
     }
 }

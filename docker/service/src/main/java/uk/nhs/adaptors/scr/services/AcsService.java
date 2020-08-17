@@ -14,7 +14,6 @@ import com.github.mustachejava.Mustache;
 import com.github.mustachejava.MustacheFactory;
 
 import uk.nhs.adaptors.scr.clients.SpineClient;
-import uk.nhs.adaptors.scr.exceptions.SoapClientException;
 import uk.nhs.adaptors.scr.models.ACSPayload;
 import uk.nhs.adaptors.scr.models.responses.ConsentsResponse;
 import uk.nhs.adaptors.scr.utils.AcsResponseParserUtil;
@@ -37,7 +36,7 @@ public class AcsService {
         spineClient.sendAcsRequest(acsRequest);
     }
 
-    public ConsentsResponse getResourcePermissions(int patientId) throws SoapClientException, DocumentException {
+    public ConsentsResponse getResourcePermissions(int patientId) throws DocumentException {
         Map<String, Object> context = new HashMap<>();
         context.put("patientId", patientId);
 

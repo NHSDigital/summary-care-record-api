@@ -9,9 +9,7 @@ import org.dom4j.DocumentException;
 import org.dom4j.Node;
 import org.dom4j.io.SAXReader;
 
-import uk.nhs.adaptors.scr.exceptions.SoapClientException;
 import uk.nhs.adaptors.scr.models.responses.ConsentItem;
-import uk.nhs.adaptors.scr.models.responses.ConsentsResponse;
 
 public class AcsResponseParserUtil {
     private static final String ACCESS_CONTROL_ASSERTION_NODE = "//*[local-name()='accessControlAssertion']";
@@ -25,7 +23,7 @@ public class AcsResponseParserUtil {
     private static final String ACCESSOR_ID_NODE = "//*[local-name()='accessor']/*[local-name()='accessorId']/*[local-name()='id']";
     private static final String ACCESSOR_NAME_NODE = "//*[local-name()='accessor']/*[local-name()='accessorId']/*[local-name()='name']";
 
-    public static List<ConsentItem> parseGetResourcePermissionsXml(String xml) throws DocumentException, SoapClientException {
+    public static List<ConsentItem> parseGetResourcePermissionsXml(String xml) throws DocumentException {
         List<ConsentItem> consents = new ArrayList<>();
 
         SAXReader reader = new SAXReader();
