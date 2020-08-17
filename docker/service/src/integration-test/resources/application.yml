@@ -1,6 +1,6 @@
 spine:
     url: http://localhost:8081
-    sampleEndpoint: /sample
+    acsEndpoint: /acs
 
 management:
     endpoints:

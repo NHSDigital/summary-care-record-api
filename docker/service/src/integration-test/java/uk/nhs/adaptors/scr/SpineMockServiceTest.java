@@ -43,21 +43,6 @@ public class SpineMockServiceTest {
     }
 
     @Test
-    public void sampleEndpointShouldReturnMockedData() {
-        String message = "It's working!";
-
-        spineMockSetupEndpoint
-            .forUrl("/sample")
-            .forHttpMethod("GET")
-            .withHttpStatusCode(OK.value())
-            .withResponseContent(message);
-
-        String dataFromSpine = spineClient.getSampleEndpoint();
-
-        assertThat(dataFromSpine).isEqualTo(message);
-    }
-
-    @Test
     public void setResourceEndpointShouldReturn200OK() {
         String message = "response";
 
@@ -67,7 +52,7 @@ public class SpineMockServiceTest {
             .withHttpStatusCode(OK.value())
             .withResponseContent("response");
 
-        ResponseEntity dataFromSpine = spineClient.sendToACSEndpoint(message);
+        ResponseEntity dataFromSpine = spineClient.sendAcsRequest(message);
 
         assertThat(dataFromSpine.getStatusCode()).isEqualTo(OK);
         assertThat(dataFromSpine.getBody().toString()).isEqualTo(message);
@@ -83,7 +68,7 @@ public class SpineMockServiceTest {
             .withHttpStatusCode(BAD_REQUEST.value())
             .withResponseContent("response");
 
-        spineClient.sendToACSEndpoint(message);
+        spineClient.sendAcsRequest(message);
     }
 
     @Test(expected = HttpServerErrorException.InternalServerError.class)
@@ -96,6 +81,6 @@ public class SpineMockServiceTest {
             .withHttpStatusCode(INTERNAL_SERVER_ERROR.value())
             .withResponseContent("response");
 
-        spineClient.sendToACSEndpoint(message);
+        spineClient.sendAcsRequest(message);
     }
 }

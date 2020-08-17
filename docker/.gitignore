@@ -27,7 +27,6 @@ hs_err_pid*
 .idea/
 *.iml
 */.gradle/
-*.xml
 *.bin
 */build/*
 *.DS_Store
