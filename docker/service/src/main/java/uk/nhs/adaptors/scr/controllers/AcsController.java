@@ -3,6 +3,7 @@ package uk.nhs.adaptors.scr.controllers;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 import static org.springframework.http.HttpStatus.OK;
+import static org.springframework.http.HttpStatus.PRECONDITION_FAILED;
 import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
 
 import org.dom4j.DocumentException;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.server.ResponseStatusException;
 
 import lombok.RequiredArgsConstructor;
@@ -37,8 +39,17 @@ public class AcsController {
         produces = {APPLICATION_JSON_VALUE})
     @ResponseStatus(HttpStatus.ACCEPTED)
     public ResponseEntity<?> setResourcePermissions(@RequestBody ACSPayload acsSetResourceObject) {
-        acsService.setResourcePermissions(acsSetResourceObject);
-        return new ResponseEntity<>(OK);
+        try {
+            ResponseEntity hasPermissionsResponse = acsService.hasResourcePermissions(acsSetResourceObject);
+            if (hasPermissionsResponse.getStatusCode() == OK) {
+                ResponseEntity setPermissionsResponse = acsService.setResourcePermissions(acsSetResourceObject);
+                return new ResponseEntity<>(setPermissionsResponse.getStatusCode());
+            } else {
+                return new ResponseEntity<>(PRECONDITION_FAILED);
+            }
+        } catch (HttpClientErrorException e) {
+            return new ResponseEntity<>(PRECONDITION_FAILED);
+        }
     }
 
     @GetMapping(

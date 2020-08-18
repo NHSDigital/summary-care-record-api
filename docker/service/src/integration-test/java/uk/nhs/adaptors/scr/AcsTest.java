@@ -66,7 +66,7 @@ public class AcsTest {
 
         SpineRequest latestRequest = spineMockSetupEndpoint.getLatestRequest();
         assertThat(latestRequest.getHttpMethod()).isEqualTo(POST.toString());
-        //TODO assert url and body
+        assertThat(latestRequest.getUrl()).isEqualTo(ACS_ENDPOINT);
     }
 
     @Test
