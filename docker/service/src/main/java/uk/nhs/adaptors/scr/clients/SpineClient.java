@@ -19,6 +19,11 @@ public class SpineClient {
             .postForEntity(spineConfiguration.getAcsEndpoint(), request, String.class);
     }
 
+    public ResponseEntity<String> sendSpineRequest(String request) {
+        return prepareRestTemplate()
+            .postForEntity(spineConfiguration.getUrl(), request, String.class);
+    }
+
     private RestTemplate prepareRestTemplate() {
         var restTemplate = new RestTemplate();
         restTemplate.setUriTemplateHandler(new DefaultUriBuilderFactory(spineConfiguration.getUrl()));

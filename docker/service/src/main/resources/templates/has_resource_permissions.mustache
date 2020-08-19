@@ -70,22 +70,25 @@
                 <crs:hasResourcePermissionsRequest xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://national.carerecords.nhs.uk/schema/crs/ ..\schema\setResourcePermissionsRequest_0_4.xsd">
                     <crs:accessControlQuery>
                         <crs:resourceContext root="2.16.840.1.113883.2.1.4.1" extension="9999999484"/>
-                        <crs:queryCriteria>
-                            <crs:resource>
-                                <crs:type>SCR</crs:type>
-                                <crs:Id>{{resourceId}}</crs:Id>
-                            </crs:resource>
-                            <crs:function>
-                                <crs:context>Consent</crs:context>
-                                <crs:code>{{function}}</crs:code>
-                            </crs:function>
-                            <crs:accessor>
-                                <crs:type>{{accessor}}</crs:type>
-                                <crs:accessorId>
-                                    <crs:name>{{accessor}}</crs:name>
-                                </crs:accessorId>
-                            </crs:accessor>
-                        </crs:queryCriteria>
+                            {{#ACSPayload}}
+                                <crs:accessControlSet>
+                                    <crs:resource>
+                                        <crs:type>SCR</crs:type>
+                                        <crs:Id>{{resourceId}}</crs:Id>
+                                    </crs:resource>
+                                    <crs:function>
+                                        <crs:context>Consent</crs:context>
+                                        <crs:code>{{function}}</crs:code>
+                                    </crs:function>
+                                    <crs:accessor>
+                                        <crs:type>{{accessor}}</crs:type>
+                                        <crs:accessorId>
+                                            <crs:id></crs:id>
+                                            <crs:name>{{accessor}}</crs:name>
+                                        </crs:accessorId>
+                                    </crs:accessor>
+                                </crs:accessControlSet>
+                            {{/ACSPayload}}
                     </crs:accessControlQuery>
                 </crs:hasResourcePermissionsRequest>
             </ControlActEvent>
