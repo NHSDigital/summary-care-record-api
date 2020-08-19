@@ -4,6 +4,10 @@ info:
   title: Summary Care Record API
   license:
     name: MIT
+  contact:
+    name: Summary Care Record FHIR API Support
+    url: 'https://digital.nhs.uk/developer/help-and-support'
+    email: api.management@nhs.net
 x-nhsd-api-platform:
   meta:
     name: Summary Care Record API
@@ -13,7 +17,9 @@ x-nhsd-api-platform:
     pipeline_name_prefix: "Summary-Care-Record"
   base_path: "summary-care-record"
 servers:
-  - url: http://petstore.swagger.io/
+  - url: http://petstore.swagger.io
+tags:
+  - name: pets
 paths:
   /pets:
     get:
@@ -38,7 +44,7 @@ paths:
               schema:
                 type: string
           content:
-            application/json:   
+            application/json:
               schema:
                 $ref: "#/components/schemas/Pets"
         default:
