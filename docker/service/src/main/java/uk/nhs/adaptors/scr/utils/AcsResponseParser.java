@@ -11,7 +11,7 @@ import org.dom4j.io.SAXReader;
 
 import uk.nhs.adaptors.scr.models.responses.ConsentItem;
 
-public class AcsResponseParserUtil {
+public class AcsResponseParser {
     private static final String ACCESS_CONTROL_ASSERTION_NODE = "//*[local-name()='accessControlAssertion']";
     private static final String PERMISSION_NODE = "//*[local-name()='permission']";
     private static final String USER_DATA_NODE = "//*[local-name()='userData']";

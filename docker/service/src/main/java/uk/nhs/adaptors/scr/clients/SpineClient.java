@@ -1,7 +1,6 @@
 package uk.nhs.adaptors.scr.clients;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
@@ -18,6 +17,11 @@ public class SpineClient {
     public ResponseEntity<String> sendAcsRequest(String request) {
         return prepareRestTemplate()
             .postForEntity(spineConfiguration.getAcsEndpoint(), request, String.class);
+    }
+
+    public ResponseEntity<String> sendSpineRequest(String request) {
+        return prepareRestTemplate()
+            .postForEntity(spineConfiguration.getUrl(), request, String.class);
     }
 
     private RestTemplate prepareRestTemplate() {
