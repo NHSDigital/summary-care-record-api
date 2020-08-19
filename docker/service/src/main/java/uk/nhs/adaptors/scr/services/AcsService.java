@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.dom4j.DocumentException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 import com.github.mustachejava.Mustache;
@@ -22,13 +23,15 @@ public class AcsService {
 
     private static final Mustache SET_RESOURCE_PERMISSIONS_TEMPLATE = TemplateUtils.loadTemplate("set_resource_permissions.mustache");
     private static final Mustache GET_RESOURCE_PERMISSIONS_TEMPLATE = TemplateUtils.loadTemplate("get_resource_permissions.mustache");
+    private static final Mustache HAS_RESOURCE_PERMISSIONS_TEMPLATE = TemplateUtils.loadTemplate("has_resource_permissions.mustache");
 
-    public void setResourcePermissions(ACSPayload acsSetResourceObject) {
+    public ResponseEntity setResourcePermissions(ACSPayload acsSetResourceObject) {
         Map<String, Object> context = new HashMap<>();
         context.put("ACSPayload", acsSetResourceObject.getPayload());
 
         String acsRequest = TemplateUtils.fillTemplate(SET_RESOURCE_PERMISSIONS_TEMPLATE, context);
-        spineClient.sendAcsRequest(acsRequest);
+        ResponseEntity responseEntity = spineClient.sendAcsRequest(acsRequest);
+        return responseEntity;
     }
 
     public ConsentsResponse getResourcePermissions(int patientId) throws DocumentException {
@@ -43,5 +46,14 @@ public class AcsService {
         ConsentsResponse response = new ConsentsResponse();
         response.setConsents(AcsResponseParser.parseGetResourcePermissionsXml(acsResponse));
         return response;
+    }
+
+    public ResponseEntity hasResourcePermissions(ACSPayload acsPayload) {
+        Map<String, Object> context = new HashMap<>();
+        context.put("ACSPayload", acsPayload.getPayload());
+
+        String acsRequest = TemplateUtils.fillTemplate(HAS_RESOURCE_PERMISSIONS_TEMPLATE, context);
+        ResponseEntity responseEntity = spineClient.sendAcsRequest(acsRequest);
+        return responseEntity;
     }
 }
