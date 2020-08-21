@@ -10,5 +10,5 @@ management:
         include: info, health, metrics
 
 spine:
-  url: http://localhost:8081
+  url: ${SCR_SPINE_URL:http://localhost:8081}
   acsEndpoint: /acs
