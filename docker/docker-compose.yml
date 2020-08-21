@@ -4,9 +4,11 @@ services:
   scr:
     image: uk.nhs/summary-care-record-api:0.0.1-SNAPSHOT
     ports:
-        - "8080:8080"
+      - "8080:8080"
+    environment:
+      - SCR_SPINE_URL=http://mock-spine-service:8081
 
   mock-spine-service:
     image: uk.nhs/spine-mock:0.0.1-SNAPSHOT
     ports:
-        - "8081:8081"
+      - "8081:8081"
