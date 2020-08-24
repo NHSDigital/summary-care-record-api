@@ -56,15 +56,14 @@ public class FhirParser {
         return (Bundle) parser.apply(body);
     }
 
-    public String encodeResource(MediaType contentType, IBaseResource resource) {
+    public String encodeResource(MediaType contentType, IBaseResource resource) throws HttpMediaTypeNotAcceptableException {
         Function<IBaseResource, String> encoder;
         if (contentType.equalsTypeAndSubtype(APPLICATION_FHIR_JSON)) {
             encoder = this::encodeToJson;
         } else if (contentType.equalsTypeAndSubtype(APPLICATION_FHIR_XML)) {
             encoder = this::encodeToXml;
         } else {
-            throw new IllegalStateException(String.format("Unexpected content type %s Should be one of %s",
-                contentType, List.of(APPLICATION_FHIR_JSON, APPLICATION_FHIR_XML)));
+            throw new HttpMediaTypeNotAcceptableException(List.of(APPLICATION_FHIR_JSON, APPLICATION_FHIR_XML));
         }
         return encoder.apply(resource);
     }
