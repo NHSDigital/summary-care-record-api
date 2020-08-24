@@ -39,6 +39,7 @@ public class AcsTest {
     private static final String ACS_SET_RESOURCES_ENDPOINT = "/summary-care-record/consent";
     private static final String ACS_GET_RESOURCES_ENDPOINT = "/summary-care-record/consent/{id}";
     private static final String ACS_ENDPOINT = "/acs";
+    private static final int PATIENT_ID = 123;
 
     @Autowired
     private MockMvc mockMvc;
@@ -78,7 +79,7 @@ public class AcsTest {
             .withResponseContent(ResourcesUtils.getResourceAsString("/responses/get_resource_permissions.xml"));
 
         mockMvc.perform(
-            get(ACS_GET_RESOURCES_ENDPOINT, 123)
+            get(ACS_GET_RESOURCES_ENDPOINT, PATIENT_ID)
                 .contentType(APPLICATION_JSON_VALUE))
             .andDo(print())
             .andExpect(status().isOk());
@@ -93,7 +94,7 @@ public class AcsTest {
             .withResponseContent("response");
 
         mockMvc.perform(
-            get(ACS_GET_RESOURCES_ENDPOINT, 123)
+            get(ACS_GET_RESOURCES_ENDPOINT, PATIENT_ID)
                 .contentType(APPLICATION_JSON_VALUE))
             .andDo(print())
             .andExpect(status().isInternalServerError());

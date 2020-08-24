@@ -52,7 +52,9 @@ public class OperationOutcomeExceptionHandler extends ResponseEntityExceptionHan
     }
 
     @Override
-    protected ResponseEntity<Object> handleExceptionInternal(Exception ex, Object body, HttpHeaders headers, HttpStatus status, WebRequest request) {
+    protected ResponseEntity<Object> handleExceptionInternal(
+        Exception ex, Object body, HttpHeaders headers, HttpStatus status, WebRequest request) {
+
         LOGGER.error("Creating OperationOutcome response for unhandled exception", ex);
 
         MediaType mediaType = getTargetMediaType(request);
