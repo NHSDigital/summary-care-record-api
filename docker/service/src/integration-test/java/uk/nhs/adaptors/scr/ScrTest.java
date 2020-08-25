@@ -7,34 +7,34 @@ import lombok.extern.slf4j.Slf4j;
 import uk.nhs.adaptors.scr.components.FhirParser;
 
 import org.hl7.fhir.r4.model.OperationOutcome;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.Resource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+import uk.nhs.adaptors.scr.utils.spine.mock.SpineMockSetupEndpoint;
 
 import java.nio.file.Files;
 
-import static org.junit.Assert.assertTrue;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@RunWith(SpringRunner.class)
-@ExtendWith({SpringExtension.class})
+@ExtendWith({SpringExtension.class, IntegrationTestsExtension.class})
 @SpringBootTest
 @AutoConfigureMockMvc
 @Slf4j
 public class ScrTest {
     private static final String HEALTHCHECK_ENDPOINT = "/healthcheck";
     private static final String FHIR_ENDPOINT = "/fhir";
+    private static final String SPINE_ENDPOINT = "/";
 
     @Autowired
     private MockMvc mockMvc;
@@ -48,6 +48,12 @@ public class ScrTest {
     @Autowired
     private FhirParser fhirParser;
 
+    @Autowired
+    private SpineMockSetupEndpoint spineMockSetupEndpoint;
+
+    @Value("${spine.url}")
+    private String spineUrl;
+
     @Test
     public void whenGetHealthCheckThenExpect200() throws Exception {
         mockMvc.perform(get(HEALTHCHECK_ENDPOINT))
@@ -56,6 +62,13 @@ public class ScrTest {
 
     @Test
     public void whenPostingFhirJsonThenExpect200() throws Exception {
+        spineMockSetupEndpoint
+            .onMockServer(spineUrl)
+            .forPath(SPINE_ENDPOINT)
+            .forHttpMethod("POST")
+            .withHttpStatusCode(OK.value())
+            .withResponseContent("response");
+
         String requestBody = Files.readString(simpleFhirJson.getFile().toPath(), Charsets.UTF_8);
         mockMvc.perform(
             post(FHIR_ENDPOINT)
@@ -66,6 +79,13 @@ public class ScrTest {
 
     @Test
     public void whenPostingFhirXmlThenExpect200() throws Exception {
+        spineMockSetupEndpoint
+            .onMockServer(spineUrl)
+            .forPath(SPINE_ENDPOINT)
+            .forHttpMethod("POST")
+            .withHttpStatusCode(OK.value())
+            .withResponseContent("response");
+
         String requestBody = Files.readString(simpleFhirXml.getFile().toPath(), Charsets.UTF_8);
         mockMvc.perform(
             post(FHIR_ENDPOINT)
@@ -87,7 +107,7 @@ public class ScrTest {
         String responseBody = result.getResponse().getContentAsString();
         var response = ctx.newJsonParser().parseResource(responseBody);
 
-        assertTrue(response instanceof OperationOutcome);
+        assertThat(response).isInstanceOf(OperationOutcome.class);
     }
 
     @Test
@@ -103,6 +123,6 @@ public class ScrTest {
         String responseBody = result.getResponse().getContentAsString();
         var response = ctx.newXmlParser().parseResource(responseBody);
 
-        assertTrue(response instanceof OperationOutcome);
+        assertThat(response).isInstanceOf(OperationOutcome.class);
     }
 }

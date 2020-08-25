@@ -1,45 +1,65 @@
 package uk.nhs.adaptors.scr.utils.spine.mock;
 
-import static org.springframework.http.HttpStatus.OK;
-import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
-
-import static io.restassured.RestAssured.given;
-
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.DefaultUriBuilderFactory;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import uk.nhs.adaptors.scr.config.SpineConfiguration;
 import uk.nhs.adaptors.scr.utils.EndpointMockData;
 import uk.nhs.adaptors.scr.utils.SpineRequest;
 import uk.nhs.adaptors.scr.utils.spine.mock.interfaces.SpineMockSetupForHttpMethod;
+import uk.nhs.adaptors.scr.utils.spine.mock.interfaces.SpineMockSetupForPathMethod;
 import uk.nhs.adaptors.scr.utils.spine.mock.interfaces.SpineMockSetupWithHttpStatusCode;
 import uk.nhs.adaptors.scr.utils.spine.mock.interfaces.SpineMockSetupWithResponseContent;
+
+import static io.restassured.RestAssured.given;
+import static org.springframework.http.HttpStatus.OK;
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @Component
 public class SpineMockSetupEndpoint {
     private static final String SETUP_ENDPOINT = "/setup";
-    private static final int PORT = 8081;
+    private static final String RESET_ENDPOINT = SETUP_ENDPOINT + "/reset";
 
     @Autowired
     private SpineConfiguration spineConfiguration;
 
-    public SpineMockSetupForHttpMethod forUrl(String url) {
-        Builder builder = new Builder();
-        builder.url = url;
-        return builder;
+    public SpineMockSetupForPathMethod onMockServer(String mockServerBaseUri) {
+        return new Builder(mockServerBaseUri);
     }
 
-    private static class Builder implements SpineMockSetupWithHttpStatusCode, SpineMockSetupForHttpMethod,
-        SpineMockSetupWithResponseContent {
-        private String url;
+    public void reset(String mockServerBaseUri) {
+        given()
+            .baseUri(mockServerBaseUri)
+            .post(RESET_ENDPOINT)
+            .then()
+            .statusCode(OK.value());
+    }
+
+    private static final class Builder implements
+        SpineMockSetupWithHttpStatusCode,
+        SpineMockSetupForHttpMethod,
+        SpineMockSetupWithResponseContent,
+        SpineMockSetupForPathMethod {
+
+        private String mockServerBaseUri;
+
+        private String path;
         private String httpMethod;
         private Integer httpStatusCode;
         private String responseContent;
+
+        private Builder(String mockServerBaseUri) {
+            this.mockServerBaseUri = mockServerBaseUri;
+        }
+
+        @Override
+        public SpineMockSetupForHttpMethod forPath(String path) {
+            this.path = path;
+            return this;
+        }
 
         @Override
         public SpineMockSetupWithHttpStatusCode forHttpMethod(String httpMethod) {
@@ -61,14 +81,14 @@ public class SpineMockSetupEndpoint {
 
         private void setupEndpoint() {
             EndpointMockData endpointMockData = new EndpointMockData();
-            endpointMockData.setUrl(url);
+            endpointMockData.setUrl(path);
             endpointMockData.setHttpMethod(httpMethod);
             endpointMockData.setHttpStatusCode(httpStatusCode);
             endpointMockData.setResponseContent(responseContent);
 
             try {
                 given()
-                    .port(PORT)
+                    .baseUri(this.mockServerBaseUri)
                     .contentType(APPLICATION_JSON_VALUE)
                     .body(new ObjectMapper().writeValueAsString(endpointMockData))
                     .when()

@@ -1,4 +1,4 @@
-package uk.nhs.adaptors.scr.controllers;
+package uk.nhs.adaptors.scr.controllers.fhir;
 
 import static org.springframework.http.HttpStatus.OK;
 
