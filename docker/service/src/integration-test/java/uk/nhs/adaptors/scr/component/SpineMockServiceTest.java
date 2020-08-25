@@ -1,4 +1,4 @@
-package uk.nhs.adaptors.scr;
+package uk.nhs.adaptors.scr.component;
 
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
+import uk.nhs.adaptors.scr.IntegrationTestsExtension;
 import uk.nhs.adaptors.scr.clients.SpineClient;
 import uk.nhs.adaptors.scr.utils.spine.mock.SpineMockSetupEndpoint;
 

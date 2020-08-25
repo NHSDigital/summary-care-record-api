@@ -1,4 +1,4 @@
-package uk.nhs.adaptors.scr;
+package uk.nhs.adaptors.scr.component;
 
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
@@ -10,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.Resource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
+import uk.nhs.adaptors.scr.IntegrationTestsExtension;
 import uk.nhs.adaptors.scr.utils.ResourcesUtils;
 import uk.nhs.adaptors.scr.utils.SpineRequest;
 import uk.nhs.adaptors.scr.utils.spine.mock.SpineMockSetupEndpoint;

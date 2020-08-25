@@ -1,9 +1,10 @@
-package uk.nhs.adaptors.scr;
+package uk.nhs.adaptors.scr.component;
 
 import com.google.common.base.Charsets;
 
 import ca.uhn.fhir.context.FhirContext;
 import lombok.extern.slf4j.Slf4j;
+import uk.nhs.adaptors.scr.IntegrationTestsExtension;
 import uk.nhs.adaptors.scr.components.FhirParser;
 
 import org.hl7.fhir.r4.model.OperationOutcome;
