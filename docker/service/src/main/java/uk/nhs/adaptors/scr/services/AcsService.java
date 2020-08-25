@@ -39,12 +39,14 @@ public class AcsService {
         context.put("patientId", patientId);
 
         String acsRequest = TemplateUtils.fillTemplate(GET_RESOURCE_PERMISSIONS_TEMPLATE, context);
-        String acsResponse = spineClient
-            .sendAcsRequest(acsRequest)
-            .getBody();
+        var acsResponse = spineClient.sendAcsRequest(acsRequest);
+        String acsResponseBody = acsResponse.getBody();
+        if (acsResponseBody == null) {
+            throw new IllegalStateException("Response body must not be null");
+        }
 
         ConsentsResponse response = new ConsentsResponse();
-        response.setConsents(AcsResponseParser.parseGetResourcePermissionsXml(acsResponse));
+        response.setConsents(AcsResponseParser.parseGetResourcePermissionsXml(acsResponseBody));
         return response;
     }
 
