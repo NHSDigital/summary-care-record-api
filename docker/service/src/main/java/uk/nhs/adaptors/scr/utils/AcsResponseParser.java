@@ -1,5 +1,7 @@
 package uk.nhs.adaptors.scr.utils;
 
+import static org.apache.commons.lang3.StringUtils.isNotEmpty;
+
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,23 +28,25 @@ public class AcsResponseParser {
     public static List<ConsentItem> parseGetResourcePermissionsXml(String xml) throws DocumentException {
         List<ConsentItem> consents = new ArrayList<>();
 
-        SAXReader reader = new SAXReader();
-        Document document = reader.read(new StringReader(xml));
+        if (isNotEmpty(xml)) {
+            SAXReader reader = new SAXReader();
+            Document document = reader.read(new StringReader(xml));
 
-        List<Node> list = document.selectNodes(ACCESS_CONTROL_ASSERTION_NODE);
-        if (list != null) {
-            for (Node node : list) {
-                ConsentItem consent = new ConsentItem();
-                consent.setPermission(getOptionalValue(node, PERMISSION_NODE));
-                consent.setUserData(getOptionalValue(node, USER_DATA_NODE));
-                consent.setResourceType(getOptionalValue(node, RESOURCE_TYPE_NODE));
-                consent.setResourceId(getOptionalValue(node, RESOURCE_ID_NODE));
-                consent.setFunction(getOptionalValue(node, FUNCTION_CONTEXT_NODE));
-                consent.setFunctionCode(getOptionalValue(node, FUNCTION_CODE_NODE));
-                consent.setAccessorType(getOptionalValue(node, ACCESSOR_TYPE_NODE));
-                consent.setAccessorId(getOptionalValue(node, ACCESSOR_ID_NODE));
-                consent.setAccessorName(getOptionalValue(node, ACCESSOR_NAME_NODE));
-                consents.add(consent);
+            List<Node> list = document.selectNodes(ACCESS_CONTROL_ASSERTION_NODE);
+            if (list != null) {
+                for (Node node : list) {
+                    ConsentItem consent = new ConsentItem();
+                    consent.setPermission(getOptionalValue(node, PERMISSION_NODE));
+                    consent.setUserData(getOptionalValue(node, USER_DATA_NODE));
+                    consent.setResourceType(getOptionalValue(node, RESOURCE_TYPE_NODE));
+                    consent.setResourceId(getOptionalValue(node, RESOURCE_ID_NODE));
+                    consent.setFunction(getOptionalValue(node, FUNCTION_CONTEXT_NODE));
+                    consent.setFunctionCode(getOptionalValue(node, FUNCTION_CODE_NODE));
+                    consent.setAccessorType(getOptionalValue(node, ACCESSOR_TYPE_NODE));
+                    consent.setAccessorId(getOptionalValue(node, ACCESSOR_ID_NODE));
+                    consent.setAccessorName(getOptionalValue(node, ACCESSOR_NAME_NODE));
+                    consents.add(consent);
+                }
             }
         }
 
