@@ -69,11 +69,15 @@ configurations {
 }
 
 task integrationTest(type: Test) {
-    testClassesDirs = sourceSets.integrationTest.output.classesDirs
-    classpath = sourceSets.integrationTest.runtimeClasspath
-    outputs.upToDateWhen { false }
-}
+    useJUnitPlatform() {
+        description = 'Runs integration tests.'
+        group = 'verification'
 
+        testClassesDirs = sourceSets.integrationTest.output.classesDirs
+        classpath = sourceSets.integrationTest.runtimeClasspath
+        shouldRunAfter test
+    }
+}
 
 task staticCodeAnalysis(type: GradleBuild) {
     tasks = [
@@ -92,7 +96,7 @@ check.dependsOn integrationTest
 tasks.withType(com.github.spotbugs.snom.SpotBugsTask) {
     excludeFilter = rootProject.file('config/spotbugs/exclude.xml')
     reports {
-        xml.enabled = false
-        html.enabled = true
+        xml.enabled = true
+        html.enabled = false
     }
 }
