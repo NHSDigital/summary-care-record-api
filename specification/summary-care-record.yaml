@@ -13,7 +13,7 @@ x-nhsd-api-platform:
     pipeline_name_prefix: "Summary-Care-Record"
   base_path: "summary-care-record"
 servers:
-  - url: http://petstore.swagger.io/
+  - url: http://petstore.swagger.io
 paths:
   /pets:
     get:
