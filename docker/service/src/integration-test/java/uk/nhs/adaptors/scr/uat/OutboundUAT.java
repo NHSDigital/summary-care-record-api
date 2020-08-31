@@ -1,6 +1,7 @@
 package uk.nhs.adaptors.scr.uat;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.NotImplementedException;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
@@ -53,7 +54,7 @@ public class OutboundUAT {
 
         mockMvc.perform(
             post(FHIR_ENDPOINT)
-                .contentType("application/fhir+json")
+                .contentType(getContentType(testData.getFhirFormat()))
                 .content(testData.getFhir()))
             .andExpect(status().isOk());
 
@@ -61,5 +62,17 @@ public class OutboundUAT {
 
         assertThat(lastRequest.getHttpMethod()).isEqualTo(POST.name());
         assertThat(lastRequest.getBody()).isEqualTo(testData.getHl7v3());
+    }
+
+    private String getContentType(TestData.FhirFormat fhirFormat) {
+        switch (fhirFormat) {
+            case JSON:
+                return "application/fhir+json";
+            case XML:
+                return "application/fhir+xml";
+            default:
+                throw new NotImplementedException();
+        }
+
     }
 }
