@@ -1,9 +1,13 @@
-openapi: "3.0.0"
+openapi: 3.0.0
 info:
   version: 1.0.0
   title: Summary Care Record API
   license:
     name: MIT
+  contact:
+    name: Summary Care Record FHIR API Support
+    url: 'https://digital.nhs.uk/developer/help-and-support'
+    email: api.management@nhs.net
 x-nhsd-api-platform:
   meta:
     name: Summary Care Record API
@@ -13,107 +17,194 @@ x-nhsd-api-platform:
     pipeline_name_prefix: "Summary-Care-Record"
   base_path: "summary-care-record"
 servers:
-  - url: http://petstore.swagger.io/
+  - url: 'http://localhost:8080'
+    description: Local sandbox environment
+tags:
+  - name: SCR    
 paths:
-  /pets:
-    get:
-      summary: List all pets
-      operationId: listPets
-      tags:
-        - pets
-      parameters:
-        - name: limit
-          in: query
-          description: How many items to return at one time (max 100)
-          required: false
-          schema:
-            type: integer
-            format: int32
-      responses:
-        '200':
-          description: A paged array of pets
-          headers:
-            x-next:
-              description: A link to the next page of responses
-              schema:
-                type: string
-          content:
-            application/json:   
-              schema:
-                $ref: "#/components/schemas/Pets"
-        default:
-          description: unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
+  /fhir:
     post:
-      summary: Create a pet
-      operationId: createPets
       tags:
-        - pets
+        - SCR
+      summary: Scr endpoint
+      operationId: Scr
+      description: description
+      requestBody:
+        required: true
+        content:
+          application/fhir+json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/Bundle'
+            examples:
+              json:
+                summary: A sample JSON body
+                value: '{ "resourceType": "Bundle", "id": "f61e545c-d52c-4b62-9668-3dcc6c27fc50", "identifier": { "system": "https://tools.ietf.org/html/rfc4122", "value": "1ff370b6-fc5b-40a1-9721-2a942e301666" }, "type": "document", "timestamp": "2007-03-15T01:00:00Z", "entry":  [ { "fullUrl": "urn:uuid:2880eedf-76f0-4f38-9681-dc158e937da7", "resource": { "resourceType": "Composition", "id": "2880eedf-76f0-4f38-9681-dc158e937da7", "identifier": { "system": "https://tools.ietf.org/html/rfc4122", "value": "2b5d459b-df79-4a2b-9b0c-95b2a7ee2ca4" }, "status": "final", "type": { "coding":  [ { "system": "http://snomed.info/sct", "code": "196981000000101", "display": "General Practice Summary" } ] }, "date": "2007-03-15T01:00:00Z", "subject": { "reference": "urn:uuid:b6f5dd89-fc3a-466d-baad-126c0aac46fc" }, "author":  [ { "reference": "urn:uuid:83c26c8f-ee72-4534-8891-0136972b2106", "display": "Dr Steve Jones" } ], "title": "General Practice Summary", "section":  [ { "title": "General Practice Summary", "text": { "status": "generated", "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h3>Sourced from the patients General Practice record. This information has not been verified by the practice prior to sending. This summary \n                may not include all the information pertinent to this patient NB the patient may have opted to leave out items from this summary</h3><h3>Time of summary creation 16.00 15-Mar-2007</h3><h3>Author Dr Steve Jones, The Bridge Street Practice, Bridge Street, Bridge Town, Bridgeshire, \n                BT1 1BT, England, +4401234567890</h3><h3>Date of sending this summary 15-Mar-2007</h3></div>" } }, { "title": "Allergies and Adverse Reactions", "text": { "status": "generated", "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><table><thead><tr><th>Date</th><th>Description</th><th>Supporting information</th></tr></thead><tbody><tr><td>13-Jan-07</td><td>Refused consent for upload to national shared electronic record</td></tr><tr><td>14-Nov-06</td><td>Allergy to Drug - Penicillin, (probably present) . </td><td>Patient stated that they told that they were were allergic to penicillin by their parents </td></tr></tbody></table></div>" } }, { "title": "Repeat Medication", "text": { "status": "generated", "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><table><thead><tr><th>Date first prescribed</th><th>Medication Item</th><th>Dosage instructions</th><th>Quantity or duration</th><th>Reason for medication</th><th>Supporting information</th></tr></thead><tbody><tr><td>02-Mar-06</td><td>1% Hydrocortisone cream</td><td>use on affected areas twice a day</td><td /><td /><td>Used for eczema on forearms</td></tr><tr><td>12-Jan-05</td><td>atenolol 50mg tablets</td><td>take one daily</td><td /><td>Ischaemic Heart disease</td><td /></tr><tr><td>30-Apr-04</td><td>lisinopril 10mg</td><td>take one daily</td><td /><td>Ischaemic Heart disease</td><td /></tr></tbody></table></div>" } }, { "title": "Acute Medication", "text": { "status": "generated", "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><table><thead><tr><th>Date prescribed</th><th>Medication Item</th><th>Dosage instructions</th><th>Quantity or duration</th><th>Reason for medication</th><th>Supporting information</th></tr></thead><tbody><tr><td>13-Jan-07</td><td>Refused consent for upload to national shared electronic record</td><td /><td /><td /><td /></tr><tr><td>12-Nov-06</td><td>Amoxycillin 500mg tablets</td><td>one four times daily</td><td>7 days</td><td /><td>Chest infection - green sputum for 3 days</td></tr><tr><td>16-Nov-06</td><td>erythromycin 500mg tablets</td><td>one four times daily</td><td>7 days</td><td>Allergy to Penicillin</td><td /></tr><tr><td>01-Dec-06</td><td>Paracetamol 500mg tablets</td><td>one or two tablet four times daily as required</td><td>100 tablets</td><td>Right Knee pain</td><td /></tr><tr><td>01-Dec-06</td><td>Codeine 30mg tablets</td><td>one or two tablet four times daily as required</td><td>100 tablets</td><td>Right Knee pain</td><td /></tr></tbody></table></div>" } }, { "title": "Discontinued Repeat Medication", "text": { "status": "generated", "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><table><thead><tr><th>Date</th><th>Medication Item</th><th>Dosage instructions</th><th>Quantity or duration</th><th>Reason for medication</th><th>Supporting information</th></tr></thead><tbody><tr><td>Start 03-Jan-92 End 02-Feb-06</td><td>Bendrofluazide 2.5mg tablets</td><td>One daliy</td><td /><td>hypokalaemia</td><td /></tr></tbody></table></div>" } }, { "title": "Risks to Care professional or Third Party", "text": { "status": "generated", "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><table><thead><tr><th>Date</th><th>Description</th><th>Supporting information</th></tr></thead><tbody><tr><td>14-Feb-05</td><td>Hepatitis B</td><td>Hepatitis B surface antigen positive on last test 3 months ago</td></tr></tbody></table></div>" } }, { "title": "Diagnoses", "text": { "status": "generated", "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><table><thead><tr><th>Date</th><th>Description</th><th>Supporting information</th></tr></thead><tbody><tr><td>12-Jan-06</td><td>Myocardial Infarction</td><td /></tr><tr><td>12-Jan-06</td><td>Ischaemic heart disease</td><td>No symptomatic problems - on preventative measures only.</td></tr><tr><td>14-Feb-05</td><td>Hepatitis B</td><td>Hepatitis B surface antigen positive on last test 3 months ago.</td></tr><tr><td>30-Apr-04</td><td>Osteoarthritis</td><td>Starting to affect both hips and both knees.</td></tr><tr><td>17-Dec-99</td><td>Lobar Pneumonia</td><td>Left lower lobe - treated in hospital with antibiotics</td></tr></tbody></table></div>" } }, { "title": "Problems and issues", "text": { "status": "generated", "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><table><thead><tr><th>Date</th><th>Description</th><th>Supporting information</th></tr></thead><tbody><tr><td>12-Jan-06</td><td>Ischaemic heart disease</td><td>No symptomatic problems - on preventative measures only.</td></tr><tr><td>20-Feb-03</td><td>Knee pain - right</td><td /></tr></tbody></table></div>" } }, { "title": "Clinical Observation and Findings", "text": { "status": "generated", "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><table><thead><tr><th>Date</th><th>Description</th><th>Supporting information</th></tr></thead><tbody><tr><td>12-Jan-06</td><td>body weight - value = 95Kg</td><td /></tr><tr><td>10-Feb-03</td><td>Knee pain - right</td><td /></tr></tbody></table></div>" } }, { "title": "Treatments", "text": { "status": "generated", "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><table><thead><tr><th>Date</th><th>Description</th><th>Supporting information</th></tr></thead><tbody><tr><td>22-Feb-06</td><td>Knee replacement - right</td><td /></tr></tbody></table></div>" } }, { "title": "Investigations", "text": { "status": "generated", "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><table><thead><tr><th>Date</th><th>Description</th><th>Supporting information</th></tr></thead><tbody><tr><td>10-Mar-07</td><td>Magnetic resonance imaging - planned</td><td>to look into ongoing pain in the right knee.</td></tr></tbody></table></div>" } }, { "title": "Provision of Advice and Information to Patients and Carers", "text": { "status": "generated", "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><table><thead><tr><th>Date</th><th>Description</th><th>Supporting information</th></tr></thead><tbody><tr><td>12-Mar-07</td><td>Advice about exercise</td><td>Advised to only perform light exercise.</td></tr></tbody></table></div>" } }, { "title": "Personal Preferences", "text": { "status": "generated", "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><table><thead><tr><th>Date</th><th>Description</th><th>Supporting information</th></tr></thead><tbody><tr><td>15-Jan-06</td><td>Preference for male healthcare professional</td><td /></tr></tbody></table></div>" } }, { "title": "Social and Personal Circumstances", "text": { "status": "generated", "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><table><thead><tr><th>Date</th><th>Description</th><th>Supporting information</th></tr></thead><tbody><tr><td>01-Jan-76</td><td>Director of photography (motion picture)</td><td /></tr></tbody></table></div>" } }, { "title": "Services, Care Professionals and Carers", "text": { "status": "generated", "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><table><thead><tr><th>Date</th><th>Description</th><th>Supporting information</th><th>Person or Organisation</th></tr></thead><tbody><tr><td>12-Jan-07</td><td>District nurse attends</td><td /><td>Petra Caull Role id 139852035803 person id 591650593093</td></tr></tbody></table></div>" } }, { "title": "Lifestyle", "text": { "status": "generated", "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><table><thead><tr><th>Date</th><th>Description</th><th>Supporting information</th></tr></thead><tbody><tr><td>12-Jan-06</td><td>Non smoker</td><td /></tr></tbody></table></div>" } }, { "title": "Family History", "text": { "status": "generated", "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><table><thead><tr><th>Date</th><th>Description</th><th>Supporting information</th></tr></thead><tbody><tr><td>12-Jun-91</td><td>Family history of Ischeamic heart disease</td><td>Father died of heart attack at age 55</td></tr></tbody></table></div>" } } ] } }, { "fullUrl": "urn:uuid:83c26c8f-ee72-4534-8891-0136972b2106", "resource": { "resourceType": "PractitionerRole", "id": "83c26c8f-ee72-4534-8891-0136972b2106", "identifier":  [ { "system": "http://fhir.nhs.net/Id/sds-role-profile-id", "value": "673836492727" } ], "practitioner": { "reference": "urn:uuid:b1a41ee5-b88b-4f66-bd83-24343bf63dd8" } } }, { "fullUrl": "urn:uuid:b1a41ee5-b88b-4f66-bd83-24343bf63dd8", "resource": { "resourceType": "Practitioner", "id": "b1a41ee5-b88b-4f66-bd83-24343bf63dd8", "name":  [ { "family": "Jones", "given":  [ "Steve" ], "prefix":  [ "Dr" ] } ] } }, { "fullUrl": "urn:uuid:b6f5dd89-fc3a-466d-baad-126c0aac46fc", "resource": { "resourceType": "Patient", "id": "b6f5dd89-fc3a-466d-baad-126c0aac46fc", "identifier":  [ { "extension":  [ { "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-NHSNumberVerificationStatus-1", "valueCodeableConcept": { "coding":  [ { "system": "https://fhir.hl7.org.uk/STU3/CodeSystem/CareConnect-NHSNumberVerificationStatus-1", "code": "01", "display": "Number present and verified" } ] } } ], "system": "https://fhir.nhs.uk/Id/nhs-number", "value": "9900004948" } ] } } ] }'                
+          application/fhir+xml:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/Bundle'
+            examples:
+              xml:
+                summary: A sample XML body
+                value: '<Bundle xmlns="http://hl7.org/fhir"> <id value="f61e545c-d52c-4b62-9668-3dcc6c27fc50"/> <identifier> <system value="https://tools.ietf.org/html/rfc4122"/> <value value="1ff370b6-fc5b-40a1-9721-2a942e301666"/> </identifier> <type value="document"/> <timestamp value="2007-03-15T01:00:00Z"/> <entry> <fullUrl value="urn:uuid:2880eedf-76f0-4f38-9681-dc158e937da7"/> <resource> <Composition> <id value="2880eedf-76f0-4f38-9681-dc158e937da7"/> <identifier> <system value="https://tools.ietf.org/html/rfc4122"/> <value value="2b5d459b-df79-4a2b-9b0c-95b2a7ee2ca4"/> </identifier> <status value="final"/> <type> <coding> <system value="http://snomed.info/sct"/> <code value="196981000000101"/> <display value="General Practice Summary"/> </coding> </type> <subject> <reference value="urn:uuid:b6f5dd89-fc3a-466d-baad-126c0aac46fc"/> </subject> <date value="2007-03-15T01:00:00Z"/> <author> <reference value="urn:uuid:83c26c8f-ee72-4534-8891-0136972b2106"/> <display value="Dr Steve Jones"/> </author> <title value="General Practice Summary"/> <section> <title value="General Practice Summary"/> <text> <status value="generated"/> --- We have skipped the narrative for better readability of the resource --- </text> </section> <section> <title value="Allergies and Adverse Reactions"/> <text> <status value="generated"/> --- We have skipped the narrative for better readability of the resource --- </text> </section> <section> <title value="Repeat Medication"/> <text> <status value="generated"/> --- We have skipped the narrative for better readability of the resource --- </text> </section> <section> <title value="Acute Medication"/> <text> <status value="generated"/> --- We have skipped the narrative for better readability of the resource --- </text> </section> <section> <title value="Discontinued Repeat Medication"/> <text> <status value="generated"/> --- We have skipped the narrative for better readability of the resource --- </text> </section> <section> <title value="Risks to Care professional or Third Party"/> <text> <status value="generated"/> --- We have skipped the narrative for better readability of the resource --- </text> </section> <section> <title value="Diagnoses"/> <text> <status value="generated"/> --- We have skipped the narrative for better readability of the resource --- </text> </section> <section> <title value="Problems and issues"/> <text> <status value="generated"/> --- We have skipped the narrative for better readability of the resource --- </text> </section> <section> <title value="Clinical Observation and Findings"/> <text> <status value="generated"/> --- We have skipped the narrative for better readability of the resource --- </text> </section> <section> <title value="Treatments"/> <text> <status value="generated"/> --- We have skipped the narrative for better readability of the resource --- </text> </section> <section> <title value="Investigations"/> <text> <status value="generated"/> --- We have skipped the narrative for better readability of the resource --- </text> </section> <section> <title value="Provision of Advice and Information to Patients and Carers"/> <text> <status value="generated"/> --- We have skipped the narrative for better readability of the resource --- </text> </section> <section> <title value="Personal Preferences"/> <text> <status value="generated"/> --- We have skipped the narrative for better readability of the resource --- </text> </section> <section> <title value="Social and Personal Circumstances"/> <text> <status value="generated"/> --- We have skipped the narrative for better readability of the resource --- </text> </section> <section> <title value="Services, Care Professionals and Carers"/> <text> <status value="generated"/> --- We have skipped the narrative for better readability of the resource --- </text> </section> <section> <title value="Lifestyle"/> <text> <status value="generated"/> --- We have skipped the narrative for better readability of the resource --- </text> </section> <section> <title value="Family History"/> <text> <status value="generated"/> --- We have skipped the narrative for better readability of the resource --- </text> </section> </Composition> </resource> </entry> <entry> <fullUrl value="urn:uuid:83c26c8f-ee72-4534-8891-0136972b2106"/> <resource> <PractitionerRole> <id value="83c26c8f-ee72-4534-8891-0136972b2106"/> <identifier> <system value="http://fhir.nhs.net/Id/sds-role-profile-id"/> <value value="673836492727"/> </identifier> <practitioner> <reference value="urn:uuid:b1a41ee5-b88b-4f66-bd83-24343bf63dd8"/> </practitioner> </PractitionerRole> </resource> </entry> <entry> <fullUrl value="urn:uuid:b1a41ee5-b88b-4f66-bd83-24343bf63dd8"/> <resource> <Practitioner> <id value="b1a41ee5-b88b-4f66-bd83-24343bf63dd8"/> <name> <family value="Jones"/> <given value="Steve"/> <prefix value="Dr"/> </name> </Practitioner> </resource> </entry> <entry> <fullUrl value="urn:uuid:b6f5dd89-fc3a-466d-baad-126c0aac46fc"/> <resource> <Patient> <id value="b6f5dd89-fc3a-466d-baad-126c0aac46fc"/> <identifier> <extension url="https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-NHSNumberVerificationStatus-1"> <valueCodeableConcept> <coding> <system value="https://fhir.hl7.org.uk/STU3/CodeSystem/CareConnect-NHSNumberVerificationStatus-1"/> <code value="01"/> <display value="Number present and verified"/> </coding> </valueCodeableConcept> </extension> <system value="https://fhir.nhs.uk/Id/nhs-number"/> <value value="9900004948"/> </identifier> </Patient> </resource> </entry> </Bundle>'
       responses:
-        '201':
-          description: Null response
-        default:
-          description: unexpected error
+        "200":
+          description: OK successful
           content:
-            application/json:
+            application/fhir+json:
               schema:
-                $ref: "#/components/schemas/Error"
-  /pets/{petId}:
+                type: object
+        "412":
+          description: ACL consent not set
+          content:
+            application/fhir+json:
+              schema:
+                type: object                
+        "504":
+          description: Gateway Timeout
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+            application/fhir+xml:
+              schema:
+                type: object
+                
+
+  /healthcheck:
     get:
-      summary: Info for a specific pet
-      operationId: showPetById
       tags:
-        - pets
-      parameters:
-        - name: petId
-          in: path
-          required: true
-          description: The id of the pet to retrieve
-          schema:
-            type: string
+        - healthcheck    
+      summary: Health check endpoint
+      description: This endpoint just returns a HTTP 200 response and does no further processing. This endpoint is intended to be used by load balancers/other infrastructure to check that the server is running.
+      operationId: getHealthcheck
       responses:
-        '200':
-          description: Expected response to a valid request
+        "200":
+          description: Returns status information.
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Pet"
-        default:
-          description: unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
+                type: object
+                example: {"status":"UP"}
+                
 components:
   schemas:
-    Pet:
+    Bundle:
       type: object
-      required:
-        - id
-        - name
       properties:
+        resourceType: 
+          type: string
+          example: "Bundle"
         id:
-          type: integer
-          format: int64
+          type: string
+          example: "f61e545c-d52c-4b62-9668-3dcc6c27fc50"
+        identifier:
+          $ref: '#/components/schemas/identifier'
+        type: 
+          type: string
+          example: "document"
+        timestamp:
+          type: string
+          example: "2007-03-15T01:00:00Z"
+        entry:
+          type: array
+          items:
+            type: object
+            allOf:
+              - $ref: '#/components/schemas/Composition'
+              - $ref: '#/components/schemas/Patient'
+              - $ref: '#/components/schemas/Practitioner'
+              - $ref: '#/components/schemas/PractitionerRole'         
+      required: 
+        - resourceType
+        - id
+        - identifier
+        - type
+        - timestamp
+        - entry
+            
+    Composition:
+      type: object
+      properties:
+        resourceType:
+          type: string
+          example: "Composition"
+        id:
+          type: string
+          example: "2880eedf-76f0-4f38-9681-dc158e937da7"
+        identifier:
+          $ref: '#/components/schemas/identifier'
+        status:
+          type: string
+          example: 'final'
+        type:
+          type: object
+        date:
+          type: string
+          example: '2007-03-15T01:00:00Z'
+        subject:
+          type: object
+        author: 
+          type: object
+        title:
+          type: string
+          example: 'General Practice Summary'
+        section:
+          type: array
+          items:
+            type: object
+      
+    Patient:
+      type: object
+      properties:
+        resourceType:
+          type: string
+          example: "Patient"
+        id:
+          type: string
+          example: "b6f5dd89-fc3a-466d-baad-126c0aac46fc"
+        identifier:
+          $ref: '#/components/schemas/identifier'          
+      
+      
+    Practitioner:
+      type: object
+      properties:
+        resourceType:
+          type: string
+          example: "Practitioner"
+        id:
+          type: string
+          example: "b1a41ee5-b88b-4f66-bd83-24343bf63dd8"
         name:
+          type: object
+      
+    PractitionerRole:
+      type: object
+      properties:
+        resourceType:
           type: string
-        tag:
+          example: "PractitionerRole"
+        id:
           type: string
-    Pets:
+          example: "83c26c8f-ee72-4534-8891-0136972b2106"
+        identifier:
+          $ref: '#/components/schemas/identifier'
+        practitioner:
+          type: object
+          properties:
+            reference:
+              type: string
+              example: 'urn:uuid:b1a41ee5-b88b-4f66-bd83-24343bf63dd8'
+    
+    identifier:
       type: array
       items:
-        $ref: "#/components/schemas/Pet"
-    Error:
-      type: object
-      required:
-        - code
-        - message
-      properties:
-        code:
-          type: integer
-          format: int32
-        message:
-          type: string
+        type: object
+        properties:
+          system:
+            type: string
+          value:
+            type: string
+
