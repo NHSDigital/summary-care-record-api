@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.core.io.Resource;
 
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
@@ -48,7 +49,8 @@ public class TestData {
         } else if (fhirFileName.endsWith(FHIR_XML_FILE_ENDING)) {
             testDataBuilder.fhirFormat(FhirFormat.XML);
         } else {
-            throw new IllegalStateException(String.format("Fhir resource should be one of [%s, %s]", FHIR_JSON_FILE_ENDING, FHIR_XML_FILE_ENDING));
+            throw new IllegalStateException(String.format(
+                "Fhir resource should be one of [%s, %s]", FHIR_JSON_FILE_ENDING, FHIR_XML_FILE_ENDING));
         }
         testDataBuilder.fhir(TestData.readFile(fhirResource));
 
@@ -57,7 +59,7 @@ public class TestData {
 
     @SneakyThrows
     private static String readFile(Resource resource) {
-        return new String(Files.readAllBytes(resource.getFile().toPath()));
+        return new String(Files.readAllBytes(resource.getFile().toPath()), StandardCharsets.UTF_8);
     }
 
     @RequiredArgsConstructor
