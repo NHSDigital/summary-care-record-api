@@ -1,6 +1,11 @@
 package uk.nhs.adaptors.scr.uat;
 
-import lombok.extern.slf4j.Slf4j;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.http.HttpMethod.POST;
+import static org.springframework.http.HttpStatus.OK;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import org.apache.commons.lang3.NotImplementedException;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -12,16 +17,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
+
+import lombok.extern.slf4j.Slf4j;
 import uk.nhs.adaptors.scr.IntegrationTestsExtension;
 import uk.nhs.adaptors.scr.uat.common.CustomArgumentsProvider;
 import uk.nhs.adaptors.scr.uat.common.TestData;
 import uk.nhs.adaptors.scr.utils.spine.mock.SpineMockSetupEndpoint;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.http.HttpMethod.POST;
-import static org.springframework.http.HttpStatus.OK;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -73,6 +74,5 @@ public class OutboundUAT {
             default:
                 throw new NotImplementedException();
         }
-
     }
 }

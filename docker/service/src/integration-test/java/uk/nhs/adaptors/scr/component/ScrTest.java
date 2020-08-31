@@ -1,11 +1,12 @@
 package uk.nhs.adaptors.scr.component;
 
-import com.google.common.base.Charsets;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.http.HttpStatus.OK;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import ca.uhn.fhir.context.FhirContext;
-import lombok.extern.slf4j.Slf4j;
-import uk.nhs.adaptors.scr.IntegrationTestsExtension;
-import uk.nhs.adaptors.scr.components.FhirParser;
+import java.nio.file.Files;
 
 import org.hl7.fhir.r4.model.OperationOutcome;
 import org.junit.jupiter.api.Test;
@@ -18,15 +19,14 @@ import org.springframework.core.io.Resource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+
+import com.google.common.base.Charsets;
+
+import ca.uhn.fhir.context.FhirContext;
+import lombok.extern.slf4j.Slf4j;
+import uk.nhs.adaptors.scr.IntegrationTestsExtension;
+import uk.nhs.adaptors.scr.components.FhirParser;
 import uk.nhs.adaptors.scr.utils.spine.mock.SpineMockSetupEndpoint;
-
-import java.nio.file.Files;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.http.HttpStatus.OK;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith({SpringExtension.class, IntegrationTestsExtension.class})
 @SpringBootTest

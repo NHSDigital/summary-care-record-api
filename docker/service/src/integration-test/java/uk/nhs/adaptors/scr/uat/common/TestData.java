@@ -1,15 +1,16 @@
 package uk.nhs.adaptors.scr.uat.common;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
-import org.springframework.core.io.Resource;
-
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.springframework.core.io.Resource;
+
+import lombok.Builder;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 
 @Builder
 @Getter
@@ -64,6 +65,6 @@ public class TestData {
 
     @RequiredArgsConstructor
     public enum FhirFormat {
-        JSON, XML;
+        JSON, XML
     }
 }
