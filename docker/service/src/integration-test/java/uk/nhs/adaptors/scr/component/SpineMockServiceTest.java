@@ -1,6 +1,13 @@
-package uk.nhs.adaptors.scr;
+package uk.nhs.adaptors.scr.component;
 
-import lombok.extern.slf4j.Slf4j;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
+import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
+import static org.springframework.http.HttpStatus.OK;
+
+import static io.restassured.RestAssured.given;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,15 +18,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
+
+import lombok.extern.slf4j.Slf4j;
+import uk.nhs.adaptors.scr.IntegrationTestsExtension;
 import uk.nhs.adaptors.scr.clients.SpineClient;
 import uk.nhs.adaptors.scr.utils.spine.mock.SpineMockSetupEndpoint;
-
-import static io.restassured.RestAssured.given;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.springframework.http.HttpStatus.BAD_REQUEST;
-import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
-import static org.springframework.http.HttpStatus.OK;
 
 @ExtendWith({SpringExtension.class, IntegrationTestsExtension.class})
 @SpringBootTest
