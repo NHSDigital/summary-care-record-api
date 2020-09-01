@@ -7,62 +7,6 @@
     <type value="document"/>
     <timestamp value="2012-03-15T06:51:38Z"/>
     <entry>
-        <fullUrl value="urn:uuid:2880eedf-76f0-4f38-9681-dc158e937da7"/>
-        <resource>
-            <Composition>
-                <id value="2880eedf-76f0-4f38-9681-dc158e937da7"/>
-                <identifier>
-                    <system value="https://tools.ietf.org/html/rfc4122"/>
-                    <value value="938E11A2-B044-4933-AF36-123C95D6106A"/>
-                </identifier>
-                <status value="final"/>
-                <type>
-                    <coding>
-                        <system value="http://snomed.info/sct"/>
-                        <code value="196981000000101"/>
-                        <display value="General Practice Summary"/>
-                    </coding>
-                </type>
-                <category>
-                    <coding>
-                        <system value="http://snomed.info/sct"/>
-                        <code value="163171000000105"/>
-                        <display value="Care Professional Documentation"/>
-                    </coding>
-                </category>
-                <subject>
-                    <reference value="urn:uuid:b6f5dd89-fc3a-466d-baad-126c0aac46fc"/>
-                </subject>
-                <date value="2012-03-15T06:51:38Z"/>
-                <author>
-                    <reference value="urn:uuid:83c26c8f-ee72-4534-8891-0136972b2106"/>
-                    <display value="Dr Steve Jones"/>
-                </author>
-                <title value="General Practice Summary"/>
-                <relatesTo>
-                    <code value="replaces"/>
-                    <targetIdentifier>
-                        <value value="D18B57ED-992E-45A2-A6AF-55200D20F48E"/>
-                    </targetIdentifier>
-                </relatesTo>
-                <section>
-                    <title value="General Practice Summary"/>
-                    <code>
-                        <coding>
-                            <code value="Title"/>
-                        </coding>
-                    </code>
-                    <text>
-                        <status value="generated"/>
-                        <div xmlns="http://www.w3.org/1999/xhtml">
-                          <h1>header</h1>
-                        </div>
-                    </text>
-                </section>
-            </Composition>
-        </resource>
-    </entry>
-    <entry>
         <fullUrl value="urn:uuid:83c26c8f-ee72-4534-8891-0136972b2106"/>
         <resource>
             <PractitionerRole>

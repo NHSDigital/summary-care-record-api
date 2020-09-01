@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.async.DeferredResult;
 import uk.nhs.adaptors.scr.components.FhirParser;
 import uk.nhs.adaptors.scr.config.SpineConfiguration;
+import uk.nhs.adaptors.scr.exceptions.FhirMappingException;
 import uk.nhs.adaptors.scr.exceptions.FhirValidationException;
 import uk.nhs.adaptors.scr.services.ScrService;
 
@@ -37,7 +38,7 @@ public class FhirController {
     @ResponseStatus(HttpStatus.OK)
     public DeferredResult<?> acceptFhir(
         @RequestHeader("Content-Type") MediaType contentType, @RequestBody String body)
-        throws FhirValidationException, HttpMediaTypeNotAcceptableException {
+        throws FhirValidationException, HttpMediaTypeNotAcceptableException, FhirMappingException {
 
         var deferredResult = new DeferredResult<OperationOutcome>(spineConfiguration.getScrResultTimeout());
 

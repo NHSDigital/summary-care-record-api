@@ -47,7 +47,7 @@ public class SendUAT {
     private SpineMockSetupEndpoint spineMockSetupEndpoint;
 
     @ParameterizedTest(name = "[{index}] - {0}")
-    @ArgumentsSource(CustomArgumentsProvider.Outbound.class)
+    @ArgumentsSource(CustomArgumentsProvider.OutboundSuccess.class)
     void testTranslatingFromFhirToHL7v3(String category, TestData testData) throws Exception {
         spineMockSetupEndpoint
             .onMockServer(spineUrl)
@@ -84,5 +84,15 @@ public class SendUAT {
             default:
                 throw new NotImplementedException();
         }
+    }
+
+    @ParameterizedTest(name = "[{index}] - {0}")
+    @ArgumentsSource(CustomArgumentsProvider.OutboundInvalid.class)
+    void testTranslatingFromFhirToHL7v3InvalidRequest(String category, TestData testData) throws Exception {
+        mockMvc.perform(
+            post(FHIR_ENDPOINT)
+                .contentType(getContentType(testData.getFhirFormat()))
+                .content(testData.getFhir()))
+            .andExpect(status().isBadRequest());
     }
 }

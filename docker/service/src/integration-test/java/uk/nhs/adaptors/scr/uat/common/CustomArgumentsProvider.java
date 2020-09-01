@@ -59,9 +59,15 @@ public abstract class CustomArgumentsProvider implements ArgumentsProvider {
         return resolver.getResources("classpath*:/" + folder + "/*/*");
     }
 
-    public static class Outbound extends CustomArgumentsProvider {
-        public Outbound() {
+    public static class OutboundSuccess extends CustomArgumentsProvider {
+        public OutboundSuccess() {
             super("outbound_uat_data");
+        }
+    }
+
+    public static class OutboundInvalid extends CustomArgumentsProvider {
+        public OutboundInvalid() {
+            super("outbound_uat_invalid");
         }
     }
 }
