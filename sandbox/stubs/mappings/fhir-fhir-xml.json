@@ -1,0 +1,31 @@
+{
+  "mappings": [
+    {
+      "request": {
+        "method": "POST",
+        "url": "/fhir",
+        "bodyPatterns" : [ {
+          "equalToXml" : "<thing>value</thing>"
+        } ]
+      },
+      "response": {
+        "status": 200,
+        "body": "OK successful"
+      }
+    },
+    {
+      "request": {
+        "method": "POST",
+        "url": "/fhir",
+        "bodyPatterns" : [ {
+          "equalToXml" : "<message><id>${xmlunit.ignore}</id><content>Hello</content></message>",
+          "enablePlaceholders" : true
+        } ]
+      },
+      "response": {
+        "status": 412,
+        "body": "ACL consent not set"
+      }
+    }
+  ]
+}

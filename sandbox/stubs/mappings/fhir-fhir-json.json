@@ -1,0 +1,13 @@
+{
+  "request": {
+    "method": "POST",
+    "url": "/fhir",
+    "bodyPatterns" : [ {
+      "equalToJson" : { "thing": "value" }
+    } ]
+  },
+  "response": {
+    "status": 200,
+    "body": "OK successful"
+  }
+}
