@@ -73,12 +73,6 @@ public class SendUAT {
         mockMvc.perform(asyncDispatch(mvcResult))
             .andExpect(status().isOk())
             .andReturn();
-
-//        mockMvc.perform(
-//            post(FHIR_ENDPOINT)
-//                .contentType(getContentType(testData.getFhirFormat()))
-//                .content(testData.getFhir()))
-//            .andExpect(status().isOk());
     }
 
     private String getContentType(TestData.FhirFormat fhirFormat) {
