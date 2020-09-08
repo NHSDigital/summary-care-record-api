@@ -1,30 +1,24 @@
 package uk.nhs.adaptors.scr.controllers.acs;
 
-import static org.springframework.http.HttpStatus.BAD_REQUEST;
-import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
-import static org.springframework.http.HttpStatus.OK;
-import static org.springframework.http.HttpStatus.PRECONDITION_FAILED;
-import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
-
-import org.dom4j.DocumentException;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.http.Header;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.server.ResponseStatusException;
-
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import uk.nhs.adaptors.scr.clients.SpineHttpClient;
 import uk.nhs.adaptors.scr.models.ACSPayload;
-import uk.nhs.adaptors.scr.models.responses.ConsentsResponse;
 import uk.nhs.adaptors.scr.services.AcsService;
+
+import static org.springframework.http.HttpStatus.PRECONDITION_FAILED;
+import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
 
 @RestController
 @RequestMapping("/summary-care-record")
@@ -40,29 +34,22 @@ public class AcsController {
     @ResponseStatus(HttpStatus.ACCEPTED)
     public ResponseEntity<?> setResourcePermissions(@RequestBody ACSPayload acsSetResourceObject) {
         try {
-            ResponseEntity hasPermissionsResponse = acsService.hasResourcePermissions(acsSetResourceObject);
-            if (hasPermissionsResponse.getStatusCode() == OK) {
-                ResponseEntity setPermissionsResponse = acsService.setResourcePermissions(acsSetResourceObject);
-                return new ResponseEntity<>(setPermissionsResponse.getStatusCode());
-            } else {
-                return new ResponseEntity<>(PRECONDITION_FAILED);
-            }
+            var spineResponse = acsService.setResourcePermissions(acsSetResourceObject);
+            return mapSpineResponse(spineResponse);
         } catch (HttpClientErrorException e) {
             return new ResponseEntity<>(PRECONDITION_FAILED);
         }
     }
 
-    @GetMapping(
-        path = "/consent/{patientId}",
-        produces = {APPLICATION_JSON_VALUE})
-    @ResponseStatus(HttpStatus.ACCEPTED)
-    public ResponseEntity<ConsentsResponse> getResourcePermissions(@PathVariable int patientId) {
-        try {
-            ConsentsResponse acsResponse = acsService.getResourcePermissions(patientId);
-            return new ResponseEntity<>(acsResponse, OK);
-        } catch (DocumentException e) {
-            LOGGER.error(BAD_REQUEST.toString() + e.getMessage());
-            throw new ResponseStatusException(INTERNAL_SERVER_ERROR, "Not valid XML response from ACS", e);
+    private ResponseEntity<?> mapSpineResponse(SpineHttpClient.Response spineResponse) {
+        var responseHeaders = new HttpHeaders();
+        for (Header header : spineResponse.getHeaders()) {
+            responseHeaders.add(header.getName(), header.getValue());
         }
+        return new ResponseEntity<>(
+            //TODO: we don't know what spine response looks like. I guess we should wrap it in our object and serialize
+            spineResponse.getBody(),
+            responseHeaders,
+            HttpStatus.valueOf(spineResponse.getStatusCode()));
     }
 }

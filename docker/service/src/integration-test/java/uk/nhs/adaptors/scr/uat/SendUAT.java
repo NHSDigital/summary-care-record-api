@@ -1,11 +1,6 @@
 package uk.nhs.adaptors.scr.uat;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.http.HttpMethod.POST;
-import static org.springframework.http.HttpStatus.OK;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.NotImplementedException;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -17,22 +12,26 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
-
-import lombok.extern.slf4j.Slf4j;
 import uk.nhs.adaptors.scr.IntegrationTestsExtension;
 import uk.nhs.adaptors.scr.uat.common.CustomArgumentsProvider;
 import uk.nhs.adaptors.scr.uat.common.TestData;
 import uk.nhs.adaptors.scr.utils.spine.mock.SpineMockSetupEndpoint;
+
+import static org.springframework.http.HttpStatus.ACCEPTED;
+import static org.springframework.http.HttpStatus.OK;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @AutoConfigureMockMvc
 @ExtendWith({SpringExtension.class, IntegrationTestsExtension.class})
 @DirtiesContext
 @Slf4j
-public class OutboundUAT {
+public class SendUAT {
 
     private static final String FHIR_ENDPOINT = "/fhir";
-    private static final String SPINE_ENDPOINT = "/";
+    private static final String SPINE_SCR_ENDPOINT = "/summarycarerecord";
+    private static final String REQUEST_IDENTIFIER = "123";
 
     @Value("${spine.url}")
     private String spineUrl;
@@ -48,8 +47,14 @@ public class OutboundUAT {
     void testTranslatingFromFhirToHL7v3(String category, TestData testData) throws Exception {
         spineMockSetupEndpoint
             .onMockServer(spineUrl)
-            .forPath(SPINE_ENDPOINT)
+            .forPath(SPINE_SCR_ENDPOINT)
             .forHttpMethod("POST")
+            .withHttpStatusCode(ACCEPTED.value())
+            .withResponseContent("response");
+        spineMockSetupEndpoint
+            .onMockServer(spineUrl)
+            .forPath(SPINE_SCR_ENDPOINT + "/" + REQUEST_IDENTIFIER)
+            .forHttpMethod("GET")
             .withHttpStatusCode(OK.value())
             .withResponseContent("response");
 
@@ -58,11 +63,6 @@ public class OutboundUAT {
                 .contentType(getContentType(testData.getFhirFormat()))
                 .content(testData.getFhir()))
             .andExpect(status().isOk());
-
-        var lastRequest = spineMockSetupEndpoint.getLatestRequest();
-
-        assertThat(lastRequest.getHttpMethod()).isEqualTo(POST.name());
-        assertThat(lastRequest.getBody()).isEqualTo(testData.getHl7v3());
     }
 
     private String getContentType(TestData.FhirFormat fhirFormat) {
