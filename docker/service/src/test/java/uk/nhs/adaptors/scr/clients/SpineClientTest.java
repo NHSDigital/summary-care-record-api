@@ -104,9 +104,9 @@ class SpineClientTest {
     void whenGetScrProcessingResultReturnsWithOneRetryWithinTimeExpectResult() {
         when(spineConfiguration.getUrl()).thenReturn(SPINE_URL);
         when(spineConfiguration.getScrEndpoint()).thenReturn(SCR_ENDPOINT);
-        when(spineConfiguration.getScrResultRepeatBackoff()).thenReturn(50);
-        when(spineConfiguration.getScrResultRepeatTimeout()).thenReturn(500);
-        when(spineConfiguration.getScrResultHardTimeout()).thenReturn(1000);
+        when(spineConfiguration.getScrResultRepeatBackoff()).thenReturn(50L);
+        when(spineConfiguration.getScrResultRepeatTimeout()).thenReturn(500L);
+        when(spineConfiguration.getScrResultHardTimeout()).thenReturn(1000L);
         when(spineHttpClient.sendRequest(any()))
             .thenReturn(new SpineHttpClient.Response(HttpStatus.PROCESSING.value(), new Header[0], null))
             .thenReturn(new SpineHttpClient.Response(HttpStatus.OK.value(), new Header[0], RESPONSE_BODY));
@@ -125,9 +125,9 @@ class SpineClientTest {
     void whenGetScrProcessingResultReachesRepeatTimeoutExpectException() {
         when(spineConfiguration.getUrl()).thenReturn(SPINE_URL);
         when(spineConfiguration.getScrEndpoint()).thenReturn(SCR_ENDPOINT);
-        when(spineConfiguration.getScrResultRepeatBackoff()).thenReturn(100);
-        when(spineConfiguration.getScrResultRepeatTimeout()).thenReturn(500);
-        when(spineConfiguration.getScrResultHardTimeout()).thenReturn(1000);
+        when(spineConfiguration.getScrResultRepeatBackoff()).thenReturn(100L);
+        when(spineConfiguration.getScrResultRepeatTimeout()).thenReturn(500L);
+        when(spineConfiguration.getScrResultHardTimeout()).thenReturn(1000L);
 
         when(spineHttpClient.sendRequest(any()))
             .thenReturn(new SpineHttpClient.Response(HttpStatus.PROCESSING.value(), new Header[0], null));
@@ -147,9 +147,9 @@ class SpineClientTest {
     void whenGetScrProcessingResultReachesHardTimeoutExpectException() {
         when(spineConfiguration.getUrl()).thenReturn(SPINE_URL);
         when(spineConfiguration.getScrEndpoint()).thenReturn(SCR_ENDPOINT);
-        when(spineConfiguration.getScrResultRepeatBackoff()).thenReturn(50);
-        when(spineConfiguration.getScrResultRepeatTimeout()).thenReturn(500);
-        when(spineConfiguration.getScrResultHardTimeout()).thenReturn(100);
+        when(spineConfiguration.getScrResultRepeatBackoff()).thenReturn(50L);
+        when(spineConfiguration.getScrResultRepeatTimeout()).thenReturn(500L);
+        when(spineConfiguration.getScrResultHardTimeout()).thenReturn(100L);
 
         when(spineHttpClient.sendRequest(any()))
             .thenAnswer(invocation -> {

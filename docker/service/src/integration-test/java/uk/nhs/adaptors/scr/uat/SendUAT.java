@@ -12,14 +12,18 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import uk.nhs.adaptors.scr.IntegrationTestsExtension;
 import uk.nhs.adaptors.scr.uat.common.CustomArgumentsProvider;
 import uk.nhs.adaptors.scr.uat.common.TestData;
 import uk.nhs.adaptors.scr.utils.spine.mock.SpineMockSetupEndpoint;
 
+import static org.hamcrest.Matchers.notNullValue;
 import static org.springframework.http.HttpStatus.ACCEPTED;
 import static org.springframework.http.HttpStatus.OK;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.asyncDispatch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.request;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
@@ -58,11 +62,23 @@ public class SendUAT {
             .withHttpStatusCode(OK.value())
             .withResponseContent("response");
 
-        mockMvc.perform(
-            post(FHIR_ENDPOINT)
+        MvcResult mvcResult = mockMvc
+            .perform(post(FHIR_ENDPOINT)
                 .contentType(getContentType(testData.getFhirFormat()))
                 .content(testData.getFhir()))
-            .andExpect(status().isOk());
+            .andExpect(request().asyncStarted())
+            .andExpect(request().asyncResult(notNullValue()))
+            .andReturn();
+
+        mockMvc.perform(asyncDispatch(mvcResult))
+            .andExpect(status().isOk())
+            .andReturn();
+
+//        mockMvc.perform(
+//            post(FHIR_ENDPOINT)
+//                .contentType(getContentType(testData.getFhirFormat()))
+//                .content(testData.getFhir()))
+//            .andExpect(status().isOk());
     }
 
     private String getContentType(TestData.FhirFormat fhirFormat) {

@@ -3,7 +3,6 @@ package uk.nhs.adaptors.scr.clients;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
@@ -53,9 +52,7 @@ public class SpineHttpClient {
     @Builder
     @Getter
     public static class Response {
-        @NonNull
         private final int statusCode;
-        @NonNull
         private final Header[] headers;
         private final String body;
     }

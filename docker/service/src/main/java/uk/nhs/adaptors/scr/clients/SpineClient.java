@@ -92,7 +92,7 @@ public class SpineClient {
         var request = new HttpGet(url);
         //TODO: set headers
 
-        int hardTimeout = spineConfiguration.getScrResultHardTimeout();
+        long hardTimeout = spineConfiguration.getScrResultHardTimeout();
         TimerTask abortRequestTask = new TimerTask() {
             @Override
             public void run() {

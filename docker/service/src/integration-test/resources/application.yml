@@ -5,6 +5,7 @@ spine:
     scrResultRepeatBackoff: 3000
     scrResultRepeatTimeout: 30000
     scrResultHardTimeout: 5000
+    scrResultTimeout: 30000
     endpointCert: ""
     endpointPrivateKey: ""
     caCerts: ""

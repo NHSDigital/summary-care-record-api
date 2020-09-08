@@ -21,10 +21,13 @@ import uk.nhs.adaptors.scr.utils.spine.mock.SpineMockSetupEndpoint;
 import java.nio.file.Files;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.notNullValue;
 import static org.springframework.http.HttpStatus.ACCEPTED;
 import static org.springframework.http.HttpStatus.OK;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.asyncDispatch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.request;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith({SpringExtension.class, IntegrationTestsExtension.class})
@@ -77,15 +80,22 @@ public class ScrTest {
             .withResponseContent("response");
 
         String requestBody = Files.readString(simpleFhirJson.getFile().toPath(), Charsets.UTF_8);
-        mockMvc.perform(
-            post(FHIR_ENDPOINT)
+
+        MvcResult mvcResult = mockMvc
+            .perform(post(FHIR_ENDPOINT)
                 .contentType("application/fhir+json")
                 .content(requestBody))
-            .andExpect(status().isOk());
+            .andExpect(request().asyncStarted())
+            .andExpect(request().asyncResult(notNullValue()))
+            .andReturn();
+
+        mockMvc.perform(asyncDispatch(mvcResult))
+            .andExpect(status().isOk())
+            .andReturn();
     }
 
     @Test
-    public void whenPostingFhirXmlThenExpect202() throws Exception {
+    public void whenPostingFhirXmlThenExpect200() throws Exception {
         spineMockSetupEndpoint
             .onMockServer(spineUrl)
             .forPath(SCR_SPINE_ENDPOINT)
@@ -100,11 +110,18 @@ public class ScrTest {
             .withResponseContent("response");
 
         String requestBody = Files.readString(simpleFhirXml.getFile().toPath(), Charsets.UTF_8);
-        mockMvc.perform(
-            post(FHIR_ENDPOINT)
+
+        MvcResult mvcResult = mockMvc
+            .perform(post(FHIR_ENDPOINT)
                 .contentType("application/fhir+xml")
                 .content(requestBody))
-            .andExpect(status().isOk());
+            .andExpect(request().asyncStarted())
+            .andExpect(request().asyncResult(notNullValue()))
+            .andReturn();
+
+        mockMvc.perform(asyncDispatch(mvcResult))
+            .andExpect(status().isOk())
+            .andReturn();
     }
 
     @Test

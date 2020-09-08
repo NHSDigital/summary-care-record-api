@@ -18,7 +18,8 @@ public class SpineConfiguration {
     private String endpointCert;
     private String caCerts;
 
-    private int scrResultRepeatBackoff;
-    private int scrResultRepeatTimeout;
-    private int scrResultHardTimeout;
+    private long scrResultRepeatBackoff;
+    private long scrResultRepeatTimeout;
+    private long scrResultHardTimeout;
+    private long scrResultTimeout;
 }
