@@ -53,7 +53,8 @@ public class AcsService {
         context.put("ACSPayload", acsPayload.getPayload());
 
         String acsRequest = TemplateUtils.fillTemplate(HAS_RESOURCE_PERMISSIONS_TEMPLATE, context);
-        ResponseEntity responseEntity = spineClient.sendAcsRequest(acsRequest);
+        ResponseEntity responseEntity = spineClient
+            .sendAcsRequest(acsRequest);
         return responseEntity;
     }
 }
