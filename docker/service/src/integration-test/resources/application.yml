@@ -1,6 +1,14 @@
 spine:
     url: ${SCR_SPINE_URL:http://localhost:8081}
     acsEndpoint: /acs
+    scrEndpoint: /summarycarerecord
+    scrResultRepeatBackoff: 3000
+    scrResultRepeatTimeout: 30000
+    scrResultHardTimeout: 5000
+    scrResultTimeout: 30000
+    endpointCert: ""
+    endpointPrivateKey: ""
+    caCerts: ""
 
 management:
     endpoints:
