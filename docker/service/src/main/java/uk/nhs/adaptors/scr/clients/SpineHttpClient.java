@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.Header;
+import org.apache.http.NameValuePair;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -17,11 +18,16 @@ import uk.nhs.adaptors.scr.services.ScrHttpClientBuilder;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 
 @Component
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Slf4j
 public class SpineHttpClient {
+
+    public static final String RETRY_AFTER_HEADER = "Retry-After";
+    public static final String CONTENT_LOCATION_HEADER = "Content-Location";
+
     private final ScrHttpClientBuilder scrHttpClientBuilder;
 
     @SuppressFBWarnings(
@@ -43,6 +49,14 @@ public class SpineHttpClient {
         } catch (IOException e) {
             throw new ScrBaseException("Unexpected exception while sending ACS request", e);
         }
+    }
+
+    public static String getHeader(Header[] headers, String headerName) {
+        return Arrays.stream(headers)
+            .filter(header -> header.getName().equals(headerName))
+            .map(NameValuePair::getValue)
+            .findFirst()
+            .orElseThrow(() -> new ScrBaseException("Response missing " + headerName + " header"));
     }
 
     private String readResponseBody(CloseableHttpResponse response) throws IOException {
