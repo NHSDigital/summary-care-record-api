@@ -16,6 +16,7 @@ import org.springframework.retry.backoff.BackOffPolicy;
 import org.springframework.retry.support.RetryTemplate;
 import org.springframework.stereotype.Component;
 import uk.nhs.adaptors.scr.config.SpineConfiguration;
+import uk.nhs.adaptors.scr.exceptions.NoScrResultException;
 import uk.nhs.adaptors.scr.exceptions.ScrBaseException;
 import uk.nhs.adaptors.scr.exceptions.ScrTimeoutException;
 
@@ -54,7 +55,7 @@ public class SpineClient {
             response.getStatusCode(), response.getBody()));
     }
 
-    public String getScrProcessingResult(String contentLocation, long retryAfter) {
+    public String getScrProcessingResult(String contentLocation, long initialWaitTime) {
         var repeatTimeout = spineConfiguration.getScrResultRepeatTimeout();
         RetryTemplate template = RetryTemplate.builder()
             .withinMillis(repeatTimeout)
@@ -63,7 +64,7 @@ public class SpineClient {
             .build();
 
         try {
-            Thread.sleep(retryAfter);
+            Thread.sleep(initialWaitTime);
         } catch (InterruptedException e) {
             throw new ScrTimeoutException(e);
         }
@@ -95,17 +96,6 @@ public class SpineClient {
         } else {
             throw new ScrBaseException(String.format("Unexpected response while sending SCR request: %s %s",
                 response.getStatusCode(), response.getBody()));
-        }
-    }
-
-    @Getter
-    public static class NoScrResultException extends ScrBaseException {
-
-        private final long retryAfter;
-
-        public NoScrResultException(long retryAfter) {
-            super("Scr polling yield no result");
-            this.retryAfter = retryAfter;
         }
     }
 
