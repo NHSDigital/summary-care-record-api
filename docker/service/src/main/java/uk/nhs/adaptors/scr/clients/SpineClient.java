@@ -63,23 +63,26 @@ public class SpineClient {
             .retryOn(NoScrResultException.class)
             .build();
 
+        LOGGER.info("Starting polling result. First request in {}ms", initialWaitTime);
         try {
             Thread.sleep(initialWaitTime);
         } catch (InterruptedException e) {
             throw new ScrTimeoutException(e);
         }
         return template.execute(ctx -> {
-            LOGGER.debug("Fetching SCR processing result: retryCount={}", ctx.getRetryCount());
+            LOGGER.info("Fetching SCR processing result. RetryCount={}", ctx.getRetryCount());
             var result = fetchScrProcessingResult(contentLocation);
-            if (result.getStatusCode() == HttpStatus.ACCEPTED.value()) {
+            int statusCode = result.getStatusCode();
+            if (statusCode == HttpStatus.ACCEPTED.value()) {
                 var nextRetryAfter = Long.parseLong(SpineHttpClient.getHeader(result.getHeaders(), SpineHttpClient.RETRY_AFTER_HEADER));
-                LOGGER.info("{} received. Next retry in {}ms", result.getStatusCode(), nextRetryAfter);
+                LOGGER.info("{} received. NextRetry in {}ms", statusCode, nextRetryAfter);
                 throw new NoScrResultException(nextRetryAfter);
-            } else if (result.getStatusCode() == HttpStatus.OK.value()) {
+            } else if (statusCode == HttpStatus.OK.value()) {
+                LOGGER.info("{} received. Returning result", statusCode);
                 return result.getBody();
             } else {
-                LOGGER.debug(String.format("Unexpected response:\n%s\n%s", result.getStatusCode(), result.getBody()));
-                throw new ScrBaseException("Unexpected response " + result.getStatusCode());
+                LOGGER.debug("Unexpected response:\n{}\n{}", statusCode, result.getBody());
+                throw new ScrBaseException("Unexpected response " + statusCode);
             }
         });
     }
@@ -89,7 +92,6 @@ public class SpineClient {
         //TODO: set headers
 
         SpineHttpClient.Response response = spineHttpClient.sendRequest(request);
-
         var statusCode = response.getStatusCode();
         if (statusCode == HttpStatus.ACCEPTED.value() || statusCode == HttpStatus.OK.value()) {
             return response;

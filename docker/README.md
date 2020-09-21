@@ -5,10 +5,11 @@ National Integration Adaptors - Summary Care Record
 1. JDK 14
 
 ## How to run service:
+* Navigate to `docker/docker/service`
+* Add environment tag `export TAG=latest`
+* Run script: `build-image.sh` (excute privileges might be required `chmod +x build-image.sh`)
 * Navigate to `docker`
 * Run script: `start-local-environment.sh`
-
-In terminal navigate to docker/docker and run command `chmod +x build-image.sh`
 
 If gradle-wrapper.jar doesn't exist navigate to docker/service in terminal and run:
 * If gradle isn't installed `brew install gradle`
@@ -22,25 +23,16 @@ If gradle-wrapper.jar doesn't exist navigate to docker/service in terminal and r
 * Navigate to `service`
 * Run: `./gradlew integrationTest`
 
+## How to run all checks:
+* Navigate to `service`
+* Run: `./gradlew check`
+
 ## How to use Spine Mock Service
-By default Spine Mock Service will run on `http://localhost:8081` and provide 2 configuration endpoints:
+Spine Mock Service is built using WireMock `http://wiremock.org/`
+All API operations defined in `http://wiremock.org/docs/api/` are available to use
+By default Spine Mock Service will run on `http://localhost:8080` however when running using provided docker-compose command, port will change to 8081
+If docker-compose is used, Spine hostname inside the docker cluster is `mock-spine-service`
 
----
-* POST `/setup` - configures mock endpoints
+For convenience, predefined Spine stubs are available.
 
-Example:
-```
-POST /setup HTTP/1.1
-Content-Type: application/json
-{
-    "url": "/sample",
-    "httpStatusCode": 200,
-    "httpMethod": "GET",
-    "responseContent": "My sample message."
-}
-```
-will configure new `GET /sample` endpoint returning `200` and `My sample message.`
-
----
-* POST `/setup/reset` - removes all custom endpoints created by /setup.
----
+To configure Spine Mock Service run `setup-mock.sh` which will configure mock running on port 8081 with ready to use stubs.

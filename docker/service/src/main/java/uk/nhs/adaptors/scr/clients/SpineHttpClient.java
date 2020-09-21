@@ -47,7 +47,7 @@ public class SpineHttpClient {
                     .build();
             }
         } catch (IOException e) {
-            throw new ScrBaseException("Unexpected exception while sending ACS request", e);
+            throw new ScrBaseException("Unexpected exception while sending Spine request", e);
         }
     }
 

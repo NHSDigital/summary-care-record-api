@@ -31,6 +31,6 @@ public class ScrService {
         var retryAfter = Long.parseLong(SpineHttpClient.getHeader(response.getHeaders(), SpineHttpClient.RETRY_AFTER_HEADER));
 
         spineClient.getScrProcessingResult(contentLocation, retryAfter);
-        //TODO: map response to FHIR and return back to controller
+        //TODO: should we map response to FHIR and return back to controller?
     }
 }

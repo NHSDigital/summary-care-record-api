@@ -3,7 +3,6 @@ package uk.nhs.adaptors.scr.controllers.fhir;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.hl7.fhir.r4.model.Bundle;
-import org.hl7.fhir.r4.model.OperationOutcome;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -45,7 +44,9 @@ public class FhirController {
         Callable<ResponseEntity<?>> callable = () -> {
             Bundle bundle = fhirParser.parseResource(contentType, body);
             scrService.handleFhir(bundle);
-            return ResponseEntity.status(HttpStatus.OK).body(new OperationOutcome());
+            return ResponseEntity
+                .status(HttpStatus.OK)
+                .build();
         };
 
         var task = new WebAsyncTask<>(spineConfiguration.getScrResultTimeout(), callable);
