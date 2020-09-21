@@ -13,10 +13,8 @@ spine:
   url: ${SCR_SPINE_URL:http://localhost:8081}
   acsEndpoint: /acs
   scrEndpoint: /summarycarerecord
-  scrResultRepeatBackoff: 3000 # how much time to wait between Spine GET retries
-  scrResultRepeatTimeout: 30000 # how much time to wait for all repeated Spine GET retries
-  scrResultHardTimeout: 5000 # how much time to wait for a single Spine GET request
-  scrResultTimeout: 30000 # how much time to wait for this SCR POST
+  scrResultRepeatTimeout: 50000 # 50sec - how much time to wait for all repeated Spine GET retries
+  scrResultTimeout: 60000 # 60sec - how much time to wait for this API entire SCR POST (Spine POST + polling Spine GET)
   endpointCert: ""
   endpointPrivateKey: ""
   caCerts: ""

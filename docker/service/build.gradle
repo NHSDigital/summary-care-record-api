@@ -47,7 +47,7 @@ dependencies {
     testImplementation "io.rest-assured:rest-assured:4.2.0"
     testImplementation "io.rest-assured:json-path:4.2.0"
     testImplementation "io.rest-assured:xml-path:4.2.0"
-    testImplementation "org.testcontainers:testcontainers:1.14.2"
+    testImplementation "com.github.tomakehurst:wiremock-jre8-standalone:2.27.2"
 }
 
 sourceSets {
