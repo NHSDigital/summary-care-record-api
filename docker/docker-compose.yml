@@ -7,8 +7,11 @@ services:
       - "8080:8080"
     environment:
       - SCR_SPINE_URL=http://mock-spine-service:8081
+    links:
+      - "mock-spine-service"
 
   mock-spine-service:
-    image: uk.nhs/spine-mock:0.0.1-SNAPSHOT
+    build:
+      context: ./docker/spine-mock
     ports:
       - "8081:8081"
