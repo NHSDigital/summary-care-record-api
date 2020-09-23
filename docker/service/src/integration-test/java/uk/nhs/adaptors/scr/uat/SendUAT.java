@@ -57,7 +57,7 @@ public class SendUAT {
     }
 
     @ParameterizedTest(name = "[{index}] - {0}")
-    @ArgumentsSource(CustomArgumentsProvider.Outbound.class)
+    @ArgumentsSource(CustomArgumentsProvider.OutboundSuccess.class)
     void testTranslatingFromFhirToHL7v3(String category, TestData testData) throws Exception {
         wireMockServer.stubFor(
             WireMock.post(SPINE_SCR_ENDPOINT)
@@ -80,6 +80,21 @@ public class SendUAT {
 
         mockMvc.perform(asyncDispatch(mvcResult))
             .andExpect(status().isOk());
+    }
+
+    @ParameterizedTest(name = "[{index}] - {0}")
+    @ArgumentsSource(CustomArgumentsProvider.OutboundInvalid.class)
+    void testTranslatingFromFhirToHL7v3InvalidRequest(String category, TestData testData) throws Exception {
+        var mvcResult = mockMvc.perform(
+            post(FHIR_ENDPOINT)
+                .contentType(getContentType(testData.getFhirFormat()))
+                .content(testData.getFhir()))
+            .andExpect(request().asyncStarted())
+            .andExpect(request().asyncResult(notNullValue()))
+            .andReturn();
+
+        mockMvc.perform(asyncDispatch(mvcResult))
+            .andExpect(status().isBadRequest());
     }
 
     private String getContentType(TestData.FhirFormat fhirFormat) {

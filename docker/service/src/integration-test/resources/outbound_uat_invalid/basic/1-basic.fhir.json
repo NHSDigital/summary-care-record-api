@@ -9,55 +9,6 @@
   "timestamp": "2012-03-15T06:51:38Z",
   "entry":  [
     {
-      "fullUrl": "urn:uuid:2880eedf-76f0-4f38-9681-dc158e937da7",
-      "resource": {
-        "resourceType": "Composition",
-        "id": "2880eedf-76f0-4f38-9681-dc158e937da7",
-        "identifier": {
-          "system": "https://tools.ietf.org/html/rfc4122",
-          "value": "938E11A2-B044-4933-AF36-123C95D6106A"
-        },
-        "status": "final",
-        "type": {
-          "coding":  [
-            {
-              "system": "http://snomed.info/sct",
-              "code": "196981000000101",
-              "display": "General Practice Summary"
-            }
-          ]
-        },
-        "date": "2012-03-15T06:51:38Z",
-        "subject": {
-          "reference": "urn:uuid:b6f5dd89-fc3a-466d-baad-126c0aac46fc"
-        },
-        "author":  [
-          {
-            "reference": "urn:uuid:83c26c8f-ee72-4534-8891-0136972b2106",
-            "display": "Dr Steve Jones"
-          }
-        ],
-        "title": "General Practice Summary",
-        "relatesTo": [
-          {
-            "code": "replaces",
-            "targetIdentifier": {
-              "value": "D18B57ED-992E-45A2-A6AF-55200D20F48E"
-            }
-          }
-        ],
-        "section":  [
-          {
-            "title": "General Practice Summary",
-            "text": {
-              "status": "generated",
-              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h1>header</h1></div>"
-            }
-          }
-        ]
-      }
-    },
-    {
       "fullUrl": "urn:uuid:83c26c8f-ee72-4534-8891-0136972b2106",
       "resource": {
         "resourceType": "PractitionerRole",
