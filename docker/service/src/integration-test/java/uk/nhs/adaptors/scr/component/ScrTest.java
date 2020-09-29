@@ -1,6 +1,7 @@
 package uk.nhs.adaptors.scr.component;
 
 import ca.uhn.fhir.context.FhirContext;
+import ca.uhn.fhir.parser.IParser;
 import com.github.tomakehurst.wiremock.WireMockServer;
 import com.github.tomakehurst.wiremock.client.WireMock;
 import com.github.tomakehurst.wiremock.http.RequestMethod;
@@ -16,11 +17,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.core.io.Resource;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.web.client.RestTemplate;
 import uk.nhs.adaptors.scr.WireMockInitializer;
 import uk.nhs.adaptors.scr.components.FhirParser;
@@ -33,18 +33,16 @@ import static com.github.tomakehurst.wiremock.client.WireMock.getRequestedFor;
 import static com.github.tomakehurst.wiremock.client.WireMock.postRequestedFor;
 import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo;
 import static com.github.tomakehurst.wiremock.stubbing.Scenario.STARTED;
+import static io.restassured.RestAssured.given;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.notNullValue;
+import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 import static org.springframework.http.HttpStatus.ACCEPTED;
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
+import static org.springframework.http.HttpStatus.GATEWAY_TIMEOUT;
 import static org.springframework.http.HttpStatus.OK;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.asyncDispatch;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.request;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith({SpringExtension.class})
-@SpringBootTest
+@SpringBootTest(webEnvironment = RANDOM_PORT)
 @AutoConfigureMockMvc
 @Slf4j
 @ContextConfiguration(initializers = {WireMockInitializer.class})
@@ -59,9 +57,11 @@ public class ScrTest {
     private static final int INITIAL_WAIT_TIME = 200;
     private static final int GET_WAIT_TIME = 400;
     private static final int THREAD_SLEEP_ALLOWED_DIFF = 100;
+    private static final String FHIR_JSON_CONTENT_TYPE = "application/fhir+json";
+    private static final String FHIR_XML_CONTENT_TYPE = "application/fhir+xml";
 
-    @Autowired
-    private MockMvc mockMvc;
+    @LocalServerPort
+    private int port;
 
     @Value("classpath:bundle.fhir.json")
     private Resource simpleFhirJson;
@@ -85,77 +85,77 @@ public class ScrTest {
 
     @Test
     public void whenGetHealthCheckThenExpect200() throws Exception {
-        mockMvc.perform(get(HEALTHCHECK_ENDPOINT))
-            .andExpect(status().isOk());
+        given()
+            .port(port)
+            .when()
+            .get(HEALTHCHECK_ENDPOINT)
+            .then()
+            .statusCode(OK.value());
     }
 
     @Test
     public void whenPostingFhirJsonThenExpect200() throws Exception {
         whenPostingThenExpect200(
             Files.readString(simpleFhirJson.getFile().toPath(), Charsets.UTF_8),
-            "application/fhir+json");
+            FHIR_JSON_CONTENT_TYPE);
     }
 
     @Test
     public void whenPostingFhirXmlThenExpect200() throws Exception {
         whenPostingThenExpect200(
             Files.readString(simpleFhirXml.getFile().toPath(), Charsets.UTF_8),
-            "application/fhir+xml");
+            FHIR_XML_CONTENT_TYPE);
     }
 
     @Test
     public void whenUnableToParseJsonDataThenExpect400() throws Exception {
-        MvcResult result = mockMvc
-            .perform(post(FHIR_ENDPOINT)
-                .contentType("application/fhir+json")
-                .content("qwe"))
-            .andExpect(request().asyncStarted())
-            .andExpect(request().asyncResult(notNullValue()))
-            .andReturn();
-
-        mockMvc.perform(asyncDispatch(result))
-            .andExpect(status().isBadRequest());
-
-        FhirContext ctx = FhirContext.forR4();
-        String responseBody = result.getResponse().getContentAsString();
-        var response = ctx.newJsonParser().parseResource(responseBody);
-
-        assertThat(response).isInstanceOf(OperationOutcome.class);
+        whenPostingInvalidContentThenExpect400(
+            Files.readString(simpleFhirXml.getFile().toPath(), Charsets.UTF_8),
+            FHIR_JSON_CONTENT_TYPE);
     }
 
     @Test
     public void whenUnableToParseXmlDataThenExpect400() throws Exception {
-        MvcResult result = mockMvc.perform(
-            post(FHIR_ENDPOINT)
-                .contentType("application/fhir+xml")
-                .content("qwe"))
-            .andExpect(request().asyncStarted())
-            .andExpect(request().asyncResult(notNullValue()))
-            .andReturn();
+        whenPostingInvalidContentThenExpect400(
+            Files.readString(simpleFhirJson.getFile().toPath(), Charsets.UTF_8),
+            FHIR_XML_CONTENT_TYPE);
+    }
 
-        mockMvc.perform(asyncDispatch(result))
-            .andExpect(status().isBadRequest());
+    @Test
+    public void whenSpineDoesNotReturnResultThenExpect504() throws Exception {
+        setUpPOSTSpineRequest();
 
-        FhirContext ctx = FhirContext.forR4();
-        String responseBody = result.getResponse().getContentAsString();
-        var response = ctx.newXmlParser().parseResource(responseBody);
+        wireMockServer.stubFor(
+            WireMock.get(SCR_SPINE_CONTENT_ENDPOINT).inScenario(WIREMOCK_SCENARIO_NAME)
+                .willReturn(aResponse()
+                    .withStatus(ACCEPTED.value())
+                    .withHeader("Content-Location", spineUrl + SCR_SPINE_CONTENT_ENDPOINT)
+                    .withHeader("Retry-After", String.valueOf(GET_WAIT_TIME))));
 
-        assertThat(response).isInstanceOf(OperationOutcome.class);
+        warmUpWireMock();
+
+        given()
+            .port(port)
+            .contentType(FHIR_JSON_CONTENT_TYPE)
+            .body(Files.readString(simpleFhirJson.getFile().toPath(), Charsets.UTF_8))
+            .when()
+            .post(FHIR_ENDPOINT)
+            .then()
+            .contentType(FHIR_JSON_CONTENT_TYPE)
+            .statusCode(GATEWAY_TIMEOUT.value());
     }
 
     private void whenPostingThenExpect200(String requestBody, String contentType) throws Exception {
         setUpSpineRequests();
 
-        var result = mockMvc
-            .perform(post(FHIR_ENDPOINT)
-                .contentType(contentType)
-                .content(requestBody))
-            .andExpect(request().asyncStarted())
-            .andExpect(request().asyncResult(notNullValue()))
-            .andReturn();
-
-        mockMvc.perform(asyncDispatch(result))
-            .andExpect(status().isOk());
+        given()
+            .port(port)
+            .contentType(contentType)
+            .body(requestBody)
+            .when()
+            .post(FHIR_ENDPOINT)
+            .then()
+            .statusCode(OK.value());
 
         wireMockServer.verify(1, postRequestedFor(urlEqualTo(SCR_SPINE_ENDPOINT)));
         wireMockServer.verify(2, getRequestedFor(urlEqualTo(SCR_SPINE_CONTENT_ENDPOINT)));
@@ -181,13 +181,46 @@ public class ScrTest {
         assertThat(intervalBetweenFirstAndSecondGetGet).isBetween(GET_WAIT_TIME, GET_WAIT_TIME + THREAD_SLEEP_ALLOWED_DIFF);
     }
 
-    private void setUpSpineRequests() {
+    private void whenPostingInvalidContentThenExpect400(String requestBody, String contentType) {
+        var responseBody = given()
+            .port(port)
+            .contentType(contentType)
+            .body(requestBody)
+            .when()
+            .post(FHIR_ENDPOINT)
+            .then()
+            .contentType(contentType)
+            .statusCode(BAD_REQUEST.value())
+            .extract()
+            .asString();
+
+        FhirContext ctx = FhirContext.forR4();
+        IParser parser;
+        if (contentType.equals(FHIR_JSON_CONTENT_TYPE)) {
+            parser = ctx.newJsonParser();
+        } else if (contentType.equals(FHIR_XML_CONTENT_TYPE)) {
+            parser = ctx.newXmlParser();
+        } else {
+            throw new IllegalStateException();
+        }
+
+        var response = parser.parseResource(responseBody);
+
+        assertThat(response).isInstanceOf(OperationOutcome.class);
+    }
+
+    private void setUpPOSTSpineRequest() {
         wireMockServer.stubFor(
             WireMock.post(SCR_SPINE_ENDPOINT).inScenario(WIREMOCK_SCENARIO_NAME)
                 .willReturn(aResponse()
                     .withStatus(ACCEPTED.value())
                     .withHeader("Content-Location", spineUrl + SCR_SPINE_CONTENT_ENDPOINT)
                     .withHeader("Retry-After", String.valueOf(INITIAL_WAIT_TIME))));
+    }
+
+    private void setUpSpineRequests() {
+        setUpPOSTSpineRequest();
+
         wireMockServer.stubFor(
             WireMock.get(SCR_SPINE_CONTENT_ENDPOINT).inScenario(WIREMOCK_SCENARIO_NAME)
                 .whenScenarioStateIs(STARTED)
