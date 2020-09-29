@@ -69,22 +69,26 @@ public class SpineClient {
         } catch (InterruptedException e) {
             throw new ScrTimeoutException(e);
         }
-        return template.execute(ctx -> {
-            LOGGER.info("Fetching SCR processing result. RetryCount={}", ctx.getRetryCount());
-            var result = fetchScrProcessingResult(contentLocation);
-            int statusCode = result.getStatusCode();
-            if (statusCode == HttpStatus.ACCEPTED.value()) {
-                var nextRetryAfter = Long.parseLong(SpineHttpClient.getHeader(result.getHeaders(), SpineHttpClient.RETRY_AFTER_HEADER));
-                LOGGER.info("{} received. NextRetry in {}ms", statusCode, nextRetryAfter);
-                throw new NoScrResultException(nextRetryAfter);
-            } else if (statusCode == HttpStatus.OK.value()) {
-                LOGGER.info("{} received. Returning result", statusCode);
-                return result.getBody();
-            } else {
-                LOGGER.debug("Unexpected response:\n{}\n{}", statusCode, result.getBody());
-                throw new ScrBaseException("Unexpected response " + statusCode);
-            }
-        });
+        try {
+            return template.execute(ctx -> {
+                LOGGER.info("Fetching SCR processing result. RetryCount={}", ctx.getRetryCount());
+                var result = fetchScrProcessingResult(contentLocation);
+                int statusCode = result.getStatusCode();
+                if (statusCode == HttpStatus.ACCEPTED.value()) {
+                    var nextRetryAfter = Long.parseLong(SpineHttpClient.getHeader(result.getHeaders(), SpineHttpClient.RETRY_AFTER_HEADER));
+                    LOGGER.info("{} received. NextRetry in {}ms", statusCode, nextRetryAfter);
+                    throw new NoScrResultException(nextRetryAfter);
+                } else if (statusCode == HttpStatus.OK.value()) {
+                    LOGGER.info("{} received. Returning result", statusCode);
+                    return result.getBody();
+                } else {
+                    LOGGER.debug("Unexpected response:\n{}\n{}", statusCode, result.getBody());
+                    throw new ScrBaseException("Unexpected response " + statusCode);
+                }
+            });
+        } catch (NoScrResultException e) {
+            throw new ScrTimeoutException(e);
+        }
     }
 
     private SpineHttpClient.Response fetchScrProcessingResult(String contentLocation) {

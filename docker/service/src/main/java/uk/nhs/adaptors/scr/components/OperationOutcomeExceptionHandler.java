@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 import uk.nhs.adaptors.scr.exceptions.OperationOutcomeError;
+import uk.nhs.adaptors.scr.exceptions.ScrTimeoutException;
 import uk.nhs.adaptors.scr.utils.OperationOutcomeUtils;
 
 import java.util.List;
@@ -47,7 +48,13 @@ public class OperationOutcomeExceptionHandler extends ResponseEntityExceptionHan
         }
         OperationOutcome operationOutcome = OperationOutcomeUtils.createFromMessage(ex.getMessage());
         String content = fhirParser.encodeResource(mediaType, operationOutcome);
-        return new ResponseEntity<>(content, headers, HttpStatus.INTERNAL_SERVER_ERROR);
+
+        var status = HttpStatus.INTERNAL_SERVER_ERROR;
+        if (ex instanceof ScrTimeoutException) {
+            status = HttpStatus.GATEWAY_TIMEOUT;
+        }
+
+        return new ResponseEntity<>(content, headers, status);
     }
 
     @SneakyThrows
