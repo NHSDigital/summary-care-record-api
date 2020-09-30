@@ -1,0 +1,15 @@
+{
+    "request": {
+        "method": "POST",
+        "url": "/summarycarerecord"
+    },
+    "response": {
+        "headers": {
+            "Content-Location": "http://mock-spine-service:8081/content",
+            "Retry-After": "100"
+        },
+        "status": 202
+    },
+    "scenarioName": "test",
+    "requiredScenarioState": "Started"
+}

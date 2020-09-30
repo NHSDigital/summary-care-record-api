@@ -1,5 +1,6 @@
 package uk.nhs.adaptors.scr.components;
 
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.hl7.fhir.r4.model.OperationOutcome;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +17,12 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 import uk.nhs.adaptors.scr.exceptions.OperationOutcomeError;
+import uk.nhs.adaptors.scr.exceptions.ScrTimeoutException;
 import uk.nhs.adaptors.scr.utils.OperationOutcomeUtils;
 
 import java.util.List;
+
+import static java.util.Collections.singletonList;
 
 @ControllerAdvice
 @RestController
@@ -44,7 +48,28 @@ public class OperationOutcomeExceptionHandler extends ResponseEntityExceptionHan
         }
         OperationOutcome operationOutcome = OperationOutcomeUtils.createFromMessage(ex.getMessage());
         String content = fhirParser.encodeResource(mediaType, operationOutcome);
-        return new ResponseEntity<>(content, headers, HttpStatus.INTERNAL_SERVER_ERROR);
+
+        var status = HttpStatus.INTERNAL_SERVER_ERROR;
+        if (ex instanceof ScrTimeoutException) {
+            status = HttpStatus.GATEWAY_TIMEOUT;
+        }
+
+        return new ResponseEntity<>(content, headers, status);
+    }
+
+    @SneakyThrows
+    @Override
+    protected ResponseEntity<Object> handleExceptionInternal(
+        Exception ex, Object body, HttpHeaders headers, HttpStatus status, WebRequest request) {
+
+        LOGGER.error("Creating OperationOutcome response for unhandled exception", ex);
+
+        MediaType mediaType = getRequestMediaType(request);
+
+        headers.put(HttpHeaders.CONTENT_TYPE, singletonList(mediaType.toString()));
+        OperationOutcome operationOutcome = OperationOutcomeUtils.createFromMessage(ex.getMessage());
+        String content = fhirParser.encodeResource(mediaType, operationOutcome);
+        return new ResponseEntity<>(content, headers, status);
     }
 
     private MediaType getRequestMediaType(WebRequest request) {
