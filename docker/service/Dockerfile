@@ -1,9 +1,9 @@
 FROM gradle:jdk11 AS build
 COPY --chown=gradle:gradle . /home/gradle/src
 WORKDIR /home/gradle/src
-RUN gradle build --no-daemon -x bootJar
+RUN gradle build --no-daemon --no-color -x bootJar
 
-FROM adoptopenjdk/openjdk14:jre
+FROM adoptopenjdk/openjdk14
 
 EXPOSE 9000
 
