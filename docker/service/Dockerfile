@@ -1,7 +1,7 @@
 FROM gradle:jdk14 AS build
 COPY --chown=gradle:gradle . /home/gradle/src
 WORKDIR /home/gradle/src
-RUN gradle build --no-daemon --no-color -x bootJar
+RUN gradle build --no-daemon --console plain -x bootJar
 
 FROM adoptopenjdk/openjdk14
 
