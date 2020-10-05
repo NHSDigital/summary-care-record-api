@@ -2,6 +2,6 @@ variables:
   service_name: summary-care-record
   service_base_path: summary-care-record
   short_service_name: scr
-  product_display_name: "Summary Care Record"
+  product_display_name: Summary Care Record
   product_description: " "
   spec_file: summary-care-record.json
