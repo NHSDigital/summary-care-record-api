@@ -1,10 +1,8 @@
 name: "$(SourceBranchName)+$(BuildID)"
 
-# Prevents building every commit or on PR
 trigger: none
 pr: none
 
-# Consume an artifact from the build pipeline as soon as it becomes available.
 resources:
   repositories:
     - repository: common
@@ -12,26 +10,20 @@ resources:
       name: NHSDigital/api-management-utils
       endpoint: NHSDigital
   pipelines:
-  - pipeline: summary-care-record
+  - pipeline: build_pipeline
     source: "Summary-Care-Record-Build"
     trigger:
       branches:
         exclude:
-          - 'master'
-          - "refs/heads/master"
-          - 'refs/tags/v*'
-
-# env variables
-variables:
-  template: project.yml
-
-  # AWS_ENV: ptl
-  # FORCE_SANDBOX: false
-  # NAMESPACE: from_branchname
-  # PROXY_NAME: live
+          - master
+          - refs/heads/master
+          - refs/tags/v*
 
 pool:
   vmImage: 'ubuntu-latest'
+
+variables:
+  - template: project.yml
 
 extends:
   template: azure/common/apigee-deployment.yml@common
@@ -41,13 +33,3 @@ extends:
     short_service_name: ${{ variables.short_service_name }}
     product_display_name: ${{ variables.product_display_name }}
     product_description: ${{ variables.product_description }}
-    spec_file: ${{ variables.spec_file }}
-    deploy_review_sandbox: true
-    # secret_ids:
-    #   - ptl/cis/ldap.nis1.national.ncrs.nhs.uk/key
-    #   - ptl/cis/ldap.nis1.national.ncrs.nhs.uk/crt
-    #   - ptl/veit07.devspineservices.nhs.uk/root-ca/crt
-    # config_ids:
-    #   - /ptl/api-deployment/sds/ldap/private-key
-    #   - /ptl/api-deployment/sds/ldap/client-cert
-    #   - /ptl/api-deployment/sds/ldap/ca-certs
