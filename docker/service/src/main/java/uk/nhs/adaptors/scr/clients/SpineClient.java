@@ -46,9 +46,11 @@ public class SpineClient {
         //TODO: set headers
         request.setEntity(new StringEntity(requestBody));
 
+        LOGGER.info("Sending SCR data");
         var response = spineHttpClient.sendRequest(request);
 
         if (response.getStatusCode() == HttpStatus.ACCEPTED.value()) {
+            LOGGER.info("Received 202 response");
             return response;
         }
         throw new ScrBaseException(String.format("Unexpected response while sending SCR request: %s %s",
@@ -63,7 +65,7 @@ public class SpineClient {
             .retryOn(NoScrResultException.class)
             .build();
 
-        LOGGER.info("Starting polling result. First request in {}ms", initialWaitTime);
+        LOGGER.info("Starting polling results from {} First request in {}ms.", contentLocation, initialWaitTime);
         try {
             Thread.sleep(initialWaitTime);
         } catch (InterruptedException e) {

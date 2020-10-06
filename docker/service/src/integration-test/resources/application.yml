@@ -15,3 +15,9 @@ management:
             path-mapping.health: healthcheck
             exposure:
                 include: info, health, metrics
+
+embeddedFakeSpine:
+  enabled: False
+  port: 0
+  pollingInitialWaitTime: 0
+  pollingWaitTime: 0

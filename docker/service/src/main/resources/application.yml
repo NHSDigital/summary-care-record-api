@@ -1,6 +1,14 @@
 server:
   port: ${SCR_SERVER_PORT:8080}
 
+logging:
+  level:
+    root: "WARN"
+    uk:
+      nhs:
+        adaptors:
+          scr: "INFO"
+
 management:
   endpoints:
     web:
@@ -13,8 +21,14 @@ spine:
   url: ${SCR_SPINE_URL:http://localhost:8081}
   acsEndpoint: /acs
   scrEndpoint: /summarycarerecord
-  scrResultRepeatTimeout: 50000 # 50sec - how much time to wait for all repeated Spine GET retries
-  scrResultTimeout: 60000 # 60sec - how much time to wait for this API entire SCR POST (Spine POST + polling Spine GET)
+  scrResultRepeatTimeout: 10000 # 50sec - how much time to wait for all repeated Spine GET retries
+  scrResultTimeout: 10000 # 60sec - how much time to wait for this API entire SCR POST (Spine POST + polling Spine GET)
   endpointCert: ""
   endpointPrivateKey: ""
   caCerts: ""
+
+embeddedFakeSpine:
+  enabled: ${SCR_EMBEDDED_FAKE_SPINE_ENABLED:False}
+  port: ${SCR_EMBEDDED_FAKE_SPINE_PORT:8081}
+  pollingInitialWaitTime: ${SCR_EMBEDDED_FAKE_SPINE_POLLING_INITIAL_WAIT_TIME:200}
+  pollingWaitTime: ${SCR_EMBEDDED_FAKE_SPINE_POLLING_WAIT_TIME:500}

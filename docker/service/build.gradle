@@ -36,6 +36,7 @@ dependencies {
     implementation 'jaxen:jaxen:1.2.0'
     implementation 'org.apache.httpcomponents:httpclient:4.5.12'
     implementation 'com.heroku.sdk:env-keystore:1.1.4'
+    implementation "com.github.tomakehurst:wiremock-jre8-standalone:2.27.2"
 
     testImplementation 'org.projectlombok:lombok'
     testImplementation "org.mockito:mockito-core:3.3.3"
