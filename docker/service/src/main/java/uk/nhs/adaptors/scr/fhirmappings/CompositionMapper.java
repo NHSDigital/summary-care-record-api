@@ -4,6 +4,7 @@ import static uk.nhs.adaptors.scr.utils.DateUtil.formatDate;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.r4.model.Composition;
@@ -78,6 +79,7 @@ public class CompositionMapper {
                     }
                 }
 
+                presentation.setPresentationId(UUID.randomUUID().toString());
                 presentation.setPresentationText(value);
                 presentationList.add(presentation);
             }

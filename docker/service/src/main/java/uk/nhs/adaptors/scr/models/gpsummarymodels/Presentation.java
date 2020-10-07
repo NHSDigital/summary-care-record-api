@@ -6,5 +6,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Presentation {
+    private String presentationId;
     private String presentationText;
 }
