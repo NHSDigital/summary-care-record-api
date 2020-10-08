@@ -1,17 +1,12 @@
 package uk.nhs.adaptors.scr.component;
 
-import static java.nio.charset.StandardCharsets.UTF_8;
-import static java.nio.file.Files.readString;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.http.HttpMethod.POST;
-import static org.springframework.http.HttpStatus.OK;
-import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
+import com.github.tomakehurst.wiremock.WireMockServer;
+import com.github.tomakehurst.wiremock.client.WireMock;
+import com.github.tomakehurst.wiremock.matching.RequestPatternBuilder;
+import com.github.tomakehurst.wiremock.verification.LoggedRequest;
+import com.google.common.base.Charsets;
+import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,30 +14,39 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.Resource;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
+import uk.nhs.adaptors.scr.WireMockInitializer;
 
-import lombok.extern.slf4j.Slf4j;
-import uk.nhs.adaptors.scr.IntegrationTestsExtension;
-import uk.nhs.adaptors.scr.utils.ResourcesUtils;
-import uk.nhs.adaptors.scr.utils.SpineRequest;
-import uk.nhs.adaptors.scr.utils.spine.mock.SpineMockSetupEndpoint;
+import java.nio.file.Files;
+import java.util.List;
 
-@ExtendWith({SpringExtension.class, IntegrationTestsExtension.class})
+import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
+import static com.github.tomakehurst.wiremock.client.WireMock.postRequestedFor;
+import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo;
+import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.nio.file.Files.readString;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.http.HttpStatus.OK;
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+@ExtendWith({SpringExtension.class})
 @SpringBootTest
 @AutoConfigureMockMvc
 @Slf4j
+@ContextConfiguration(initializers = {WireMockInitializer.class})
 public class AcsTest {
     private static final String ACS_SET_RESOURCES_ENDPOINT = "/summary-care-record/consent";
-    private static final String ACS_GET_RESOURCES_ENDPOINT = "/summary-care-record/consent/{id}";
-    private static final String ACS_ENDPOINT = "/acs";
-    private static final int PATIENT_ID = 123;
+    private static final String ACS_SPINE_ENDPOINT = "/acs";
 
     @Autowired
     private MockMvc mockMvc;
 
     @Autowired
-    private SpineMockSetupEndpoint spineMockSetupEndpoint;
+    private WireMockServer wireMockServer;
 
     @Value("classpath:acs.consent.json")
     private Resource acsSetResourceRequest;
@@ -50,14 +54,21 @@ public class AcsTest {
     @Value("${spine.url}")
     private String spineUrl;
 
+    @Value("classpath:acs.set-resource.xml")
+    private Resource acsSetRequest;
+
+    @AfterEach
+    public void afterEach() {
+        this.wireMockServer.resetAll();
+    }
+
     @Test
     public void whenPostingAcsSetResourceThenExpect200() throws Exception {
-        spineMockSetupEndpoint
-            .onMockServer(spineUrl)
-            .forPath(ACS_ENDPOINT)
-            .forHttpMethod("POST")
-            .withHttpStatusCode(OK.value())
-            .withResponseContent("response");
+        wireMockServer.stubFor(
+            WireMock.post(ACS_SPINE_ENDPOINT)
+                .willReturn(aResponse()
+                    .withStatus(OK.value())
+                    .withBody("response")));
 
         String requestBody = readString(acsSetResourceRequest.getFile().toPath(), UTF_8);
         mockMvc.perform(
@@ -66,40 +77,13 @@ public class AcsTest {
                 .content(requestBody))
             .andExpect(status().isOk());
 
-        SpineRequest latestRequest = spineMockSetupEndpoint.getLatestRequest();
-        assertThat(latestRequest.getHttpMethod()).isEqualTo(POST.toString());
-        assertThat(latestRequest.getUrl()).isEqualTo(ACS_ENDPOINT);
-    }
+        wireMockServer.verify(1, postRequestedFor(urlEqualTo(ACS_SPINE_ENDPOINT)));
 
-    @Test
-    public void whenPostingAcsGetResourceThenExpect200() throws Exception {
-        spineMockSetupEndpoint
-            .onMockServer(spineUrl)
-            .forPath(ACS_ENDPOINT)
-            .forHttpMethod("POST")
-            .withHttpStatusCode(OK.value())
-            .withResponseContent(ResourcesUtils.getResourceAsString("/responses/get_resource_permissions.xml"));
+        List<LoggedRequest> requests = wireMockServer.findAll(RequestPatternBuilder.allRequests());
 
-        mockMvc.perform(
-            get(ACS_GET_RESOURCES_ENDPOINT, PATIENT_ID)
-                .contentType(APPLICATION_JSON_VALUE))
-            .andDo(print())
-            .andExpect(status().isOk());
-    }
+        var request = requests.get(0);
 
-    @Test
-    public void whenPostingAcsReturnsInvalidXmlThenGetResourceShouldReturn500() throws Exception {
-        spineMockSetupEndpoint
-            .onMockServer(spineUrl)
-            .forPath(ACS_ENDPOINT)
-            .forHttpMethod("POST")
-            .withHttpStatusCode(OK.value())
-            .withResponseContent("response");
-
-        mockMvc.perform(
-            get(ACS_GET_RESOURCES_ENDPOINT, PATIENT_ID)
-                .contentType(APPLICATION_JSON_VALUE))
-            .andDo(print())
-            .andExpect(status().isInternalServerError());
+        assertThat(request.getBodyAsString())
+            .isEqualTo(Files.readString(acsSetRequest.getFile().toPath(), Charsets.UTF_8));
     }
 }

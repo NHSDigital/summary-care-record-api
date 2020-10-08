@@ -36,7 +36,7 @@ public class FhirParser {
         try {
             return parser.parseResource(body);
         } catch (DataFormatException e) {
-            throw new FhirValidationException("Unable to parse JSON resource: " + e.getMessage());
+            throw new FhirValidationException("Unable to parse " + parser.getEncoding().name() + " resource: " + e.getMessage());
         }
     }
 

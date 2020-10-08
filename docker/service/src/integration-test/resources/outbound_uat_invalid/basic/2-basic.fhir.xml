@@ -1,0 +1,105 @@
+<Bundle xmlns="http://hl7.org/fhir">
+    <id value="f61e545c-d52c-4b62-9668-3dcc6c27fc50"/>
+    <identifier>
+        <system value="https://tools.ietf.org/html/rfc4122"/>
+        <value value="BDE9311B-82A2-422F-9D7E-D0C991A57816"/>
+    </identifier>
+    <type value="document"/>
+    <timestamp value="2012-03-15T06:51:38Z"/>
+    <entry>
+        <fullUrl value="urn:uuid:83c26c8f-ee72-4534-8891-0136972b2106"/>
+        <resource>
+            <PractitionerRole>
+                <id value="83c26c8f-ee72-4534-8891-0136972b2106"/>
+                <identifier>
+                    <system value="http://fhir.nhs.net/Id/sds-role-profile-id"/>
+                    <value value="055888118514"/>
+                </identifier>
+                <practitioner>
+                    <reference value="urn:uuid:b1a41ee5-b88b-4f66-bd83-24343bf63dd8"/>
+                </practitioner>
+                <organization>
+                    <reference value="urn:uuid:a82b49f8-2780-47cc-aa4b-62f79aa4ade9"/>
+                </organization>
+                <code>
+                    <coding>
+                        <code value="R0070"/>
+                        <display value="Associate Specialist"/>
+                        <system value="https://fhir.nhs.uk/R4/CodeSystem/UKCore-SDSJobRoleName"/>
+                    </coding>
+                </code>
+            </PractitionerRole>
+        </resource>
+    </entry>
+    <entry>
+        <fullUrl value="urn:uuid:a82b49f8-2780-47cc-aa4b-62f79aa4ade9"/>
+        <resource>
+            <Organization>
+                <id value="a82b49f8-2780-47cc-aa4b-62f79aa4ade9"/>
+                <identifier>
+                    <use value="official"/>
+                    <system value="https://fhir.nhs.uk/Id/ods-organization-code"/>
+                    <value value="RR8"/>
+                </identifier>
+                <type>
+                    <coding>
+                        <code value="1"/>
+                        <system value="1"/>
+                        <display value="1"/>
+                    </coding>
+                </type>
+                <name value="LEEDS TEACHING HOSPITAL TRUST"/>
+                <telecom>
+                    <system value="phone"/>
+                    <value value="0113 243 3144"/>
+                </telecom>
+                <address>
+                    <line value="ST. JAMES&#39;S UNIVERSITY HOSPITAL"/>
+                    <line value="BECKETT STREET"/>
+                    <city value="LEEDS"/>
+                    <district value="CITY OF LEEDS"/>
+                    <postalCode value="LS9 7TF"/>
+                    <country value="ENGLAND"/>
+                </address>
+            </Organization>
+        </resource>
+    </entry>
+    <entry>
+        <fullUrl value="urn:uuid:b1a41ee5-b88b-4f66-bd83-24343bf63dd8"/>
+        <resource>
+            <Practitioner>
+                <id value="b1a41ee5-b88b-4f66-bd83-24343bf63dd8"/>
+                <identifier>
+                    <system value="https://fhir.nhs.uk/Id/sds-user-id"/>
+                    <value value="979603625513"/>
+                </identifier>
+                <name>
+                    <family value="Jones"/>
+                    <given value="Steve"/>
+                    <prefix value="Dr"/>
+                </name>
+            </Practitioner>
+        </resource>
+    </entry>
+    <entry>
+        <fullUrl value="urn:uuid:b6f5dd89-fc3a-466d-baad-126c0aac46fc"/>
+        <resource>
+            <Patient>
+                <id value="b6f5dd89-fc3a-466d-baad-126c0aac46fc"/>
+                <identifier>
+                    <extension url="https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-NHSNumberVerificationStatus-1">
+                        <valueCodeableConcept>
+                            <coding>
+                                <system value="https://fhir.hl7.org.uk/STU3/CodeSystem/CareConnect-NHSNumberVerificationStatus-1"/>
+                                <code value="01"/>
+                                <display value="Number present and verified"/>
+                            </coding>
+                        </valueCodeableConcept>
+                    </extension>
+                    <system value="https://fhir.nhs.uk/Id/nhs-number"/>
+                    <value value="9446245796"/>
+                </identifier>
+            </Patient>
+        </resource>
+    </entry>
+</Bundle>

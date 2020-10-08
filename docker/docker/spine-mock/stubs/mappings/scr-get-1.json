@@ -1,0 +1,15 @@
+{
+    "request": {
+        "method": "GET",
+        "url": "/content"
+    },
+    "response": {
+        "headers": {
+            "Retry-After": "1000"
+        },
+        "status": 202
+    },
+    "scenarioName": "test",
+    "requiredScenarioState": "Started",
+    "newScenarioState": "DataReady"
+}

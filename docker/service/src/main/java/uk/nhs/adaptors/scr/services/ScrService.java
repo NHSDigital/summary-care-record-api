@@ -1,5 +1,7 @@
 package uk.nhs.adaptors.scr.services;
 
+import com.github.mustachejava.Mustache;
+import lombok.extern.slf4j.Slf4j;
 import static uk.nhs.adaptors.scr.utils.ScrResponseParser.parseQueryListResponseXml;
 import static uk.nhs.adaptors.scr.utils.ScrResponseParser.parseQueryResponseXml;
 
@@ -17,6 +19,7 @@ import org.springframework.web.client.ResourceAccessException;
 import com.github.mustachejava.Mustache;
 
 import uk.nhs.adaptors.scr.clients.SpineClient;
+import uk.nhs.adaptors.scr.clients.SpineHttpClient;
 import uk.nhs.adaptors.scr.exceptions.ScrNoConsentException;
 import uk.nhs.adaptors.scr.hl7tofhirmappers.DocumentReferenceMapper;
 import uk.nhs.adaptors.scr.hl7tofhirmappers.PatientMapper;
@@ -26,7 +29,9 @@ import uk.nhs.adaptors.scr.utils.GpSummaryParser;
 import uk.nhs.adaptors.scr.utils.TemplateUtils;
 
 @Component
+@Slf4j
 public class ScrService {
+
     private static final PatientMapper patientMapper = new PatientMapper();
     private static final DocumentReferenceMapper documentReferenceMapper = new DocumentReferenceMapper(patientMapper);
     private static final Mustache REPC_RM150007UK05_TEMPLATE = TemplateUtils.loadTemplate("REPC_RM150007UK05.mustache");
@@ -36,11 +41,20 @@ public class ScrService {
     @Autowired
     private SpineClient spineClient;
 
+    private static final Mustache REPC_RM150007UK05_TEMPLATE =
+        TemplateUtils.loadTemplate("REPC_RM150007UK05.mustache");
+
     public void handleFhir(Bundle resource) {
         GpSummary gpSummary = GpSummaryParser.parseFromBundle(resource);
         String spineRequest = TemplateUtils.fillTemplate(REPC_RM150007UK05_TEMPLATE, gpSummary);
 
-        spineClient.sendSpineRequest(spineRequest);
+        var response = spineClient.sendScrData(spineRequest);
+
+        var contentLocation = SpineHttpClient.getHeader(response.getHeaders(), SpineHttpClient.CONTENT_LOCATION_HEADER);
+        var retryAfter = Long.parseLong(SpineHttpClient.getHeader(response.getHeaders(), SpineHttpClient.RETRY_AFTER_HEADER));
+
+        spineClient.getScrProcessingResult(contentLocation, retryAfter);
+        //TODO: should we map response to FHIR and return back to controller?
     }
 
     public DocumentReference getSummaryCareRecord(int patientId, String patientUUID) throws DocumentException {

@@ -1,0 +1,13 @@
+{
+    "request": {
+        "method": "GET",
+        "url": "/content"
+    },
+    "response": {
+        "status": 200,
+        "body": "processing finished"
+    },
+    "scenarioName": "test",
+    "requiredScenarioState": "DataReady",
+    "newScenarioState": "Started"
+}
