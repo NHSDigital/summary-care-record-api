@@ -1,12 +1,12 @@
 package uk.nhs.adaptors.scr.controllers.fhir;
 
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
 
 import static uk.nhs.adaptors.scr.controllers.FhirMediaTypes.APPLICATION_FHIR_JSON_VALUE;
 import static uk.nhs.adaptors.scr.controllers.FhirMediaTypes.APPLICATION_FHIR_XML_VALUE;
+
+import java.util.concurrent.Callable;
 
 import org.dom4j.DocumentException;
 import org.hl7.fhir.r4.model.Bundle;
@@ -15,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.HttpMediaTypeNotAcceptableException;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -29,17 +28,13 @@ import org.springframework.web.context.request.async.WebAsyncTask;
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.parser.IParser;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import uk.nhs.adaptors.scr.components.FhirParser;
 import uk.nhs.adaptors.scr.config.SpineConfiguration;
 import uk.nhs.adaptors.scr.exceptions.FhirValidationException;
-import uk.nhs.adaptors.scr.exceptions.ScrTimeoutException;
 import uk.nhs.adaptors.scr.exceptions.ScrNoConsentException;
+import uk.nhs.adaptors.scr.exceptions.ScrTimeoutException;
 import uk.nhs.adaptors.scr.services.ScrService;
-
-import java.util.concurrent.Callable;
-
-import static uk.nhs.adaptors.scr.controllers.FhirMediaTypes.APPLICATION_FHIR_JSON_VALUE;
-import static uk.nhs.adaptors.scr.controllers.FhirMediaTypes.APPLICATION_FHIR_XML_VALUE;
 
 @RestController
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
