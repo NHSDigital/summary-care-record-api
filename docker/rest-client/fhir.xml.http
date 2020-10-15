@@ -1,0 +1,7 @@
+POST {{BASE_URL}}:{{SCR-PORT}}/fhir HTTP/1.1
+Content-Type: application/fhir+xml
+
+<?xml version="1.0" encoding="UTF-8"?>
+<Patient xmlns="http://hl7.org/fhir">
+  <id value="example"/> 
+</Patient>

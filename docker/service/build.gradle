@@ -1,0 +1,105 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '2.3.3.RELEASE'
+    id "io.freefair.lombok" version "5.1.0"
+    id "checkstyle"
+    id "com.github.spotbugs" version "4.5.0"
+    id 'io.spring.dependency-management' version '1.0.9.RELEASE'
+}
+
+apply plugin: 'java'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'checkstyle'
+apply plugin: "com.github.spotbugs"
+
+group = 'uk.nhs.digital.nhsconnect'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+repositories {
+    mavenCentral()
+}
+
+lombok {
+    config['lombok.log.fieldName'] = 'LOGGER'
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.retry:spring-retry:1.3.0'
+    implementation 'ca.uhn.hapi.fhir:hapi-fhir-base:4.2.0'
+    implementation 'ca.uhn.hapi.fhir:hapi-fhir-structures-r4:4.2.0'
+    implementation 'ca.uhn.hapi.fhir:hapi-fhir-validation-resources-r4:4.2.0'
+    implementation 'com.github.spullara.mustache.java:compiler:0.9.5'
+    implementation 'org.dom4j:dom4j:2.1.3'
+    implementation 'jaxen:jaxen:1.2.0'
+    implementation 'org.apache.httpcomponents:httpclient:4.5.12'
+    implementation 'com.heroku.sdk:env-keystore:1.1.4'
+
+    testImplementation 'org.projectlombok:lombok'
+    testImplementation "org.mockito:mockito-core:3.3.3"
+    testImplementation "org.assertj:assertj-core:3.16.1"
+    testImplementation('org.springframework.boot:spring-boot-starter-test') {
+        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+    }
+    testImplementation "org.assertj:assertj-core:3.16.1"
+    testImplementation "io.rest-assured:rest-assured:4.2.0"
+    testImplementation "io.rest-assured:json-path:4.2.0"
+    testImplementation "io.rest-assured:xml-path:4.2.0"
+    testImplementation "com.github.tomakehurst:wiremock-jre8-standalone:2.27.2"
+}
+
+sourceSets {
+    integrationTest {
+        java {
+            compileClasspath += main.output + test.output
+            runtimeClasspath += main.output + test.output
+            srcDir file('src/integration-test/java')
+        }
+
+        resources {
+            srcDir file('src/integration-test/resources')
+        }
+    }
+}
+
+configurations {
+    integrationTestCompileOnly.extendsFrom testCompileOnly
+    integrationTestImplementation.extendsFrom testImplementation
+    integrationTestRuntime.extendsFrom testRuntime
+    integrationTestAnnotationProcessor.extendsFrom testAnnotationProcessor
+}
+
+task integrationTest(type: Test) {
+    useJUnitPlatform() {
+        description = 'Runs integration tests.'
+        group = 'verification'
+
+        testClassesDirs = sourceSets.integrationTest.output.classesDirs
+        classpath = sourceSets.integrationTest.runtimeClasspath
+        shouldRunAfter test
+    }
+}
+
+task staticCodeAnalysis(type: GradleBuild) {
+    tasks = [
+            'clean',
+            'checkstyleMain',
+            'checkstyleTest',
+            'checkstyleIntegrationTest',
+            'spotbugsMain',
+            'spotbugsTest',
+            'spotbugsIntegrationTest',
+    ]
+}
+
+check.dependsOn integrationTest
+
+tasks.withType(com.github.spotbugs.snom.SpotBugsTask) {
+    excludeFilter = rootProject.file('config/spotbugs/exclude.xml')
+    reports {
+        xml.enabled = false
+        html.enabled = true
+    }
+}

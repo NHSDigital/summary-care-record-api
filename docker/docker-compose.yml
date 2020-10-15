@@ -1,0 +1,17 @@
+version: '3'
+
+services:
+  scr:
+    image: uk.nhs/summary-care-record-api:0.0.1-SNAPSHOT
+    ports:
+      - "9000:8080"
+    environment:
+      - SCR_SPINE_URL=http://mock-spine-service:8081
+    links:
+      - "mock-spine-service"
+
+  mock-spine-service:
+    build:
+      context: ./docker/spine-mock
+    ports:
+      - "8081:8081"
