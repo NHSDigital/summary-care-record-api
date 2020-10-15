@@ -1,0 +1,4 @@
+docker_containers:
+  - name: scr-api
+    dockerfile: "docker/service/Dockerfile"
+    path: "docker/service"

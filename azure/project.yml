@@ -4,3 +4,4 @@ variables:
   short_service_name: scr
   product_display_name: Summary Care Record
   product_description: Summary Care Record
+  spec_file: summary-care-record.yaml
