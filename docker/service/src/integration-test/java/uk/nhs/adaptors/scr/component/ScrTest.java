@@ -95,7 +95,7 @@ public class ScrTest {
 
     @Test
     public void whenPostingFhirJsonThenExpect200() throws Exception {
-        whenPostingThenExpect200(
+        whenPostingInvalidContentThenExpect400(
             Files.readString(simpleFhirJson.getFile().toPath(), Charsets.UTF_8),
             FHIR_JSON_CONTENT_TYPE);
     }
