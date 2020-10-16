@@ -19,6 +19,8 @@ docker_service:
         valueFrom: "/ptl/api-deployment/sds/ldap/client-cert"
       - name: SCR_SECRET_CA_CERTS
         valueFrom: "/ptl/api-deployment/sds/ldap/ca-certs"
+      - name: SCR_EMBEDDED_FAKE_SPINE_ENABLED
+        valueFrom: "True"
     health_check:
       matcher: "200"
       path: "/healthcheck"
