@@ -1,54 +1,35 @@
 name: "$(SourceBranchName)+$(BuildID)"
 
-# Prevents building every commit or on PR
 trigger: none
 pr: none
 
-# Consume an artifact from the build pipeline as soon as it becomes available.
 resources:
-  pipelines:
-    - pipeline: summary-care-record
-      source: "Summary-Care-Record-Build"
-      trigger:
-        branches:
-          exclude:
-            - 'master'
-            - "refs/heads/master"
-            - 'refs/tags/v*'
   repositories:
-    - repository: templates
+    - repository: common
       type: github
       name: NHSDigital/api-management-utils
       endpoint: NHSDigital
-
-# env variables
-variables:
-  SERVICE_NAME: summary-care-record
-  SERVICE_BASE_PATH: summary-care-record
-  PRODUCT_DISPLAY_NAME: Summary Care Record API
-  PRODUCT_DESCRIPTION: This is a generated template API
-  AWS_ENV: ptl
-  FORCE_SANDBOX: false
-  NAMESPACE: from_branchname
-  PROXY_NAME: live
+  pipelines:
+  - pipeline: build_pipeline
+    source: "Summary-Care-Record-Build"
+    trigger:
+      branches:
+        exclude:
+          - master
+          - refs/heads/master
+          - refs/tags/v*
 
 pool:
   vmImage: 'ubuntu-latest'
 
-stages:
-  - stage: DeployInternalDev
-    displayName: internal-dev
-    variables:
-    - group: apigee-nonprod
-    - group: env-internal-dev
-    jobs:
-      - deployment: DeployService
-        displayName: Deploy Service
-        environment: 'internal-dev'
-        strategy:
-          runOnce:
-            deploy:
-              steps:
-                - template: az/templates/pre-tasks.yml@templates
-                - template: az/templates/setup-build-name.yml@templates
-                - template: az/templates/deploy-namespaced-service.yml@templates
+variables:
+  - template: project.yml
+
+extends:
+  template: azure/common/apigee-deployment.yml@common
+  parameters:
+    service_name: ${{ variables.service_name }}
+    service_base_path: ${{ variables.service_base_path }}
+    short_service_name: ${{ variables.short_service_name }}
+    product_display_name: ${{ variables.product_display_name }}
+    product_description: ${{ variables.product_description }}

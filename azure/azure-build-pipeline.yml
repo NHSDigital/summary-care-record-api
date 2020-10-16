@@ -14,79 +14,16 @@ pr:
 
 resources:
   repositories:
-    - repository: templates
+    - repository: common
       type: github
       name: NHSDigital/api-management-utils
-      ref: 'refs/heads/APM-1120-Template-Pipelines'
       endpoint: NHSDigital
 
-jobs:
-  - job: build
-    displayName: Build & Test
-    timeoutInMinutes: 10
-    pool:
-      vmImage: 'ubuntu-latest'
-    variables:
-      API_TEST_ENV_FILE_PATH: "tests/e2e/environments/local.postman_environment.json"
-      PIP_CACHE_DIR: ".poetry"
-      SERVICE_NAME: "summary-care-record"
-    steps:
-      - checkout: self
+variables:
+  - template: project.yml
 
-      - template: az/templates/setup-build-name.yml@templates
-
-      - task: UsePythonVersion@0
-        displayName: "Use Python 3.8"
-        inputs:
-          versionSpec: "3.8"
-
-      - bash: "sudo apt update && sudo apt-get install --yes default-jre default-jdk"
-        displayName: Install apt dependencies
-
-      - bash: "wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | sudo apt-key add -"
-        displayName: Add apt-key
-
-      - bash: "curl -sL https://deb.nodesource.com/setup_13.x | sudo -E bash -"
-        displayName: Setup node
-
-      - bash: sudo apt-get install -y nodejs
-        displayName: Install node
-
-      - bash: "python -m pip install --upgrade pip setuptools wheel && pip install poetry"
-        displayName: Install python dependencies
-
-      - task: Cache@2
-        displayName: "Cache Python Dependencies"
-        inputs:
-          key: '"$(Agent.OS)" | "python" | poetry.lock'
-          path: ".poetry"
-          restoreKeys: |
-            "$(Agent.OS)" | "python" | poetry.lock
-            "$(Agent.OS)" | "python"
-
-      - task: Cache@2
-        displayName: "Cache Package NPM Dependencies"
-        inputs:
-          key: '"$(Agent.OS)" | "node" | package-lock.json'
-          path: "node_modules"
-          restoreKeys: |
-            "$(Agent.OS)" | "node" | package-lock.json
-            "$(Agent.OS)" | "node"
-
-      - bash: "make install"
-        displayName: Install repo
-
-      - bash: "make check-licenses"
-        displayName: Check licenses
-
-      - bash: "make lint"
-        displayName: Lint
-
-      - bash: "make publish"
-        displayName: Compile Spec
-
-      - bash: "make release"
-        displayName: Build Release Package
-
-      - publish: dist/
-        artifact: '$(Build.BuildNumber)'
+extends:
+  template: azure/common/apigee-build.yml@common
+  parameters:
+    service_name: ${{ variables.service_name }}
+    short_service_name: ${{ variables.short_service_name }}
