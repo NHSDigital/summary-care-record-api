@@ -25,8 +25,8 @@ public class FhirHelper {
     public static <T extends Resource> List<T> getDomainResourceList(Bundle bundle, Class<T> resourceType) {
         List<T> resourceList = new ArrayList<>();
 
-        for (BundleEntryComponent bundleEntryComponent : bundle.getEntry()){
-            if (bundleEntryComponent.getResource().getResourceType().toString().equals(resourceType.getSimpleName())){
+        for (BundleEntryComponent bundleEntryComponent : bundle.getEntry()) {
+            if (bundleEntryComponent.getResource().getResourceType().toString().equals(resourceType.getSimpleName())) {
                 resourceList.add(((T) bundleEntryComponent.getResource()));
             }
         }

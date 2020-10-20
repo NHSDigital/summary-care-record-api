@@ -144,17 +144,58 @@
                                 <code code="163171000000105" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Care Professional Documentation"/>
                             </pertinentRootCREType>
                         </pertinentInformation1>
+                        {{#conditionParent}}
                         <pertinentInformation2 typeCode="PERT" inversionInd="false" contextConductionInd="true" negationInd="false">
-                            <seperatableInd value="true"/>
                             <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.pertinentInformation1"/>
+                            <seperatableInd value="true"/>
                             <pertinentCREType classCode="CATEGORY" moodCode="EVN">
-                                <code code="" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName=""/>
+                                <code code="163001000000103" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Diagnoses"/>
+                                {{#conditionList}}
+                                    <component typeCode="COMP" contextConductionInd="true">
+                                        <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.component"/>
+                                        <seperatableInd value="false"/>
+                                        <UKCT_MT144042UK01.Diagnosis classCode="CON" moodCode="EVN">
+                                            <id root="{{conditionId}}"/>
+                                            <code code="{{conditionCode}}" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="{{conditionDisplay}}">
+                                            </code>
+                                            <statusCode code="{{conditionStatus}}"/>
+                                            <effectiveTime>
+                                                <low value="{{conditionStartTime}}"/>
+                                                {{#conditionEndTimeList}}
+                                                <high value="{{endTime}}"/>
+                                                {{/conditionEndTimeList}}
+                                            </effectiveTime>
+                                        </UKCT_MT144042UK01.Diagnosis>
+                                    </component>
+                                {{/conditionList}}
+                            </pertinentCREType>
+                        </pertinentInformation2>
+                        {{/conditionParent}}
+                        {{#observationList}}
+                        <pertinentInformation2 typeCode="PERT" inversionInd="false" contextConductionInd="true" negationInd="false">
+                            <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.pertinentInformation1"/>
+                            <seperatableInd value="true"/>
+                            <pertinentCREType classCode="CATEGORY" moodCode="EVN">
+                                <code code="163001000000104" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Investigation Results"/>
                                 <component typeCode="COMP" contextConductionInd="true">
-                                    <seperatableInd value="false"/>
                                     <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.component"/>
+                                    <seperatableInd value="false"/>
+                                    <UKCT_MT144043UK02.Finding classCode="OBS" moodCode="EVN">
+                                        <id root="{{observationId}}"/>
+                                        <code code="{{observationCode}}" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="{{observationDisplay}}">
+                                        </code>
+                                        <statusCode code="{{observationStatus}}"/>
+                                        <effectiveTime>
+                                            <low value="{{observationStartTime}}"/>
+                                            {{#observationEndTimeList}}
+                                            <high value="{{endTime}}"/>
+                                            {{/observationEndTimeList}}
+                                        </effectiveTime>
+                                    </UKCT_MT144043UK02.Finding>
                                 </component>
                             </pertinentCREType>
                         </pertinentInformation2>
+                        {{/observationList}}
                         {{#patientIds}}
                         <recordTarget typeCode="RCT">
                             <patient classCode="PAT">

@@ -5,6 +5,8 @@ import static uk.nhs.adaptors.scr.fhirmappings.OrganizationMapper.mapOrganizatio
 import static uk.nhs.adaptors.scr.fhirmappings.PatientMapper.mapPatient;
 import static uk.nhs.adaptors.scr.fhirmappings.PractitionerMapper.mapPractitioner;
 import static uk.nhs.adaptors.scr.fhirmappings.PractitionerRoleMapper.mapPractitionerRole;
+import static uk.nhs.adaptors.scr.fhirmappings.ObservationMapper.mapObservations;
+import static uk.nhs.adaptors.scr.fhirmappings.ConditionMapper.mapConditions;
 import static uk.nhs.adaptors.scr.utils.DateUtil.formatDate;
 import static uk.nhs.adaptors.scr.utils.FhirHelper.getDomainResource;
 import static uk.nhs.adaptors.scr.utils.FhirHelper.getDomainResourceList;
@@ -45,7 +47,8 @@ public class GpSummaryParser {
         mapOrganization(gpSummary, organization);
         mapPractitioner(gpSummary, practitioner);
         mapPatient(gpSummary, patient);
-        //TODO: create mappers for observation and condition
+        mapObservations(gpSummary, observationList);
+        mapConditions(gpSummary, conditionList);
 
         return gpSummary;
     }

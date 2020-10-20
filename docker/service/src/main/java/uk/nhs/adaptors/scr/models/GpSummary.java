@@ -5,6 +5,8 @@ import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 import uk.nhs.adaptors.scr.models.gpsummarymodels.CompositionRelatesTo;
+import uk.nhs.adaptors.scr.models.gpsummarymodels.AllConditions;
+import uk.nhs.adaptors.scr.models.gpsummarymodels.ObservationObject;
 import uk.nhs.adaptors.scr.models.gpsummarymodels.OrganizationAddress;
 import uk.nhs.adaptors.scr.models.gpsummarymodels.OrganizationId;
 import uk.nhs.adaptors.scr.models.gpsummarymodels.OrganizationTelecom;
@@ -35,4 +37,6 @@ public class GpSummary {
     private List<OrganizationId> organizationIds;
     private List<PatientId> patientIds;
     private List<Presentation> presentations;
+    private List<ObservationObject> observationList;
+    private List<AllConditions> conditionParent;
 }
