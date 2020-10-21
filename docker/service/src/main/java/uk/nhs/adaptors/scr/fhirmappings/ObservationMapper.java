@@ -4,12 +4,12 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import org.hl7.fhir.r4.model.Coding;
 import org.hl7.fhir.r4.model.Identifier;
 import org.hl7.fhir.r4.model.Observation;
 import org.hl7.fhir.r4.model.Period;
+import org.hl7.fhir.r4.model.Resource;
 
 import uk.nhs.adaptors.scr.exceptions.FhirMappingException;
 import uk.nhs.adaptors.scr.models.GpSummary;
@@ -19,11 +19,12 @@ import uk.nhs.adaptors.scr.utils.DateUtil;
 
 public class ObservationMapper {
 
-    public static void mapObservations(GpSummary gpSummary, List<Observation> observations) throws FhirMappingException {
+    public static void mapObservations(GpSummary gpSummary, List<Resource> observations) throws FhirMappingException {
         List<ObservationObject> observationList = new ArrayList<>();
-        for (Observation observation : observations) {
-            observationList.add(getObservationObject(observation));
+        for (Resource observation : observations) {
+            observationList.add(getObservationObject((Observation) observation));
         }
+
         gpSummary.setObservationList(observationList);
     }
 
@@ -61,10 +62,9 @@ public class ObservationMapper {
         }
     }
 
-    private static void getObservationStatus(ObservationObject observationObject, Observation observation) {
+    private static void getObservationStatus(ObservationObject observationObject, Observation observation) throws FhirMappingException {
         if (observation.hasStatus()) {
-            Optional<String> status = getHL7Status(observation.getStatus().toString().toLowerCase());
-            status.ifPresent(observationObject::setObservationStatus);
+            observationObject.setObservationStatus(getHL7Status(observation.getStatus().toString().toLowerCase()));
         }
     }
 
@@ -91,14 +91,14 @@ public class ObservationMapper {
         }
     }
 
-    private static Optional<String> getHL7Status(String status) {
+    private static String getHL7Status(String status) {
         switch (status) {
             case "entered-in-error":
-                return Optional.of("nullified");
+                return "nullified";
             case "final":
-                return Optional.of("completed");
+                return "completed";
             default:
-                return Optional.empty();
+                throw new FhirMappingException("Observation status is not valid, can only be final or entered-in-error.");
         }
     }
 }

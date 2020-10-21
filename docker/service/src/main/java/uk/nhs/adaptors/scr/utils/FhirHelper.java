@@ -1,10 +1,11 @@
 package uk.nhs.adaptors.scr.utils;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.hl7.fhir.r4.model.Bundle;
 import org.hl7.fhir.r4.model.Bundle.BundleEntryComponent;
+import org.hl7.fhir.r4.model.Enumerations;
 import org.hl7.fhir.r4.model.Resource;
 
 import uk.nhs.adaptors.scr.exceptions.FhirMappingException;
@@ -22,15 +23,10 @@ public class FhirHelper {
             .orElseThrow(() -> new FhirMappingException(resourceType.getSimpleName() + " missing from payload"));
     }
 
-    public static <T extends Resource> List<T> getDomainResourceList(Bundle bundle, Class<T> resourceType) {
-        List<T> resourceList = new ArrayList<>();
-
-        for (BundleEntryComponent bundleEntryComponent : bundle.getEntry()) {
-            if (bundleEntryComponent.getResource().getResourceType().toString().equals(resourceType.getSimpleName())) {
-                resourceList.add(((T) bundleEntryComponent.getResource()));
-            }
-        }
-
-        return resourceList;
+    public static List<Resource> getDomainResourceList(Bundle bundle, Enumerations.ResourceType resourceType) {
+        return bundle.getEntry().stream()
+            .map(BundleEntryComponent::getResource)
+            .filter(resType -> resType.getResourceType().toString().toLowerCase().equals(resourceType.toString().toLowerCase()))
+            .collect(Collectors.toList());
     }
 }
