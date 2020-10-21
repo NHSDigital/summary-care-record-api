@@ -4,6 +4,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.hl7.fhir.r4.model.CodeableConcept;
 import org.hl7.fhir.r4.model.Coding;
@@ -21,15 +22,15 @@ import uk.nhs.adaptors.scr.utils.DateUtil;
 
 public class ConditionMapper {
     public static void mapConditions(GpSummary gpSummary, List<Resource> conditions) throws FhirMappingException {
-        AllConditions conditionListObject = new AllConditions();
-        List<AllConditions> conditionParent = new ArrayList<>();
-
-        List<ConditionObject> conditionObjectList = new ArrayList<>();
-        for (Resource condition : conditions) {
-            conditionObjectList.add(mapCondition((Condition) condition));
-        }
+        List<ConditionObject> conditionObjectList = conditions.stream()
+            .map(Condition.class::cast)
+            .map(ConditionMapper::mapCondition)
+            .collect(Collectors.toList());
 
         if (!conditionObjectList.isEmpty()) {
+            AllConditions conditionListObject = new AllConditions();
+            List<AllConditions> conditionParent = new ArrayList<>();
+
             conditionListObject.setConditionList(conditionObjectList);
             conditionParent.add(conditionListObject);
             gpSummary.setConditionParent(conditionParent);

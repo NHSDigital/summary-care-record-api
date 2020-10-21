@@ -4,6 +4,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.hl7.fhir.r4.model.Coding;
 import org.hl7.fhir.r4.model.Identifier;
@@ -20,10 +21,10 @@ import uk.nhs.adaptors.scr.utils.DateUtil;
 public class ObservationMapper {
 
     public static void mapObservations(GpSummary gpSummary, List<Resource> observations) throws FhirMappingException {
-        List<ObservationObject> observationList = new ArrayList<>();
-        for (Resource observation : observations) {
-            observationList.add(getObservationObject((Observation) observation));
-        }
+        List<ObservationObject> observationList = observations.stream()
+            .map(Observation.class::cast)
+            .map(ObservationMapper::getObservationObject)
+            .collect(Collectors.toList());
 
         gpSummary.setObservationList(observationList);
     }
@@ -31,15 +32,15 @@ public class ObservationMapper {
     private static ObservationObject getObservationObject(Observation observation) throws FhirMappingException {
         ObservationObject observationObject = new ObservationObject();
 
-        getObservationCoding(observationObject, observation);
-        getObservationId(observationObject, observation);
-        getObservationStatus(observationObject, observation);
-        getObservationStartTime(observationObject, observation);
+        setObservationCoding(observationObject, observation);
+        setObservationId(observationObject, observation);
+        setObservationStatus(observationObject, observation);
+        setObservationStartTime(observationObject, observation);
 
         return observationObject;
     }
 
-    private static void getObservationCoding(ObservationObject observationObject, Observation observation) {
+    private static void setObservationCoding(ObservationObject observationObject, Observation observation) {
         if (observation.hasCode()) {
             if (observation.getCode().hasCoding()) {
                 Coding coding = observation.getCode().getCodingFirstRep();
@@ -53,7 +54,7 @@ public class ObservationMapper {
         }
     }
 
-    private static void getObservationId(ObservationObject observationObject, Observation observation) {
+    private static void setObservationId(ObservationObject observationObject, Observation observation) {
         if (observation.hasIdentifier()) {
             Identifier identifier = observation.getIdentifierFirstRep();
             if (identifier.hasValue()) {
@@ -62,19 +63,19 @@ public class ObservationMapper {
         }
     }
 
-    private static void getObservationStatus(ObservationObject observationObject, Observation observation) throws FhirMappingException {
+    private static void setObservationStatus(ObservationObject observationObject, Observation observation) throws FhirMappingException {
         if (observation.hasStatus()) {
             observationObject.setObservationStatus(getHL7Status(observation.getStatus().toString().toLowerCase()));
         }
     }
 
-    private static void getObservationStartTime(ObservationObject observationObject, Observation observation) throws FhirMappingException {
+    private static void setObservationStartTime(ObservationObject observationObject, Observation observation) throws FhirMappingException {
         if (observation.hasEffectiveDateTimeType()) {
             String strDate = observation.getEffectiveDateTimeType().getValueAsString();
             observationObject.setObservationStartTime(DateUtil.formatDateFhirToHl7(strDate));
         }
         if (observation.hasEffectivePeriod()) {
-            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+            DateFormat dateFormat = new SimpleDateFormat(DateUtil.INPUT_PATTERN);
             Period period = observation.getEffectivePeriod();
             if (period.hasStart()) {
                 String strDate = dateFormat.format(period.getStart());

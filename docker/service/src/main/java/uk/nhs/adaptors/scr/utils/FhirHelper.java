@@ -5,8 +5,8 @@ import java.util.stream.Collectors;
 
 import org.hl7.fhir.r4.model.Bundle;
 import org.hl7.fhir.r4.model.Bundle.BundleEntryComponent;
-import org.hl7.fhir.r4.model.Enumerations;
 import org.hl7.fhir.r4.model.Resource;
+import org.hl7.fhir.r4.model.ResourceType;
 
 import uk.nhs.adaptors.scr.exceptions.FhirMappingException;
 
@@ -23,10 +23,10 @@ public class FhirHelper {
             .orElseThrow(() -> new FhirMappingException(resourceType.getSimpleName() + " missing from payload"));
     }
 
-    public static List<Resource> getDomainResourceList(Bundle bundle, Enumerations.ResourceType resourceType) {
+    public static List<Resource> getDomainResourceList(Bundle bundle, ResourceType resourceType) {
         return bundle.getEntry().stream()
             .map(BundleEntryComponent::getResource)
-            .filter(resType -> resType.getResourceType().toString().toLowerCase().equals(resourceType.toString().toLowerCase()))
+            .filter(resource -> resource.getResourceType() == resourceType)
             .collect(Collectors.toList());
     }
 }

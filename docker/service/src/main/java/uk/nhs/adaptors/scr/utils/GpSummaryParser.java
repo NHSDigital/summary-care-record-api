@@ -15,12 +15,12 @@ import java.util.List;
 
 import org.hl7.fhir.r4.model.Bundle;
 import org.hl7.fhir.r4.model.Composition;
-import org.hl7.fhir.r4.model.Enumerations;
 import org.hl7.fhir.r4.model.Organization;
 import org.hl7.fhir.r4.model.Patient;
 import org.hl7.fhir.r4.model.Practitioner;
 import org.hl7.fhir.r4.model.PractitionerRole;
 import org.hl7.fhir.r4.model.Resource;
+import org.hl7.fhir.r4.model.ResourceType;
 
 import lombok.extern.slf4j.Slf4j;
 import uk.nhs.adaptors.scr.exceptions.FhirMappingException;
@@ -34,8 +34,8 @@ public class GpSummaryParser {
         Organization organization = getDomainResource(bundle, Organization.class);
         Practitioner practitioner = getDomainResource(bundle, Practitioner.class);
         Patient patient = getDomainResource(bundle, Patient.class);
-        List<Resource> conditionList = getDomainResourceList(bundle, Enumerations.ResourceType.CONDITION);
-        List<Resource> observationList = getDomainResourceList(bundle, Enumerations.ResourceType.OBSERVATION);
+        List<Resource> conditionList = getDomainResourceList(bundle, ResourceType.Condition);
+        List<Resource> observationList = getDomainResourceList(bundle, ResourceType.Observation);
 
         GpSummary gpSummary = new GpSummary();
 
