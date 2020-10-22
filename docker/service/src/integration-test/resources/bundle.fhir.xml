@@ -39,6 +39,120 @@
           </targetIdentifier>
         </relatesTo>
         <section>
+          <title value="Diagnoses"/>
+          <code>
+            <coding>
+              <code value="Title"/>
+            </coding>
+          </code>
+          <text>
+            <status value="generated"/>
+            <div xmlns="http://www.w3.org/1999/xhtml">
+              <h3>Sourced from the patient's General Practice record. This information has not been verified by the practice prior to sending. This summary
+                may not include all the information pertinent to this patient NB the patient may have opted to leave out items from this summary</h3>
+              <h3>Time of summary creation 16.00 15-Mar-2007</h3>
+              <h3>Author Dr Steve Jones, The Bridge Street Practice, Bridge Street, Bridge Town, Bridgeshire,
+                BT1 1BT, England, +4401234567890</h3>
+              <h3>Date of sending this summary 15-Mar-2007</h3>
+            </div>
+          </text>
+        </section>
+        <section>
+          <title value="Diagnoses"/>
+          <code>
+            <coding>
+              <code value="Title"/>
+            </coding>
+          </code>
+          <text>
+            <status value="generated"/>
+            <div xmlns="http://www.w3.org/1999/xhtml">
+              <h3>Sourced from the patient's General Practice record. This information has not been verified by the practice prior to sending. This summary
+                may not include all the information pertinent to this patient NB the patient may have opted to leave out items from this summary</h3>
+              <h3>Time of summary creation 16.00 15-Mar-2007</h3>
+              <h3>Author Dr Steve Jones, The Bridge Street Practice, Bridge Street, Bridge Town, Bridgeshire,
+                BT1 1BT, England, +4401234567890</h3>
+              <h3>Date of sending this summary 15-Mar-2007</h3>
+            </div>
+          </text>
+        </section>
+        <section>
+          <title value="Diagnoses"/>
+          <code>
+            <coding>
+              <code value="Title"/>
+            </coding>
+          </code>
+          <text>
+            <status value="generated"/>
+            <div xmlns="http://www.w3.org/1999/xhtml">
+              <h3>Sourced from the patient's General Practice record. This information has not been verified by the practice prior to sending. This summary
+                may not include all the information pertinent to this patient NB the patient may have opted to leave out items from this summary</h3>
+              <h3>Time of summary creation 16.00 15-Mar-2007</h3>
+              <h3>Author Dr Steve Jones, The Bridge Street Practice, Bridge Street, Bridge Town, Bridgeshire,
+                BT1 1BT, England, +4401234567890</h3>
+              <h3>Date of sending this summary 15-Mar-2007</h3>
+            </div>
+          </text>
+        </section>
+        <section>
+          <title value="Diagnoses"/>
+          <code>
+            <coding>
+              <code value="Title"/>
+            </coding>
+          </code>
+          <text>
+            <status value="generated"/>
+            <div xmlns="http://www.w3.org/1999/xhtml">
+              <h3>Sourced from the patient's General Practice record. This information has not been verified by the practice prior to sending. This summary
+                may not include all the information pertinent to this patient NB the patient may have opted to leave out items from this summary</h3>
+              <h3>Time of summary creation 16.00 15-Mar-2007</h3>
+              <h3>Author Dr Steve Jones, The Bridge Street Practice, Bridge Street, Bridge Town, Bridgeshire,
+                BT1 1BT, England, +4401234567890</h3>
+              <h3>Date of sending this summary 15-Mar-2007</h3>
+            </div>
+          </text>
+        </section>
+        <section>
+          <title value="Clinical observations and findings"/>
+          <code>
+            <coding>
+              <code value="Title"/>
+            </coding>
+          </code>
+          <text>
+            <status value="generated"/>
+            <div xmlns="http://www.w3.org/1999/xhtml">
+              <h3>Sourced from the patient's General Practice record. This information has not been verified by the practice prior to sending. This summary
+                may not include all the information pertinent to this patient NB the patient may have opted to leave out items from this summary</h3>
+              <h3>Time of summary creation 16.00 15-Mar-2007</h3>
+              <h3>Author Dr Steve Jones, The Bridge Street Practice, Bridge Street, Bridge Town, Bridgeshire,
+                BT1 1BT, England, +4401234567890</h3>
+              <h3>Date of sending this summary 15-Mar-2007</h3>
+            </div>
+          </text>
+        </section>
+        <section>
+          <title value="Investigation results"/>
+          <code>
+            <coding>
+              <code value="Title"/>
+            </coding>
+          </code>
+          <text>
+            <status value="generated"/>
+            <div xmlns="http://www.w3.org/1999/xhtml">
+              <h3>Sourced from the patient's General Practice record. This information has not been verified by the practice prior to sending. This summary
+                may not include all the information pertinent to this patient NB the patient may have opted to leave out items from this summary</h3>
+              <h3>Time of summary creation 16.00 15-Mar-2007</h3>
+              <h3>Author Dr Steve Jones, The Bridge Street Practice, Bridge Street, Bridge Town, Bridgeshire,
+                BT1 1BT, England, +4401234567890</h3>
+              <h3>Date of sending this summary 15-Mar-2007</h3>
+            </div>
+          </text>
+        </section>
+        <section>
           <title value="General Practice Summary"/>
           <code>
             <coding>
@@ -252,6 +366,166 @@
           <value value="9900004948"/>
         </identifier>
       </Patient>
+    </resource>
+  </entry>
+  <entry>
+    <fullUrl value="baecc1c2-c86c-482c-8cea-981b47a6cc48"/>
+    <resource>
+      <Condition xmlns="http://hl7.org/fhir">
+        <meta>
+          <profile value="https://fhir.nhs.uk/R4/StructureDefinition/UKCore-Condition" />
+        </meta>
+        <identifier>
+          <value value="0F582D97-8F89-11EA-8B2D-B741F13EFC47"/>
+        </identifier>
+        <clinicalStatus>
+          <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/condition-clinical" />
+            <code value="active" />
+            <display value="Active" />
+          </coding>
+        </clinicalStatus>
+        <code>
+          <coding>
+            <system value="http://snomed.info/sct" />
+            <code value="1240751000000100" />
+            <display value="COVID-19"/>
+          </coding>
+        </code>
+        <onsetDateTime value="2020-05-06T10:48:19+00:00"/>
+      </Condition>
+    </resource>
+  </entry>
+  <entry>
+    <fullUrl value="baecc1c2-c86c-482c-8cea-981b47a6cc48"/>
+    <resource>
+      <Condition xmlns="http://hl7.org/fhir">
+        <meta>
+          <profile value="https://fhir.nhs.uk/R4/StructureDefinition/UKCore-Condition" />
+        </meta>
+        <identifier>
+          <value value="0F582D97-8F89-11EA-8B2D-B741F13EFC47"/>
+        </identifier>
+        <clinicalStatus>
+          <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/condition-clinical" />
+            <code value="active" />
+            <display value="Active" />
+          </coding>
+        </clinicalStatus>
+        <code>
+          <coding>
+            <system value="http://snomed.info/sct" />
+            <code value="1300721000000109" />
+            <display value="COVID-19 confirmed by laboratory test"/>
+          </coding>
+        </code>
+        <onsetDateTime value="2020-05-06T10:48:19+00:00"/>
+      </Condition>
+    </resource>
+  </entry>
+  <entry>
+    <fullUrl value="baecc1c2-c86c-482c-8cea-981b47a6cc48"/>
+    <resource>
+      <Condition xmlns="http://hl7.org/fhir">
+        <meta>
+          <profile value="https://fhir.nhs.uk/R4/StructureDefinition/UKCore-Condition" />
+        </meta>
+        <identifier>
+          <value value="0F582D97-8F89-11EA-8B2D-B741F13EFC47"/>
+        </identifier>
+        <clinicalStatus>
+          <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/condition-clinical" />
+            <code value="active" />
+            <display value="Active" />
+          </coding>
+        </clinicalStatus>
+        <code>
+          <coding>
+            <system value="http://snomed.info/sct" />
+            <code value="1300731000000106" />
+            <display value="COVID-19 confirmed using clinical diagnostic criteria"/>
+          </coding>
+        </code>
+        <onsetDateTime value="2020-05-06T10:48:19+00:00"/>
+      </Condition>
+    </resource>
+  </entry>
+  <entry>
+    <fullUrl value="baecc1c2-c86c-482c-8cea-981b47a6cc48"/>
+    <resource>
+      <Condition xmlns="http://hl7.org/fhir">
+        <meta>
+          <profile value="https://fhir.nhs.uk/R4/StructureDefinition/UKCore-Condition" />
+        </meta>
+        <identifier>
+          <value value="0F582D97-8F89-11EA-8B2D-B741F13EFC47"/>
+        </identifier>
+        <clinicalStatus>
+          <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/condition-clinical" />
+            <code value="active" />
+            <display value="Active" />
+          </coding>
+        </clinicalStatus>
+        <code>
+          <coding>
+            <system value="http://snomed.info/sct" />
+            <code value="1240761000000102" />
+            <display value="Suspected COVID-19"/>
+          </coding>
+        </code>
+        <onsetDateTime value="2020-05-06T10:48:19+00:00"/>
+      </Condition>
+    </resource>
+  </entry>
+  <entry>
+    <fullUrl value="baecc1c2-c86c-482c-8cea-981b47a6cc48"/>
+    <resource>
+      <Observation>
+        <meta>
+          <profile value="https://fhir.nhs.uk/R4/StructureDefinition/UKCore-Observation" />
+        </meta>
+        <identifier>
+          <value value="0F582D92-8F89-11EA-8B2D-B741F13EFC47"/>
+        </identifier>
+        <status value="final"/>
+        <code>
+          <coding>
+            <code value="163131000000108"/>
+            <display value="SARS-CoV-2 (severe acute respiratory syndrome coronavirus 2) RNA (ribonucleic acid) detection result positive"/>
+            <system value="http://snomed.info/sct"/>
+          </coding>
+        </code>
+        <effectivePeriod>
+          <start value="2020-05-06T10:48:19+00:00"/>
+        </effectivePeriod>
+      </Observation>
+    </resource>
+  </entry>
+  <entry>
+    <fullUrl value="baecc1c2-c86c-482c-8cea-981b47a6cc48"/>
+    <resource>
+      <Observation>
+        <meta>
+          <profile value="https://fhir.nhs.uk/R4/StructureDefinition/UKCore-Observation" />
+        </meta>
+        <identifier>
+          <value value="0F582D92-8F89-11EA-8B2D-B741F13EFC47"/>
+        </identifier>
+        <status value="final"/>
+        <code>
+          <coding>
+            <code value="1240581000000104"/>
+            <display value="SARS-CoV-2 (severe acute respiratory syndrome coronavirus 2) RNA (ribonucleic acid) detection result positive"/>
+            <system value="http://snomed.info/sct"/>
+          </coding>
+        </code>
+        <effectivePeriod>
+          <start value="2020-05-06T10:48:19+00:00"/>
+        </effectivePeriod>
+      </Observation>
     </resource>
   </entry>
 </Bundle>

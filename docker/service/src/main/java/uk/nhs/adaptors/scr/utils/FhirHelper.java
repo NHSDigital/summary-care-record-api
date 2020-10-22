@@ -1,7 +1,12 @@
 package uk.nhs.adaptors.scr.utils;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.hl7.fhir.r4.model.Bundle;
+import org.hl7.fhir.r4.model.Bundle.BundleEntryComponent;
 import org.hl7.fhir.r4.model.Resource;
+import org.hl7.fhir.r4.model.ResourceType;
 
 import uk.nhs.adaptors.scr.exceptions.FhirMappingException;
 
@@ -16,5 +21,12 @@ public class FhirHelper {
                 throw new FhirMappingException("There is more than 1 resource of type " + resourceType.getSimpleName());
             })
             .orElseThrow(() -> new FhirMappingException(resourceType.getSimpleName() + " missing from payload"));
+    }
+
+    public static List<Resource> getDomainResourceList(Bundle bundle, ResourceType resourceType) {
+        return bundle.getEntry().stream()
+            .map(BundleEntryComponent::getResource)
+            .filter(resource -> resource.getResourceType() == resourceType)
+            .collect(Collectors.toList());
     }
 }
