@@ -48,6 +48,48 @@
         ],
         "section":  [
           {
+            "title": "Diagnoses",
+            "text": {
+              "status": "generated",
+              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><table><thead><tr><th>Date</th><th>Medication Item</th><th>Dosage instructions</th><th>Quantity or duration</th><th>Reason for medication</th><th>Supporting information</th></tr></thead><tbody><tr><td>Start 03-Jan-92 End 02-Feb-06</td><td>Bendrofluazide 2.5mg tablets</td><td>One daliy</td><td /><td>hypokalaemia</td><td /></tr></tbody></table></div>"
+            }
+          },
+          {
+            "title": "Diagnoses",
+            "text": {
+              "status": "generated",
+              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><table><thead><tr><th>Date</th><th>Medication Item</th><th>Dosage instructions</th><th>Quantity or duration</th><th>Reason for medication</th><th>Supporting information</th></tr></thead><tbody><tr><td>Start 03-Jan-92 End 02-Feb-06</td><td>Bendrofluazide 2.5mg tablets</td><td>One daliy</td><td /><td>hypokalaemia</td><td /></tr></tbody></table></div>"
+            }
+          },
+          {
+            "title": "Diagnoses",
+            "text": {
+              "status": "generated",
+              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><table><thead><tr><th>Date</th><th>Medication Item</th><th>Dosage instructions</th><th>Quantity or duration</th><th>Reason for medication</th><th>Supporting information</th></tr></thead><tbody><tr><td>Start 03-Jan-92 End 02-Feb-06</td><td>Bendrofluazide 2.5mg tablets</td><td>One daliy</td><td /><td>hypokalaemia</td><td /></tr></tbody></table></div>"
+            }
+          },
+          {
+            "title": "Diagnoses",
+            "text": {
+              "status": "generated",
+              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><table><thead><tr><th>Date</th><th>Medication Item</th><th>Dosage instructions</th><th>Quantity or duration</th><th>Reason for medication</th><th>Supporting information</th></tr></thead><tbody><tr><td>Start 03-Jan-92 End 02-Feb-06</td><td>Bendrofluazide 2.5mg tablets</td><td>One daliy</td><td /><td>hypokalaemia</td><td /></tr></tbody></table></div>"
+            }
+          },
+          {
+            "title": "Clinical observations and findings",
+            "text": {
+              "status": "generated",
+              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><table><thead><tr><th>Date</th><th>Medication Item</th><th>Dosage instructions</th><th>Quantity or duration</th><th>Reason for medication</th><th>Supporting information</th></tr></thead><tbody><tr><td>Start 03-Jan-92 End 02-Feb-06</td><td>Bendrofluazide 2.5mg tablets</td><td>One daliy</td><td /><td>hypokalaemia</td><td /></tr></tbody></table></div>"
+            }
+          },
+          {
+            "title": "Investigation results",
+            "text": {
+              "status": "generated",
+              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><table><thead><tr><th>Date</th><th>Medication Item</th><th>Dosage instructions</th><th>Quantity or duration</th><th>Reason for medication</th><th>Supporting information</th></tr></thead><tbody><tr><td>Start 03-Jan-92 End 02-Feb-06</td><td>Bendrofluazide 2.5mg tablets</td><td>One daliy</td><td /><td>hypokalaemia</td><td /></tr></tbody></table></div>"
+            }
+          },
+          {
             "title": "General Practice Summary",
             "text": {
               "status": "generated",
@@ -289,6 +331,160 @@
             "value": "9900004948"
           }
         ]
+      }
+    },
+    {
+      "fullUrl": "baecc1c2-c86c-482c-8cea-981b47a6cc48",
+      "resource": {
+        "resourceType": "Condition",
+        "meta": [{
+          "profile": "https://fhir.nhs.uk/R4/StructureDefinition/UKCore-Condition"
+        }],
+        "identifier": [{
+          "value": "0F582D97-8F89-11EA-8B2D-B741F13EFC47"
+        }],
+        "clinicalStatus": [{
+          "coding": [{
+            "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+            "code": "active",
+            "display": "Active"
+          }]
+        }],
+        "code": [{
+          "coding": [{
+            "system": "http://snomed.info/sct",
+            "code": "1240751000000100",
+            "display": "COVID-19"
+          }]
+        }],
+        "onsetDateTime": "2020-05-06T10:48:19+00:00"
+      }
+    },
+    {
+      "fullUrl": "baecc1c2-c86c-482c-8cea-981b47a6cc48",
+      "resource": {
+        "resourceType": "Condition",
+        "meta": [{
+          "profile": "https://fhir.nhs.uk/R4/StructureDefinition/UKCore-Condition"
+        }],
+        "identifier": [{
+          "value": "0F582D97-8F89-11EA-8B2D-B741F13EFC47"
+        }],
+        "clinicalStatus": [{
+          "coding": [{
+            "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+            "code": "active",
+            "display": "Active"
+          }]
+        }],
+        "code": [{
+          "coding": [{
+            "system": "http://snomed.info/sct",
+            "code": "1300721000000109",
+            "display": "COVID-19 confirmed by laboratory test"
+          }]
+        }],
+        "onsetDateTime": "2020-05-06T10:48:19+00:00"
+      }
+    },
+    {
+      "fullUrl": "baecc1c2-c86c-482c-8cea-981b47a6cc48",
+      "resource": {
+        "resourceType": "Condition",
+        "meta": [{
+          "profile": "https://fhir.nhs.uk/R4/StructureDefinition/UKCore-Condition"
+        }],
+        "identifier": [{
+          "value": "0F582D97-8F89-11EA-8B2D-B741F13EFC47"
+        }],
+        "clinicalStatus": [{
+          "coding": [{
+            "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+            "code": "active",
+            "display": "Active"
+          }]
+        }],
+        "code": [{
+          "coding": [{
+            "system": "http://snomed.info/sct",
+            "code": "1300731000000106",
+            "display": "COVID-19 confirmed using clinical diagnostic criteria"
+          }]
+        }],
+        "onsetDateTime": "2020-05-06T10:48:19+00:00"
+      }
+    },
+    {
+      "fullUrl": "baecc1c2-c86c-482c-8cea-981b47a6cc48",
+      "resource": {
+        "resourceType": "Condition",
+        "meta": [{
+          "profile": "https://fhir.nhs.uk/R4/StructureDefinition/UKCore-Condition"
+        }],
+        "identifier": [{
+          "value": "0F582D97-8F89-11EA-8B2D-B741F13EFC47"
+        }],
+        "clinicalStatus": [{
+          "coding": [{
+            "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+            "code": "active",
+            "display": "Active"
+          }]
+        }],
+        "code": [{
+          "coding": [{
+            "system": "http://snomed.info/sct",
+            "code": "1240761000000102",
+            "display": "Suspected COVID-19"
+          }]
+        }],
+        "onsetDateTime": "2020-05-06T10:48:19+00:00"
+      }
+    },
+    {
+      "fullUrl": "baecc1c2-c86c-482c-8cea-981b47a6cc48",
+      "resource": {
+        "resourceType": "Observation",
+        "meta": [{
+          "profile": "https://fhir.nhs.uk/R4/StructureDefinition/UKCore-Observation"
+        }],
+        "identifier": [{
+          "value": "0F582D97-8F89-11EA-8B2D-B741F13EFC47"
+        }],
+        "status": "final",
+        "code": [{
+          "coding": [{
+            "system": "http://snomed.info/sct",
+            "code": "163131000000108",
+            "display": "SARS-CoV-2 (severe acute respiratory syndrome coronavirus 2) RNA (ribonucleic acid) detection result positive"
+          }]
+        }],
+        "effectivePeriod": [{
+          "start": "2020-05-06T10:48:19+00:00"
+        }]
+      }
+    },
+    {
+      "fullUrl": "baecc1c2-c86c-482c-8cea-981b47a6cc48",
+      "resource": {
+        "resourceType": "Observation",
+        "meta": [{
+          "profile": "https://fhir.nhs.uk/R4/StructureDefinition/UKCore-Observation"
+        }],
+        "identifier": [{
+          "value": "0F582D97-8F89-11EA-8B2D-B741F13EFC47"
+        }],
+        "status": "final",
+        "code": [{
+          "coding": [{
+            "system": "http://snomed.info/sct",
+            "code": "1240581000000104",
+            "display": "SARS-CoV-2 (severe acute respiratory syndrome coronavirus 2) RNA (ribonucleic acid) detection result positive"
+          }]
+        }],
+        "effectivePeriod": [{
+          "start": "2020-05-06T10:48:19+00:00"
+        }]
       }
     }
   ]

@@ -10,8 +10,12 @@ import org.hl7.fhir.r4.model.Organization;
 import org.hl7.fhir.r4.model.Patient;
 import org.hl7.fhir.r4.model.Practitioner;
 import org.hl7.fhir.r4.model.PractitionerRole;
+import org.hl7.fhir.r4.model.Resource;
+import org.hl7.fhir.r4.model.ResourceType;
 import uk.nhs.adaptors.scr.exceptions.FhirMappingException;
 import uk.nhs.adaptors.scr.models.gpsummarymodels.CompositionRelatesTo;
+import uk.nhs.adaptors.scr.models.gpsummarymodels.AllConditions;
+import uk.nhs.adaptors.scr.models.gpsummarymodels.ObservationObject;
 import uk.nhs.adaptors.scr.models.gpsummarymodels.OrganizationAddress;
 import uk.nhs.adaptors.scr.models.gpsummarymodels.OrganizationId;
 import uk.nhs.adaptors.scr.models.gpsummarymodels.OrganizationTelecom;
@@ -24,12 +28,15 @@ import uk.nhs.adaptors.scr.models.gpsummarymodels.PractitionerRoleIdentifier;
 import uk.nhs.adaptors.scr.models.gpsummarymodels.Presentation;
 
 import static uk.nhs.adaptors.scr.fhirmappings.CompositionMapper.mapComposition;
+import static uk.nhs.adaptors.scr.fhirmappings.ConditionMapper.mapConditions;
+import static uk.nhs.adaptors.scr.fhirmappings.ObservationMapper.mapObservations;
 import static uk.nhs.adaptors.scr.fhirmappings.OrganizationMapper.mapOrganization;
 import static uk.nhs.adaptors.scr.fhirmappings.PatientMapper.mapPatient;
 import static uk.nhs.adaptors.scr.fhirmappings.PractitionerMapper.mapPractitioner;
 import static uk.nhs.adaptors.scr.fhirmappings.PractitionerRoleMapper.mapPractitionerRole;
 import static uk.nhs.adaptors.scr.utils.DateUtil.formatDate;
 import static uk.nhs.adaptors.scr.utils.FhirHelper.getDomainResource;
+import static uk.nhs.adaptors.scr.utils.FhirHelper.getDomainResourceList;
 
 @Getter
 @Setter
@@ -53,6 +60,8 @@ public class GpSummary {
     private List<OrganizationId> organizationIds;
     private List<PatientId> patientIds;
     private List<Presentation> presentations;
+    private List<ObservationObject> observationList;
+    private List<AllConditions> conditionParent;
 
     public static GpSummary fromRequestData(RequestData requestData) throws FhirMappingException {
         GpSummary gpSummary = new GpSummary();
@@ -70,6 +79,8 @@ public class GpSummary {
         Organization organization = getDomainResource(bundle, Organization.class);
         Practitioner practitioner = getDomainResource(bundle, Practitioner.class);
         Patient patient = getDomainResource(bundle, Patient.class);
+        List<Resource> conditionList = getDomainResourceList(bundle, ResourceType.Condition);
+        List<Resource> observationList = getDomainResourceList(bundle, ResourceType.Observation);
 
         gpSummary.setHeaderId(bundle.getIdentifier().getValue().toUpperCase());
         gpSummary.setHeaderTimeStamp(formatDate(bundle.getTimestampElement().asStringValue()));
@@ -79,5 +90,7 @@ public class GpSummary {
         mapOrganization(gpSummary, organization);
         mapPractitioner(gpSummary, practitioner);
         mapPatient(gpSummary, patient);
+        mapObservations(gpSummary, observationList);
+        mapConditions(gpSummary, conditionList);
     }
 }

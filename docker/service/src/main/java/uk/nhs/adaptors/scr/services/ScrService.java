@@ -77,16 +77,18 @@ public class ScrService {
 
         var acknowledgementXPath = XPathFactory.newInstance().newXPath().compile("/MCCI_IN010000UK13/acknowledgement");
         var acknowledgementNode = ((NodeList) acknowledgementXPath.evaluate(hl7Document, XPathConstants.NODESET)).item(0);
-        if (acknowledgementNode == null
-            || acknowledgementNode.getAttributes() == null
-            || acknowledgementNode.getAttributes().getNamedItem("typeCode") == null
-            || acknowledgementNode.getAttributes().getNamedItem("typeCode").getNodeValue() == null) {
+        String acknowledgementTypeCode;
+        try {
+            acknowledgementTypeCode = acknowledgementNode.getAttributes().getNamedItem("typeCode").getNodeValue();
+        } catch (Exception ex) {
+            LOGGER.error("Unable to extract acknowledgement coe:\n{}", processingResult.getHl7());
             throw new UnexpectedSpineResponseException("Unable to extract acknowledgement code");
         }
-        String acknowledgementTypeCode = acknowledgementNode.getAttributes().getNamedItem("typeCode").getNodeValue();
 
         if (!acknowledgementTypeCode.equals("AA")) {
             var errors = getErrors(hl7Document);
+            LOGGER.error("Non success spine processing result:\n{}\n{}",
+                processingResult.getSoapEnvelope(), processingResult.getHl7());
             throw new NonSuccessSpineProcessingResultException(errors);
         }
     }
