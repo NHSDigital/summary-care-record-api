@@ -7,7 +7,7 @@ docker_service:
     expose: true
     environment:
       - name: SCR_LOG_LEVEL
-        value: NOTSET
+        value: "{{ 'debug' if APIGEE_ENVIRONMENT == 'internal-dev' else 'info' }}"
       - name: SCR_LDAP_SEARCH_BASE
         value: ou=services,o=nhs
     secrets:

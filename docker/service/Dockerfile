@@ -1,14 +1,15 @@
-FROM gradle:jdk14 AS build
-COPY --chown=gradle:gradle . /home/gradle/src
-WORKDIR /home/gradle/src
-RUN gradle build --no-daemon --console plain bootJar
+FROM node:12.18.0-alpine3.10
 
-FROM adoptopenjdk/openjdk14
+WORKDIR /app
+
+COPY package*.json ./
+
+RUN npm install --only=production
+
+COPY src ./src
+RUN chmod -R a+x /app
+
+USER nobody
 
 EXPOSE 9000
-
-RUN mkdir /app
-
-COPY --from=build /home/gradle/src/build/libs/*.jar /app/integration-adaptor-scr.jar
-
-ENTRYPOINT java -jar /app/integration-adaptor-scr.jar --port 9000
+CMD ["npm", "start"]
