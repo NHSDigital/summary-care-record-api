@@ -2,11 +2,12 @@ package uk.nhs.adaptors.scr.controllers.fhir;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.hl7.fhir.r4.model.Bundle;
+import org.hl7.fhir.r4.model.OperationOutcome;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.HttpMediaTypeNotAcceptableException;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -17,8 +18,10 @@ import uk.nhs.adaptors.scr.components.FhirParser;
 import uk.nhs.adaptors.scr.config.SpineConfiguration;
 import uk.nhs.adaptors.scr.exceptions.FhirValidationException;
 import uk.nhs.adaptors.scr.exceptions.ScrTimeoutException;
+import uk.nhs.adaptors.scr.models.RequestData;
 import uk.nhs.adaptors.scr.services.ScrService;
 
+import javax.validation.constraints.NotNull;
 import java.util.concurrent.Callable;
 
 import static uk.nhs.adaptors.scr.controllers.FhirMediaTypes.APPLICATION_FHIR_JSON_VALUE;
@@ -38,15 +41,23 @@ public class FhirController {
         produces = {APPLICATION_FHIR_JSON_VALUE, APPLICATION_FHIR_XML_VALUE})
     @ResponseStatus(HttpStatus.OK)
     public WebAsyncTask<ResponseEntity<?>> acceptFhir(
-        @RequestHeader("Content-Type") MediaType contentType, @RequestBody String body)
-        throws FhirValidationException {
+        @RequestHeader("Content-Type") @NotNull MediaType contentType,
+        @RequestHeader("Nhsd-Asid") @NotNull String nhsdAsid,
+        @RequestHeader("Party-Id-From") @NotNull String partyIdFrom,
+        @RequestBody String body)
+        throws FhirValidationException, HttpMediaTypeNotAcceptableException {
+
+        var requestData = new RequestData();
+        requestData.setBundle(fhirParser.parseBundle(contentType, body));
+        requestData.setNhsdAsid(nhsdAsid);
+        requestData.setPartyIdFrom(partyIdFrom);
 
         Callable<ResponseEntity<?>> callable = () -> {
-            Bundle bundle = fhirParser.parseResource(contentType, body);
-            scrService.handleFhir(bundle);
+            scrService.handleFhir(requestData);
             return ResponseEntity
                 .status(HttpStatus.OK)
-                .build();
+                .contentType(contentType)
+                .body(fhirParser.encodeResource(contentType, new OperationOutcome()));
         };
 
         var task = new WebAsyncTask<>(spineConfiguration.getScrResultTimeout(), callable);

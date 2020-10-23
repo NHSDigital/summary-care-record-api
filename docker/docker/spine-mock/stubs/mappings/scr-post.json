@@ -1,7 +1,7 @@
 {
     "request": {
         "method": "POST",
-        "url": "/summarycarerecord"
+        "url": "/clinical"
     },
     "response": {
         "headers": {

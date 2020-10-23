@@ -1,178 +1,197 @@
-<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns="urn:hl7-org:v3">
-    <SOAP-ENV:Header>
-        <wsa:MessageID>uuid:6B29FC40-CA47-1067-B31D-00DD010662DA</wsa:MessageID>
-        <wsa:Action>urn:nhs:names:services:lrs/REPC_IN150016UK05</wsa:Action>
-        <wsa:To>https://synch.nis1.national.ncrs.nhs.uk/syncservice/tms</wsa:To>
-        <wsa:From>
-            <wsa:Address>http://myMSH.com/pds/myPage.asmx</wsa:Address>
-        </wsa:From>
-        <communicationFunctionRcv>
-            <device>
-                <id root="1.2.826.0.1285.0.2.0.107" extension="ZZZ999-100000000900001"/>
-            </device>
-        </communicationFunctionRcv>
-        <communicationFunctionSnd>
-            <device>
-                <id root="1.2.826.0.1285.0.2.0.107" extension="ZZZ000-100000000800001"/>
-            </device>
-        </communicationFunctionSnd>
-        <wsa:ReplyTo>
-            <wsa:Address>http://myMSH.com/pds/myPage.asmx</wsa:Address>
-        </wsa:ReplyTo>
-    </SOAP-ENV:Header>
-    <SOAP-ENV:Body>
-        <REPC_IN150016UK05 ITSVersion="XML_1.0" xmlns="urn:hl7-org:v3">
-            <id root="{{headerId}}"/>
-            <creationTime value="{{headerTimeStamp}}"/>
-            <versionCode code="V3NPfIT4.2.00"/>
-            <interactionId root="2.16.840.1.113883.2.1.3.2.4.12" extension="REPC_IN150016UK05"/>
-            <processingCode code="P"/>
-            <processingModeCode code="T"/>
-            <acceptAckCode code="NE"/>
-            <communicationFunctionRcv typeCode="RCV">
-                <device classCode="DEV" determinerCode="INSTANCE">
-                    <id root="1.2.826.0.1285.0.2.0.107" extension="655159266510"/>
-                </device>
-            </communicationFunctionRcv>
-            <communicationFunctionSnd typeCode="SND">
-                <device classCode="DEV" determinerCode="INSTANCE">
-                    <id root="1.2.826.0.1285.0.2.0.107" extension="511736638012"/>
-                </device>
-            </communicationFunctionSnd>
-            <ControlActEvent classCode="ALRT" moodCode="ENV">
-                <author1 typeCode="AUT">
-                    <AgentSystemSDS classCode="AGNT">
-                        <agentSystemSDS classCode="DEV" determinerCode="INSTANCE">
-                            <id root="1.2.826.0.1285.0.2.0.107" extension="511736638012"/>
-                        </agentSystemSDS>
-                    </AgentSystemSDS>
-                </author1>
-                <author typeCode="AUT">
-                    <AgentPersonSDS classCode="AGNT">
-                        <id root="1.2.826.0.1285.0.2.0.67" extension="055888118514"/>
-                        <agentPersonSDS classCode="PSN" determinerCode="INSTANCE">
-                            <id root="1.2.826.0.1285.0.2.0.65" extension="979603625513"/>
-                        </agentPersonSDS>
-                        <part typeCode="PART">
-                            <partSDSRole classCode="ROL">
-                                <id extension="R0260" root="1.2.826.0.1285.0.2.1.104"/>
-                            </partSDSRole>
-                        </part>
-                    </AgentPersonSDS>
-                </author>
-                <subject typeCode="SUBJ" contextConductionInd="false">
-                    <GPSummary classCode="COMPOSITION" moodCode="ENV">
-                        <id root="{{compositionId}}"/>
-                        <code code="196981000000101" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="General Practice Summary"/>
-                        <effectiveTime value="{{compositionDate}}"/>
-                        <statusCode code="active"/>
-                        <author typeCode="AUT" contextControlCode="OP">
-                            <time value="{{compositionDate}}"/>
-                            {{#practitionerRoleIdentifiers}}
-                            {{#practitionerRoleIsAgentPersonSDS}}
+----=_MIME-Boundary
+Content-Id: <ebXMLHeader@spine.nhs.uk>
+Content-Type: text/xml; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAP:Envelope xmlns:xsi="http://www.w3c.org/2001/XML-Schema-Instance" xmlns:SOAP="http://schemas.xmlsoap.org/soap/envelope/" xmlns:eb="http://www.oasis-open.org/committees/ebxml-msg/schema/msg-header-2_0.xsd" xmlns:hl7ebxml="urn:hl7-org:transport/ebXML/DSTUv1.0" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <SOAP:Header>
+        <eb:MessageHeader SOAP:mustUnderstand="1" eb:version="2.0">
+            <eb:From>
+                <eb:PartyId eb:type="urn:nhs:names:partyType:ocs+serviceInstance">{{partyIdFrom}}</eb:PartyId>
+            </eb:From>
+            <eb:To>
+                <eb:PartyId eb:type="urn:nhs:names:partyType:ocs+serviceInstance">{{partyIdTo}}</eb:PartyId>
+            </eb:To>
+            <eb:CPAId>S1001A1630</eb:CPAId>
+            <eb:ConversationId>{{headerId}}</eb:ConversationId>
+            <eb:Service>urn:nhs:names:services:psis</eb:Service>
+            <eb:Action>REPC_IN150016SM05</eb:Action>
+            <eb:MessageData>
+                <eb:MessageId>{{headerId}}</eb:MessageId>
+                <eb:Timestamp>{{headerTimeStamp}}</eb:Timestamp>
+            </eb:MessageData>
+            <eb:DuplicateElimination/>
+        </eb:MessageHeader>
+        <eb:AckRequested SOAP:mustUnderstand="1" eb:version="2.0" eb:signed="false" SOAP:actor="urn:oasis:names:tc:ebxml-msg:actor:toPartyMSH"/>
+        <eb:SyncReply SOAP:mustUnderstand="1" eb:version="2.0" SOAP:actor="http://schemas.xmlsoap.org/soap/actor/next"/>
+    </SOAP:Header>
+    <SOAP:Body>
+        <eb:Manifest SOAP:mustUnderstand="1" eb:version="2.0">
+            <eb:Reference xlink:href="cid:{{headerId}}@spine.nhs.uk">
+                <eb:Schema eb:location="http://www.nhsia.nhs.uk/schemas/HL7-Message.xsd" eb:version="1.0"/>
+                <eb:Description xml:lang="en">HL7 payload</eb:Description>
+                <hl7ebxml:Payload style="HL7" encoding="XML" version="3.0"/>
+            </eb:Reference>
+        </eb:Manifest>
+    </SOAP:Body>
+</SOAP:Envelope>
+
+----=_MIME-Boundary
+Content-Id: <{{headerId}}@spine.nhs.uk>
+Content-Type: text/xml; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+<REPC_IN150016SM05 ITSVersion="XML_1.0" xmlns="urn:hl7-org:v3">
+    <id root="{{headerId}}"/>
+    <creationTime value="{{headerTimeStamp}}"/>
+    <versionCode code="V3NPfIT4.2.00"/>
+    <interactionId root="2.16.840.1.113883.2.1.3.2.4.12" extension="REPC_IN150016SM05"/>
+    <processingCode code="P"/>
+    <processingModeCode code="T"/>
+    <acceptAckCode code="NE"/>
+    <communicationFunctionRcv typeCode="RCV">
+        <device classCode="DEV" determinerCode="INSTANCE">
+            <id root="1.2.826.0.1285.0.2.0.107" extension="655159266510"/>
+        </device>
+    </communicationFunctionRcv>
+    <communicationFunctionSnd typeCode="SND">
+        <device classCode="DEV" determinerCode="INSTANCE">
+            <id root="1.2.826.0.1285.0.2.0.107" extension="{{nhsdAsid}}"/>
+        </device>
+    </communicationFunctionSnd>
+    <ControlActEvent classCode="ALRT" moodCode="ENV">
+        <author1 typeCode="AUT">
+            <AgentSystemSDS classCode="AGNT">
+                <agentSystemSDS classCode="DEV" determinerCode="INSTANCE">
+                    <id root="1.2.826.0.1285.0.2.0.107" extension="{{nhsdAsid}}"/>
+                </agentSystemSDS>
+            </AgentSystemSDS>
+        </author1>
+        <author typeCode="AUT">
+            <AgentPersonSDS classCode="AGNT">
+                <id root="1.2.826.0.1285.0.2.0.67" extension="055888118514"/>
+                <agentPersonSDS classCode="PSN" determinerCode="INSTANCE">
+                    <id root="1.2.826.0.1285.0.2.0.65" extension="979603625513"/>
+                </agentPersonSDS>
+                <part typeCode="PART">
+                    <partSDSRole classCode="ROL">
+                        <id extension="R0260" root="1.2.826.0.1285.0.2.1.104"/>
+                    </partSDSRole>
+                </part>
+            </AgentPersonSDS>
+        </author>
+        <subject typeCode="SUBJ" contextConductionInd="false">
+            <GPSummary classCode="COMPOSITION" moodCode="ENV">
+                <id root="{{compositionId}}"/>
+                <code code="196981000000101" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="General Practice Summary"/>
+                <effectiveTime value="{{compositionDate}}"/>
+                <statusCode code="active"/>
+                <author typeCode="AUT" contextControlCode="OP">
+                    <time value="{{compositionDate}}"/>
+                    {{#practitionerRoleIdentifiers}}
+                        {{#practitionerRoleIsAgentPersonSDS}}
                             <UKCT_MT160018UK01.AgentPersonSDS classCode="AGNT">
                                 <id root="1.2.826.0.1285.0.2.0.67" extension="{{practitionerRoleId}}"/>
                                 <agentPersonSDS classCode="PSN" determinerCode="INSTANCE">
                                     {{#practitionerIds}}
-                                    <id root="1.2.826.0.1285.0.2.0.65" extension="{{practitionerId}}"/>
+                                        <id root="1.2.826.0.1285.0.2.0.65" extension="{{practitionerId}}"/>
                                     {{/practitionerIds}}
                                     {{#practitionerNames}}
-                                    <name>{{practitionerName}}</name>
+                                        <name>{{practitionerName}}</name>
                                     {{/practitionerNames}}
                                 </agentPersonSDS>
                             </UKCT_MT160018UK01.AgentPersonSDS>
-                            {{/practitionerRoleIsAgentPersonSDS}}
-                            {{^practitionerRoleIsAgentPersonSDS}}
+                        {{/practitionerRoleIsAgentPersonSDS}}
+                        {{^practitionerRoleIsAgentPersonSDS}}
                             <UKCT_MT160018UK01.AgentPerson classCode="AGNT">
                                 {{#practitionerRoleCodes}}
-                                {{#practitionerRoleCodeCodings}}
-                                <code code="{{practitionerRoleCode}}" codeSystem="2.16.840.1.113883.2.1.3.2.4.17.124" displayName="{{practitionerRoleCodeDisplayName}}"/>
-                                {{/practitionerRoleCodeCodings}}
+                                    {{#practitionerRoleCodeCodings}}
+                                        <code code="{{practitionerRoleCode}}" codeSystem="2.16.840.1.113883.2.1.3.2.4.17.124" displayName="{{practitionerRoleCodeDisplayName}}"/>
+                                    {{/practitionerRoleCodeCodings}}
                                 {{/practitionerRoleCodes}}
                                 <addr>{{organizationAddress}}</addr>
                                 {{#organizationTelecoms}}
-                                <telecom>{{organizationTelecom}}</telecom>
+                                    <telecom>{{organizationTelecom}}</telecom>
                                 {{/organizationTelecoms}}
                                 <representedOrganization classCode="ORG" determinerCode="INSTANCE">
                                     {{#organizationTypes}}
-                                    {{#organizationCodes}}
-                                    <code code="{{organizationCode}}"/>
-                                    {{/organizationCodes}}
+                                        {{#organizationCodes}}
+                                            <code code="{{organizationCode}}"/>
+                                        {{/organizationCodes}}
                                     {{/organizationTypes}}
                                     <name>{{organizationName}}</name>
                                     <desc></desc>
                                     {{#organizationAddresses}}
-                                    <addr>{{organizationAddress}}</addr>
+                                        <addr>{{organizationAddress}}</addr>
                                     {{/organizationAddresses}}
                                 </representedOrganization>
                                 <representedOrganizationSDS classCode="ORG" determinerCode="INSTANCE">
                                     {{#organizationIds}}
-                                    <id root="{{organizationIdRoot}}" extension="{{organizationId}}"/>
+                                        <id root="{{organizationIdRoot}}" extension="{{organizationId}}"/>
                                     {{/organizationIds}}
                                     <name>{{organizationName}}</name>
                                 </representedOrganizationSDS>
                             </UKCT_MT160018UK01.AgentPerson>
-                            {{/practitionerRoleIsAgentPersonSDS}}
-                            {{/practitionerRoleIdentifiers}}
-                        </author>
-                        <excerptFrom typeCode="XCRPT" inversionInd="false" contextConductionInd="true" negationInd="false">
-                            <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.excerptFrom"/>
+                        {{/practitionerRoleIsAgentPersonSDS}}
+                    {{/practitionerRoleIdentifiers}}
+                </author>
+                <excerptFrom typeCode="XCRPT" inversionInd="false" contextConductionInd="true" negationInd="false">
+                    <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.excerptFrom"/>
+                    <seperatableInd value="false"/>
+                    <UKCT_MT144051UK01.CareProfessionalDocumentationCRE classCode="CATEGORY" moodCode="ENV">
+                        <code code="163171000000105" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Care Professional Documentation"/>
+                        <component typeCode="COMP" inversionInd="false" negationInd="false">
+                            <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.component"/>
                             <seperatableInd value="false"/>
-                            <UKCT_MT144051UK01.CareProfessionalDocumentationCRE classCode="CATEGORY" moodCode="ENV">
-                                <code code="163171000000105" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Care Professional Documentation"/>
-                                <component typeCode="COMP" inversionInd="false" negationInd="false">
-                                    <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.component"/>
-                                    <seperatableInd value="false"/>
-                                    {{#presentations}}
-                                    <presentationText classCode="OBS" moodCode="ENV">
-                                        <value mediaType="text/plain">
-                                            {{presentationText}}
-                                        </value>
-                                        <id root="{{presentationId}}"/>
-                                        <code code="PresentationText" codeSystem="2.16.840.1.113883.2.1.3.2.4.17.126" displayName="Presentation Text"/>
-                                        <statusCode code="completed"/>
-                                        <effectiveTime value="{{compositionDate}}"/>
-                                    </presentationText>
-                                    {{/presentations}}
-                                </component>
-                            </UKCT_MT144051UK01.CareProfessionalDocumentationCRE>
-                        </excerptFrom>
-                        <pertinentInformation1 typeCode="PERT" inversionInd="false" contextConductionInd="true" negationInd="false">
-                            <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.pertinentInformation1"/>
-                            <seperatableInd value="true"/>
-                            <pertinentRootCREType classCode="CATEGORY" moodCode="ENV">
-                                <code code="163171000000105" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Care Professional Documentation"/>
-                            </pertinentRootCREType>
-                        </pertinentInformation1>
-                        <pertinentInformation2 typeCode="PERT" inversionInd="false" contextConductionInd="true" negationInd="false">
-                            <seperatableInd value="true"/>
-                            <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.pertinentInformation1"/>
-                            <pertinentCREType classCode="CATEGORY" moodCode="EVN">
-                                <code code="" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName=""/>
-                                <component typeCode="COMP" contextConductionInd="true">
-                                    <seperatableInd value="false"/>
-                                    <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.component"/>
-                                </component>
-                            </pertinentCREType>
-                        </pertinentInformation2>
-                        {{#patientIds}}
-                        <recordTarget typeCode="RCT">
-                            <patient classCode="PAT">
-                                <id root="2.16.840.1.113883.2.1.4.1" extension="{{patientId}}"/>
-                            </patient>
-                        </recordTarget>
-                        {{/patientIds}}
-                        {{#compositionRelatesTos}}
-                        <replacementOf typeCode="RPLC">
-                            <priorMessageRef classCode="COMPOSITION" moodCode="ENV">
-                                <id root="{{compositionRelatesToId}}"/>
-                            </priorMessageRef>
-                        </replacementOf>
-                        {{/compositionRelatesTos}}
-                    </GPSummary>
-                </subject>
-            </ControlActEvent>
-        </REPC_IN150016UK05>
-    </SOAP-ENV:Body>
-</SOAP-ENV:Envelope>
-
+                            {{#presentations}}
+                                <presentationText classCode="OBS" moodCode="ENV">
+                                    <value mediaType="text/plain">
+                                        {{presentationText}}
+                                    </value>
+                                    <id root="{{presentationId}}"/>
+                                    <code code="PresentationText" codeSystem="2.16.840.1.113883.2.1.3.2.4.17.126" displayName="Presentation Text"/>
+                                    <statusCode code="completed"/>
+                                    <effectiveTime value="{{compositionDate}}"/>
+                                </presentationText>
+                            {{/presentations}}
+                        </component>
+                    </UKCT_MT144051UK01.CareProfessionalDocumentationCRE>
+                </excerptFrom>
+                <pertinentInformation1 typeCode="PERT" inversionInd="false" contextConductionInd="true" negationInd="false">
+                    <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.pertinentInformation1"/>
+                    <seperatableInd value="true"/>
+                    <pertinentRootCREType classCode="CATEGORY" moodCode="ENV">
+                        <code code="163171000000105" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Care Professional Documentation"/>
+                    </pertinentRootCREType>
+                </pertinentInformation1>
+                <pertinentInformation2 typeCode="PERT" inversionInd="false" contextConductionInd="true" negationInd="false">
+                    <seperatableInd value="true"/>
+                    <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.pertinentInformation1"/>
+                    <pertinentCREType classCode="CATEGORY" moodCode="EVN">
+                        <code code="" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName=""/>
+                        <component typeCode="COMP" contextConductionInd="true">
+                            <seperatableInd value="false"/>
+                            <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.component"/>
+                        </component>
+                    </pertinentCREType>
+                </pertinentInformation2>
+                {{#patientIds}}
+                    <recordTarget typeCode="RCT">
+                        <patient classCode="PAT">
+                            <id root="2.16.840.1.113883.2.1.4.1" extension="{{patientId}}"/>
+                        </patient>
+                    </recordTarget>
+                {{/patientIds}}
+                {{#compositionRelatesTos}}
+                    <replacementOf typeCode="RPLC">
+                        <priorMessageRef classCode="COMPOSITION" moodCode="ENV">
+                            <id root="{{compositionRelatesToId}}"/>
+                        </priorMessageRef>
+                    </replacementOf>
+                {{/compositionRelatesTos}}
+            </GPSummary>
+        </subject>
+    </ControlActEvent>
+</REPC_IN150016SM05>
+----=_MIME-Boundary

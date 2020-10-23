@@ -1,6 +1,6 @@
 package uk.nhs.adaptors.scr.exceptions;
 
-public class ScrTimeoutException extends ScrBaseException {
+public class ScrTimeoutException extends GatewayTimeoutException {
     private static final String MESSAGE = "Spine POST + polling GET has timed out";
 
     public ScrTimeoutException() {
