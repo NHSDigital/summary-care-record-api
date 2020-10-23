@@ -1,25 +1,26 @@
 {
-  "name": "summary-care-record",
+  "name": "apim-definitions",
   "version": "0.0.1",
-  "description": "OAS (Swagger v3) API Definition for Template API",
+  "description": "OAS (Swagger v3) API Definition for Hello World API",
   "scripts": {
-    "lint": "node_modules/.bin/speccy lint specification/summary-care-record.yaml --skip default-and-example-are-redundant",
-    "publish": "mkdir -p build && node_modules/.bin/speccy resolve specification/summary-care-record.yaml -i | poetry run python scripts/yaml2json.py | poetry run python scripts/set_version.py > build/summary-care-record.json",
-    "serve": "node_modules/.bin/speccy serve build/summary-care-record.json",
+    "lint": "node_modules/.bin/speccy lint specification/hello-world.yaml --skip default-and-example-are-redundant",
+    "test": "npm run --prefix tests test:sandbox",
+    "publish": "mkdir -p build && node_modules/.bin/speccy resolve specification/hello-world.yaml -i | poetry run python scripts/yaml2json.py | poetry run python scripts/set_version.py > build/hello-world.json",
+    "serve": "node_modules/.bin/speccy serve build/hello-world.json",
     "check-licenses": "node_modules/.bin/license-checker --failOn GPL --failOn LGPL"
   },
   "author": "NHS Digital",
-  "license": "MIT",
-  "homepage": "https://github.com/NHSDigital/summary-care-record-api",
+  "license": "(MIT OR OGL)",
+  "homepage": "https://github.com/NHSDigital/hello-world-api",
   "dependencies": {
     "speccy": "^0.11.0"
   },
   "devDependencies": {
-    "newman": "^4.5.7",
+    "node": "^13.12.0",
+    "newman": "^4.6.0",
     "newman-reporter-html": "^1.0.5",
-    "newman-reporter-htmlextra": "^1.11.3",
+    "newman-reporter-htmlextra": "^1.12.1",
     "apigeetool": "^0.14.2",
-    "license-checker": "^25.0.1",
-    "minimist": "^1.2.2"
+    "license-checker": "^25.0.1"
   }
 }
