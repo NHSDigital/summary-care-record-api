@@ -1,4 +1,5 @@
 docker_containers:
-  - name: scr-api
-    dockerfile: "docker/service/Dockerfile"
-    path: "docker/service"
+
+    - name: hello-world
+      dockerfile: "docker/hello-world-sandbox/Dockerfile"
+      path: "docker/hello-world-sandbox"

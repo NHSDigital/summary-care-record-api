@@ -11,7 +11,7 @@ resources:
       endpoint: NHSDigital
   pipelines:
   - pipeline: build_pipeline
-    source: "Summary-Care-Record-Build"
+    source: "Hello-World-Build"
     trigger:
       branches:
         include:
@@ -32,12 +32,22 @@ extends:
     product_display_name: ${{ variables.product_display_name }}
     product_description: ${{ variables.product_description }}
     spec_file: ${{ variables.spec_file }}
+    secret_ids:
+     - ptl/azure-devops/hello-world-env-internal-dev/API_KEY
     apigee_deployments:
       - environment: internal-dev
-      - environment: internal-qa
+        make_spec_visible: true
+        post_deploy:
+          - template: templates/postman-tests.yml
+            parameters:
+              service_name: ${{ variables.service_name }}
+      - environment: internal-dev-sandbox
+        make_spec_visible: true
       - environment: internal-qa-sandbox
-        proxy_path: sandbox
-      - environment: int
+        make_spec_visible: true
+      - environment: sandbox
+        make_spec_visible: true
         depends_on:
-          - internal_qa
+          - internal_dev
+          - internal_dev_sandbox
           - internal_qa_sandbox

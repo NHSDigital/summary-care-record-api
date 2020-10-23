@@ -1,0 +1,19 @@
+{
+  "name": "mock",
+  "version": "1.0.0",
+  "description": "hello-world-api-sandbox",
+  "scripts": {
+    "lint": "find . -type f -name '*.js' ! -name '.eslintrc.js' | grep -v 'node_modules/' | xargs eslint",
+    "start": "node src/app.js --use_strict"
+  },
+  "author": "NHS Digital",
+  "license": "(MIT OR OGL)",
+  "homepage": "https://github.com/NHSDigital/hello-world-api",
+  "main": "app.js",
+  "dependencies": {
+    "apimocker": "^1.1.4"
+  },
+  "devDependencies": {
+    "eslint": "^6.8.0"
+  }
+}

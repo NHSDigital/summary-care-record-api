@@ -1,15 +1,11 @@
 <ProxyEndpoint name="default">
-  <Flows>
-    <Flow name="OptionsPreFlight">
-      <Request/>
-      <Response>
-        <Step>
+  <DefaultFaultRule>
+      <Step>
           <Name>AssignMessage.AddCors</Name>
-        </Step>
-      </Response>
-        <Condition>request.verb == "OPTIONS" AND request.header.origin != null AND request.header.Access-Control-Request-Method != null</Condition>
-    </Flow>
-    <Flow name="AddPayloadToPing">
+      </Step>
+  </DefaultFaultRule>
+  <Flows>
+  <Flow name="AddPayloadToPing">
       <Description/>
       <Request/>
       <Response>
@@ -19,26 +15,57 @@
       </Response>
       <Condition>(proxy.pathsuffix MatchesPath "/_ping") and ((request.verb = "GET") or (request.verb = "HEAD"))</Condition>
     </Flow>
+  <Flow name="Flow.AuthApiKey">
+    <Request>
+      <Step>
+      <Name>VerifyApiKey-Header</Name>
+      </Step>
+      </Request>
+      <Response/>
+      <Condition>((proxy.pathsuffix MatchesPath "/hello/application") or (proxy.pathsuffix MatchesPath "/_status")) and (request.verb = "GET")</Condition>
+  </Flow>
+    <Flow name="Flow.AuthOAuth">
+      <Description/>
+      <Request>
+          <Step>
+              <Name>Oauth-VerifyAccessToken</Name>
+          </Step>
+      </Request>
+      <Response/>
+      <Condition>(proxy.pathsuffix MatchesPath "/hello/user") and (request.verb = "GET")</Condition>
+    </Flow>
+    <Flow name="OptionsPreFlight">
+      <Request/>
+      <Response>
+        <Step>
+          <Name>AssignMessage.AddCors</Name>
+        </Step>
+      </Response>
+      <Condition>request.verb == "OPTIONS" AND request.header.origin != null AND request.header.Access-Control-Request-Method != null</Condition>
+    </Flow>
+    <Flow name="AddStatusToPing">
+      <Description/>
+      <Request/>
+      <Response>
+        <Step>
+          <Name>AssignMessage.AddStatusToPing</Name>
+        </Step>
+      </Response>
+      <Condition>(proxy.pathsuffix MatchesPath "/_ping") and ((request.verb = "GET") or (request.verb = "GET"))</Condition>
+    </Flow>
   </Flows>
   <PreFlow/>
-  <PostClientFlow name="PostClientFlow">
-    <Response>
-      <Step>
-        <Name>FlowCallout.LogToSplunk</Name>
-      </Step>
-    </Response>
-  </PostClientFlow>
   <HTTPProxyConnection>
     <BasePath>{{ SERVICE_BASE_PATH }}</BasePath>
     <VirtualHost>secure</VirtualHost>
   </HTTPProxyConnection>
   <RouteRule name="NoRoute">
-        <Condition>request.verb == "OPTIONS" AND request.header.origin != null AND request.header.Access-Control-Request-Method != null</Condition>
+    <Condition>request.verb == "OPTIONS" AND request.header.origin != null AND request.header.Access-Control-Request-Method != null</Condition>
   </RouteRule>
   <RouteRule name="NoRoutePing">
-        <Condition>(proxy.pathsuffix MatchesPath "/_ping") and ((request.verb = "GET") or (request.verb = "HEAD"))</Condition>
+    <Condition>(proxy.pathsuffix MatchesPath "/_ping") and ((request.verb = "GET") or (request.verb = "HEAD"))</Condition>
   </RouteRule>
-  <RouteRule name="summary-care-record-target">
-    <TargetEndpoint>summary-care-record-target</TargetEndpoint>
+  <RouteRule name="apim">
+    <TargetEndpoint>apim</TargetEndpoint>
   </RouteRule>
 </ProxyEndpoint>

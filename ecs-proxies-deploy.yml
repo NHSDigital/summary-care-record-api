@@ -1,24 +1,17 @@
-
 #docker_service_cpu: 256
 #docker_service_memory: 512
 
 docker_service:
-  - name: scr-api
-    expose: true
-    environment:
-      - name: SCR_LOG_LEVEL
-        value: "{{ 'debug' if APIGEE_ENVIRONMENT == 'internal-dev' else 'info' }}"
-      - name: SCR_LDAP_SEARCH_BASE
-        value: ou=services,o=nhs
-    secrets:
-      - name: SCR_SPINE_URL
-        valueFrom: "/ptl/platform-common/cis/ldap-uri"
-      - name: SCR_SECRET_CLIENT_KEY
-        valueFrom: "/ptl/api-deployment/sds/ldap/private-key"
-      - name: SCR_SECRET_CLIENT_CERT
-        valueFrom: "/ptl/api-deployment/sds/ldap/client-cert"
-      - name: SCR_SECRET_CA_CERTS
-        valueFrom: "/ptl/api-deployment/sds/ldap/ca-certs"
-    health_check:
-      matcher: "200"
-      path: "/_status"
+
+    - name: hello-world
+      expose: true
+      environment:
+        - name: NODE_ENV
+          value: production
+        - name: LOG_LEVEL
+          value: "{{ 'debug' if APIGEE_ENVIRONMENT == 'internal-dev' else 'info' }}"
+        - name: UPSTREAM
+          value: "{{ apigee_uri }}"
+      health_check:
+        matcher: "200"
+        path: "/_status" 

@@ -1,4 +1,0 @@
-<APIProxy name="scr">
-  <!-- This is the root of the application -->
-  <Description>Proxy to Summary Care Record API endpoints.</Description>
-</APIProxy>

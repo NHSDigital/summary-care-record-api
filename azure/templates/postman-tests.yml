@@ -1,0 +1,35 @@
+parameters:
+  - name: service_name
+    type: string
+
+steps:
+  - task: DockerInstaller@0
+    displayName: 'Install Docker 17.09.0-ce'
+
+  - bash: |
+      echo "##vso[task.setvariable variable=IDP_URL]https://nhsd-apim-testing-$(APIGEE_ENVIRONMENT).herokuapp.com"
+      echo "##vso[task.setvariable variable=API_URL]https://$(APIGEE_ENVIRONMENT).api.service.nhs.uk/$(FULLY_QUALIFIED_SERVICE_NAME)"
+    displayName: Set test urls
+
+  - bash: |
+      set -eou pipefail
+
+      prj_path=$(Pipeline.Workspace)/s/${{ parameters.service_name }}/$(SERVICE_ARTIFACT_NAME)
+
+      export ACCESS_TOKEN=$(docker run --rm artronics/nhsd-login-docker:latest $(IDP_URL))
+
+
+      echo APIGEE_ENVIRONMENT=$(APIGEE_ENVIRONMENT)
+      echo FULLY_QUALIFIED_SERVICE_NAME=$(FULLY_QUALIFIED_SERVICE_NAME)
+      echo IDP_URL=$(IDP_URL)
+      echo SERVICE_BASE_PATH=$(SERVICE_BASE_PATH)
+
+      docker run --rm -e APIGEE_ENVIRONMENT=$(APIGEE_ENVIRONMENT) -e ACCESS_TOKEN=$ACCESS_TOKEN -e API_KEY=$(API_KEY)  -v ${prj_path}/tests:/usr/src/app -w /usr/src/app node:stretch-slim sh -c 'npm install && npm run start --base_path /$(SERVICE_BASE_PATH)'
+    displayName: 'Run newman tests'
+    timeoutInMinutes: 5
+
+  - task: PublishTestResults@2
+    displayName: 'Publish Test Results'
+    inputs:
+      testResultsFiles: '$(Pipeline.Workspace)/s/${{ parameters.service_name }}/$(SERVICE_ARTIFACT_NAME)/tests/test-report.xml'
+      failTaskOnFailedTests: true

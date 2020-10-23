@@ -1,0 +1,37 @@
+{
+    "mockDirectory": "./src/mock",
+    "quiet": false,
+    "port": "9000",
+    "latency": 50,
+    "logRequestHeaders": false,
+    "webServices": {
+        "hello/world": {
+            "latency": 20,
+            "verbs": ["get"],
+            "responses": {
+                "get": {"httpStatus": 200, "mockFile": "helloworld.json"}
+            }
+        },
+        "hello/application": {
+            "latency": 20,
+            "verbs": ["get"],
+            "responses": {
+                "get": {"httpStatus": 200, "mockFile": "helloapplication.json"}
+            }
+        },
+        "hello/user": {
+            "latency": 20,
+            "verbs": ["get"],
+            "responses": {
+                "get": {"httpStatus": 200, "mockFile": "hellouser.json"}
+            }
+        },
+        "_status": {
+          "latency": 20,
+          "verbs": ["get"],
+          "responses": {
+            "get": {"httpStatus": 200, "mockFile": "status.json"}
+          }
+      }
+    }
+}
