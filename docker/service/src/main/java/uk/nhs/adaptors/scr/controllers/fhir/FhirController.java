@@ -57,7 +57,7 @@ public class FhirController {
             return ResponseEntity
                 .status(HttpStatus.OK)
                 .contentType(contentType)
-                .body(fhirParser.encodeResource(contentType, new OperationOutcome()));
+                .body(fhirParser.encodeResource(contentType, buildSuccessResponse()));
         };
 
         var task = new WebAsyncTask<>(spineConfiguration.getScrResultTimeout(), callable);
@@ -66,5 +66,14 @@ public class FhirController {
         });
 
         return task;
+    }
+
+    private OperationOutcome buildSuccessResponse() {
+        var operationOutcome = new OperationOutcome();
+        operationOutcome.addIssue()
+            .setSeverity(OperationOutcome.IssueSeverity.INFORMATION)
+            .setCode(OperationOutcome.IssueType.INFORMATIONAL)
+            .setDiagnostics("Resource has been successfully updated.");
+        return operationOutcome;
     }
 }

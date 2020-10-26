@@ -7,6 +7,8 @@ services:
       - "9000:8080"
     environment:
       - SCR_SPINE_URL=http://mock-spine-service:8081
+      - SCR_LOGGING_LEVEL
+      - SCR_PARTY_ID_TO
     links:
       - "mock-spine-service"
 

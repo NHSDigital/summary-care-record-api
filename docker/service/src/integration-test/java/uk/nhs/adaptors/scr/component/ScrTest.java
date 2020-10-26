@@ -22,6 +22,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.web.HttpMediaTypeNotAcceptableException;
 import uk.nhs.adaptors.scr.WireMockInitializer;
 import uk.nhs.adaptors.scr.components.FhirParser;
 
@@ -192,10 +193,10 @@ public class ScrTest {
             .statusCode(GATEWAY_TIMEOUT.value());
     }
 
-    private void whenPostingThenExpect200(String requestBody, String contentType) throws IOException {
+    private void whenPostingThenExpect200(String requestBody, String contentType) throws IOException, HttpMediaTypeNotAcceptableException {
         setUpSpineRequests();
 
-        given()
+        var body = given()
             .port(port)
             .contentType(contentType)
             .header("Nhsd-Asid", NHSD_ASID)
@@ -204,7 +205,8 @@ public class ScrTest {
             .when()
             .post(FHIR_ENDPOINT)
             .then()
-            .statusCode(OK.value());
+            .statusCode(OK.value())
+            .extract().asString();
 
         wireMockServer.verify(1, postRequestedFor(urlEqualTo(SCR_SPINE_ENDPOINT)));
         wireMockServer.verify(2, getRequestedFor(urlEqualTo(SCR_SPINE_CONTENT_ENDPOINT)));
@@ -228,6 +230,14 @@ public class ScrTest {
         var intervalBetweenFirstAndSecondGetGet =
             (int) (secondGetRequest.getLoggedDate().getTime() - firstGetRequest.getLoggedDate().getTime());
         assertThat(intervalBetweenFirstAndSecondGetGet).isBetween(GET_WAIT_TIME, GET_WAIT_TIME + THREAD_SLEEP_ALLOWED_DIFF);
+
+        var operationOutcome = fhirParser.parseResource(
+            MediaType.parseMediaType(contentType), body, OperationOutcome.class);
+
+        var issue = operationOutcome.getIssueFirstRep();
+        assertThat(issue.getSeverity()).isEqualTo(OperationOutcome.IssueSeverity.INFORMATION);
+        assertThat(issue.getCode()).isEqualTo(OperationOutcome.IssueType.INFORMATIONAL);
+        assertThat(issue.getDiagnostics()).isEqualTo("Resource has been successfully updated.");
     }
 
     private void whenPostingInvalidContentThenExpect400(String requestBody, String contentType) {

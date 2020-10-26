@@ -4,6 +4,25 @@ National Integration Adaptors - Summary Care Record
 ## Requirements:
 1. JDK 14
 
+## Configuration
+
+The adaptor reads its configuration from environment variables. The following sections describe the environment variables
+ used to configure the adaptor. 
+ 
+Variables without a default value and not marked optional, *MUST* be defined for the adaptor to run.
+
+### General Configuration Options
+
+| Environment Variable               | Default                   | Description 
+| -----------------------------------|---------------------------|-------------
+| SCR_SERVER_PORT                    | 8080                      | The port on which the SCR API will run
+| SCR_LOGGING_LEVEL                  | INFO                      | Application logging level. One of: DEBUG, INFO, WARN, ERROR. The level DEBUG **MUST NOT** be used when handling live patient data.
+| SCR_PARTY_ID_TO                    |                           | Spine party id key
+| SCR_SPINE_URL                      |                           | Spine SCR URL
+| SCR_SPINE_ENDPOINT_CERT            |                           | Spine client PEM certificate used for mutual TLS
+| SCR_SPINE_ENDPOINT_KEY             |                           | Key for the client PEM certificate
+| SCR_SPINE_ENDPOINT_CACERT          |                           | CA cert PEM used for spine certificate validation
+
 ## How to run service:
 * Navigate to `docker/docker/service`
 * Add environment tag `export TAG=latest`

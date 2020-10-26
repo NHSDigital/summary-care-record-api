@@ -5,7 +5,7 @@
     },
     "response": {
         "headers": {
-            "Content-Location": "http://mock-spine-service:8081/content",
+            "Content-Location": "/content",
             "Retry-After": "100"
         },
         "status": 202
