@@ -11,4 +11,4 @@ RUN mkdir /app
 
 COPY --from=build /home/gradle/src/build/libs/*.jar /app/integration-adaptor-scr.jar
 
-ENTRYPOINT java -jar /app/integration-adaptor-scr.jar --port 9000
+ENTRYPOINT java -jar /app/integration-adaptor-scr.jar
