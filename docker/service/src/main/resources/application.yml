@@ -14,7 +14,9 @@ management:
         include: info, health, metrics, mappings
 
 scr:
+  partyIdFrom: ${SCR_PARTY_ID_FROM}
   partyIdTo: ${SCR_PARTY_ID_TO}
+  nhsdAsidTo: ${SCR_NHSD_ASID_TO}
 
 spine:
   url: ${SCR_SPINE_URL}

@@ -43,14 +43,12 @@ public class FhirController {
     public WebAsyncTask<ResponseEntity<?>> acceptFhir(
         @RequestHeader("Content-Type") @NotNull MediaType contentType,
         @RequestHeader("Nhsd-Asid") @NotNull String nhsdAsid,
-        @RequestHeader("Party-Id-From") @NotNull String partyIdFrom,
         @RequestBody String body)
         throws FhirValidationException, HttpMediaTypeNotAcceptableException {
 
         var requestData = new RequestData();
         requestData.setBundle(fhirParser.parseBundle(contentType, body));
         requestData.setNhsdAsid(nhsdAsid);
-        requestData.setPartyIdFrom(partyIdFrom);
 
         Callable<ResponseEntity<?>> callable = () -> {
             scrService.handleFhir(requestData);

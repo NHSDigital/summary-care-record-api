@@ -45,7 +45,8 @@ public class GpSummary {
     private String headerTimeStamp;
     private String compositionId;
     private String compositionDate;
-    private String nhsdAsid;
+    private String nhsdAsidFrom;
+    private String nhsdAsidTo;
     private String partyIdFrom;
     private String partyIdTo;
     private List<CompositionRelatesTo> compositionRelatesTos;
@@ -68,8 +69,7 @@ public class GpSummary {
 
         mapBundle(gpSummary, requestData.getBundle());
 
-        gpSummary.setNhsdAsid(requestData.getNhsdAsid());
-        gpSummary.setPartyIdFrom(requestData.getPartyIdFrom());
+        gpSummary.setNhsdAsidFrom(requestData.getNhsdAsid());
         return gpSummary;
     }
 

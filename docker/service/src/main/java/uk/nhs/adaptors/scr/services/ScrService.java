@@ -60,7 +60,9 @@ public class ScrService {
     private String mapRequestData(RequestData requestData) {
         try {
             GpSummary gpSummary = GpSummary.fromRequestData(requestData);
+            gpSummary.setPartyIdFrom(scrConfiguration.getPartyIdFrom());
             gpSummary.setPartyIdTo(scrConfiguration.getPartyIdTo());
+            gpSummary.setNhsdAsidTo(scrConfiguration.getNhsdAsidTo());
             return TemplateUtils.fillTemplate(REPC_RM150007UK05_TEMPLATE, gpSummary);
 
         } catch (Exception ex) {

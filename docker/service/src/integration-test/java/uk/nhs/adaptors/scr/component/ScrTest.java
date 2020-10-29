@@ -63,7 +63,6 @@ public class ScrTest {
     private static final String FHIR_JSON_CONTENT_TYPE = "application/fhir+json";
     private static final String FHIR_XML_CONTENT_TYPE = "application/fhir+xml";
     private static final String NHSD_ASID = "123";
-    private static final String PARTY_ID_FROM = "234";
 
     @LocalServerPort
     private int port;
@@ -148,7 +147,6 @@ public class ScrTest {
             .port(port)
             .contentType(FHIR_JSON_CONTENT_TYPE)
             .header("Nhsd-Asid", NHSD_ASID)
-            .header("Party-Id-From", PARTY_ID_FROM)
             .body(Files.readString(simpleFhirJson.getFile().toPath(), Charsets.UTF_8))
             .when()
             .post(FHIR_ENDPOINT)
@@ -184,7 +182,6 @@ public class ScrTest {
             .port(port)
             .contentType(FHIR_JSON_CONTENT_TYPE)
             .header("Nhsd-Asid", NHSD_ASID)
-            .header("Party-Id-From", PARTY_ID_FROM)
             .body(Files.readString(simpleFhirJson.getFile().toPath(), Charsets.UTF_8))
             .when()
             .post(FHIR_ENDPOINT)
@@ -200,7 +197,6 @@ public class ScrTest {
             .port(port)
             .contentType(contentType)
             .header("Nhsd-Asid", NHSD_ASID)
-            .header("Party-Id-From", PARTY_ID_FROM)
             .body(requestBody)
             .when()
             .post(FHIR_ENDPOINT)

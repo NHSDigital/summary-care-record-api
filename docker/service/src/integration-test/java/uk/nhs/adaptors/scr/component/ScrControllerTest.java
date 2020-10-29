@@ -30,7 +30,6 @@ public class ScrControllerTest {
     private static final long SHORT_RESULT_TIMEOUT = 10;
     private static final String FHIR_JSON_CONTENT_TYPE = "application/fhir+json";
     private static final String NHSD_ASID = "123";
-    private static final String PARTY_ID_FROM = "234";
 
     @LocalServerPort
     private int port;
@@ -62,7 +61,6 @@ public class ScrControllerTest {
             .port(port)
             .contentType(FHIR_JSON_CONTENT_TYPE)
             .header("Nhsd-Asid", NHSD_ASID)
-            .header("Party-Id-From", PARTY_ID_FROM)
             .body(REQUEST_BODY)
             .when()
             .post(FHIR_ENDPOINT)

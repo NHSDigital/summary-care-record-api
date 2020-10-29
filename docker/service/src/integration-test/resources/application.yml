@@ -7,7 +7,9 @@ management:
         include: info, health, metrics
 
 scr:
+  partyIdFrom: ${SCR_PARTY_ID_FROM:TESTGEN-201324}
   partyIdTo: ${SCR_PARTY_ID_TO:YEA-0000806}
+  nhsdAsidTo: ${SCR_NHSD_ASID_TO:655159266510}
 
 spine:
     url: ${SCR_SPINE_URL:http://localhost:8081}
