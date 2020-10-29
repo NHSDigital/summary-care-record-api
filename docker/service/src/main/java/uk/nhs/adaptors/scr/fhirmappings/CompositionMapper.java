@@ -31,7 +31,7 @@ public class CompositionMapper {
                 if (relatesTo.hasTargetIdentifier()) {
                     if (relatesTo.getTargetIdentifier().hasValue()) {
                         CompositionRelatesTo compositionRelatesTo = new CompositionRelatesTo();
-                        compositionRelatesTo.setCompositionRelatesToId(relatesTo.getTargetIdentifier().getValue());
+                        compositionRelatesTo.setCompositionRelatesToId(relatesTo.getTargetIdentifier().getValue().toUpperCase());
                         compositionRelatesTos.add(compositionRelatesTo);
                     } else {
                         throw new FhirMappingException("Composition RelatesTo TargetIdentifier Value missing from payload");
@@ -50,7 +50,7 @@ public class CompositionMapper {
 
         if (composition.hasIdentifier()) {
             if (composition.getIdentifier().hasValue()) {
-                value = composition.getIdentifier().getValue();
+                value = composition.getIdentifier().getValue().toUpperCase();
             }
         }
 
@@ -79,7 +79,7 @@ public class CompositionMapper {
                     }
                 }
 
-                presentation.setPresentationId(UUID.randomUUID().toString());
+                presentation.setPresentationId(UUID.randomUUID().toString().toUpperCase());
                 presentation.setPresentationText(value);
                 presentationList.add(presentation);
             }

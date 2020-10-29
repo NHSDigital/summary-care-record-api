@@ -1,22 +1,21 @@
 package uk.nhs.adaptors.scr.components;
 
-import static uk.nhs.adaptors.scr.controllers.FhirMediaTypes.APPLICATION_FHIR_JSON;
-import static uk.nhs.adaptors.scr.controllers.FhirMediaTypes.APPLICATION_FHIR_XML;
-
-import java.util.List;
-import java.util.function.Function;
-
+import ca.uhn.fhir.context.FhirContext;
+import ca.uhn.fhir.parser.DataFormatException;
+import ca.uhn.fhir.parser.IParser;
+import ca.uhn.fhir.parser.StrictErrorHandler;
 import org.hl7.fhir.instance.model.api.IBaseResource;
 import org.hl7.fhir.r4.model.Bundle;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.HttpMediaTypeNotAcceptableException;
-
-import ca.uhn.fhir.context.FhirContext;
-import ca.uhn.fhir.parser.DataFormatException;
-import ca.uhn.fhir.parser.IParser;
-import ca.uhn.fhir.parser.StrictErrorHandler;
 import uk.nhs.adaptors.scr.exceptions.FhirValidationException;
+
+import java.util.List;
+import java.util.function.Function;
+
+import static uk.nhs.adaptors.scr.controllers.FhirMediaTypes.APPLICATION_FHIR_JSON;
+import static uk.nhs.adaptors.scr.controllers.FhirMediaTypes.APPLICATION_FHIR_XML;
 
 @Component
 public class FhirParser {
@@ -44,7 +43,8 @@ public class FhirParser {
         return parser.setPrettyPrint(true).encodeResourceToString(resource);
     }
 
-    public Bundle parseResource(MediaType contentType, String body) throws HttpMediaTypeNotAcceptableException {
+    public <T extends IBaseResource> T parseResource(MediaType contentType, String body, Class<T> klass)
+        throws HttpMediaTypeNotAcceptableException {
         Function<String, IBaseResource> parser;
         if (contentType.equalsTypeAndSubtype(APPLICATION_FHIR_JSON)) {
             parser = this::parseJson;
@@ -53,7 +53,23 @@ public class FhirParser {
         } else {
             throw new HttpMediaTypeNotAcceptableException(List.of(APPLICATION_FHIR_JSON, APPLICATION_FHIR_XML));
         }
-        return (Bundle) parser.apply(body);
+        return (T) parser.apply(body);
+    }
+
+    public Bundle parseBundle(MediaType contentType, String body) throws HttpMediaTypeNotAcceptableException {
+        Function<String, IBaseResource> parser;
+        if (contentType.equalsTypeAndSubtype(APPLICATION_FHIR_JSON)) {
+            parser = this::parseJson;
+        } else if (contentType.equalsTypeAndSubtype(APPLICATION_FHIR_XML)) {
+            parser = this::parseXml;
+        } else {
+            throw new HttpMediaTypeNotAcceptableException(List.of(APPLICATION_FHIR_JSON, APPLICATION_FHIR_XML));
+        }
+        try {
+            return (Bundle) parser.apply(body);
+        } catch (Exception ex) {
+            throw new FhirValidationException("Unable to parse FHIR as Bundle");
+        }
     }
 
     public String encodeResource(MediaType contentType, IBaseResource resource) throws HttpMediaTypeNotAcceptableException {

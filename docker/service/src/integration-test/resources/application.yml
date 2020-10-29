@@ -1,17 +1,22 @@
+management:
+  endpoints:
+    web:
+      base-path: /
+      path-mapping.health: healthcheck
+      exposure:
+        include: info, health, metrics
+
+scr:
+  partyIdFrom: ${SCR_PARTY_ID_FROM:TESTGEN-201324}
+  partyIdTo: ${SCR_PARTY_ID_TO:YEA-0000806}
+  nhsdAsidTo: ${SCR_NHSD_ASID_TO:655159266510}
+
 spine:
     url: ${SCR_SPINE_URL:http://localhost:8081}
     acsEndpoint: /acs
-    scrEndpoint: /summarycarerecord
+    scrEndpoint: /clinical
     scrResultRepeatTimeout: 4000
     scrResultTimeout: 5000
     endpointCert: ""
     endpointPrivateKey: ""
     caCerts: ""
-
-management:
-    endpoints:
-        web:
-            base-path: /
-            path-mapping.health: healthcheck
-            exposure:
-                include: info, health, metrics

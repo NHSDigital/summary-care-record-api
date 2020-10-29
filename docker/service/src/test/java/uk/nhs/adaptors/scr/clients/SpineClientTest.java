@@ -13,9 +13,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
+import uk.nhs.adaptors.scr.config.ScrConfiguration;
 import uk.nhs.adaptors.scr.config.SpineConfiguration;
-import uk.nhs.adaptors.scr.exceptions.NoScrResultException;
-import uk.nhs.adaptors.scr.exceptions.ScrBaseException;
+import uk.nhs.adaptors.scr.exceptions.NoSpineResultException;
+import uk.nhs.adaptors.scr.exceptions.UnexpectedSpineResponseException;
+import uk.nhs.adaptors.scr.models.ProcessingResult;
 
 import java.net.URI;
 import java.util.List;
@@ -25,6 +27,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.atLeast;
+import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -33,14 +36,20 @@ import static org.mockito.Mockito.when;
 class SpineClientTest {
 
     private static final String SPINE_URL = "https://spine";
-    private static final String CONTENT_LOCATION = "https://spine/content-location";
+    private static final String CONTENT_LOCATION = "/content-location";
     private static final String ACS_ENDPOINT = "/acs";
     private static final String SCR_ENDPOINT = "/scr";
-    private static final String RESPONSE_BODY = "some_body";
+    private static final String SOAP_ENVELOPE = "<soap:Envelope>envelope_data</soap:Envelope>";
+    private static final String HL7 = "<hl7:MCCI_IN010000UK13>hl7</hl7:MCCI_IN010000UK13>";
+    private static final String RESPONSE_BODY = SOAP_ENVELOPE + HL7;
     private static final String ACS_REQUEST_BODY = "some_acs_body";
+    private static final String NHSD_ASID = "123123";
+    private static final String PARTY_TO_ID = "spine_party_key";
 
     @Mock
     private SpineConfiguration spineConfiguration;
+    @Mock
+    private ScrConfiguration scrConfiguration;
     @Mock
     private SpineHttpClient spineHttpClient;
 
@@ -49,11 +58,12 @@ class SpineClientTest {
 
     @BeforeEach
     void setUp() {
+        lenient().when(scrConfiguration.getPartyIdTo()).thenReturn(PARTY_TO_ID);
+        lenient().when(spineConfiguration.getUrl()).thenReturn(SPINE_URL);
     }
 
     @Test
     void whenSendingAcsExpectResult() {
-        when(spineConfiguration.getUrl()).thenReturn(SPINE_URL);
         when(spineConfiguration.getAcsEndpoint()).thenReturn(ACS_ENDPOINT);
         when(spineHttpClient.sendRequest(any(HttpPost.class)))
             .thenReturn(new SpineHttpClient.Response(HttpStatus.OK.value(), new Header[0], RESPONSE_BODY));
@@ -71,7 +81,6 @@ class SpineClientTest {
 
     @Test
     void whenSendingScrReturns202ExpectResult() {
-        when(spineConfiguration.getUrl()).thenReturn(SPINE_URL);
         when(spineConfiguration.getScrEndpoint()).thenReturn(SCR_ENDPOINT);
         var headers = new Header[] {
             new BasicHeader("Header-Name", "headerValue")
@@ -94,13 +103,12 @@ class SpineClientTest {
 
     @Test
     void whenSendingScrReturnsNon202ExpectResult() {
-        when(spineConfiguration.getUrl()).thenReturn(SPINE_URL);
         when(spineConfiguration.getScrEndpoint()).thenReturn(SCR_ENDPOINT);
         when(spineHttpClient.sendRequest(any(HttpPost.class)))
             .thenReturn(new SpineHttpClient.Response(HttpStatus.OK.value(), new Header[0], RESPONSE_BODY));
 
         assertThatThrownBy(() -> spineClient.sendScrData(ACS_REQUEST_BODY))
-            .isExactlyInstanceOf(ScrBaseException.class);
+            .isExactlyInstanceOf(UnexpectedSpineResponseException.class);
     }
 
     @Test
@@ -116,13 +124,13 @@ class SpineClientTest {
             .thenReturn(new SpineHttpClient.Response(HttpStatus.ACCEPTED.value(), postResponseHeaders, null))
             .thenReturn(new SpineHttpClient.Response(HttpStatus.OK.value(), new Header[0], RESPONSE_BODY));
 
-        var result = spineClient.getScrProcessingResult(CONTENT_LOCATION, 50);
+        var result = spineClient.getScrProcessingResult(CONTENT_LOCATION, 50, NHSD_ASID);
 
         var requestArgumentCaptor = ArgumentCaptor.forClass(HttpGet.class);
         verify(spineHttpClient, times(2)).sendRequest(requestArgumentCaptor.capture());
 
         assertRequestUri(requestArgumentCaptor.getAllValues());
-        assertThat(result).isEqualTo(RESPONSE_BODY);
+        assertThat(result).isEqualTo(new ProcessingResult().setSoapEnvelope(SOAP_ENVELOPE).setHl7(HL7));
     }
 
     @Test
@@ -130,16 +138,17 @@ class SpineClientTest {
     void whenGetScrProcessingResultReachesRepeatTimeoutExpectException() {
         when(spineConfiguration.getScrResultRepeatTimeout()).thenReturn(500L);
 
-        var postResponseHeaders = new Header[] {
-            new BasicHeader("Retry-After", String.valueOf(200))
-        };
-
         when(spineHttpClient.sendRequest(any()))
-            .thenReturn(new SpineHttpClient.Response(HttpStatus.ACCEPTED.value(), postResponseHeaders, null));
+            .thenReturn(new SpineHttpClient.Response(
+                HttpStatus.ACCEPTED.value(),
+                new Header[] {
+                    new BasicHeader("Retry-After", String.valueOf(200))
+                },
+                null));
 
-        assertThatThrownBy(() -> spineClient.getScrProcessingResult(CONTENT_LOCATION, 100))
-            .isExactlyInstanceOf(NoScrResultException.class)
-            .hasMessage("SCR polling yield no result");
+        assertThatThrownBy(() -> spineClient.getScrProcessingResult(CONTENT_LOCATION, 100, NHSD_ASID))
+            .isExactlyInstanceOf(NoSpineResultException.class)
+            .hasMessage("Spine polling yield no result");
 
         var requestArgumentCaptor = ArgumentCaptor.forClass(HttpGet.class);
         verify(spineHttpClient, atLeast(2)).sendRequest(requestArgumentCaptor.capture());
@@ -151,6 +160,6 @@ class SpineClientTest {
             .map(HttpRequestBase::getURI)
             .map(URI::toString)
             .collect(Collectors.toList()))
-            .allMatch(url -> url.equals(CONTENT_LOCATION));
+            .allMatch(url -> url.equals(SPINE_URL + CONTENT_LOCATION));
     }
 }

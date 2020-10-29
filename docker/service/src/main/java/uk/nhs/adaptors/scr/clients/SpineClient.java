@@ -16,9 +16,11 @@ import org.springframework.retry.backoff.BackOffPolicy;
 import org.springframework.retry.support.RetryTemplate;
 import org.springframework.stereotype.Component;
 import uk.nhs.adaptors.scr.config.SpineConfiguration;
-import uk.nhs.adaptors.scr.exceptions.NoScrResultException;
+import uk.nhs.adaptors.scr.exceptions.NoSpineResultException;
+import uk.nhs.adaptors.scr.exceptions.UnexpectedSpineResponseException;
 import uk.nhs.adaptors.scr.exceptions.ScrBaseException;
 import uk.nhs.adaptors.scr.exceptions.ScrTimeoutException;
+import uk.nhs.adaptors.scr.models.ProcessingResult;
 
 @Component
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -43,24 +45,28 @@ public class SpineClient {
         var url = spineConfiguration.getUrl() + spineConfiguration.getScrEndpoint();
 
         var request = new HttpPost(url);
-        //TODO: set headers
+        request.addHeader("SOAPAction", "urn:nhs:names:services:psis/REPC_IN150016SM05");
+        request.addHeader("Content-Type",
+            "multipart/related; boundary=\"--=_MIME-Boundary\"; type=\"text/xml\"; start=\"<ebXMLHeader@spine.nhs.uk>\"");
         request.setEntity(new StringEntity(requestBody));
 
         var response = spineHttpClient.sendRequest(request);
+        var statusCode = response.getStatusCode();
 
-        if (response.getStatusCode() == HttpStatus.ACCEPTED.value()) {
-            return response;
+        if (statusCode != HttpStatus.ACCEPTED.value()) {
+            LOGGER.error("Unexpected spine send response:\n{}", response);
+            throw new UnexpectedSpineResponseException("Unexpected spine send response " + statusCode);
         }
-        throw new ScrBaseException(String.format("Unexpected response while sending SCR request: %s %s",
-            response.getStatusCode(), response.getBody()));
+        return response;
+
     }
 
-    public String getScrProcessingResult(String contentLocation, long initialWaitTime) {
+    public ProcessingResult getScrProcessingResult(String contentLocation, long initialWaitTime, String nhsdAsid) {
         var repeatTimeout = spineConfiguration.getScrResultRepeatTimeout();
-        RetryTemplate template = RetryTemplate.builder()
+        var template = RetryTemplate.builder()
             .withinMillis(repeatTimeout)
             .customBackoff(new ScrRetryBackoffPolicy())
-            .retryOn(NoScrResultException.class)
+            .retryOn(NoSpineResultException.class)
             .build();
 
         LOGGER.info("Starting polling result. First request in {}ms", initialWaitTime);
@@ -69,40 +75,27 @@ public class SpineClient {
         } catch (InterruptedException e) {
             throw new ScrTimeoutException(e);
         }
-        try {
-            return template.execute(ctx -> {
-                LOGGER.info("Fetching SCR processing result. RetryCount={}", ctx.getRetryCount());
-                var result = fetchScrProcessingResult(contentLocation);
-                int statusCode = result.getStatusCode();
-                if (statusCode == HttpStatus.ACCEPTED.value()) {
-                    var nextRetryAfter = Long.parseLong(SpineHttpClient.getHeader(result.getHeaders(), SpineHttpClient.RETRY_AFTER_HEADER));
-                    LOGGER.info("{} received. NextRetry in {}ms", statusCode, nextRetryAfter);
-                    throw new NoScrResultException(nextRetryAfter);
-                } else if (statusCode == HttpStatus.OK.value()) {
-                    LOGGER.info("{} received. Returning result", statusCode);
-                    return result.getBody();
-                } else {
-                    LOGGER.debug("Unexpected response:\n{}\n{}", statusCode, result.getBody());
-                    throw new ScrBaseException("Unexpected response " + statusCode);
-                }
-            });
-        } catch (NoScrResultException e) {
-            throw new ScrTimeoutException(e);
-        }
-    }
+        return template.execute(ctx -> {
+            LOGGER.info("Fetching SCR processing result. RetryCount={}", ctx.getRetryCount());
 
-    private SpineHttpClient.Response fetchScrProcessingResult(String contentLocation) {
-        var request = new HttpGet(contentLocation);
-        //TODO: set headers
+            var request = new HttpGet(spineConfiguration.getUrl() + contentLocation);
+            request.addHeader("nhsd-asid", nhsdAsid);
 
-        SpineHttpClient.Response response = spineHttpClient.sendRequest(request);
-        var statusCode = response.getStatusCode();
-        if (statusCode == HttpStatus.ACCEPTED.value() || statusCode == HttpStatus.OK.value()) {
-            return response;
-        } else {
-            throw new ScrBaseException(String.format("Unexpected response while sending SCR request: %s %s",
-                response.getStatusCode(), response.getBody()));
-        }
+            var result =  spineHttpClient.sendRequest(request);
+            int statusCode = result.getStatusCode();
+
+            if (statusCode == HttpStatus.OK.value()) {
+                LOGGER.info("{} processing result received.", statusCode);
+                return ProcessingResult.parseProcessingResult(result.getBody());
+            } else if (statusCode == HttpStatus.ACCEPTED.value()) {
+                var nextRetryAfter = Long.parseLong(SpineHttpClient.getHeader(result.getHeaders(), SpineHttpClient.RETRY_AFTER_HEADER));
+                LOGGER.info("{} received. NextRetry in {}ms", statusCode, nextRetryAfter);
+                throw new NoSpineResultException(nextRetryAfter);
+            } else {
+                LOGGER.error("Unexpected spine polling response:\n{}", result);
+                throw new UnexpectedSpineResponseException("Unexpected spine polling response " + statusCode);
+            }
+        });
     }
 
     public static class ScrRetryBackoffPolicy implements BackOffPolicy {
@@ -115,8 +108,8 @@ public class SpineClient {
         public void backOff(BackOffContext backOffContext) throws BackOffInterruptedException {
             var scrRetryBackOffContext = (ScrRetryBackOffContext) backOffContext;
             var lastException = scrRetryBackOffContext.getRetryContext().getLastThrowable();
-            if (lastException instanceof NoScrResultException) {
-                var exception = (NoScrResultException) lastException;
+            if (lastException instanceof NoSpineResultException) {
+                var exception = (NoSpineResultException) lastException;
                 var retryAfter = exception.getRetryAfter();
                 try {
                     Thread.sleep(retryAfter);
