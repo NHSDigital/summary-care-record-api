@@ -34,7 +34,7 @@ check-licenses:
 format:
 	poetry run black **/*.py
 
-sandbox: update-examples
+sandbox: 
 	cd sandbox && npm run start
 
 build-proxy:
@@ -43,6 +43,8 @@ build-proxy:
 release: clean publish build-proxy
 	mkdir -p dist
 	cp -r build/. dist
+	cp ecs-proxies-deploy-sandbox.yml dist/ecs-deploy-internal-qa-sandbox.yml
+	cp ecs-proxies-deploy-sandbox.yml dist/ecs-deploy-sandbox.yml
 
 test:
 	echo "TODO: add tests"

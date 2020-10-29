@@ -1,0 +1,12 @@
+
+
+#docker_service_cpu: 256
+#docker_service_memory: 512
+
+docker_service:
+
+  - name: scr-sandbox
+    expose: true
+    test:
+      matcher: "200"
+      path: "/test"
