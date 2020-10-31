@@ -1,0 +1,11 @@
+<configuration>
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${SCR_LOGGING_FORMAT:-%d{yyyy-mm-dd HH:mm:ss.SSS} Level=%-5level Thread=%thread Logger=%logger{36} CorrelationId=%X{CorrelationId} Message=%msg%n}</pattern>
+        </encoder>
+    </appender>
+
+    <root level="${SCR_LOGGING_LEVEL:-INFO}">
+        <appender-ref ref="STDOUT" />
+    </root>
+</configuration>
