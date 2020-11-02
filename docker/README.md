@@ -17,11 +17,19 @@ Variables without a default value and not marked optional, *MUST* be defined for
 | -----------------------------------|---------------------------|-------------
 | SCR_SERVER_PORT                    | 8080                      | The port on which the SCR API will run
 | SCR_LOGGING_LEVEL                  | INFO                      | Application logging level. One of: DEBUG, INFO, WARN, ERROR. The level DEBUG **MUST NOT** be used when handling live patient data.
+| SCR_LOGGING_FORMAT                 | (*)                       | Defines how to format log events on stdout
+| SCR_PARTY_ID_FROM                  |                           | Sender party id key
 | SCR_PARTY_ID_TO                    |                           | Spine party id key
+| SCR_NHSD_ASID_TO                   |                           | Spine asid key
 | SCR_SPINE_URL                      |                           | Spine SCR URL (eg. INT https://msg.intspineservices.nhs.uk)
 | SCR_SPINE_ENDPOINT_CERT            |                           | Spine client PEM certificate used for mutual TLS
 | SCR_SPINE_ENDPOINT_KEY             |                           | Key for the client PEM certificate
 | SCR_SPINE_ENDPOINT_CACERT          |                           | CA cert PEM used for spine certificate validation
+
+(*) SCR API is using logback (http://logback.qos.ch/) for logging configuration.
+Default log format is defined in the built-in logback.xml (https://github.com/NHSDigital/summary-care-record-api/tree/master/docker/service/src/main/resources/logback.xml)
+This value can be overriden using `SCR_LOGGING_FORMAT` environment variable.
+Alternatively, an external `logback.xml` with much more customizations can be provided using `-Dlogback.configurationFile` JVM parameter.
 
 ## How to run service:
 * Navigate to `docker/docker/service`
