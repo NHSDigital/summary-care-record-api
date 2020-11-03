@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class ScrApplication {
-    public static void mai(String[] args) {
+    public static void main(String[] args) {
         run(ScrApplication.class);
     }
 }
