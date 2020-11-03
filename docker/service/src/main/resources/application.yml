@@ -14,7 +14,7 @@ management:
         include: info, health, metrics, mappings
 
 scr:
-  partyIdFrom: ${SCR_PARTY_ID_FROM}
+  partyIdFrom: ${SCR_PARTY_ID_FROM:TESTGEN-201324}
   partyIdTo: ${SCR_PARTY_ID_TO}
   nhsdAsidTo: ${SCR_NHSD_ASID_TO}
 
