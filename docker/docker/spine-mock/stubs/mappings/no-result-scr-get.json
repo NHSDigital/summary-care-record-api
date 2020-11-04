@@ -1,0 +1,12 @@
+{
+    "request": {
+        "method": "GET",
+        "url": "/content/no-result"
+    },
+    "response": {
+        "headers": {
+            "Retry-After": "1000"
+        },
+        "status": 202
+    }
+}
