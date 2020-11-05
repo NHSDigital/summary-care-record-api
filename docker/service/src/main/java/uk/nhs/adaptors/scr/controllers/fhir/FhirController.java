@@ -3,6 +3,7 @@ package uk.nhs.adaptors.scr.controllers.fhir;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.hl7.fhir.r4.model.OperationOutcome;
+import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -50,7 +51,9 @@ public class FhirController {
         requestData.setBundle(fhirParser.parseBundle(contentType, body));
         requestData.setNhsdAsid(nhsdAsid);
 
+        var mdcContextMap = MDC.getCopyOfContextMap();
         Callable<ResponseEntity<?>> callable = () -> {
+            MDC.setContextMap(mdcContextMap);
             scrService.handleFhir(requestData);
             return ResponseEntity
                 .status(HttpStatus.OK)
