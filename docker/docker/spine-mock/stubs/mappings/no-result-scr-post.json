@@ -1,0 +1,13 @@
+{
+  "request": {
+    "method": "POST",
+    "url": "/clinical/no-result"
+  },
+  "response": {
+    "headers": {
+      "Content-Location": "/content/no-result",
+      "Retry-After": "100"
+    },
+    "status": 202
+  }
+}
