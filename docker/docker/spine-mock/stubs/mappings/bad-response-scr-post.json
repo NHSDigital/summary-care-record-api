@@ -1,0 +1,9 @@
+{
+  "request": {
+    "method": "POST",
+    "url": "/clinical/bad-response"
+  },
+  "response": {
+      "body": "\t\n<html><title>200: OK<title><body200: OK</body></html>"
+    }
+  }
