@@ -157,7 +157,9 @@ public class ScrTest {
 
         var operationOutcome = fhirParser.parseResource(
             MediaType.parseMediaType(FHIR_JSON_CONTENT_TYPE), body, OperationOutcome.class);
-        assertThat(operationOutcome.getIssueFirstRep().getDetails().getText())
+        assertThat(operationOutcome.getIssueFirstRep().getSeverity()).isEqualTo(OperationOutcome.IssueSeverity.ERROR);
+        assertThat(operationOutcome.getIssueFirstRep().getCode()).isEqualTo(OperationOutcome.IssueType.VALUE);
+        assertThat(operationOutcome.getIssueFirstRep().getDiagnostics())
             .isEqualTo("Spine processing finished with errors:\n"
                 + "- 400: Invalid Request\n"
                 + "- 35160: [PSIS-35160] - Invalid input message. Mandatory field NHS Number is missing or incorrect");
