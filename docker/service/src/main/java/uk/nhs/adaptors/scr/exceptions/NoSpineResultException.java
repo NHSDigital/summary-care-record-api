@@ -1,7 +1,6 @@
 package uk.nhs.adaptors.scr.exceptions;
 
 import lombok.Getter;
-import org.hl7.fhir.instance.model.api.IBaseOperationOutcome;
 import org.hl7.fhir.r4.model.CodeableConcept;
 import org.hl7.fhir.r4.model.OperationOutcome;
 
@@ -16,7 +15,7 @@ public class NoSpineResultException extends GatewayTimeoutException {
     }
 
     @Override
-    public IBaseOperationOutcome getOperationOutcome() {
+    public OperationOutcome getOperationOutcome() {
         var operationOutcome = new OperationOutcome();
 
         operationOutcome.addIssue()

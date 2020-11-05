@@ -1,6 +1,5 @@
 package uk.nhs.adaptors.scr.utils;
 
-
 import org.hl7.fhir.r4.model.CodeableConcept;
 import org.hl7.fhir.r4.model.OperationOutcome;
 
