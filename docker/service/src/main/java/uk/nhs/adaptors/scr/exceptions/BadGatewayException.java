@@ -1,6 +1,5 @@
 package uk.nhs.adaptors.scr.exceptions;
 
-import org.hl7.fhir.instance.model.api.IBaseOperationOutcome;
 import org.hl7.fhir.r4.model.OperationOutcome;
 import org.springframework.http.HttpStatus;
 
@@ -18,7 +17,7 @@ public abstract class BadGatewayException extends ScrBaseException implements Op
     }
 
     @Override
-    public IBaseOperationOutcome getOperationOutcome() {
+    public OperationOutcome getOperationOutcome() {
         var operationOutcome = new OperationOutcome();
         operationOutcome.addIssue()
             .setDiagnostics(getMessage());

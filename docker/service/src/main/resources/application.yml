@@ -17,9 +17,9 @@ scr:
 spine:
   url: ${SCR_SPINE_URL}
   acsEndpoint: /acs
-  scrEndpoint: /clinical
-  scrResultRepeatTimeout: 50000 # 50sec - how much time to wait for all repeated Spine GET retries
-  scrResultTimeout: 60000 # 60sec - how much time to wait for this API entire SCR POST (Spine POST + polling Spine GET)
+  scrEndpoint: ${SCR_SPINE_ENDPOINT:/clinical}
+  scrResultRepeatTimeout: ${SCR_SPINE_RESULT_REPEAT_TIMEOUT:50000} # 50sec - how much time to wait for all repeated Spine GET retries
+  scrResultTimeout: ${SCR_SPINE_RESULT_TIMEOUT:60000} # 60sec - how much time to wait for this API entire SCR POST (Spine POST + polling Spine GET)
   endpointCert: ${SCR_SPINE_ENDPOINT_CERT:}
   endpointPrivateKey: ${SCR_SPINE_ENDPOINT_KEY:}
   caCerts: ${SCR_SPINE_ENDPOINT_CACERT:}
