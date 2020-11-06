@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.core.io.Resource;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -19,6 +20,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import uk.nhs.adaptors.scr.WireMockInitializer;
 import uk.nhs.adaptors.scr.uat.common.CustomArgumentsProvider;
 import uk.nhs.adaptors.scr.uat.common.TestData;
+
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
 import static org.hamcrest.Matchers.notNullValue;
@@ -38,12 +42,16 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class SendUAT {
 
     private static final String FHIR_ENDPOINT = "/fhir";
-    private static final String SPINE_SCR_ENDPOINT = "/summarycarerecord";
+    private static final String SPINE_SCR_ENDPOINT = "/clinical";
     private static final String SCR_SPINE_CONTENT_ENDPOINT = "/content";
     private static final int INITIAL_WAIT_TIME = 1;
+    private static final String NHSD_ASID = "123";
 
     @Value("${spine.url}")
     private String spineUrl;
+
+    @Value("classpath:responses/polling/success.xml")
+    private Resource pollingSuccessResponse;
 
     @Autowired
     private MockMvc mockMvc;
@@ -63,16 +71,18 @@ public class SendUAT {
             WireMock.post(SPINE_SCR_ENDPOINT)
                 .willReturn(aResponse()
                     .withStatus(ACCEPTED.value())
-                    .withHeader("Content-Location", spineUrl + SCR_SPINE_CONTENT_ENDPOINT)
+                    .withHeader("Content-Location", SCR_SPINE_CONTENT_ENDPOINT)
                     .withHeader("Retry-After", String.valueOf(INITIAL_WAIT_TIME))));
         wireMockServer.stubFor(
             WireMock.get(SCR_SPINE_CONTENT_ENDPOINT)
                 .willReturn(aResponse()
+                    .withBody(Files.readString(pollingSuccessResponse.getFile().toPath(), StandardCharsets.UTF_8))
                     .withStatus(OK.value())));
 
         var mvcResult = mockMvc
             .perform(post(FHIR_ENDPOINT)
                 .contentType(getContentType(testData.getFhirFormat()))
+                .header("Nhsd-Asid", NHSD_ASID)
                 .content(testData.getFhir()))
             .andExpect(request().asyncStarted())
             .andExpect(request().asyncResult(notNullValue()))
@@ -88,6 +98,7 @@ public class SendUAT {
         var mvcResult = mockMvc.perform(
             post(FHIR_ENDPOINT)
                 .contentType(getContentType(testData.getFhirFormat()))
+                .header("Nhsd-Asid", NHSD_ASID)
                 .content(testData.getFhir()))
             .andExpect(request().asyncStarted())
             .andExpect(request().asyncResult(notNullValue()))

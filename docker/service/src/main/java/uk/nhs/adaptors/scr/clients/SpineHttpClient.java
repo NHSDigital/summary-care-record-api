@@ -4,6 +4,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.Header;
@@ -65,6 +66,7 @@ public class SpineHttpClient {
 
     @Builder
     @Getter
+    @ToString
     public static class Response {
         private final int statusCode;
         private final Header[] headers;

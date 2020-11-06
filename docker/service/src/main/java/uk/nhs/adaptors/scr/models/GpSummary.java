@@ -4,6 +4,15 @@ import java.util.List;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hl7.fhir.r4.model.Bundle;
+import org.hl7.fhir.r4.model.Composition;
+import org.hl7.fhir.r4.model.Organization;
+import org.hl7.fhir.r4.model.Patient;
+import org.hl7.fhir.r4.model.Practitioner;
+import org.hl7.fhir.r4.model.PractitionerRole;
+import org.hl7.fhir.r4.model.Resource;
+import org.hl7.fhir.r4.model.ResourceType;
+import uk.nhs.adaptors.scr.exceptions.FhirMappingException;
 import uk.nhs.adaptors.scr.models.gpsummarymodels.CompositionRelatesTo;
 import uk.nhs.adaptors.scr.models.gpsummarymodels.AllConditions;
 import uk.nhs.adaptors.scr.models.gpsummarymodels.ObservationObject;
@@ -18,6 +27,17 @@ import uk.nhs.adaptors.scr.models.gpsummarymodels.PractitionerRoleCode;
 import uk.nhs.adaptors.scr.models.gpsummarymodels.PractitionerRoleIdentifier;
 import uk.nhs.adaptors.scr.models.gpsummarymodels.Presentation;
 
+import static uk.nhs.adaptors.scr.fhirmappings.CompositionMapper.mapComposition;
+import static uk.nhs.adaptors.scr.fhirmappings.ConditionMapper.mapConditions;
+import static uk.nhs.adaptors.scr.fhirmappings.ObservationMapper.mapObservations;
+import static uk.nhs.adaptors.scr.fhirmappings.OrganizationMapper.mapOrganization;
+import static uk.nhs.adaptors.scr.fhirmappings.PatientMapper.mapPatient;
+import static uk.nhs.adaptors.scr.fhirmappings.PractitionerMapper.mapPractitioner;
+import static uk.nhs.adaptors.scr.fhirmappings.PractitionerRoleMapper.mapPractitionerRole;
+import static uk.nhs.adaptors.scr.utils.DateUtil.formatDate;
+import static uk.nhs.adaptors.scr.utils.FhirHelper.getDomainResource;
+import static uk.nhs.adaptors.scr.utils.FhirHelper.getDomainResourceList;
+
 @Getter
 @Setter
 public class GpSummary {
@@ -25,6 +45,10 @@ public class GpSummary {
     private String headerTimeStamp;
     private String compositionId;
     private String compositionDate;
+    private String nhsdAsidFrom;
+    private String nhsdAsidTo;
+    private String partyIdFrom;
+    private String partyIdTo;
     private List<CompositionRelatesTo> compositionRelatesTos;
     private List<PractitionerRoleIdentifier> practitionerRoleIdentifiers;
     private List<PractitionerRoleCode> practitionerRoleCodes;
@@ -39,4 +63,34 @@ public class GpSummary {
     private List<Presentation> presentations;
     private List<ObservationObject> observationList;
     private List<AllConditions> conditionParent;
+
+    public static GpSummary fromRequestData(RequestData requestData) throws FhirMappingException {
+        GpSummary gpSummary = new GpSummary();
+
+        mapBundle(gpSummary, requestData.getBundle());
+
+        gpSummary.setNhsdAsidFrom(requestData.getNhsdAsid());
+        return gpSummary;
+    }
+
+    private static void mapBundle(GpSummary gpSummary, Bundle bundle) {
+        Composition composition = getDomainResource(bundle, Composition.class);
+        PractitionerRole practitionerRole = getDomainResource(bundle, PractitionerRole.class);
+        Organization organization = getDomainResource(bundle, Organization.class);
+        Practitioner practitioner = getDomainResource(bundle, Practitioner.class);
+        Patient patient = getDomainResource(bundle, Patient.class);
+        List<Resource> conditionList = getDomainResourceList(bundle, ResourceType.Condition);
+        List<Resource> observationList = getDomainResourceList(bundle, ResourceType.Observation);
+
+        gpSummary.setHeaderId(bundle.getIdentifier().getValue().toUpperCase());
+        gpSummary.setHeaderTimeStamp(formatDate(bundle.getTimestampElement().asStringValue()));
+
+        mapComposition(gpSummary, composition);
+        mapPractitionerRole(gpSummary, practitionerRole);
+        mapOrganization(gpSummary, organization);
+        mapPractitioner(gpSummary, practitioner);
+        mapPatient(gpSummary, patient);
+        mapObservations(gpSummary, observationList);
+        mapConditions(gpSummary, conditionList);
+    }
 }

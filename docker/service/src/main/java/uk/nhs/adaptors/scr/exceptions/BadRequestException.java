@@ -1,36 +1,36 @@
 package uk.nhs.adaptors.scr.exceptions;
 
-import org.hl7.fhir.instance.model.api.IBaseOperationOutcome;
+import org.hl7.fhir.r4.model.CodeableConcept;
 import org.hl7.fhir.r4.model.OperationOutcome;
 import org.springframework.http.HttpStatus;
-import uk.nhs.adaptors.scr.utils.OperationOutcomeUtils;
 
 public abstract class BadRequestException extends ScrBaseException implements OperationOutcomeError {
 
-    private final IBaseOperationOutcome operationOutcome;
+    private final OperationOutcome operationOutcome;
 
     public BadRequestException(String message) {
         super(message);
-        operationOutcome = OperationOutcomeUtils.createFromMessage(message, getIssueType());
+        operationOutcome = buildOperationOutcome(message);
     }
 
     public BadRequestException(String message, Throwable cause) {
         super(message, cause);
-        operationOutcome = OperationOutcomeUtils.createFromMessage(message, getIssueType());
+        operationOutcome = buildOperationOutcome(message);
     }
 
-    public BadRequestException(Throwable cause) {
-        super(cause);
-        operationOutcome = OperationOutcomeUtils.createFromMessage(cause.getMessage(), getIssueType());
-    }
-
-    @Override
-    public final IBaseOperationOutcome getOperationOutcome() {
+    private static OperationOutcome buildOperationOutcome(String message) {
+        var operationOutcome = new OperationOutcome();
+        operationOutcome.addIssue()
+            .setCode(OperationOutcome.IssueType.VALUE)
+            .setSeverity(OperationOutcome.IssueSeverity.ERROR)
+            .setDiagnostics(message)
+            .setDetails(new CodeableConcept().addCoding(NHSCodings.BAD_REQUEST.asCoding()));
         return operationOutcome;
     }
 
-    public OperationOutcome.IssueType getIssueType() {
-        return OperationOutcome.IssueType.INVALID;
+    @Override
+    public final OperationOutcome getOperationOutcome() {
+        return operationOutcome;
     }
 
     @Override

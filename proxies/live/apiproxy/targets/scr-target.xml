@@ -13,11 +13,6 @@
   <PreFlow>
     <Request>
       <Step>
-        <!-- Header NHSD-Session-URID must be present and not empty -->
-        <Name>RaiseFault.400BadRequest</Name>
-        <Condition>(request.header.NHSD-Session-URID is null) or (not request.header.NHSD-Session-URID ~~ ".+")</Condition>
-      </Step>
-      <Step>
         <Name>OauthV2.VerifyAccessToken</Name>
       </Step>
       <Step>
@@ -34,6 +29,10 @@
       </Step>
       <Step>
         <Name>KeyValueMapOperations.GetSecureVariables</Name>
+      </Step>
+      <Step>
+        <Name>AssignMessage.PopulateAsidFromApp</Name>
+        <Condition>(app.asid IsNot null)</Condition>
       </Step>
       <Step>
         <Name>AssignMessage.AddAsidHeader</Name>
@@ -53,11 +52,9 @@
     </HTTPTargetConnection>
   -->
   <HTTPTargetConnection>
-    <URL>http://mocktarget.apigee.net</URL>
-    <Properties>
-      <Property name="supports.http10">true</Property>
-      <Property name="request.retain.headers">User-Agent,Referer,Accept-Language</Property>
-      <Property name="retain.queryparams">apikey</Property>
-    </Properties>
+    <SSLInfo>
+      <Enabled>true</Enabled>
+    </SSLInfo>
+    <URL>https://{{ APIM_PROXY_HOSTNAME }}</URL>
   </HTTPTargetConnection>
 </TargetEndpoint>

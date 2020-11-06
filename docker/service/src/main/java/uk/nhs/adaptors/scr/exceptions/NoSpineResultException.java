@@ -1,17 +1,17 @@
 package uk.nhs.adaptors.scr.exceptions;
 
+import lombok.Getter;
 import org.hl7.fhir.r4.model.CodeableConcept;
 import org.hl7.fhir.r4.model.OperationOutcome;
 
-public class ScrTimeoutException extends GatewayTimeoutException {
-    private static final String MESSAGE = "Spine POST + polling GET has timed out";
+@Getter
+public class NoSpineResultException extends GatewayTimeoutException {
 
-    public ScrTimeoutException() {
-        super(MESSAGE);
-    }
+    private final long retryAfter;
 
-    public ScrTimeoutException(Exception e) {
-        super(MESSAGE, e);
+    public NoSpineResultException(long retryAfter) {
+        super("Spine polling yield no result");
+        this.retryAfter = retryAfter;
     }
 
     @Override
@@ -22,7 +22,7 @@ public class ScrTimeoutException extends GatewayTimeoutException {
             .setSeverity(OperationOutcome.IssueSeverity.ERROR)
             .setCode(OperationOutcome.IssueType.TRANSIENT)
             .setDetails(new CodeableConcept().addCoding(NHSCodings.NO_RECORD_FOUND.asCoding()))
-            .setDiagnostics("Request processing timed out. " + getMessage());
+            .setDiagnostics("Upstream server timed out. " + getMessage());
 
         return operationOutcome;
     }
