@@ -2,3 +2,6 @@ docker_containers:
   - name: scr-api
     dockerfile: "docker/service/Dockerfile"
     path: "docker/service"
+  - name: scr-sandbox
+    dockerfile: "docker/sandbox/Dockerfile"
+    path: "docker/sandbox"
