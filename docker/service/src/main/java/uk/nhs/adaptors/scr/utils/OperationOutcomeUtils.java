@@ -4,6 +4,9 @@ import org.hl7.fhir.r4.model.CodeableConcept;
 import org.hl7.fhir.r4.model.OperationOutcome;
 import uk.nhs.adaptors.scr.exceptions.NHSCodings;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
+
 public class OperationOutcomeUtils {
     public static OperationOutcome createFromException(Exception exception) {
         var operationOutcome = new OperationOutcome();
@@ -16,13 +19,8 @@ public class OperationOutcomeUtils {
     }
 
     private static String formatException(Throwable exception) {
-        var sb = new StringBuilder();
-        sb.append(exception.getMessage());
-        while (exception.getCause() != null) {
-            exception = exception.getCause();
-            sb.append("; ");
-            sb.append(exception.getMessage());
-        }
-        return sb.toString();
+        var errors = new StringWriter();
+        exception.printStackTrace(new PrintWriter(errors));
+        return errors.toString();
     }
 }
