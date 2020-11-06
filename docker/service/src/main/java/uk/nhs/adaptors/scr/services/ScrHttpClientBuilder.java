@@ -4,6 +4,7 @@ import com.heroku.sdk.EnvKeyStore;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.http.conn.ssl.NoopHostnameVerifier;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.conn.ssl.TrustAllStrategy;
@@ -13,9 +14,11 @@ import org.apache.http.ssl.SSLContexts;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import uk.nhs.adaptors.scr.config.SpineConfiguration;
+import uk.nhs.adaptors.scr.exceptions.ScrBaseException;
 
 import javax.net.ssl.SSLContext;
 import java.security.KeyStore;
+import java.util.ArrayList;
 import java.util.UUID;
 
 @Component
@@ -39,6 +42,22 @@ public class ScrHttpClientBuilder {
 
     @SneakyThrows
     private SSLContext buildSSLContext() {
+        var invalidSslValues = new ArrayList<String>();
+        if (StringUtils.isBlank(spineConfiguration.getEndpointPrivateKey())) {
+            invalidSslValues.add("private key");
+        }
+        if (StringUtils.isBlank(spineConfiguration.getEndpointCert())) {
+            invalidSslValues.add("cert");
+        }
+        if (StringUtils.isBlank(spineConfiguration.getCaCerts())) {
+            invalidSslValues.add("cacert");
+        }
+        if (!invalidSslValues.isEmpty()) {
+            throw new ScrBaseException(String.format("Spine SSL %s %s not set",
+                String.join(", ", invalidSslValues),
+                invalidSslValues.size() == 1 ? "is" : "are"));
+        }
+
         var randomPassword = UUID.randomUUID().toString();
         KeyStore ks = EnvKeyStore.createFromPEMStrings(
             spineConfiguration.getEndpointPrivateKey(),
