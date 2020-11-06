@@ -46,7 +46,6 @@ public class SendUAT {
     private static final String SCR_SPINE_CONTENT_ENDPOINT = "/content";
     private static final int INITIAL_WAIT_TIME = 1;
     private static final String NHSD_ASID = "123";
-    private static final String PARTY_ID_FROM = "234";
 
     @Value("${spine.url}")
     private String spineUrl;
@@ -84,7 +83,6 @@ public class SendUAT {
             .perform(post(FHIR_ENDPOINT)
                 .contentType(getContentType(testData.getFhirFormat()))
                 .header("Nhsd-Asid", NHSD_ASID)
-                .header("Party-Id-From", PARTY_ID_FROM)
                 .content(testData.getFhir()))
             .andExpect(request().asyncStarted())
             .andExpect(request().asyncResult(notNullValue()))
@@ -101,7 +99,6 @@ public class SendUAT {
             post(FHIR_ENDPOINT)
                 .contentType(getContentType(testData.getFhirFormat()))
                 .header("Nhsd-Asid", NHSD_ASID)
-                .header("Party-Id-From", PARTY_ID_FROM)
                 .content(testData.getFhir()))
             .andExpect(request().asyncStarted())
             .andExpect(request().asyncResult(notNullValue()))

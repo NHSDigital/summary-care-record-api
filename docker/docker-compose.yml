@@ -9,6 +9,10 @@ services:
       - SCR_SPINE_URL=http://mock-spine-service:8081
       - SCR_LOGGING_LEVEL
       - SCR_PARTY_ID_TO
+      - SCR_SERVER_PORT=8080
+      - SCR_SPINE_ENDPOINT
+      - SCR_SPINE_RESULT_REPEAT_TIMEOUT
+      - SCR_SPINE_RESULT_TIMEOUT
     links:
       - "mock-spine-service"
 

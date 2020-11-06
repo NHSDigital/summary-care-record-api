@@ -11,4 +11,6 @@ import org.springframework.stereotype.Component;
 @Setter
 public class ScrConfiguration {
     private String partyIdTo;
+    private String partyIdFrom;
+    private String nhsdAsidTo;
 }

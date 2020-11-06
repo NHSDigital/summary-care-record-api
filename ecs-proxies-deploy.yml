@@ -3,22 +3,24 @@
 #docker_service_memory: 512
 
 docker_service:
-  - name: scr-api
-    expose: true
-    environment:
-      - name: SCR_LOG_LEVEL
-        value: NOTSET
-      - name: SCR_LDAP_SEARCH_BASE
-        value: ou=services,o=nhs
-    secrets:
-      - name: SCR_SPINE_URL
-        valueFrom: "/ptl/platform-common/cis/ldap-uri"
-      - name: SCR_SECRET_CLIENT_KEY
-        valueFrom: "/ptl/api-deployment/sds/ldap/private-key"
-      - name: SCR_SECRET_CLIENT_CERT
-        valueFrom: "/ptl/api-deployment/sds/ldap/client-cert"
-      - name: SCR_SECRET_CA_CERTS
-        valueFrom: "/ptl/api-deployment/sds/ldap/ca-certs"
-    health_check:
-      matcher: "200"
-      path: "/healthcheck"
+    - name: scr-api
+      expose: true
+      environment:
+          - name: SCR_LOGGING_LEVEL
+            value: "{{ 'DEBUG' if APIGEE_ENVIRONMENT == 'internal-dev' else 'INFO' }}"
+          - name: SCR_SPINE_URL
+            value: "msg.intspineservices.nhs.uk"
+      secrets:
+        - name: SCR_SECRET_CLIENT_KEY
+          valueFrom: "/ptl/api-deployment/scr/ldap/private-key"
+        - name: SCR_SECRET_CLIENT_CERT
+          valueFrom: "/ptl/api-deployment/scr/ldap/client-cert"
+        - name: SCR_SECRET_CA_CERTS
+          valueFrom: "/ptl/api-deployment/scr/ldap/ca-certs"
+        - name: SCR_PARTY_ID_TO
+          valueFrom: "/ptl/api-deployment/scr/env-int/party-id"
+        - name: SCR_NHSD_ASID_TO
+          valueFrom: "/ptl/api-deployment/scr/env-int/asid-to"
+      health_check:
+          matcher: "200"
+          path: "/healthcheck"

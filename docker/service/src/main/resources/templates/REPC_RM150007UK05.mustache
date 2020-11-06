@@ -52,19 +52,19 @@ Content-Transfer-Encoding: 8bit
     <acceptAckCode code="NE"/>
     <communicationFunctionRcv typeCode="RCV">
         <device classCode="DEV" determinerCode="INSTANCE">
-            <id root="1.2.826.0.1285.0.2.0.107" extension="655159266510"/>
+            <id root="1.2.826.0.1285.0.2.0.107" extension="{{nhsdAsidTo}}"/>
         </device>
     </communicationFunctionRcv>
     <communicationFunctionSnd typeCode="SND">
         <device classCode="DEV" determinerCode="INSTANCE">
-            <id root="1.2.826.0.1285.0.2.0.107" extension="{{nhsdAsid}}"/>
+            <id root="1.2.826.0.1285.0.2.0.107" extension="{{nhsdAsidFrom}}"/>
         </device>
     </communicationFunctionSnd>
     <ControlActEvent classCode="ALRT" moodCode="ENV">
         <author1 typeCode="AUT">
             <AgentSystemSDS classCode="AGNT">
                 <agentSystemSDS classCode="DEV" determinerCode="INSTANCE">
-                    <id root="1.2.826.0.1285.0.2.0.107" extension="{{nhsdAsid}}"/>
+                    <id root="1.2.826.0.1285.0.2.0.107" extension="{{nhsdAsidFrom}}"/>
                 </agentSystemSDS>
             </AgentSystemSDS>
         </author1>
