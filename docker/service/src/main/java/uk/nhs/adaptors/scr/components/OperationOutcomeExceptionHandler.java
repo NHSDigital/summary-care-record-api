@@ -47,7 +47,7 @@ public class OperationOutcomeExceptionHandler extends ResponseEntityExceptionHan
             operationOutcome = error.getOperationOutcome();
             httpStatus = error.getStatusCode();
         } else {
-            operationOutcome = OperationOutcomeUtils.createFromMessage(ex.getMessage());
+            operationOutcome = OperationOutcomeUtils.createFromException(ex);
             httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
         }
         String content = fhirParser.encodeResource(mediaType, operationOutcome);
@@ -65,7 +65,7 @@ public class OperationOutcomeExceptionHandler extends ResponseEntityExceptionHan
         MediaType mediaType = getRequestMediaType(request);
 
         headers.put(HttpHeaders.CONTENT_TYPE, singletonList(mediaType.toString()));
-        OperationOutcome operationOutcome = OperationOutcomeUtils.createFromMessage(ex.getMessage());
+        OperationOutcome operationOutcome = OperationOutcomeUtils.createFromException(ex);
         String content = fhirParser.encodeResource(mediaType, operationOutcome);
         return new ResponseEntity<>(content, headers, status);
     }
