@@ -27,7 +27,12 @@ paths:
       tags:
         - SCR
       summary: Scr endpoint
-      operationId: operationId
+      parameters:
+        - in: header
+          name: Nhsd-Asid
+          schema:
+            type: string
+          required: true
       requestBody:
         required: true
         content:
@@ -115,13 +120,13 @@ components:
         entry:
           type: array
           items:
-            type: object
-            anyOf:
+            oneOf:
               - $ref: '#/components/schemas/Composition'
               - $ref: '#/components/schemas/Patient'
               - $ref: '#/components/schemas/Organization'
               - $ref: '#/components/schemas/Practitioner'
               - $ref: '#/components/schemas/PractitionerRole'
+            anyOf:
               - $ref: '#/components/schemas/Condition'
               - $ref: '#/components/schemas/Observation'
           example:
@@ -186,6 +191,10 @@ components:
                     properties:
                       value:
                         type: string
+                    required:
+                      - value
+                required:
+                  - targetIdentifier
             title:
               type: string
               example: 'General Practice Summary'
@@ -203,6 +212,8 @@ components:
                         type: string
                       div:
                         type: string
+          required:
+            - date
 
     Patient:
       type: object
@@ -239,7 +250,6 @@ components:
                     type: string
                   value:
                     type: string
-
 
     Organization:
       type: object
@@ -360,8 +370,11 @@ components:
                 properties:
                   coding:
                     $ref: '#/components/schemas/coding'
+          required:
+            - identifier
 
     Condition:
+      description: "Optional element"
       type: object
       properties:
         fullUrl:
@@ -383,7 +396,16 @@ components:
             identifier:
               type: array
               items:
-                $ref: '#/components/schemas/identifier'
+                type: object
+                properties:
+                  use:
+                    type: string
+                  system:
+                    type: string
+                  value:
+                    type: string
+                required: 
+                  - system
             clinicalStatus:
               type: array
               items:
@@ -401,8 +423,11 @@ components:
             onsetDateTime:
               type: string
               example: "2020-05-06T10:48:19+00:00"
+          required:
+            - clinicalStatus
 
     Observation:
+      description: "Optional element"
       type: object
       properties:
         fullUrl:
@@ -452,6 +477,8 @@ components:
                     type: string
                   end:
                     type: string
+          required:
+            - status
 
     identifier:
       type: object
