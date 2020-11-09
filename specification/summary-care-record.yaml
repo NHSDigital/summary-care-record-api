@@ -46,28 +46,28 @@ paths:
             application/fhir+json:
               schema:
                 type: object
-              example: "<OperationOutcome xmlns=\"http://hl7.org/fhir\">\n    <issue>\n        <severity value=\"information\"></severity>\n        <code value=\"information\"></code>\n        <diagnostics value=\"https://fhir.nhs.uk/STU3/ValueSet/Spine-ErrorOrWarningCode-1 == static display value\"></diagnostics>\n    </issue>\n</OperationOutcome>"
+              example: "{\n    \"OperationOutcome\": {\n      \"issue\": {\n        \"severity\": {\n            \"value\": \"information\"\n        },\n        \"code\": {\n            \"value\": \"informational\"\n        },\n        \"diagnostics\": {\n            \"value\": \"Resource has been successfully updated.\"\n        }\n      }\n    }\n}"
         "400":
           description: ACL consent not set
           content:
             application/fhir+json:
               schema:
                 type: object
-              example: "<OperationOutcome xmlns=\"http://hl7.org/fhir\">\n    <issue>\n        <severity value=\"error\"></severity>\n        <code value=\"invalid\"></code>\n        <details>\n            <text value=\"https://fhir.nhs.uk/STU3/ValueSet/Spine-ErrorOrWarningCode-1 == static display value\"></text>\n        </details>\n    </issue>\n</OperationOutcome>"
+              example: "{\n    \"OperationOutcome\": {\n      \"issue\": {\n        \"severity\": {\n            \"value\": \"error\"\n        },\n        \"code\": {\n            \"value\": \"invalid\"\n        },\n        \"diagnostics\": {\n            \"value\": \"ttps://fhir.nhs.uk/STU3/ValueSet/Spine-ErrorOrWarningCode-1 == static display value\"\n        }\n      }\n    }\n}"
         "412":
           description: ACL consent not set
           content:
             application/fhir+json:
               schema:
                 type: object
-              example: "<OperationOutcome xmlns=\"http://hl7.org/fhir\">\n    <issue>\n        <severity value=\"error\"></severity>\n        <code value=\"invalid\"></code>\n        <details>\n            <text value=\"https://fhir.nhs.uk/STU3/ValueSet/Spine-ErrorOrWarningCode-1 == static display value\"></text>\n        </details>\n    </issue>\n</OperationOutcome>"
+              example: "{\n    \"OperationOutcome\": {\n      \"issue\": {\n        \"severity\": {\n            \"value\": \"error\"\n        },\n        \"code\": {\n            \"value\": \"invalid\"\n        },\n        \"diagnostics\": {\n            \"value\": \"ttps://fhir.nhs.uk/STU3/ValueSet/Spine-ErrorOrWarningCode-1 == static display value\"\n        }\n      }\n    }\n}"
         "502":
           description: Spine changed response structure
           content:
             application/fhir+json:
               schema:
                 type: object
-              example: "<OperationOutcome xmlns=\"http://hl7.org/fhir\">\n    <issue>\n        <severity value=\"error\"></severity>\n        <code value=\"invalid\"></code>\n        <details>\n            <text value=\"https://fhir.nhs.uk/STU3/ValueSet/Spine-ErrorOrWarningCode-1 == static display value\"></text>\n        </details>\n    </issue>\n</OperationOutcome>"
+              example: "{\n    \"OperationOutcome\": {\n      \"issue\": {\n        \"severity\": {\n            \"value\": \"error\"\n        },\n        \"code\": {\n            \"value\": \"invalid\"\n        },\n        \"diagnostics\": {\n            \"value\": \"ttps://fhir.nhs.uk/STU3/ValueSet/Spine-ErrorOrWarningCode-1 == static display value\"\n        }\n      }\n    }\n}"
 
         "504":
           description: Gateway Timeout
@@ -75,7 +75,7 @@ paths:
             application/fhir+json:
               schema:
                 type: object
-              example: "<OperationOutcome xmlns=\"http://hl7.org/fhir\">\n    <issue>\n        <severity value=\"error\"></severity>\n        <code value=\"invalid\"></code>\n        <details>\n            <text value=\"https://fhir.nhs.uk/STU3/ValueSet/Spine-ErrorOrWarningCode-1 == static display value\"></text>\n        </details>\n    </issue>\n</OperationOutcome>"
+              example: "{\n    \"OperationOutcome\": {\n      \"issue\": {\n        \"severity\": {\n            \"value\": \"error\"\n        },\n        \"code\": {\n            \"value\": \"invalid\"\n        },\n        \"diagnostics\": {\n            \"value\": \"ttps://fhir.nhs.uk/STU3/ValueSet/Spine-ErrorOrWarningCode-1 == static display value\"\n        }\n      }\n    }\n}"
 
   /healthcheck:
     get:
