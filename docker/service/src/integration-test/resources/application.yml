@@ -17,6 +17,6 @@ spine:
     scrEndpoint: /clinical
     scrResultRepeatTimeout: 4000
     scrResultTimeout: 5000
-    endpointCert: ""
-    endpointPrivateKey: ""
-    caCerts: ""
+    endpointCert: "some_cert"
+    endpointPrivateKey: "some_key"
+    caCerts: "some_cacerts"
