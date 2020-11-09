@@ -1,14 +1,10 @@
-FROM gradle:jdk14 AS build
-COPY --chown=gradle:gradle . /home/gradle/src
-WORKDIR /home/gradle/src
-RUN gradle build --no-daemon --console plain bootJar
+FROM alpine:latest
 
-FROM adoptopenjdk/openjdk14
-
-EXPOSE 9000
-
-RUN mkdir /app
-
-COPY --from=build /home/gradle/src/build/libs/*.jar /app/integration-adaptor-scr.jar
-
-ENTRYPOINT java -jar /app/integration-adaptor-scr.jar
+ENTRYPOINT while [[ 1 == 1 ]]; do \
+        echo SCR_SECRET_CLIENT_KEY: $(echo ${SCR_SECRET_CLIENT_KEY} | wc -c);\
+        echo SCR_SECRET_CLIENT_CERT: $(echo ${SCR_SECRET_CLIENT_CERT} | wc -c);\
+        echo SCR_SECRET_CA_CERTS: $(echo ${SCR_SECRET_CA_CERTS} | wc -c);\
+        echo SCR_NHSD_ASID_TO: $(echo ${SCR_NHSD_ASID_TO} | wc -c);\
+        echo SCR_PARTY_ID_TO: $(echo ${SCR_PARTY_ID_TO} | wc -c);\
+        sleep 1; \
+        done
