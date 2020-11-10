@@ -74,7 +74,10 @@ public class SpineHttpClient {
 
         @SneakyThrows
         public String toString() {
-            var value = "SpineHttpClient.Response(statusCode=" + this.getStatusCode() + ", body=" + this.getBody() + ")";
+            var value = "SpineHttpClient.Response("
+                + "statusCode=" + this.getStatusCode()
+                + ", headers=" + Arrays.deepToString(this.getHeaders())
+                + ", body=" + this.getBody() + ")";
             return Base64.getEncoder().encodeToString(value.getBytes(StandardCharsets.UTF_8.toString()));
         }
     }
