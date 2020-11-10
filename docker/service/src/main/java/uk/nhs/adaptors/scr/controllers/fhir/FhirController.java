@@ -47,6 +47,17 @@ public class FhirController {
         @RequestBody String body)
         throws FhirValidationException, HttpMediaTypeNotAcceptableException {
 
+        LOGGER.debug("DEBUG LEVEL ON");
+        LOGGER.info("CHECKING APP VARIABLES: SpineConfiguration.EndpointCert.Length=" + spineConfiguration.getEndpointCert().length());
+        var envVar = System.getenv("SCR_SECRET_CLIENT_CERT");
+        String text;
+        if (envVar == null) {
+            text = "N/A";
+        } else {
+            text = String.valueOf(envVar.length());
+        }
+        LOGGER.info("CHECKING ENV VARIABLES: SCR_SECRET_CLIENT_CERT.Length=" + text);
+
         var requestData = new RequestData();
         requestData.setBundle(fhirParser.parseBundle(contentType, body));
         requestData.setNhsdAsid(nhsdAsid);
