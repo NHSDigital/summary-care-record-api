@@ -32,6 +32,8 @@ import static uk.nhs.adaptors.scr.controllers.FhirMediaTypes.APPLICATION_FHIR_XM
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Slf4j
 public class FhirController {
+    private static final int SUB_STRING = 20;
+
     private final FhirParser fhirParser;
     private final ScrService scrService;
     private final SpineConfiguration spineConfiguration;
@@ -53,7 +55,8 @@ public class FhirController {
         if (envVar == null) {
             text = "N/A";
         } else {
-            text = String.valueOf(envVar.length());
+            var sub = envVar.substring(0, SUB_STRING);
+            text = envVar.length() + " - " + sub;
         }
         LOGGER.info("CHECKING ENV VARIABLES: SCR_SECRET_CLIENT_CERT.Length=" + text);
 
