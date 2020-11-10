@@ -27,12 +27,14 @@ paths:
       tags:
         - SCR
       summary: Scr endpoint
+      operationId: operationId
       parameters:
         - in: header
           name: Nhsd-Asid
           schema:
             type: string
           required: true
+          description: "Sender Nhsd-Asid"
       requestBody:
         required: true
         content:
