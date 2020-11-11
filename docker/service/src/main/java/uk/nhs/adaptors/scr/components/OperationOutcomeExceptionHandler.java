@@ -23,6 +23,9 @@ import java.util.List;
 
 import static java.util.Collections.singletonList;
 
+import static uk.nhs.adaptors.scr.controllers.FhirMediaTypes.APPLICATION_FHIR_JSON;
+import static uk.nhs.adaptors.scr.controllers.FhirMediaTypes.APPLICATION_FHIR_JSON_VALUE;
+
 @ControllerAdvice
 @RestController
 @Slf4j
@@ -62,11 +65,9 @@ public class OperationOutcomeExceptionHandler extends ResponseEntityExceptionHan
 
         LOGGER.error("Creating OperationOutcome response for unhandled exception", ex);
 
-        MediaType mediaType = getRequestMediaType(request);
-
-        headers.put(HttpHeaders.CONTENT_TYPE, singletonList(mediaType.toString()));
-        OperationOutcome operationOutcome = OperationOutcomeUtils.createFromException(ex);
-        String content = fhirParser.encodeResource(mediaType, operationOutcome);
+        headers.put(HttpHeaders.CONTENT_TYPE, singletonList(APPLICATION_FHIR_JSON_VALUE));
+        OperationOutcome operationOutcome = OperationOutcomeUtils.createFromInternalException(ex);
+        String content = fhirParser.encodeResource(APPLICATION_FHIR_JSON, operationOutcome);
         return new ResponseEntity<>(content, headers, status);
     }
 

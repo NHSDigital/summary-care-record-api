@@ -3,7 +3,6 @@ package uk.nhs.adaptors.scr.uat;
 import com.github.tomakehurst.wiremock.WireMockServer;
 import com.github.tomakehurst.wiremock.client.WireMock;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.NotImplementedException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -32,6 +31,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.request;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import static uk.nhs.adaptors.scr.controllers.FhirMediaTypes.APPLICATION_FHIR_JSON_VALUE;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -81,7 +82,7 @@ public class SendUAT {
 
         var mvcResult = mockMvc
             .perform(post(FHIR_ENDPOINT)
-                .contentType(getContentType(testData.getFhirFormat()))
+                .contentType(APPLICATION_FHIR_JSON_VALUE)
                 .header("Nhsd-Asid", NHSD_ASID)
                 .content(testData.getFhir()))
             .andExpect(request().asyncStarted())
@@ -97,7 +98,7 @@ public class SendUAT {
     void testTranslatingFromFhirToHL7v3InvalidRequest(String category, TestData testData) throws Exception {
         var mvcResult = mockMvc.perform(
             post(FHIR_ENDPOINT)
-                .contentType(getContentType(testData.getFhirFormat()))
+                .contentType(APPLICATION_FHIR_JSON_VALUE)
                 .header("Nhsd-Asid", NHSD_ASID)
                 .content(testData.getFhir()))
             .andExpect(request().asyncStarted())
@@ -106,16 +107,5 @@ public class SendUAT {
 
         mockMvc.perform(asyncDispatch(mvcResult))
             .andExpect(status().isBadRequest());
-    }
-
-    private String getContentType(TestData.FhirFormat fhirFormat) {
-        switch (fhirFormat) {
-            case JSON:
-                return "application/fhir+json";
-            case XML:
-                return "application/fhir+xml";
-            default:
-                throw new NotImplementedException();
-        }
     }
 }

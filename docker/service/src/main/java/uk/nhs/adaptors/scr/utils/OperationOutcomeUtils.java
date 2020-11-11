@@ -18,6 +18,15 @@ public class OperationOutcomeUtils {
         return operationOutcome;
     }
 
+    public static OperationOutcome createFromInternalException(Exception exception) {
+        var operationOutcome = new OperationOutcome();
+        operationOutcome.addIssue()
+            .setCode(OperationOutcome.IssueType.EXCEPTION)
+            .setSeverity(OperationOutcome.IssueSeverity.ERROR)
+            .setDiagnostics(formatException(exception));
+        return operationOutcome;
+    }
+
     private static String formatException(Throwable exception) {
         var errors = new StringWriter();
         exception.printStackTrace(new PrintWriter(errors));
