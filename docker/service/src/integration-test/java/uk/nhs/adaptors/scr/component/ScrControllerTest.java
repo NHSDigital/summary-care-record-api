@@ -10,6 +10,7 @@ import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.web.HttpMediaTypeNotAcceptableException;
 import uk.nhs.adaptors.scr.components.FhirParser;
+import uk.nhs.adaptors.scr.config.ScrConfiguration;
 import uk.nhs.adaptors.scr.config.SpineConfiguration;
 import uk.nhs.adaptors.scr.services.ScrService;
 
@@ -43,9 +44,16 @@ public class ScrControllerTest {
     @MockBean
     private SpineConfiguration spineConfiguration;
 
+    @MockBean
+    private ScrConfiguration scrConfiguration;
+
     @Test
     public void whenRequestProcessingTakesTooMuchTimeExpect504() throws HttpMediaTypeNotAcceptableException {
         when(spineConfiguration.getEndpointCert()).thenReturn("some_cert");
+        when(scrConfiguration.getPartyIdFrom()).thenReturn("some-party-from");
+        when(scrConfiguration.getPartyIdTo()).thenReturn("some-party-to");
+        when(scrConfiguration.getNhsdAsidTo()).thenReturn("some-asid-to");
+
         when(fhirParser.parseBundle(any(), any())).thenReturn(new Bundle());
         doAnswer(invocation -> {
             try {
