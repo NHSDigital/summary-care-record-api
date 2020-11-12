@@ -4,7 +4,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
+import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.Header;
@@ -20,7 +20,6 @@ import uk.nhs.adaptors.scr.services.ScrHttpClientBuilder;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
-import java.util.Base64;
 
 @Component
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -67,18 +66,10 @@ public class SpineHttpClient {
 
     @Builder
     @Getter
+    @ToString
     public static class Response {
         private final int statusCode;
         private final Header[] headers;
         private final String body;
-
-        @SneakyThrows
-        public String toString() {
-            var value = "SpineHttpClient.Response("
-                + "statusCode=" + this.getStatusCode()
-                + ", headers=" + Arrays.deepToString(this.getHeaders())
-                + ", body=" + this.getBody() + ")";
-            return Base64.getEncoder().encodeToString(value.getBytes(StandardCharsets.UTF_8.toString()));
-        }
     }
 }
