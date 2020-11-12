@@ -21,6 +21,4 @@ docker_service:
           valueFrom: "/ptl/api-deployment/scr/env-int/party-id"
         - name: SCR_NHSD_ASID_TO
           valueFrom: "/ptl/api-deployment/scr/env-int/asid-to"
-      health_check:
-          matcher: "200"
-          path: "/healthchec h"
+
