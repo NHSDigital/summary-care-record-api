@@ -46,7 +46,6 @@ public class ScrControllerTest {
     @Test
     public void whenRequestProcessingTakesTooMuchTimeExpect504() throws HttpMediaTypeNotAcceptableException {
         when(spineConfiguration.getEndpointCert()).thenReturn("some_cert");
-
         when(fhirParser.parseBundle(any(), any())).thenReturn(new Bundle());
         doAnswer(invocation -> {
             try {
