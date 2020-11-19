@@ -55,7 +55,7 @@ public class SpineClient {
 
         if (statusCode != HttpStatus.ACCEPTED.value()) {
             LOGGER.error("Unexpected spine SCR POST response: {}", response);
-            throw new UnexpectedSpineResponseException("Unexpected spine send response " + statusCode);
+            throw new UnexpectedSpineResponseException("Unexpected spine sent response " + statusCode);
         }
         return response;
 

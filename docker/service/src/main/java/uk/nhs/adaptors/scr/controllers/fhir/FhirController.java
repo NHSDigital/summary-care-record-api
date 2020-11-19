@@ -64,7 +64,7 @@ public class FhirController {
             MDC.setContextMap(mdcContextMap);
             scrService.handleFhir(requestData);
             return ResponseEntity
-                .status(HttpStatus.OK)
+                .status(HttpStatus.CREATED)
                 .contentType(contentType)
                 .body(fhirParser.encodeResource(contentType, buildSuccessResponse()));
         };

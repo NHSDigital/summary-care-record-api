@@ -26,6 +26,6 @@ public abstract class BadGatewayException extends ScrBaseException implements Op
 
     @Override
     public HttpStatus getStatusCode() {
-        return HttpStatus.BAD_GATEWAY;
+        return HttpStatus.INTERNAL_SERVER_ERROR;
     }
 }
