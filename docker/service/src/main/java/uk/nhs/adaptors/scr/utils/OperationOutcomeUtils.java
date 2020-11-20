@@ -21,7 +21,7 @@ public class OperationOutcomeUtils {
     public static OperationOutcome createFromInternalException(Exception exception) {
         var operationOutcome = new OperationOutcome();
         operationOutcome.addIssue()
-            .setCode(OperationOutcome.IssueType.EXCEPTION)
+            .setCode(OperationOutcome.IssueType.NOTSUPPORTED)
             .setSeverity(OperationOutcome.IssueSeverity.ERROR)
             .setDiagnostics(formatException(exception));
         return operationOutcome;

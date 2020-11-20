@@ -31,6 +31,9 @@ import static uk.nhs.adaptors.scr.controllers.FhirMediaTypes.APPLICATION_FHIR_JS
 @Slf4j
 public class OperationOutcomeExceptionHandler extends ResponseEntityExceptionHandler {
 
+    private static final String CONTENT_TYPE = "Content type";
+    private static final String NOT_SUPPORTED = "not supported";
+
     @Autowired
     private FhirParser fhirParser;
 
@@ -66,7 +69,15 @@ public class OperationOutcomeExceptionHandler extends ResponseEntityExceptionHan
         LOGGER.error("Creating OperationOutcome response for unhandled exception", ex);
 
         headers.put(HttpHeaders.CONTENT_TYPE, singletonList(APPLICATION_FHIR_JSON_VALUE));
-        OperationOutcome operationOutcome = OperationOutcomeUtils.createFromInternalException(ex);
+
+        OperationOutcome operationOutcome;
+
+        if (ex.getMessage().startsWith(CONTENT_TYPE) && ex.getMessage().endsWith(NOT_SUPPORTED)) {
+            operationOutcome = OperationOutcomeUtils.createFromInternalException(ex);
+        } else {
+            operationOutcome = OperationOutcomeUtils.createFromException(ex);
+        }
+
         String content = fhirParser.encodeResource(APPLICATION_FHIR_JSON, operationOutcome);
         return new ResponseEntity<>(content, headers, status);
     }
