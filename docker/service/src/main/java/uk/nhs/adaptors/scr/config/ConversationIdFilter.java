@@ -2,6 +2,9 @@ package uk.nhs.adaptors.scr.config;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import uk.nhs.adaptors.scr.exceptions.FhirValidationException;
+import uk.nhs.adaptors.scr.exceptions.ScrBaseException;
+
 import org.slf4j.MDC;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -22,6 +25,7 @@ public class ConversationIdFilter extends OncePerRequestFilter {
 
     private static final String HEADER_NAME = "X-Correlation-ID";
     private static final String MDC_KEY = "CorrelationId";
+    private static final String UUID_REGEX = "^[0-9a-fA-F]{8}+-[0-9a-fA-F]{4}+-[0-9a-fA-F]{4}+-[0-9a-fA-F]{4}+-[0-9a-fA-F]{12}+$";
 
     @Override
     protected void doFilterInternal(final HttpServletRequest request, final HttpServletResponse response, final FilterChain chain)
@@ -30,6 +34,9 @@ public class ConversationIdFilter extends OncePerRequestFilter {
             var token = request.getHeader(HEADER_NAME);
             if (StringUtils.isEmpty(token)) {
                 token = getRandomCorrelationId();
+            }
+            if (!token.matches(UUID_REGEX)) {
+                throw new FhirValidationException(HEADER_NAME + " is not valid UUID");
             }
             applyCorrelationId(token);
             token = URLEncoder.encode(token, StandardCharsets.UTF_8);
