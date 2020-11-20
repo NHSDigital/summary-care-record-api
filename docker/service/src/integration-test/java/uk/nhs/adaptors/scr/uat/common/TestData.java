@@ -16,7 +16,6 @@ import lombok.SneakyThrows;
 @Getter
 public class TestData {
     public static final String FHIR_JSON_FILE_ENDING = ".fhir.json";
-    public static final String FHIR_XML_FILE_ENDING = ".fhir.xml";
     public static final String HL7V3_FILE_ENDING = ".hl7v3.xml";
 
     private final String fhir;
@@ -25,7 +24,7 @@ public class TestData {
 
     public static TestData build(List<Resource> resources) {
         if (resources.size() != 2) {
-            throw new IllegalStateException("There should be 2 resources in the list: one for fhir and one for hl7v3");
+            throw new IllegalStateException("There should be 1 resources in the list: fhir");
         }
 
         var list = new ArrayList<>(resources);
@@ -47,11 +46,9 @@ public class TestData {
         }
         if (fhirFileName.endsWith(FHIR_JSON_FILE_ENDING)) {
             testDataBuilder.fhirFormat(FhirFormat.JSON);
-        } else if (fhirFileName.endsWith(FHIR_XML_FILE_ENDING)) {
-            testDataBuilder.fhirFormat(FhirFormat.XML);
         } else {
             throw new IllegalStateException(String.format(
-                "Fhir resource should be one of [%s, %s]", FHIR_JSON_FILE_ENDING, FHIR_XML_FILE_ENDING));
+                "Fhir resource should be %s", FHIR_JSON_FILE_ENDING));
         }
         testDataBuilder.fhir(TestData.readFile(fhirResource));
 
@@ -65,6 +62,6 @@ public class TestData {
 
     @RequiredArgsConstructor
     public enum FhirFormat {
-        JSON, XML
+        JSON
     }
 }

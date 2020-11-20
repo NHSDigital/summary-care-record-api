@@ -40,8 +40,8 @@ public abstract class CustomArgumentsProvider implements ArgumentsProvider {
             .peek(es -> {
                 if (es.getValue().size() != 2) {
                     throw new IllegalStateException(String.format(
-                        "There should be 2 test data files: %s and one of [%s, %s]",
-                        TestData.HL7V3_FILE_ENDING, TestData.FHIR_JSON_FILE_ENDING, TestData.FHIR_XML_FILE_ENDING));
+                        "There should be 2 test data files: %s and one %s",
+                        TestData.HL7V3_FILE_ENDING, TestData.FHIR_JSON_FILE_ENDING));
                 }
             })
             .collect(Collectors.toMap(
