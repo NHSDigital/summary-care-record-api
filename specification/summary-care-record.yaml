@@ -30,12 +30,6 @@ paths:
       operationId: operationId
       parameters:
         - in: header
-          name: Nhsd-Asid
-          schema:
-            type: string
-          required: true
-          description: "Sender Nhsd-Asid"
-        - in: header
           name: X-Request-ID
           schema:
             type: string
