@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
 public class ExceptionHandlerFilterConfig {
 
     @Bean
-    public FilterRegistrationBean<ExceptionHandlerFilter> servletRegistrationBean2() {
+    public FilterRegistrationBean<ExceptionHandlerFilter> servletRegistrationBeanForCorrelationID() {
         final FilterRegistrationBean<ExceptionHandlerFilter> registrationBean = new FilterRegistrationBean<>();
         final ExceptionHandlerFilter exceptionHandlerFilter = new ExceptionHandlerFilter();
         registrationBean.setFilter(exceptionHandlerFilter);
