@@ -12,7 +12,6 @@ import org.springframework.web.HttpMediaTypeNotAcceptableException;
 import uk.nhs.adaptors.scr.exceptions.FhirValidationException;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.function.Function;
 
 import static uk.nhs.adaptors.scr.controllers.FhirMediaTypes.APPLICATION_FHIR_JSON;
@@ -64,11 +63,6 @@ public class FhirParser {
         try {
             return (Bundle) parser.apply(body);
         } catch (Exception ex) {
-            Optional<String> xmlErrorMessage = checkForXMLBody(body);
-            if (xmlErrorMessage.isPresent()) {
-                throw new FhirValidationException(xmlErrorMessage.get());
-            }
-
             throw new FhirValidationException("Unable to parse FHIR Body as Bundle");
         }
     }
@@ -81,16 +75,6 @@ public class FhirParser {
             throw new HttpMediaTypeNotAcceptableException(List.of(APPLICATION_FHIR_JSON));
         }
         return encoder.apply(resource);
-    }
-
-    private Optional<String> checkForXMLBody(String body) {
-        try {
-            Function<String, IBaseResource> parser = this::parseXml;
-            parser.apply(body);
-            return Optional.of("Invalid XML");
-        } catch (Exception ex) {
-            return Optional.empty();
-        }
     }
 
     private IBaseResource parseJson(String body) {
