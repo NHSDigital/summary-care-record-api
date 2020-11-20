@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.async.WebAsyncTask;
 import uk.nhs.adaptors.scr.components.FhirParser;
+import uk.nhs.adaptors.scr.config.ScrConfiguration;
 import uk.nhs.adaptors.scr.config.SpineConfiguration;
 import uk.nhs.adaptors.scr.exceptions.FhirValidationException;
 import uk.nhs.adaptors.scr.exceptions.ScrTimeoutException;
@@ -34,6 +35,7 @@ public class FhirController {
     private final FhirParser fhirParser;
     private final ScrService scrService;
     private final SpineConfiguration spineConfiguration;
+    private final ScrConfiguration scrConfiguration;
 
     @PostMapping(
         path = "/fhir",
@@ -45,6 +47,12 @@ public class FhirController {
         @RequestHeader("Nhsd-Asid") @NotNull String nhsdAsid,
         @RequestBody String body)
         throws FhirValidationException, HttpMediaTypeNotAcceptableException {
+
+        LOGGER.debug("Using cfg: asid-from={} party-from={} asid-to={} party-to={}",
+            nhsdAsid,
+            scrConfiguration.getPartyIdFrom(),
+            scrConfiguration.getNhsdAsidTo(),
+            scrConfiguration.getPartyIdTo());
 
         var requestData = new RequestData();
         requestData.setBundle(fhirParser.parseBundle(contentType, body));
