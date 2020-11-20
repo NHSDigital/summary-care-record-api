@@ -36,12 +36,17 @@ public class ConversationIdFilter extends OncePerRequestFilter {
                 token = getRandomCorrelationId();
             }
             if (!token.matches(UUID_REGEX)) {
-                throw new FhirValidationException(HEADER_NAME + " is not valid UUID");
+                response.sendError(500, " is not valid UUID");
+                response.setStatus(404);
+                response.getWriter().write("this is my error");
             }
-            applyCorrelationId(token);
-            token = URLEncoder.encode(token, StandardCharsets.UTF_8);
-            response.addHeader(HEADER_NAME, token);
-            chain.doFilter(request, response);
+            else {
+                applyCorrelationId(token);
+                token = URLEncoder.encode(token, StandardCharsets.UTF_8);
+                response.addHeader(HEADER_NAME, token);
+                chain.doFilter(request, response);
+            }
+
         } finally {
             resetCorrelationId();
         }
