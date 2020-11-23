@@ -27,7 +27,6 @@ import javax.validation.constraints.NotNull;
 import java.util.concurrent.Callable;
 
 import static uk.nhs.adaptors.scr.controllers.FhirMediaTypes.APPLICATION_FHIR_JSON_VALUE;
-import static uk.nhs.adaptors.scr.controllers.FhirMediaTypes.APPLICATION_FHIR_XML_VALUE;
 
 @RestController
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -40,8 +39,8 @@ public class FhirController {
 
     @PostMapping(
         path = "/fhir",
-        consumes = {APPLICATION_FHIR_JSON_VALUE, APPLICATION_FHIR_XML_VALUE},
-        produces = {APPLICATION_FHIR_JSON_VALUE, APPLICATION_FHIR_XML_VALUE})
+        consumes = {APPLICATION_FHIR_JSON_VALUE},
+        produces = {APPLICATION_FHIR_JSON_VALUE})
     @ResponseStatus(HttpStatus.OK)
     public WebAsyncTask<ResponseEntity<?>> acceptFhir(
         @RequestHeader("Content-Type") @NotNull MediaType contentType,

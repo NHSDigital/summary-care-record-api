@@ -111,24 +111,10 @@ public class ScrTest {
     }
 
     @Test
-    public void whenPostingFhirXmlThenExpect200() throws Exception {
-        whenPostingThenExpect200(
-            Files.readString(simpleFhirXml.getFile().toPath(), Charsets.UTF_8),
-            FHIR_XML_CONTENT_TYPE);
-    }
-
-    @Test
     public void whenUnableToParseJsonDataThenExpect400() throws Exception {
         whenPostingInvalidContentThenExpect400(
             Files.readString(simpleFhirXml.getFile().toPath(), Charsets.UTF_8),
             FHIR_JSON_CONTENT_TYPE);
-    }
-
-    @Test
-    public void whenUnableToParseXmlDataThenExpect400() throws Exception {
-        whenPostingInvalidContentThenExpect400(
-            Files.readString(simpleFhirJson.getFile().toPath(), Charsets.UTF_8),
-            FHIR_XML_CONTENT_TYPE);
     }
 
     @Test
