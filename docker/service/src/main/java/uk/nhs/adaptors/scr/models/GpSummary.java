@@ -107,7 +107,7 @@ public class GpSummary {
     }
 
     private static void gpSummarySetHeaderId(Bundle bundle, GpSummary gpSummary) {
-        if (bundle.hasTimestampElement()){
+        if (bundle.hasTimestampElement()) {
             gpSummary.setHeaderTimeStamp(formatDate(bundle.getTimestampElement().asStringValue()));
         } else {
             throw new FhirMappingException("Bundle timestamp Value missing from payload");
