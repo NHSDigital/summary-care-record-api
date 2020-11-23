@@ -40,10 +40,9 @@ import static com.github.tomakehurst.wiremock.stubbing.Scenario.STARTED;
 import static io.restassured.RestAssured.given;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
-import static org.springframework.http.HttpStatus.ACCEPTED;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
+import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.GATEWAY_TIMEOUT;
-import static org.springframework.http.HttpStatus.OK;
 
 @ExtendWith({SpringExtension.class})
 @SpringBootTest(webEnvironment = RANDOM_PORT)
@@ -104,8 +103,8 @@ public class ScrTest {
     }
 
     @Test
-    public void whenPostingFhirJsonThenExpect200() throws Exception {
-        whenPostingThenExpect200(
+    public void whenPostingFhirJsonThenExpect201() throws Exception {
+        whenPostingThenExpect201(
             Files.readString(simpleFhirJson.getFile().toPath(), Charsets.UTF_8),
             FHIR_JSON_CONTENT_TYPE);
     }
@@ -178,7 +177,7 @@ public class ScrTest {
             .statusCode(GATEWAY_TIMEOUT.value());
     }
 
-    private void whenPostingThenExpect200(String requestBody, String contentType) throws IOException, HttpMediaTypeNotAcceptableException {
+    private void whenPostingThenExpect201(String requestBody, String contentType) throws IOException, HttpMediaTypeNotAcceptableException {
         setUpSpineRequests();
 
         var body = given()
@@ -189,7 +188,7 @@ public class ScrTest {
             .when()
             .post(FHIR_ENDPOINT)
             .then()
-            .statusCode(OK.value())
+            .statusCode(CREATED.value())
             .extract().asString();
 
         wireMockServer.verify(1, postRequestedFor(urlEqualTo(SCR_SPINE_ENDPOINT)));
@@ -276,7 +275,7 @@ public class ScrTest {
             WireMock.get(SCR_SPINE_CONTENT_ENDPOINT).inScenario(WIREMOCK_SCENARIO_NAME)
                 .whenScenarioStateIs(WIREMOCK_GET_RESPONSE_READY_STATE)
                 .willReturn(aResponse()
-                    .withStatus(OK.value())
+                    .withStatus(CREATED.value())
                     .withBody(Files.readString(pollingSuccessResponse.getFile().toPath(), StandardCharsets.UTF_8))));
 
         warmUpWireMock();
