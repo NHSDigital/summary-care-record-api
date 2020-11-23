@@ -1,6 +1,6 @@
 package uk.nhs.adaptors.scr.config;
 
-import static uk.nhs.adaptors.scr.consts.HttpHeaders.LOGGING_ID_HEADER;
+import static uk.nhs.adaptors.scr.consts.HttpHeaders.REQUEST_ID_LOGGER;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -27,16 +27,16 @@ public class LoggingIdFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(final HttpServletRequest request, final HttpServletResponse response, final FilterChain chain)
         throws java.io.IOException, ServletException {
-        try{
-            var token = request.getHeader(LOGGING_ID_HEADER);
+        try {
+            var token = request.getHeader(REQUEST_ID_LOGGER);
             if (StringUtils.isEmpty(token)) {
                 token = getRandomRequestId();
             }
             applyCorrelationId(token);
             token = URLEncoder.encode(token, StandardCharsets.UTF_8);
-            response.addHeader(LOGGING_ID_HEADER, token);
+            response.addHeader(REQUEST_ID_LOGGER, token);
             chain.doFilter(request, response);
-        }finally {
+        } finally {
             resetRequestId();
         }
     }

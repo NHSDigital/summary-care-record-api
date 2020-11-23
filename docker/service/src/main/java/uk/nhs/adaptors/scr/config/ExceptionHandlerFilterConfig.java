@@ -4,6 +4,8 @@ import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import static uk.nhs.adaptors.scr.consts.Numbers.ONE;
+
 import lombok.AllArgsConstructor;
 
 @Configuration
@@ -16,7 +18,7 @@ public class ExceptionHandlerFilterConfig {
     public FilterRegistrationBean<ExceptionHandlerFilter> servletRegistrationBeanForCorrelationID() {
         final FilterRegistrationBean<ExceptionHandlerFilter> registrationBean = new FilterRegistrationBean<>();
         registrationBean.setFilter(exceptionHandlerFilter);
-        registrationBean.setOrder(1);
+        registrationBean.setOrder(ONE);
         return registrationBean;
     }
 }
