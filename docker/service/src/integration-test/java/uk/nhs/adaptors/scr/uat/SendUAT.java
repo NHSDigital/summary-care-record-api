@@ -90,7 +90,7 @@ public class SendUAT {
             .andReturn();
 
         mockMvc.perform(asyncDispatch(mvcResult))
-            .andExpect(status().isOk());
+            .andExpect(status().isCreated());
     }
 
     @ParameterizedTest(name = "[{index}] - {0}")
