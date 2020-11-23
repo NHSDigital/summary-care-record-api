@@ -1,5 +1,7 @@
 package uk.nhs.adaptors.scr.config;
 
+import static uk.nhs.adaptors.scr.consts.HttpHeaders.LOGGING_ID_HEADER;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.slf4j.MDC;
@@ -20,20 +22,19 @@ import java.util.UUID;
 @Component
 public class LoggingIdFilter extends OncePerRequestFilter {
 
-    public static final String HEADER_NAME = "X-Request-ID";
     public static final String MDC_KEY = "RequestId";
 
     @Override
     protected void doFilterInternal(final HttpServletRequest request, final HttpServletResponse response, final FilterChain chain)
         throws java.io.IOException, ServletException {
         try{
-            var token = request.getHeader(HEADER_NAME);
+            var token = request.getHeader(LOGGING_ID_HEADER);
             if (StringUtils.isEmpty(token)) {
                 token = getRandomRequestId();
             }
             applyCorrelationId(token);
             token = URLEncoder.encode(token, StandardCharsets.UTF_8);
-            response.addHeader(HEADER_NAME, token);
+            response.addHeader(LOGGING_ID_HEADER, token);
             chain.doFilter(request, response);
         }finally {
             resetRequestId();
