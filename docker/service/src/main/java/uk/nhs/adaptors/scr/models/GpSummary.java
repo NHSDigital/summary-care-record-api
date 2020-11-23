@@ -82,8 +82,8 @@ public class GpSummary {
         List<Resource> conditionList = getDomainResourceList(bundle, ResourceType.Condition);
         List<Resource> observationList = getDomainResourceList(bundle, ResourceType.Observation);
 
-        gpSummary.setHeaderId(bundle.getIdentifier().getValue().toUpperCase());
-        gpSummary.setHeaderTimeStamp(formatDate(bundle.getTimestampElement().asStringValue()));
+        gpSummarySetHeaderId(bundle, gpSummary);
+        gpSummarySetHeaderTimeStamp(bundle, gpSummary);
 
         mapComposition(gpSummary, composition);
         mapPractitionerRole(gpSummary, practitionerRole);
@@ -92,5 +92,25 @@ public class GpSummary {
         mapPatient(gpSummary, patient);
         mapObservations(gpSummary, observationList);
         mapConditions(gpSummary, conditionList);
+    }
+
+    private static void gpSummarySetHeaderTimeStamp(Bundle bundle, GpSummary gpSummary) {
+        if (bundle.hasIdentifier()) {
+            if (bundle.getIdentifier().hasValue()) {
+                gpSummary.setHeaderId(bundle.getIdentifier().getValue().toUpperCase());
+            } else {
+                throw new FhirMappingException("Bundle Idenifier Value missing from payload");
+            }
+        } else {
+            throw new FhirMappingException("Bundle Identifier missing from payload");
+        }
+    }
+
+    private static void gpSummarySetHeaderId(Bundle bundle, GpSummary gpSummary) {
+        if (bundle.hasTimestampElement()){
+            gpSummary.setHeaderTimeStamp(formatDate(bundle.getTimestampElement().asStringValue()));
+        } else {
+            throw new FhirMappingException("Bundle timestamp Value missing from payload");
+        }
     }
 }

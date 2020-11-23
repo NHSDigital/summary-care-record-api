@@ -30,7 +30,7 @@ paths:
       operationId: operationId
       parameters:
         - in: header
-          name: Nhsd-Asid
+          name: X-Request-ID
           schema:
             type: string
           required: false
@@ -59,28 +59,28 @@ paths:
             application/fhir+json:
               schema:
                 type: object
-              example: "{\n	\"resourceType\": \"OperationOutcome\",\n	\"meta\": {\n		\"profile\": [\"https://fhir.nhs.uk/STU3/StructureDefinition/Spine-OperationOutcome-1\"]\n	},\n	\"issue\": [{\n		\"severity\": \"error\",\n		\"code\": \"value\",\n		\"details\": \"Resource has been successfully updated.\"\n	}]\n}"
+              example: "{\n  \"resourceType\": \"OperationOutcome\",\n  \"meta\": {\n    \"profile\": [\"https://fhir.nhs.uk/STU3/StructureDefinition/Spine-OperationOutcome-1\"]\n  },\n  \"issue\": [{\n    \"severity\": \"error\",\n    \"code\": \"value\",\n    \"details\": \"Resource has been successfully updated.\"\n  }]\n}"
         "400":
           description: Bad request
           content:
             application/fhir+json:
               schema:
                 type: object
-              example: "{\n	\"resourceType\": \"OperationOutcome\",\n	\"meta\": {\n		\"profile\": [\"https://fhir.nhs.uk/STU3/StructureDefinition/Spine-OperationOutcome-1\"]\n	},\n	\"issue\": [{\n		\"severity\": \"error\",\n		\"code\": \"value\",\n		\"details\": {\n			\"coding\": [{\n				\"system\": \"https://fhir.nhs.uk/STU3/ValueSet/Spine-ErrorOrWarningCode-1\",\n				\"code\": \"https://fhir.nhs.uk/STU3/ValueSet/Spine-ErrorOrWarningCode-1 == static code value\",\n				\"dispay\": \"https://fhir.nhs.uk/STU3/ValueSet/Spine-ErrorOrWarningCode-1 == static display value\"\n			}]\n		}\n	}]\n}"
+              example: "{\n  \"resourceType\": \"OperationOutcome\",\n  \"meta\": {\n    \"profile\": [\"https://fhir.nhs.uk/STU3/StructureDefinition/Spine-OperationOutcome-1\"]\n  },\n  \"issue\": [{\n    \"severity\": \"error\",\n    \"code\": \"value\",\n    \"details\": {\n      \"coding\": [{\n        \"system\": \"https://fhir.nhs.uk/STU3/ValueSet/Spine-ErrorOrWarningCode-1\",\n        \"code\": \"https://fhir.nhs.uk/STU3/ValueSet/Spine-ErrorOrWarningCode-1 == static code value\",\n        \"dispay\": \"https://fhir.nhs.uk/STU3/ValueSet/Spine-ErrorOrWarningCode-1 == static display value\"\n      }]\n    }\n  }]\n}"
         "412":
           description: ACL consent not set
           content:
             application/fhir+json:
               schema:
                 type: object
-              example: "{\n	\"resourceType\": \"OperationOutcome\",\n	\"meta\": {\n		\"profile\": [\"https://fhir.nhs.uk/STU3/StructureDefinition/Spine-OperationOutcome-1\"]\n	},\n	\"issue\": [{\n		\"severity\": \"error\",\n		\"code\": \"value\",\n		\"details\": {\n			\"coding\": [{\n				\"system\": \"https://fhir.nhs.uk/STU3/ValueSet/Spine-ErrorOrWarningCode-1\",\n				\"code\": \"https://fhir.nhs.uk/STU3/ValueSet/Spine-ErrorOrWarningCode-1 == static code value\",\n				\"dispay\": \"https://fhir.nhs.uk/STU3/ValueSet/Spine-ErrorOrWarningCode-1 == static display value\"\n			}]\n		}\n	}]\n}"
+              example: "{\n  \"resourceType\": \"OperationOutcome\",\n  \"meta\": {\n    \"profile\": [\"https://fhir.nhs.uk/STU3/StructureDefinition/Spine-OperationOutcome-1\"]\n  },\n  \"issue\": [{\n    \"severity\": \"error\",\n    \"code\": \"value\",\n    \"details\": {\n      \"coding\": [{\n        \"system\": \"https://fhir.nhs.uk/STU3/ValueSet/Spine-ErrorOrWarningCode-1\",\n        \"code\": \"https://fhir.nhs.uk/STU3/ValueSet/Spine-ErrorOrWarningCode-1 == static code value\",\n        \"dispay\": \"https://fhir.nhs.uk/STU3/ValueSet/Spine-ErrorOrWarningCode-1 == static display value\"\n      }]\n    }\n  }]\n}"
         "500":
           description: Spine changed response structure
           content:
             application/fhir+json:
               schema:
                 type: object
-              example: "{\n	\"resourceType\": \"OperationOutcome\",\n	\"meta\": {\n		\"profile\": [\"https://fhir.nhs.uk/STU3/StructureDefinition/Spine-OperationOutcome-1\"]\n	},\n	\"issue\": [{\n		\"severity\": \"error\",\n		\"code\": \"value\",\n		\"details\": {\n			\"coding\": [{\n				\"system\": \"https://fhir.nhs.uk/STU3/ValueSet/Spine-ErrorOrWarningCode-1\",\n				\"code\": \"https://fhir.nhs.uk/STU3/ValueSet/Spine-ErrorOrWarningCode-1 == static code value\",\n				\"dispay\": \"https://fhir.nhs.uk/STU3/ValueSet/Spine-ErrorOrWarningCode-1 == static display value\"\n			}]\n		}\n	}]\n}"
+              example: "{\n  \"resourceType\": \"OperationOutcome\",\n  \"meta\": {\n    \"profile\": [\"https://fhir.nhs.uk/STU3/StructureDefinition/Spine-OperationOutcome-1\"]\n  },\n  \"issue\": [{\n    \"severity\": \"error\",\n    \"code\": \"value\",\n    \"details\": {\n      \"coding\": [{\n        \"system\": \"https://fhir.nhs.uk/STU3/ValueSet/Spine-ErrorOrWarningCode-1\",\n        \"code\": \"https://fhir.nhs.uk/STU3/ValueSet/Spine-ErrorOrWarningCode-1 == static code value\",\n        \"dispay\": \"https://fhir.nhs.uk/STU3/ValueSet/Spine-ErrorOrWarningCode-1 == static display value\"\n      }]\n    }\n  }]\n}"
 
         "504":
           description: Gateway Timeout
@@ -88,7 +88,7 @@ paths:
             application/fhir+json:
               schema:
                 type: object
-              example: "{\n	\"resourceType\": \"OperationOutcome\",\n	\"meta\": {\n		\"profile\": [\"https://fhir.nhs.uk/STU3/StructureDefinition/Spine-OperationOutcome-1\"]\n	},\n	\"issue\": [{\n		\"severity\": \"error\",\n		\"code\": \"value\",\n		\"details\": {\n			\"coding\": [{\n				\"system\": \"https://fhir.nhs.uk/STU3/ValueSet/Spine-ErrorOrWarningCode-1\",\n				\"code\": \"https://fhir.nhs.uk/STU3/ValueSet/Spine-ErrorOrWarningCode-1 == static code value\",\n				\"dispay\": \"https://fhir.nhs.uk/STU3/ValueSet/Spine-ErrorOrWarningCode-1 == static display value\"\n			}]\n		}\n	}]\n}"
+              example: "{\n  \"resourceType\": \"OperationOutcome\",\n  \"meta\": {\n    \"profile\": [\"https://fhir.nhs.uk/STU3/StructureDefinition/Spine-OperationOutcome-1\"]\n  },\n  \"issue\": [{\n    \"severity\": \"error\",\n    \"code\": \"value\",\n    \"details\": {\n      \"coding\": [{\n        \"system\": \"https://fhir.nhs.uk/STU3/ValueSet/Spine-ErrorOrWarningCode-1\",\n        \"code\": \"https://fhir.nhs.uk/STU3/ValueSet/Spine-ErrorOrWarningCode-1 == static code value\",\n        \"dispay\": \"https://fhir.nhs.uk/STU3/ValueSet/Spine-ErrorOrWarningCode-1 == static display value\"\n      }]\n    }\n  }]\n}"
 
   /healthcheck:
     get:
@@ -118,7 +118,16 @@ components:
           type: string
           example: "f61e545c-d52c-4b62-9668-3dcc6c27fc50"
         identifier:
-          $ref: '#/components/schemas/identifier'
+          type: object
+          properties:
+            use:
+              type: string
+            system:
+              type: string
+            value:
+              type: string
+          required: 
+            - value
         type:
           type: string
           example: "document"
@@ -142,10 +151,8 @@ components:
               resource: {}
       required:
         - resourceType
-        - id
-        - identifier
-        - type
         - timestamp
+        - identifier
         - entry
 
     Composition:
@@ -346,7 +353,9 @@ components:
                     type: array
                     items:
                       type: string
-
+          required:
+            - resourceType
+            
     PractitionerRole:
       type: object
       properties:
@@ -364,7 +373,16 @@ components:
             identifier:
               type: array
               items:
-                $ref: '#/components/schemas/identifier'
+                type: object
+                properties:
+                  use:
+                    type: string
+                  system:
+                    type: string
+                  value:
+                    type: string
+                required: 
+                  - system
             practitioner:
               type: object
               properties:
@@ -379,6 +397,7 @@ components:
                   coding:
                     $ref: '#/components/schemas/coding'
           required:
+            - resourceType
             - identifier
 
     Condition:
@@ -432,7 +451,7 @@ components:
               type: string
               example: "2020-05-06T10:48:19+00:00"
           required:
-            - clinicalStatus
+            - resourceType
 
     Observation:
       description: "Optional element"
@@ -486,7 +505,7 @@ components:
                   end:
                     type: string
           required:
-            - status
+            - resourceType
 
     identifier:
       type: object
