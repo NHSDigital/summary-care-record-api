@@ -277,7 +277,7 @@ public class ScrTest {
             WireMock.get(SCR_SPINE_CONTENT_ENDPOINT).inScenario(WIREMOCK_SCENARIO_NAME)
                 .whenScenarioStateIs(WIREMOCK_GET_RESPONSE_READY_STATE)
                 .willReturn(aResponse()
-                    .withStatus(CREATED.value())
+                    .withStatus(OK.value())
                     .withBody(Files.readString(pollingSuccessResponse.getFile().toPath(), StandardCharsets.UTF_8))));
 
         warmUpWireMock();
