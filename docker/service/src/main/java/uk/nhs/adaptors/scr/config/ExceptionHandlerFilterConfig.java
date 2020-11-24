@@ -3,8 +3,7 @@ package uk.nhs.adaptors.scr.config;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import static uk.nhs.adaptors.scr.consts.RequestFiltersOrdering.EXCEPTION_HANDLER_ORDER_POS;
+import static uk.nhs.adaptors.scr.consts.RequestFiltersOrdering.EXCEPTION_HANDLER_FILTER_ORDER;
 
 import lombok.AllArgsConstructor;
 
@@ -18,7 +17,7 @@ public class ExceptionHandlerFilterConfig {
     public FilterRegistrationBean<ExceptionHandlerFilter> servletRegistrationBeanForCorrelationID() {
         final FilterRegistrationBean<ExceptionHandlerFilter> registrationBean = new FilterRegistrationBean<>();
         registrationBean.setFilter(exceptionHandlerFilter);
-        registrationBean.setOrder(EXCEPTION_HANDLER_ORDER_POS);
+        registrationBean.setOrder(EXCEPTION_HANDLER_FILTER_ORDER);
         return registrationBean;
     }
 }

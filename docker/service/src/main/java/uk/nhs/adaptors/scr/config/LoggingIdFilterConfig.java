@@ -3,7 +3,7 @@ package uk.nhs.adaptors.scr.config;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import static uk.nhs.adaptors.scr.consts.RequestFiltersOrdering.LOGGING_ID_ORDER_POS;
+import static uk.nhs.adaptors.scr.consts.RequestFiltersOrdering.LOGGING_ID_FILTER_ORDER;
 
 import lombok.AllArgsConstructor;
 
@@ -17,7 +17,7 @@ public class LoggingIdFilterConfig {
     public FilterRegistrationBean<LoggingIdFilter> servletRegistrationBeanForLoggingID() {
         final FilterRegistrationBean<LoggingIdFilter> registrationBean = new FilterRegistrationBean<>();
         registrationBean.setFilter(loggingIdFilter);
-        registrationBean.setOrder(LOGGING_ID_ORDER_POS);
+        registrationBean.setOrder(LOGGING_ID_FILTER_ORDER);
         return registrationBean;
     }
 }
