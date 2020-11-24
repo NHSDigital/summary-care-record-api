@@ -14,7 +14,7 @@ public class RequestIdFilterConfig {
     private final RequestIdFilter requestIdFilter;
 
     @Bean
-    public FilterRegistrationBean<RequestIdFilter> servletRegistrationBeanForLoggingID() {
+    public FilterRegistrationBean<RequestIdFilter> servletRegistrationBeanForRequestID() {
         final FilterRegistrationBean<RequestIdFilter> registrationBean = new FilterRegistrationBean<>();
         registrationBean.setFilter(requestIdFilter);
         registrationBean.setOrder(REQUEST_ID_FILTER_ORDER);

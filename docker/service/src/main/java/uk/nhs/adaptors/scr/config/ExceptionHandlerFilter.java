@@ -35,11 +35,11 @@ public class ExceptionHandlerFilter extends OncePerRequestFilter {
     public void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
         throws ServletException, IOException {
         var correlationIdToken = request.getHeader(CORRELATION_ID_HEADER);
-        var loggingIdToken = request.getHeader(REQUEST_ID_LOGGER);
+        var requestIdToken = request.getHeader(REQUEST_ID_LOGGER);
 
         if (!checkValidUUID(correlationIdToken)) {
             throwInvalidUUIDResponse(response, CORRELATION_ID_HEADER);
-        } else if (!checkValidUUID(loggingIdToken)) {
+        } else if (!checkValidUUID(requestIdToken)) {
             throwInvalidUUIDResponse(response, REQUEST_ID_LOGGER);
         } else {
             chain.doFilter(request, response);
