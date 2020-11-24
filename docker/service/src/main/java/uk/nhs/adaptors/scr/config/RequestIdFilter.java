@@ -20,7 +20,7 @@ import java.util.UUID;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Component
-public class LoggingIdFilter extends OncePerRequestFilter {
+public class RequestIdFilter extends OncePerRequestFilter {
 
     public static final String MDC_KEY = "RequestId";
 

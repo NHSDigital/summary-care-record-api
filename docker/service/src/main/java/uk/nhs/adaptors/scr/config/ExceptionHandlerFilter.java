@@ -37,9 +37,9 @@ public class ExceptionHandlerFilter extends OncePerRequestFilter {
         var correlationIdToken = request.getHeader(CORRELATION_ID_HEADER);
         var loggingIdToken = request.getHeader(REQUEST_ID_LOGGER);
 
-        if (checkValidUUID(correlationIdToken)) {
+        if (!checkValidUUID(correlationIdToken)) {
             throwInvalidUUIDResponse(response, CORRELATION_ID_HEADER);
-        } else if (checkValidUUID(loggingIdToken)) {
+        } else if (!checkValidUUID(loggingIdToken)) {
             throwInvalidUUIDResponse(response, REQUEST_ID_LOGGER);
         } else {
             chain.doFilter(request, response);
@@ -47,7 +47,7 @@ public class ExceptionHandlerFilter extends OncePerRequestFilter {
     }
 
     public boolean checkValidUUID(String header) {
-        return StringUtils.isNotEmpty(header) && !header.matches(UUID_REGEX);
+        return StringUtils.isNotEmpty(header) && header.matches(UUID_REGEX) || StringUtils.isEmpty(header);
     }
 
     public void throwInvalidUUIDResponse(HttpServletResponse response, String headerName)
