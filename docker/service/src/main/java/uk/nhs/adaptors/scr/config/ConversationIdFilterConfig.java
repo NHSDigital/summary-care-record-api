@@ -4,7 +4,7 @@ import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import static uk.nhs.adaptors.scr.consts.Numbers.TWO;
+import static uk.nhs.adaptors.scr.consts.RequestFiltersOrdering.CONVERSATION_ID_ORDER_POS;
 
 
 @Configuration
@@ -15,7 +15,7 @@ public class ConversationIdFilterConfig {
         final FilterRegistrationBean<ConversationIdFilter> registrationBean = new FilterRegistrationBean<>();
         final ConversationIdFilter conversationIdFilter = new ConversationIdFilter();
         registrationBean.setFilter(conversationIdFilter);
-        registrationBean.setOrder(TWO);
+        registrationBean.setOrder(CONVERSATION_ID_ORDER_POS);
         return registrationBean;
     }
 }
