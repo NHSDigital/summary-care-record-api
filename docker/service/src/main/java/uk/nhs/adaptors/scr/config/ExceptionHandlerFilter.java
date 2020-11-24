@@ -47,7 +47,7 @@ public class ExceptionHandlerFilter extends OncePerRequestFilter {
     }
 
     public boolean checkValidUUID(String header) {
-        return StringUtils.isNotEmpty(header) && header.matches(UUID_REGEX) || StringUtils.isEmpty(header);
+        return StringUtils.isEmpty(header) || header.matches(UUID_REGEX);
     }
 
     public void throwInvalidUUIDResponse(HttpServletResponse response, String headerName)
