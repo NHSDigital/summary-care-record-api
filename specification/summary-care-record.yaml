@@ -140,10 +140,10 @@ components:
             oneOf:
               - $ref: '#/components/schemas/Composition'
               - $ref: '#/components/schemas/Patient'
-              - $ref: '#/components/schemas/Organization'
               - $ref: '#/components/schemas/Practitioner'
               - $ref: '#/components/schemas/PractitionerRole'
             anyOf:
+              - $ref: '#/components/schemas/Organization'
               - $ref: '#/components/schemas/Condition'
               - $ref: '#/components/schemas/Observation'
           example:
@@ -228,6 +228,7 @@ components:
                       div:
                         type: string
           required:
+            - resourceType
             - date
 
     Patient:
@@ -265,8 +266,14 @@ components:
                     type: string
                   value:
                     type: string
+                required:
+                  - value
+          required:
+            - resourceType
+            - identifier
 
     Organization:
+      description: "Optional element for https://fhir.nhs.uk/R4/CodeSystem/UKCore-SDSJobRoleName"
       type: object
       properties:
         fullUrl:
@@ -319,6 +326,8 @@ components:
                     type: string
                   country:
                     type: string
+          required:
+            - resourceType
 
     Practitioner:
       type: object

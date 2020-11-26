@@ -27,8 +27,12 @@ public class PatientMapper {
                     PatientId patientId = new PatientId();
                     patientId.setPatientId(identifier.getValue());
                     patientIds.add(patientId);
+                } else {
+                    throw new FhirMappingException("Patient Identifier Value missing from payload");
                 }
             }
+        } else {
+            throw new FhirMappingException("Patient Identifier missing from payload");
         }
 
         gpSummary.setPatientIds(patientIds);
