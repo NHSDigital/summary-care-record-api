@@ -21,7 +21,7 @@ import uk.nhs.adaptors.scr.config.SpineConfiguration;
 import uk.nhs.adaptors.scr.exceptions.FhirValidationException;
 import uk.nhs.adaptors.scr.exceptions.ScrTimeoutException;
 import uk.nhs.adaptors.scr.models.RequestData;
-import uk.nhs.adaptors.scr.services.ScrService;
+import uk.nhs.adaptors.scr.services.UploadScrService;
 
 import javax.validation.constraints.NotNull;
 import java.util.concurrent.Callable;
@@ -33,7 +33,7 @@ import static uk.nhs.adaptors.scr.controllers.FhirMediaTypes.APPLICATION_FHIR_JS
 @Slf4j
 public class FhirController {
     private final FhirParser fhirParser;
-    private final ScrService scrService;
+    private final UploadScrService uploadScrService;
     private final SpineConfiguration spineConfiguration;
     private final ScrConfiguration scrConfiguration;
 
@@ -61,7 +61,7 @@ public class FhirController {
         var mdcContextMap = MDC.getCopyOfContextMap();
         Callable<ResponseEntity<?>> callable = () -> {
             MDC.setContextMap(mdcContextMap);
-            scrService.handleFhir(requestData);
+            uploadScrService.handleFhir(requestData);
             return ResponseEntity
                 .status(HttpStatus.OK)
                 .contentType(contentType)

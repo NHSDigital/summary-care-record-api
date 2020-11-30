@@ -37,6 +37,12 @@
       <Step>
         <Name>AssignMessage.AddAsidHeader</Name>
       </Step>
+      <Step>
+        <Name>AssignMessage.AddOriginalRequestIp</Name>
+      </Step>
+      <Step>
+        <Name>AssignMessage.AddBaseUrl</Name>
+      </Step>
     </Request>
   </PreFlow>
   <!--

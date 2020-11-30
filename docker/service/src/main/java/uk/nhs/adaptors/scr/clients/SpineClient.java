@@ -17,10 +17,13 @@ import org.springframework.retry.support.RetryTemplate;
 import org.springframework.stereotype.Component;
 import uk.nhs.adaptors.scr.config.SpineConfiguration;
 import uk.nhs.adaptors.scr.exceptions.NoSpineResultException;
-import uk.nhs.adaptors.scr.exceptions.UnexpectedSpineResponseException;
 import uk.nhs.adaptors.scr.exceptions.ScrBaseException;
 import uk.nhs.adaptors.scr.exceptions.ScrTimeoutException;
+import uk.nhs.adaptors.scr.exceptions.UnexpectedSpineResponseException;
 import uk.nhs.adaptors.scr.models.ProcessingResult;
+
+import static org.springframework.http.HttpStatus.OK;
+import static org.springframework.http.MediaType.TEXT_XML_VALUE;
 
 @Component
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -84,7 +87,7 @@ public class SpineClient {
             var result =  spineHttpClient.sendRequest(request);
             int statusCode = result.getStatusCode();
 
-            if (statusCode == HttpStatus.OK.value()) {
+            if (statusCode == OK.value()) {
                 LOGGER.info("{} processing result received.", statusCode);
                 return ProcessingResult.parseProcessingResult(result.getBody());
             } else if (statusCode == HttpStatus.ACCEPTED.value()) {
@@ -97,6 +100,26 @@ public class SpineClient {
             }
         });
     }
+
+    @SneakyThrows
+    public SpineHttpClient.Response sendGetScrId(String requestBody, String nhsdAsid) {
+        var request = new HttpPost(spineConfiguration.getUrl() + spineConfiguration.getPsisQueriesEndpoint());
+        request.addHeader("SOAPAction", "urn:nhs:names:services:psisquery/QUPC_IN180000SM04");
+        request.addHeader("Content-Type", TEXT_XML_VALUE);
+        request.addHeader("nhsd-asid", nhsdAsid);
+
+        request.setEntity(new StringEntity(requestBody));
+
+        var response = spineHttpClient.sendRequest(request);
+        var statusCode = response.getStatusCode();
+
+        if (statusCode != OK.value()) {
+            LOGGER.error("Unexpected spine GET SCR ID response: {}", response);
+            throw new UnexpectedSpineResponseException("Unexpected spine send response " + statusCode);
+        }
+        return response;
+    }
+
 
     public static class ScrRetryBackoffPolicy implements BackOffPolicy {
         @Override

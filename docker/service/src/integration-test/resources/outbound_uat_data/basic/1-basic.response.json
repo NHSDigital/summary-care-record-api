@@ -1,0 +1,10 @@
+{
+  "resourceType": "OperationOutcome",
+  "issue": [
+    {
+      "severity": "information",
+      "code": "informational",
+      "diagnostics": "Resource has been successfully updated."
+    }
+  ]
+}

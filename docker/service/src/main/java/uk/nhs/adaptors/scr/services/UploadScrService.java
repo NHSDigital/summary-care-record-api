@@ -30,7 +30,7 @@ import java.util.List;
 
 @Component
 @Slf4j
-public class ScrService {
+public class UploadScrService {
 
     @Autowired
     private SpineClient spineClient;

@@ -1,0 +1,12 @@
+{
+  "resourceType": "OperationOutcome",
+  "issue": [
+    {
+      "severity": "error",
+      "code": "value",
+      "details": {
+        "text": "Error while mapping data"
+      }
+    }
+  ]
+}

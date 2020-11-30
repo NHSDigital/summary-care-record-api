@@ -4,6 +4,10 @@ import org.hl7.fhir.r4.model.CodeableConcept;
 import org.hl7.fhir.r4.model.OperationOutcome;
 import org.springframework.http.HttpStatus;
 
+import static org.hl7.fhir.r4.model.OperationOutcome.IssueSeverity.ERROR;
+import static org.hl7.fhir.r4.model.OperationOutcome.IssueType.VALUE;
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
+
 public abstract class BadRequestException extends ScrBaseException implements OperationOutcomeError {
 
     private final OperationOutcome operationOutcome;
@@ -21,10 +25,9 @@ public abstract class BadRequestException extends ScrBaseException implements Op
     private static OperationOutcome buildOperationOutcome(String message) {
         var operationOutcome = new OperationOutcome();
         operationOutcome.addIssue()
-            .setCode(OperationOutcome.IssueType.VALUE)
-            .setSeverity(OperationOutcome.IssueSeverity.ERROR)
-            .setDiagnostics(message)
-            .setDetails(new CodeableConcept().addCoding(NHSCodings.BAD_REQUEST.asCoding()));
+            .setCode(VALUE)
+            .setSeverity(ERROR)
+            .setDetails(new CodeableConcept().setText(message));
         return operationOutcome;
     }
 
@@ -35,6 +38,6 @@ public abstract class BadRequestException extends ScrBaseException implements Op
 
     @Override
     public final HttpStatus getStatusCode() {
-        return HttpStatus.BAD_REQUEST;
+        return BAD_REQUEST;
     }
 }
