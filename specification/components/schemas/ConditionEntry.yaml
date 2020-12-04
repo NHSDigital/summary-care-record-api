@@ -1,0 +1,41 @@
+  type: object
+  properties:
+    fullUrl:
+      type: string
+    resource:
+      type: object
+      properties:
+        resourceType:
+          type: string
+          example: "Condition"
+        meta:
+          type: array
+          items:
+            type: object
+            properties:
+              profile:
+                type: string
+                example: "https://fhir.nhs.uk/R4/StructureDefinition/UKCore-Condition"
+        identifier:
+          type: array
+          items:
+            $ref: identifier.yaml
+        clinicalStatus:
+          type: array
+          items:
+            type: object
+            properties:
+              coding:
+                $ref: coding.yaml
+        code:
+          type: array
+          items:
+            type: object
+            properties:
+              coding:
+                $ref: coding.yaml
+        onsetDateTime:
+          type: string
+          example: "2020-05-06T10:48:19+00:00"
+      required:
+        - resourceType

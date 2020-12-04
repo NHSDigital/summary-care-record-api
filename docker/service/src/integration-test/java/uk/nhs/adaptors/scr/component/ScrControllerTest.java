@@ -25,7 +25,7 @@ import static org.springframework.http.HttpStatus.GATEWAY_TIMEOUT;
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 @AutoConfigureMockMvc
 public class ScrControllerTest {
-    private static final String FHIR_ENDPOINT = "/fhir";
+    private static final String FHIR_ENDPOINT = "/Bundle";
     private static final String REQUEST_BODY = "something";
     private static final int LONG_INITIAL_WAIT_TIME = 1000;
     private static final long SHORT_RESULT_TIMEOUT = 10;

@@ -1,0 +1,34 @@
+  type: object
+  properties:
+    fullUrl:
+      type: string
+    resource:
+      type: object
+      properties:
+        resourceType:
+          type: string
+          default: "Practitioner"
+        id:
+          type: string
+          example: "b1a41ee5-b88b-4f66-bd83-24343bf63dd8"
+        identifier:
+          type: array
+          items:
+            $ref: identifier.yaml
+        name:
+          type: array
+          items:
+            type: object
+            properties:
+              family:
+                type: string
+              given:
+                type: array
+                items:
+                  type: string
+              prefix:
+                type: array
+                items:
+                  type: string
+      required:
+        - resourceType

@@ -53,7 +53,7 @@ import static org.springframework.http.HttpStatus.OK;
 @ContextConfiguration(initializers = {WireMockInitializer.class})
 public class ScrTest {
     private static final String HEALTHCHECK_ENDPOINT = "/healthcheck";
-    private static final String FHIR_ENDPOINT = "/fhir";
+    private static final String FHIR_ENDPOINT = "/Bundle";
     private static final String SCR_SPINE_ENDPOINT = "/clinical";
     private static final String SCR_SPINE_CONTENT_ENDPOINT = "/content";
     public static final String WIREMOCK_SCENARIO_NAME = "POST + polling GET";

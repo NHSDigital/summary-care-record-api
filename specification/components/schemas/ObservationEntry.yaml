@@ -1,0 +1,47 @@
+  type: object
+  properties:
+    fullUrl:
+      type: string
+    resource:
+      type: object
+      properties:
+        resourceType:
+          type: string
+          example: "Observation"
+        meta:
+          type: array
+          items:
+            type: object
+            properties:
+              profile:
+                type: string
+                example: "https://fhir.nhs.uk/R4/StructureDefinition/UKCore-Observation"
+        identifier:
+          type: array
+          items:
+            $ref: identifier.yaml
+        status:
+          type: string
+          enum:
+            - final
+            - entered-in-error
+          example: "final"
+        code:
+          type: array
+          items:
+            type: object
+            properties:
+              coding:
+                $ref: coding.yaml
+        effectivePeriod:
+          type: array
+          items:
+            type: object
+            properties:
+              start:
+                type: string
+              end:
+                type: string
+      required:
+        - resourceType
+            
