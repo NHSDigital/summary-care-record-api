@@ -6,16 +6,16 @@ docker_service:
     - name: scr-api
       expose: true
       environment:
-          - name: SCR_LOGGING_LEVEL
-            value: "{{ 'DEBUG' if APIGEE_ENVIRONMENT == 'internal-dev' else 'INFO' }}"
-          - name: SCR_SPINE_URL
-            value: "msg.intspineservices.nhs.uk"
+        - name: SCR_LOGGING_LEVEL
+          value: "{{ 'DEBUG' if APIGEE_ENVIRONMENT == 'internal-dev' else 'INFO' }}"
+        - name: SCR_SPINE_URL
+          value: "https://msg.intspineservices.nhs.uk"
       secrets:
-        - name: SCR_SECRET_CLIENT_KEY
+        - name: SCR_SPINE_ENDPOINT_KEY
           valueFrom: "/ptl/api-deployment/scr/ldap/private-key"
-        - name: SCR_SECRET_CLIENT_CERT
+        - name: SCR_SPINE_ENDPOINT_CERT
           valueFrom: "/ptl/api-deployment/scr/ldap/client-cert"
-        - name: SCR_SECRET_CA_CERTS
+        - name: SCR_SPINE_ENDPOINT_CACERT
           valueFrom: "/ptl/api-deployment/scr/ldap/ca-certs"
         - name: SCR_PARTY_ID_TO
           valueFrom: "/ptl/api-deployment/scr/env-int/party-id"

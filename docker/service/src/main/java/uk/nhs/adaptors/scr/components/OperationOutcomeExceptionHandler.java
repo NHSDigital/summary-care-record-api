@@ -23,10 +23,16 @@ import java.util.List;
 
 import static java.util.Collections.singletonList;
 
+import static uk.nhs.adaptors.scr.controllers.FhirMediaTypes.APPLICATION_FHIR_JSON;
+import static uk.nhs.adaptors.scr.controllers.FhirMediaTypes.APPLICATION_FHIR_JSON_VALUE;
+
 @ControllerAdvice
 @RestController
 @Slf4j
 public class OperationOutcomeExceptionHandler extends ResponseEntityExceptionHandler {
+
+    private static final String CONTENT_TYPE = "Content type";
+    private static final String NOT_SUPPORTED = "not supported";
 
     @Autowired
     private FhirParser fhirParser;
@@ -47,7 +53,7 @@ public class OperationOutcomeExceptionHandler extends ResponseEntityExceptionHan
             operationOutcome = error.getOperationOutcome();
             httpStatus = error.getStatusCode();
         } else {
-            operationOutcome = OperationOutcomeUtils.createFromMessage(ex.getMessage());
+            operationOutcome = OperationOutcomeUtils.createFromException(ex);
             httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
         }
         String content = fhirParser.encodeResource(mediaType, operationOutcome);
@@ -62,11 +68,17 @@ public class OperationOutcomeExceptionHandler extends ResponseEntityExceptionHan
 
         LOGGER.error("Creating OperationOutcome response for unhandled exception", ex);
 
-        MediaType mediaType = getRequestMediaType(request);
+        headers.put(HttpHeaders.CONTENT_TYPE, singletonList(APPLICATION_FHIR_JSON_VALUE));
 
-        headers.put(HttpHeaders.CONTENT_TYPE, singletonList(mediaType.toString()));
-        OperationOutcome operationOutcome = OperationOutcomeUtils.createFromMessage(ex.getMessage());
-        String content = fhirParser.encodeResource(mediaType, operationOutcome);
+        OperationOutcome operationOutcome;
+
+        if (ex.getMessage().startsWith(CONTENT_TYPE) && ex.getMessage().endsWith(NOT_SUPPORTED)) {
+            operationOutcome = OperationOutcomeUtils.createFromInternalException(ex);
+        } else {
+            operationOutcome = OperationOutcomeUtils.createFromException(ex);
+        }
+
+        String content = fhirParser.encodeResource(APPLICATION_FHIR_JSON, operationOutcome);
         return new ResponseEntity<>(content, headers, status);
     }
 

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.async.WebAsyncTask;
 import uk.nhs.adaptors.scr.components.FhirParser;
+import uk.nhs.adaptors.scr.config.ScrConfiguration;
 import uk.nhs.adaptors.scr.config.SpineConfiguration;
 import uk.nhs.adaptors.scr.exceptions.FhirValidationException;
 import uk.nhs.adaptors.scr.exceptions.ScrTimeoutException;
@@ -26,7 +27,6 @@ import javax.validation.constraints.NotNull;
 import java.util.concurrent.Callable;
 
 import static uk.nhs.adaptors.scr.controllers.FhirMediaTypes.APPLICATION_FHIR_JSON_VALUE;
-import static uk.nhs.adaptors.scr.controllers.FhirMediaTypes.APPLICATION_FHIR_XML_VALUE;
 
 @RestController
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -35,17 +35,24 @@ public class FhirController {
     private final FhirParser fhirParser;
     private final ScrService scrService;
     private final SpineConfiguration spineConfiguration;
+    private final ScrConfiguration scrConfiguration;
 
     @PostMapping(
         path = "/fhir",
-        consumes = {APPLICATION_FHIR_JSON_VALUE, APPLICATION_FHIR_XML_VALUE},
-        produces = {APPLICATION_FHIR_JSON_VALUE, APPLICATION_FHIR_XML_VALUE})
+        consumes = {APPLICATION_FHIR_JSON_VALUE},
+        produces = {APPLICATION_FHIR_JSON_VALUE})
     @ResponseStatus(HttpStatus.OK)
     public WebAsyncTask<ResponseEntity<?>> acceptFhir(
         @RequestHeader("Content-Type") @NotNull MediaType contentType,
         @RequestHeader("Nhsd-Asid") @NotNull String nhsdAsid,
         @RequestBody String body)
         throws FhirValidationException, HttpMediaTypeNotAcceptableException {
+
+        LOGGER.debug("Using cfg: asid-from={} party-from={} asid-to={} party-to={}",
+            nhsdAsid,
+            scrConfiguration.getPartyIdFrom(),
+            scrConfiguration.getNhsdAsidTo(),
+            scrConfiguration.getPartyIdTo());
 
         var requestData = new RequestData();
         requestData.setBundle(fhirParser.parseBundle(contentType, body));

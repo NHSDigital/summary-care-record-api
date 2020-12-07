@@ -15,7 +15,6 @@ import java.util.List;
 import java.util.function.Function;
 
 import static uk.nhs.adaptors.scr.controllers.FhirMediaTypes.APPLICATION_FHIR_JSON;
-import static uk.nhs.adaptors.scr.controllers.FhirMediaTypes.APPLICATION_FHIR_XML;
 
 @Component
 public class FhirParser {
@@ -48,27 +47,23 @@ public class FhirParser {
         Function<String, IBaseResource> parser;
         if (contentType.equalsTypeAndSubtype(APPLICATION_FHIR_JSON)) {
             parser = this::parseJson;
-        } else if (contentType.equalsTypeAndSubtype(APPLICATION_FHIR_XML)) {
-            parser = this::parseXml;
         } else {
-            throw new HttpMediaTypeNotAcceptableException(List.of(APPLICATION_FHIR_JSON, APPLICATION_FHIR_XML));
+            throw new HttpMediaTypeNotAcceptableException(List.of(APPLICATION_FHIR_JSON));
         }
         return (T) parser.apply(body);
     }
 
-    public Bundle parseBundle(MediaType contentType, String body) throws HttpMediaTypeNotAcceptableException {
+    public Bundle parseBundle(MediaType contentType, String body) throws HttpMediaTypeNotAcceptableException, FhirValidationException {
         Function<String, IBaseResource> parser;
         if (contentType.equalsTypeAndSubtype(APPLICATION_FHIR_JSON)) {
             parser = this::parseJson;
-        } else if (contentType.equalsTypeAndSubtype(APPLICATION_FHIR_XML)) {
-            parser = this::parseXml;
         } else {
-            throw new HttpMediaTypeNotAcceptableException(List.of(APPLICATION_FHIR_JSON, APPLICATION_FHIR_XML));
+            throw new HttpMediaTypeNotAcceptableException(List.of(APPLICATION_FHIR_JSON));
         }
         try {
             return (Bundle) parser.apply(body);
         } catch (Exception ex) {
-            throw new FhirValidationException("Unable to parse FHIR as Bundle");
+            throw new FhirValidationException("Unable to parse FHIR Body as Bundle");
         }
     }
 
@@ -76,10 +71,8 @@ public class FhirParser {
         Function<IBaseResource, String> encoder;
         if (contentType.equalsTypeAndSubtype(APPLICATION_FHIR_JSON)) {
             encoder = this::encodeToJson;
-        } else if (contentType.equalsTypeAndSubtype(APPLICATION_FHIR_XML)) {
-            encoder = this::encodeToXml;
         } else {
-            throw new HttpMediaTypeNotAcceptableException(List.of(APPLICATION_FHIR_JSON, APPLICATION_FHIR_XML));
+            throw new HttpMediaTypeNotAcceptableException(List.of(APPLICATION_FHIR_JSON));
         }
         return encoder.apply(resource);
     }
@@ -94,9 +87,5 @@ public class FhirParser {
 
     private String encodeToJson(IBaseResource resource) {
         return encode(resource, jsonParser);
-    }
-
-    private String encodeToXml(IBaseResource resource) {
-        return encode(resource, xmlParser);
     }
 }
