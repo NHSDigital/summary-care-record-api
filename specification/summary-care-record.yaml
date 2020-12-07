@@ -117,7 +117,7 @@ paths:
         content:
           application/fhir+json:
             schema:
-              $ref: components/schemas/Bundle.yaml
+              $ref: '#/components/schemas/Bundle'
             example:
               $ref: components/examples/ScrUploadBundle.json
       responses:
@@ -128,7 +128,7 @@ paths:
           content:
             application/fhir+json:
               schema:
-                $ref: components/schemas/OperationOutcome.yaml
+                $ref: '#/components/schemas/OperationOutcome'
               example:
                 resourceType: OperationOutcome
                 issue:
@@ -141,7 +141,7 @@ paths:
           content:
             application/fhir+json:
               schema:
-                $ref: components/schemas/OperationOutcome.yaml
+                $ref: '#/components/schemas/OperationOutcome'
               example:
                 resourceType: OperationOutcome
                 issue:
@@ -154,7 +154,7 @@ paths:
           content:
             application/fhir+json:
               schema:
-                $ref: components/schemas/OperationOutcome.yaml
+                $ref: '#/components/schemas/OperationOutcome'
               example:
                 resourceType: OperationOutcome
                 issue:
@@ -224,7 +224,6 @@ components:
       $ref: components/schemas/OrganizationEntry.yaml
     Patient:
       $ref: components/schemas/PatientEntry.yaml
-      example: components/examples/PatientEntry.json
     Practitioner:
       $ref: components/schemas/PractitionerEntry.yaml
     PractitionerRole:
