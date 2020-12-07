@@ -1,6 +1,7 @@
 package uk.nhs.adaptors.scr.config;
 
 import static uk.nhs.adaptors.scr.consts.HttpHeaders.CORRELATION_ID_HEADER;
+import static uk.nhs.adaptors.scr.consts.HttpHeaders.REQUEST_ID_LOGGER;
 import static uk.nhs.adaptors.scr.controllers.FhirMediaTypes.APPLICATION_FHIR_JSON;
 import static uk.nhs.adaptors.scr.controllers.FhirMediaTypes.APPLICATION_FHIR_JSON_VALUE;
 
@@ -33,22 +34,34 @@ public class ExceptionHandlerFilter extends OncePerRequestFilter {
     @Override
     public void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
         throws ServletException, IOException {
-        var token = request.getHeader(CORRELATION_ID_HEADER);
-        if (StringUtils.isNotEmpty(token) && !token.matches(UUID_REGEX)) {
+        var correlationIdToken = request.getHeader(CORRELATION_ID_HEADER);
+        var requestIdToken = request.getHeader(REQUEST_ID_LOGGER);
 
-            response.setStatus(HttpStatus.BAD_REQUEST.value());
-            response.setContentType(APPLICATION_FHIR_JSON_VALUE);
-
-            var operationOutcome = new OperationOutcome();
-            operationOutcome.addIssue()
-                .setCode(OperationOutcome.IssueType.EXCEPTION)
-                .setSeverity(OperationOutcome.IssueSeverity.ERROR)
-                .setDiagnostics("Invalid " + CORRELATION_ID_HEADER + ". Should be a UUIDv4 matching \"" + UUID_REGEX + "\"")
-                .setDetails(new CodeableConcept().addCoding(NHSCodings.BAD_REQUEST.asCoding()));
-
-            response.getWriter().write(fhirParser.encodeResource(APPLICATION_FHIR_JSON, operationOutcome));
+        if (!checkValidUUID(correlationIdToken)) {
+            throwInvalidUUIDResponse(response, CORRELATION_ID_HEADER);
+        } else if (!checkValidUUID(requestIdToken)) {
+            throwInvalidUUIDResponse(response, REQUEST_ID_LOGGER);
         } else {
             chain.doFilter(request, response);
         }
+    }
+
+    public boolean checkValidUUID(String header) {
+        return StringUtils.isEmpty(header) || header.matches(UUID_REGEX);
+    }
+
+    public void throwInvalidUUIDResponse(HttpServletResponse response, String headerName)
+        throws ServletException, IOException {
+        response.setStatus(HttpStatus.BAD_REQUEST.value());
+        response.setContentType(APPLICATION_FHIR_JSON_VALUE);
+
+        var operationOutcome = new OperationOutcome();
+        operationOutcome.addIssue()
+            .setCode(OperationOutcome.IssueType.EXCEPTION)
+            .setSeverity(OperationOutcome.IssueSeverity.ERROR)
+            .setDiagnostics("Invalid " + headerName + ". Should be a UUIDv4 matching \"" + UUID_REGEX + "\"")
+            .setDetails(new CodeableConcept().addCoding(NHSCodings.BAD_REQUEST.asCoding()));
+
+        response.getWriter().write(fhirParser.encodeResource(APPLICATION_FHIR_JSON, operationOutcome));
     }
 }
