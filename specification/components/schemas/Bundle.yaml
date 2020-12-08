@@ -2,7 +2,7 @@ type: object
 properties:
   resourceType:
     type: string
-    example: "Bundle"
+    default: "Bundle"
   id:
     type: string
     example: "f61e545c-d52c-4b62-9668-3dcc6c27fc50"
@@ -10,7 +10,7 @@ properties:
     $ref: identifier.yaml
   type:
     type: string
-    example: "document"
+    default: "document"
   timestamp:
     type: string
     example: "2007-03-15T01:00:00Z"

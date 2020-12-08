@@ -16,7 +16,7 @@
           $ref: identifier.yaml
         status:
           type: string
-          example: "final"
+          default: "final"
         type:
           type: object
           properties:

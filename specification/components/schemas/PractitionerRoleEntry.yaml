@@ -7,7 +7,7 @@
       properties:
         resourceType:
           type: string
-          example: "PractitionerRole"
+          default: "PractitionerRole"
         id:
           type: string
           example: "83c26c8f-ee72-4534-8891-0136972b2106"
