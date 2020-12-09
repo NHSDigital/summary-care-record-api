@@ -9,4 +9,4 @@ docker_service:
     expose: true
     test:
       matcher: "200"
-      path: "/test"
+      path: "/healthcheck"

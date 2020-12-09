@@ -1,35 +1,30 @@
-package uk.nhs.adaptors.scr.config;
+package uk.nhs.adaptors.sandbox.scr.filters;
 
-import static uk.nhs.adaptors.scr.consts.HttpHeaders.CORRELATION_ID_HEADER;
-import static uk.nhs.adaptors.scr.consts.HttpHeaders.REQUEST_ID_LOGGER;
-import static uk.nhs.adaptors.scr.controllers.FhirMediaTypes.APPLICATION_FHIR_JSON;
-import static uk.nhs.adaptors.scr.controllers.FhirMediaTypes.APPLICATION_FHIR_JSON_VALUE;
-
-import java.io.IOException;
-
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import ca.uhn.fhir.context.FhirContext;
+import lombok.AllArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.r4.model.CodeableConcept;
 import org.hl7.fhir.r4.model.OperationOutcome;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import org.apache.commons.lang3.StringUtils;
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
-import lombok.AllArgsConstructor;
-import uk.nhs.adaptors.scr.components.FhirParser;
-import uk.nhs.adaptors.scr.exceptions.NHSCodings;
+import static uk.nhs.adaptors.sandbox.scr.controllers.FhirMediaTypes.APPLICATION_FHIR_JSON_VALUE;
+import static uk.nhs.adaptors.sandbox.scr.filters.consts.HttpHeaders.CORRELATION_ID_HEADER;
+import static uk.nhs.adaptors.sandbox.scr.filters.consts.HttpHeaders.REQUEST_ID_LOGGER;
 
 @Component
 @AllArgsConstructor
-public class ExceptionHandlerFilter extends OncePerRequestFilter {
+public class UuidValidationFilter extends OncePerRequestFilter {
 
     private static final String UUID_REGEX = "^[0-9a-fA-F]{8}+-[0-9a-fA-F]{4}+-[0-9a-fA-F]{4}+-[0-9a-fA-F]{4}+-[0-9a-fA-F]{12}+$";
-    private final FhirParser fhirParser;
+    private final FhirContext fhirContext = FhirContext.forR4();
 
     @Override
     public void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
@@ -50,8 +45,7 @@ public class ExceptionHandlerFilter extends OncePerRequestFilter {
         return StringUtils.isEmpty(header) || header.matches(UUID_REGEX);
     }
 
-    public void throwInvalidUUIDResponse(HttpServletResponse response, String headerName)
-        throws ServletException, IOException {
+    public void throwInvalidUUIDResponse(HttpServletResponse response, String headerName) throws IOException {
         response.setStatus(HttpStatus.BAD_REQUEST.value());
         response.setContentType(APPLICATION_FHIR_JSON_VALUE);
 
@@ -59,9 +53,7 @@ public class ExceptionHandlerFilter extends OncePerRequestFilter {
         operationOutcome.addIssue()
             .setCode(OperationOutcome.IssueType.EXCEPTION)
             .setSeverity(OperationOutcome.IssueSeverity.ERROR)
-            .setDiagnostics("Invalid " + headerName + ". Should be a UUIDv4 matching \"" + UUID_REGEX + "\"")
-            .setDetails(new CodeableConcept().addCoding(NHSCodings.BAD_REQUEST.asCoding()));
-
-        response.getWriter().write(fhirParser.encodeResource(APPLICATION_FHIR_JSON, operationOutcome));
+            .setDetails(new CodeableConcept().setText("Invalid " + headerName + ". Should be a UUIDv4 matching \"" + UUID_REGEX + "\""));
+        response.getWriter().write(fhirContext.newJsonParser().encodeResourceToString(operationOutcome));
     }
 }

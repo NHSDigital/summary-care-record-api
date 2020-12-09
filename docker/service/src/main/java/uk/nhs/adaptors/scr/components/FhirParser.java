@@ -85,7 +85,7 @@ public class FhirParser {
         return parse(body, xmlParser);
     }
 
-    private String encodeToJson(IBaseResource resource) {
+    public String encodeToJson(IBaseResource resource) {
         return encode(resource, jsonParser);
     }
 }

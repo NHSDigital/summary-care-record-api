@@ -2,6 +2,7 @@ package uk.nhs.adaptors.scr.utils;
 
 import org.hl7.fhir.r4.model.CodeableConcept;
 import org.hl7.fhir.r4.model.OperationOutcome;
+import org.springframework.web.HttpMediaTypeNotSupportedException;
 import uk.nhs.adaptors.scr.exceptions.NHSCodings;
 
 import java.io.PrintWriter;
@@ -18,7 +19,8 @@ public class OperationOutcomeUtils {
         return operationOutcome;
     }
 
-    public static OperationOutcome createFromInternalException(Exception exception) {
+    public static OperationOutcome createFromMediaTypeNotSupportedException
+        (HttpMediaTypeNotSupportedException exception) {
         var operationOutcome = new OperationOutcome();
         operationOutcome.addIssue()
             .setCode(OperationOutcome.IssueType.NOTSUPPORTED)
