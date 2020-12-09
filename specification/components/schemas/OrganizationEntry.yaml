@@ -1,0 +1,54 @@
+  type: object
+  properties:
+    fullUrl:
+      type: string
+    resource:
+      type: object
+      properties:
+        resourceType:
+          type: string
+          default: "Organization"
+        id:
+          type: string
+          example: "b6f5dd89-fc3a-466d-baad-126c0aac46fc"
+        identifier:
+          type: array
+          items:
+            $ref: identifier.yaml
+        type:
+          type: array
+          items:
+            type: object
+            properties:
+              coding:
+                $ref: coding.yaml
+        name:
+          type: string
+        telecom:
+          type: array
+          items:
+            type: object
+            properties:
+              system:
+                type: string
+              value:
+                type: string
+        address:
+          type: array
+          items:
+            type: object
+            properties:
+              line:
+                type: array
+                items:
+                  type: string
+              city:
+                type: string
+              district:
+                type: string
+              postalCode:
+                type: string
+              country:
+                type: string
+      required:
+        - resourceType

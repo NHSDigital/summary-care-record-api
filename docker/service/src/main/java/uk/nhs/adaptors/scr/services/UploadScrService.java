@@ -67,7 +67,7 @@ public class UploadScrService {
             return TemplateUtils.fillTemplate(REPC_RM150007UK05_TEMPLATE, gpSummary);
 
         } catch (Exception ex) {
-            throw new FhirMappingException("Error while mapping data");
+            throw new FhirMappingException(ex.getMessage());
         }
     }
 

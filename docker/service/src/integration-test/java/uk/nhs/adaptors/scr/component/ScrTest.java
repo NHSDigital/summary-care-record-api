@@ -42,6 +42,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 import static org.springframework.http.HttpStatus.ACCEPTED;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
+import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.GATEWAY_TIMEOUT;
 import static org.springframework.http.HttpStatus.OK;
 
@@ -52,7 +53,7 @@ import static org.springframework.http.HttpStatus.OK;
 @ContextConfiguration(initializers = {WireMockInitializer.class})
 public class ScrTest {
     private static final String HEALTHCHECK_ENDPOINT = "/healthcheck";
-    private static final String FHIR_ENDPOINT = "/fhir";
+    private static final String FHIR_ENDPOINT = "/Bundle";
     private static final String SCR_SPINE_ENDPOINT = "/clinical";
     private static final String SCR_SPINE_CONTENT_ENDPOINT = "/content";
     public static final String WIREMOCK_SCENARIO_NAME = "POST + polling GET";
@@ -100,8 +101,8 @@ public class ScrTest {
     }
 
     @Test
-    public void whenPostingFhirJsonThenExpect200() throws Exception {
-        whenPostingThenExpect200(
+    public void whenPostingFhirJsonThenExpect201() throws Exception {
+        whenPostingThenExpect201(
             Files.readString(simpleFhirJson.getFile().toPath(), Charsets.UTF_8),
             FHIR_JSON_CONTENT_TYPE);
     }
@@ -167,7 +168,7 @@ public class ScrTest {
             .statusCode(GATEWAY_TIMEOUT.value());
     }
 
-    private void whenPostingThenExpect200(String requestBody, String contentType) throws IOException, HttpMediaTypeNotAcceptableException {
+    private void whenPostingThenExpect201(String requestBody, String contentType) throws IOException, HttpMediaTypeNotAcceptableException {
         setUpSpineRequests();
 
         var body = given()
@@ -178,7 +179,7 @@ public class ScrTest {
             .when()
             .post(FHIR_ENDPOINT)
             .then()
-            .statusCode(OK.value())
+            .statusCode(CREATED.value())
             .extract().asString();
 
         wireMockServer.verify(1, postRequestedFor(urlEqualTo(SCR_SPINE_ENDPOINT)));

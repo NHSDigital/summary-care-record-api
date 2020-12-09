@@ -41,7 +41,7 @@ import static uk.nhs.adaptors.scr.controllers.FhirMediaTypes.APPLICATION_FHIR_JS
 @ContextConfiguration(initializers = {WireMockInitializer.class})
 public class SendUAT {
 
-    private static final String FHIR_ENDPOINT = "/fhir";
+    private static final String FHIR_ENDPOINT = "/Bundle";
     private static final String SPINE_SCR_ENDPOINT = "/clinical";
     private static final String SCR_SPINE_CONTENT_ENDPOINT = "/content";
     private static final int INITIAL_WAIT_TIME = 1;
@@ -86,8 +86,8 @@ public class SendUAT {
             .andReturn();
 
         mockMvc.perform(asyncDispatch(mvcResult))
-            .andExpect(status().isOk())
-            .andExpect(content().json(testData.getFhirResponse()));
+            .andExpect(content().json(testData.getFhirResponse()))
+            .andExpect(status().isCreated());
     }
 
     @ParameterizedTest(name = "[{index}] - {0}")
