@@ -38,7 +38,7 @@ public class FhirController {
     private final ScrConfiguration scrConfiguration;
 
     @PostMapping(
-        path = "/fhir",
+        path = "/Bundle",
         consumes = {APPLICATION_FHIR_JSON_VALUE},
         produces = {APPLICATION_FHIR_JSON_VALUE})
     @ResponseStatus(HttpStatus.OK)
@@ -63,7 +63,7 @@ public class FhirController {
             MDC.setContextMap(mdcContextMap);
             scrService.handleFhir(requestData);
             return ResponseEntity
-                .status(HttpStatus.OK)
+                .status(HttpStatus.CREATED)
                 .contentType(contentType)
                 .body(fhirParser.encodeResource(contentType, buildSuccessResponse()));
         };

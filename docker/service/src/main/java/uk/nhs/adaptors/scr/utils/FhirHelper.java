@@ -12,6 +12,9 @@ import uk.nhs.adaptors.scr.exceptions.FhirMappingException;
 
 public class FhirHelper {
 
+    public static final String NHS_NUMBER_IDENTIFIER_SYSTEM = "https://fhir.nhs.uk/Id/nhs-number";
+    public static final String UUID_IDENTIFIER_SYSTEM = "https://tools.ietf.org/html/rfc4122";
+
     public static <T extends Resource> T getDomainResource(Bundle bundle, Class<T> resourceType) {
         return bundle.getEntry().stream()
             .map(Bundle.BundleEntryComponent::getResource)

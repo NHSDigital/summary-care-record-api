@@ -1,6 +1,6 @@
 package uk.nhs.adaptors.scr.exceptions;
 
-public class UnexpectedSpineResponseException extends BadGatewayException {
+public class UnexpectedSpineResponseException extends InternalErrorException {
 
     public UnexpectedSpineResponseException(String message) {
         super(message);
