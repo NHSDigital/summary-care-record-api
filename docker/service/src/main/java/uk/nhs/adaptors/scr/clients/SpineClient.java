@@ -103,6 +103,7 @@ public class SpineClient {
 
     @SneakyThrows
     public SpineHttpClient.Response sendGetScrId(String requestBody, String nhsdAsid) {
+        LOGGER.debug("Sending GET SCR ID request to SPINE: {}", requestBody);
         var request = new HttpPost(spineConfiguration.getUrl() + spineConfiguration.getPsisQueriesEndpoint());
         request.addHeader("SOAPAction", "urn:nhs:names:services:psisquery/QUPC_IN180000SM04");
         request.addHeader("Content-Type", TEXT_XML_VALUE);
