@@ -12,6 +12,7 @@ import javax.xml.xpath.XPathFactory;
 import java.io.StringReader;
 
 import static javax.xml.xpath.XPathConstants.NODESET;
+import static uk.nhs.adaptors.scr.models.AcsPermission.ASK;
 
 @Getter
 public class EventListQueryResponse {
@@ -34,8 +35,10 @@ public class EventListQueryResponse {
             .parse(new InputSource(new StringReader(xml)));
 
         EventListQueryResponse response = new EventListQueryResponse();
-        response.viewPermission = AcsPermission.fromValue(getNodeText(soapEnvelope, VIEW_PERMISSION_XPATH));
-        response.storePermission = AcsPermission.fromValue(getNodeText(soapEnvelope, STORE_PERMISSION_XPATH));
+        String viewNodeText = getNodeText(soapEnvelope, VIEW_PERMISSION_XPATH);
+        response.viewPermission = viewNodeText != null ? AcsPermission.fromValue(viewNodeText) : ASK;
+        String storeNodeText = getNodeText(soapEnvelope, STORE_PERMISSION_XPATH);
+        response.storePermission = storeNodeText != null ? AcsPermission.fromValue(storeNodeText) : ASK;
         response.latestScrId = getNodeAttributeValue(soapEnvelope, LATEST_SCR_ID_XPATH, "root");
 
 

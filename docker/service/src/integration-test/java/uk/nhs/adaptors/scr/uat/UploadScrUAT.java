@@ -39,7 +39,7 @@ import static uk.nhs.adaptors.scr.controllers.FhirMediaTypes.APPLICATION_FHIR_JS
 @DirtiesContext
 @Slf4j
 @ContextConfiguration(initializers = {WireMockInitializer.class})
-public class SendUAT {
+public class UploadScrUAT {
 
     private static final String FHIR_ENDPOINT = "/Bundle";
     private static final String SPINE_SCR_ENDPOINT = "/clinical";

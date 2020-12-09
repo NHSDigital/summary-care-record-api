@@ -64,13 +64,13 @@ public abstract class CustomArgumentsProvider implements ArgumentsProvider {
 
     public static class UploadScrSuccess extends CustomArgumentsProvider {
         public UploadScrSuccess() {
-            super("outbound_uat_data");
+            super("upload_scr_uat_data");
         }
     }
 
     public static class UploadScrInvalid extends CustomArgumentsProvider {
         public UploadScrInvalid() {
-            super("outbound_uat_invalid");
+            super("upload_scr_uat_invalid");
         }
     }
 

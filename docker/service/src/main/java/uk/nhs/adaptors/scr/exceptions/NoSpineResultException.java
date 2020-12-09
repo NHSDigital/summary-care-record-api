@@ -4,6 +4,9 @@ import lombok.Getter;
 import org.hl7.fhir.r4.model.CodeableConcept;
 import org.hl7.fhir.r4.model.OperationOutcome;
 
+import static org.hl7.fhir.r4.model.OperationOutcome.IssueSeverity.ERROR;
+import static org.hl7.fhir.r4.model.OperationOutcome.IssueType.TRANSIENT;
+
 @Getter
 public class NoSpineResultException extends GatewayTimeoutException {
 
@@ -19,10 +22,9 @@ public class NoSpineResultException extends GatewayTimeoutException {
         var operationOutcome = new OperationOutcome();
 
         operationOutcome.addIssue()
-            .setSeverity(OperationOutcome.IssueSeverity.ERROR)
-            .setCode(OperationOutcome.IssueType.TRANSIENT)
-            .setDetails(new CodeableConcept().addCoding(NHSCodings.NO_RECORD_FOUND.asCoding()))
-            .setDiagnostics("Upstream server timed out. " + getMessage());
+            .setSeverity(ERROR)
+            .setCode(TRANSIENT)
+            .setDetails(new CodeableConcept().setText("Upstream server timed out. " + getMessage()));
 
         return operationOutcome;
     }

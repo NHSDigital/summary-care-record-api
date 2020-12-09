@@ -5,7 +5,7 @@
       "severity": "error",
       "code": "value",
       "details": {
-        "text": "Error while mapping data"
+        "text": "Composition missing from payload"
       }
     }
   ]
