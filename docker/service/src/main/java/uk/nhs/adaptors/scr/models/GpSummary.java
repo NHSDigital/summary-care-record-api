@@ -35,6 +35,7 @@ import static uk.nhs.adaptors.scr.fhirmappings.PatientMapper.mapPatient;
 import static uk.nhs.adaptors.scr.fhirmappings.PractitionerMapper.mapPractitioner;
 import static uk.nhs.adaptors.scr.fhirmappings.PractitionerRoleMapper.mapPractitionerRole;
 import static uk.nhs.adaptors.scr.utils.DateUtil.formatDate;
+import static uk.nhs.adaptors.scr.utils.FhirHelper.UUID_IDENTIFIER_SYSTEM;
 import static uk.nhs.adaptors.scr.utils.FhirHelper.getDomainResource;
 import static uk.nhs.adaptors.scr.utils.FhirHelper.getDomainResourceList;
 
@@ -96,13 +97,17 @@ public class GpSummary {
 
     private static void gpSummarySetHeaderTimeStamp(Bundle bundle, GpSummary gpSummary) {
         if (bundle.hasIdentifier()) {
+            var identifier = bundle.getIdentifier();
+            if (!UUID_IDENTIFIER_SYSTEM.equals(identifier.getSystem())) {
+                throw new FhirMappingException(String.format("bundle.identifier.system must be %s", UUID_IDENTIFIER_SYSTEM));
+            }
             if (bundle.getIdentifier().hasValue()) {
                 gpSummary.setHeaderId(bundle.getIdentifier().getValue().toUpperCase());
             } else {
-                throw new FhirMappingException("Bundle Idenifier Value missing from payload");
+                throw new FhirMappingException("bundle.identifier.value must not be empty");
             }
         } else {
-            throw new FhirMappingException("Bundle Identifier missing from payload");
+            throw new FhirMappingException("bundle.identifier must not be empty");
         }
     }
 
@@ -110,7 +115,7 @@ public class GpSummary {
         if (bundle.hasTimestampElement()) {
             gpSummary.setHeaderTimeStamp(formatDate(bundle.getTimestampElement().asStringValue()));
         } else {
-            throw new FhirMappingException("Bundle timestamp Value missing from payload");
+            throw new FhirMappingException("bundle.timestamp must not be empty");
         }
     }
 }

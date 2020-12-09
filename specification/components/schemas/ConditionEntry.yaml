@@ -7,7 +7,7 @@
       properties:
         resourceType:
           type: string
-          example: "Condition"
+          default: "Condition"
         meta:
           type: array
           items:
@@ -15,7 +15,7 @@
             properties:
               profile:
                 type: string
-                example: "https://fhir.nhs.uk/R4/StructureDefinition/UKCore-Condition"
+                default: "https://fhir.nhs.uk/R4/StructureDefinition/UKCore-Condition"
         identifier:
           type: array
           items:

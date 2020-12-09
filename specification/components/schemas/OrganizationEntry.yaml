@@ -7,7 +7,7 @@
       properties:
         resourceType:
           type: string
-          example: "Organization"
+          default: "Organization"
         id:
           type: string
           example: "b6f5dd89-fc3a-466d-baad-126c0aac46fc"
