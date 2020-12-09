@@ -40,7 +40,7 @@
     </Request>
   </PreFlow>
   <!--
-    To point to a named target server as this is how it SHOULD be implemented:
+    The {{ HOSTED_TARGET_CONNECTION }} resolved to this:
     For example:
     <HTTPTargetConnection>
       <SSLInfo>
@@ -54,4 +54,9 @@
   <HTTPTargetConnection>
     {{ HOSTED_TARGET_CONNECTION }}
   </HTTPTargetConnection>
+  <DefaultFaultRule>
+    <Step>
+      <Name>AssignMessage.CatchallErrorMessage</Name>
+    </Step>
+  </DefaultFaultRule>
 </TargetEndpoint>
