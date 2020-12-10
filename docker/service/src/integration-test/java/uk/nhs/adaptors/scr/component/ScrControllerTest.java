@@ -54,7 +54,7 @@ public class ScrControllerTest {
         when(scrConfiguration.getPartyIdTo()).thenReturn("some-party-to");
         when(scrConfiguration.getNhsdAsidTo()).thenReturn("some-asid-to");
 
-        when(fhirParser.parseBundle(any(), any())).thenReturn(new Bundle());
+        when(fhirParser.parseResource(any(), any())).thenReturn(new Bundle());
         doAnswer(invocation -> {
             try {
                 Thread.sleep(LONG_INITIAL_WAIT_TIME);

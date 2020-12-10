@@ -2,16 +2,20 @@ package uk.nhs.adaptors.sandbox.scr.handlers;
 
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.parser.IParser;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.hl7.fhir.r4.model.CodeableConcept;
 import org.hl7.fhir.r4.model.OperationOutcome;
+import org.hl7.fhir.r4.model.OperationOutcome.IssueSeverity;
+import org.hl7.fhir.r4.model.OperationOutcome.IssueType;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
+import org.springframework.web.bind.MissingRequestHeaderException;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.context.request.WebRequest;
@@ -22,11 +26,11 @@ import javax.servlet.http.HttpServletRequest;
 
 import static java.util.Collections.singletonList;
 import static org.hl7.fhir.r4.model.OperationOutcome.IssueSeverity.ERROR;
-import static org.hl7.fhir.r4.model.OperationOutcome.IssueType.EXCEPTION;
 import static org.hl7.fhir.r4.model.OperationOutcome.IssueType.NOTFOUND;
 import static org.hl7.fhir.r4.model.OperationOutcome.IssueType.NOTSUPPORTED;
+import static org.hl7.fhir.r4.model.OperationOutcome.IssueType.VALUE;
 import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
-import static org.springframework.http.HttpStatus.NOT_FOUND;
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static uk.nhs.adaptors.sandbox.scr.controllers.FhirMediaTypes.APPLICATION_FHIR_JSON_VALUE;
 
 @ControllerAdvice
@@ -39,49 +43,48 @@ public class OperationOutcomeExceptionHandler extends ResponseEntityExceptionHan
     @Override
     protected ResponseEntity<Object> handleNoHandlerFoundException(
         NoHandlerFoundException ex, HttpHeaders requestHeaders, HttpStatus status, WebRequest request) {
-        LOGGER.error("Creating OperationOutcome response for " + ex.getClass(), ex);
-        MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
-        headers.put(CONTENT_TYPE, singletonList(APPLICATION_FHIR_JSON_VALUE));
-
-        OperationOutcome operationOutcome = new OperationOutcome();
         HttpServletRequest servletReq = ((ServletWebRequest) request).getRequest();
-        operationOutcome.addIssue()
-            .setCode(NOTFOUND)
-            .setSeverity(ERROR)
-            .setDetails(new CodeableConcept().setText(servletReq.getRequestURI() + " not found"));
+        String errorMessage = servletReq.getRequestURI() + " not found";
+        OperationOutcome operationOutcome = createOperationOutcome(NOTFOUND, ERROR, errorMessage);
 
-        return new ResponseEntity<>(jsonParser.encodeResourceToString(operationOutcome), headers, NOT_FOUND);
+        return errorResponse(ex, requestHeaders, status, operationOutcome);
     }
 
     @Override
     protected ResponseEntity<Object> handleHttpMediaTypeNotSupported(
         HttpMediaTypeNotSupportedException ex, HttpHeaders requestHeaders, HttpStatus status, WebRequest request) {
-        LOGGER.error("Creating OperationOutcome response for " + ex.getClass(), ex);
-        String contentType = request.getHeader(CONTENT_TYPE);
-        MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
-        headers.put(CONTENT_TYPE, singletonList(APPLICATION_FHIR_JSON_VALUE));
-
-        OperationOutcome operationOutcome = new OperationOutcome();
-        operationOutcome.addIssue()
-            .setCode(NOTSUPPORTED)
-            .setSeverity(ERROR)
-            .setDetails(new CodeableConcept().setText(contentType + "Content-Type not supported"));
-
-        return new ResponseEntity<>(jsonParser.encodeResourceToString(operationOutcome), headers, status);
+        OperationOutcome operationOutcome = createOperationOutcome(NOTSUPPORTED, ERROR, ex.getMessage());
+        return errorResponse(ex, requestHeaders, status, operationOutcome);
     }
 
     @Override
-    protected ResponseEntity<Object> handleExceptionInternal(
-        Exception ex, Object body, HttpHeaders headers, HttpStatus status, WebRequest request) {
-        LOGGER.error("Creating OperationOutcome response for unhandled exception", ex);
-        headers.put(CONTENT_TYPE, singletonList(APPLICATION_FHIR_JSON_VALUE));
-        OperationOutcome operationOutcome = new OperationOutcome();
-        operationOutcome.addIssue()
-            .setCode(EXCEPTION)
-            .setSeverity(ERROR)
-            .setDetails(new CodeableConcept().setText("Internal server error: " + ex.getMessage()));
+    protected ResponseEntity<Object> handleMissingServletRequestParameter(
+        MissingServletRequestParameterException ex, HttpHeaders requestHeaders, HttpStatus status, WebRequest request) {
+        OperationOutcome operationOutcome = createOperationOutcome(VALUE, ERROR, ex.getMessage());
+        return errorResponse(ex, requestHeaders, status, operationOutcome);
+    }
 
-        String content = jsonParser.encodeResourceToString(operationOutcome);
+    @SneakyThrows
+    @ExceptionHandler(MissingRequestHeaderException.class)
+    public ResponseEntity<Object> handleMissingRequestHeader(MissingRequestHeaderException ex) {
+        OperationOutcome operationOutcome = createOperationOutcome(VALUE, ERROR, ex.getMessage());
+        return errorResponse(ex, new HttpHeaders(), BAD_REQUEST, operationOutcome);
+    }
+
+    private ResponseEntity<Object> errorResponse(Exception ex, HttpHeaders headers, HttpStatus status,
+                                                 OperationOutcome operationOutcome) {
+        LOGGER.error("Creating OperationOutcome response for " + ex.getClass(), ex);
+        headers.put(CONTENT_TYPE, singletonList(APPLICATION_FHIR_JSON_VALUE));
+        String content = jsonParser.setPrettyPrint(true).encodeResourceToString(operationOutcome);
         return new ResponseEntity<>(content, headers, status);
+    }
+
+    private static OperationOutcome createOperationOutcome(IssueType type, IssueSeverity severity, String message) {
+        var operationOutcome = new OperationOutcome();
+        operationOutcome.addIssue()
+            .setCode(type)
+            .setSeverity(severity)
+            .setDetails(new CodeableConcept().setText(message));
+        return operationOutcome;
     }
 }
