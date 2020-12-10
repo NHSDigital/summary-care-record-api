@@ -42,7 +42,7 @@ public class GetScrController {
     public String getScrId(@RequestHeader("Nhsd-Asid") @NotNull String nhsdAsid,
                            @RequestHeader("client-ip") @NotNull String clientIp,
                            @RequestHeader("client-request-url") @NotNull String clientRequestUrl,
-                           @RequestParam("patient") String patient,
+                           @RequestParam("patient") @NotNull String patient,
                            @RequestParam(required = false) String type,
                            @RequestParam(name = "_sort", required = false) String sort,
                            @RequestParam(name = "_count", required = false) Integer count,

@@ -30,13 +30,13 @@ import java.time.format.DateTimeFormatter;
 import static java.time.OffsetDateTime.now;
 import static java.time.ZoneOffset.UTC;
 import static java.util.Arrays.asList;
-import static java.util.UUID.randomUUID;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 import static org.hl7.fhir.r4.model.Bundle.BundleType.SEARCHSET;
 import static org.hl7.fhir.r4.model.Bundle.SearchEntryMode.MATCH;
 import static org.hl7.fhir.r4.model.Enumerations.DocumentReferenceStatus.CURRENT;
 import static uk.nhs.adaptors.scr.models.AcsPermission.ASK;
 import static uk.nhs.adaptors.scr.models.AcsPermission.YES;
+import static uk.nhs.adaptors.scr.utils.FhirHelper.randomUUID;
 import static uk.nhs.adaptors.scr.utils.TemplateUtils.loadTemplate;
 
 @Component
@@ -80,7 +80,7 @@ public class GetScrService {
 
         Bundle bundle = new Bundle();
         bundle.setType(SEARCHSET);
-        bundle.setId(randomUUID().toString());
+        bundle.setId(randomUUID());
         if (isNotEmpty(response.getLatestScrId()) && asList(YES, ASK).contains(response.getViewPermission())) {
             bundle.setTotal(1);
 
@@ -110,7 +110,7 @@ public class GetScrService {
                                                      EventListQueryResponse response,
                                                      Patient patient) {
         DocumentReference documentReference = new DocumentReference();
-        documentReference.setId(randomUUID().toString());
+        documentReference.setId(randomUUID());
 
         documentReference.addSecurityLabel(new CodeableConcept(new Coding()
             .setCode(response.getViewPermission().value())
@@ -147,7 +147,7 @@ public class GetScrService {
 
     private Patient buildPatientResource(String nhsNumber) {
         Patient patient = new Patient();
-        String patientResourceId = randomUUID().toString();
+        String patientResourceId = randomUUID();
         patient.setId(patientResourceId);
         patient.setIdentifier(asList(new Identifier()
             .setSystem(NHS_ID_SYSTEM)

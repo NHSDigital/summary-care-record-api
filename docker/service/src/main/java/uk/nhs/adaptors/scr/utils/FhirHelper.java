@@ -1,6 +1,7 @@
 package uk.nhs.adaptors.scr.utils;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.hl7.fhir.r4.model.Bundle;
@@ -31,5 +32,9 @@ public class FhirHelper {
             .map(BundleEntryComponent::getResource)
             .filter(resource -> resource.getResourceType() == resourceType)
             .collect(Collectors.toList());
+    }
+
+    public static String randomUUID() {
+        return UUID.randomUUID().toString().toUpperCase();
     }
 }
