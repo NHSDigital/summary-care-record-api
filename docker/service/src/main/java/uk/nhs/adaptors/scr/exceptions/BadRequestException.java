@@ -8,7 +8,7 @@ import static org.hl7.fhir.r4.model.OperationOutcome.IssueSeverity.ERROR;
 import static org.hl7.fhir.r4.model.OperationOutcome.IssueType.VALUE;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 
-public abstract class BadRequestException extends ScrBaseException implements OperationOutcomeError {
+public class BadRequestException extends ScrBaseException implements OperationOutcomeError {
 
     private final OperationOutcome operationOutcome;
 

@@ -63,23 +63,6 @@ class SpineClientTest {
     }
 
     @Test
-    void whenSendingAcsExpectResult() {
-        when(spineConfiguration.getAcsEndpoint()).thenReturn(ACS_ENDPOINT);
-        when(spineHttpClient.sendRequest(any(HttpPost.class)))
-            .thenReturn(new SpineHttpClient.Response(HttpStatus.OK.value(), new Header[0], RESPONSE_BODY));
-
-        var response = spineClient.sendAcsData(ACS_REQUEST_BODY);
-
-        var httpPostArgumentCaptor = ArgumentCaptor.forClass(HttpPost.class);
-        verify(spineHttpClient).sendRequest(httpPostArgumentCaptor.capture());
-
-        var httpPost = httpPostArgumentCaptor.getValue();
-        assertThat(httpPost.getURI().toString()).isEqualTo(SPINE_URL + ACS_ENDPOINT);
-
-        assertThat(response.getBody()).isEqualTo(RESPONSE_BODY);
-    }
-
-    @Test
     void whenSendingScrReturns202ExpectResult() {
         when(spineConfiguration.getScrEndpoint()).thenReturn(SCR_ENDPOINT);
         var headers = new Header[] {

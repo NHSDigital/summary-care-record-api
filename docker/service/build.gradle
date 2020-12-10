@@ -54,6 +54,10 @@ dependencies {
     testImplementation "com.github.tomakehurst:wiremock-jre8-standalone:2.27.2"
 }
 
+test {
+    useJUnitPlatform()
+}
+
 sourceSets {
     integrationTest {
         java {
