@@ -12,7 +12,7 @@ import org.springframework.web.HttpMediaTypeNotAcceptableException;
 import uk.nhs.adaptors.scr.components.FhirParser;
 import uk.nhs.adaptors.scr.config.ScrConfiguration;
 import uk.nhs.adaptors.scr.config.SpineConfiguration;
-import uk.nhs.adaptors.scr.services.ScrService;
+import uk.nhs.adaptors.scr.services.UploadScrService;
 
 import static io.restassured.RestAssured.given;
 import static org.mockito.ArgumentMatchers.any;
@@ -25,7 +25,7 @@ import static org.springframework.http.HttpStatus.GATEWAY_TIMEOUT;
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 @AutoConfigureMockMvc
 public class ScrControllerTest {
-    private static final String FHIR_ENDPOINT = "/fhir";
+    private static final String FHIR_ENDPOINT = "/Bundle";
     private static final String REQUEST_BODY = "something";
     private static final int LONG_INITIAL_WAIT_TIME = 1000;
     private static final long SHORT_RESULT_TIMEOUT = 10;
@@ -39,7 +39,7 @@ public class ScrControllerTest {
     private FhirParser fhirParser;
 
     @MockBean
-    private ScrService scrService;
+    private UploadScrService uploadScrService;
 
     @MockBean
     private SpineConfiguration spineConfiguration;
@@ -62,7 +62,7 @@ public class ScrControllerTest {
                 return null;
             }
             return null;
-        }).when(scrService).handleFhir(any());
+        }).when(uploadScrService).handleFhir(any());
 
         when(spineConfiguration.getScrResultTimeout()).thenReturn(SHORT_RESULT_TIMEOUT);
 

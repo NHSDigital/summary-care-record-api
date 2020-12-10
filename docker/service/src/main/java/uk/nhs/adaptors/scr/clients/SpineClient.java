@@ -8,7 +8,6 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.retry.RetryContext;
 import org.springframework.retry.backoff.BackOffContext;
 import org.springframework.retry.backoff.BackOffInterruptedException;
@@ -17,10 +16,17 @@ import org.springframework.retry.support.RetryTemplate;
 import org.springframework.stereotype.Component;
 import uk.nhs.adaptors.scr.config.SpineConfiguration;
 import uk.nhs.adaptors.scr.exceptions.NoSpineResultException;
-import uk.nhs.adaptors.scr.exceptions.UnexpectedSpineResponseException;
 import uk.nhs.adaptors.scr.exceptions.ScrBaseException;
 import uk.nhs.adaptors.scr.exceptions.ScrTimeoutException;
+import uk.nhs.adaptors.scr.exceptions.UnexpectedSpineResponseException;
 import uk.nhs.adaptors.scr.models.ProcessingResult;
+
+import static org.springframework.http.HttpStatus.ACCEPTED;
+import static org.springframework.http.HttpStatus.OK;
+import static org.springframework.http.MediaType.TEXT_XML_VALUE;
+import static uk.nhs.adaptors.scr.consts.HttpHeaders.CONTENT_TYPE;
+import static uk.nhs.adaptors.scr.consts.HttpHeaders.NHSD_ASID;
+import static uk.nhs.adaptors.scr.consts.HttpHeaders.SOAP_ACTION;
 
 @Component
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -45,17 +51,17 @@ public class SpineClient {
         var url = spineConfiguration.getUrl() + spineConfiguration.getScrEndpoint();
 
         var request = new HttpPost(url);
-        request.addHeader("SOAPAction", "urn:nhs:names:services:psis/REPC_IN150016SM05");
-        request.addHeader("Content-Type",
+        request.addHeader(SOAP_ACTION, "urn:nhs:names:services:psis/REPC_IN150016SM05");
+        request.addHeader(CONTENT_TYPE,
             "multipart/related; boundary=\"--=_MIME-Boundary\"; type=\"text/xml\"; start=\"<ebXMLHeader@spine.nhs.uk>\"");
         request.setEntity(new StringEntity(requestBody));
 
         var response = spineHttpClient.sendRequest(request);
         var statusCode = response.getStatusCode();
 
-        if (statusCode != HttpStatus.ACCEPTED.value()) {
+        if (statusCode != ACCEPTED.value()) {
             LOGGER.error("Unexpected spine SCR POST response: {}", response);
-            throw new UnexpectedSpineResponseException("Unexpected spine send response " + statusCode);
+            throw new UnexpectedSpineResponseException("Unexpected spine 'send data' response " + statusCode);
         }
         return response;
 
@@ -84,10 +90,10 @@ public class SpineClient {
             var result =  spineHttpClient.sendRequest(request);
             int statusCode = result.getStatusCode();
 
-            if (statusCode == HttpStatus.OK.value()) {
+            if (statusCode == OK.value()) {
                 LOGGER.info("{} processing result received.", statusCode);
                 return ProcessingResult.parseProcessingResult(result.getBody());
-            } else if (statusCode == HttpStatus.ACCEPTED.value()) {
+            } else if (statusCode == ACCEPTED.value()) {
                 var nextRetryAfter = Long.parseLong(SpineHttpClient.getHeader(result.getHeaders(), SpineHttpClient.RETRY_AFTER_HEADER));
                 LOGGER.info("{} received. NextRetry in {}ms", statusCode, nextRetryAfter);
                 throw new NoSpineResultException(nextRetryAfter);
@@ -97,6 +103,27 @@ public class SpineClient {
             }
         });
     }
+
+    @SneakyThrows
+    public SpineHttpClient.Response sendGetScrId(String requestBody, String nhsdAsid) {
+        LOGGER.debug("Sending GET SCR ID request to SPINE: {}", requestBody);
+        var request = new HttpPost(spineConfiguration.getUrl() + spineConfiguration.getPsisQueriesEndpoint());
+        request.addHeader(SOAP_ACTION, "urn:nhs:names:services:psisquery/QUPC_IN180000SM04");
+        request.addHeader(CONTENT_TYPE, TEXT_XML_VALUE);
+        request.addHeader(NHSD_ASID, nhsdAsid);
+
+        request.setEntity(new StringEntity(requestBody));
+
+        var response = spineHttpClient.sendRequest(request);
+        var statusCode = response.getStatusCode();
+
+        if (statusCode != OK.value()) {
+            LOGGER.error("Unexpected spine GET SCR ID response: {}", response);
+            throw new UnexpectedSpineResponseException("Unexpected spine send response " + statusCode);
+        }
+        return response;
+    }
+
 
     public static class ScrRetryBackoffPolicy implements BackOffPolicy {
         @Override

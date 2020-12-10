@@ -1,0 +1,32 @@
+type: object
+properties:
+  resourceType:
+    type: string
+    default: "Bundle"
+  id:
+    type: string
+    example: "f61e545c-d52c-4b62-9668-3dcc6c27fc50"
+  identifier:
+    $ref: identifier.yaml
+  type:
+    type: string
+    default: "document"
+  timestamp:
+    type: string
+    example: "2007-03-15T01:00:00Z"
+  entry:
+    type: array
+    items:
+      anyOf:
+        - $ref: CompositionEntry.yaml
+        - $ref: PatientEntry.yaml
+        - $ref: PractitionerEntry.yaml
+        - $ref: PractitionerRoleEntry.yaml
+        - $ref: OrganizationEntry.yaml
+        - $ref: ConditionEntry.yaml
+        - $ref: ObservationEntry.yaml
+required:
+  - resourceType
+  - timestamp
+  - identifier
+  - entry

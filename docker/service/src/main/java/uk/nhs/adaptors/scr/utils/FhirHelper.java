@@ -1,6 +1,7 @@
 package uk.nhs.adaptors.scr.utils;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.hl7.fhir.r4.model.Bundle;
@@ -11,6 +12,9 @@ import org.hl7.fhir.r4.model.ResourceType;
 import uk.nhs.adaptors.scr.exceptions.FhirMappingException;
 
 public class FhirHelper {
+
+    public static final String NHS_NUMBER_IDENTIFIER_SYSTEM = "https://fhir.nhs.uk/Id/nhs-number";
+    public static final String UUID_IDENTIFIER_SYSTEM = "https://tools.ietf.org/html/rfc4122";
 
     public static <T extends Resource> T getDomainResource(Bundle bundle, Class<T> resourceType) {
         return bundle.getEntry().stream()
@@ -28,5 +32,9 @@ public class FhirHelper {
             .map(BundleEntryComponent::getResource)
             .filter(resource -> resource.getResourceType() == resourceType)
             .collect(Collectors.toList());
+    }
+
+    public static String randomUUID() {
+        return UUID.randomUUID().toString().toUpperCase();
     }
 }

@@ -1,19 +1,18 @@
 package uk.nhs.adaptors.scr.fhirmappings;
 
-import static uk.nhs.adaptors.scr.utils.DateUtil.formatDate;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
-
-import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.r4.model.Composition;
 import org.hl7.fhir.r4.model.Composition.CompositionRelatesToComponent;
-
 import uk.nhs.adaptors.scr.exceptions.FhirMappingException;
 import uk.nhs.adaptors.scr.models.GpSummary;
 import uk.nhs.adaptors.scr.models.gpsummarymodels.CompositionRelatesTo;
 import uk.nhs.adaptors.scr.models.gpsummarymodels.Presentation;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.apache.commons.lang3.StringUtils.EMPTY;
+import static uk.nhs.adaptors.scr.utils.DateUtil.formatDate;
+import static uk.nhs.adaptors.scr.utils.FhirHelper.randomUUID;
 
 public class CompositionMapper {
     public static void mapComposition(GpSummary gpSummary, Composition composition) throws FhirMappingException {
@@ -46,7 +45,7 @@ public class CompositionMapper {
     }
 
     private static void setCompositionId(GpSummary gpSummary, Composition composition) throws FhirMappingException {
-        String value = StringUtils.EMPTY;
+        String value = EMPTY;
 
         if (composition.hasIdentifier()) {
             if (composition.getIdentifier().hasValue()) {
@@ -71,7 +70,7 @@ public class CompositionMapper {
         if (composition.hasSection()) {
             for (Composition.SectionComponent section : composition.getSection()) {
                 Presentation presentation = new Presentation();
-                String value = StringUtils.EMPTY;
+                String value = EMPTY;
 
                 if (section.hasText()) {
                     if (section.getText().hasDiv()) {
@@ -79,7 +78,7 @@ public class CompositionMapper {
                     }
                 }
 
-                presentation.setPresentationId(UUID.randomUUID().toString().toUpperCase());
+                presentation.setPresentationId(randomUUID());
                 presentation.setPresentationText(value);
                 presentationList.add(presentation);
             }

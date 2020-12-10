@@ -1,11 +1,5 @@
 package uk.nhs.adaptors.scr.uat.common;
 
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.Map;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.ArgumentsProvider;
@@ -13,6 +7,16 @@ import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
+
+import java.io.IOException;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import static java.util.Arrays.stream;
+import static org.springframework.util.CollectionUtils.isEmpty;
+import static uk.nhs.adaptors.scr.uat.common.TestData.REQUEST_FILE_ENDING;
+import static uk.nhs.adaptors.scr.uat.common.TestData.RESPONSE_FILE_ENDING;
 
 public abstract class CustomArgumentsProvider implements ArgumentsProvider {
 
@@ -26,7 +30,7 @@ public abstract class CustomArgumentsProvider implements ArgumentsProvider {
     public Stream<? extends Arguments> provideArguments(ExtensionContext context) throws IOException {
         var resources = getResources();
 
-        var grouped = Arrays.stream(resources)
+        var grouped = stream(resources)
             .filter(r -> r.getFilename() != null)
             .filter(r -> !r.getFilename().endsWith("txt")) // ignore notes
             .filter(r -> !r.getFilename().contains("ignore")) // ignore ignored
@@ -38,10 +42,9 @@ public abstract class CustomArgumentsProvider implements ArgumentsProvider {
                 return category + "/" + name;
             })).entrySet().stream()
             .peek(es -> {
-                if (es.getValue().size() != 2) {
+                if (isEmpty(es.getValue())) {
                     throw new IllegalStateException(String.format(
-                        "There should be 2 test data files: %s and one %s",
-                        TestData.HL7V3_FILE_ENDING, TestData.FHIR_JSON_FILE_ENDING));
+                        "There should be at least 1 test data file: %s or %s", REQUEST_FILE_ENDING, RESPONSE_FILE_ENDING));
                 }
             })
             .collect(Collectors.toMap(
@@ -59,15 +62,27 @@ public abstract class CustomArgumentsProvider implements ArgumentsProvider {
         return resolver.getResources("classpath*:/" + folder + "/*/*");
     }
 
-    public static class OutboundSuccess extends CustomArgumentsProvider {
-        public OutboundSuccess() {
-            super("outbound_uat_data");
+    public static class UploadScrSuccess extends CustomArgumentsProvider {
+        public UploadScrSuccess() {
+            super("upload_scr_uat_data");
         }
     }
 
-    public static class OutboundInvalid extends CustomArgumentsProvider {
-        public OutboundInvalid() {
-            super("outbound_uat_invalid");
+    public static class UploadScrInvalid extends CustomArgumentsProvider {
+        public UploadScrInvalid() {
+            super("upload_scr_uat_invalid");
+        }
+    }
+
+    public static class GetScrIdSuccess extends CustomArgumentsProvider {
+        public GetScrIdSuccess() {
+            super("get_scr_id_data");
+        }
+    }
+
+    public static class GetScrIdNoConsent extends CustomArgumentsProvider {
+        public GetScrIdNoConsent() {
+            super("get_scr_id_no_consent");
         }
     }
 }

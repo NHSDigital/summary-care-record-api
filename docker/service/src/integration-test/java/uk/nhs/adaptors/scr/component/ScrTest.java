@@ -42,6 +42,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 import static org.springframework.http.HttpStatus.ACCEPTED;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
+import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.GATEWAY_TIMEOUT;
 import static org.springframework.http.HttpStatus.OK;
 
@@ -52,7 +53,7 @@ import static org.springframework.http.HttpStatus.OK;
 @ContextConfiguration(initializers = {WireMockInitializer.class})
 public class ScrTest {
     private static final String HEALTHCHECK_ENDPOINT = "/healthcheck";
-    private static final String FHIR_ENDPOINT = "/fhir";
+    private static final String FHIR_ENDPOINT = "/Bundle";
     private static final String SCR_SPINE_ENDPOINT = "/clinical";
     private static final String SCR_SPINE_CONTENT_ENDPOINT = "/content";
     public static final String WIREMOCK_SCENARIO_NAME = "POST + polling GET";
@@ -61,7 +62,6 @@ public class ScrTest {
     private static final int GET_WAIT_TIME = 400;
     private static final int THREAD_SLEEP_ALLOWED_DIFF = 100;
     private static final String FHIR_JSON_CONTENT_TYPE = "application/fhir+json";
-    private static final String FHIR_XML_CONTENT_TYPE = "application/fhir+xml";
     private static final String NHSD_ASID = "123";
 
     @LocalServerPort
@@ -75,9 +75,6 @@ public class ScrTest {
 
     @Value("classpath:bundle.fhir.json")
     private Resource simpleFhirJson;
-
-    @Value("classpath:bundle.fhir.xml")
-    private Resource simpleFhirXml;
 
     @Autowired
     private FhirParser fhirParser;
@@ -104,16 +101,9 @@ public class ScrTest {
     }
 
     @Test
-    public void whenPostingFhirJsonThenExpect200() throws Exception {
-        whenPostingThenExpect200(
+    public void whenPostingFhirJsonThenExpect201() throws Exception {
+        whenPostingThenExpect201(
             Files.readString(simpleFhirJson.getFile().toPath(), Charsets.UTF_8),
-            FHIR_JSON_CONTENT_TYPE);
-    }
-
-    @Test
-    public void whenUnableToParseJsonDataThenExpect400() throws Exception {
-        whenPostingInvalidContentThenExpect400(
-            Files.readString(simpleFhirXml.getFile().toPath(), Charsets.UTF_8),
             FHIR_JSON_CONTENT_TYPE);
     }
 
@@ -145,8 +135,8 @@ public class ScrTest {
             MediaType.parseMediaType(FHIR_JSON_CONTENT_TYPE), body, OperationOutcome.class);
         assertThat(operationOutcome.getIssueFirstRep().getSeverity()).isEqualTo(OperationOutcome.IssueSeverity.ERROR);
         assertThat(operationOutcome.getIssueFirstRep().getCode()).isEqualTo(OperationOutcome.IssueType.VALUE);
-        assertThat(operationOutcome.getIssueFirstRep().getDiagnostics())
-            .isEqualTo("Spine processing finished with errors:\n"
+        assertThat(operationOutcome.getIssueFirstRep().getDetails().getText()).isEqualTo(
+            "Spine processing finished with errors:\n"
                 + "- 400: Invalid Request\n"
                 + "- 35160: [PSIS-35160] - Invalid input message. Mandatory field NHS Number is missing or incorrect");
     }
@@ -178,7 +168,7 @@ public class ScrTest {
             .statusCode(GATEWAY_TIMEOUT.value());
     }
 
-    private void whenPostingThenExpect200(String requestBody, String contentType) throws IOException, HttpMediaTypeNotAcceptableException {
+    private void whenPostingThenExpect201(String requestBody, String contentType) throws IOException, HttpMediaTypeNotAcceptableException {
         setUpSpineRequests();
 
         var body = given()
@@ -189,7 +179,7 @@ public class ScrTest {
             .when()
             .post(FHIR_ENDPOINT)
             .then()
-            .statusCode(OK.value())
+            .statusCode(CREATED.value())
             .extract().asString();
 
         wireMockServer.verify(1, postRequestedFor(urlEqualTo(SCR_SPINE_ENDPOINT)));
@@ -224,28 +214,22 @@ public class ScrTest {
         assertThat(issue.getDiagnostics()).isEqualTo("Resource has been successfully updated.");
     }
 
-    private void whenPostingInvalidContentThenExpect400(String requestBody, String contentType) {
+    @Test
+    public void whenPostingInvalidContentThenExpect400() {
         var responseBody = given()
             .port(port)
-            .contentType(contentType)
-            .body(requestBody)
+            .contentType(FHIR_JSON_CONTENT_TYPE)
+            .body("<invalid_content>>")
             .when()
             .post(FHIR_ENDPOINT)
             .then()
-            .contentType(contentType)
+            .contentType(FHIR_JSON_CONTENT_TYPE)
             .statusCode(BAD_REQUEST.value())
             .extract()
             .asString();
 
         FhirContext ctx = FhirContext.forR4();
-        IParser parser;
-        if (contentType.equals(FHIR_JSON_CONTENT_TYPE)) {
-            parser = ctx.newJsonParser();
-        } else if (contentType.equals(FHIR_XML_CONTENT_TYPE)) {
-            parser = ctx.newXmlParser();
-        } else {
-            throw new IllegalStateException();
-        }
+        IParser parser = ctx.newJsonParser();
 
         var response = parser.parseResource(responseBody);
 

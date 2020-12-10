@@ -30,7 +30,7 @@ import java.util.List;
 
 @Component
 @Slf4j
-public class ScrService {
+public class UploadScrService {
 
     @Autowired
     private SpineClient spineClient;
@@ -67,7 +67,7 @@ public class ScrService {
             return TemplateUtils.fillTemplate(REPC_RM150007UK05_TEMPLATE, gpSummary);
 
         } catch (Exception ex) {
-            throw new FhirMappingException("Error while mapping data");
+            throw new FhirMappingException(ex.getMessage());
         }
     }
 

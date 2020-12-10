@@ -8,14 +8,17 @@ import uk.nhs.adaptors.scr.exceptions.NHSCodings;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
+import static org.hl7.fhir.r4.model.OperationOutcome.IssueSeverity.ERROR;
+import static org.hl7.fhir.r4.model.OperationOutcome.IssueType.EXCEPTION;
+import static org.hl7.fhir.r4.model.OperationOutcome.IssueType.NOTSUPPORTED;
+
 public class OperationOutcomeUtils {
     public static OperationOutcome createFromException(Exception exception) {
         var operationOutcome = new OperationOutcome();
         operationOutcome.addIssue()
-            .setCode(OperationOutcome.IssueType.EXCEPTION)
-            .setSeverity(OperationOutcome.IssueSeverity.ERROR)
-            .setDiagnostics(formatException(exception))
-            .setDetails(new CodeableConcept().addCoding(NHSCodings.INTERNAL_SERVER_ERROR.asCoding()));
+            .setCode(EXCEPTION)
+            .setSeverity(ERROR)
+            .setDetails(new CodeableConcept().setText(formatException(exception)));
         return operationOutcome;
     }
 
@@ -23,9 +26,9 @@ public class OperationOutcomeUtils {
         (HttpMediaTypeNotSupportedException exception) {
         var operationOutcome = new OperationOutcome();
         operationOutcome.addIssue()
-            .setCode(OperationOutcome.IssueType.NOTSUPPORTED)
-            .setSeverity(OperationOutcome.IssueSeverity.ERROR)
-            .setDiagnostics(formatException(exception));
+            .setCode(NOTSUPPORTED)
+            .setSeverity(ERROR)
+            .setDetails(new CodeableConcept().setText(formatException(exception)));
         return operationOutcome;
     }
 

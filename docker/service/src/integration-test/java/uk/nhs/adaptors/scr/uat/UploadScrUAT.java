@@ -20,18 +20,17 @@ import uk.nhs.adaptors.scr.WireMockInitializer;
 import uk.nhs.adaptors.scr.uat.common.CustomArgumentsProvider;
 import uk.nhs.adaptors.scr.uat.common.TestData;
 
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-
 import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
+import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.nio.file.Files.readString;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.springframework.http.HttpStatus.ACCEPTED;
 import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.asyncDispatch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.request;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 import static uk.nhs.adaptors.scr.controllers.FhirMediaTypes.APPLICATION_FHIR_JSON_VALUE;
 
 @SpringBootTest
@@ -40,16 +39,13 @@ import static uk.nhs.adaptors.scr.controllers.FhirMediaTypes.APPLICATION_FHIR_JS
 @DirtiesContext
 @Slf4j
 @ContextConfiguration(initializers = {WireMockInitializer.class})
-public class SendUAT {
+public class UploadScrUAT {
 
-    private static final String FHIR_ENDPOINT = "/fhir";
+    private static final String FHIR_ENDPOINT = "/Bundle";
     private static final String SPINE_SCR_ENDPOINT = "/clinical";
     private static final String SCR_SPINE_CONTENT_ENDPOINT = "/content";
     private static final int INITIAL_WAIT_TIME = 1;
     private static final String NHSD_ASID = "123";
-
-    @Value("${spine.url}")
-    private String spineUrl;
 
     @Value("classpath:responses/polling/success.xml")
     private Resource pollingSuccessResponse;
@@ -66,7 +62,7 @@ public class SendUAT {
     }
 
     @ParameterizedTest(name = "[{index}] - {0}")
-    @ArgumentsSource(CustomArgumentsProvider.OutboundSuccess.class)
+    @ArgumentsSource(CustomArgumentsProvider.UploadScrSuccess.class)
     void testTranslatingFromFhirToHL7v3(String category, TestData testData) throws Exception {
         wireMockServer.stubFor(
             WireMock.post(SPINE_SCR_ENDPOINT)
@@ -77,35 +73,37 @@ public class SendUAT {
         wireMockServer.stubFor(
             WireMock.get(SCR_SPINE_CONTENT_ENDPOINT)
                 .willReturn(aResponse()
-                    .withBody(Files.readString(pollingSuccessResponse.getFile().toPath(), StandardCharsets.UTF_8))
+                    .withBody(readString(pollingSuccessResponse.getFile().toPath(), UTF_8))
                     .withStatus(OK.value())));
 
         var mvcResult = mockMvc
             .perform(post(FHIR_ENDPOINT)
                 .contentType(APPLICATION_FHIR_JSON_VALUE)
                 .header("Nhsd-Asid", NHSD_ASID)
-                .content(testData.getFhir()))
+                .content(testData.getFhirRequest()))
             .andExpect(request().asyncStarted())
             .andExpect(request().asyncResult(notNullValue()))
             .andReturn();
 
         mockMvc.perform(asyncDispatch(mvcResult))
-            .andExpect(status().isOk());
+            .andExpect(content().json(testData.getFhirResponse()))
+            .andExpect(status().isCreated());
     }
 
     @ParameterizedTest(name = "[{index}] - {0}")
-    @ArgumentsSource(CustomArgumentsProvider.OutboundInvalid.class)
+    @ArgumentsSource(CustomArgumentsProvider.UploadScrInvalid.class)
     void testTranslatingFromFhirToHL7v3InvalidRequest(String category, TestData testData) throws Exception {
         var mvcResult = mockMvc.perform(
             post(FHIR_ENDPOINT)
                 .contentType(APPLICATION_FHIR_JSON_VALUE)
                 .header("Nhsd-Asid", NHSD_ASID)
-                .content(testData.getFhir()))
+                .content(testData.getFhirRequest()))
             .andExpect(request().asyncStarted())
             .andExpect(request().asyncResult(notNullValue()))
             .andReturn();
 
         mockMvc.perform(asyncDispatch(mvcResult))
-            .andExpect(status().isBadRequest());
+            .andExpect(status().isBadRequest())
+            .andExpect(content().json(testData.getFhirResponse()));
     }
 }

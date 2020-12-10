@@ -1,28 +1,26 @@
 package uk.nhs.adaptors.scr.config;
 
-import static uk.nhs.adaptors.scr.consts.HttpHeaders.CORRELATION_ID_HEADER;
-import static uk.nhs.adaptors.scr.consts.HttpHeaders.REQUEST_ID_LOGGER;
-import static uk.nhs.adaptors.scr.controllers.FhirMediaTypes.APPLICATION_FHIR_JSON;
-import static uk.nhs.adaptors.scr.controllers.FhirMediaTypes.APPLICATION_FHIR_JSON_VALUE;
-
-import java.io.IOException;
+import lombok.AllArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
+import org.hl7.fhir.r4.model.CodeableConcept;
+import org.hl7.fhir.r4.model.OperationOutcome;
+import org.springframework.stereotype.Component;
+import org.springframework.web.filter.OncePerRequestFilter;
+import uk.nhs.adaptors.scr.components.FhirParser;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
-import org.hl7.fhir.r4.model.CodeableConcept;
-import org.hl7.fhir.r4.model.OperationOutcome;
-import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Component;
-import org.springframework.web.filter.OncePerRequestFilter;
-
-import org.apache.commons.lang3.StringUtils;
-
-import lombok.AllArgsConstructor;
-import uk.nhs.adaptors.scr.components.FhirParser;
-import uk.nhs.adaptors.scr.exceptions.NHSCodings;
+import static org.hl7.fhir.r4.model.OperationOutcome.IssueSeverity.ERROR;
+import static org.hl7.fhir.r4.model.OperationOutcome.IssueType.VALUE;
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
+import static uk.nhs.adaptors.scr.consts.HttpHeaders.CORRELATION_ID_HEADER;
+import static uk.nhs.adaptors.scr.consts.HttpHeaders.REQUEST_ID_LOGGER;
+import static uk.nhs.adaptors.scr.controllers.FhirMediaTypes.APPLICATION_FHIR_JSON;
+import static uk.nhs.adaptors.scr.controllers.FhirMediaTypes.APPLICATION_FHIR_JSON_VALUE;
 
 @Component
 @AllArgsConstructor
@@ -52,15 +50,15 @@ public class UuidValidationFilter extends OncePerRequestFilter {
 
     public void throwInvalidUUIDResponse(HttpServletResponse response, String headerName)
         throws ServletException, IOException {
-        response.setStatus(HttpStatus.BAD_REQUEST.value());
+        response.setStatus(BAD_REQUEST.value());
         response.setContentType(APPLICATION_FHIR_JSON_VALUE);
 
         var operationOutcome = new OperationOutcome();
         operationOutcome.addIssue()
-            .setCode(OperationOutcome.IssueType.EXCEPTION)
-            .setSeverity(OperationOutcome.IssueSeverity.ERROR)
-            .setDiagnostics("Invalid " + headerName + ". Should be a UUIDv4 matching \"" + UUID_REGEX + "\"")
-            .setDetails(new CodeableConcept().addCoding(NHSCodings.BAD_REQUEST.asCoding()));
+            .setCode(VALUE)
+            .setSeverity(ERROR)
+            .setDetails(new CodeableConcept()
+                .setText("Invalid " + headerName + ". Should be a UUIDv4 matching \"" + UUID_REGEX + "\""));
 
         response.getWriter().write(fhirParser.encodeResource(APPLICATION_FHIR_JSON, operationOutcome));
     }
