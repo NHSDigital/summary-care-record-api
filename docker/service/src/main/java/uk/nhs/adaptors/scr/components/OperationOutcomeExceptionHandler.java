@@ -58,7 +58,7 @@ public class OperationOutcomeExceptionHandler extends ResponseEntityExceptionHan
         String errorMessage = servletReq.getRequestURI() + " not found";
         OperationOutcome operationOutcome = createOperationOutcome(NOTFOUND, ERROR, errorMessage);
 
-        return errorResponse(ex, requestHeaders, status, operationOutcome);
+        return errorResponse(requestHeaders, status, operationOutcome);
     }
 
     @Override
@@ -66,7 +66,7 @@ public class OperationOutcomeExceptionHandler extends ResponseEntityExceptionHan
         HttpRequestMethodNotSupportedException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
         headers.put(ALLOW, List.of(getAllowedMethods(request)));
         OperationOutcome operationOutcome = createOperationOutcome(NOTSUPPORTED, ERROR, ex.getMessage());
-        return errorResponse(ex, headers, status, operationOutcome);
+        return errorResponse(headers, status, operationOutcome);
     }
 
     private String getAllowedMethods(WebRequest request) {
@@ -82,21 +82,21 @@ public class OperationOutcomeExceptionHandler extends ResponseEntityExceptionHan
     protected ResponseEntity<Object> handleHttpMediaTypeNotSupported(
         HttpMediaTypeNotSupportedException ex, HttpHeaders requestHeaders, HttpStatus status, WebRequest request) {
         OperationOutcome operationOutcome = createOperationOutcome(NOTSUPPORTED, ERROR, ex.getMessage());
-        return errorResponse(ex, requestHeaders, status, operationOutcome);
+        return errorResponse(requestHeaders, status, operationOutcome);
     }
 
     @Override
     protected ResponseEntity<Object> handleMissingServletRequestParameter(
         MissingServletRequestParameterException ex, HttpHeaders requestHeaders, HttpStatus status, WebRequest request) {
         OperationOutcome operationOutcome = createOperationOutcome(VALUE, ERROR, ex.getMessage());
-        return errorResponse(ex, requestHeaders, status, operationOutcome);
+        return errorResponse(requestHeaders, status, operationOutcome);
     }
 
     @SneakyThrows
     @ExceptionHandler(MissingRequestHeaderException.class)
     public ResponseEntity<Object> handleMissingRequestHeader(MissingRequestHeaderException ex) {
         OperationOutcome operationOutcome = createOperationOutcome(VALUE, ERROR, ex.getMessage());
-        return errorResponse(ex, new HttpHeaders(), BAD_REQUEST, operationOutcome);
+        return errorResponse(new HttpHeaders(), BAD_REQUEST, operationOutcome);
     }
 
     @ExceptionHandler(Exception.class)
@@ -112,7 +112,7 @@ public class OperationOutcomeExceptionHandler extends ResponseEntityExceptionHan
             httpStatus = INTERNAL_SERVER_ERROR;
         }
 
-        return errorResponse(ex, new HttpHeaders(), httpStatus, operationOutcome);
+        return errorResponse(new HttpHeaders(), httpStatus, operationOutcome);
     }
 
     @Override
@@ -121,9 +121,8 @@ public class OperationOutcomeExceptionHandler extends ResponseEntityExceptionHan
         return handleAllExceptions(ex);
     }
 
-    private ResponseEntity<Object> errorResponse(Exception ex, HttpHeaders headers, HttpStatus status,
+    private ResponseEntity<Object> errorResponse(HttpHeaders headers, HttpStatus status,
                                                  OperationOutcome operationOutcome) {
-        LOGGER.error("Creating OperationOutcome response for " + ex.getClass(), ex);
         headers.put(CONTENT_TYPE, singletonList(APPLICATION_FHIR_JSON_VALUE));
         String content = fhirParser.encodeToJson(operationOutcome);
         return new ResponseEntity<>(content, headers, status);

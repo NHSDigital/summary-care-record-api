@@ -13,5 +13,5 @@ public class ScrConfiguration {
     private String partyIdTo;
     private String partyIdFrom;
     private String nhsdAsidTo;
-    private ScrSpineMode spineMode;
+    private Boolean sandboxMode;
 }

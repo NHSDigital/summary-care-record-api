@@ -6,8 +6,8 @@ docker_service:
     - name: scr-sandbox
       expose: true
       environment:
-        - name: SCR_SPINE_MODE
-          value: "MOCK"
+        - name: SCR_SANDBOX_MODE
+          value: "True"
       health_check:
           matcher: "200"
           path: "/healthcheck"

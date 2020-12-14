@@ -10,8 +10,8 @@ docker_service:
           value: "{{ 'DEBUG' if APIGEE_ENVIRONMENT == 'internal-dev' else 'INFO' }}"
         - name: SCR_SPINE_URL
           value: "https://msg.intspineservices.nhs.uk"
-        - name: SCR_SPINE_MODE
-          value: "REAL"
+        - name: SCR_SANDBOX_MODE
+          value: "False"
       secrets:
         - name: SCR_SPINE_ENDPOINT_KEY
           valueFrom: "/ptl/api-deployment/scr/ldap/private-key"

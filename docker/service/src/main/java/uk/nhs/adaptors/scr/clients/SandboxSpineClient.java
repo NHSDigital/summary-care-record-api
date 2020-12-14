@@ -9,7 +9,7 @@ import uk.nhs.adaptors.scr.models.ProcessingResult;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.springframework.http.HttpStatus.OK;
 
-public class MockSpineClient implements SpineClient {
+public class SandboxSpineClient implements SpineClientContract {
 
     private static final String EVENT_LIST_QUERY_RESPONSE = "mock-spine/QUPC_IN200000SM04/success.xml";
 

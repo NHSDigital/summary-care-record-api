@@ -18,7 +18,7 @@ spring:
     add-mappings: false
 
 scr:
-  spineMode: ${SCR_SPINE_MODE:REAL}
+  sandboxMode: ${SCR_SANDBOX_MODE:False}
   partyIdFrom: ${SCR_PARTY_ID_FROM:TESTGEN-201324}
   partyIdTo: ${SCR_PARTY_ID_TO:YEA-0000806}
   nhsdAsidTo: ${SCR_NHSD_ASID_TO:655159266510}
