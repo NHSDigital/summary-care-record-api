@@ -1,5 +1,7 @@
 server:
-  port: ${SCR_SERVER_PORT:9000}
+    port: ${SCR_SERVER_PORT:9000}
+    tomcat:
+        relaxed-query-chars: "|"
 
 management:
   endpoints:
@@ -18,6 +20,7 @@ spine:
   url: ${SCR_SPINE_URL}
   acsEndpoint: /acs
   scrEndpoint: ${SCR_SPINE_ENDPOINT:/clinical}
+  psisQueriesEndpoint: ${SCR_SPINE_PSIS_ENDPOINT:/sync-service}
   scrResultRepeatTimeout: ${SCR_SPINE_RESULT_REPEAT_TIMEOUT:50000} # 50sec - how much time to wait for all repeated Spine GET retries
   scrResultTimeout: ${SCR_SPINE_RESULT_TIMEOUT:60000} # 60sec - how much time to wait for this API entire SCR POST (Spine POST + polling Spine GET)
   endpointCert: ${SCR_SPINE_ENDPOINT_CERT:}

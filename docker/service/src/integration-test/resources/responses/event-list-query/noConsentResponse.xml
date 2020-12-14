@@ -1,0 +1,136 @@
+<SOAP-ENV:Envelope xmlns:crs="http://national.carerecords.nhs.uk/schema/crs/" xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns="urn:hl7-org:v3" xmlns:hl7="urn:hl7-org:v3" xmlns:psis="urn:npfit:psisqr">
+  <SOAP-ENV:Header>
+    <wsa:MessageID>uuid:1A0D504C-1F35-11EB-AB84-000C29A364EB</wsa:MessageID>
+    <wsa:Action>urn:nhs:names:services:psisquery/QUPC_IN200000SM04</wsa:Action>
+    <wsa:To>10.210.162.208</wsa:To>
+    <wsa:From>
+      <wsa:Address>https://psis-sync.nis1.national.ncrs.nhs.uk/syncservice-psis/psis</wsa:Address>
+    </wsa:From>
+    <communicationFunctionRcv typeCode="RCV">
+      <device classCode="DEV" determinerCode="INSTANCE">
+        <id root="1.2.826.0.1285.0.2.0.107" extension="230811201324"/>
+      </device>
+    </communicationFunctionRcv>
+    <communicationFunctionSnd typeCode="SND">
+      <device classCode="DEV" determinerCode="INSTANCE">
+        <id root="1.2.826.0.1285.0.2.0.107" extension="990101234567"/>
+      </device>
+    </communicationFunctionSnd>
+    <wsa:RelatesTo>uuid:FECFFFE6-1F34-11EB-A2A8-000C29A364EB</wsa:RelatesTo>
+  </SOAP-ENV:Header>
+  <SOAP-ENV:Body>
+    <eventListQueryResponse>
+      <QUPC_IN200000SM04>
+        <id root="1A0D504C-1F35-11EB-AB84-000C29A364EB"/>
+        <creationTime value="20201105070409"/>
+        <versionCode code="V3NPfIT4.2.00"/>
+        <interactionId root="2.16.840.1.113883.2.1.3.2.4.12" extension="QUPC_IN200000SM04"/>
+        <processingCode code="P"/>
+        <processingModeCode code="T"/>
+        <acceptAckCode code="NE"/>
+        <acknowledgement typeCode="AA">
+          <messageRef>
+            <id root="FECFFFE6-1F34-11EB-A2A8-000C29A364EB"/>
+          </messageRef>
+        </acknowledgement>
+        <communicationFunctionRcv typeCode="RCV">
+          <device classCode="DEV" determinerCode="INSTANCE">
+            <id root="1.2.826.0.1285.0.2.0.107" extension="230811201324"/>
+          </device>
+        </communicationFunctionRcv>
+        <communicationFunctionSnd typeCode="SND">
+          <device classCode="DEV" determinerCode="INSTANCE">
+            <id root="1.2.826.0.1285.0.2.0.107" extension="990101234567"/>
+          </device>
+        </communicationFunctionSnd>
+        <ControlActEvent classCode="CACT" moodCode="EVN">
+          <author1 typeCode="AUT">
+            <AgentSystemSDS classCode="AGNT">
+              <agentSystemSDS classCode="DEV" determinerCode="INSTANCE">
+                <id root="1.2.826.0.1285.0.2.0.107" extension="990101234567"/>
+              </agentSystemSDS>
+            </AgentSystemSDS>
+          </author1>
+          <subject typeCode="SUBJ">
+            <psis:queryResponseEventList xmlns:soap="http://www.w3.org/2001/12/soap-envelope" xmlns:nasp="http://spine.nhs.uk/spine-servicev1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:other="urn:some:other:namespace">
+              <psis:recordTarget>
+                <psis:patient>
+                  <psis:id root="2.16.840.1.113883.2.1.4.1" extension="9995000180"/>
+                </psis:patient>
+              </psis:recordTarget>
+              <psis:event>
+                <psis:eventID root="FA60BE64-1F34-11EB-A2A8-000C29A364EB"/>
+                <psis:payloadID root="2.16.840.1.113883.2.1.3.2.4.12" extension="REPC_MT150007UK05"/>
+                <psis:persistenceDate value="20201105070316"/>
+                <psis:eventStatus codeSystem="2.16.840.1.113883.2.1.3.2.4.17.59" code="1" displayName="Normal"/>
+                <psis:eventType codeSystem="2.16.840.1.113883.2.1.3.2.4.15" code="196981000000101" displayName="General Practice Summary"/>
+                <psis:author>
+                  <author typeCode="AUT" contextControlCode="OP">
+                    <time value="20120315065138"/>
+                    <UKCT_MT160018UK01.AgentPerson classCode="AGNT">
+                      <code code="NR0010" codeSystem="2.16.840.1.113883.2.1.3.2.4.17.124" displayName="Medical Director"/>
+                      <addr use="WP">1 The Place, Leeds, LS1 1PP</addr>
+                      <agentPerson classCode="PSN" determinerCode="INSTANCE">
+                        <name>
+                          <prefix>Mr</prefix>
+                          <family>Jones</family>
+                          <given>John</given>
+                          <given>Jeffrey</given>
+                          <suffix>Jnr</suffix>
+                        </name>
+                      </agentPerson>
+                      <representedScoperChoice classCode="ORG" determinerCode="INSTANCE">
+                        <code code="001"/>
+                        <name>The Surgery</name>
+                      </representedScoperChoice>
+                    </UKCT_MT160018UK01.AgentPerson>
+                  </author>
+                </psis:author>
+              </psis:event>
+              <permissions>
+                <resourceContext extension="9995000180" root="2.16.840.1.113883.2.1.4.1"/>
+                <accessControlAssertion>
+                  <permission>Yes</permission>
+                  <resource>
+                    <type>SCR</type>
+                    <Id>9995000180</Id>
+                  </resource>
+                  <function>
+                    <context>Consent</context>
+                    <code>Store</code>
+                  </function>
+                  <accessor>
+                    <type>Everyone</type>
+                    <accessorId>
+                      <name>Everyone</name>
+                    </accessorId>
+                  </accessor>
+                </accessControlAssertion>
+                <accessControlAssertion>
+                  <permission>No</permission>
+                  <resource>
+                    <type>SCR</type>
+                    <Id>9995000180</Id>
+                  </resource>
+                  <function>
+                    <context>Consent</context>
+                    <code>View</code>
+                  </function>
+                  <accessor>
+                    <type>Everyone</type>
+                    <accessorId>
+                      <name>Everyone</name>
+                    </accessorId>
+                  </accessor>
+                </accessControlAssertion>
+              </permissions>
+            </psis:queryResponseEventList>
+          </subject>
+          <queryAck type="QueryAck">
+            <queryResponseCode code="OK"/>
+          </queryAck>
+        </ControlActEvent>
+      </QUPC_IN200000SM04>
+    </eventListQueryResponse>
+  </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>
