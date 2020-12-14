@@ -1,6 +1,18 @@
 <TargetEndpoint name="apim">
   <FaultRules/>
-  <PreFlow/>
+  <PreFlow>
+    <Request>
+      <Step>
+        <Name>AssignMessage.AddAsidHeader</Name>
+      </Step>
+      <Step>
+        <Name>AssignMessage.AddOriginalRequestIp</Name>
+      </Step>
+      <Step>
+        <Name>AssignMessage.AddBaseUrl</Name>
+      </Step>
+    </Request>
+  </PreFlow>
   <HTTPTargetConnection>
     {{ HOSTED_TARGET_CONNECTION }}
   </HTTPTargetConnection>

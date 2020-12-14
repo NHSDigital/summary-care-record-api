@@ -54,7 +54,7 @@ class SpineClientTest {
     private SpineHttpClient spineHttpClient;
 
     @InjectMocks
-    private SpineClient spineClient;
+    private ProdSpineClient prodSpineClient;
 
     @BeforeEach
     void setUp() {
@@ -71,7 +71,7 @@ class SpineClientTest {
         when(spineHttpClient.sendRequest(any(HttpPost.class)))
             .thenReturn(new SpineHttpClient.Response(HttpStatus.ACCEPTED.value(), headers, RESPONSE_BODY));
 
-        var response = spineClient.sendScrData(ACS_REQUEST_BODY);
+        var response = prodSpineClient.sendScrData(ACS_REQUEST_BODY);
 
         var httpPostArgumentCaptor = ArgumentCaptor.forClass(HttpPost.class);
         verify(spineHttpClient).sendRequest(httpPostArgumentCaptor.capture());
@@ -90,7 +90,7 @@ class SpineClientTest {
         when(spineHttpClient.sendRequest(any(HttpPost.class)))
             .thenReturn(new SpineHttpClient.Response(HttpStatus.OK.value(), new Header[0], RESPONSE_BODY));
 
-        assertThatThrownBy(() -> spineClient.sendScrData(ACS_REQUEST_BODY))
+        assertThatThrownBy(() -> prodSpineClient.sendScrData(ACS_REQUEST_BODY))
             .isExactlyInstanceOf(UnexpectedSpineResponseException.class);
     }
 
@@ -107,7 +107,7 @@ class SpineClientTest {
             .thenReturn(new SpineHttpClient.Response(HttpStatus.ACCEPTED.value(), postResponseHeaders, null))
             .thenReturn(new SpineHttpClient.Response(HttpStatus.OK.value(), new Header[0], RESPONSE_BODY));
 
-        var result = spineClient.getScrProcessingResult(CONTENT_LOCATION, 50, NHSD_ASID);
+        var result = prodSpineClient.getScrProcessingResult(CONTENT_LOCATION, 50, NHSD_ASID);
 
         var requestArgumentCaptor = ArgumentCaptor.forClass(HttpGet.class);
         verify(spineHttpClient, times(2)).sendRequest(requestArgumentCaptor.capture());
@@ -129,7 +129,7 @@ class SpineClientTest {
                 },
                 null));
 
-        assertThatThrownBy(() -> spineClient.getScrProcessingResult(CONTENT_LOCATION, 100, NHSD_ASID))
+        assertThatThrownBy(() -> prodSpineClient.getScrProcessingResult(CONTENT_LOCATION, 100, NHSD_ASID))
             .isExactlyInstanceOf(NoSpineResultException.class)
             .hasMessage("Spine polling yield no result");
 

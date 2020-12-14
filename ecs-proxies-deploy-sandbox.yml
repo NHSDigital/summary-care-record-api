@@ -1,12 +1,13 @@
 
-
 #docker_service_cpu: 256
 #docker_service_memory: 512
 
 docker_service:
-
-  - name: scr-sandbox
-    expose: true
-    test:
-      matcher: "200"
-      path: "/healthcheck"
+    - name: scr-sandbox
+      expose: true
+      environment:
+        - name: SCR_SPINE_MODE
+          value: "MOCK"
+      test:
+          matcher: "200"
+          path: "/healthcheck"

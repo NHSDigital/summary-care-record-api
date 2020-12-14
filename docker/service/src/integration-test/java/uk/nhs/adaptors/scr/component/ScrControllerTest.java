@@ -8,7 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.web.HttpMediaTypeNotAcceptableException;
+import uk.nhs.adaptors.scr.clients.SpineClient;
 import uk.nhs.adaptors.scr.components.FhirParser;
 import uk.nhs.adaptors.scr.config.ScrConfiguration;
 import uk.nhs.adaptors.scr.config.SpineConfiguration;
@@ -47,8 +47,11 @@ public class ScrControllerTest {
     @MockBean
     private ScrConfiguration scrConfiguration;
 
+    @MockBean
+    private SpineClient spineClient;
+
     @Test
-    public void whenRequestProcessingTakesTooMuchTimeExpect504() throws HttpMediaTypeNotAcceptableException {
+    public void whenRequestProcessingTakesTooMuchTimeExpect504() {
         when(spineConfiguration.getEndpointCert()).thenReturn("some_cert");
         when(scrConfiguration.getPartyIdFrom()).thenReturn("some-party-from");
         when(scrConfiguration.getPartyIdTo()).thenReturn("some-party-to");
