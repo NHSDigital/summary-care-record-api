@@ -7,7 +7,6 @@ install-python:
 
 install-node:
 	npm install
-	cd docker/sandbox && npm install
 
 install-hooks:
 	cp scripts/pre-commit .git/hooks/pre-commit
@@ -29,13 +28,9 @@ serve:
 
 check-licenses:
 	npm run check-licenses
-	scripts/check_python_licenses.sh
 
 format:
 	poetry run black **/*.py
-
-sandbox:
-	cd docker/sandbox && npm run start
 
 build-proxy:
 	scripts/build_proxy.sh

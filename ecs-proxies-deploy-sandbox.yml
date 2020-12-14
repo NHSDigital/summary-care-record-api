@@ -8,6 +8,6 @@ docker_service:
       environment:
         - name: SCR_SPINE_MODE
           value: "MOCK"
-      test:
+      health_check:
           matcher: "200"
           path: "/healthcheck"

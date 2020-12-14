@@ -6,8 +6,6 @@ import org.springframework.core.io.ClassPathResource;
 import uk.nhs.adaptors.scr.clients.SpineHttpClient.Response;
 import uk.nhs.adaptors.scr.models.ProcessingResult;
 
-import java.io.IOException;
-
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.springframework.http.HttpStatus.OK;
 
@@ -30,18 +28,14 @@ public class MockSpineClient implements SpineClient {
         return null;
     }
 
-    @SneakyThrows
     @Override
     public Response sendGetScrId(String requestBody, String nhsdAsid) {
         String responseBody = getResourceAsString(EVENT_LIST_QUERY_RESPONSE);
         return new Response(OK.value(), null, responseBody);
     }
 
+    @SneakyThrows
     private static String getResourceAsString(String path) {
-        try {
-            return IOUtils.toString(new ClassPathResource(path).getInputStream(), UTF_8);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        return IOUtils.toString(new ClassPathResource(path).getInputStream(), UTF_8);
     }
 }
