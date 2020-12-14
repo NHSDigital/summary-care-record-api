@@ -22,6 +22,8 @@ public class SpineConfiguration {
 
     private String endpointPrivateKey;
     private String endpointCert;
+    private String rootCA;
+    private String subCA;
     private String caCerts;
 
     private long scrResultRepeatTimeout;

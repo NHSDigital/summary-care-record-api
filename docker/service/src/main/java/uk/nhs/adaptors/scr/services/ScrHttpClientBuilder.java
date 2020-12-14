@@ -21,6 +21,8 @@ import java.security.KeyStore;
 import java.util.ArrayList;
 import java.util.UUID;
 
+import static org.apache.http.conn.ssl.TrustAllStrategy.INSTANCE;
+
 @Component
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Slf4j
