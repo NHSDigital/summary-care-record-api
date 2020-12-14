@@ -21,6 +21,14 @@ docker_service:
           valueFrom: "/ptl/api-deployment/scr/env-int/party-id"
         - name: SCR_NHSD_ASID_TO
           valueFrom: "/ptl/api-deployment/scr/env-int/asid-to"
+        - name: SCR_SPINE_CLIENT_KEY
+          valueFrom: "/ptl/api-deployment/src/env-int/spine/client/key"
+        - name: SCR_SPINE_CLIENT_CERT
+          valueFrom: "/ptl/api-deployment/src/env-int/spine/client/crt"
+        - name: SCR_SPINE_ROOT_CA_CERT
+          valueFrom: "/ptl/api-deployment/src/env-int/spine/root-ca/crt"
+        - name: SCR_SPINE_SUB_CA_CERT
+          valueFrom: "/ptl/api-deployment/src/env-int/spine/sub-ca/crt"
       health_check:
           matcher: "200"
           path: "/healthcheck"
