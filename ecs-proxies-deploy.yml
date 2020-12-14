@@ -8,8 +8,6 @@ docker_service:
       environment:
         - name: SCR_LOGGING_LEVEL
           value: "{{ 'DEBUG' if APIGEE_ENVIRONMENT == 'internal-dev' else 'INFO' }}"
-        - name: SCR_SPINE_URL
-          value: "https://msg.intspineservices.nhs.uk"
       secrets:
         - name: SCR_SPINE_ENDPOINT_KEY
           valueFrom: "/ptl/api-deployment/scr/ldap/private-key"
@@ -29,6 +27,8 @@ docker_service:
           valueFrom: "/ptl/api-deployment/src/env-int/spine/root-ca/crt"
         - name: SCR_SPINE_SUB_CA_CERT
           valueFrom: "/ptl/api-deployment/src/env-int/spine/sub-ca/crt"
+        - name: SCR_SPINE_URL
+          valueFrom: "/ptl/azure-devops/env-int/IG3_URL"
       health_check:
           matcher: "200"
           path: "/healthcheck"
