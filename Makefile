@@ -39,6 +39,7 @@ build-proxy:
 release: clean publish build-proxy
 	mkdir -p dist
 	cp -r build/. dist
+<<<<<<< HEAD
 	cp ecs-proxies-deploy.yml dist/ecs-deploy-internal-dev.yml
 	cp ecs-proxies-deploy.yml dist/ecs-deploy-internal-qa.yml
 	cp ecs-proxies-deploy-sandbox.yml dist/ecs-deploy-internal-qa-sandbox.yml
@@ -47,6 +48,11 @@ release: clean publish build-proxy
 	cp ecs-proxies-deploy.yml dist/ecs-deploy-int.yml
 	cp ecs-proxies-deploy.yml dist/ecs-deploy-ref.yml
 #	cp ecs-proxies-deploy.yml dist/ecs-deploy-prod.yml
+=======
+
+	cat ecs-proxies-deploy.yml | sed -e 's/{{ SPINE_ENV }}/test/g' -e 's/{{ SANDBOX_MODE_ENABLED }}/0/g' > dist/ecs-deploy-internal-dev.yml
+	cat ecs-proxies-deploy.yml | sed -e 's/{{ SPINE_ENV }}/int/g' -e 's/{{ SANDBOX_MODE_ENABLED }}/0/g' > dist/ecs-deploy-int.yml
+>>>>>>> APM-1162 Add env specific vars
 
 test:
 	echo "TODO: add tests"

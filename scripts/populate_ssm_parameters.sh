@@ -18,14 +18,14 @@ function copy-secret {
         --overwrite
 }
 
-# internal dev / veit07 spine env
-copy-secret "ptl/client/aws.api.veit07.devspineservices.nhs.uk/key" "/ptl/api-deployment/scr/env-internal-dev/spine/client/key"
-copy-secret "ptl/client/aws.api.veit07.devspineservices.nhs.uk/crt" "/ptl/api-deployment/scr/env-internal-dev/spine/client/crt"
-copy-secret "ptl/veit07.devspineservices.nhs.uk/root-ca/crt" "/ptl/api-deployment/scr/env-internal-dev/spine/root-ca/crt"
-copy-secret "ptl/veit07.devspineservices.nhs.uk/sub-ca/crt" "/ptl/api-deployment/scr/env-internal-dev/spine/sub-ca/crt"
+# veit07
+copy-secret "ptl/client/aws.api.veit07.devspineservices.nhs.uk/key" "/ptl/api-deployment/scr/certs/spine/test/key"
+copy-secret "ptl/client/aws.api.veit07.devspineservices.nhs.uk/crt" "/ptl/api-deployment/scr/certs/spine/test/crt"
 
-# int / int spine env
-copy-secret "ptl/client/aws.api.intspineservices.nhs.uk/key" "/ptl/api-deployment/scr/env-int/spine/client/key"
-copy-secret "ptl/client/aws.api.intspineservices.nhs.uk/crt" "/ptl/api-deployment/scr/env-int/spine/client/crt"
-copy-secret "ptl/veit07.devspineservices.nhs.uk/root-ca/crt" "/ptl/api-deployment/scr/env-int/spine/root-ca/crt"
-copy-secret "ptl/veit07.devspineservices.nhs.uk/sub-ca/crt" "/ptl/api-deployment/scr/env-int/spine/sub-ca/crt"
+# int
+copy-secret "ptl/client/aws.api.intspineservices.nhs.uk/key" "/ptl/api-deployment/scr/certs/spine/int/key"
+copy-secret "ptl/client/aws.api.intspineservices.nhs.uk/crt" "/ptl/api-deployment/scr/certs/spine/int/crt"
+
+# ptl envs root & sub ca
+copy-secret "ptl/veit07.devspineservices.nhs.uk/root-ca/crt" "/ptl/api-deployment/scr/certs/nhsd-root-ca/ptl/crt"
+copy-secret "ptl/veit07.devspineservices.nhs.uk/sub-ca/crt" "/ptl/api-deployment/scr/certs/nhsd-sub-ca/ptl/crt"

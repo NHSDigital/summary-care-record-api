@@ -3,6 +3,7 @@
 #docker_service_memory: 512
 
 docker_service:
+<<<<<<< HEAD
     - name: scr-api
       expose: true
       environment:
@@ -34,3 +35,34 @@ docker_service:
       health_check:
           matcher: "200"
           path: "/healthcheck"
+=======
+  - name: scr-api
+    expose: true
+    environment:
+      - name: SCR_LOGGING_LEVEL
+        value: "{{ 'DEBUG' if APIGEE_ENVIRONMENT == 'internal-dev' else 'INFO' }}"
+    secrets:
+      - name: SCR_SPINE_ENDPOINT_KEY
+        valueFrom: "/{{ account }}/api-deployment/scr/ldap/private-key"
+      - name: SCR_SPINE_ENDPOINT_CERT
+        valueFrom: "/{{ account }}/api-deployment/scr/ldap/client-cert"
+      - name: SCR_SPINE_ENDPOINT_CACERT
+        valueFrom: "/{{ account }}/api-deployment/scr/ldap/ca-certs"
+      - name: SCR_PARTY_ID_TO
+        valueFrom: "/{{ account }}/api-deployment/scr/env-int/party-id"
+      - name: SCR_NHSD_ASID_TO
+        valueFrom: "/{{ account }}/api-deployment/scr/env-int/asid-to"
+      - name: SCR_SPINE_CLIENT_KEY
+        valueFrom: '/{{ account }}/api-deployment/scr/certs/spine/{{ SPINE_ENV }}/key'
+      - name: SCR_SPINE_CLIENT_CERT
+        valueFrom: '/{{ account }}/api-deployment/scr/certs/spine/{{ SPINE_ENV }}/crt'
+      - name: SCR_SPINE_ROOT_CA_CERT
+        valueFrom: '/{{ account }}/api-deployment/scr/certs/nhsd-root-ca/{{ account }}/crt'
+      - name: SCR_SPINE_SUB_CA_CERT
+        valueFrom: '/{{ account }}/api-deployment/scr/certs/nhsd-sub-ca/{{ account }}/crt'
+      - name: SCR_SPINE_URL
+        valueFrom: '/{{ account }}/api-deployment/scr/{{ SPINE_ENV }}/host'
+    health_check:
+        matcher: "200"
+        path: "/healthcheck"
+>>>>>>> APM-1162 Add env specific vars
