@@ -3,39 +3,6 @@
 #docker_service_memory: 512
 
 docker_service:
-<<<<<<< HEAD
-    - name: scr-api
-      expose: true
-      environment:
-        - name: SCR_LOGGING_LEVEL
-          value: "{{ 'DEBUG' if APIGEE_ENVIRONMENT == 'internal-dev' else 'INFO' }}"
-        - name: SCR_SANDBOX_MODE
-          value: "False"
-      secrets:
-        - name: SCR_SPINE_ENDPOINT_KEY
-          valueFrom: "/ptl/api-deployment/scr/ldap/private-key"
-        - name: SCR_SPINE_ENDPOINT_CERT
-          valueFrom: "/ptl/api-deployment/scr/ldap/client-cert"
-        - name: SCR_SPINE_ENDPOINT_CACERT
-          valueFrom: "/ptl/api-deployment/scr/ldap/ca-certs"
-        - name: SCR_PARTY_ID_TO
-          valueFrom: "/ptl/api-deployment/scr/env-int/party-id"
-        - name: SCR_NHSD_ASID_TO
-          valueFrom: "/ptl/api-deployment/scr/env-int/asid-to"
-        - name: SCR_SPINE_CLIENT_KEY
-          valueFrom: "/ptl/api-deployment/src/env-int/spine/client/key"
-        - name: SCR_SPINE_CLIENT_CERT
-          valueFrom: "/ptl/api-deployment/scr/env-int/spine/client/crt"
-        - name: SCR_SPINE_ROOT_CA_CERT
-          valueFrom: "/ptl/api-deployment/scr/env-int/spine/root-ca/crt"
-        - name: SCR_SPINE_SUB_CA_CERT
-          valueFrom: "/ptl/api-deployment/scr/env-int/spine/sub-ca/crt"
-        - name: SCR_SPINE_URL
-          valueFrom: "/ptl/azure-devops/env-int/IG3_URL"
-      health_check:
-          matcher: "200"
-          path: "/healthcheck"
-=======
   - name: scr-api
     expose: true
     environment:
@@ -65,4 +32,3 @@ docker_service:
     health_check:
         matcher: "200"
         path: "/healthcheck"
->>>>>>> APM-1162 Add env specific vars
