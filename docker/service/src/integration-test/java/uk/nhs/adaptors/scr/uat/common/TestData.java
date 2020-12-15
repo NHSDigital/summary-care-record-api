@@ -31,14 +31,15 @@ public class TestData {
         var list = new ArrayList<>(resources);
         var testDataBuilder = TestData.builder();
 
-        var fhirResponse = list.stream()
+        list.stream()
             .filter(resource -> resource.getFilename() != null)
             .filter(resource -> resource.getFilename().endsWith(RESPONSE_FILE_ENDING))
             .findFirst()
-            .orElseThrow(() -> new IllegalStateException(String.format("Missing %s resource", RESPONSE_FILE_ENDING)));
+            .ifPresent(it -> {
+                testDataBuilder.fhirResponse(TestData.readFile(it));
+                list.remove(it);
+            });
 
-        testDataBuilder.fhirResponse(TestData.readFile(fhirResponse));
-        list.remove(fhirResponse);
 
         if (!isEmpty(list)) {
             var fhirResource = list.get(0);

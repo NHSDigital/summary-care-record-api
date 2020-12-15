@@ -1,0 +1,13 @@
+
+#docker_service_cpu: 256
+#docker_service_memory: 512
+
+docker_service:
+    - name: scr-sandbox
+      expose: true
+      environment:
+        - name: SCR_SANDBOX_MODE
+          value: "True"
+      health_check:
+          matcher: "200"
+          path: "/healthcheck"

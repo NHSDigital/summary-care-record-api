@@ -9,12 +9,12 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
-import uk.nhs.adaptors.scr.clients.SpineClient;
+import uk.nhs.adaptors.scr.clients.SpineClientContract;
 import uk.nhs.adaptors.scr.clients.SpineHttpClient;
 import uk.nhs.adaptors.scr.config.ScrConfiguration;
 import uk.nhs.adaptors.scr.exceptions.FhirMappingException;
-import uk.nhs.adaptors.scr.exceptions.UnexpectedSpineResponseException;
 import uk.nhs.adaptors.scr.exceptions.NonSuccessSpineProcessingResultException;
+import uk.nhs.adaptors.scr.exceptions.UnexpectedSpineResponseException;
 import uk.nhs.adaptors.scr.models.GpSummary;
 import uk.nhs.adaptors.scr.models.ProcessingResult;
 import uk.nhs.adaptors.scr.models.RequestData;
@@ -33,7 +33,7 @@ import java.util.List;
 public class UploadScrService {
 
     @Autowired
-    private SpineClient spineClient;
+    private SpineClientContract spineClient;
     @Autowired
     private ScrConfiguration scrConfiguration;
 
