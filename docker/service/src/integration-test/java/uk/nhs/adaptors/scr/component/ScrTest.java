@@ -7,7 +7,6 @@ import com.github.tomakehurst.wiremock.client.WireMock;
 import com.github.tomakehurst.wiremock.http.RequestMethod;
 import com.github.tomakehurst.wiremock.matching.RequestPatternBuilder;
 import com.github.tomakehurst.wiremock.verification.LoggedRequest;
-import com.google.common.base.Charsets;
 import lombok.extern.slf4j.Slf4j;
 import org.hl7.fhir.r4.model.OperationOutcome;
 import org.hl7.fhir.r4.model.OperationOutcome.IssueSeverity;
@@ -36,6 +35,7 @@ import static com.github.tomakehurst.wiremock.client.WireMock.getRequestedFor;
 import static com.github.tomakehurst.wiremock.client.WireMock.postRequestedFor;
 import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo;
 import static com.github.tomakehurst.wiremock.stubbing.Scenario.STARTED;
+import static com.google.common.base.Charsets.UTF_8;
 import static io.restassured.RestAssured.given;
 import static java.nio.file.Files.readString;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -45,7 +45,6 @@ import static org.hl7.fhir.r4.model.OperationOutcome.IssueType.NOTSUPPORTED;
 import static org.hl7.fhir.r4.model.OperationOutcome.IssueType.VALUE;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 import static org.springframework.http.HttpHeaders.ALLOW;
-import static org.springframework.http.HttpMethod.POST;
 import static org.springframework.http.HttpStatus.ACCEPTED;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.CREATED;
@@ -115,7 +114,7 @@ public class ScrTest {
     @Test
     public void whenPostingFhirJsonThenExpect201() throws Exception {
         whenPostingThenExpect201(
-            readString(simpleFhirJson.getFile().toPath(), Charsets.UTF_8),
+            readString(simpleFhirJson.getFile().toPath(), UTF_8),
             FHIR_JSON_CONTENT_TYPE);
     }
 
@@ -135,7 +134,7 @@ public class ScrTest {
             .port(port)
             .contentType(FHIR_JSON_CONTENT_TYPE)
             .header("Nhsd-Asid", NHSD_ASID)
-            .body(readString(simpleFhirJson.getFile().toPath(), Charsets.UTF_8))
+            .body(readString(simpleFhirJson.getFile().toPath(), UTF_8))
             .when()
             .post(FHIR_ENDPOINT)
             .then()
@@ -171,7 +170,7 @@ public class ScrTest {
             .port(port)
             .contentType(FHIR_JSON_CONTENT_TYPE)
             .header("Nhsd-Asid", NHSD_ASID)
-            .body(readString(simpleFhirJson.getFile().toPath(), Charsets.UTF_8))
+            .body(readString(simpleFhirJson.getFile().toPath(), UTF_8))
             .when()
             .post(FHIR_ENDPOINT)
             .then()
@@ -239,7 +238,7 @@ public class ScrTest {
         var responseBody = given()
             .port(port)
             .contentType(FHIR_JSON_CONTENT_TYPE)
-            .body(readString(simpleFhirJson.getFile().toPath(), Charsets.UTF_8))
+            .body(readString(simpleFhirJson.getFile().toPath(), UTF_8))
             .when()
             .post(FHIR_ENDPOINT)
             .then()
@@ -256,13 +255,13 @@ public class ScrTest {
         var responseBody = given()
             .port(port)
             .contentType(FHIR_JSON_CONTENT_TYPE)
-            .body(readString(simpleFhirJson.getFile().toPath(), Charsets.UTF_8))
+            .body(readString(simpleFhirJson.getFile().toPath(), UTF_8))
             .when()
             .put(FHIR_ENDPOINT)
             .then()
             .contentType(FHIR_JSON_CONTENT_TYPE)
             .statusCode(METHOD_NOT_ALLOWED.value())
-            .header(ALLOW, POST.name())
+            .header(ALLOW, "GET,POST")
             .extract()
             .asString();
 
@@ -289,7 +288,7 @@ public class ScrTest {
         var responseBody = given()
             .port(port)
             .contentType(APPLICATION_XML_VALUE)
-            .body(readString(simpleFhirJson.getFile().toPath(), Charsets.UTF_8))
+            .body(readString(simpleFhirJson.getFile().toPath(), UTF_8))
             .when()
             .post(FHIR_ENDPOINT)
             .then()
