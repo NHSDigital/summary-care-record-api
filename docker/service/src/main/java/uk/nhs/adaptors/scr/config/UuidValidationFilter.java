@@ -19,12 +19,11 @@ import static org.hl7.fhir.r4.model.OperationOutcome.IssueType.VALUE;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static uk.nhs.adaptors.scr.consts.HttpHeaders.CORRELATION_ID_HEADER;
 import static uk.nhs.adaptors.scr.consts.HttpHeaders.REQUEST_ID_LOGGER;
-import static uk.nhs.adaptors.scr.controllers.FhirMediaTypes.APPLICATION_FHIR_JSON;
 import static uk.nhs.adaptors.scr.controllers.FhirMediaTypes.APPLICATION_FHIR_JSON_VALUE;
 
 @Component
 @AllArgsConstructor
-public class ExceptionHandlerFilter extends OncePerRequestFilter {
+public class UuidValidationFilter extends OncePerRequestFilter {
 
     private static final String UUID_REGEX = "^[0-9a-fA-F]{8}+-[0-9a-fA-F]{4}+-[0-9a-fA-F]{4}+-[0-9a-fA-F]{4}+-[0-9a-fA-F]{12}+$";
     private final FhirParser fhirParser;
@@ -49,7 +48,7 @@ public class ExceptionHandlerFilter extends OncePerRequestFilter {
     }
 
     public void throwInvalidUUIDResponse(HttpServletResponse response, String headerName)
-        throws ServletException, IOException {
+        throws IOException {
         response.setStatus(BAD_REQUEST.value());
         response.setContentType(APPLICATION_FHIR_JSON_VALUE);
 
@@ -60,6 +59,6 @@ public class ExceptionHandlerFilter extends OncePerRequestFilter {
             .setDetails(new CodeableConcept()
                 .setText("Invalid " + headerName + ". Should be a UUIDv4 matching \"" + UUID_REGEX + "\""));
 
-        response.getWriter().write(fhirParser.encodeResource(APPLICATION_FHIR_JSON, operationOutcome));
+        response.getWriter().write(fhirParser.encodeToJson(operationOutcome));
     }
 }

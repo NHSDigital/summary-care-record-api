@@ -86,7 +86,6 @@ public class UploadScrUAT {
             .andReturn();
 
         mockMvc.perform(asyncDispatch(mvcResult))
-            .andExpect(content().json(testData.getFhirResponse()))
             .andExpect(status().isCreated());
     }
 

@@ -1,0 +1,11 @@
+<AssignMessage async="false" continueOnError="false" enabled="true" name="AssignMessage.AddOriginalRequestIp">
+    <FaultRules/>
+    <Properties/>
+    <Set>
+        <Headers>
+          <Header name="client-ip">{client.ip}</Header>
+        </Headers>
+    </Set>
+    <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
+    <AssignTo createNew="false" transport="http" type="response"/>
+</AssignMessage>

@@ -2,13 +2,12 @@ package uk.nhs.adaptors.scr.controllers.fhir;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.hl7.fhir.r4.model.OperationOutcome;
+import org.hl7.fhir.r4.model.Bundle;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.HttpMediaTypeNotAcceptableException;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -18,7 +17,6 @@ import org.springframework.web.context.request.async.WebAsyncTask;
 import uk.nhs.adaptors.scr.components.FhirParser;
 import uk.nhs.adaptors.scr.config.ScrConfiguration;
 import uk.nhs.adaptors.scr.config.SpineConfiguration;
-import uk.nhs.adaptors.scr.exceptions.FhirValidationException;
 import uk.nhs.adaptors.scr.exceptions.ScrTimeoutException;
 import uk.nhs.adaptors.scr.models.RequestData;
 import uk.nhs.adaptors.scr.services.UploadScrService;
@@ -45,9 +43,7 @@ public class FhirController {
     public WebAsyncTask<ResponseEntity<?>> acceptFhir(
         @RequestHeader("Content-Type") @NotNull MediaType contentType,
         @RequestHeader("Nhsd-Asid") @NotNull String nhsdAsid,
-        @RequestBody String body)
-        throws FhirValidationException, HttpMediaTypeNotAcceptableException {
-
+        @RequestBody String body) {
         LOGGER.debug("Using cfg: asid-from={} party-from={} asid-to={} party-to={}",
             nhsdAsid,
             scrConfiguration.getPartyIdFrom(),
@@ -55,7 +51,7 @@ public class FhirController {
             scrConfiguration.getPartyIdTo());
 
         var requestData = new RequestData();
-        requestData.setBundle(fhirParser.parseBundle(contentType, body));
+        requestData.setBundle(fhirParser.parseResource(body, Bundle.class));
         requestData.setNhsdAsid(nhsdAsid);
 
         var mdcContextMap = MDC.getCopyOfContextMap();
@@ -65,7 +61,7 @@ public class FhirController {
             return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .contentType(contentType)
-                .body(fhirParser.encodeResource(contentType, buildSuccessResponse()));
+                .build();
         };
 
         var task = new WebAsyncTask<>(spineConfiguration.getScrResultTimeout(), callable);
@@ -74,14 +70,5 @@ public class FhirController {
         });
 
         return task;
-    }
-
-    private OperationOutcome buildSuccessResponse() {
-        var operationOutcome = new OperationOutcome();
-        operationOutcome.addIssue()
-            .setSeverity(OperationOutcome.IssueSeverity.INFORMATION)
-            .setCode(OperationOutcome.IssueType.INFORMATIONAL)
-            .setDiagnostics("Resource has been successfully updated.");
-        return operationOutcome;
     }
 }

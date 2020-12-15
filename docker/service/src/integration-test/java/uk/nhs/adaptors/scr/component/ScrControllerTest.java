@@ -8,7 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.web.HttpMediaTypeNotAcceptableException;
+import uk.nhs.adaptors.scr.clients.SpineClientContract;
 import uk.nhs.adaptors.scr.components.FhirParser;
 import uk.nhs.adaptors.scr.config.ScrConfiguration;
 import uk.nhs.adaptors.scr.config.SpineConfiguration;
@@ -47,14 +47,17 @@ public class ScrControllerTest {
     @MockBean
     private ScrConfiguration scrConfiguration;
 
+    @MockBean
+    private SpineClientContract spineClient;
+
     @Test
-    public void whenRequestProcessingTakesTooMuchTimeExpect504() throws HttpMediaTypeNotAcceptableException {
+    public void whenRequestProcessingTakesTooMuchTimeExpect504() {
         when(spineConfiguration.getEndpointCert()).thenReturn("some_cert");
         when(scrConfiguration.getPartyIdFrom()).thenReturn("some-party-from");
         when(scrConfiguration.getPartyIdTo()).thenReturn("some-party-to");
         when(scrConfiguration.getNhsdAsidTo()).thenReturn("some-asid-to");
 
-        when(fhirParser.parseBundle(any(), any())).thenReturn(new Bundle());
+        when(fhirParser.parseResource(any(), any())).thenReturn(new Bundle());
         doAnswer(invocation -> {
             try {
                 Thread.sleep(LONG_INITIAL_WAIT_TIME);

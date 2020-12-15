@@ -9,14 +9,14 @@ import lombok.AllArgsConstructor;
 
 @Configuration
 @AllArgsConstructor
-public class ExceptionHandlerFilterConfig {
+public class UuidValidationFilterConfig {
 
-    private final ExceptionHandlerFilter exceptionHandlerFilter;
+    private final UuidValidationFilter uuidValidationFilter;
 
     @Bean
-    public FilterRegistrationBean<ExceptionHandlerFilter> servletRegistrationBeanForCorrelationID() {
-        final FilterRegistrationBean<ExceptionHandlerFilter> registrationBean = new FilterRegistrationBean<>();
-        registrationBean.setFilter(exceptionHandlerFilter);
+    public FilterRegistrationBean<UuidValidationFilter> servletRegistrationBeanForCorrelationID() {
+        final FilterRegistrationBean<UuidValidationFilter> registrationBean = new FilterRegistrationBean<>();
+        registrationBean.setFilter(uuidValidationFilter);
         registrationBean.setOrder(EXCEPTION_HANDLER_FILTER_ORDER);
         return registrationBean;
     }

@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.hl7.fhir.r4.model.Bundle;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.HttpMediaTypeNotAcceptableException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,7 +16,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.NotNull;
 
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
-import static uk.nhs.adaptors.scr.controllers.FhirMediaTypes.APPLICATION_FHIR_JSON;
 import static uk.nhs.adaptors.scr.controllers.FhirMediaTypes.APPLICATION_FHIR_JSON_VALUE;
 import static uk.nhs.adaptors.scr.controllers.utils.UrlUtils.extractBaseUrl;
 
@@ -46,8 +44,7 @@ public class GetScrController {
                            @RequestParam(required = false) String type,
                            @RequestParam(name = "_sort", required = false) String sort,
                            @RequestParam(name = "_count", required = false) Integer count,
-                           HttpServletRequest request)
-        throws HttpMediaTypeNotAcceptableException {
+                           HttpServletRequest request) {
         String nhsNumber = checkAndExtractNhsNumber(patient);
         String baseUrl = extractBaseUrl(clientRequestUrl, request.getRequestURI());
         checkGetScrTypeParam(type);
@@ -56,7 +53,7 @@ public class GetScrController {
 
         Bundle bundle = getScrService.getScrId(nhsNumber, nhsdAsid, clientIp, baseUrl);
 
-        return fhirParser.encodeResource(APPLICATION_FHIR_JSON, bundle);
+        return fhirParser.encodeToJson(bundle);
     }
 
     private String checkAndExtractNhsNumber(String patientId) {

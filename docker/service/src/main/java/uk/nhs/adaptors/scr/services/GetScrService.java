@@ -17,7 +17,7 @@ import org.hl7.fhir.r4.model.Reference;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import uk.nhs.adaptors.scr.clients.SpineClient;
+import uk.nhs.adaptors.scr.clients.SpineClientContract;
 import uk.nhs.adaptors.scr.clients.SpineHttpClient;
 import uk.nhs.adaptors.scr.config.ScrConfiguration;
 import uk.nhs.adaptors.scr.config.SpineConfiguration;
@@ -62,7 +62,7 @@ public class GetScrService {
         .setCode(GP_SUMMARY_SNOMED_CODE)
         .setDisplay(GP_SUMMARY_DISPLAY));
 
-    private final SpineClient spineClient;
+    private final SpineClientContract spineClient;
 
     private final ScrConfiguration scrConfiguration;
     private final SpineConfiguration spineConfiguration;

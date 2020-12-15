@@ -1,7 +1,16 @@
 server:
-    port: ${SCR_SERVER_PORT:9000}
-    tomcat:
-        relaxed-query-chars: "|"
+  port: ${SCR_SERVER_PORT:9000}
+  tomcat:
+    relaxed-query-chars: "|"
+  error:
+    whitelabel:
+      enabled: false
+
+spring:
+  mvc:
+    throw-exception-if-no-handler-found: true
+  resources:
+    add-mappings: false
 
 management:
   endpoints:
@@ -12,6 +21,7 @@ management:
         include: info, health, metrics, mappings
 
 scr:
+  sandboxMode: ${SCR_SANDBOX_MODE:False}
   partyIdFrom: ${SCR_PARTY_ID_FROM:TESTGEN-201324}
   partyIdTo: ${SCR_PARTY_ID_TO}
   nhsdAsidTo: ${SCR_NHSD_ASID_TO}

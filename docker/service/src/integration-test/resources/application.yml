@@ -1,3 +1,8 @@
+server:
+  error:
+    whitelabel:
+      enabled: false
+
 management:
   endpoints:
     web:
@@ -6,7 +11,14 @@ management:
       exposure:
         include: info, health, metrics
 
+spring:
+  mvc:
+    throw-exception-if-no-handler-found: true
+  resources:
+    add-mappings: false
+
 scr:
+  sandboxMode: ${SCR_SANDBOX_MODE:False}
   partyIdFrom: ${SCR_PARTY_ID_FROM:TESTGEN-201324}
   partyIdTo: ${SCR_PARTY_ID_TO:YEA-0000806}
   nhsdAsidTo: ${SCR_NHSD_ASID_TO:655159266510}

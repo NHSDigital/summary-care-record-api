@@ -13,7 +13,6 @@ import org.springframework.retry.backoff.BackOffContext;
 import org.springframework.retry.backoff.BackOffInterruptedException;
 import org.springframework.retry.backoff.BackOffPolicy;
 import org.springframework.retry.support.RetryTemplate;
-import org.springframework.stereotype.Component;
 import uk.nhs.adaptors.scr.config.SpineConfiguration;
 import uk.nhs.adaptors.scr.exceptions.NoSpineResultException;
 import uk.nhs.adaptors.scr.exceptions.ScrBaseException;
@@ -28,14 +27,14 @@ import static uk.nhs.adaptors.scr.consts.HttpHeaders.CONTENT_TYPE;
 import static uk.nhs.adaptors.scr.consts.HttpHeaders.NHSD_ASID;
 import static uk.nhs.adaptors.scr.consts.HttpHeaders.SOAP_ACTION;
 
-@Component
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Slf4j
-public class SpineClient {
+public class SpineClient implements SpineClientContract {
     private final SpineConfiguration spineConfiguration;
     private final SpineHttpClient spineHttpClient;
 
     @SneakyThrows
+    @Override
     public SpineHttpClient.Response sendAcsData(String requestBody) {
         var url = spineConfiguration.getUrl() + spineConfiguration.getAcsEndpoint();
 
@@ -47,6 +46,7 @@ public class SpineClient {
     }
 
     @SneakyThrows
+    @Override
     public SpineHttpClient.Response sendScrData(String requestBody) {
         var url = spineConfiguration.getUrl() + spineConfiguration.getScrEndpoint();
 
@@ -67,6 +67,7 @@ public class SpineClient {
 
     }
 
+    @Override
     public ProcessingResult getScrProcessingResult(String contentLocation, long initialWaitTime, String nhsdAsid) {
         var repeatTimeout = spineConfiguration.getScrResultRepeatTimeout();
         var template = RetryTemplate.builder()
@@ -105,6 +106,7 @@ public class SpineClient {
     }
 
     @SneakyThrows
+    @Override
     public SpineHttpClient.Response sendGetScrId(String requestBody, String nhsdAsid) {
         LOGGER.debug("Sending GET SCR ID request to SPINE: {}", requestBody);
         var request = new HttpPost(spineConfiguration.getUrl() + spineConfiguration.getPsisQueriesEndpoint());

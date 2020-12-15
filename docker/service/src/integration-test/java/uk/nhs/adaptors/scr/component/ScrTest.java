@@ -7,9 +7,10 @@ import com.github.tomakehurst.wiremock.client.WireMock;
 import com.github.tomakehurst.wiremock.http.RequestMethod;
 import com.github.tomakehurst.wiremock.matching.RequestPatternBuilder;
 import com.github.tomakehurst.wiremock.verification.LoggedRequest;
-import com.google.common.base.Charsets;
 import lombok.extern.slf4j.Slf4j;
 import org.hl7.fhir.r4.model.OperationOutcome;
+import org.hl7.fhir.r4.model.OperationOutcome.IssueSeverity;
+import org.hl7.fhir.r4.model.OperationOutcome.IssueType;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -19,16 +20,13 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.core.io.Resource;
-import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.web.HttpMediaTypeNotAcceptableException;
 import uk.nhs.adaptors.scr.WireMockInitializer;
 import uk.nhs.adaptors.scr.components.FhirParser;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 import java.util.List;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
@@ -37,14 +35,25 @@ import static com.github.tomakehurst.wiremock.client.WireMock.getRequestedFor;
 import static com.github.tomakehurst.wiremock.client.WireMock.postRequestedFor;
 import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo;
 import static com.github.tomakehurst.wiremock.stubbing.Scenario.STARTED;
+import static com.google.common.base.Charsets.UTF_8;
 import static io.restassured.RestAssured.given;
+import static java.nio.file.Files.readString;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.hl7.fhir.r4.model.OperationOutcome.IssueSeverity.ERROR;
+import static org.hl7.fhir.r4.model.OperationOutcome.IssueType.NOTFOUND;
+import static org.hl7.fhir.r4.model.OperationOutcome.IssueType.NOTSUPPORTED;
+import static org.hl7.fhir.r4.model.OperationOutcome.IssueType.VALUE;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
+import static org.springframework.http.HttpHeaders.ALLOW;
 import static org.springframework.http.HttpStatus.ACCEPTED;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.GATEWAY_TIMEOUT;
+import static org.springframework.http.HttpStatus.METHOD_NOT_ALLOWED;
+import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.http.HttpStatus.OK;
+import static org.springframework.http.HttpStatus.UNSUPPORTED_MEDIA_TYPE;
+import static org.springframework.http.MediaType.APPLICATION_XML_VALUE;
 
 @ExtendWith({SpringExtension.class})
 @SpringBootTest(webEnvironment = RANDOM_PORT)
@@ -85,6 +94,8 @@ public class ScrTest {
     @Autowired
     private WireMockServer wireMockServer;
 
+    private IParser parser = FhirContext.forR4().newJsonParser();
+
     @AfterEach
     public void afterEach() {
         this.wireMockServer.resetAll();
@@ -103,7 +114,7 @@ public class ScrTest {
     @Test
     public void whenPostingFhirJsonThenExpect201() throws Exception {
         whenPostingThenExpect201(
-            Files.readString(simpleFhirJson.getFile().toPath(), Charsets.UTF_8),
+            readString(simpleFhirJson.getFile().toPath(), UTF_8),
             FHIR_JSON_CONTENT_TYPE);
     }
 
@@ -115,7 +126,7 @@ public class ScrTest {
             WireMock.get(SCR_SPINE_CONTENT_ENDPOINT)
                 .willReturn(aResponse()
                     .withStatus(OK.value())
-                    .withBody(Files.readString(pollingErrorResponse.getFile().toPath(), StandardCharsets.UTF_8))));
+                    .withBody(readString(pollingErrorResponse.getFile().toPath(), StandardCharsets.UTF_8))));
 
         warmUpWireMock();
 
@@ -123,7 +134,7 @@ public class ScrTest {
             .port(port)
             .contentType(FHIR_JSON_CONTENT_TYPE)
             .header("Nhsd-Asid", NHSD_ASID)
-            .body(Files.readString(simpleFhirJson.getFile().toPath(), Charsets.UTF_8))
+            .body(readString(simpleFhirJson.getFile().toPath(), UTF_8))
             .when()
             .post(FHIR_ENDPOINT)
             .then()
@@ -131,10 +142,9 @@ public class ScrTest {
             .statusCode(BAD_REQUEST.value())
             .extract().asString();
 
-        var operationOutcome = fhirParser.parseResource(
-            MediaType.parseMediaType(FHIR_JSON_CONTENT_TYPE), body, OperationOutcome.class);
-        assertThat(operationOutcome.getIssueFirstRep().getSeverity()).isEqualTo(OperationOutcome.IssueSeverity.ERROR);
-        assertThat(operationOutcome.getIssueFirstRep().getCode()).isEqualTo(OperationOutcome.IssueType.VALUE);
+        var operationOutcome = fhirParser.parseResource(body, OperationOutcome.class);
+        assertThat(operationOutcome.getIssueFirstRep().getSeverity()).isEqualTo(ERROR);
+        assertThat(operationOutcome.getIssueFirstRep().getCode()).isEqualTo(VALUE);
         assertThat(operationOutcome.getIssueFirstRep().getDetails().getText()).isEqualTo(
             "Spine processing finished with errors:\n"
                 + "- 400: Invalid Request\n"
@@ -160,7 +170,7 @@ public class ScrTest {
             .port(port)
             .contentType(FHIR_JSON_CONTENT_TYPE)
             .header("Nhsd-Asid", NHSD_ASID)
-            .body(Files.readString(simpleFhirJson.getFile().toPath(), Charsets.UTF_8))
+            .body(readString(simpleFhirJson.getFile().toPath(), UTF_8))
             .when()
             .post(FHIR_ENDPOINT)
             .then()
@@ -168,10 +178,10 @@ public class ScrTest {
             .statusCode(GATEWAY_TIMEOUT.value());
     }
 
-    private void whenPostingThenExpect201(String requestBody, String contentType) throws IOException, HttpMediaTypeNotAcceptableException {
+    private void whenPostingThenExpect201(String requestBody, String contentType) throws IOException {
         setUpSpineRequests();
 
-        var body = given()
+        given()
             .port(port)
             .contentType(contentType)
             .header("Nhsd-Asid", NHSD_ASID)
@@ -179,8 +189,7 @@ public class ScrTest {
             .when()
             .post(FHIR_ENDPOINT)
             .then()
-            .statusCode(CREATED.value())
-            .extract().asString();
+            .statusCode(CREATED.value());
 
         wireMockServer.verify(1, postRequestedFor(urlEqualTo(SCR_SPINE_ENDPOINT)));
         wireMockServer.verify(2, getRequestedFor(urlEqualTo(SCR_SPINE_CONTENT_ENDPOINT)));
@@ -204,14 +213,6 @@ public class ScrTest {
         var intervalBetweenFirstAndSecondGetGet =
             (int) (secondGetRequest.getLoggedDate().getTime() - firstGetRequest.getLoggedDate().getTime());
         assertThat(intervalBetweenFirstAndSecondGetGet).isBetween(GET_WAIT_TIME, GET_WAIT_TIME + THREAD_SLEEP_ALLOWED_DIFF);
-
-        var operationOutcome = fhirParser.parseResource(
-            MediaType.parseMediaType(contentType), body, OperationOutcome.class);
-
-        var issue = operationOutcome.getIssueFirstRep();
-        assertThat(issue.getSeverity()).isEqualTo(OperationOutcome.IssueSeverity.INFORMATION);
-        assertThat(issue.getCode()).isEqualTo(OperationOutcome.IssueType.INFORMATIONAL);
-        assertThat(issue.getDiagnostics()).isEqualTo("Resource has been successfully updated.");
     }
 
     @Test
@@ -219,6 +220,7 @@ public class ScrTest {
         var responseBody = given()
             .port(port)
             .contentType(FHIR_JSON_CONTENT_TYPE)
+            .header("Nhsd-Asid", NHSD_ASID)
             .body("<invalid_content>>")
             .when()
             .post(FHIR_ENDPOINT)
@@ -228,12 +230,74 @@ public class ScrTest {
             .extract()
             .asString();
 
-        FhirContext ctx = FhirContext.forR4();
-        IParser parser = ctx.newJsonParser();
+        verifyOperationOutcome(responseBody, VALUE, ERROR);
+    }
 
-        var response = parser.parseResource(responseBody);
+    @Test
+    public void whenPostingMissingRequiredHeaderContentThenExpect400() throws IOException {
+        var responseBody = given()
+            .port(port)
+            .contentType(FHIR_JSON_CONTENT_TYPE)
+            .body(readString(simpleFhirJson.getFile().toPath(), UTF_8))
+            .when()
+            .post(FHIR_ENDPOINT)
+            .then()
+            .contentType(FHIR_JSON_CONTENT_TYPE)
+            .statusCode(BAD_REQUEST.value())
+            .extract()
+            .asString();
 
-        assertThat(response).isInstanceOf(OperationOutcome.class);
+        verifyOperationOutcome(responseBody, VALUE, ERROR);
+    }
+
+    @Test
+    public void whenInvalidHttpMethodThenExpect405() throws IOException {
+        var responseBody = given()
+            .port(port)
+            .contentType(FHIR_JSON_CONTENT_TYPE)
+            .body(readString(simpleFhirJson.getFile().toPath(), UTF_8))
+            .when()
+            .put(FHIR_ENDPOINT)
+            .then()
+            .contentType(FHIR_JSON_CONTENT_TYPE)
+            .statusCode(METHOD_NOT_ALLOWED.value())
+            .header(ALLOW, "GET,POST")
+            .extract()
+            .asString();
+
+        verifyOperationOutcome(responseBody, NOTSUPPORTED, ERROR);
+    }
+
+    @Test
+    public void whenEndpointNotFoundThenExpect404() throws IOException {
+        var responseBody = given()
+            .port(port)
+            .when()
+            .get("/NotFound")
+            .then()
+            .contentType(FHIR_JSON_CONTENT_TYPE)
+            .statusCode(NOT_FOUND.value())
+            .extract()
+            .asString();
+
+        verifyOperationOutcome(responseBody, NOTFOUND, ERROR);
+    }
+
+    @Test
+    public void whenUnsupportedMediaTypeThenExpect415() throws IOException {
+        var responseBody = given()
+            .port(port)
+            .contentType(APPLICATION_XML_VALUE)
+            .body(readString(simpleFhirJson.getFile().toPath(), UTF_8))
+            .when()
+            .post(FHIR_ENDPOINT)
+            .then()
+            .contentType(FHIR_JSON_CONTENT_TYPE)
+            .statusCode(UNSUPPORTED_MEDIA_TYPE.value())
+            .extract()
+            .asString();
+
+        verifyOperationOutcome(responseBody, NOTSUPPORTED, ERROR);
     }
 
     private void setUpPOSTSpineRequest() {
@@ -261,7 +325,7 @@ public class ScrTest {
                 .whenScenarioStateIs(WIREMOCK_GET_RESPONSE_READY_STATE)
                 .willReturn(aResponse()
                     .withStatus(OK.value())
-                    .withBody(Files.readString(pollingSuccessResponse.getFile().toPath(), StandardCharsets.UTF_8))));
+                    .withBody(readString(pollingSuccessResponse.getFile().toPath(), StandardCharsets.UTF_8))));
 
         warmUpWireMock();
     }
@@ -279,5 +343,13 @@ public class ScrTest {
 
         wireMockServer.resetRequests();
         wireMockServer.resetScenarios();
+    }
+
+    private void verifyOperationOutcome(String responseBody, IssueType code, IssueSeverity severity) {
+        var response = parser.parseResource(responseBody);
+        assertThat(response).isInstanceOf(OperationOutcome.class);
+        OperationOutcome operationOutcome = (OperationOutcome) response;
+        assertThat(operationOutcome.getIssueFirstRep().getCode()).isEqualTo(code);
+        assertThat(operationOutcome.getIssueFirstRep().getSeverity()).isEqualTo(severity);
     }
 }
