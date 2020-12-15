@@ -35,6 +35,7 @@ import static org.hl7.fhir.r4.model.OperationOutcome.IssueType.NOTSUPPORTED;
 import static org.hl7.fhir.r4.model.OperationOutcome.IssueType.VALUE;
 import static org.springframework.http.HttpHeaders.ALLOW;
 import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
+import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.http.HttpMethod.POST;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
@@ -46,7 +47,12 @@ import static uk.nhs.adaptors.scr.utils.OperationOutcomeUtils.createOperationOut
 @Slf4j
 public class OperationOutcomeExceptionHandler extends ResponseEntityExceptionHandler {
 
-    private static final Map<String, List<HttpMethod>> ALLOWED_METHODS = Map.of("/Bundle", List.of(POST));
+    private static final Map<String, List<HttpMethod>> ALLOWED_METHODS = Map.of(
+        "/Bundle", List.of(GET, POST),
+        "/DocumentReference", List.of(GET),
+        "/$setPermission", List.of(POST),
+        "/healthcheck", List.of(GET)
+    );
 
     @Autowired
     private FhirParser fhirParser;
