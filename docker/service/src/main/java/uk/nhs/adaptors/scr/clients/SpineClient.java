@@ -49,6 +49,7 @@ public class SpineClient implements SpineClientContract {
     @Override
     public SpineHttpClient.Response sendScrData(String requestBody) {
         var url = spineConfiguration.getUrl() + spineConfiguration.getScrEndpoint();
+        LOGGER.debug("Sending SCR Upload request to SPINE. URL: {}, Body: {}", url, requestBody);
 
         var request = new HttpPost(url);
         request.addHeader(SOAP_ACTION, "urn:nhs:names:services:psis/REPC_IN150016SM05");

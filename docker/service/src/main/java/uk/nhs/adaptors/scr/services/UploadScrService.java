@@ -42,7 +42,6 @@ public class UploadScrService {
 
     public void handleFhir(RequestData requestData) {
         var spineRequest = mapRequestData(requestData);
-        LOGGER.debug("Sending SCR Upload request to SPINE: {}", spineRequest);
         var response = spineClient.sendScrData(spineRequest);
 
         String contentLocation;
