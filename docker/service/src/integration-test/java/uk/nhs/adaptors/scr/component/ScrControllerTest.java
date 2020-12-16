@@ -31,6 +31,7 @@ public class ScrControllerTest {
     private static final long SHORT_RESULT_TIMEOUT = 10;
     private static final String FHIR_JSON_CONTENT_TYPE = "application/fhir+json";
     private static final String NHSD_ASID = "123";
+    private static final String CLIENT_IP = "192.168.0.24";
 
     @LocalServerPort
     private int port;
@@ -65,7 +66,7 @@ public class ScrControllerTest {
                 return null;
             }
             return null;
-        }).when(uploadScrService).handleFhir(any());
+        }).when(uploadScrService).uploadScr(any());
 
         when(spineConfiguration.getScrResultTimeout()).thenReturn(SHORT_RESULT_TIMEOUT);
 
@@ -73,6 +74,7 @@ public class ScrControllerTest {
             .port(port)
             .contentType(FHIR_JSON_CONTENT_TYPE)
             .header("Nhsd-Asid", NHSD_ASID)
+            .header("client-ip", CLIENT_IP)
             .body(REQUEST_BODY)
             .when()
             .post(FHIR_ENDPOINT)

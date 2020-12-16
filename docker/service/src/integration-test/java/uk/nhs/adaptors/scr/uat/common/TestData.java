@@ -21,7 +21,6 @@ public class TestData {
 
     private final String fhirRequest;
     private final String fhirResponse;
-    private final FhirFormat fhirFormat;
 
     public static TestData build(List<Resource> resources) {
         if (isEmpty(resources)) {
@@ -55,10 +54,5 @@ public class TestData {
     @SneakyThrows
     private static String readFile(Resource resource) {
         return new String(readAllBytes(resource.getFile().toPath()), UTF_8);
-    }
-
-    @RequiredArgsConstructor
-    public enum FhirFormat {
-        JSON
     }
 }

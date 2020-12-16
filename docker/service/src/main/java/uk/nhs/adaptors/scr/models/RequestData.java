@@ -9,4 +9,5 @@ import org.hl7.fhir.r4.model.Bundle;
 public class RequestData {
     private Bundle bundle;
     private String nhsdAsid;
+    private String clientIp;
 }

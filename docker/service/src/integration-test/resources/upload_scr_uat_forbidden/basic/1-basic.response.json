@@ -1,0 +1,12 @@
+{
+  "resourceType": "OperationOutcome",
+  "issue": [
+    {
+      "severity": "error",
+      "code": "forbidden",
+      "details": {
+        "text": "Forbidden update with error - there's no patient's consent to store SCR"
+      }
+    }
+  ]
+}

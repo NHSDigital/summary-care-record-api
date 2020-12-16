@@ -74,6 +74,12 @@ public abstract class CustomArgumentsProvider implements ArgumentsProvider {
         }
     }
 
+    public static class UploadScrForbidden extends CustomArgumentsProvider {
+        public UploadScrForbidden() {
+            super("upload_scr_uat_forbidden");
+        }
+    }
+
     public static class GetScrIdSuccess extends CustomArgumentsProvider {
         public GetScrIdSuccess() {
             super("get_scr_id_data");

@@ -6,7 +6,6 @@ import org.hl7.fhir.r4.model.Bundle;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,6 +23,7 @@ import uk.nhs.adaptors.scr.services.UploadScrService;
 import javax.validation.constraints.NotNull;
 import java.util.concurrent.Callable;
 
+import static org.springframework.http.HttpStatus.CREATED;
 import static uk.nhs.adaptors.scr.controllers.FhirMediaTypes.APPLICATION_FHIR_JSON_VALUE;
 
 @RestController
@@ -41,8 +41,8 @@ public class FhirController {
         produces = {APPLICATION_FHIR_JSON_VALUE})
     @ResponseStatus(HttpStatus.OK)
     public WebAsyncTask<ResponseEntity<?>> acceptFhir(
-        @RequestHeader("Content-Type") @NotNull MediaType contentType,
         @RequestHeader("Nhsd-Asid") @NotNull String nhsdAsid,
+        @RequestHeader("client-ip") @NotNull String clientIp,
         @RequestBody String body) {
         LOGGER.debug("Using cfg: asid-from={} party-from={} asid-to={} party-to={}",
             nhsdAsid,
@@ -53,14 +53,14 @@ public class FhirController {
         var requestData = new RequestData();
         requestData.setBundle(fhirParser.parseResource(body, Bundle.class));
         requestData.setNhsdAsid(nhsdAsid);
+        requestData.setClientIp(clientIp);
 
         var mdcContextMap = MDC.getCopyOfContextMap();
         Callable<ResponseEntity<?>> callable = () -> {
             MDC.setContextMap(mdcContextMap);
-            uploadScrService.handleFhir(requestData);
+            uploadScrService.uploadScr(requestData);
             return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .contentType(contentType)
+                .status(CREATED)
                 .build();
         };
 

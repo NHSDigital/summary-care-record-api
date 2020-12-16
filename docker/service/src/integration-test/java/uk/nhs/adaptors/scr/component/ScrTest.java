@@ -4,9 +4,9 @@ import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.parser.IParser;
 import com.github.tomakehurst.wiremock.WireMockServer;
 import com.github.tomakehurst.wiremock.client.WireMock;
-import com.github.tomakehurst.wiremock.http.RequestMethod;
 import com.github.tomakehurst.wiremock.matching.RequestPatternBuilder;
 import com.github.tomakehurst.wiremock.verification.LoggedRequest;
+import com.google.common.base.Charsets;
 import lombok.extern.slf4j.Slf4j;
 import org.hl7.fhir.r4.model.OperationOutcome;
 import org.hl7.fhir.r4.model.OperationOutcome.IssueSeverity;
@@ -31,11 +31,13 @@ import java.util.List;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
 import static com.github.tomakehurst.wiremock.client.WireMock.containing;
+import static com.github.tomakehurst.wiremock.client.WireMock.equalTo;
 import static com.github.tomakehurst.wiremock.client.WireMock.getRequestedFor;
 import static com.github.tomakehurst.wiremock.client.WireMock.postRequestedFor;
 import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo;
+import static com.github.tomakehurst.wiremock.http.RequestMethod.GET;
+import static com.github.tomakehurst.wiremock.http.RequestMethod.POST;
 import static com.github.tomakehurst.wiremock.stubbing.Scenario.STARTED;
-import static com.google.common.base.Charsets.UTF_8;
 import static io.restassured.RestAssured.given;
 import static java.nio.file.Files.readString;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -72,6 +74,9 @@ public class ScrTest {
     private static final int THREAD_SLEEP_ALLOWED_DIFF = 100;
     private static final String FHIR_JSON_CONTENT_TYPE = "application/fhir+json";
     private static final String NHSD_ASID = "123";
+    private static final String CLIENT_IP = "192.168.0.24";
+    private static final String SPINE_PSIS_ENDPOINT = "/sync-service";
+    private static final String EVENT_LIST_QUERY_HEADER = "urn:nhs:names:services:psisquery/QUPC_IN180000SM04";
 
     @LocalServerPort
     private int port;
@@ -81,6 +86,9 @@ public class ScrTest {
 
     @Value("classpath:responses/polling/success.xml")
     private Resource pollingSuccessResponse;
+
+    @Value("classpath:responses/event-list-query/successResponse.xml")
+    private Resource eventListQuerySuccessResponse;
 
     @Value("classpath:bundle.fhir.json")
     private Resource simpleFhirJson;
@@ -114,13 +122,14 @@ public class ScrTest {
     @Test
     public void whenPostingFhirJsonThenExpect201() throws Exception {
         whenPostingThenExpect201(
-            readString(simpleFhirJson.getFile().toPath(), UTF_8),
+            readString(simpleFhirJson.getFile().toPath(), Charsets.UTF_8),
             FHIR_JSON_CONTENT_TYPE);
     }
 
     @Test
     public void whenSpinePollingReturnedErrorsThenExpect400() throws Exception {
         setUpPOSTSpineRequest();
+        setUpPsisSpineRequest();
 
         wireMockServer.stubFor(
             WireMock.get(SCR_SPINE_CONTENT_ENDPOINT)
@@ -134,7 +143,8 @@ public class ScrTest {
             .port(port)
             .contentType(FHIR_JSON_CONTENT_TYPE)
             .header("Nhsd-Asid", NHSD_ASID)
-            .body(readString(simpleFhirJson.getFile().toPath(), UTF_8))
+            .header("client-ip", CLIENT_IP)
+            .body(readString(simpleFhirJson.getFile().toPath(), Charsets.UTF_8))
             .when()
             .post(FHIR_ENDPOINT)
             .then()
@@ -154,6 +164,7 @@ public class ScrTest {
     @Test
     public void whenSpineDoesNotReturnResultThenExpect504() throws Exception {
         setUpPOSTSpineRequest();
+        setUpPsisSpineRequest();
 
         wireMockServer.stubFor(
             WireMock.get(SCR_SPINE_CONTENT_ENDPOINT)
@@ -170,7 +181,8 @@ public class ScrTest {
             .port(port)
             .contentType(FHIR_JSON_CONTENT_TYPE)
             .header("Nhsd-Asid", NHSD_ASID)
-            .body(readString(simpleFhirJson.getFile().toPath(), UTF_8))
+            .header("client-ip", CLIENT_IP)
+            .body(readString(simpleFhirJson.getFile().toPath(), Charsets.UTF_8))
             .when()
             .post(FHIR_ENDPOINT)
             .then()
@@ -185,6 +197,7 @@ public class ScrTest {
             .port(port)
             .contentType(contentType)
             .header("Nhsd-Asid", NHSD_ASID)
+            .header("client-ip", CLIENT_IP)
             .body(requestBody)
             .when()
             .post(FHIR_ENDPOINT)
@@ -196,15 +209,18 @@ public class ScrTest {
 
         List<LoggedRequest> requests = wireMockServer.findAll(RequestPatternBuilder.allRequests());
 
-        var postRequest = requests.get(0);
+        var psisRequest = requests.get(0);
+        assertThat(psisRequest.getAbsoluteUrl()).isEqualTo(spineUrl + SPINE_PSIS_ENDPOINT);
+        assertThat(psisRequest.getMethod()).isEqualTo(POST);
+        var postRequest = requests.get(1);
         assertThat(postRequest.getAbsoluteUrl()).isEqualTo(spineUrl + SCR_SPINE_ENDPOINT);
-        assertThat(postRequest.getMethod()).isEqualTo(RequestMethod.POST);
-        var firstGetRequest = requests.get(1);
+        assertThat(postRequest.getMethod()).isEqualTo(POST);
+        var firstGetRequest = requests.get(2);
         assertThat(firstGetRequest.getAbsoluteUrl()).isEqualTo(spineUrl + SCR_SPINE_CONTENT_ENDPOINT);
-        assertThat(firstGetRequest.getMethod()).isEqualTo(RequestMethod.GET);
-        var secondGetRequest = requests.get(2);
+        assertThat(firstGetRequest.getMethod()).isEqualTo(GET);
+        var secondGetRequest = requests.get(3);
         assertThat(secondGetRequest.getAbsoluteUrl()).isEqualTo(spineUrl + SCR_SPINE_CONTENT_ENDPOINT);
-        assertThat(secondGetRequest.getMethod()).isEqualTo(RequestMethod.GET);
+        assertThat(secondGetRequest.getMethod()).isEqualTo(GET);
 
         var intervalBetweenPostAndFirstGet =
             (int) (firstGetRequest.getLoggedDate().getTime() - postRequest.getLoggedDate().getTime());
@@ -221,6 +237,7 @@ public class ScrTest {
             .port(port)
             .contentType(FHIR_JSON_CONTENT_TYPE)
             .header("Nhsd-Asid", NHSD_ASID)
+            .header("client-ip", CLIENT_IP)
             .body("<invalid_content>>")
             .when()
             .post(FHIR_ENDPOINT)
@@ -238,7 +255,7 @@ public class ScrTest {
         var responseBody = given()
             .port(port)
             .contentType(FHIR_JSON_CONTENT_TYPE)
-            .body(readString(simpleFhirJson.getFile().toPath(), UTF_8))
+            .body(readString(simpleFhirJson.getFile().toPath(), Charsets.UTF_8))
             .when()
             .post(FHIR_ENDPOINT)
             .then()
@@ -255,7 +272,7 @@ public class ScrTest {
         var responseBody = given()
             .port(port)
             .contentType(FHIR_JSON_CONTENT_TYPE)
-            .body(readString(simpleFhirJson.getFile().toPath(), UTF_8))
+            .body(readString(simpleFhirJson.getFile().toPath(), Charsets.UTF_8))
             .when()
             .put(FHIR_ENDPOINT)
             .then()
@@ -288,7 +305,7 @@ public class ScrTest {
         var responseBody = given()
             .port(port)
             .contentType(APPLICATION_XML_VALUE)
-            .body(readString(simpleFhirJson.getFile().toPath(), UTF_8))
+            .body(readString(simpleFhirJson.getFile().toPath(), Charsets.UTF_8))
             .when()
             .post(FHIR_ENDPOINT)
             .then()
@@ -326,8 +343,19 @@ public class ScrTest {
                 .willReturn(aResponse()
                     .withStatus(OK.value())
                     .withBody(readString(pollingSuccessResponse.getFile().toPath(), StandardCharsets.UTF_8))));
+        setUpPsisSpineRequest();
 
         warmUpWireMock();
+    }
+
+    private void setUpPsisSpineRequest() throws IOException {
+        wireMockServer.stubFor(
+            WireMock.post(SPINE_PSIS_ENDPOINT)
+                .withHeader("SOAPAction", equalTo(EVENT_LIST_QUERY_HEADER))
+                .withHeader("nhsd-asid", equalTo(NHSD_ASID))
+                .willReturn(aResponse()
+                    .withStatus(OK.value())
+                    .withBody(readString(eventListQuerySuccessResponse.getFile().toPath(), StandardCharsets.UTF_8))));
     }
 
     private void warmUpWireMock() {
