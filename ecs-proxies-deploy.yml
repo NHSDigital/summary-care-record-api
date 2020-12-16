@@ -21,16 +21,16 @@ docker_service:
         valueFrom: "/{{ account }}/api-deployment/scr/env-int/party-id"
       - name: SCR_NHSD_ASID_TO
         valueFrom: "/{{ account }}/api-deployment/scr/env-int/asid-to"
-#      - name: SCR_SPINE_CLIENT_KEY
-#        valueFrom: '/{{ account }}/api-deployment/scr/certs/spine/{{ SPINE_ENV }}/key'
-#      - name: SCR_SPINE_CLIENT_CERT
-#        valueFrom: '/{{ account }}/api-deployment/scr/certs/spine/{{ SPINE_ENV }}/crt'
-#      - name: SCR_SPINE_ROOT_CA_CERT
-#        valueFrom: '/{{ account }}/api-deployment/scr/certs/nhsd-root-ca/{{ account }}/crt'
-#      - name: SCR_SPINE_SUB_CA_CERT
-#        valueFrom: '/{{ account }}/api-deployment/scr/certs/nhsd-sub-ca/{{ account }}/crt'
-#      - name: SCR_SPINE_URL
-#        valueFrom: '/{{ account }}/api-deployment/scr/{{ SPINE_ENV }}/host'
+     - name: SCR_SPINE_CLIENT_KEY
+       valueFrom: '/{{ account }}/api-deployment/scr/certs/spine/{{ SPINE_ENV }}/key'
+     - name: SCR_SPINE_CLIENT_CERT
+       valueFrom: '/{{ account }}/api-deployment/scr/certs/spine/{{ SPINE_ENV }}/crt'
+     - name: SCR_SPINE_ROOT_CA_CERT
+       valueFrom: '/{{ account }}/api-deployment/scr/certs/nhsd-root-ca/{{ account }}/crt'
+     - name: SCR_SPINE_SUB_CA_CERT
+       valueFrom: '/{{ account }}/api-deployment/scr/certs/nhsd-sub-ca/{{ account }}/crt'
+     - name: SCR_SPINE_URL
+       valueFrom: '/{{ account }}/api-deployment/scr/{{ SPINE_ENV }}/host'
     health_check:
         matcher: "200"
         path: "/healthcheck"

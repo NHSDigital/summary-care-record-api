@@ -29,3 +29,8 @@ copy-secret "ptl/client/aws.api.intspineservices.nhs.uk/crt" "/ptl/api-deploymen
 # ptl envs root & sub ca
 copy-secret "ptl/veit07.devspineservices.nhs.uk/root-ca/crt" "/ptl/api-deployment/scr/certs/nhsd-root-ca/ptl/crt"
 copy-secret "ptl/veit07.devspineservices.nhs.uk/sub-ca/crt" "/ptl/api-deployment/scr/certs/nhsd-sub-ca/ptl/crt"
+
+# spine urls by spine env
+copy-parameter "/ptl/platform-common/test/host" "/ptl/api-deployment/scr/test/host"
+copy-parameter "/ptl/platform-common/int/host" "/ptl/api-deployment/scr/int/host"
+copy-parameter "/ptl/platform-common/ref/host" "/ptl/api-deployment/scr/ref/host"
