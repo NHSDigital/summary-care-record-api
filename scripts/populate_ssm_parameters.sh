@@ -21,14 +21,14 @@ function copy-secret {
 function copy-parameter {
     secretValue="$(
         aws ssm get-parameter \
-        --profile build-eps-coordinator \
+        --profile build-scr \
         --name "$1" \
         --query Parameter.Value \
         --output text
     )"
 
     aws ssm put-parameter \
-        --profile build-eps-coordinator \
+        --profile build-scr \
         --name "$2" \
         --value "$secretValue" \
         --type String \
