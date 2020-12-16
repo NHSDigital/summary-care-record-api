@@ -53,7 +53,6 @@ public class ScrControllerTest {
 
     @Test
     public void whenRequestProcessingTakesTooMuchTimeExpect504() {
-        when(spineConfiguration.getEndpointCert()).thenReturn("some_cert");
         when(scrConfiguration.getPartyIdFrom()).thenReturn("some-party-from");
         when(scrConfiguration.getPartyIdTo()).thenReturn("some-party-to");
         when(scrConfiguration.getNhsdAsidTo()).thenReturn("some-asid-to");

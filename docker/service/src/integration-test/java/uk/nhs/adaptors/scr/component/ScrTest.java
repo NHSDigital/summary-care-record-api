@@ -209,16 +209,17 @@ public class ScrTest {
 
         List<LoggedRequest> requests = wireMockServer.findAll(RequestPatternBuilder.allRequests());
 
-        var psisRequest = requests.get(0);
+        int i = 0;
+        var psisRequest = requests.get(i++);
         assertThat(psisRequest.getAbsoluteUrl()).isEqualTo(spineUrl + SPINE_PSIS_ENDPOINT);
         assertThat(psisRequest.getMethod()).isEqualTo(POST);
-        var postRequest = requests.get(1);
+        var postRequest = requests.get(i++);
         assertThat(postRequest.getAbsoluteUrl()).isEqualTo(spineUrl + SCR_SPINE_ENDPOINT);
         assertThat(postRequest.getMethod()).isEqualTo(POST);
-        var firstGetRequest = requests.get(2);
+        var firstGetRequest = requests.get(i++);
         assertThat(firstGetRequest.getAbsoluteUrl()).isEqualTo(spineUrl + SCR_SPINE_CONTENT_ENDPOINT);
         assertThat(firstGetRequest.getMethod()).isEqualTo(GET);
-        var secondGetRequest = requests.get(3);
+        var secondGetRequest = requests.get(i++);
         assertThat(secondGetRequest.getAbsoluteUrl()).isEqualTo(spineUrl + SCR_SPINE_CONTENT_ENDPOINT);
         assertThat(secondGetRequest.getMethod()).isEqualTo(GET);
 

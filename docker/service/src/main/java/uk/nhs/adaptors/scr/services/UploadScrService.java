@@ -73,7 +73,8 @@ public class UploadScrService {
     }
 
     private void checkPermission(RequestData requestData) {
-        String scrIdXml = getScrService.getScrIdRawXml(getNhsNumber(requestData.getBundle()), requestData.getNhsdAsid(), requestData.getClientIp());
+        String nhsNumber = getNhsNumber(requestData.getBundle());
+        String scrIdXml = getScrService.getScrIdRawXml(nhsNumber, requestData.getNhsdAsid(), requestData.getClientIp());
         EventListQueryResponse eventListQueryResponse = EventListQueryResponse.parseXml(scrIdXml);
         if (!asList(YES, ASK).contains(eventListQueryResponse.getStorePermission())) {
             throw new ForbiddenException("Forbidden update with error - there's no patient's consent to store SCR");

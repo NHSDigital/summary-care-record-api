@@ -2,7 +2,6 @@ package uk.nhs.adaptors.scr.uat.common;
 
 import lombok.Builder;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.core.io.Resource;
 
