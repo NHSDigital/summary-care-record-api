@@ -65,9 +65,9 @@
     <RouteRule name="summary-care-record-target">
         <TargetEndpoint>summary-care-record-target</TargetEndpoint>
     </RouteRule>
-    <DefaultFaultRule>
-        <Step>
-            <Name>AssignMessage.CatchallErrorMessage</Name>
-        </Step>
-    </DefaultFaultRule>
+<!--    <DefaultFaultRule>-->
+<!--        <Step>-->
+<!--            <Name>AssignMessage.CatchallErrorMessage</Name>-->
+<!--        </Step>-->
+<!--    </DefaultFaultRule>-->
 </ProxyEndpoint>

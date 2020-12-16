@@ -39,8 +39,8 @@ build-proxy:
 release: clean publish build-proxy
 	mkdir -p dist
 	cp -r build/. dist
-	cat ecs-proxies-deploy.yml | sed -e 's/{{ SPINE_ENV }}/test/g' -e 's/{{ SANDBOX_MODE_ENABLED }}/0/g' > dist/ecs-deploy-internal-dev.yml
-	cat ecs-proxies-deploy.yml | sed -e 's/{{ SPINE_ENV }}/int/g' -e 's/{{ SANDBOX_MODE_ENABLED }}/0/g' > dist/ecs-deploy-int.yml
+	cat ecs-proxies-deploy.yml | sed -e 's/{{ SPINE_ENV }}/test/g' > dist/ecs-deploy-internal-dev.yml
+	cat ecs-proxies-deploy.yml | sed -e 's/{{ SPINE_ENV }}/int/g' > dist/ecs-deploy-int.yml
 
 test:
 	echo "TODO: add tests"
