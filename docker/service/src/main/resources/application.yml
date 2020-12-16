@@ -27,7 +27,7 @@ scr:
   nhsdAsidTo: ${SCR_NHSD_ASID_TO}
 
 spine:
-  url: ${SCR_SPINE_URL}
+  url: https://${SCR_SPINE_URL}
   acsEndpoint: /acs
   scrEndpoint: ${SCR_SPINE_ENDPOINT:/clinical}
   psisQueriesEndpoint: ${SCR_SPINE_PSIS_ENDPOINT:/sync-service}
@@ -36,3 +36,7 @@ spine:
   endpointCert: ${SCR_SPINE_ENDPOINT_CERT:}
   endpointPrivateKey: ${SCR_SPINE_ENDPOINT_KEY:}
   caCerts: ${SCR_SPINE_ENDPOINT_CACERT:}
+  clientKey: ${SCR_SPINE_CLIENT_KEY:}
+  clientCert: ${SCR_SPINE_CLIENT_CERT:}
+  rootCA: ${SCR_SPINE_ROOT_CA_CERT:}
+  subCA: ${SCR_SPINE_SUB_CA_CERT:}

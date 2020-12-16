@@ -55,7 +55,7 @@ public class SpineClient implements SpineClientContract {
         request.addHeader(CONTENT_TYPE,
             "multipart/related; boundary=\"--=_MIME-Boundary\"; type=\"text/xml\"; start=\"<ebXMLHeader@spine.nhs.uk>\"");
         request.setEntity(new StringEntity(requestBody));
-
+        LOGGER.debug("Sending SPINE request: {}", request.getRequestLine().toString());
         var response = spineHttpClient.sendRequest(request);
         var statusCode = response.getStatusCode();
 

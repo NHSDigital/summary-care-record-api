@@ -60,11 +60,11 @@ public class ScrHttpClientBuilder {
 
         var randomPassword = UUID.randomUUID().toString();
         KeyStore ks = EnvKeyStore.createFromPEMStrings(
-            spineConfiguration.getEndpointPrivateKey(),
-            spineConfiguration.getEndpointCert(),
+            spineConfiguration.getClientKey(),
+            spineConfiguration.getClientCert(),
             randomPassword).keyStore();
         KeyStore ts = EnvKeyStore.createFromPEMStrings(
-            spineConfiguration.getCaCerts(),
+            spineConfiguration.getSubCA() + spineConfiguration.getRootCA(),
             randomPassword).keyStore();
         return SSLContexts.custom()
             .loadKeyMaterial(ks, randomPassword.toCharArray())

@@ -48,6 +48,7 @@ public class SpineHttpClient {
                     .build();
             }
         } catch (IOException e) {
+            LOGGER.error("Error while sending SPINE request", e);
             throw new ScrBaseException("Unexpected exception while sending Spine request", e);
         }
     }
