@@ -18,6 +18,24 @@ function copy-secret {
         --overwrite
 }
 
+function copy-parameter {
+    secretValue="$(
+        aws ssm get-parameter \
+        --profile build-eps-coordinator \
+        --name "$1" \
+        --query Parameter.Value \
+        --output text
+    )"
+
+    aws ssm put-parameter \
+        --profile build-eps-coordinator \
+        --name "$2" \
+        --value "$secretValue" \
+        --type String \
+        --overwrite
+}
+
+
 # veit07
 copy-secret "ptl/client/aws.api.veit07.devspineservices.nhs.uk/key" "/ptl/api-deployment/scr/certs/spine/test/key"
 copy-secret "ptl/client/aws.api.veit07.devspineservices.nhs.uk/crt" "/ptl/api-deployment/scr/certs/spine/test/crt"
