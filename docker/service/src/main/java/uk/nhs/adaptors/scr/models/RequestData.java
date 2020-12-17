@@ -10,4 +10,5 @@ public class RequestData {
     private Bundle bundle;
     private String nhsdAsid;
     private String clientIp;
+    private String nhsdIdentity;
 }

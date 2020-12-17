@@ -6,7 +6,6 @@ import com.github.tomakehurst.wiremock.WireMockServer;
 import com.github.tomakehurst.wiremock.client.WireMock;
 import com.github.tomakehurst.wiremock.matching.RequestPatternBuilder;
 import com.github.tomakehurst.wiremock.verification.LoggedRequest;
-import com.google.common.base.Charsets;
 import lombok.extern.slf4j.Slf4j;
 import org.hl7.fhir.r4.model.OperationOutcome;
 import org.hl7.fhir.r4.model.OperationOutcome.IssueSeverity;
@@ -38,8 +37,10 @@ import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo;
 import static com.github.tomakehurst.wiremock.http.RequestMethod.GET;
 import static com.github.tomakehurst.wiremock.http.RequestMethod.POST;
 import static com.github.tomakehurst.wiremock.stubbing.Scenario.STARTED;
+import static com.google.common.base.Charsets.UTF_8;
 import static io.restassured.RestAssured.given;
 import static java.nio.file.Files.readString;
+import static java.util.UUID.randomUUID;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hl7.fhir.r4.model.OperationOutcome.IssueSeverity.ERROR;
 import static org.hl7.fhir.r4.model.OperationOutcome.IssueType.NOTFOUND;
@@ -47,6 +48,7 @@ import static org.hl7.fhir.r4.model.OperationOutcome.IssueType.NOTSUPPORTED;
 import static org.hl7.fhir.r4.model.OperationOutcome.IssueType.VALUE;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 import static org.springframework.http.HttpHeaders.ALLOW;
+import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
 import static org.springframework.http.HttpStatus.ACCEPTED;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.CREATED;
@@ -56,6 +58,8 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.http.HttpStatus.UNSUPPORTED_MEDIA_TYPE;
 import static org.springframework.http.MediaType.APPLICATION_XML_VALUE;
+import static org.springframework.http.MediaType.TEXT_XML_VALUE;
+import static uk.nhs.adaptors.scr.consts.HttpHeaders.SOAP_ACTION;
 
 @ExtendWith({SpringExtension.class})
 @SpringBootTest(webEnvironment = RANDOM_PORT)
@@ -74,6 +78,7 @@ public class ScrTest {
     private static final int THREAD_SLEEP_ALLOWED_DIFF = 100;
     private static final String FHIR_JSON_CONTENT_TYPE = "application/fhir+json";
     private static final String NHSD_ASID = "123";
+    private static final String NHSD_IDENTITY = randomUUID().toString();
     private static final String CLIENT_IP = "192.168.0.24";
     private static final String SPINE_PSIS_ENDPOINT = "/sync-service";
     private static final String EVENT_LIST_QUERY_HEADER = "urn:nhs:names:services:psisquery/QUPC_IN180000SM04";
@@ -122,7 +127,7 @@ public class ScrTest {
     @Test
     public void whenPostingFhirJsonThenExpect201() throws Exception {
         whenPostingThenExpect201(
-            readString(simpleFhirJson.getFile().toPath(), Charsets.UTF_8),
+            readString(simpleFhirJson.getFile().toPath(), UTF_8),
             FHIR_JSON_CONTENT_TYPE);
     }
 
@@ -144,7 +149,8 @@ public class ScrTest {
             .contentType(FHIR_JSON_CONTENT_TYPE)
             .header("Nhsd-Asid", NHSD_ASID)
             .header("client-ip", CLIENT_IP)
-            .body(readString(simpleFhirJson.getFile().toPath(), Charsets.UTF_8))
+            .header("NHSD-Identity-UUID", NHSD_IDENTITY)
+            .body(readString(simpleFhirJson.getFile().toPath(), UTF_8))
             .when()
             .post(FHIR_ENDPOINT)
             .then()
@@ -182,7 +188,8 @@ public class ScrTest {
             .contentType(FHIR_JSON_CONTENT_TYPE)
             .header("Nhsd-Asid", NHSD_ASID)
             .header("client-ip", CLIENT_IP)
-            .body(readString(simpleFhirJson.getFile().toPath(), Charsets.UTF_8))
+            .header("NHSD-Identity-UUID", NHSD_IDENTITY)
+            .body(readString(simpleFhirJson.getFile().toPath(), UTF_8))
             .when()
             .post(FHIR_ENDPOINT)
             .then()
@@ -198,6 +205,7 @@ public class ScrTest {
             .contentType(contentType)
             .header("Nhsd-Asid", NHSD_ASID)
             .header("client-ip", CLIENT_IP)
+            .header("NHSD-Identity-UUID", NHSD_IDENTITY)
             .body(requestBody)
             .when()
             .post(FHIR_ENDPOINT)
@@ -239,6 +247,7 @@ public class ScrTest {
             .contentType(FHIR_JSON_CONTENT_TYPE)
             .header("Nhsd-Asid", NHSD_ASID)
             .header("client-ip", CLIENT_IP)
+            .header("NHSD-Identity-UUID", NHSD_IDENTITY)
             .body("<invalid_content>>")
             .when()
             .post(FHIR_ENDPOINT)
@@ -256,7 +265,7 @@ public class ScrTest {
         var responseBody = given()
             .port(port)
             .contentType(FHIR_JSON_CONTENT_TYPE)
-            .body(readString(simpleFhirJson.getFile().toPath(), Charsets.UTF_8))
+            .body(readString(simpleFhirJson.getFile().toPath(), UTF_8))
             .when()
             .post(FHIR_ENDPOINT)
             .then()
@@ -273,7 +282,7 @@ public class ScrTest {
         var responseBody = given()
             .port(port)
             .contentType(FHIR_JSON_CONTENT_TYPE)
-            .body(readString(simpleFhirJson.getFile().toPath(), Charsets.UTF_8))
+            .body(readString(simpleFhirJson.getFile().toPath(), UTF_8))
             .when()
             .put(FHIR_ENDPOINT)
             .then()
@@ -306,7 +315,7 @@ public class ScrTest {
         var responseBody = given()
             .port(port)
             .contentType(APPLICATION_XML_VALUE)
-            .body(readString(simpleFhirJson.getFile().toPath(), Charsets.UTF_8))
+            .body(readString(simpleFhirJson.getFile().toPath(), UTF_8))
             .when()
             .post(FHIR_ENDPOINT)
             .then()
@@ -352,8 +361,8 @@ public class ScrTest {
     private void setUpPsisSpineRequest() throws IOException {
         wireMockServer.stubFor(
             WireMock.post(SPINE_PSIS_ENDPOINT)
-                .withHeader("SOAPAction", equalTo(EVENT_LIST_QUERY_HEADER))
-                .withHeader("nhsd-asid", equalTo(NHSD_ASID))
+                .withHeader(SOAP_ACTION, equalTo(EVENT_LIST_QUERY_HEADER))
+                .withHeader(CONTENT_TYPE, equalTo(TEXT_XML_VALUE))
                 .willReturn(aResponse()
                     .withStatus(OK.value())
                     .withBody(readString(eventListQuerySuccessResponse.getFile().toPath(), StandardCharsets.UTF_8))));

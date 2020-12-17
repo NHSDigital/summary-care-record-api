@@ -15,6 +15,7 @@ import uk.nhs.adaptors.scr.config.SpineConfiguration;
 import uk.nhs.adaptors.scr.services.UploadScrService;
 
 import static io.restassured.RestAssured.given;
+import static java.util.UUID.randomUUID;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.when;
@@ -32,6 +33,7 @@ public class ScrControllerTest {
     private static final String FHIR_JSON_CONTENT_TYPE = "application/fhir+json";
     private static final String NHSD_ASID = "123";
     private static final String CLIENT_IP = "192.168.0.24";
+    private static final String NHSD_IDENTITY = randomUUID().toString();
 
     @LocalServerPort
     private int port;
@@ -74,6 +76,7 @@ public class ScrControllerTest {
             .contentType(FHIR_JSON_CONTENT_TYPE)
             .header("Nhsd-Asid", NHSD_ASID)
             .header("client-ip", CLIENT_IP)
+            .header("NHSD-Identity-UUID", NHSD_IDENTITY)
             .body(REQUEST_BODY)
             .when()
             .post(FHIR_ENDPOINT)

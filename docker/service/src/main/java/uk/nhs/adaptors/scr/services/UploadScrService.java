@@ -57,7 +57,7 @@ public class UploadScrService {
     public void uploadScr(RequestData requestData) {
         var spineRequest = mapRequestData(requestData);
         checkPermission(requestData);
-        var response = spineClient.sendScrData(spineRequest);
+        var response = spineClient.sendScrData(spineRequest, requestData.getNhsdAsid(), requestData.getNhsdIdentity());
 
         String contentLocation;
         long retryAfter;
@@ -68,7 +68,8 @@ public class UploadScrService {
             throw new UnexpectedSpineResponseException("Unable to extract required headers", ex);
         }
 
-        var processingResult = spineClient.getScrProcessingResult(contentLocation, retryAfter, requestData.getNhsdAsid());
+        var processingResult = spineClient.getScrProcessingResult(contentLocation, retryAfter, requestData.getNhsdAsid(),
+            requestData.getNhsdIdentity());
         validateProcessingResult(processingResult);
     }
 

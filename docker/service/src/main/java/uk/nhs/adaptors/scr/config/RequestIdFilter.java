@@ -1,6 +1,6 @@
 package uk.nhs.adaptors.scr.config;
 
-import static uk.nhs.adaptors.scr.consts.HttpHeaders.REQUEST_ID_LOGGER;
+import static uk.nhs.adaptors.scr.consts.HttpHeaders.REQUEST_ID;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -22,19 +22,19 @@ import java.util.UUID;
 @Component
 public class RequestIdFilter extends OncePerRequestFilter {
 
-    public static final String MDC_KEY = "RequestId";
+    public static final String REQUEST_ID_MDC_KEY = "RequestId";
 
     @Override
     protected void doFilterInternal(final HttpServletRequest request, final HttpServletResponse response, final FilterChain chain)
         throws java.io.IOException, ServletException {
         try {
-            var token = request.getHeader(REQUEST_ID_LOGGER);
+            var token = request.getHeader(REQUEST_ID);
             if (StringUtils.isEmpty(token)) {
                 token = getRandomRequestId();
             }
             applyCorrelationId(token);
             token = URLEncoder.encode(token, StandardCharsets.UTF_8);
-            response.addHeader(REQUEST_ID_LOGGER, token);
+            response.addHeader(REQUEST_ID, token);
             chain.doFilter(request, response);
         } finally {
             resetRequestId();
@@ -42,7 +42,7 @@ public class RequestIdFilter extends OncePerRequestFilter {
     }
 
     public void applyCorrelationId(String id) {
-        MDC.put(MDC_KEY, id);
+        MDC.put(REQUEST_ID_MDC_KEY, id);
     }
 
     public String getRandomRequestId() {
@@ -50,7 +50,7 @@ public class RequestIdFilter extends OncePerRequestFilter {
     }
 
     public void resetRequestId() {
-        MDC.remove(MDC_KEY);
+        MDC.remove(REQUEST_ID_MDC_KEY);
     }
 
 }

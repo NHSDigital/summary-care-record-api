@@ -17,8 +17,8 @@ import java.io.IOException;
 import static org.hl7.fhir.r4.model.OperationOutcome.IssueSeverity.ERROR;
 import static org.hl7.fhir.r4.model.OperationOutcome.IssueType.VALUE;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
-import static uk.nhs.adaptors.scr.consts.HttpHeaders.CORRELATION_ID_HEADER;
-import static uk.nhs.adaptors.scr.consts.HttpHeaders.REQUEST_ID_LOGGER;
+import static uk.nhs.adaptors.scr.consts.HttpHeaders.CORRELATION_ID;
+import static uk.nhs.adaptors.scr.consts.HttpHeaders.REQUEST_ID;
 import static uk.nhs.adaptors.scr.controllers.FhirMediaTypes.APPLICATION_FHIR_JSON_VALUE;
 
 @Component
@@ -31,13 +31,13 @@ public class UuidValidationFilter extends OncePerRequestFilter {
     @Override
     public void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
         throws ServletException, IOException {
-        var correlationIdToken = request.getHeader(CORRELATION_ID_HEADER);
-        var requestIdToken = request.getHeader(REQUEST_ID_LOGGER);
+        var correlationIdToken = request.getHeader(CORRELATION_ID);
+        var requestIdToken = request.getHeader(REQUEST_ID);
 
         if (!checkValidUUID(correlationIdToken)) {
-            throwInvalidUUIDResponse(response, CORRELATION_ID_HEADER);
+            throwInvalidUUIDResponse(response, CORRELATION_ID);
         } else if (!checkValidUUID(requestIdToken)) {
-            throwInvalidUUIDResponse(response, REQUEST_ID_LOGGER);
+            throwInvalidUUIDResponse(response, REQUEST_ID);
         } else {
             chain.doFilter(request, response);
         }

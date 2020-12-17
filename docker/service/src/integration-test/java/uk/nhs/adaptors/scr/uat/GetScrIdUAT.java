@@ -32,9 +32,12 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.nio.file.Files.readString;
 import static java.util.Arrays.stream;
 import static org.skyscreamer.jsonassert.JSONCompareMode.STRICT;
+import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
 import static org.springframework.http.HttpStatus.OK;
+import static org.springframework.http.MediaType.TEXT_XML_VALUE;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static uk.nhs.adaptors.scr.consts.HttpHeaders.SOAP_ACTION;
 import static uk.nhs.adaptors.scr.controllers.FhirMediaTypes.APPLICATION_FHIR_JSON_VALUE;
 
 @SpringBootTest
@@ -112,8 +115,8 @@ public class GetScrIdUAT {
     private void stubSpinePsisEndpoint(Resource response) throws IOException {
         wireMockServer.stubFor(
             WireMock.post(SPINE_PSIS_ENDPOINT)
-                .withHeader("SOAPAction", equalTo(EVENT_LIST_QUERY_HEADER))
-                .withHeader("nhsd-asid", equalTo(NHSD_ASID))
+                .withHeader(SOAP_ACTION, equalTo(EVENT_LIST_QUERY_HEADER))
+                .withHeader(CONTENT_TYPE, equalTo(TEXT_XML_VALUE))
                 .willReturn(aResponse()
                     .withStatus(OK.value())
                     .withBody(readString(response.getFile().toPath(), UTF_8))));

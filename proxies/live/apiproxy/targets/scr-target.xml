@@ -60,4 +60,9 @@
   <HTTPTargetConnection>
     {{ HOSTED_TARGET_CONNECTION }}
   </HTTPTargetConnection>
+  <DefaultFaultRule>
+    <Step>
+      <Name>AssignMessage.CatchallErrorMessage</Name>
+    </Step>
+  </DefaultFaultRule>
 </TargetEndpoint>
