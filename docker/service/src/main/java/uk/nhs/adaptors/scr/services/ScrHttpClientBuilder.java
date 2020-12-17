@@ -43,13 +43,13 @@ public class ScrHttpClientBuilder {
     @SneakyThrows
     private SSLContext buildSSLContext() {
         var invalidSslValues = new ArrayList<String>();
-        if (StringUtils.isBlank(spineConfiguration.getEndpointPrivateKey())) {
+        if (StringUtils.isBlank(spineConfiguration.getClientKey())) {
             invalidSslValues.add("private key");
         }
-        if (StringUtils.isBlank(spineConfiguration.getEndpointCert())) {
+        if (StringUtils.isBlank(spineConfiguration.getClientCert())) {
             invalidSslValues.add("cert");
         }
-        if (StringUtils.isBlank(spineConfiguration.getCaCerts())) {
+        if (StringUtils.isBlank(spineConfiguration.getSubCA() + spineConfiguration.getRootCA())) {
             invalidSslValues.add("cacert");
         }
         if (!invalidSslValues.isEmpty()) {
@@ -60,11 +60,11 @@ public class ScrHttpClientBuilder {
 
         var randomPassword = UUID.randomUUID().toString();
         KeyStore ks = EnvKeyStore.createFromPEMStrings(
-            spineConfiguration.getEndpointPrivateKey(),
-            spineConfiguration.getEndpointCert(),
+            spineConfiguration.getClientKey(),
+            spineConfiguration.getClientCert(),
             randomPassword).keyStore();
         KeyStore ts = EnvKeyStore.createFromPEMStrings(
-            spineConfiguration.getCaCerts(),
+            spineConfiguration.getSubCA() + spineConfiguration.getRootCA(),
             randomPassword).keyStore();
         return SSLContexts.custom()
             .loadKeyMaterial(ks, randomPassword.toCharArray())

@@ -3,6 +3,8 @@ package uk.nhs.adaptors.scr.services;
 import com.github.mustachejava.Mustache;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.hl7.fhir.r4.model.Bundle;
+import org.hl7.fhir.r4.model.Patient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
@@ -10,14 +12,16 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import uk.nhs.adaptors.scr.clients.SpineClientContract;
-import uk.nhs.adaptors.scr.clients.SpineHttpClient;
 import uk.nhs.adaptors.scr.config.ScrConfiguration;
 import uk.nhs.adaptors.scr.exceptions.FhirMappingException;
+import uk.nhs.adaptors.scr.exceptions.ForbiddenException;
 import uk.nhs.adaptors.scr.exceptions.NonSuccessSpineProcessingResultException;
 import uk.nhs.adaptors.scr.exceptions.UnexpectedSpineResponseException;
+import uk.nhs.adaptors.scr.models.EventListQueryResponse;
 import uk.nhs.adaptors.scr.models.GpSummary;
 import uk.nhs.adaptors.scr.models.ProcessingResult;
 import uk.nhs.adaptors.scr.models.RequestData;
+import uk.nhs.adaptors.scr.utils.FhirHelper;
 import uk.nhs.adaptors.scr.utils.TemplateUtils;
 
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -28,6 +32,14 @@ import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.lang.Long.parseLong;
+import static java.util.Arrays.asList;
+import static uk.nhs.adaptors.scr.clients.SpineHttpClient.CONTENT_LOCATION_HEADER;
+import static uk.nhs.adaptors.scr.clients.SpineHttpClient.RETRY_AFTER_HEADER;
+import static uk.nhs.adaptors.scr.clients.SpineHttpClient.getHeader;
+import static uk.nhs.adaptors.scr.models.AcsPermission.ASK;
+import static uk.nhs.adaptors.scr.models.AcsPermission.YES;
+
 @Component
 @Slf4j
 public class UploadScrService {
@@ -36,26 +48,43 @@ public class UploadScrService {
     private SpineClientContract spineClient;
     @Autowired
     private ScrConfiguration scrConfiguration;
+    @Autowired
+    private GetScrService getScrService;
 
     private static final Mustache REPC_RM150007UK05_TEMPLATE =
         TemplateUtils.loadTemplate("REPC_RM150007UK05.mustache");
 
-    public void handleFhir(RequestData requestData) {
+    public void uploadScr(RequestData requestData) {
         var spineRequest = mapRequestData(requestData);
-        LOGGER.debug("Sending SCR Upload request to SPINE: {}", spineRequest);
-        var response = spineClient.sendScrData(spineRequest);
+        checkPermission(requestData);
+        var response = spineClient.sendScrData(spineRequest, requestData.getNhsdAsid(), requestData.getNhsdIdentity());
 
         String contentLocation;
         long retryAfter;
         try {
-            contentLocation = SpineHttpClient.getHeader(response.getHeaders(), SpineHttpClient.CONTENT_LOCATION_HEADER);
-            retryAfter = Long.parseLong(SpineHttpClient.getHeader(response.getHeaders(), SpineHttpClient.RETRY_AFTER_HEADER));
+            contentLocation = getHeader(response.getHeaders(), CONTENT_LOCATION_HEADER);
+            retryAfter = parseLong(getHeader(response.getHeaders(), RETRY_AFTER_HEADER));
         } catch (Exception ex) {
             throw new UnexpectedSpineResponseException("Unable to extract required headers", ex);
         }
 
-        var processingResult = spineClient.getScrProcessingResult(contentLocation, retryAfter, requestData.getNhsdAsid());
+        var processingResult = spineClient.getScrProcessingResult(contentLocation, retryAfter, requestData.getNhsdAsid(),
+            requestData.getNhsdIdentity());
         validateProcessingResult(processingResult);
+    }
+
+    private void checkPermission(RequestData requestData) {
+        String nhsNumber = getNhsNumber(requestData.getBundle());
+        String scrIdXml = getScrService.getScrIdRawXml(nhsNumber, requestData.getNhsdAsid(), requestData.getClientIp());
+        EventListQueryResponse eventListQueryResponse = EventListQueryResponse.parseXml(scrIdXml);
+        if (!asList(YES, ASK).contains(eventListQueryResponse.getStorePermission())) {
+            throw new ForbiddenException("Forbidden update with error - there's no patient's consent to store SCR");
+        }
+    }
+
+    private String getNhsNumber(Bundle bundle) {
+        Patient patient = FhirHelper.getDomainResource(bundle, Patient.class);
+        return FhirHelper.getNhsNumber(patient).getPatientId();
     }
 
     private String mapRequestData(RequestData requestData) {

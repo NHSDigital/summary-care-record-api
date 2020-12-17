@@ -35,6 +35,7 @@ public class SpineHttpClient {
         value = "RCN_REDUNDANT_NULLCHECK_WOULD_HAVE_BEEN_A_NPE",
         justification = "SpotBugs issue with fix not yet released https://github.com/spotbugs/spotbugs/pull/1248")
     public Response sendRequest(HttpRequestBase request) {
+        LOGGER.debug("Attempting to send SPINE request: {}", request.getRequestLine().toString());
         try (CloseableHttpClient client = scrHttpClientBuilder.build()) {
             try (CloseableHttpResponse response = client.execute(request)) {
                 var statusCode = response.getStatusLine().getStatusCode();
@@ -48,6 +49,7 @@ public class SpineHttpClient {
                     .build();
             }
         } catch (IOException e) {
+            LOGGER.error("Error while sending SPINE request", e);
             throw new ScrBaseException("Unexpected exception while sending Spine request", e);
         }
     }

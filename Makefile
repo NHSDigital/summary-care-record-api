@@ -39,14 +39,16 @@ build-proxy:
 release: clean publish build-proxy
 	mkdir -p dist
 	cp -r build/. dist
-	cp ecs-proxies-deploy.yml dist/ecs-deploy-internal-dev.yml
-	cp ecs-proxies-deploy.yml dist/ecs-deploy-internal-qa.yml
-	cp ecs-proxies-deploy-sandbox.yml dist/ecs-deploy-internal-qa-sandbox.yml
-	cp ecs-proxies-deploy-sandbox.yml dist/ecs-deploy-sandbox.yml
-	cp ecs-proxies-deploy-sandbox.yml dist/ecs-deploy-internal-dev-sandbox.yml
-	cp ecs-proxies-deploy.yml dist/ecs-deploy-int.yml
-	cp ecs-proxies-deploy.yml dist/ecs-deploy-ref.yml
-#	cp ecs-proxies-deploy.yml dist/ecs-deploy-prod.yml
+
+	for env in internal-dev internal-qa; do \
+		cat ecs-proxies-deploy.yml | sed -e 's/{{ SPINE_ENV }}/test/g' -e 's/{{ SANDBOX_MODE_ENABLED }}/0/g' > dist/ecs-deploy-$$env.yml; \
+	done
+
+	cat ecs-proxies-deploy.yml | sed -e 's/{{ SPINE_ENV }}/int/g' > dist/ecs-deploy-int.yml
+
+	for env in internal-dev-sandbox internal-qa-sandbox sandbox; do \
+		cp ecs-proxies-deploy-sandbox.yml dist/ecs-deploy-$$env.yml; \
+	done
 
 test:
 	echo "TODO: add tests"

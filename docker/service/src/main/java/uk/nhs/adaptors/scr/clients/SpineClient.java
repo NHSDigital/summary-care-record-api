@@ -4,9 +4,11 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.http.HttpRequest;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
+import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.retry.RetryContext;
 import org.springframework.retry.backoff.BackOffContext;
@@ -20,16 +22,27 @@ import uk.nhs.adaptors.scr.exceptions.ScrTimeoutException;
 import uk.nhs.adaptors.scr.exceptions.UnexpectedSpineResponseException;
 import uk.nhs.adaptors.scr.models.ProcessingResult;
 
+import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
 import static org.springframework.http.HttpStatus.ACCEPTED;
 import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.http.MediaType.TEXT_XML_VALUE;
-import static uk.nhs.adaptors.scr.consts.HttpHeaders.CONTENT_TYPE;
+import static uk.nhs.adaptors.scr.config.ConversationIdFilter.CORRELATION_ID_MDC_KEY;
+import static uk.nhs.adaptors.scr.config.RequestIdFilter.REQUEST_ID_MDC_KEY;
 import static uk.nhs.adaptors.scr.consts.HttpHeaders.NHSD_ASID;
+import static uk.nhs.adaptors.scr.consts.HttpHeaders.NHSD_CORRELATION_ID;
+import static uk.nhs.adaptors.scr.consts.HttpHeaders.NHSD_IDENTITY;
+import static uk.nhs.adaptors.scr.consts.HttpHeaders.NHSD_REQUEST_ID;
 import static uk.nhs.adaptors.scr.consts.HttpHeaders.SOAP_ACTION;
 
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Slf4j
 public class SpineClient implements SpineClientContract {
+
+    private static final String UPLOAD_SCR_SOAP_ACTION = "urn:nhs:names:services:psis/REPC_IN150016SM05";
+    private static final String UPLOAD_SCR_CONTENT_TYPE =
+        "multipart/related; boundary=\"--=_MIME-Boundary\"; type=\"text/xml\"; start=\"<ebXMLHeader@spine.nhs.uk>\"";
+    private static final String GET_SCR_ID_SOAP_ACTION = "urn:nhs:names:services:psisquery/QUPC_IN180000SM04";
+
     private final SpineConfiguration spineConfiguration;
     private final SpineHttpClient spineHttpClient;
 
@@ -47,13 +60,12 @@ public class SpineClient implements SpineClientContract {
 
     @SneakyThrows
     @Override
-    public SpineHttpClient.Response sendScrData(String requestBody) {
+    public SpineHttpClient.Response sendScrData(String requestBody, String nhsdAsid, String nhsdIdentity) {
         var url = spineConfiguration.getUrl() + spineConfiguration.getScrEndpoint();
+        LOGGER.debug("Sending SCR Upload request to SPINE. URL: {}, Body: {}", url, requestBody);
 
         var request = new HttpPost(url);
-        request.addHeader(SOAP_ACTION, "urn:nhs:names:services:psis/REPC_IN150016SM05");
-        request.addHeader(CONTENT_TYPE,
-            "multipart/related; boundary=\"--=_MIME-Boundary\"; type=\"text/xml\"; start=\"<ebXMLHeader@spine.nhs.uk>\"");
+        setUploadScrHeaders(request, nhsdAsid, nhsdIdentity);
         request.setEntity(new StringEntity(requestBody));
 
         var response = spineHttpClient.sendRequest(request);
@@ -67,8 +79,26 @@ public class SpineClient implements SpineClientContract {
 
     }
 
+    private void setUploadScrHeaders(HttpRequest request, String nhsdAsid, String nhsdIdentity) {
+        setSoapHeaders(request, UPLOAD_SCR_SOAP_ACTION, UPLOAD_SCR_CONTENT_TYPE);
+        setCommonHeaders(request, nhsdAsid, nhsdIdentity);
+    }
+
+    private void setCommonHeaders(HttpRequest request, String nhsdAsid, String nhsdIdentity) {
+        request.setHeader(NHSD_ASID, nhsdAsid);
+        request.setHeader(NHSD_IDENTITY, nhsdIdentity);
+        request.setHeader(NHSD_CORRELATION_ID, MDC.get(CORRELATION_ID_MDC_KEY));
+        request.setHeader(NHSD_REQUEST_ID, MDC.get(REQUEST_ID_MDC_KEY));
+    }
+
+    private void setSoapHeaders(HttpRequest request, String uploadScrSoapAction, String uploadScrContentType) {
+        request.addHeader(SOAP_ACTION, uploadScrSoapAction);
+        request.addHeader(CONTENT_TYPE, uploadScrContentType);
+    }
+
     @Override
-    public ProcessingResult getScrProcessingResult(String contentLocation, long initialWaitTime, String nhsdAsid) {
+    public ProcessingResult getScrProcessingResult(String contentLocation, long initialWaitTime, String nhsdAsid,
+                                                   String nhsdIdentity) {
         var repeatTimeout = spineConfiguration.getScrResultRepeatTimeout();
         var template = RetryTemplate.builder()
             .withinMillis(repeatTimeout)
@@ -86,9 +116,9 @@ public class SpineClient implements SpineClientContract {
             LOGGER.info("Fetching SCR processing result. RetryCount={}", ctx.getRetryCount());
 
             var request = new HttpGet(spineConfiguration.getUrl() + contentLocation);
-            request.addHeader("nhsd-asid", nhsdAsid);
+            setCommonHeaders(request, nhsdAsid, nhsdIdentity);
 
-            var result =  spineHttpClient.sendRequest(request);
+            var result = spineHttpClient.sendRequest(request);
             int statusCode = result.getStatusCode();
 
             if (statusCode == OK.value()) {
@@ -110,9 +140,7 @@ public class SpineClient implements SpineClientContract {
     public SpineHttpClient.Response sendGetScrId(String requestBody, String nhsdAsid) {
         LOGGER.debug("Sending GET SCR ID request to SPINE: {}", requestBody);
         var request = new HttpPost(spineConfiguration.getUrl() + spineConfiguration.getPsisQueriesEndpoint());
-        request.addHeader(SOAP_ACTION, "urn:nhs:names:services:psisquery/QUPC_IN180000SM04");
-        request.addHeader(CONTENT_TYPE, TEXT_XML_VALUE);
-        request.addHeader(NHSD_ASID, nhsdAsid);
+        setSoapHeaders(request, GET_SCR_ID_SOAP_ACTION, TEXT_XML_VALUE);
 
         request.setEntity(new StringEntity(requestBody));
 

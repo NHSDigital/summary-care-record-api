@@ -19,12 +19,12 @@ public class SandboxSpineClient implements SpineClientContract {
     }
 
     @Override
-    public Response sendScrData(String requestBody) {
+    public Response sendScrData(String requestBody, String nhsdAsid, String nhsdIdentity) {
         return null;
     }
 
     @Override
-    public ProcessingResult getScrProcessingResult(String contentLocation, long initialWaitTime, String nhsdAsid) {
+    public ProcessingResult getScrProcessingResult(String contentLocation, long initialWaitTime, String nhsdAsid, String nhsdIdentity) {
         return null;
     }
 
