@@ -1,0 +1,89 @@
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns="urn:hl7-org:v3">
+    <SOAP-ENV:Header>
+        <wsa:MessageID>uuid:{{generatedMessageId}}</wsa:MessageID>
+        <wsa:Action>urn:nhs:names:services:lrs/SET_RESOURCE_PERMISSIONS_INUK01</wsa:Action>
+        <wsa:To>{{spineAcsEndpointUrl}}</wsa:To>
+        <wsa:From>
+            <wsa:Address>{{senderHostIpAddress}}</wsa:Address>
+        </wsa:From>
+        <communicationFunctionRcv>
+            <device>
+                <id root="1.2.826.0.1285.0.2.0.107" extension="{{spineToASID}}"/>
+            </device>
+        </communicationFunctionRcv>
+        <communicationFunctionSnd>
+            <device>
+                <id root="1.2.826.0.1285.0.2.0.107" extension="{{senderFromASID}}"/>
+            </device>
+        </communicationFunctionSnd>
+        <wsa:ReplyTo>
+            <wsa:Address>{{senderHostIpAddress}}</wsa:Address>
+        </wsa:ReplyTo>
+    </SOAP-ENV:Header>
+    <SOAP-ENV:Body>
+        <SET_RESOURCE_PERMISSIONS_INUK01 type="Message" xmlns="urn:hl7-org:v3" xmlns:crs="http://national.carerecords.nhs.uk/schema/crs/">
+            <id root="{{generatedMessageId}}"/>
+            <creationTime value="{{messageCreationTime}}"/>
+            <versionCode code="V3NPfIT3.0"/>
+            <interactionId root="2.16.840.1.113883.2.1.3.2.4.12" extension="SET_RESOURCE_PERMISSIONS_INUK01"/>
+            <processingCode code="P"/>
+            <processingModeCode code="T"/>
+            <acceptAckCode code="NE"/>
+            <communicationFunctionRcv type="CommunicationFunction" typeCode="RCV">
+                <device classCode="DEV" determinerCode="INSTANCE" type="Device">
+                    <id root="1.2.826.0.1285.0.2.0.107" extension="{{spineToASID}}"/>
+                </device>
+            </communicationFunctionRcv>
+            <communicationFunctionSnd type="CommunicationFunction" typeCode="SND">
+                <device type="Device" classCode="DEV" determinerCode="INSTANCE">
+                    <id root="1.2.826.0.1285.0.2.0.107" extension="{{senderFromASID}}"/>
+                </device>
+            </communicationFunctionSnd>
+            <ControlActEvent classCode="CACT" moodCode="EVN">
+                <author typeCode="AUT">
+                    <AgentPersonSDS classCode="AGNT">
+                        <id root="1.2.826.0.1285.0.2.0.67" extension="???"/>
+                        <agentPersonSDS classCode="PSN" determinerCode="INSTANCE">
+                            <id root="1.2.826.0.1285.0.2.0.65" extension="???"/>
+                        </agentPersonSDS>
+                        <part typeCode="PART">
+                            <partSDSRole classCode="ROL">
+                                <id root="1.2.826.0.1285.0.2.1.104" extension="???"/>
+                            </partSDSRole>
+                        </part>
+                    </AgentPersonSDS>
+                </author>
+                <author1 typeCode="AUT">
+                    <AgentSystemSDS classCode="AGNT">
+                        <agentSystemSDS classCode="DEV" determinerCode="INSTANCE">
+                            <id root="1.2.826.0.1285.0.2.0.107" extension="{{senderFromASID}}"/>
+                        </agentSystemSDS>
+                    </AgentSystemSDS>
+                </author1>
+                <crs:setResourcePermissionsRequest xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://national.carerecords.nhs.uk/schema/crs/ ..\schema\setResourcePermissionsRequest_0_4.xsd">
+                    <crs:permissions>
+                        <crs:resourceContext root="2.16.840.1.113883.2.1.4.1" extension="{{nhsNumber}}"/>
+                        <crs:accessControlAssertion>
+                            <crs:permission>{{permissionValue}}</crs:permission>
+                            <crs:userData></crs:userData>
+                            <crs:resource>
+                                <crs:type>Document Set</crs:type>
+                                <crs:Id>{{nhsNumber}}</crs:Id>
+                            </crs:resource>
+                            <crs:function>
+                                <crs:context>Consent</crs:context>
+                                <crs:code>View</crs:code>
+                            </crs:function>
+                            <crs:accessor>
+                                <crs:type>Everyone</crs:type>
+                                <crs:accessorId>
+                                    <crs:name>Everyone</crs:name>
+                                </crs:accessorId>
+                            </crs:accessor>
+                        </crs:accessControlAssertion>
+                    </crs:permissions>
+                </crs:setResourcePermissionsRequest>
+            </ControlActEvent>
+        </SET_RESOURCE_PERMISSIONS_INUK01>
+    </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>

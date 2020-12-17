@@ -14,7 +14,7 @@ public class SandboxSpineClient implements SpineClientContract {
     private static final String EVENT_LIST_QUERY_RESPONSE = "mock-spine/QUPC_IN200000SM04/success.xml";
 
     @Override
-    public Response sendAcsData(String requestBody) {
+    public Response sendAcsData(String requestBody, String nhsdAsid) {
         return null;
     }
 
