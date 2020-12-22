@@ -163,7 +163,7 @@ paths:
                     details:
                       text: Internal error
                       
-  /DocuemntReference:
+  /DocumentReference:
     get:
       summary: Get patient's latest Summary Care Record identifier
       operationId: get-scr-id
