@@ -33,6 +33,7 @@
               value:
                 type: string
             required:
+              - system
               - value
       required:
         - resourceType

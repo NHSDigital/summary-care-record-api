@@ -1,0 +1,83 @@
+  type: object
+  properties:
+    fullUrl:
+      type: string
+    resource:
+      type: object
+      properties:
+        resourceType:
+          type: string
+          default: "DocumentReference"
+        id:
+          type: string
+          example: 6d334ca8-a6e1-4bae-93b1-19a14a36ea7a
+        masterIdentifier:
+          $ref: identifier.yaml
+        status:
+          type: string
+          default: current
+        type:
+          type: object
+          properties:
+            coding:
+              $ref: coding.yaml
+        subject:
+          type: object
+          properties:
+            reference:
+              type: string
+              example: Patient/9b9a16ed-3cd0-45b2-ab1f-e625dd0251c1
+        securityLabel:
+          type: array
+          items:
+            type: object
+            properties:
+              coding:
+                $ref: coding.yaml
+        content:
+          type: array
+          items:
+            type: object
+            properties:
+              attachment:
+                type: object
+                properties:
+                  url:
+                    type: string
+                    example: https://[baseUrl]/Bundle?composition.identifier=C058D90F-E526-4A27-A46E-E86229096AAC$composition.subject:Patient.identifier=https://fhir.nhs.uk/Id/nhs-number|9990001234
+                required:
+                  - url
+            required:
+              - attachment
+        context:
+          type: array
+          items:
+            type: object
+            properties:
+              event:
+                type: object
+                properties:
+                  coding:
+                    $ref: coding.yaml
+                  
+              
+          
+      required:
+        - resourceType
+        - id
+        - masterIdentifier
+        - status
+        - type
+        - subject
+    search:
+      type: object
+      properties:
+        mode:
+          type: string
+          example: match
+      required:
+        - mode
+  required:
+    - fullUrl
+    - resource
+    - search
