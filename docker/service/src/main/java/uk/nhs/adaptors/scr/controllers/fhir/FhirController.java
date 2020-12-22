@@ -24,6 +24,10 @@ import java.util.concurrent.Callable;
 
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.OK;
+import static uk.nhs.adaptors.scr.consts.ScrHttpHeaders.CLIENT_IP;
+import static uk.nhs.adaptors.scr.consts.ScrHttpHeaders.NHSD_ASID;
+import static uk.nhs.adaptors.scr.consts.ScrHttpHeaders.NHSD_IDENTITY;
+import static uk.nhs.adaptors.scr.consts.ScrHttpHeaders.NHSD_SESSION_URID;
 import static uk.nhs.adaptors.scr.controllers.FhirMediaTypes.APPLICATION_FHIR_JSON_VALUE;
 
 @RestController
@@ -41,23 +45,26 @@ public class FhirController {
         produces = {APPLICATION_FHIR_JSON_VALUE})
     @ResponseStatus(OK)
     public WebAsyncTask<ResponseEntity<?>> acceptFhir(
-        @RequestHeader("Nhsd-Asid") @NotNull String nhsdAsid,
-        @RequestHeader("client-ip") @NotNull String clientIp,
-        @RequestHeader("NHSD-Identity-UUID") @NotNull String nhsdIdentity,
+        @RequestHeader(NHSD_ASID) @NotNull String nhsdAsid,
+        @RequestHeader(CLIENT_IP) @NotNull String clientIp,
+        @RequestHeader(NHSD_IDENTITY) @NotNull String nhsdIdentity,
+        @RequestHeader(NHSD_SESSION_URID) @NotNull String nhsdSessionUrid,
         @RequestBody String body) {
-        LOGGER.debug("Using cfg: asid-from={} party-from={} asid-to={} party-to={} client-ip={} NHSD-Identity-UUID={}",
+        LOGGER.debug("Using cfg: asid-from={} party-from={} asid-to={} party-to={} client-ip={} NHSD-Identity-UUID={} NHSD-Session-URID={}",
             nhsdAsid,
             scrConfiguration.getPartyIdFrom(),
             scrConfiguration.getNhsdAsidTo(),
             scrConfiguration.getPartyIdTo(),
             clientIp,
-            nhsdIdentity);
+            nhsdIdentity,
+            nhsdSessionUrid);
 
         var requestData = new RequestData();
         requestData.setBundle(fhirParser.parseResource(body, Bundle.class))
             .setNhsdAsid(nhsdAsid)
             .setClientIp(clientIp)
-            .setNhsdIdentity(nhsdIdentity);
+            .setNhsdIdentity(nhsdIdentity)
+            .setNhsdSessionUrid(nhsdSessionUrid);
 
         var mdcContextMap = MDC.getCopyOfContextMap();
         Callable<ResponseEntity<?>> callable = () -> {

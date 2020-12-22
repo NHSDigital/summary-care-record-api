@@ -1,6 +1,6 @@
 package uk.nhs.adaptors.scr.config;
 
-import static uk.nhs.adaptors.scr.consts.HttpHeaders.REQUEST_ID;
+import static uk.nhs.adaptors.scr.consts.ScrHttpHeaders.REQUEST_ID;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;

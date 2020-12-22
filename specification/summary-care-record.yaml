@@ -112,6 +112,7 @@ paths:
         - $ref: '#/components/parameters/BearerAuthorization'
         - $ref: '#/components/parameters/CorrelationID'
         - $ref: '#/components/parameters/RequestID'
+        - $ref: '#/components/parameters/RoleID'
       requestBody:
         required: true
         content:
@@ -173,6 +174,7 @@ paths:
         - $ref: '#/components/parameters/BearerAuthorization'
         - $ref: '#/components/parameters/CorrelationID'
         - $ref: '#/components/parameters/RequestID'
+        - $ref: '#/components/parameters/RoleID'
         - in: query
           name: patient
           description: The patient's NHS Number. Must be preceded with FHIR identifier (eg."patient=https://fhir.nhs.uk/Id/nhs-number|9995000180")
@@ -251,8 +253,22 @@ components:
         Must be a universally unique identifier (UUID) (ideally version 4).
         If you re-send a failed request, use the same value in this header.
         Mirrored back in a response header.
-        Required in all environments except sandbox.
       schema:
         type: string
         pattern: '^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$'
         example: 60E0B220-8136-4CA5-AE46-1D97EF59D068
+
+    RoleID:
+      in: header
+      name: NHSD-Session-URID
+      description: |
+
+        The user role ID (URID) for the current session. Also known as a user role profile ID (URPID).
+
+        For more details, see [determine the user’s role](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation/user-restricted-restful-apis-nhs-identity-combined-authentication-and-authorisation#step-6-determine-the-user-s-role).
+
+      required: false
+      schema:
+        type: string
+        pattern: '^[0-9]+$'
+        example: '555021935107'
