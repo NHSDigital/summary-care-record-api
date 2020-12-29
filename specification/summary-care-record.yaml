@@ -117,7 +117,7 @@ paths:
         content:
           application/fhir+json:
             schema:
-              $ref: '#/components/schemas/Bundle'
+              $ref: components/schemas/Bundle.yaml
             example:
               $ref: components/examples/ScrUploadBundle.json
       responses:
@@ -128,7 +128,7 @@ paths:
           content:
             application/fhir+json:
               schema:
-                $ref: '#/components/schemas/OperationOutcome'
+                $ref: components/schemas/OperationOutcome.yaml
               example:
                 resourceType: OperationOutcome
                 issue:
@@ -141,7 +141,7 @@ paths:
           content:
             application/fhir+json:
               schema:
-                $ref: '#/components/schemas/OperationOutcome'
+                $ref: components/schemas/OperationOutcome.yaml
               example:
                 resourceType: OperationOutcome
                 issue:
@@ -154,7 +154,7 @@ paths:
           content:
             application/fhir+json:
               schema:
-                $ref: '#/components/schemas/OperationOutcome'
+                $ref: components/schemas/OperationOutcome.yaml
               example:
                 resourceType: OperationOutcome
                 issue:
@@ -162,6 +162,58 @@ paths:
                     code: invalid
                     details:
                       text: Internal error
+                      
+  /DocumentReference:
+    get:
+      summary: Get patient's latest Summary Care Record identifier
+      operationId: get-scr-id
+      tags:
+        - SCR
+      parameters:
+        - $ref: '#/components/parameters/BearerAuthorization'
+        - $ref: '#/components/parameters/CorrelationID'
+        - $ref: '#/components/parameters/RequestID'
+        - in: query
+          name: patient
+          description: The patient's NHS Number. Must be preceded with FHIR identifier (eg."patient=https://fhir.nhs.uk/Id/nhs-number|9995000180")
+          required: true
+          example: https://fhir.nhs.uk/Id/nhs-number|9995000180
+          schema:
+            type: string
+            
+        - in: query
+          name: type
+          description: General Practice Summary snomed code. Must be equal "type=http://snomed.info/sct|196981000000101"
+          required: false
+          example: http://snomed.info/sct|196981000000101
+          schema:
+            type: string
+          
+        - in: query
+          name: _sort
+          description: Defines how Patient's SCR list should be sorted in order to retrieve the latest one. The only supported value is _sort=date. If a different value is provided HTTP 400 Bad Request will be returned.
+          required: false
+          example: date
+          schema:
+            type: string
+             
+        - in: query
+          name: _count
+          description: Defines the number of latest patient SCR IDs that sgould be retrieved. Currently the only supported value is _count=1. If a different value is provided HTTP 400 Bad Request will be returned.
+          required: false
+          example: 1
+          schema:
+            type: integer
+              
+      responses:
+        "200":
+          description: Success response
+          content:
+            application/fhir+json:
+              schema:
+                $ref: components/schemas/DocumentReferenceBundle.yaml
+              example:
+                $ref: components/examples/DocumentReferenceBundle.json
 
 components:
   parameters:
@@ -204,27 +256,3 @@ components:
         type: string
         pattern: '^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$'
         example: 60E0B220-8136-4CA5-AE46-1D97EF59D068
-  
-  schemas: 
-    Bundle:
-      $ref: components/schemas/Bundle.yaml
-    coding:
-      $ref: components/schemas/coding.yaml
-    Composition:
-      $ref: components/schemas/CompositionEntry.yaml
-    Condition:
-      $ref: components/schemas/ConditionEntry.yaml
-    identifier:
-      $ref: components/schemas/identifier.yaml
-    Observation:
-      $ref: components/schemas/ObservationEntry.yaml
-    OperationOutcome:
-      $ref: components/schemas/OperationOutcome.yaml
-    Organization:
-      $ref: components/schemas/OrganizationEntry.yaml
-    Patient:
-      $ref: components/schemas/PatientEntry.yaml
-    Practitioner:
-      $ref: components/schemas/PractitionerEntry.yaml
-    PractitionerRole:
-      $ref: components/schemas/PractitionerRoleEntry.yaml
