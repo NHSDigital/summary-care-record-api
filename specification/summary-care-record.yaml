@@ -183,7 +183,7 @@ paths:
             
         - in: query
           name: type
-          description: General Practice Summary snomed type. Must be equal "type=http://snomed.info/sct|196981000000101"
+          description: General Practice Summary snomed code. Must be equal "type=http://snomed.info/sct|196981000000101"
           required: false
           example: http://snomed.info/sct|196981000000101
           schema:
@@ -191,7 +191,7 @@ paths:
           
         - in: query
           name: _sort
-          description: Defines how Patient's SCR list should be sorted in order to retrieve the latest one. The only supported value is _sort=date
+          description: Defines how Patient's SCR list should be sorted in order to retrieve the latest one. The only supported value is _sort=date. If a different value is provided HTTP 400 Bad Request will be returned.
           required: false
           example: date
           schema:
@@ -199,7 +199,7 @@ paths:
              
         - in: query
           name: _count
-          description: Defines the number of latest patient SCR IDs that sgould be retrieved. Currently the only supported value is _count=1.
+          description: Defines the number of latest patient SCR IDs that sgould be retrieved. Currently the only supported value is _count=1. If a different value is provided HTTP 400 Bad Request will be returned.
           required: false
           example: 1
           schema:
