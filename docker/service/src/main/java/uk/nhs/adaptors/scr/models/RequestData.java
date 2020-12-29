@@ -11,4 +11,5 @@ public class RequestData {
     private String nhsdAsid;
     private String clientIp;
     private String nhsdIdentity;
+    private String nhsdSessionUrid;
 }

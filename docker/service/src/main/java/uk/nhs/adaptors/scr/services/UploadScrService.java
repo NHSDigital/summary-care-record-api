@@ -57,7 +57,8 @@ public class UploadScrService {
     public void uploadScr(RequestData requestData) {
         var spineRequest = mapRequestData(requestData);
         checkPermission(requestData);
-        var response = spineClient.sendScrData(spineRequest, requestData.getNhsdAsid(), requestData.getNhsdIdentity());
+        var response = spineClient.sendScrData(spineRequest, requestData.getNhsdAsid(),
+            requestData.getNhsdIdentity(), requestData.getNhsdSessionUrid());
 
         String contentLocation;
         long retryAfter;
@@ -69,7 +70,7 @@ public class UploadScrService {
         }
 
         var processingResult = spineClient.getScrProcessingResult(contentLocation, retryAfter, requestData.getNhsdAsid(),
-            requestData.getNhsdIdentity());
+            requestData.getNhsdIdentity(), requestData.getNhsdSessionUrid());
         validateProcessingResult(processingResult);
     }
 

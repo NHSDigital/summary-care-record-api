@@ -17,6 +17,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import uk.nhs.adaptors.scr.WireMockInitializer;
+import uk.nhs.adaptors.scr.consts.ScrHttpHeaders;
+import uk.nhs.adaptors.scr.consts.SpineHttpHeaders;
 import uk.nhs.adaptors.scr.uat.common.CustomArgumentsProvider;
 import uk.nhs.adaptors.scr.uat.common.TestData;
 
@@ -37,7 +39,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.request;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static uk.nhs.adaptors.scr.consts.HttpHeaders.SOAP_ACTION;
+import static uk.nhs.adaptors.scr.consts.SpineHttpHeaders.SOAP_ACTION;
 import static uk.nhs.adaptors.scr.controllers.FhirMediaTypes.APPLICATION_FHIR_JSON_VALUE;
 
 @SpringBootTest
@@ -54,9 +56,11 @@ public class UploadScrUAT {
     private static final int INITIAL_WAIT_TIME = 1;
     private static final String NHSD_ASID = "123";
     private static final String NHSD_IDENTITY = randomUUID().toString();
+    private static final String NHSD_SESSION_URID = "43543673484";
     private static final String CLIENT_IP = "192.168.0.24";
     private static final String SPINE_PSIS_ENDPOINT = "/sync-service";
     private static final String EVENT_LIST_QUERY_HEADER = "urn:nhs:names:services:psisquery/QUPC_IN180000SM04";
+    private static final String UPLOAD_SCR_HEADER = "urn:nhs:names:services:psis/REPC_IN150016SM05";
 
     @Value("classpath:responses/polling/success.xml")
     private Resource pollingSuccessResponse;
@@ -88,9 +92,10 @@ public class UploadScrUAT {
         var mvcResult = mockMvc
             .perform(post(FHIR_ENDPOINT)
                 .contentType(APPLICATION_FHIR_JSON_VALUE)
-                .header("Nhsd-Asid", NHSD_ASID)
-                .header("client-ip", CLIENT_IP)
-                .header("NHSD-Identity-UUID", NHSD_IDENTITY)
+                .header(ScrHttpHeaders.NHSD_ASID, NHSD_ASID)
+                .header(ScrHttpHeaders.CLIENT_IP, CLIENT_IP)
+                .header(ScrHttpHeaders.NHSD_IDENTITY, NHSD_IDENTITY)
+                .header(ScrHttpHeaders.NHSD_SESSION_URID, NHSD_SESSION_URID)
                 .content(testData.getFhirRequest()))
             .andExpect(request().asyncStarted())
             .andExpect(request().asyncResult(notNullValue()))
@@ -110,9 +115,10 @@ public class UploadScrUAT {
         var mvcResult = mockMvc
             .perform(post(FHIR_ENDPOINT)
                 .contentType(APPLICATION_FHIR_JSON_VALUE)
-                .header("Nhsd-Asid", NHSD_ASID)
-                .header("client-ip", CLIENT_IP)
-                .header("NHSD-Identity-UUID", NHSD_IDENTITY)
+                .header(ScrHttpHeaders.NHSD_ASID, NHSD_ASID)
+                .header(ScrHttpHeaders.CLIENT_IP, CLIENT_IP)
+                .header(ScrHttpHeaders.NHSD_IDENTITY, NHSD_IDENTITY)
+                .header(ScrHttpHeaders.NHSD_SESSION_URID, NHSD_SESSION_URID)
                 .content(testData.getFhirRequest()))
             .andExpect(request().asyncStarted())
             .andExpect(request().asyncResult(notNullValue()))
@@ -129,9 +135,10 @@ public class UploadScrUAT {
         var mvcResult = mockMvc.perform(
             post(FHIR_ENDPOINT)
                 .contentType(APPLICATION_FHIR_JSON_VALUE)
-                .header("Nhsd-Asid", NHSD_ASID)
-                .header("client-ip", CLIENT_IP)
-                .header("NHSD-Identity-UUID", NHSD_IDENTITY)
+                .header(ScrHttpHeaders.NHSD_ASID, NHSD_ASID)
+                .header(ScrHttpHeaders.CLIENT_IP, CLIENT_IP)
+                .header(ScrHttpHeaders.NHSD_IDENTITY, NHSD_IDENTITY)
+                .header(ScrHttpHeaders.NHSD_SESSION_URID, NHSD_SESSION_URID)
                 .content(testData.getFhirRequest()))
             .andExpect(request().asyncStarted())
             .andExpect(request().asyncResult(notNullValue()))
@@ -155,6 +162,9 @@ public class UploadScrUAT {
     private void stubSpineUploadScrEndpoint() {
         wireMockServer.stubFor(
             WireMock.post(SPINE_SCR_ENDPOINT)
+                .withHeader(SpineHttpHeaders.NHSD_SESSION_URID, equalTo(NHSD_SESSION_URID))
+                .withHeader(SpineHttpHeaders.NHSD_ASID, equalTo(NHSD_ASID))
+                .withHeader(SOAP_ACTION, equalTo(UPLOAD_SCR_HEADER))
                 .willReturn(aResponse()
                     .withStatus(ACCEPTED.value())
                     .withHeader("Content-Location", SCR_SPINE_CONTENT_ENDPOINT)
@@ -164,6 +174,8 @@ public class UploadScrUAT {
     private void stubSpinePollingEndpoint() throws IOException {
         wireMockServer.stubFor(
             WireMock.get(SCR_SPINE_CONTENT_ENDPOINT)
+                .withHeader(SpineHttpHeaders.NHSD_SESSION_URID, equalTo(NHSD_SESSION_URID))
+                .withHeader(SpineHttpHeaders.NHSD_ASID, equalTo(NHSD_ASID))
                 .willReturn(aResponse()
                     .withBody(readString(pollingSuccessResponse.getFile().toPath(), UTF_8))
                     .withStatus(OK.value())));

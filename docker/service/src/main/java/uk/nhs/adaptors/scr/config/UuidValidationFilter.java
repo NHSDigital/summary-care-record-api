@@ -17,8 +17,8 @@ import java.io.IOException;
 import static org.hl7.fhir.r4.model.OperationOutcome.IssueSeverity.ERROR;
 import static org.hl7.fhir.r4.model.OperationOutcome.IssueType.VALUE;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
-import static uk.nhs.adaptors.scr.consts.HttpHeaders.CORRELATION_ID;
-import static uk.nhs.adaptors.scr.consts.HttpHeaders.REQUEST_ID;
+import static uk.nhs.adaptors.scr.consts.ScrHttpHeaders.CORRELATION_ID;
+import static uk.nhs.adaptors.scr.consts.ScrHttpHeaders.REQUEST_ID;
 import static uk.nhs.adaptors.scr.controllers.FhirMediaTypes.APPLICATION_FHIR_JSON_VALUE;
 
 @Component

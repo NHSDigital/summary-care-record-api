@@ -1,6 +1,6 @@
 package uk.nhs.adaptors.scr.config;
 
-import static uk.nhs.adaptors.scr.consts.HttpHeaders.CORRELATION_ID;
+import static uk.nhs.adaptors.scr.consts.ScrHttpHeaders.CORRELATION_ID;
 
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
