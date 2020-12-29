@@ -23,6 +23,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import uk.nhs.adaptors.scr.WireMockInitializer;
 import uk.nhs.adaptors.scr.components.FhirParser;
+import uk.nhs.adaptors.scr.consts.ScrHttpHeaders;
+import uk.nhs.adaptors.scr.consts.SpineHttpHeaders;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -59,7 +61,7 @@ import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.http.HttpStatus.UNSUPPORTED_MEDIA_TYPE;
 import static org.springframework.http.MediaType.APPLICATION_XML_VALUE;
 import static org.springframework.http.MediaType.TEXT_XML_VALUE;
-import static uk.nhs.adaptors.scr.consts.HttpHeaders.SOAP_ACTION;
+import static uk.nhs.adaptors.scr.consts.SpineHttpHeaders.SOAP_ACTION;
 
 @ExtendWith({SpringExtension.class})
 @SpringBootTest(webEnvironment = RANDOM_PORT)
@@ -82,6 +84,7 @@ public class ScrTest {
     private static final String CLIENT_IP = "192.168.0.24";
     private static final String SPINE_PSIS_ENDPOINT = "/sync-service";
     private static final String EVENT_LIST_QUERY_HEADER = "urn:nhs:names:services:psisquery/QUPC_IN180000SM04";
+    private static final String NHSD_SESSION_URID = "74382489832";
 
     @LocalServerPort
     private int port;
@@ -147,9 +150,10 @@ public class ScrTest {
         var body = given()
             .port(port)
             .contentType(FHIR_JSON_CONTENT_TYPE)
-            .header("Nhsd-Asid", NHSD_ASID)
-            .header("client-ip", CLIENT_IP)
-            .header("NHSD-Identity-UUID", NHSD_IDENTITY)
+            .header(ScrHttpHeaders.NHSD_ASID, NHSD_ASID)
+            .header(ScrHttpHeaders.CLIENT_IP, CLIENT_IP)
+            .header(ScrHttpHeaders.NHSD_SESSION_URID, NHSD_SESSION_URID)
+            .header(ScrHttpHeaders.NHSD_IDENTITY, NHSD_IDENTITY)
             .body(readString(simpleFhirJson.getFile().toPath(), UTF_8))
             .when()
             .post(FHIR_ENDPOINT)
@@ -174,7 +178,7 @@ public class ScrTest {
 
         wireMockServer.stubFor(
             WireMock.get(SCR_SPINE_CONTENT_ENDPOINT)
-                .withHeader("nhsd-asid", containing(NHSD_ASID))
+                .withHeader(SpineHttpHeaders.NHSD_ASID, containing(NHSD_ASID))
                 .inScenario(WIREMOCK_SCENARIO_NAME)
                 .willReturn(aResponse()
                     .withStatus(ACCEPTED.value())
@@ -186,9 +190,10 @@ public class ScrTest {
         given()
             .port(port)
             .contentType(FHIR_JSON_CONTENT_TYPE)
-            .header("Nhsd-Asid", NHSD_ASID)
-            .header("client-ip", CLIENT_IP)
-            .header("NHSD-Identity-UUID", NHSD_IDENTITY)
+            .header(ScrHttpHeaders.NHSD_ASID, NHSD_ASID)
+            .header(ScrHttpHeaders.CLIENT_IP, CLIENT_IP)
+            .header(ScrHttpHeaders.NHSD_SESSION_URID, NHSD_SESSION_URID)
+            .header(ScrHttpHeaders.NHSD_IDENTITY, NHSD_IDENTITY)
             .body(readString(simpleFhirJson.getFile().toPath(), UTF_8))
             .when()
             .post(FHIR_ENDPOINT)
@@ -203,9 +208,10 @@ public class ScrTest {
         given()
             .port(port)
             .contentType(contentType)
-            .header("Nhsd-Asid", NHSD_ASID)
-            .header("client-ip", CLIENT_IP)
-            .header("NHSD-Identity-UUID", NHSD_IDENTITY)
+            .header(ScrHttpHeaders.NHSD_ASID, NHSD_ASID)
+            .header(ScrHttpHeaders.CLIENT_IP, CLIENT_IP)
+            .header(ScrHttpHeaders.NHSD_SESSION_URID, NHSD_SESSION_URID)
+            .header(ScrHttpHeaders.NHSD_IDENTITY, NHSD_IDENTITY)
             .body(requestBody)
             .when()
             .post(FHIR_ENDPOINT)
@@ -245,9 +251,10 @@ public class ScrTest {
         var responseBody = given()
             .port(port)
             .contentType(FHIR_JSON_CONTENT_TYPE)
-            .header("Nhsd-Asid", NHSD_ASID)
-            .header("client-ip", CLIENT_IP)
-            .header("NHSD-Identity-UUID", NHSD_IDENTITY)
+            .header(ScrHttpHeaders.NHSD_ASID, NHSD_ASID)
+            .header(ScrHttpHeaders.CLIENT_IP, CLIENT_IP)
+            .header(ScrHttpHeaders.NHSD_SESSION_URID, NHSD_SESSION_URID)
+            .header(ScrHttpHeaders.NHSD_IDENTITY, NHSD_IDENTITY)
             .body("<invalid_content>>")
             .when()
             .post(FHIR_ENDPOINT)

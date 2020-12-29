@@ -28,11 +28,12 @@ import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.http.MediaType.TEXT_XML_VALUE;
 import static uk.nhs.adaptors.scr.config.ConversationIdFilter.CORRELATION_ID_MDC_KEY;
 import static uk.nhs.adaptors.scr.config.RequestIdFilter.REQUEST_ID_MDC_KEY;
-import static uk.nhs.adaptors.scr.consts.HttpHeaders.NHSD_ASID;
-import static uk.nhs.adaptors.scr.consts.HttpHeaders.NHSD_CORRELATION_ID;
-import static uk.nhs.adaptors.scr.consts.HttpHeaders.NHSD_IDENTITY;
-import static uk.nhs.adaptors.scr.consts.HttpHeaders.NHSD_REQUEST_ID;
-import static uk.nhs.adaptors.scr.consts.HttpHeaders.SOAP_ACTION;
+import static uk.nhs.adaptors.scr.consts.ScrHttpHeaders.NHSD_IDENTITY;
+import static uk.nhs.adaptors.scr.consts.SpineHttpHeaders.NHSD_ASID;
+import static uk.nhs.adaptors.scr.consts.SpineHttpHeaders.NHSD_CORRELATION_ID;
+import static uk.nhs.adaptors.scr.consts.SpineHttpHeaders.NHSD_REQUEST_ID;
+import static uk.nhs.adaptors.scr.consts.SpineHttpHeaders.NHSD_SESSION_URID;
+import static uk.nhs.adaptors.scr.consts.SpineHttpHeaders.SOAP_ACTION;
 
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Slf4j
@@ -60,12 +61,12 @@ public class SpineClient implements SpineClientContract {
 
     @SneakyThrows
     @Override
-    public SpineHttpClient.Response sendScrData(String requestBody, String nhsdAsid, String nhsdIdentity) {
+    public SpineHttpClient.Response sendScrData(String requestBody, String nhsdAsid, String nhsdIdentity, String nhsdSessionUrid) {
         var url = spineConfiguration.getUrl() + spineConfiguration.getScrEndpoint();
         LOGGER.debug("Sending SCR Upload request to SPINE. URL: {}, Body: {}", url, requestBody);
 
         var request = new HttpPost(url);
-        setUploadScrHeaders(request, nhsdAsid, nhsdIdentity);
+        setUploadScrHeaders(request, nhsdAsid, nhsdIdentity, nhsdSessionUrid);
         request.setEntity(new StringEntity(requestBody));
 
         var response = spineHttpClient.sendRequest(request);
@@ -79,14 +80,15 @@ public class SpineClient implements SpineClientContract {
 
     }
 
-    private void setUploadScrHeaders(HttpRequest request, String nhsdAsid, String nhsdIdentity) {
+    private void setUploadScrHeaders(HttpRequest request, String nhsdAsid, String nhsdIdentity, String nhsdSessionUrid) {
         setSoapHeaders(request, UPLOAD_SCR_SOAP_ACTION, UPLOAD_SCR_CONTENT_TYPE);
-        setCommonHeaders(request, nhsdAsid, nhsdIdentity);
+        setCommonHeaders(request, nhsdAsid, nhsdIdentity, nhsdSessionUrid);
     }
 
-    private void setCommonHeaders(HttpRequest request, String nhsdAsid, String nhsdIdentity) {
+    private void setCommonHeaders(HttpRequest request, String nhsdAsid, String nhsdIdentity, String nhsdSessionUrid) {
         request.setHeader(NHSD_ASID, nhsdAsid);
         request.setHeader(NHSD_IDENTITY, nhsdIdentity);
+        request.setHeader(NHSD_SESSION_URID, nhsdSessionUrid);
         request.setHeader(NHSD_CORRELATION_ID, MDC.get(CORRELATION_ID_MDC_KEY));
         request.setHeader(NHSD_REQUEST_ID, MDC.get(REQUEST_ID_MDC_KEY));
     }
@@ -98,7 +100,7 @@ public class SpineClient implements SpineClientContract {
 
     @Override
     public ProcessingResult getScrProcessingResult(String contentLocation, long initialWaitTime, String nhsdAsid,
-                                                   String nhsdIdentity) {
+                                                   String nhsdIdentity, String nhsdSessionUrid) {
         var repeatTimeout = spineConfiguration.getScrResultRepeatTimeout();
         var template = RetryTemplate.builder()
             .withinMillis(repeatTimeout)
@@ -116,7 +118,7 @@ public class SpineClient implements SpineClientContract {
             LOGGER.info("Fetching SCR processing result. RetryCount={}", ctx.getRetryCount());
 
             var request = new HttpGet(spineConfiguration.getUrl() + contentLocation);
-            setCommonHeaders(request, nhsdAsid, nhsdIdentity);
+            setCommonHeaders(request, nhsdAsid, nhsdIdentity, nhsdSessionUrid);
 
             var result = spineHttpClient.sendRequest(request);
             int statusCode = result.getStatusCode();

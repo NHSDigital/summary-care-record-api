@@ -16,6 +16,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.NotNull;
 
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
+import static uk.nhs.adaptors.scr.consts.ScrHttpHeaders.CLIENT_IP;
+import static uk.nhs.adaptors.scr.consts.ScrHttpHeaders.CLIENT_REQUEST_URL;
+import static uk.nhs.adaptors.scr.consts.ScrHttpHeaders.NHSD_ASID;
 import static uk.nhs.adaptors.scr.controllers.FhirMediaTypes.APPLICATION_FHIR_JSON_VALUE;
 import static uk.nhs.adaptors.scr.controllers.utils.UrlUtils.extractBaseUrl;
 
@@ -37,9 +40,9 @@ public class GetScrController {
         consumes = {APPLICATION_FHIR_JSON_VALUE},
         produces = {APPLICATION_FHIR_JSON_VALUE})
     @SuppressWarnings("checkstyle:parameternumber")
-    public String getScrId(@RequestHeader("Nhsd-Asid") @NotNull String nhsdAsid,
-                           @RequestHeader("client-ip") @NotNull String clientIp,
-                           @RequestHeader("client-request-url") @NotNull String clientRequestUrl,
+    public String getScrId(@RequestHeader(NHSD_ASID) @NotNull String nhsdAsid,
+                           @RequestHeader(CLIENT_IP) @NotNull String clientIp,
+                           @RequestHeader(CLIENT_REQUEST_URL) @NotNull String clientRequestUrl,
                            @RequestParam("patient") @NotNull String patient,
                            @RequestParam(required = false) String type,
                            @RequestParam(name = "_sort", required = false) String sort,
