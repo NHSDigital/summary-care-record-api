@@ -59,9 +59,6 @@
                 properties:
                   coding:
                     $ref: coding.yaml
-                  
-              
-          
       required:
         - resourceType
         - id
