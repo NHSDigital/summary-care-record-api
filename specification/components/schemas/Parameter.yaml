@@ -10,4 +10,5 @@ properties:
         - $ref: PartNhsNumber.yaml
         - $ref: PartPermissionCode.yaml
 required:
-  - resourceType
+  - name
+  - part
