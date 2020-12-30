@@ -29,6 +29,7 @@ scr:
 spine:
   url: https://${SCR_SPINE_URL}
   acsEndpoint: /acs
+  alertEndpoint: /clinical/alert
   scrEndpoint: ${SCR_SPINE_ENDPOINT:/clinical}
   psisQueriesEndpoint: ${SCR_SPINE_PSIS_ENDPOINT:/sync-service}
   scrResultRepeatTimeout: ${SCR_SPINE_RESULT_REPEAT_TIMEOUT:50000} # 50sec - how much time to wait for all repeated Spine GET retries

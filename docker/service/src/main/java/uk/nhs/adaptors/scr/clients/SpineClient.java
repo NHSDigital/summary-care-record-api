@@ -16,6 +16,7 @@ import org.springframework.retry.backoff.BackOffInterruptedException;
 import org.springframework.retry.backoff.BackOffPolicy;
 import org.springframework.retry.support.RetryTemplate;
 import uk.nhs.adaptors.scr.config.SpineConfiguration;
+import uk.nhs.adaptors.scr.controllers.FhirMediaTypes;
 import uk.nhs.adaptors.scr.exceptions.NoSpineResultException;
 import uk.nhs.adaptors.scr.exceptions.ScrBaseException;
 import uk.nhs.adaptors.scr.exceptions.ScrTimeoutException;
@@ -152,6 +153,26 @@ public class SpineClient implements SpineClientContract {
         if (statusCode != OK.value()) {
             LOGGER.error("Unexpected spine GET SCR ID response: {}", response);
             throw new UnexpectedSpineResponseException("Unexpected spine send response " + statusCode);
+        }
+        return response;
+    }
+
+    @Override
+    @SneakyThrows
+    public SpineHttpClient.Response sendAlert(String requestBody, String nhsdAsid, String nhsdIdentity, String nhsdSessionUrid) {
+        LOGGER.debug("Sending Alert request to SPINE: {}", requestBody);
+        var request = new HttpPost(spineConfiguration.getUrl() + spineConfiguration.getAlertEndpoint());
+        request.addHeader(CONTENT_TYPE, FhirMediaTypes.APPLICATION_FHIR_JSON_VALUE);
+        setCommonHeaders(request, nhsdAsid, nhsdIdentity, nhsdSessionUrid);
+
+        request.setEntity(new StringEntity(requestBody));
+
+        var response = spineHttpClient.sendRequest(request);
+        var statusCode = response.getStatusCode();
+
+        if (statusCode != OK.value()) {
+            LOGGER.error("Unexpected spine ALERT response: {}", response);
+            throw new UnexpectedSpineResponseException("Unexpected spine ALERT response " + statusCode);
         }
         return response;
     }
