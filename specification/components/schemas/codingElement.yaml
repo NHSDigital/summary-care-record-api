@@ -1,0 +1,8 @@
+type: object
+properties:
+  system:
+    type: string
+  code:
+    type: string
+  display:
+    type: string
