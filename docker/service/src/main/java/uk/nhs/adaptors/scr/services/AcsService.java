@@ -60,7 +60,7 @@ public class AcsService {
             .setSenderFromASID(nhsdAsid)
             .setSpineToASID(scrConfiguration.getNhsdAsidTo())
             .setSpineAcsEndpointUrl(spineConfiguration.getUrl())
-            .setPermissionValue(permission.value())
+            .setPermissionValue(permission.getSpineValue())
             .setSenderHostIpAddress(clientIp);
 
         return fillTemplate(SET_RESOURCE_PERMISSIONS_TEMPLATE, acsParams);

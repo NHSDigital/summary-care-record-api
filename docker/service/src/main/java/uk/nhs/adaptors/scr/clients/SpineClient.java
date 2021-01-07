@@ -51,7 +51,7 @@ public class SpineClient implements SpineClientContract {
     @SneakyThrows
     @Override
     public Response sendAcsData(String requestBody, String nhsdAsid) {
-        var url = spineConfiguration.getUrl();
+        var url = spineConfiguration.getUrl() + spineConfiguration.getAcsEndpoint();
         LOGGER.debug("Sending ACS SetPermission request to SPINE. URL: {}, Body: {}", url, requestBody);
         var request = new HttpPost(url);
         setSoapHeaders(request, SET_PERMISSION_SOAP_ACTION, TEXT_XML_VALUE);
