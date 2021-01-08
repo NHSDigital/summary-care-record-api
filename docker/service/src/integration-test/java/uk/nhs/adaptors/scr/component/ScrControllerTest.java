@@ -8,7 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import uk.nhs.adaptors.scr.clients.SpineClientContract;
+import uk.nhs.adaptors.scr.clients.spine.SpineClientContract;
 import uk.nhs.adaptors.scr.components.FhirParser;
 import uk.nhs.adaptors.scr.config.ScrConfiguration;
 import uk.nhs.adaptors.scr.config.SpineConfiguration;

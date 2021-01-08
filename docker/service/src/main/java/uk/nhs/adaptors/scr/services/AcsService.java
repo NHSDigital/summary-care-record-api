@@ -1,6 +1,7 @@
 package uk.nhs.adaptors.scr.services;
 
 import com.github.mustachejava.Mustache;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.hl7.fhir.r4.model.Coding;
 import org.hl7.fhir.r4.model.Parameters;
@@ -8,24 +9,33 @@ import org.hl7.fhir.r4.model.Parameters.ParametersParameterComponent;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import uk.nhs.adaptors.scr.clients.SpineClientContract;
-import uk.nhs.adaptors.scr.clients.SpineHttpClient;
+import uk.nhs.adaptors.scr.clients.identity.IdentityServiceContract;
+import uk.nhs.adaptors.scr.clients.identity.UserInfo;
+import uk.nhs.adaptors.scr.clients.spine.SpineClientContract;
+import uk.nhs.adaptors.scr.clients.spine.SpineHttpClient.Response;
+import uk.nhs.adaptors.scr.components.FhirParser;
 import uk.nhs.adaptors.scr.config.ScrConfiguration;
 import uk.nhs.adaptors.scr.config.SpineConfiguration;
+import uk.nhs.adaptors.scr.exceptions.BadRequestException;
 import uk.nhs.adaptors.scr.exceptions.FhirMappingException;
 import uk.nhs.adaptors.scr.models.AcsParams;
 import uk.nhs.adaptors.scr.models.AcsPermission;
+import uk.nhs.adaptors.scr.models.AcsResponse;
+import uk.nhs.adaptors.scr.models.RequestData;
 
 import java.time.format.DateTimeFormatter;
 
 import static java.time.OffsetDateTime.now;
 import static java.time.ZoneOffset.UTC;
+import static java.util.stream.Collectors.joining;
 import static uk.nhs.adaptors.scr.config.ConversationIdFilter.CORRELATION_ID_MDC_KEY;
+import static uk.nhs.adaptors.scr.controllers.utils.UrlUtils.extractHost;
 import static uk.nhs.adaptors.scr.utils.TemplateUtils.fillTemplate;
 import static uk.nhs.adaptors.scr.utils.TemplateUtils.loadTemplate;
 
 @Component
 @Slf4j
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class AcsService {
 
     private static final String SET_PERMISSION_PARAM_NAME = "setPermissions";
@@ -33,35 +43,60 @@ public class AcsService {
     private static final String PERMISSION_CODE_PART_NAME = "permissionCode";
     private static final String PERMISSION_CODE_SYSTEM = "https://fhir.nhs.uk/R4/CodeSystem/SCR-ACSPermission";
 
-    @Autowired
-    private SpineClientContract spineClient;
-
-    @Autowired
-    private ScrConfiguration scrConfiguration;
-
-    @Autowired
-    private SpineConfiguration spineConfiguration;
+    private final SpineClientContract spineClient;
+    private final ScrConfiguration scrConfiguration;
+    private final SpineConfiguration spineConfiguration;
+    private final FhirParser fhirParser;
+    private final IdentityServiceContract identityService;
 
     private static final Mustache SET_RESOURCE_PERMISSIONS_TEMPLATE =
         loadTemplate("SET_RESOURCE_PERMISSIONS_INUK01.mustache");
 
-    public SpineHttpClient.Response setPermission(Parameters parameters, String nhsdAsid, String clientIp) {
+    public void setPermission(RequestData requestData) {
+        Parameters parameters = fhirParser.parseResource(requestData.getBody(), Parameters.class);
         ParametersParameterComponent parameter = getSetPermissionParameter(parameters);
-
-        String acsRequest = prepareAcsRequest(getNhsNumber(parameter), getPermission(parameter), nhsdAsid, clientIp);
-        return spineClient.sendAcsData(acsRequest, nhsdAsid);
+        UserInfo userInfo = identityService.getUserInfo(extractHost(requestData.getClientRequestUrl()), requestData.getAuthorization());
+        System.out.println(userInfo);
+        String acsRequest = prepareAcsRequest(parameter, requestData, getUserRoleCode(userInfo, requestData.getNhsdSessionUrid()),
+            userInfo.getId());
+        Response response = spineClient.sendAcsData(acsRequest, requestData.getNhsdAsid());
+        AcsResponse acsResponse = AcsResponse.parseXml(response.getBody());
+        if (!acsResponse.isSuccessful()) {
+            handleUnsuccessfulOperation(acsResponse);
+        }
     }
 
-    private String prepareAcsRequest(String nhsNumber, AcsPermission permission, String nhsdAsid, String clientIp) {
+    private void handleUnsuccessfulOperation(AcsResponse acsResponse) {
+        String errorReason = acsResponse.getErrorReasons().stream()
+            .map(it -> String.format("Code: %s, Display: %s", it.getCode(), it.getDisplay()))
+            .collect(joining(";"));
+
+        throw new BadRequestException("Setting permissions failed due to following errors: " + errorReason);
+    }
+
+    private String getUserRoleCode(UserInfo userInfo, String nhsdSessionUrid) {
+        return userInfo.getRoles().stream()
+            .filter(role -> role.getPersonRoleId().equals(nhsdSessionUrid))
+            .findFirst()
+            .orElseThrow(() -> new BadRequestException(String.format("Unable to determine SDS Job Role Code for "
+                + "the given RoleID: %s", nhsdSessionUrid)))
+            .getRoleCode();
+    }
+
+    private String prepareAcsRequest(ParametersParameterComponent parameter, RequestData requestData, String sdsJobRoleCode,
+                                     String nhsdIdentity) {
         AcsParams acsParams = new AcsParams()
             .setGeneratedMessageId(MDC.get(CORRELATION_ID_MDC_KEY))
             .setMessageCreationTime(DateTimeFormatter.ofPattern("yyyyMMddHHmmss").format(now(UTC)))
-            .setNhsNumber(nhsNumber)
-            .setSenderFromASID(nhsdAsid)
+            .setNhsNumber(getNhsNumber(parameter))
+            .setSenderFromASID(requestData.getNhsdAsid())
             .setSpineToASID(scrConfiguration.getNhsdAsidTo())
             .setSpineAcsEndpointUrl(spineConfiguration.getUrl())
-            .setPermissionValue(permission.getSpineValue())
-            .setSenderHostIpAddress(clientIp);
+            .setPermissionValue(getPermission(parameter).getSpineValue())
+            .setSenderHostIpAddress(requestData.getClientIp())
+            .setSdsRoleProfileId(requestData.getNhsdSessionUrid())
+            .setSdsUserId(nhsdIdentity)
+            .setSdsJobRoleCode(sdsJobRoleCode);
 
         return fillTemplate(SET_RESOURCE_PERMISSIONS_TEMPLATE, acsParams);
     }

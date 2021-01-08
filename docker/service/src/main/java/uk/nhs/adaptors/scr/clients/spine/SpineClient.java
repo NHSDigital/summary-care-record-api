@@ -1,4 +1,4 @@
-package uk.nhs.adaptors.scr.clients;
+package uk.nhs.adaptors.scr.clients.spine;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +15,7 @@ import org.springframework.retry.backoff.BackOffContext;
 import org.springframework.retry.backoff.BackOffInterruptedException;
 import org.springframework.retry.backoff.BackOffPolicy;
 import org.springframework.retry.support.RetryTemplate;
-import uk.nhs.adaptors.scr.clients.SpineHttpClient.Response;
+import uk.nhs.adaptors.scr.clients.spine.SpineHttpClient.Response;
 import uk.nhs.adaptors.scr.config.SpineConfiguration;
 import uk.nhs.adaptors.scr.exceptions.NoSpineResultException;
 import uk.nhs.adaptors.scr.exceptions.ScrBaseException;

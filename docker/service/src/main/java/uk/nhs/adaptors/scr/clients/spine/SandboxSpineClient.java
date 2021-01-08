@@ -1,9 +1,9 @@
-package uk.nhs.adaptors.scr.clients;
+package uk.nhs.adaptors.scr.clients.spine;
 
 import lombok.SneakyThrows;
 import org.apache.commons.io.IOUtils;
 import org.springframework.core.io.ClassPathResource;
-import uk.nhs.adaptors.scr.clients.SpineHttpClient.Response;
+import uk.nhs.adaptors.scr.clients.spine.SpineHttpClient.Response;
 import uk.nhs.adaptors.scr.models.ProcessingResult;
 
 import static java.nio.charset.StandardCharsets.UTF_8;

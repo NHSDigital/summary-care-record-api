@@ -14,4 +14,7 @@ public class AcsParams {
     private String messageCreationTime;
     private String nhsNumber;
     private String permissionValue;
+    private String sdsRoleProfileId;
+    private String sdsUserId;
+    private String sdsJobRoleCode;
 }

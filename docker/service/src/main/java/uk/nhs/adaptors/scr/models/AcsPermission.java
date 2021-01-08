@@ -8,11 +8,11 @@ public enum AcsPermission {
     NO("No", "No"),
     ASK("Ask", "Clear");
 
-    private String value;
+    private String fhirValue;
     private String spineValue;
 
     AcsPermission(String value, String spineValue) {
-        this.value = value;
+        this.fhirValue = value;
         this.spineValue = spineValue;
     }
 

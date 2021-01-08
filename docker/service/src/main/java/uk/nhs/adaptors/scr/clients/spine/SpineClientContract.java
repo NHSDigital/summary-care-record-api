@@ -1,6 +1,6 @@
-package uk.nhs.adaptors.scr.clients;
+package uk.nhs.adaptors.scr.clients.spine;
 
-import uk.nhs.adaptors.scr.clients.SpineHttpClient.Response;
+import uk.nhs.adaptors.scr.clients.spine.SpineHttpClient.Response;
 import uk.nhs.adaptors.scr.models.ProcessingResult;
 
 public interface SpineClientContract {
