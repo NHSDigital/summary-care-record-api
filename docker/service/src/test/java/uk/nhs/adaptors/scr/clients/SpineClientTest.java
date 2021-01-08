@@ -46,6 +46,7 @@ class SpineClientTest {
     private static final String NHSD_ASID = "123123";
     private static final String PARTY_TO_ID = "spine_party_key";
     private static final String NHSD_IDENTITY = randomUUID().toString();
+    private static final String NHSD_SESSION_URID = "937463642332";
 
     @Mock
     private SpineConfiguration spineConfiguration;
@@ -72,7 +73,7 @@ class SpineClientTest {
         when(spineHttpClient.sendRequest(any(HttpPost.class)))
             .thenReturn(new SpineHttpClient.Response(HttpStatus.ACCEPTED.value(), headers, RESPONSE_BODY));
 
-        var response = spineClient.sendScrData(ACS_REQUEST_BODY, NHSD_ASID, NHSD_IDENTITY);
+        var response = spineClient.sendScrData(ACS_REQUEST_BODY, NHSD_ASID, NHSD_IDENTITY, NHSD_SESSION_URID);
 
         var httpPostArgumentCaptor = ArgumentCaptor.forClass(HttpPost.class);
         verify(spineHttpClient).sendRequest(httpPostArgumentCaptor.capture());
@@ -91,7 +92,7 @@ class SpineClientTest {
         when(spineHttpClient.sendRequest(any(HttpPost.class)))
             .thenReturn(new SpineHttpClient.Response(HttpStatus.OK.value(), new Header[0], RESPONSE_BODY));
 
-        assertThatThrownBy(() -> spineClient.sendScrData(ACS_REQUEST_BODY, NHSD_ASID, NHSD_IDENTITY))
+        assertThatThrownBy(() -> spineClient.sendScrData(ACS_REQUEST_BODY, NHSD_ASID, NHSD_IDENTITY, NHSD_SESSION_URID))
             .isExactlyInstanceOf(UnexpectedSpineResponseException.class);
     }
 
@@ -108,7 +109,8 @@ class SpineClientTest {
             .thenReturn(new SpineHttpClient.Response(HttpStatus.ACCEPTED.value(), postResponseHeaders, null))
             .thenReturn(new SpineHttpClient.Response(HttpStatus.OK.value(), new Header[0], RESPONSE_BODY));
 
-        var result = spineClient.getScrProcessingResult(CONTENT_LOCATION, 50, NHSD_ASID, NHSD_IDENTITY);
+        var result = spineClient.getScrProcessingResult(CONTENT_LOCATION, 50, NHSD_ASID, NHSD_IDENTITY,
+            NHSD_SESSION_URID);
 
         var requestArgumentCaptor = ArgumentCaptor.forClass(HttpGet.class);
         verify(spineHttpClient, times(2)).sendRequest(requestArgumentCaptor.capture());
@@ -130,7 +132,7 @@ class SpineClientTest {
                 },
                 null));
 
-        assertThatThrownBy(() -> spineClient.getScrProcessingResult(CONTENT_LOCATION, 100, NHSD_ASID, NHSD_IDENTITY))
+        assertThatThrownBy(() -> spineClient.getScrProcessingResult(CONTENT_LOCATION, 100, NHSD_ASID, NHSD_IDENTITY, NHSD_SESSION_URID))
             .isExactlyInstanceOf(NoSpineResultException.class)
             .hasMessage("Spine polling yield no result");
 

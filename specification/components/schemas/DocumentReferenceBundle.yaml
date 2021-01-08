@@ -1,0 +1,27 @@
+type: object
+properties:
+  resourceType:
+    type: string
+    default: "Bundle"
+  id:
+    type: string
+    example: "f61e545c-d52c-4b62-9668-3dcc6c27fc50"
+  type:
+    type: string
+    default: "searchset"
+  total:
+    type: integer
+    example: 1
+  entry:
+    type: array
+    items:
+      anyOf:
+        - $ref: DocumentReference.yaml
+        - $ref: PatientEntry.yaml
+
+required:
+  - resourceType
+  - id
+  - type
+  - total
+  - entry

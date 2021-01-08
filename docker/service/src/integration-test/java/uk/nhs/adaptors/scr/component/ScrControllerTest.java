@@ -12,6 +12,7 @@ import uk.nhs.adaptors.scr.clients.SpineClientContract;
 import uk.nhs.adaptors.scr.components.FhirParser;
 import uk.nhs.adaptors.scr.config.ScrConfiguration;
 import uk.nhs.adaptors.scr.config.SpineConfiguration;
+import uk.nhs.adaptors.scr.consts.ScrHttpHeaders;
 import uk.nhs.adaptors.scr.services.UploadScrService;
 
 import static io.restassured.RestAssured.given;
@@ -34,6 +35,7 @@ public class ScrControllerTest {
     private static final String NHSD_ASID = "123";
     private static final String CLIENT_IP = "192.168.0.24";
     private static final String NHSD_IDENTITY = randomUUID().toString();
+    private static final String NHSD_SESSION_URID = "845354532";
 
     @LocalServerPort
     private int port;
@@ -74,9 +76,10 @@ public class ScrControllerTest {
         given()
             .port(port)
             .contentType(FHIR_JSON_CONTENT_TYPE)
-            .header("Nhsd-Asid", NHSD_ASID)
-            .header("client-ip", CLIENT_IP)
-            .header("NHSD-Identity-UUID", NHSD_IDENTITY)
+            .header(ScrHttpHeaders.NHSD_ASID, NHSD_ASID)
+            .header(ScrHttpHeaders.CLIENT_IP, CLIENT_IP)
+            .header(ScrHttpHeaders.NHSD_IDENTITY, NHSD_IDENTITY)
+            .header(ScrHttpHeaders.NHSD_SESSION_URID, NHSD_SESSION_URID)
             .body(REQUEST_BODY)
             .when()
             .post(FHIR_ENDPOINT)
