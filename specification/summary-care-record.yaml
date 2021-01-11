@@ -252,6 +252,42 @@ paths:
                     details:
                       text: Invalid value - xyz in field 'valueCoding.code'
 
+  /AuditEvent:
+    post:
+      summary: Override patient's dissent to View SCR
+      operationId: alert
+      tags:
+        - SCR
+      parameters:
+        - $ref: '#/components/parameters/BearerAuthorization'
+        - $ref: '#/components/parameters/CorrelationID'
+        - $ref: '#/components/parameters/RequestID'
+        - $ref: '#/components/parameters/RoleID'
+      requestBody:
+        required: true
+        content:
+          application/fhir+json:
+            schema:
+              $ref: components/schemas/AuditEvent.yaml
+            example:
+              $ref: components/examples/AuditEvent.json
+      responses:
+        "200":
+          description: Success response
+        "400":
+          description: Bad request
+          content:
+            application/fhir+json:
+              schema:
+                $ref: components/schemas/OperationOutcome.yaml
+              example:
+                resourceType: OperationOutcome
+                issue:
+                  - severity: error
+                    code: invalid
+                    details:
+                      text: NHS number missing
+
 components:
   parameters:
     BearerAuthorization:

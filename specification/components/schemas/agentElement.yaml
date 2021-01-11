@@ -1,0 +1,23 @@
+type: object
+properties:
+  who:
+    type: object
+    properties:
+      identifier:
+        $ref: identifier.yaml
+  role:
+    type: array
+    items:
+      type: object
+      properties:
+        text:
+          type: string
+          example: General Practitioner
+      required:
+        - text
+  requestor:
+    type: boolean
+    default: false
+required:
+  - who
+  - requestor
