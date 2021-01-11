@@ -17,6 +17,6 @@ public class UrlUtils {
         URL url = new URL(clientRequestUrl);
         String protocol = url.getProtocol();
 
-        return isEmpty(protocol) ? url.getHost() : protocol + "://" + url.getHost();
+        return isEmpty(protocol) ? url.getAuthority() : protocol + "://" + url.getAuthority();
     }
 }
