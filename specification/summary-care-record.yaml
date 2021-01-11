@@ -217,6 +217,41 @@ paths:
               example:
                 $ref: components/examples/DocumentReferenceBundle.json
 
+  /$setPermission:
+    post:
+      summary: Update patient's consent to View SCR
+      operationId: acs
+      tags:
+        - SCR
+      parameters:
+        - $ref: '#/components/parameters/BearerAuthorization'
+        - $ref: '#/components/parameters/CorrelationID'
+        - $ref: '#/components/parameters/RequestID'
+      requestBody:
+        required: true
+        content:
+          application/fhir+json:
+            schema:
+              $ref: components/schemas/Parameters.yaml
+            example:
+              $ref: components/examples/SetPermission.json
+      responses: 
+        "200": 
+          description: Success response
+        "400":
+          description: Bad request
+          content:
+            application/fhir+json:
+              schema:
+                $ref: components/schemas/OperationOutcome.yaml
+              example:
+                resourceType: OperationOutcome
+                issue:
+                  - severity: error
+                    code: invalid
+                    details:
+                      text: Invalid value - xyz in field 'valueCoding.code'
+
 components:
   parameters:
     BearerAuthorization:
