@@ -28,7 +28,7 @@ public class SandboxSpineClient implements SpineClientContract {
     public Response sendScrData(String requestBody, String nhsdAsid, String nhsdIdentity, String nhsdSessionUrid) {
         Header[] headers = {
             new BasicHeader(CONTENT_LOCATION_HEADER, ""),
-            new BasicHeader(RETRY_AFTER_HEADER, "1000")
+            new BasicHeader(RETRY_AFTER_HEADER, "300")
         };
         return new Response(ACCEPTED.value(), headers, null);
     }
