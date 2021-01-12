@@ -1,0 +1,59 @@
+type: object
+properties:
+  resourceType:
+    type: string
+    default: "AuditEvent"
+  id:
+    type: string
+    example: 1C03CF4F-D404-4D76-B192-4F81727059F6
+  extension:
+    type: array
+    items:
+      type: object
+      properties:
+        url:
+          type: string
+          default: https://fhir.nhs.uk/R4/StructureDefinition/Extension-SCR-NotificationMessage
+        valueString:
+          type: string
+          example: "Alert: Permission to view override 1C03CF4F-D404-4D76-B192-4F81727059F6"
+      required:
+        - url
+        - valueString
+  type:
+    $ref: codingElement.yaml
+  subtype:
+    type: array
+    items:
+      $ref: codingElement.yaml
+  recorded:
+    type: string
+    example: "2020-11-13T00:00:00+00:00"
+  agent:
+    type: array
+    items:
+      $ref: agentElement.yaml
+  source:
+    type: object
+    properties:
+      observer:
+        $ref: identifier.yaml
+    required:
+      - observer
+  entity:
+    type: array
+    items:
+      type: object
+      properties:
+        what:
+          $ref: identifier.yaml
+required:
+  - resourceType
+  - id
+  - extension
+  - type
+  - subtype
+  - recorded
+  - agent
+  - source
+  - entity

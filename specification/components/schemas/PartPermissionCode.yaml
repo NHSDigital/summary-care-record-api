@@ -1,0 +1,20 @@
+type: object
+properties:
+  name:
+    type: string
+    default: permissionCode
+  valueCoding:
+    type: object
+    properties:
+      system:
+        type: string
+        default: https://fhir.nhs.uk/R4/CodeSystem/SCR-ACSPermission
+      code:
+        type: string
+        enum: [Ask, Yes, No]
+    required:
+      - system
+      - code
+required:
+  - name
+  - valueCoding
