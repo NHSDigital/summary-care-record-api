@@ -2,12 +2,17 @@ package uk.nhs.adaptors.scr.clients;
 
 import lombok.SneakyThrows;
 import org.apache.commons.io.IOUtils;
+import org.apache.http.Header;
+import org.apache.http.message.BasicHeader;
 import org.springframework.core.io.ClassPathResource;
 import uk.nhs.adaptors.scr.clients.SpineHttpClient.Response;
 import uk.nhs.adaptors.scr.models.ProcessingResult;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static org.springframework.http.HttpStatus.ACCEPTED;
 import static org.springframework.http.HttpStatus.OK;
+import static uk.nhs.adaptors.scr.clients.SpineHttpClient.CONTENT_LOCATION_HEADER;
+import static uk.nhs.adaptors.scr.clients.SpineHttpClient.RETRY_AFTER_HEADER;
 
 public class SandboxSpineClient implements SpineClientContract {
 
@@ -20,13 +25,21 @@ public class SandboxSpineClient implements SpineClientContract {
 
     @Override
     public Response sendScrData(String requestBody, String nhsdAsid, String nhsdIdentity, String nhsdSessionUrid) {
-        return null;
+        Header[] headers = {
+            new BasicHeader(CONTENT_LOCATION_HEADER, ""),
+            new BasicHeader(RETRY_AFTER_HEADER, "1000")
+        };
+        return new Response(ACCEPTED.value(), headers, null);
     }
 
     @Override
     public ProcessingResult getScrProcessingResult(String contentLocation, long initialWaitTime, String nhsdAsid,
                                                    String nhsdIdentity, String nhsdSessionUrid) {
-        return null;
+        return new ProcessingResult().setHl7(
+            "<MCCI_IN010000UK13>" +
+                "<acknowledgement typeCode = 'AA'>" +
+                "</acknowledgement>" +
+            "</MCCI_IN010000UK13>");
     }
 
     @Override
