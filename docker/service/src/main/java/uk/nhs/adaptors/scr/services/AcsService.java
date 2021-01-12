@@ -56,7 +56,6 @@ public class AcsService {
         Parameters parameters = fhirParser.parseResource(requestData.getBody(), Parameters.class);
         ParametersParameterComponent parameter = getSetPermissionParameter(parameters);
         UserInfo userInfo = identityService.getUserInfo(extractHost(requestData.getClientRequestUrl()), requestData.getAuthorization());
-        System.out.println(userInfo);
         String acsRequest = prepareAcsRequest(parameter, requestData, getUserRoleCode(userInfo, requestData.getNhsdSessionUrid()),
             userInfo.getId());
         Response response = spineClient.sendAcsData(acsRequest, requestData.getNhsdAsid());
