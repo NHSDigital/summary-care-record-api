@@ -17,7 +17,7 @@ import static uk.nhs.adaptors.scr.clients.SpineHttpClient.RETRY_AFTER_HEADER;
 public class SandboxSpineClient implements SpineClientContract {
 
     private static final String EVENT_LIST_QUERY_RESPONSE = "mock-spine/QUPC_IN200000SM04/success.xml";
-    private static final String POST_SCR_PROCESSED_RESPONSE = "mock-spine/MCCI_IN010000UK13/success.xml";
+    private static final String UPLOAD_SCR_POLLING_RESPONSE = "mock-spine/MCCI_IN010000UK13/success.xml";
 
     @Override
     public Response sendAcsData(String requestBody) {
@@ -36,7 +36,7 @@ public class SandboxSpineClient implements SpineClientContract {
     @Override
     public ProcessingResult getScrProcessingResult(String contentLocation, long initialWaitTime, String nhsdAsid,
                                                    String nhsdIdentity, String nhsdSessionUrid) {
-        String responseBody = getResourceAsString(POST_SCR_PROCESSED_RESPONSE);
+        String responseBody = getResourceAsString(UPLOAD_SCR_POLLING_RESPONSE);
         return ProcessingResult.parseProcessingResult(responseBody);
     }
 
