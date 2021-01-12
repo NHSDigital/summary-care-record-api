@@ -120,7 +120,7 @@ paths:
             schema:
               $ref: components/schemas/Bundle.yaml
             example:
-              $ref: components/examples/ScrUploadBundle.json
+              $ref: components/examples/ScrBundle.json
       responses:
         "201":
           description: SCR successfully uploaded
@@ -163,6 +163,37 @@ paths:
                     code: invalid
                     details:
                       text: Internal error
+    get:
+      summary: Get patient's Summary Care Record
+      operationId: get-scr
+      tags:
+        - SCR
+      parameters:
+        - $ref: '#/components/parameters/BearerAuthorization'
+        - $ref: '#/components/parameters/CorrelationID'
+        - $ref: '#/components/parameters/RequestID'
+      responses:
+        "200":
+          description: SCR successfully returned
+          content:
+            application/fhir+json:
+              schema:
+                $ref: components/schemas/Bundle.yaml
+              example:
+                $ref: components/examples/ScrBundle.json
+        "400":
+            description: Bad request
+            content:
+              application/fhir+json:
+                schema:
+                  $ref: components/schemas/OperationOutcome.yaml
+                example:
+                  resourceType: OperationOutcome
+                  issue:
+                    - severity: error
+                      code: invalid
+                      details:
+                        text: NHS number missing
                       
   /DocumentReference:
     get:
