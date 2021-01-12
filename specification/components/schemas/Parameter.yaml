@@ -1,0 +1,14 @@
+type: object
+properties:
+  name:
+    type: string
+    default: "setPermissions"
+  part:
+    type: array
+    items:
+      anyOf:
+        - $ref: PartNhsNumber.yaml
+        - $ref: PartPermissionCode.yaml
+required:
+  - name
+  - part
