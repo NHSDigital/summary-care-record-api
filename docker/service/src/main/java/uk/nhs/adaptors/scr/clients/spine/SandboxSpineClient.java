@@ -11,8 +11,8 @@ import uk.nhs.adaptors.scr.models.ProcessingResult;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.springframework.http.HttpStatus.ACCEPTED;
 import static org.springframework.http.HttpStatus.OK;
-import static uk.nhs.adaptors.scr.clients.SpineHttpClient.CONTENT_LOCATION_HEADER;
-import static uk.nhs.adaptors.scr.clients.SpineHttpClient.RETRY_AFTER_HEADER;
+import static uk.nhs.adaptors.scr.clients.spine.SpineHttpClient.CONTENT_LOCATION_HEADER;
+import static uk.nhs.adaptors.scr.clients.spine.SpineHttpClient.RETRY_AFTER_HEADER;
 
 public class SandboxSpineClient implements SpineClientContract {
 
