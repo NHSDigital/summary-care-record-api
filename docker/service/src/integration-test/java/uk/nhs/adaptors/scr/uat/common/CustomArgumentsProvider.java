@@ -91,4 +91,16 @@ public abstract class CustomArgumentsProvider implements ArgumentsProvider {
             super("get_scr_id_no_consent");
         }
     }
+
+    public static class SendAlertSuccess extends CustomArgumentsProvider {
+        public SendAlertSuccess() {
+            super("send_alert_success");
+        }
+    }
+
+    public static class SendAlertError extends CustomArgumentsProvider {
+        public SendAlertError() {
+            super("send_alert_error");
+        }
+    }
 }

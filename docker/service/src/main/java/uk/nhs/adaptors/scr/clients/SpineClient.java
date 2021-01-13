@@ -16,7 +16,6 @@ import org.springframework.retry.backoff.BackOffInterruptedException;
 import org.springframework.retry.backoff.BackOffPolicy;
 import org.springframework.retry.support.RetryTemplate;
 import uk.nhs.adaptors.scr.config.SpineConfiguration;
-import uk.nhs.adaptors.scr.controllers.FhirMediaTypes;
 import uk.nhs.adaptors.scr.exceptions.NoSpineResultException;
 import uk.nhs.adaptors.scr.exceptions.ScrBaseException;
 import uk.nhs.adaptors.scr.exceptions.ScrTimeoutException;
@@ -29,12 +28,13 @@ import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.http.MediaType.TEXT_XML_VALUE;
 import static uk.nhs.adaptors.scr.config.ConversationIdFilter.CORRELATION_ID_MDC_KEY;
 import static uk.nhs.adaptors.scr.config.RequestIdFilter.REQUEST_ID_MDC_KEY;
-import static uk.nhs.adaptors.scr.consts.ScrHttpHeaders.NHSD_IDENTITY;
 import static uk.nhs.adaptors.scr.consts.SpineHttpHeaders.NHSD_ASID;
 import static uk.nhs.adaptors.scr.consts.SpineHttpHeaders.NHSD_CORRELATION_ID;
+import static uk.nhs.adaptors.scr.consts.SpineHttpHeaders.NHSD_IDENTITY;
 import static uk.nhs.adaptors.scr.consts.SpineHttpHeaders.NHSD_REQUEST_ID;
 import static uk.nhs.adaptors.scr.consts.SpineHttpHeaders.NHSD_SESSION_URID;
 import static uk.nhs.adaptors.scr.consts.SpineHttpHeaders.SOAP_ACTION;
+import static uk.nhs.adaptors.scr.controllers.FhirMediaTypes.APPLICATION_FHIR_JSON_VALUE;
 
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Slf4j
@@ -162,19 +162,11 @@ public class SpineClient implements SpineClientContract {
     public SpineHttpClient.Response sendAlert(String requestBody, String nhsdAsid, String nhsdIdentity, String nhsdSessionUrid) {
         LOGGER.debug("Sending Alert request to SPINE: {}", requestBody);
         var request = new HttpPost(spineConfiguration.getUrl() + spineConfiguration.getAlertEndpoint());
-        request.addHeader(CONTENT_TYPE, FhirMediaTypes.APPLICATION_FHIR_JSON_VALUE);
+        request.addHeader(CONTENT_TYPE, APPLICATION_FHIR_JSON_VALUE);
         setCommonHeaders(request, nhsdAsid, nhsdIdentity, nhsdSessionUrid);
-
         request.setEntity(new StringEntity(requestBody));
 
-        var response = spineHttpClient.sendRequest(request);
-        var statusCode = response.getStatusCode();
-
-        if (statusCode != OK.value()) {
-            LOGGER.error("Unexpected spine ALERT response: {}", response);
-            throw new UnexpectedSpineResponseException("Unexpected spine ALERT response " + statusCode);
-        }
-        return response;
+        return spineHttpClient.sendRequest(request);
     }
 
 

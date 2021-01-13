@@ -26,6 +26,7 @@ scr:
 spine:
     url: ${SCR_SPINE_URL:http://localhost:8081}
     acsEndpoint: /acs
+    alertEndpoint: /clinical/alert
     scrEndpoint: /clinical
     psisQueriesEndpoint: /sync-service
     scrResultRepeatTimeout: 4000

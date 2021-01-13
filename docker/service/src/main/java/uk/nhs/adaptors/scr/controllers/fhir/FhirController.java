@@ -9,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.async.WebAsyncTask;
 import uk.nhs.adaptors.scr.components.FhirParser;
@@ -23,7 +22,6 @@ import javax.validation.constraints.NotNull;
 import java.util.concurrent.Callable;
 
 import static org.springframework.http.HttpStatus.CREATED;
-import static org.springframework.http.HttpStatus.OK;
 import static uk.nhs.adaptors.scr.consts.ScrHttpHeaders.CLIENT_IP;
 import static uk.nhs.adaptors.scr.consts.ScrHttpHeaders.NHSD_ASID;
 import static uk.nhs.adaptors.scr.consts.ScrHttpHeaders.NHSD_IDENTITY;
@@ -43,7 +41,6 @@ public class FhirController {
         path = "/Bundle",
         consumes = {APPLICATION_FHIR_JSON_VALUE},
         produces = {APPLICATION_FHIR_JSON_VALUE})
-    @ResponseStatus(OK)
     public WebAsyncTask<ResponseEntity<?>> acceptFhir(
         @RequestHeader(NHSD_ASID) @NotNull String nhsdAsid,
         @RequestHeader(CLIENT_IP) @NotNull String clientIp,
