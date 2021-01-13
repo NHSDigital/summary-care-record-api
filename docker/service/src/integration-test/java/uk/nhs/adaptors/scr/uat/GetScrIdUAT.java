@@ -65,10 +65,10 @@ public class GetScrIdUAT {
         "entry[*].resource.id"
     };
 
-    @Value("classpath:responses/event-list-query/successResponse.xml")
+    @Value("classpath:responses/event-list-query/success.xml")
     private Resource eventListQuerySuccessResponse;
 
-    @Value("classpath:responses/event-list-query/noConsentResponse.xml")
+    @Value("classpath:responses/event-list-query/noConsent.xml")
     private Resource eventListQueryNoConsentResponse;
 
     @Autowired

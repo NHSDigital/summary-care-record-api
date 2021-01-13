@@ -23,9 +23,12 @@ scr:
   partyIdTo: ${SCR_PARTY_ID_TO:YEA-0000806}
   nhsdAsidTo: ${SCR_NHSD_ASID_TO:655159266510}
 
+identity-service:
+    userInfoEndpoint: /oauth2/userinfo
+
 spine:
     url: ${SCR_SPINE_URL:http://localhost:8081}
-    acsEndpoint: /acs
+    acsEndpoint: /sync-service
     scrEndpoint: /clinical
     psisQueriesEndpoint: /sync-service
     scrResultRepeatTimeout: 4000

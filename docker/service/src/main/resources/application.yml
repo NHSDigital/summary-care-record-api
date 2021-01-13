@@ -20,6 +20,9 @@ management:
       exposure:
         include: info, health, metrics, mappings
 
+identity-service:
+  userInfoEndpoint: /oauth2/userinfo
+
 scr:
   sandboxMode: ${SCR_SANDBOX_MODE:False}
   partyIdFrom: ${SCR_PARTY_ID_FROM:TESTGEN-201324}
@@ -28,7 +31,7 @@ scr:
 
 spine:
   url: https://${SCR_SPINE_URL}
-  acsEndpoint: /acs
+  acsEndpoint: /sync-service
   scrEndpoint: ${SCR_SPINE_ENDPOINT:/clinical}
   psisQueriesEndpoint: ${SCR_SPINE_PSIS_ENDPOINT:/sync-service}
   scrResultRepeatTimeout: ${SCR_SPINE_RESULT_REPEAT_TIMEOUT:50000} # 50sec - how much time to wait for all repeated Spine GET retries

@@ -1,0 +1,64 @@
+{
+  "nhsid_useruid": "910000000001",
+  "name": "USERQ RANDOM Mr",
+  "nhsid_nrbac_roles": [
+    {
+      "activities": [
+        "Perform Prescription Preparation",
+        "View Patient Medication",
+        "Amend Patient Demographics",
+        "Nurse Prescribers Formulary (NPF) Prescribing"
+      ],
+      "activity_codes": [
+        "B0278",
+        "B0401",
+        "B0825",
+        "B0058"
+      ],
+      "org_code": "RBA",
+      "person_orgid": "555254239107",
+      "person_roleid": "555254240100",
+      "role_code": "S8000:G8000:R8001",
+      "role_name": "\"Clinical\":\"Clinical Provision\":\"Nurse Access Role\""
+    },
+    {
+      "activities": [
+        "Manage Workgroups",
+        "Independent Prescribing",
+        "Execute CDS Extracts (NHS Group Pseud. Data)",
+        "Manage Workgroup Membership"
+      ],
+      "activity_codes": [
+        "B0100",
+        "B0420",
+        "B1510",
+        "B0090"
+      ],
+      "org_code": "RBA",
+      "person_orgid": "555254239107",
+      "person_roleid": "555254242102",
+      "role_code": "S8000:G8000:R8000",
+      "role_name": "\"Clinical\":\"Clinical Provision\":\"Clinical Practitioner Access Role\""
+    },
+    {
+      "activities": [
+        "Perform Pharmacy Activities",
+        "Verify Prescription",
+        "Manage Pharmacy Activities",
+        "View Patient Medication"
+      ],
+      "activity_codes": [
+        "B0570",
+        "B0068",
+        "B0572",
+        "B0401"
+      ],
+      "org_code": "RBA",
+      "person_orgid": "555254239107",
+      "person_roleid": "555254241101",
+      "role_code": "S8000:G8000:R8003",
+      "role_name": "\"Clinical\":\"Clinical Provision\":\"Health Professional Access Role\""
+    }
+  ],
+  "sub": "910000000001"
+}

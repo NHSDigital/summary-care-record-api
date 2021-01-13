@@ -1,7 +1,5 @@
 package uk.nhs.adaptors.scr.models;
 
-import java.util.List;
-
 import lombok.Getter;
 import lombok.Setter;
 import org.hl7.fhir.r4.model.Bundle;
@@ -13,8 +11,8 @@ import org.hl7.fhir.r4.model.PractitionerRole;
 import org.hl7.fhir.r4.model.Resource;
 import org.hl7.fhir.r4.model.ResourceType;
 import uk.nhs.adaptors.scr.exceptions.FhirMappingException;
-import uk.nhs.adaptors.scr.models.gpsummarymodels.CompositionRelatesTo;
 import uk.nhs.adaptors.scr.models.gpsummarymodels.AllConditions;
+import uk.nhs.adaptors.scr.models.gpsummarymodels.CompositionRelatesTo;
 import uk.nhs.adaptors.scr.models.gpsummarymodels.ObservationObject;
 import uk.nhs.adaptors.scr.models.gpsummarymodels.OrganizationAddress;
 import uk.nhs.adaptors.scr.models.gpsummarymodels.OrganizationId;
@@ -26,6 +24,8 @@ import uk.nhs.adaptors.scr.models.gpsummarymodels.PractitionerName;
 import uk.nhs.adaptors.scr.models.gpsummarymodels.PractitionerRoleCode;
 import uk.nhs.adaptors.scr.models.gpsummarymodels.PractitionerRoleIdentifier;
 import uk.nhs.adaptors.scr.models.gpsummarymodels.Presentation;
+
+import java.util.List;
 
 import static uk.nhs.adaptors.scr.fhirmappings.CompositionMapper.mapComposition;
 import static uk.nhs.adaptors.scr.fhirmappings.ConditionMapper.mapConditions;
@@ -65,12 +65,11 @@ public class GpSummary {
     private List<ObservationObject> observationList;
     private List<AllConditions> conditionParent;
 
-    public static GpSummary fromRequestData(RequestData requestData) throws FhirMappingException {
+    public static GpSummary fromRequestData(Bundle bundle, String nhsdAsid) throws FhirMappingException {
         GpSummary gpSummary = new GpSummary();
+        mapBundle(gpSummary, bundle);
+        gpSummary.setNhsdAsidFrom(nhsdAsid);
 
-        mapBundle(gpSummary, requestData.getBundle());
-
-        gpSummary.setNhsdAsidFrom(requestData.getNhsdAsid());
         return gpSummary;
     }
 

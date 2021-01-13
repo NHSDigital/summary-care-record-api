@@ -1,18 +1,18 @@
-package uk.nhs.adaptors.scr.clients;
+package uk.nhs.adaptors.scr.clients.spine;
 
 import lombok.SneakyThrows;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.Header;
 import org.apache.http.message.BasicHeader;
 import org.springframework.core.io.ClassPathResource;
-import uk.nhs.adaptors.scr.clients.SpineHttpClient.Response;
+import uk.nhs.adaptors.scr.clients.spine.SpineHttpClient.Response;
 import uk.nhs.adaptors.scr.models.ProcessingResult;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.springframework.http.HttpStatus.ACCEPTED;
 import static org.springframework.http.HttpStatus.OK;
-import static uk.nhs.adaptors.scr.clients.SpineHttpClient.CONTENT_LOCATION_HEADER;
-import static uk.nhs.adaptors.scr.clients.SpineHttpClient.RETRY_AFTER_HEADER;
+import static uk.nhs.adaptors.scr.clients.spine.SpineHttpClient.CONTENT_LOCATION_HEADER;
+import static uk.nhs.adaptors.scr.clients.spine.SpineHttpClient.RETRY_AFTER_HEADER;
 
 public class SandboxSpineClient implements SpineClientContract {
 
@@ -20,7 +20,7 @@ public class SandboxSpineClient implements SpineClientContract {
     private static final String UPLOAD_SCR_POLLING_RESPONSE = "mock-spine/MCCI_IN010000UK13/success.xml";
 
     @Override
-    public Response sendAcsData(String requestBody) {
+    public Response sendAcsData(String requestBody, String nhsdAsid) {
         return null;
     }
 

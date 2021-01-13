@@ -95,7 +95,7 @@ public class ScrTest {
     @Value("classpath:responses/polling/success.xml")
     private Resource pollingSuccessResponse;
 
-    @Value("classpath:responses/event-list-query/successResponse.xml")
+    @Value("classpath:responses/event-list-query/success.xml")
     private Resource eventListQuerySuccessResponse;
 
     @Value("classpath:bundle.fhir.json")
