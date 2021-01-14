@@ -16,9 +16,9 @@ import static uk.nhs.adaptors.scr.clients.spine.SpineHttpClient.RETRY_AFTER_HEAD
 
 public class SandboxSpineClient implements SpineClientContract {
 
-    private static final String ACS_SET_PERMISSION_RESPONSE = "mock-spine/ACS-set-permission-responses/success.xml";
-    private static final String EVENT_LIST_QUERY_RESPONSE = "mock-spine/QUPC_IN200000SM04/success.xml";
-    private static final String UPLOAD_SCR_POLLING_RESPONSE = "mock-spine/MCCI_IN010000UK13/success.xml";
+    private static final String ACS_SET_PERMISSION_RESPONSE = "mock-spine/setConsent.xml";
+    private static final String EVENT_LIST_QUERY_RESPONSE = "mock-spine/getScrId.xml";
+    private static final String UPLOAD_SCR_POLLING_RESPONSE = "mock-spine/uploadScrPolling.xml";
 
     @Override
     public Response sendAcsData(String requestBody, String nhsdAsid) {
