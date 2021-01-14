@@ -48,7 +48,7 @@ public class GetScrService {
         loadTemplate("QUPC_IN180000SM04.mustache");
     private static final String CORRELATION_ID_MDC_KEY = "CorrelationId";
 
-    private static final String ACS_SYSTEM = "https://fhir.nhs.uk/R4/CodeSystem/SCR-ACSPermission";
+    private static final String ACS_SYSTEM = "https://fhir.nhs.uk/CodeSystem/SCR-ACSPermission";
     private static final String NHS_ID_SYSTEM = "https://fhir.nhs.uk/Id/nhs-number";
     private static final String SCR_ID_SYSTEM = "https://fhir.nhs.uk/Id/nhsSCRUUID";
     private static final String SNOMED_SYSTEM = "http://snomed.info/sct";
