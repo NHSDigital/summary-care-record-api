@@ -1,4 +1,4 @@
-package uk.nhs.adaptors.scr.controllers.acs;
+package uk.nhs.adaptors.scr.controllers.fhir;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
