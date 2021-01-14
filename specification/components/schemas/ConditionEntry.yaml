@@ -15,7 +15,7 @@
             properties:
               profile:
                 type: string
-                default: "https://fhir.nhs.uk/R4/StructureDefinition/UKCore-Condition"
+                default: "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Condition"
         identifier:
           type: array
           items:

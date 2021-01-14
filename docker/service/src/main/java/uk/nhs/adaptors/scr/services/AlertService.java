@@ -5,15 +5,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.hl7.fhir.r4.model.Coding;
 import org.hl7.fhir.r4.model.OperationOutcome;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import uk.nhs.adaptors.scr.clients.spine.SpineClientContract;
 import uk.nhs.adaptors.scr.clients.spine.SpineHttpClient.Response;
 import uk.nhs.adaptors.scr.components.FhirParser;
 import uk.nhs.adaptors.scr.exceptions.BadRequestException;
 import uk.nhs.adaptors.scr.exceptions.UnexpectedSpineResponseException;
-
-import static org.springframework.http.HttpStatus.BAD_REQUEST;
-import static org.springframework.http.HttpStatus.OK;
 
 @Component
 @Slf4j
@@ -25,9 +23,10 @@ public class AlertService {
     public void sendAlert(String body, String nhsdAsid, String nhsdIdentity, String nhsdSessionUrid) {
         Response response = spineClient.sendAlert(body, nhsdAsid, nhsdIdentity, nhsdSessionUrid);
 
-        if (response.getStatusCode() != OK.value()) {
+        HttpStatus status = HttpStatus.resolve(response.getStatusCode());
+        if (status == null || !status.is2xxSuccessful()) {
             OperationOutcome error = fhirParser.parseResource(response.getBody(), OperationOutcome.class);
-            if (response.getStatusCode() == BAD_REQUEST.value()) {
+            if (status != null && status.is4xxClientError()) {
                 throw new BadRequestException(getErrorReason(error));
             } else {
                 throw new UnexpectedSpineResponseException(getErrorReason(error));

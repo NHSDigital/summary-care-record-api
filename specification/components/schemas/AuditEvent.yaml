@@ -13,7 +13,7 @@ properties:
       properties:
         url:
           type: string
-          default: https://fhir.nhs.uk/R4/StructureDefinition/Extension-SCR-NotificationMessage
+          default: https://fhir.nhs.uk/StructureDefinition/Extension-SCR-NotificationMessage
         valueString:
           type: string
           example: "Alert: Permission to view override 1C03CF4F-D404-4D76-B192-4F81727059F6"

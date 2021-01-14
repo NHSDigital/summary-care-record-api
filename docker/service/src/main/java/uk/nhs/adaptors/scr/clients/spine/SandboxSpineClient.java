@@ -16,12 +16,14 @@ import static uk.nhs.adaptors.scr.clients.spine.SpineHttpClient.RETRY_AFTER_HEAD
 
 public class SandboxSpineClient implements SpineClientContract {
 
-    private static final String EVENT_LIST_QUERY_RESPONSE = "mock-spine/QUPC_IN200000SM04/success.xml";
-    private static final String UPLOAD_SCR_POLLING_RESPONSE = "mock-spine/MCCI_IN010000UK13/success.xml";
+    private static final String ACS_SET_PERMISSION_RESPONSE = "mock-spine/setConsent.xml";
+    private static final String EVENT_LIST_QUERY_RESPONSE = "mock-spine/getScrId.xml";
+    private static final String UPLOAD_SCR_POLLING_RESPONSE = "mock-spine/uploadScrPolling.xml";
 
     @Override
     public Response sendAcsData(String requestBody, String nhsdAsid) {
-        return null;
+        String responseBody = getResourceAsString(ACS_SET_PERMISSION_RESPONSE);
+        return new Response(OK.value(), null, responseBody);
     }
 
     @Override
@@ -48,7 +50,7 @@ public class SandboxSpineClient implements SpineClientContract {
 
     @Override
     public Response sendAlert(String requestBody, String nhsdAsid, String nhsdIdentity, String nhsdSessionUrid) {
-        return null;
+        return new Response(OK.value(), null, null);
     }
 
     @SneakyThrows
