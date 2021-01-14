@@ -92,6 +92,18 @@ public abstract class CustomArgumentsProvider implements ArgumentsProvider {
         }
     }
 
+    public static class SetAcsSuccess extends CustomArgumentsProvider {
+        public SetAcsSuccess() {
+            super("set_acs_success");
+        }
+    }
+
+    public static class SetAcsInvalidNhsNumber extends CustomArgumentsProvider {
+        public SetAcsInvalidNhsNumber() {
+            super("set_acs_invalid_nhs_number");
+        }
+    }
+
     public static class SendAlertSuccess extends CustomArgumentsProvider {
         public SendAlertSuccess() {
             super("send_alert_success");

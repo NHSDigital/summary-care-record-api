@@ -53,7 +53,7 @@ public class FhirHelper {
             .map(Identifier::getValue)
             .map(PatientId::new)
             .reduce((x, y) -> {
-                throw new FhirMappingException("Petient.identifier[] must contain 1 NHS Number");
+                throw new FhirMappingException("Patient.identifier[] must contain 1 NHS Number");
             })
             .orElseThrow(() -> new FhirMappingException(String.format(
                 "patient.identifier[] for system %s must not be empty", NHS_NUMBER_IDENTIFIER_SYSTEM))

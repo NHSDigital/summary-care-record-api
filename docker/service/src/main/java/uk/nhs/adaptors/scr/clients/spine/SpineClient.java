@@ -1,4 +1,4 @@
-package uk.nhs.adaptors.scr.clients;
+package uk.nhs.adaptors.scr.clients.spine;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +15,7 @@ import org.springframework.retry.backoff.BackOffContext;
 import org.springframework.retry.backoff.BackOffInterruptedException;
 import org.springframework.retry.backoff.BackOffPolicy;
 import org.springframework.retry.support.RetryTemplate;
+import uk.nhs.adaptors.scr.clients.spine.SpineHttpClient.Response;
 import uk.nhs.adaptors.scr.config.SpineConfiguration;
 import uk.nhs.adaptors.scr.exceptions.NoSpineResultException;
 import uk.nhs.adaptors.scr.exceptions.ScrBaseException;
@@ -44,25 +45,34 @@ public class SpineClient implements SpineClientContract {
     private static final String UPLOAD_SCR_CONTENT_TYPE =
         "multipart/related; boundary=\"--=_MIME-Boundary\"; type=\"text/xml\"; start=\"<ebXMLHeader@spine.nhs.uk>\"";
     private static final String GET_SCR_ID_SOAP_ACTION = "urn:nhs:names:services:psisquery/QUPC_IN180000SM04";
+    private static final String SET_PERMISSION_SOAP_ACTION = "urn:nhs:names:services:lrs/SET_RESOURCE_PERMISSIONS_INUK01";
 
     private final SpineConfiguration spineConfiguration;
     private final SpineHttpClient spineHttpClient;
 
     @SneakyThrows
     @Override
-    public SpineHttpClient.Response sendAcsData(String requestBody) {
+    public Response sendAcsData(String requestBody, String nhsdAsid) {
         var url = spineConfiguration.getUrl() + spineConfiguration.getAcsEndpoint();
-
+        LOGGER.debug("Sending ACS SetPermission request to SPINE. URL: {}, Body: {}", url, requestBody);
         var request = new HttpPost(url);
-        //TODO: set headers
+        setSoapHeaders(request, SET_PERMISSION_SOAP_ACTION, TEXT_XML_VALUE);
+        request.setHeader(NHSD_ASID, nhsdAsid);
         request.setEntity(new StringEntity(requestBody));
 
-        return spineHttpClient.sendRequest(request);
+        var response = spineHttpClient.sendRequest(request);
+        var statusCode = response.getStatusCode();
+
+        if (statusCode != OK.value()) {
+            LOGGER.error("Unexpected spine ACS set permission response: {}", response);
+            throw new UnexpectedSpineResponseException("Unexpected spine 'send data' response " + statusCode);
+        }
+        return response;
     }
 
     @SneakyThrows
     @Override
-    public SpineHttpClient.Response sendScrData(String requestBody, String nhsdAsid, String nhsdIdentity, String nhsdSessionUrid) {
+    public Response sendScrData(String requestBody, String nhsdAsid, String nhsdIdentity, String nhsdSessionUrid) {
         var url = spineConfiguration.getUrl() + spineConfiguration.getScrEndpoint();
         LOGGER.debug("Sending SCR Upload request to SPINE. URL: {}, Body: {}", url, requestBody);
 
@@ -94,9 +104,9 @@ public class SpineClient implements SpineClientContract {
         request.setHeader(NHSD_REQUEST_ID, MDC.get(REQUEST_ID_MDC_KEY));
     }
 
-    private void setSoapHeaders(HttpRequest request, String uploadScrSoapAction, String uploadScrContentType) {
-        request.addHeader(SOAP_ACTION, uploadScrSoapAction);
-        request.addHeader(CONTENT_TYPE, uploadScrContentType);
+    private void setSoapHeaders(HttpRequest request, String soapAction, String contentType) {
+        request.addHeader(SOAP_ACTION, soapAction);
+        request.addHeader(CONTENT_TYPE, contentType);
     }
 
     @Override
@@ -140,7 +150,7 @@ public class SpineClient implements SpineClientContract {
 
     @SneakyThrows
     @Override
-    public SpineHttpClient.Response sendGetScrId(String requestBody, String nhsdAsid) {
+    public Response sendGetScrId(String requestBody, String nhsdAsid) {
         LOGGER.debug("Sending GET SCR ID request to SPINE: {}", requestBody);
         var request = new HttpPost(spineConfiguration.getUrl() + spineConfiguration.getPsisQueriesEndpoint());
         setSoapHeaders(request, GET_SCR_ID_SOAP_ACTION, TEXT_XML_VALUE);

@@ -1,21 +1,22 @@
 package uk.nhs.adaptors.scr.models;
 
+import lombok.Getter;
+
+@Getter
 public enum AcsPermission {
-    YES("Yes"),
-    NO("No"),
-    ASK("Ask");
+    YES("Yes", "Yes"),
+    NO("No", "No"),
+    ASK("Ask", "Clear");
 
-    private String value;
+    private String fhirValue;
+    private String spineValue;
 
-    AcsPermission(String value) {
-        this.value = value;
+    AcsPermission(String value, String spineValue) {
+        this.fhirValue = value;
+        this.spineValue = spineValue;
     }
 
     public static AcsPermission fromValue(String str) {
         return valueOf(str.toUpperCase());
-    }
-
-    public String value() {
-        return value;
     }
 }

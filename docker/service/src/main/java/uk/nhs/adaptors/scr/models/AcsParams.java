@@ -5,12 +5,16 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class EventListQueryParams {
+public class AcsParams {
     private String senderHostIpAddress;
-    private String spinePsisEndpointUrl;
+    private String spineAcsEndpointUrl;
     private String spineToASID;
     private String senderFromASID;
     private String generatedMessageId;
     private String messageCreationTime;
     private String nhsNumber;
+    private String permissionValue;
+    private String sdsRoleProfileId;
+    private String sdsUserId;
+    private String sdsJobRoleCode;
 }

@@ -13,6 +13,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
+import uk.nhs.adaptors.scr.clients.spine.SpineClient;
+import uk.nhs.adaptors.scr.clients.spine.SpineHttpClient;
 import uk.nhs.adaptors.scr.config.ScrConfiguration;
 import uk.nhs.adaptors.scr.config.SpineConfiguration;
 import uk.nhs.adaptors.scr.exceptions.NoSpineResultException;

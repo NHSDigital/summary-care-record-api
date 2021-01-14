@@ -2,7 +2,6 @@ package uk.nhs.adaptors.scr.controllers.fhir;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.hl7.fhir.r4.model.Bundle;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -11,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.async.WebAsyncTask;
-import uk.nhs.adaptors.scr.components.FhirParser;
 import uk.nhs.adaptors.scr.config.ScrConfiguration;
 import uk.nhs.adaptors.scr.config.SpineConfiguration;
 import uk.nhs.adaptors.scr.exceptions.ScrTimeoutException;
@@ -32,7 +30,6 @@ import static uk.nhs.adaptors.scr.controllers.FhirMediaTypes.APPLICATION_FHIR_JS
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Slf4j
 public class FhirController {
-    private final FhirParser fhirParser;
     private final UploadScrService uploadScrService;
     private final SpineConfiguration spineConfiguration;
     private final ScrConfiguration scrConfiguration;
@@ -57,7 +54,7 @@ public class FhirController {
             nhsdSessionUrid);
 
         var requestData = new RequestData();
-        requestData.setBundle(fhirParser.parseResource(body, Bundle.class))
+        requestData.setBody(body)
             .setNhsdAsid(nhsdAsid)
             .setClientIp(clientIp)
             .setNhsdIdentity(nhsdIdentity)

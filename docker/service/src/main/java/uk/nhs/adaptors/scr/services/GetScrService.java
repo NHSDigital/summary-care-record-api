@@ -17,8 +17,8 @@ import org.hl7.fhir.r4.model.Reference;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import uk.nhs.adaptors.scr.clients.SpineClientContract;
-import uk.nhs.adaptors.scr.clients.SpineHttpClient;
+import uk.nhs.adaptors.scr.clients.spine.SpineClientContract;
+import uk.nhs.adaptors.scr.clients.spine.SpineHttpClient;
 import uk.nhs.adaptors.scr.config.ScrConfiguration;
 import uk.nhs.adaptors.scr.config.SpineConfiguration;
 import uk.nhs.adaptors.scr.models.EventListQueryParams;
@@ -113,7 +113,7 @@ public class GetScrService {
         documentReference.setId(randomUUID());
 
         documentReference.addSecurityLabel(new CodeableConcept(new Coding()
-            .setCode(response.getViewPermission().value())
+            .setCode(response.getViewPermission().getFhirValue())
             .setSystem(ACS_SYSTEM)));
 
         documentReference.setStatus(CURRENT);

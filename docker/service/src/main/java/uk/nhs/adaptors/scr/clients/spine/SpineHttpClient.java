@@ -1,6 +1,7 @@
-package uk.nhs.adaptors.scr.clients;
+package uk.nhs.adaptors.scr.clients.spine;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -41,7 +42,7 @@ public class SpineHttpClient {
                 var statusCode = response.getStatusLine().getStatusCode();
                 var headers = response.getAllHeaders();
                 var body = readResponseBody(response);
-
+                LOGGER.debug("Spine response: HTTP status: {}, body: {}", statusCode, body);
                 return Response.builder()
                     .statusCode(statusCode)
                     .headers(headers)
@@ -69,6 +70,7 @@ public class SpineHttpClient {
     @Builder
     @Getter
     @ToString
+    @AllArgsConstructor
     public static class Response {
         private final int statusCode;
         private final Header[] headers;
