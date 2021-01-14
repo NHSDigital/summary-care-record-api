@@ -23,7 +23,7 @@ public class SandboxSpineClient implements SpineClientContract {
     @Override
     public Response sendAcsData(String requestBody, String nhsdAsid) {
         String responseBody = getResourceAsString(ACS_SET_PERMISSION_RESPONSE);
-        return new Response(OK.value(), null , responseBody);
+        return new Response(OK.value(), null, responseBody);
     }
 
     @Override
