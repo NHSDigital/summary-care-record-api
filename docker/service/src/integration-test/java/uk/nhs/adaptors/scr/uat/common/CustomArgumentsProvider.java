@@ -103,4 +103,16 @@ public abstract class CustomArgumentsProvider implements ArgumentsProvider {
             super("set_acs_invalid_nhs_number");
         }
     }
+
+    public static class SendAlertSuccess extends CustomArgumentsProvider {
+        public SendAlertSuccess() {
+            super("send_alert_success");
+        }
+    }
+
+    public static class SendAlertError extends CustomArgumentsProvider {
+        public SendAlertError() {
+            super("send_alert_error");
+        }
+    }
 }

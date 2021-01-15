@@ -29,12 +29,13 @@ import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.http.MediaType.TEXT_XML_VALUE;
 import static uk.nhs.adaptors.scr.config.ConversationIdFilter.CORRELATION_ID_MDC_KEY;
 import static uk.nhs.adaptors.scr.config.RequestIdFilter.REQUEST_ID_MDC_KEY;
-import static uk.nhs.adaptors.scr.consts.ScrHttpHeaders.NHSD_IDENTITY;
 import static uk.nhs.adaptors.scr.consts.SpineHttpHeaders.NHSD_ASID;
 import static uk.nhs.adaptors.scr.consts.SpineHttpHeaders.NHSD_CORRELATION_ID;
+import static uk.nhs.adaptors.scr.consts.SpineHttpHeaders.NHSD_IDENTITY;
 import static uk.nhs.adaptors.scr.consts.SpineHttpHeaders.NHSD_REQUEST_ID;
 import static uk.nhs.adaptors.scr.consts.SpineHttpHeaders.NHSD_SESSION_URID;
 import static uk.nhs.adaptors.scr.consts.SpineHttpHeaders.SOAP_ACTION;
+import static uk.nhs.adaptors.scr.controllers.FhirMediaTypes.APPLICATION_FHIR_JSON_VALUE;
 
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Slf4j
@@ -164,6 +165,18 @@ public class SpineClient implements SpineClientContract {
             throw new UnexpectedSpineResponseException("Unexpected spine send response " + statusCode);
         }
         return response;
+    }
+
+    @Override
+    @SneakyThrows
+    public SpineHttpClient.Response sendAlert(String requestBody, String nhsdAsid, String nhsdIdentity, String nhsdSessionUrid) {
+        LOGGER.debug("Sending Alert request to SPINE: {}", requestBody);
+        var request = new HttpPost(spineConfiguration.getUrl() + spineConfiguration.getAlertEndpoint());
+        request.addHeader(CONTENT_TYPE, APPLICATION_FHIR_JSON_VALUE);
+        setCommonHeaders(request, nhsdAsid, nhsdIdentity, nhsdSessionUrid);
+        request.setEntity(new StringEntity(requestBody));
+
+        return spineHttpClient.sendRequest(request);
     }
 
 

@@ -19,6 +19,7 @@ public class SpineConfiguration {
     private String acsEndpoint;
     private String scrEndpoint;
     private String psisQueriesEndpoint;
+    private String alertEndpoint;
 
     private String clientKey;
     private String clientCert;
