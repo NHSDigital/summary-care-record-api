@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.http.conn.ssl.NoopHostnameVerifier;
+import org.apache.http.conn.ssl.DefaultHostnameVerifier;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.conn.ssl.TrustAllStrategy;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -16,6 +16,7 @@ import org.springframework.stereotype.Component;
 import uk.nhs.adaptors.scr.config.SpineConfiguration;
 import uk.nhs.adaptors.scr.exceptions.ScrBaseException;
 
+import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLContext;
 import java.security.KeyStore;
 import java.util.ArrayList;
@@ -32,8 +33,7 @@ public class ScrHttpClientBuilder {
         var httpClientBuilder = HttpClients.custom();
         if (spineConfiguration.getUrl().startsWith("https://")) {
             LOGGER.debug("Setting up HTTP client with mutual TLS");
-            //TODO: NoopHostnameVerifier works for mock - in production DefaultHostnameVerifier should be used
-            NoopHostnameVerifier hostnameVerifier = new NoopHostnameVerifier();
+            HostnameVerifier hostnameVerifier = new DefaultHostnameVerifier();
             SSLConnectionSocketFactory factory = new SSLConnectionSocketFactory(buildSSLContext(), hostnameVerifier);
             httpClientBuilder.setSSLSocketFactory(factory);
         }
