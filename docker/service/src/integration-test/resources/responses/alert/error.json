@@ -7,7 +7,7 @@
       "details": {
         "coding": [
           {
-            "system": "https://fhir.nhs.uk/R4/CodeSystem/Spine-ErrorOrWarningCode",
+            "system": "https://fhir.nhs.uk/CodeSystem/Spine-ErrorOrWarningCode",
             "version": "1",
             "code": "INVALID_VALUE",
             "display": "Invalid value - XYZ in field 'NHS_NUMBER'"
