@@ -231,7 +231,7 @@
               {
                 "code": "R0070",
                 "display": "Associate Specialist",
-                "system": "https://fhir.nhs.uk/R4/CodeSystem/UKCore-SDSJobRoleName"
+                "system": "https://fhir.nhs.uk/CodeSystem/HL7v3-SDSJobRoleName"
               }
             ]
           }
@@ -339,7 +339,7 @@
         "resourceType": "Condition",
         "meta": [
           {
-            "profile": "https://fhir.nhs.uk/R4/StructureDefinition/UKCore-Condition"
+            "profile": "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Condition"
           }
         ],
         "identifier": [
@@ -378,7 +378,7 @@
         "resourceType": "Condition",
         "meta": [
           {
-            "profile": "https://fhir.nhs.uk/R4/StructureDefinition/UKCore-Condition"
+            "profile": "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Condition"
           }
         ],
         "identifier": [
@@ -417,7 +417,7 @@
         "resourceType": "Condition",
         "meta": [
           {
-            "profile": "https://fhir.nhs.uk/R4/StructureDefinition/UKCore-Condition"
+            "profile": "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Condition"
           }
         ],
         "identifier": [
@@ -456,7 +456,7 @@
         "resourceType": "Condition",
         "meta": [
           {
-            "profile": "https://fhir.nhs.uk/R4/StructureDefinition/UKCore-Condition"
+            "profile": "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Condition"
           }
         ],
         "identifier": [
@@ -495,7 +495,7 @@
         "resourceType": "Observation",
         "meta": [
           {
-            "profile": "https://fhir.nhs.uk/R4/StructureDefinition/UKCore-Observation"
+            "profile": "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Observation"
           }
         ],
         "identifier": [
@@ -528,7 +528,7 @@
         "resourceType": "Observation",
         "meta": [
           {
-            "profile": "https://fhir.nhs.uk/R4/StructureDefinition/UKCore-Observation"
+            "profile": "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Observation"
           }
         ],
         "identifier": [

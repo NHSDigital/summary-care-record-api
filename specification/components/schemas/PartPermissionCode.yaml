@@ -8,7 +8,7 @@ properties:
     properties:
       system:
         type: string
-        default: https://fhir.nhs.uk/R4/CodeSystem/SCR-ACSPermission
+        default: https://fhir.nhs.uk/CodeSystem/SCR-ACSPermission
       code:
         type: string
         enum: [Ask, Yes, No]
