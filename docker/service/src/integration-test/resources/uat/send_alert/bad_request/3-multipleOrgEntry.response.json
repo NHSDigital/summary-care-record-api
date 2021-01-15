@@ -1,0 +1,12 @@
+{
+  "resourceType": "OperationOutcome",
+  "issue": [
+    {
+      "severity": "error",
+      "code": "value",
+      "details": {
+        "text": "Expecting exactly one 'agent' entry with 'who.identifier.system' 'https://fhir.nhs.uk/Id/ods-organization-code' and non-empty 'value'"
+      }
+    }
+  ]
+}

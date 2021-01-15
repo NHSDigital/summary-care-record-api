@@ -9,10 +9,10 @@ import uk.nhs.adaptors.scr.clients.spine.SpineHttpClient.Response;
 import uk.nhs.adaptors.scr.models.ProcessingResult;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static org.springframework.http.HttpHeaders.CONTENT_LOCATION;
+import static org.springframework.http.HttpHeaders.RETRY_AFTER;
 import static org.springframework.http.HttpStatus.ACCEPTED;
 import static org.springframework.http.HttpStatus.OK;
-import static uk.nhs.adaptors.scr.clients.spine.SpineHttpClient.CONTENT_LOCATION_HEADER;
-import static uk.nhs.adaptors.scr.clients.spine.SpineHttpClient.RETRY_AFTER_HEADER;
 
 public class SandboxSpineClient implements SpineClientContract {
 
@@ -29,8 +29,8 @@ public class SandboxSpineClient implements SpineClientContract {
     @Override
     public Response sendScrData(String requestBody, String nhsdAsid, String nhsdIdentity, String nhsdSessionUrid) {
         Header[] headers = {
-            new BasicHeader(CONTENT_LOCATION_HEADER, ""),
-            new BasicHeader(RETRY_AFTER_HEADER, "300")
+            new BasicHeader(CONTENT_LOCATION, ""),
+            new BasicHeader(RETRY_AFTER, "300")
         };
         return new Response(ACCEPTED.value(), headers, null);
     }
