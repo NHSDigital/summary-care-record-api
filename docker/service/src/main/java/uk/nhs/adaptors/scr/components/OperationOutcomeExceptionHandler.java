@@ -23,11 +23,13 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import uk.nhs.adaptors.scr.exceptions.OperationOutcomeError;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.ConstraintViolationException;
 import java.util.List;
 import java.util.Map;
 
 import static java.util.Collections.singletonList;
 import static java.util.stream.Collectors.joining;
+import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 import static org.hl7.fhir.r4.model.OperationOutcome.IssueSeverity.ERROR;
 import static org.hl7.fhir.r4.model.OperationOutcome.IssueType.EXCEPTION;
 import static org.hl7.fhir.r4.model.OperationOutcome.IssueType.NOTFOUND;
@@ -100,9 +102,23 @@ public class OperationOutcomeExceptionHandler extends ResponseEntityExceptionHan
 
     @SneakyThrows
     @ExceptionHandler(MissingRequestHeaderException.class)
-    public ResponseEntity<Object> handleMissingRequestHeader(MissingRequestHeaderException ex) {
+    public ResponseEntity<Object> handleMissingRequestHeader(Exception ex) {
         OperationOutcome operationOutcome = createOperationOutcome(VALUE, ERROR, ex.getMessage());
         return errorResponse(new HttpHeaders(), BAD_REQUEST, operationOutcome);
+    }
+
+    @SneakyThrows
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<Object> handleConstraintViolationException(ConstraintViolationException ex) {
+        OperationOutcome operationOutcome = createOperationOutcome(VALUE, ERROR, removeMethodNamePrefix(ex.getMessage()));
+        return errorResponse(new HttpHeaders(), BAD_REQUEST, operationOutcome);
+    }
+
+    private String removeMethodNamePrefix(String message) {
+        if (isNotEmpty(message) && message.contains(":")) {
+            return message.substring(message.indexOf(":") + 1).trim();
+        }
+        return message;
     }
 
     @ExceptionHandler(Exception.class)

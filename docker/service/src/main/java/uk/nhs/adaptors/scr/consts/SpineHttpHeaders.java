@@ -6,4 +6,5 @@ public class SpineHttpHeaders {
     public static final String SOAP_ACTION = "SOAPAction";
     public static final String NHSD_ASID = "nhsd-asid";
     public static final String NHSD_SESSION_URID = "NHSD-Session-URID";
+    public static final String NHSD_IDENTITY = "NHSD-Identity-UUID";
 }

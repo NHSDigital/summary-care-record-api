@@ -1,0 +1,12 @@
+{
+  "resourceType": "OperationOutcome",
+  "issue": [
+    {
+      "severity": "error",
+      "code": "value",
+      "details": {
+        "text": "Invalid value - XYZ in field 'NHS_NUMBER'"
+      }
+    }
+  ]
+}
