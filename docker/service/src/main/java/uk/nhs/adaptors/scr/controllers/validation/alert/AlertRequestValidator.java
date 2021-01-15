@@ -156,8 +156,8 @@ public class AlertRequestValidator implements ConstraintValidator<AlertRequest, 
     private void checkExtension(AuditEvent auditEvent) {
         List<Extension> extensions = auditEvent.getExtensionsByUrl(EXTENSION_URL);
         if (extensions.size() != 1) {
-            throw new FhirValidationException(String.format("Expecting exactly one 'extension' element with URL: '%s'"
-                + EXTENSION_URL));
+            throw new FhirValidationException(String.format("Expecting exactly one 'extension' element with URL: '%s'",
+                EXTENSION_URL));
         }
         if (!extensions.get(0).hasValue()) {
             throw new FhirValidationException(String.format("'valueString' for 'extension' '%s' is missing", EXTENSION_URL));
