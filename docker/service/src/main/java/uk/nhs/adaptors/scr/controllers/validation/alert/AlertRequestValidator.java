@@ -26,9 +26,9 @@ import static org.springframework.util.StringUtils.isEmpty;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class AlertRequestValidator implements ConstraintValidator<AlertRequest, String> {
 
-    private static final String EXTENSION_URL = "https://fhir.nhs.uk/R4/StructureDefinition/Extension-SCR-NotificationMessage";
+    private static final String EXTENSION_URL = "https://fhir.nhs.uk/StructureDefinition/Extension-SCR-NotificationMessage";
     private static final String TYPE_SYSTEM = "http://terminology.hl7.org/CodeSystem/iso-21089-lifecycle";
-    private static final String SUBTYPE_SYSTEM = "https://fhir.nhs.uk/R4/CodeSystem/SCR-AlertReason";
+    private static final String SUBTYPE_SYSTEM = "https://fhir.nhs.uk/CodeSystem/SCR-AlertReason";
     private static final List<String> SUBTYPE_CODES = asList("0", "1", "2", "3", "4", "5");
     private static final String SOURCE_ID_SYSTEM = "https://fhir.nhs.uk/Id/nhsSpineASID";
     private static final String PATIENT_SYSTEM = "https://fhir.nhs.uk/Id/nhs-number";
