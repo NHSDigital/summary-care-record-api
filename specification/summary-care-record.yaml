@@ -4,7 +4,15 @@ info:
   title: Summary Care Record API
   description: |
     ## Overview
-    ??
+    Use this API to access a patient's [Summary Care Record (SCR)](https://digital.nhs.uk/services/summary-care-records-scr) - an electronic record of important patient information, created from GP medical records. SCRs can be seen and used by authorised staff in other areas of the health and care system involved in the patient's direct care.
+
+    Also use this API to access the Access Control Service (ACS) - which manages consent to share information for SCR.
+
+    You can:
+    * create a patient's Summary Care Record
+    * retrieve a patient's Summary Care Record
+    * set consent to share information
+    * send Alert to record TMS Event Service (TES) Alerts centrally
 
     ## Legal Use
     This API can only be used where there is a legal basis to do so. Make sure you have a valid use case before you go too far with your development. You must do this before you can go live (see ‘Onboarding’ below).
@@ -12,14 +20,6 @@ info:
     ## Related APIs
     To use this API, you will need the patient's NHS number, which can be retrieved by using the following API:
       - [Personal Demographics Service (FHIR) API](https://digital.nhs.uk/developer/api-catalogue/personal-demographics-service-fhir) - use this API to search for patients and retrieve their details.  This API can also be used to update their details in some cases. This is the latest version of the PDS API and is recommended for all new integrators.
-
-      When using this API, we also recommend that you consider using these related APIs:
-
-      - [Female Genital Mutilation Information Sharing System (FGM-IS)](https://developer.nhs.uk/apis/fgm-v2.1/) - use this API to store and share FGM information of children under 18 with relevant NHS healthcare professionals across departments, organisations and geographical boundaries within England.
-
-      - [Child Protection Information Sharing (CP-IS) - HL7 V3 API](https://digital.nhs.uk/services/child-protection-information-sharing-project/cp-is-domain-message-specification) - use this messaging and interactions guide to provide access to CP-IS, a sharing system which provides healthcare workers with access to recent unscheduled care attendance information for children under a local authority social care plan. 
-
-      - [National Record Locator (NRL) (FHIR) API](https://developer.nhs.uk/apis/nrl/) - use this API to locate and share patient records held within local health and social care systems.
 
     ## API Status and Roadmap
     This API is in [alpha](https://digital.nhs.uk/developer/guides-and-documentation/reference-guide#api-status) - expect further breaking changes.
@@ -33,14 +33,11 @@ info:
     ## Technology
     This API is [RESTful](https://digital.nhs.uk/developer/guides-and-documentation/api-technologies-at-nhs-digital#basic-rest-apis). 
 
-    It also conforms to the [FHIR (STU3)](https://www.hl7.org/fhir/STU3/) global standard for health care data exchange.
+    It also conforms to the [FHIR (R4)](https://www.hl7.org/fhir/) global standard for health care data exchange.
 
     You don’t need to know much about FHIR to use this API - FHIR APIs are just RESTful APIs that follow specific rules. In particular:
         - array names are singular, for example `line` not `lines` for address lines
         - data items that are country-specific and thus not included in the FHIR global base resources are usually wrapped in an `extension` object
-
-    ### Resources
-    ??
 
     ## Network Access
     This API is available on the internet and, indirectly, on the [Health and Social Care Network (HSCN)](https://digital.nhs.uk/services/health-and-social-care-network). To use this API with NHS smartcards (see below) you do need an HSCN connection, although internet-facing alternatives are available.
@@ -97,6 +94,8 @@ x-nhsd-api-platform:
     description: This is a generated template API
     pipeline_name_prefix: "Summary-Care-Record"
 servers:
+  - url: 'https://int.api.service.nhs.uk/summary-care-record'
+    description: Integration test environment.
   - url: 'https://sandbox.api.service.nhs.uk/summary-care-record'
     description: Sandbox environment
 tags:
@@ -138,7 +137,7 @@ paths:
                     details:
                       text: NHS number missing
         "403":
-          description: No consent
+          description: There's no patient's consent to store SCR
           content:
             application/fhir+json:
               schema:
@@ -150,19 +149,6 @@ paths:
                     code: forbidden
                     details:
                       text: There's no patient's consent to store SCR
-        "500":
-          description: Spine changed response structure
-          content:
-            application/fhir+json:
-              schema:
-                $ref: components/schemas/OperationOutcome.yaml
-              example:
-                resourceType: OperationOutcome
-                issue:
-                  - severity: error
-                    code: invalid
-                    details:
-                      text: Internal error
     get:
       summary: Get patient's Summary Care Record
       operationId: get-scr
@@ -172,6 +158,21 @@ paths:
         - $ref: '#/components/parameters/BearerAuthorization'
         - $ref: '#/components/parameters/CorrelationID'
         - $ref: '#/components/parameters/RequestID'
+        - in: query
+          name: composition.identifier
+          description: Identifier of SCR composition - can be retrieved using GET /DocumentReference endpoint available in this API.
+          example: f61e545c-d52c-4b62-9668-3dcc6c27fc50
+          required: true
+          schema: 
+            type: string
+        - in: query
+          name: composition.subject:Patient.identifier
+          description: The patient's NHS Number. Must be preceded with FHIR identifier (eg."composition.subject:Patient.identifier=https://fhir.nhs.uk/Id/nhs-number|9995000180")
+          example: composition.subject:Patient.identifier=https://fhir.nhs.uk/Id/nhs-number|9995000180
+          required: true
+          schema:
+            type: string
+
       responses:
         "200":
           description: SCR successfully returned
