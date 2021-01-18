@@ -48,6 +48,11 @@ public class SandboxSpineClient implements SpineClientContract {
         return new Response(OK.value(), null, responseBody);
     }
 
+    @Override
+    public Response sendAlert(String requestBody, String nhsdAsid, String nhsdIdentity, String nhsdSessionUrid) {
+        return null;
+    }
+
     @SneakyThrows
     private static String getResourceAsString(String path) {
         return IOUtils.toString(new ClassPathResource(path).getInputStream(), UTF_8);

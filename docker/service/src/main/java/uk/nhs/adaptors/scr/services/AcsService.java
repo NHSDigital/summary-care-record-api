@@ -41,7 +41,7 @@ public class AcsService {
     private static final String SET_PERMISSION_PARAM_NAME = "setPermissions";
     private static final String NHS_NUMBER_PART_NAME = "nhsNumber";
     private static final String PERMISSION_CODE_PART_NAME = "permissionCode";
-    private static final String PERMISSION_CODE_SYSTEM = "https://fhir.nhs.uk/R4/CodeSystem/SCR-ACSPermission";
+    private static final String PERMISSION_CODE_SYSTEM = "https://fhir.nhs.uk/CodeSystem/SCR-ACSPermission";
 
     private final SpineClientContract spineClient;
     private final ScrConfiguration scrConfiguration;

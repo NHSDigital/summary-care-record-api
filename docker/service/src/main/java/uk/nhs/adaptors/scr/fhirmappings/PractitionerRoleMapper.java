@@ -17,7 +17,7 @@ import uk.nhs.adaptors.scr.models.gpsummarymodels.PractitionerRoleIdentifier;
 public class PractitionerRoleMapper {
 
     private static final String AGENT_PERSON_SDS_LINK = "http://fhir.nhs.net/Id/sds-role-profile-id";
-    private static final String AGENT_PERSON_LINK = "https://fhir.nhs.uk/R4/CodeSystem/UKCore-SDSJobRoleName";
+    private static final String AGENT_PERSON_LINK = "https://fhir.nhs.uk/CodeSystem/HL7v3-SDSJobRoleName";
 
     public static void mapPractitionerRole(GpSummary gpSummary, PractitionerRole practitionerRole) throws FhirMappingException {
         setPractitionerRoleIdentifiers(gpSummary, practitionerRole);

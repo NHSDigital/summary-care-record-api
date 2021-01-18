@@ -1,7 +1,7 @@
 {
   "resourceType": "AuditEvent",
   "id": "example",
-  "extension":  [
+  "extension": [
     {
       "url": "https://fhir.nhs.uk/StructureDefinition/Extension-SCR-NotificationMessage",
       "valueString": "Alert: Permission to view override 1C03CF4F-D404-4D76-B192-4F81727059F6"
@@ -12,7 +12,7 @@
     "code": "access",
     "display": "Access/View Record Lifecycle Event"
   },
-  "subtype":  [
+  "subtype": [
     {
       "system": "https://fhir.nhs.uk/CodeSystem/SCR-AlertReason",
       "code": "1",
@@ -20,7 +20,7 @@
     }
   ],
   "recorded": "2020-11-13T00:00:00+00:00",
-  "agent":  [
+  "agent": [
     {
       "who": {
         "identifier": {
@@ -46,7 +46,7 @@
           "value": "T10101"
         }
       },
-      "role":  [
+      "role": [
         {
           "text": "General Practitioner"
         }
@@ -62,7 +62,7 @@
       }
     }
   },
-  "entity":  [
+  "entity": [
     {
       "what": {
         "identifier": {
