@@ -253,6 +253,9 @@ paths:
     post:
       summary: Update patient's consent to View SCR
       operationId: acs
+      description: |
+        # Overview
+        Use this endpoint to update the Permission to view for GP Summaries held for the patient
       tags:
         - SCR
       parameters:
@@ -268,8 +271,8 @@ paths:
             example:
               $ref: components/examples/SetPermission.json
       responses: 
-        "200": 
-          description: Success response
+        "201": 
+          description: Permission successfully updated
         "400":
           description: Bad request
           content:
