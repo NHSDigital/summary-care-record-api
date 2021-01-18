@@ -22,6 +22,7 @@ properties:
         - url
         - valueString
   type:
+    description: Fixed value
     type: object
     properties:
       system:
@@ -48,6 +49,7 @@ properties:
           default: "https://fhir.nhs.uk/CodeSystem/SCR-AlertReason"
         code:
           type: string
+          enum: [0, 1, 2, 3, 4, 5]
           example: 1
         display:
           type: string
@@ -57,6 +59,7 @@ properties:
         - code
         - display
     minItems: 1
+    maxItems: 1
   recorded:
     description: The time when the event was recorded
     type: string
@@ -72,6 +75,7 @@ properties:
     type: object
     properties:
       observer:
+        description: The identity of source detecting the event
         type: object
         properties:
           system:
@@ -92,6 +96,7 @@ properties:
       type: object
       properties:
         what:
+          description: Identifies a specific instance of the entity
           type: object
           properties:
             identifier:

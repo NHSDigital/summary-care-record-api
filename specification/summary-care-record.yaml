@@ -286,8 +286,11 @@ paths:
 
   /AuditEvent:
     post:
-      summary: Override patient's dissent to View SCR
+      summary: Send TMS Event Service (TES) message
       operationId: alert
+      description: |
+        # Overview
+        Use this endpoint to record TMS Event Service (TES) Alerts centrally.
       tags:
         - SCR
       parameters:

@@ -1,4 +1,5 @@
 type: object
+description: An actor taking an active role in the event or activity that is logged.
 properties:
   who:
     type: object
@@ -21,6 +22,7 @@ properties:
         required:
           - identifier
   role:
+    description: Agent role in the event
     type: array
     items:
       type: object
@@ -31,6 +33,7 @@ properties:
       required:
         - text
   requestor:
+    description: Whether user is initiator
     type: boolean
     default: false
 required:
