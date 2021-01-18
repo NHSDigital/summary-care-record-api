@@ -4,7 +4,22 @@ properties:
     type: object
     properties:
       identifier:
-        $ref: identifier.yaml
+        type: object
+        properties:
+          identifier:
+            type: object
+            properties:
+              system:
+                type: string
+                example: "https://fhir.nhs.uk/Id/sds-user-id"
+              value: 
+                type: string
+                example: T10101
+            required:
+              - system
+              - value
+        required:
+          - identifier
   role:
     type: array
     items:

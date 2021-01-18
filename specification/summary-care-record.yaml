@@ -304,7 +304,7 @@ paths:
             example:
               $ref: components/examples/AuditEvent.json
       responses:
-        "200":
+        "201":
           description: Success response
         "400":
           description: Bad request
@@ -318,7 +318,7 @@ paths:
                   - severity: error
                     code: invalid
                     details:
-                      text: NHS number missing
+                      text: Invalid or missing value in field 'entity.what.identifier.value'
 
 components:
   parameters:
@@ -328,7 +328,7 @@ components:
       description: |
         An [OAuth 2.0 bearer token](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation#user-restricted-apis).
         Required in all environments except sandbox.
-      required: false
+      required: true
       schema:
         type: string
         format: '^Bearer\ [[:ascii:]]+$'
@@ -370,7 +370,7 @@ components:
 
         For more details, see [determine the user’s role](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation/user-restricted-restful-apis-nhs-identity-combined-authentication-and-authorisation#step-6-determine-the-user-s-role).
 
-      required: false
+      required: true
       schema:
         type: string
         pattern: '^[0-9]+$'
