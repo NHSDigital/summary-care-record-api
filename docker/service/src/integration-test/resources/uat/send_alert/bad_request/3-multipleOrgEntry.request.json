@@ -3,7 +3,7 @@
   "id": "example",
   "extension": [
     {
-      "url": "https://fhir.nhs.uk/R4/StructureDefinition/Extension-SCR-NotificationMessage",
+      "url": "https://fhir.nhs.uk/StructureDefinition/Extension-SCR-NotificationMessage",
       "valueString": "Alert: Permission to view override 1C03CF4F-D404-4D76-B192-4F81727059F6"
     }
   ],
@@ -14,7 +14,7 @@
   },
   "subtype": [
     {
-      "system": "https://fhir.nhs.uk/R4/CodeSystem/SCR-AlertReason",
+      "system": "https://fhir.nhs.uk/CodeSystem/SCR-AlertReason",
       "code": "1",
       "display": "Access made in the public interest"
     }

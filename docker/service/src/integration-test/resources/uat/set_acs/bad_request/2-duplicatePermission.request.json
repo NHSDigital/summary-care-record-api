@@ -11,14 +11,14 @@
         {
           "name": "permissionCode",
           "valueCoding": {
-            "system": "https://fhir.nhs.uk/R4/CodeSystem/SCR-ACSPermission",
+            "system": "https://fhir.nhs.uk/CodeSystem/SCR-ACSPermission",
             "code": "Yes"
           }
         },
         {
           "name": "permissionCode",
           "valueCoding": {
-            "system": "https://fhir.nhs.uk/R4/CodeSystem/SCR-ACSPermission",
+            "system": "https://fhir.nhs.uk/CodeSystem/SCR-ACSPermission",
             "code": "No"
           }
         }
