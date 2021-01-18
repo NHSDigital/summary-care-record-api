@@ -50,7 +50,7 @@ public class SandboxSpineClient implements SpineClientContract {
 
     @Override
     public Response sendAlert(String requestBody, String nhsdAsid, String nhsdIdentity, String nhsdSessionUrid) {
-        return null;
+        return new Response(OK.value(), null, null);
     }
 
     @SneakyThrows
