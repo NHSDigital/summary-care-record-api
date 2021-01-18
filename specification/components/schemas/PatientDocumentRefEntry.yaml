@@ -1,0 +1,35 @@
+  type: object
+  properties:
+    fullUrl:
+      description: UUID identifying resource within a bundle 
+      type: string
+      example: Patient/9b9a16ed-3cd0-45b2-ab1f-e625dd0251c1
+    resource:
+      type: object
+      properties:
+        resourceType:
+          type: string
+          default: "Patient"
+        id:
+          type: string
+          example: "b6f5dd89-fc3a-466d-baad-126c0aac46fc"
+        identifier:
+          type: array
+          items:
+            type: object
+            properties:
+              system:
+                type: string
+                default: "https://fhir.nhs.uk/Id/nhs-number"
+              value:
+                description: NHS number
+                type: string
+                example: "9990001234"
+            required:
+              - system
+              - value
+          minItems: 1
+          maxItems: 1
+      required:
+        - resourceType
+        - identifier

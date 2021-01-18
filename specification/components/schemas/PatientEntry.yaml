@@ -1,7 +1,9 @@
   type: object
   properties:
     fullUrl:
+      description: UUID identifying resource within a bundle 
       type: string
+      example: Patient/9b9a16ed-3cd0-45b2-ab1f-e625dd0251c1
     resource:
       type: object
       properties:
@@ -23,16 +25,45 @@
                   properties:
                     url:
                       type: string
+                      example: "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-NHSNumberVerificationStatus-1"
                     valueCodeableConcept:
                       type: object
                       properties:
                         coding:
-                          $ref: coding.yaml
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              system:
+                                type: string
+                                example: "https://fhir.hl7.org.uk/STU3/CodeSystem/CareConnect-NHSNumberVerificationStatus-1"
+                              code:
+                                type: string
+                                example: "01"
+                              display:
+                                type: string
+                                example: Number present and verified
+                            required:
+                              - system
+                              - code
+                              - display
+                          minItems: 1
+                          maxItems: 1
+                      required:
+                        - coding
+                  required:
+                    - url
+                    - valueCodeableConcept
+                minItems: 1
+                maxItems: 1
               system:
                 type: string
+                default: "https://fhir.nhs.uk/Id/nhs-number"
               value:
                 type: string
+                example: "9900004948"
             required:
+              - extension
               - system
               - value
       required:

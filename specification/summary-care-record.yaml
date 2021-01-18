@@ -21,10 +21,13 @@ info:
     To use this API, you will need the patient's NHS number, which can be retrieved by using the following API:
       - [Personal Demographics Service (FHIR) API](https://digital.nhs.uk/developer/api-catalogue/personal-demographics-service-fhir) - use this API to search for patients and retrieve their details.  This API can also be used to update their details in some cases. This is the latest version of the PDS API and is recommended for all new integrators.
 
-    ## API Status and Roadmap
-    This API is in [alpha](https://digital.nhs.uk/developer/guides-and-documentation/reference-guide#api-status) - expect further breaking changes.
-
-    The API is currently available for sandbox testing, but not integration testing or for production use.
+    ## API status and roadmap
+    This API is initially for use by new market entrant GP IT developers with other use cases to follow later.
+    
+    This API is in [alpha](https://digital.nhs.uk/developer/guides-and-documentation/reference-guide#api-status), meaning:
+      - the API is available in our sandbox and integration test environments
+      - the API is not yet available for production use
+      - we might make breaking changes
 
     To see our roadmap, or to suggest, comment or vote on features for this API, see our [interactive product backlog](https://nhs-digital-api-management.featureupvote.com/?order=popular&filter=all&tag=reasonable-adjustment-flag#controls).
 
@@ -63,8 +66,8 @@ info:
     ## Environments and testing
     | Purpose                                | Base URL                                            |
     | ---------------------------------------|-----------------------------------------------------|
-    | Sandbox                                | `https://sandbox.service.nhs.uk/summary-care-record`|
-    | Integration test                       | `https://int.service.nhs.uk/summary-care-record`    |
+    | Sandbox                                | `https://sandbox.api.service.nhs.uk/summary-care-record`|
+    | Integration test                       | `https://int.api.service.nhs.uk/summary-care-record`    |
 
 
 
@@ -117,9 +120,9 @@ paths:
         content:
           application/fhir+json:
             schema:
-              $ref: components/schemas/Bundle.yaml
+              $ref: components/schemas/UploadBundle.yaml
             example:
-              $ref: components/examples/ScrBundle.json
+              $ref: components/examples/UploadScrBundle.json
       responses:
         "201":
           description: SCR successfully uploaded
@@ -150,6 +153,11 @@ paths:
                     details:
                       text: There's no patient's consent to store SCR
     get:
+      description: |
+        # Overview
+        Use this endpoint to retrieve the details of patient's Summary Care Record.
+
+        To get the information you must provide patient's NHS Number and SCR UUID. UUID can be obtained using GET /DocumentReference endpoint.
       summary: Get patient's Summary Care Record
       operationId: get-scr
       tags:
@@ -179,9 +187,9 @@ paths:
           content:
             application/fhir+json:
               schema:
-                $ref: components/schemas/Bundle.yaml
+                $ref: components/schemas/GetScrBundle.yaml
               example:
-                $ref: components/examples/ScrBundle.json
+                $ref: components/examples/GetScrBundle.json
         "400":
             description: Bad request
             content:
@@ -200,6 +208,11 @@ paths:
     get:
       summary: Get patient's latest Summary Care Record identifier
       operationId: get-scr-id
+      description: |
+        # Overview
+        Use this endpoint to retrieve UUID of patient's latest record. This UUID can be then used to retrieve the Summary Care Record details.
+
+        To get the information you must provide patient's NHS Number.
       tags:
         - SCR
       parameters:

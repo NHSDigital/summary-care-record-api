@@ -1,0 +1,15 @@
+type: object
+properties:
+  system:
+    type: string
+    default: "http://snomed.info/sct"
+  code:
+    type: string
+    default: "196981000000101"
+  display:
+    type: string
+    default: General Practice Summary
+required:
+  - system
+  - code
+  - display

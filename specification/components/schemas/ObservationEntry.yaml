@@ -2,6 +2,7 @@
   properties:
     fullUrl:
       type: string
+      example: baecc1c2-c86c-482c-8cea-981b47a6cc48
     resource:
       type: object
       properties:
@@ -16,10 +17,20 @@
               profile:
                 type: string
                 default: "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Observation"
+          minItems: 1
+          maxItems: 1
         identifier:
           type: array
           items:
-            $ref: identifier.yaml
+            type: object
+            properties: 
+              value:
+                type: string
+                example: 0F582D97-8F89-11EA-8B2D-B741F13EFC47
+            required:
+              - value
+          minItems: 1
+          maxItems: 1
         status:
           type: string
           enum:
@@ -32,7 +43,26 @@
             type: object
             properties:
               coding:
-                $ref: coding.yaml
+                type: array
+                items:
+                  type: object
+                  properties:
+                    system:
+                      type: string
+                      default: "http://snomed.info/sct"
+                    code:
+                      type: string
+                      example: "163131000000108"
+                    display:
+                      type: string
+                      example: "SARS-CoV-2 (severe acute respiratory syndrome coronavirus 2) RNA (ribonucleic acid) detection result positive"
+                  required:
+                    - system
+                    - value
+                minItems: 1
+                maxItems: 1
+          minItems: 1
+          maxItems: 1
         effectivePeriod:
           type: array
           items:
@@ -40,8 +70,13 @@
             properties:
               start:
                 type: string
+                example: 2020-05-06T10:48:19+00:00
               end:
                 type: string
+                example: 2020-05-26T11:56:18+00:00
       required:
         - resourceType
+        - identifier
+        - status
+        - code
             
