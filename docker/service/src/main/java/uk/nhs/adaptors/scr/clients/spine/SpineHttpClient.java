@@ -27,9 +27,6 @@ import java.util.Arrays;
 @Slf4j
 public class SpineHttpClient {
 
-    public static final String RETRY_AFTER_HEADER = "Retry-After";
-    public static final String CONTENT_LOCATION_HEADER = "Content-Location";
-
     private final ScrHttpClientBuilder scrHttpClientBuilder;
 
     @SuppressFBWarnings(

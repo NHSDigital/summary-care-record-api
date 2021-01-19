@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import uk.nhs.adaptors.scr.components.FhirParser;
 import uk.nhs.adaptors.scr.models.RequestData;
 import uk.nhs.adaptors.scr.services.AcsService;
 
@@ -27,7 +26,6 @@ import static uk.nhs.adaptors.scr.controllers.FhirMediaTypes.APPLICATION_FHIR_JS
 @Slf4j
 public class AcsController {
 
-    private final FhirParser fhirParser;
     private final AcsService acsService;
 
     @PostMapping(
