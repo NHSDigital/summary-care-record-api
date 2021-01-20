@@ -1,0 +1,12 @@
+{
+  "resourceType": "OperationOutcome",
+  "issue": [
+    {
+      "severity": "error",
+      "code": "value",
+      "details": {
+        "text": "Parameter.Part named 'nhsNumber' not found"
+      }
+    }
+  ]
+}
