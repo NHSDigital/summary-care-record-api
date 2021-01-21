@@ -110,7 +110,7 @@ public class AlertRequestValidator implements ConstraintValidator<AlertRequest, 
     }
 
     private void checkSource(AuditEventSourceComponent source) {
-        if (source != null) {
+        if (!source.isEmpty()) {
             Identifier id = source.getObserver().getIdentifier();
             if (!SOURCE_ID_SYSTEM.equals(id.getSystem())) {
                 throw new FhirValidationException("Invalid value in field 'source.observer.identifier.system'. Supported value: "

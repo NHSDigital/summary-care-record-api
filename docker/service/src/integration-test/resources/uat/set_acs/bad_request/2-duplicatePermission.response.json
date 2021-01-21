@@ -1,0 +1,12 @@
+{
+  "resourceType": "OperationOutcome",
+  "issue": [
+    {
+      "severity": "error",
+      "code": "value",
+      "details": {
+        "text": "Exactly 1 Parameter.Part named 'permissionCode' with valueCoding.system https://fhir.nhs.uk/CodeSystem/SCR-ACSPermission expected"
+      }
+    }
+  ]
+}

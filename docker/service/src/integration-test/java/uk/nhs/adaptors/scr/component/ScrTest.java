@@ -89,13 +89,13 @@ public class ScrTest {
     @LocalServerPort
     private int port;
 
-    @Value("classpath:responses/polling/error.xml")
+    @Value("classpath:uat/responses/polling/error.xml")
     private Resource pollingErrorResponse;
 
-    @Value("classpath:responses/polling/success.xml")
+    @Value("classpath:uat/responses/polling/success.xml")
     private Resource pollingSuccessResponse;
 
-    @Value("classpath:responses/event-list-query/success.xml")
+    @Value("classpath:uat/responses/event-list-query/success.xml")
     private Resource eventListQuerySuccessResponse;
 
     @Value("classpath:bundle.fhir.json")
