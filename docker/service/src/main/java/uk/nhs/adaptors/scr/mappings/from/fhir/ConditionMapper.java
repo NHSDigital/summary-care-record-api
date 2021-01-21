@@ -1,10 +1,4 @@
-package uk.nhs.adaptors.scr.fhirmappings;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
+package uk.nhs.adaptors.scr.mappings.from.fhir;
 
 import org.hl7.fhir.r4.model.CodeableConcept;
 import org.hl7.fhir.r4.model.Coding;
@@ -12,13 +6,18 @@ import org.hl7.fhir.r4.model.Condition;
 import org.hl7.fhir.r4.model.Identifier;
 import org.hl7.fhir.r4.model.Period;
 import org.hl7.fhir.r4.model.Resource;
-
 import uk.nhs.adaptors.scr.exceptions.FhirMappingException;
 import uk.nhs.adaptors.scr.models.GpSummary;
 import uk.nhs.adaptors.scr.models.gpsummarymodels.AllConditions;
 import uk.nhs.adaptors.scr.models.gpsummarymodels.ConditionObject;
 import uk.nhs.adaptors.scr.models.gpsummarymodels.EndTime;
 import uk.nhs.adaptors.scr.utils.DateUtil;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class ConditionMapper {
     public static void mapConditions(GpSummary gpSummary, List<Resource> conditions) throws FhirMappingException {

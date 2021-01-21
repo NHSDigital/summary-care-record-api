@@ -1,0 +1,78 @@
+{
+  "resourceType": "Bundle",
+  "id": "D308CA77-28DF-44BD-9BA5-3B5DA78EEB2F",
+  "type": "searchset",
+  "total": 1,
+  "entry": [
+    {
+      "fullUrl": "http://scr.nhs.uk/DocumentReference/E21DF383-B0CB-4AE0-A5A9-D4BEBBFB993E",
+      "resource": {
+        "resourceType": "DocumentReference",
+        "id": "E21DF383-B0CB-4AE0-A5A9-D4BEBBFB993E",
+        "masterIdentifier": {
+          "system": "https://fhir.nhs.uk/Id/nhsSCRUUID",
+          "value": "FA60BE64-1F34-11EB-A2A8-000C29A364EB"
+        },
+        "status": "current",
+        "type": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "196981000000101",
+              "display": " General Practice Summary"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/D8467BC6-379E-4564-AC52-9E884CC77F27"
+        },
+        "securityLabel": [
+          {
+            "coding": [
+              {
+                "system": "https://fhir.nhs.uk/R4/CodeSystem/SCR-ACSPermission",
+                "code": "Yes"
+              }
+            ]
+          }
+        ],
+        "content": [
+          {
+            "attachment": {
+              "url": "http://scr.nhs.uk/Bundle?composition.identifier=FA60BE64-1F34-11EB-A2A8-000C29A364EB$composition.subject:Patient.identifier=https://fhir.nhs.uk/Id/nhs-number|1234567890"
+            }
+          }
+        ],
+        "context": {
+          "event": [
+            {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "196981000000101",
+                  "display": " General Practice Summary"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "search": {
+        "mode": "match"
+      }
+    },
+    {
+      "fullUrl": "D8467BC6-379E-4564-AC52-9E884CC77F27",
+      "resource": {
+        "resourceType": "Patient",
+        "id": "D8467BC6-379E-4564-AC52-9E884CC77F27",
+        "identifier": [
+          {
+            "system": "https://fhir.nhs.uk/Id/nhs-number",
+            "value": "1234567890"
+          }
+        ]
+      }
+    }
+  ]
+}

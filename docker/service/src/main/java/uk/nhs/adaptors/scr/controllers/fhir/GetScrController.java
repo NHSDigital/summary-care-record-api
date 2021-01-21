@@ -36,7 +36,6 @@ public class GetScrController {
 
 
     @GetMapping(path = "/DocumentReference",
-        consumes = {APPLICATION_FHIR_JSON_VALUE},
         produces = {APPLICATION_FHIR_JSON_VALUE})
     @SuppressWarnings("checkstyle:parameternumber")
     public String getScrId(@RequestHeader("Nhsd-Asid") @NotNull String nhsdAsid,
@@ -55,6 +54,22 @@ public class GetScrController {
         checkGetScrCountParam(count);
 
         Bundle bundle = getScrService.getScrId(nhsNumber, nhsdAsid, clientIp, baseUrl);
+
+        return fhirParser.encodeResource(APPLICATION_FHIR_JSON, bundle);
+    }
+
+    @GetMapping(path = "/Bundle",
+        produces = {APPLICATION_FHIR_JSON_VALUE})
+    public String getScr(
+        @RequestHeader("Nhsd-Asid") @NotNull String nhsdAsid,
+        @RequestHeader("client-ip") @NotNull String clientIp,
+        @RequestHeader("client-request-url") @NotNull String clientRequestUrl,
+        @RequestParam("composition.identifier") @NotNull String nhsNumber,
+        HttpServletRequest request) throws HttpMediaTypeNotAcceptableException {
+
+        String baseUrl = extractBaseUrl(clientRequestUrl, request.getRequestURI());
+
+        var bundle = getScrService.getScr(nhsNumber, nhsdAsid, clientIp, baseUrl);
 
         return fhirParser.encodeResource(APPLICATION_FHIR_JSON, bundle);
     }

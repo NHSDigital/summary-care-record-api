@@ -1,7 +1,5 @@
 package uk.nhs.adaptors.scr.models;
 
-import java.util.List;
-
 import lombok.Getter;
 import lombok.Setter;
 import org.hl7.fhir.r4.model.Bundle;
@@ -13,8 +11,8 @@ import org.hl7.fhir.r4.model.PractitionerRole;
 import org.hl7.fhir.r4.model.Resource;
 import org.hl7.fhir.r4.model.ResourceType;
 import uk.nhs.adaptors.scr.exceptions.FhirMappingException;
-import uk.nhs.adaptors.scr.models.gpsummarymodels.CompositionRelatesTo;
 import uk.nhs.adaptors.scr.models.gpsummarymodels.AllConditions;
+import uk.nhs.adaptors.scr.models.gpsummarymodels.CompositionRelatesTo;
 import uk.nhs.adaptors.scr.models.gpsummarymodels.ObservationObject;
 import uk.nhs.adaptors.scr.models.gpsummarymodels.OrganizationAddress;
 import uk.nhs.adaptors.scr.models.gpsummarymodels.OrganizationId;
@@ -27,13 +25,15 @@ import uk.nhs.adaptors.scr.models.gpsummarymodels.PractitionerRoleCode;
 import uk.nhs.adaptors.scr.models.gpsummarymodels.PractitionerRoleIdentifier;
 import uk.nhs.adaptors.scr.models.gpsummarymodels.Presentation;
 
-import static uk.nhs.adaptors.scr.fhirmappings.CompositionMapper.mapComposition;
-import static uk.nhs.adaptors.scr.fhirmappings.ConditionMapper.mapConditions;
-import static uk.nhs.adaptors.scr.fhirmappings.ObservationMapper.mapObservations;
-import static uk.nhs.adaptors.scr.fhirmappings.OrganizationMapper.mapOrganization;
-import static uk.nhs.adaptors.scr.fhirmappings.PatientMapper.mapPatient;
-import static uk.nhs.adaptors.scr.fhirmappings.PractitionerMapper.mapPractitioner;
-import static uk.nhs.adaptors.scr.fhirmappings.PractitionerRoleMapper.mapPractitionerRole;
+import java.util.List;
+
+import static uk.nhs.adaptors.scr.mappings.from.fhir.CompositionMapper.mapComposition;
+import static uk.nhs.adaptors.scr.mappings.from.fhir.ConditionMapper.mapConditions;
+import static uk.nhs.adaptors.scr.mappings.from.fhir.ObservationMapper.mapObservations;
+import static uk.nhs.adaptors.scr.mappings.from.fhir.OrganizationMapper.mapOrganization;
+import static uk.nhs.adaptors.scr.mappings.from.fhir.PatientMapper.mapPatient;
+import static uk.nhs.adaptors.scr.mappings.from.fhir.PractitionerMapper.mapPractitioner;
+import static uk.nhs.adaptors.scr.mappings.from.fhir.PractitionerRoleMapper.mapPractitionerRole;
 import static uk.nhs.adaptors.scr.utils.DateUtil.formatDate;
 import static uk.nhs.adaptors.scr.utils.FhirHelper.UUID_IDENTIFIER_SYSTEM;
 import static uk.nhs.adaptors.scr.utils.FhirHelper.getDomainResource;

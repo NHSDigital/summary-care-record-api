@@ -1,18 +1,17 @@
-package uk.nhs.adaptors.scr.fhirmappings;
-
-import java.util.ArrayList;
-import java.util.List;
+package uk.nhs.adaptors.scr.mappings.from.fhir;
 
 import org.hl7.fhir.r4.model.CodeableConcept;
 import org.hl7.fhir.r4.model.Coding;
 import org.hl7.fhir.r4.model.Identifier;
 import org.hl7.fhir.r4.model.PractitionerRole;
-
 import uk.nhs.adaptors.scr.exceptions.FhirMappingException;
 import uk.nhs.adaptors.scr.models.GpSummary;
 import uk.nhs.adaptors.scr.models.gpsummarymodels.PractitionerRoleCode;
 import uk.nhs.adaptors.scr.models.gpsummarymodels.PractitionerRoleCodeCoding;
 import uk.nhs.adaptors.scr.models.gpsummarymodels.PractitionerRoleIdentifier;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class PractitionerRoleMapper {
 

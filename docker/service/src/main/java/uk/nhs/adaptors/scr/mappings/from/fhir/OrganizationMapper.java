@@ -1,7 +1,4 @@
-package uk.nhs.adaptors.scr.fhirmappings;
-
-import java.util.ArrayList;
-import java.util.List;
+package uk.nhs.adaptors.scr.mappings.from.fhir;
 
 import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.r4.model.Address;
@@ -11,7 +8,6 @@ import org.hl7.fhir.r4.model.ContactPoint;
 import org.hl7.fhir.r4.model.Identifier;
 import org.hl7.fhir.r4.model.Organization;
 import org.hl7.fhir.r4.model.StringType;
-
 import uk.nhs.adaptors.scr.exceptions.FhirMappingException;
 import uk.nhs.adaptors.scr.models.GpSummary;
 import uk.nhs.adaptors.scr.models.gpsummarymodels.OrganizationAddress;
@@ -19,6 +15,9 @@ import uk.nhs.adaptors.scr.models.gpsummarymodels.OrganizationCode;
 import uk.nhs.adaptors.scr.models.gpsummarymodels.OrganizationId;
 import uk.nhs.adaptors.scr.models.gpsummarymodels.OrganizationTelecom;
 import uk.nhs.adaptors.scr.models.gpsummarymodels.OrganizationType;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class OrganizationMapper {
 

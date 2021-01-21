@@ -124,6 +124,27 @@ public class SpineClient {
         return response;
     }
 
+    @SneakyThrows
+    public SpineHttpClient.Response sendGetScr(String requestBody, String nhsdAsid) {
+        var uri = spineConfiguration.getUrl() + spineConfiguration.getPsisQueriesEndpoint();
+        var request = new HttpPost(uri);
+        LOGGER.debug("Sending GET SCR request to Spine uri:{} body:{}", uri, requestBody);
+        request.addHeader(SOAP_ACTION, "urn:nhs:names:services:psisquery/QUPC_IN190000UK04");
+        request.addHeader(CONTENT_TYPE, TEXT_XML_VALUE);
+        request.addHeader(NHSD_ASID, nhsdAsid);
+
+        request.setEntity(new StringEntity(requestBody));
+
+        var response = spineHttpClient.sendRequest(request);
+        var statusCode = response.getStatusCode();
+
+        if (statusCode != OK.value()) {
+            LOGGER.error("Unexpected spine GET SCR response: {}", response);
+            throw new UnexpectedSpineResponseException("Unexpected spine send response " + statusCode);
+        }
+        return response;
+    }
+
 
     public static class ScrRetryBackoffPolicy implements BackOffPolicy {
         @Override

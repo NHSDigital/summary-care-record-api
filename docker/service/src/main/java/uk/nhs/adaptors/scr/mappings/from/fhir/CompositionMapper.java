@@ -1,4 +1,4 @@
-package uk.nhs.adaptors.scr.fhirmappings;
+package uk.nhs.adaptors.scr.mappings.from.fhir;
 
 import org.hl7.fhir.r4.model.Composition;
 import org.hl7.fhir.r4.model.Composition.CompositionRelatesToComponent;

@@ -18,6 +18,7 @@ import org.springframework.web.context.request.async.WebAsyncTask;
 import uk.nhs.adaptors.scr.components.FhirParser;
 import uk.nhs.adaptors.scr.config.ScrConfiguration;
 import uk.nhs.adaptors.scr.config.SpineConfiguration;
+import uk.nhs.adaptors.scr.consts.HttpHeaders;
 import uk.nhs.adaptors.scr.exceptions.FhirValidationException;
 import uk.nhs.adaptors.scr.exceptions.ScrTimeoutException;
 import uk.nhs.adaptors.scr.models.RequestData;
@@ -31,7 +32,7 @@ import static uk.nhs.adaptors.scr.controllers.FhirMediaTypes.APPLICATION_FHIR_JS
 @RestController
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Slf4j
-public class FhirController {
+public class SendScrController {
     private final FhirParser fhirParser;
     private final UploadScrService uploadScrService;
     private final SpineConfiguration spineConfiguration;
@@ -42,9 +43,9 @@ public class FhirController {
         consumes = {APPLICATION_FHIR_JSON_VALUE},
         produces = {APPLICATION_FHIR_JSON_VALUE})
     @ResponseStatus(HttpStatus.OK)
-    public WebAsyncTask<ResponseEntity<?>> acceptFhir(
-        @RequestHeader("Content-Type") @NotNull MediaType contentType,
-        @RequestHeader("Nhsd-Asid") @NotNull String nhsdAsid,
+    public WebAsyncTask<ResponseEntity<?>> sendScr(
+        @RequestHeader(HttpHeaders.CONTENT_TYPE) @NotNull MediaType contentType,
+        @RequestHeader(HttpHeaders.NHSD_ASID) @NotNull String nhsdAsid,
         @RequestBody String body)
         throws FhirValidationException, HttpMediaTypeNotAcceptableException {
 

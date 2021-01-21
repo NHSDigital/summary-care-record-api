@@ -1,16 +1,15 @@
-package uk.nhs.adaptors.scr.fhirmappings;
-
-import java.util.ArrayList;
-import java.util.List;
+package uk.nhs.adaptors.scr.mappings.from.fhir;
 
 import org.hl7.fhir.r4.model.HumanName;
 import org.hl7.fhir.r4.model.Identifier;
 import org.hl7.fhir.r4.model.Practitioner;
-
 import uk.nhs.adaptors.scr.exceptions.FhirMappingException;
 import uk.nhs.adaptors.scr.models.GpSummary;
 import uk.nhs.adaptors.scr.models.gpsummarymodels.PractitionerId;
 import uk.nhs.adaptors.scr.models.gpsummarymodels.PractitionerName;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class PractitionerMapper {
     public static void mapPractitioner(GpSummary gpSummary, Practitioner practitioner) throws FhirMappingException {

@@ -1,4 +1,4 @@
-package uk.nhs.adaptors.scr.fhirmappings;
+package uk.nhs.adaptors.scr.mappings.from.fhir;
 
 import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.r4.model.Identifier;
