@@ -97,10 +97,10 @@ x-nhsd-api-platform:
     description: This is a generated template API
     pipeline_name_prefix: "Summary-Care-Record"
 servers:
-  - url: 'https://int.api.service.nhs.uk/summary-care-record'
-    description: Integration test environment.
   - url: 'https://sandbox.api.service.nhs.uk/summary-care-record'
     description: Sandbox environment
+  - url: 'https://int.api.service.nhs.uk/summary-care-record'
+    description: Integration test environment.
 tags:
   - name: SCR
 paths:
@@ -275,6 +275,7 @@ paths:
         - $ref: '#/components/parameters/BearerAuthorization'
         - $ref: '#/components/parameters/CorrelationID'
         - $ref: '#/components/parameters/RequestID'
+        - $ref: '#/components/parameters/RoleID'
       requestBody:
         required: true
         content:
