@@ -1,0 +1,8 @@
+description: Who and/or what the composition is about
+type: object
+properties:
+  reference:
+    type: string
+    example: "urn:uuid:b6f5dd89-fc3a-466d-baad-126c0aac46fc"
+required:
+  - reference

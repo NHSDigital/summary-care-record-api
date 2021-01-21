@@ -64,9 +64,7 @@ public class AlertRequestValidator implements ConstraintValidator<AlertRequest, 
     }
 
     private void checkId(AuditEvent auditEvent) {
-        if (isEmpty(auditEvent.getId())) {
-            throw new FhirValidationException("'id' element is missing'");
-        }
+        checkNotEmpty(auditEvent.getId(), "'id' element is missing'");
     }
 
     private void checkPerson(List<AuditEventAgentComponent> agents) {
@@ -145,12 +143,16 @@ public class AlertRequestValidator implements ConstraintValidator<AlertRequest, 
             throw new FhirValidationException("Invalid or missing value in field 'subtype.code'. Supported values are: "
                 + SUBTYPE_CODES.stream().collect(joining(", ")));
         }
+
+        checkNotEmpty(subtype.getDisplay(), "Missing value 'subtype.display'");
     }
 
     private void checkType(Coding type) {
-        if (type == null || !TYPE_SYSTEM.equals(type.getSystem())) {
+        if (!TYPE_SYSTEM.equals(type.getSystem())) {
             throw new FhirValidationException(String.format("'Type' element for '%s' system missing", TYPE_SYSTEM));
         }
+
+        checkNotEmpty(type.getDisplay(), "Missing value 'type.display'");
     }
 
     private void checkExtension(AuditEvent auditEvent) {
@@ -168,5 +170,11 @@ public class AlertRequestValidator implements ConstraintValidator<AlertRequest, 
         cxt.disableDefaultConstraintViolation();
         cxt.buildConstraintViolationWithTemplate(message)
             .addConstraintViolation();
+    }
+
+    private void checkNotEmpty(String value, String s) {
+        if (isEmpty(value)) {
+            throw new FhirValidationException(s);
+        }
     }
 }

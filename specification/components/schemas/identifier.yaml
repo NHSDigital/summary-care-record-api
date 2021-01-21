@@ -1,8 +1,0 @@
-type: object
-properties:
-  use:
-    type: string
-  system:
-    type: string
-  value:
-    type: string

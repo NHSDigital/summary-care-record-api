@@ -19,23 +19,66 @@
         identifier:
           type: array
           items:
-            $ref: identifier.yaml
+            type: object
+            properties:
+              value:
+                type: string
+                example: 0F582D97-8F89-11EA-8B2D-B741F13EFC47
+            required:
+              - value
+          minItems: 1
+          maxItems: 1
         clinicalStatus:
           type: array
           items:
             type: object
             properties:
               coding:
-                $ref: coding.yaml
+                type: array
+                items:
+                  type: object
+                  properties:
+                    system:
+                      type: string
+                      example: "http://terminology.hl7.org/CodeSystem/condition-clinical"
+                    code:
+                      type: string
+                      example: active
+                    display:
+                      type: string
+                      example: Active
+                  required:
+                    - system
+                    - code
+                minItems: 1
+                maxItems: 1
+          minItems: 1
         code:
           type: array
           items:
             type: object
             properties:
               coding:
-                $ref: coding.yaml
+                type: array
+                items:
+                  type: object
+                  properties:
+                    system:
+                      type: string
+                      default: "http://snomed.info/sct"
+                    code:
+                      type: string
+                      example: "1300721000000109"
+                    display:
+                      type: string
+                      example: "COVID-19 confirmed by laboratory test"
+                minItems: 1
+                maxItems: 1
+          minItems: 1
+          maxItems: 1
         onsetDateTime:
           type: string
           example: "2020-05-06T10:48:19+00:00"
       required:
         - resourceType
+

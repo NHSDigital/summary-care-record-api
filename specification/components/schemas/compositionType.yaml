@@ -1,0 +1,11 @@
+description: Kind of composition
+type: object
+properties:
+  coding:
+    type: array
+    items:
+      $ref: scrCoding.yaml
+    minItems: 1
+    maxItems: 1
+required:
+  - coding

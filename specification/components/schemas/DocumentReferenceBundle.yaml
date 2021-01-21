@@ -4,12 +4,15 @@ properties:
     type: string
     default: "Bundle"
   id:
+    description: UUID identifying the Bundle
     type: string
     example: "f61e545c-d52c-4b62-9668-3dcc6c27fc50"
   type:
+    description: Type of the bundle
     type: string
     default: "searchset"
   total:
+    description: Number of results found
     type: integer
     example: 1
   entry:
@@ -17,11 +20,10 @@ properties:
     items:
       anyOf:
         - $ref: DocumentReference.yaml
-        - $ref: PatientEntry.yaml
+        - $ref: PatientDocumentRefEntry.yaml
 
 required:
   - resourceType
   - id
   - type
   - total
-  - entry

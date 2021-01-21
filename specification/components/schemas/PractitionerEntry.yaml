@@ -2,6 +2,7 @@
   properties:
     fullUrl:
       type: string
+      example: "urn:uuid:b1a41ee5-b88b-4f66-bd83-24343bf63dd8"
     resource:
       type: object
       properties:
@@ -14,7 +15,8 @@
         identifier:
           type: array
           items:
-            $ref: identifier.yaml
+            $ref: practitionerIdentifier.yaml
+          minItems: 1
         name:
           type: array
           items:
