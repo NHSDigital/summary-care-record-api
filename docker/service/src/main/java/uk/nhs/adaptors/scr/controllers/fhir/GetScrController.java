@@ -37,7 +37,6 @@ public class GetScrController {
 
 
     @GetMapping(path = "/DocumentReference",
-        consumes = {APPLICATION_FHIR_JSON_VALUE},
         produces = {APPLICATION_FHIR_JSON_VALUE})
     @SuppressWarnings("checkstyle:parameternumber")
     public String getScrId(@RequestHeader(NHSD_ASID) @NotNull String nhsdAsid,
