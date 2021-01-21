@@ -36,8 +36,8 @@ import java.util.List;
 
 import static java.lang.Long.parseLong;
 import static java.util.Arrays.asList;
-import static uk.nhs.adaptors.scr.clients.spine.SpineHttpClient.CONTENT_LOCATION_HEADER;
-import static uk.nhs.adaptors.scr.clients.spine.SpineHttpClient.RETRY_AFTER_HEADER;
+import static org.springframework.http.HttpHeaders.CONTENT_LOCATION;
+import static org.springframework.http.HttpHeaders.RETRY_AFTER;
 import static uk.nhs.adaptors.scr.clients.spine.SpineHttpClient.getHeader;
 import static uk.nhs.adaptors.scr.models.AcsPermission.ASK;
 import static uk.nhs.adaptors.scr.models.AcsPermission.YES;
@@ -65,8 +65,8 @@ public class UploadScrService {
         String contentLocation;
         long retryAfter;
         try {
-            contentLocation = getHeader(response.getHeaders(), CONTENT_LOCATION_HEADER);
-            retryAfter = parseLong(getHeader(response.getHeaders(), RETRY_AFTER_HEADER));
+            contentLocation = getHeader(response.getHeaders(), CONTENT_LOCATION);
+            retryAfter = parseLong(getHeader(response.getHeaders(), RETRY_AFTER));
         } catch (Exception ex) {
             throw new UnexpectedSpineResponseException("Unable to extract required headers", ex);
         }

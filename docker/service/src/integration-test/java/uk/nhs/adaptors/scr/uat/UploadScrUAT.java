@@ -17,9 +17,12 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import uk.nhs.adaptors.scr.WireMockInitializer;
+import uk.nhs.adaptors.scr.config.SpineConfiguration;
 import uk.nhs.adaptors.scr.consts.ScrHttpHeaders;
 import uk.nhs.adaptors.scr.consts.SpineHttpHeaders;
-import uk.nhs.adaptors.scr.uat.common.CustomArgumentsProvider;
+import uk.nhs.adaptors.scr.uat.common.CustomArgumentsProvider.UploadScrBadRequest;
+import uk.nhs.adaptors.scr.uat.common.CustomArgumentsProvider.UploadScrNoConsent;
+import uk.nhs.adaptors.scr.uat.common.CustomArgumentsProvider.UploadScrSuccess;
 import uk.nhs.adaptors.scr.uat.common.TestData;
 
 import java.io.IOException;
@@ -30,7 +33,9 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.nio.file.Files.readString;
 import static java.util.UUID.randomUUID;
 import static org.hamcrest.Matchers.notNullValue;
+import static org.springframework.http.HttpHeaders.CONTENT_LOCATION;
 import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
+import static org.springframework.http.HttpHeaders.RETRY_AFTER;
 import static org.springframework.http.HttpStatus.ACCEPTED;
 import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.http.MediaType.TEXT_XML_VALUE;
@@ -51,24 +56,22 @@ import static uk.nhs.adaptors.scr.controllers.FhirMediaTypes.APPLICATION_FHIR_JS
 public class UploadScrUAT {
 
     private static final String FHIR_ENDPOINT = "/Bundle";
-    private static final String SPINE_SCR_ENDPOINT = "/clinical";
     private static final String SCR_SPINE_CONTENT_ENDPOINT = "/content";
     private static final int INITIAL_WAIT_TIME = 1;
     private static final String NHSD_ASID = "123";
     private static final String NHSD_IDENTITY = randomUUID().toString();
     private static final String NHSD_SESSION_URID = "43543673484";
     private static final String CLIENT_IP = "192.168.0.24";
-    private static final String SPINE_PSIS_ENDPOINT = "/sync-service";
     private static final String EVENT_LIST_QUERY_HEADER = "urn:nhs:names:services:psisquery/QUPC_IN180000SM04";
     private static final String UPLOAD_SCR_HEADER = "urn:nhs:names:services:psis/REPC_IN150016SM05";
 
-    @Value("classpath:responses/polling/success.xml")
+    @Value("classpath:uat/responses/polling/success.xml")
     private Resource pollingSuccessResponse;
 
-    @Value("classpath:responses/event-list-query/success.xml")
+    @Value("classpath:uat/responses/event-list-query/success.xml")
     private Resource eventListQuerySuccessResponse;
 
-    @Value("classpath:responses/event-list-query/noConsent.xml")
+    @Value("classpath:uat/responses/event-list-query/noConsent.xml")
     private Resource eventListQueryNoConsentResponse;
 
     @Autowired
@@ -77,14 +80,17 @@ public class UploadScrUAT {
     @Autowired
     private WireMockServer wireMockServer;
 
+    @Autowired
+    private SpineConfiguration spineConfiguration;
+
     @AfterEach
     public void afterEach() {
         this.wireMockServer.resetAll();
     }
 
     @ParameterizedTest(name = "[{index}] - {0}")
-    @ArgumentsSource(CustomArgumentsProvider.UploadScrSuccess.class)
-    void testTranslatingFromFhirToHL7v3(String category, TestData testData) throws Exception {
+    @ArgumentsSource(UploadScrSuccess.class)
+    void testTranslatingFromFhirToHL7v3(TestData testData) throws Exception {
         stubSpineUploadScrEndpoint();
         stubSpinePollingEndpoint();
         stubSpinePsisEndpoint(eventListQuerySuccessResponse);
@@ -106,8 +112,8 @@ public class UploadScrUAT {
     }
 
     @ParameterizedTest(name = "[{index}] - {0}")
-    @ArgumentsSource(CustomArgumentsProvider.UploadScrForbidden.class)
-    void testTranslatingFromFhirToHL7v3NoConsent(String category, TestData testData) throws Exception {
+    @ArgumentsSource(UploadScrNoConsent.class)
+    void testTranslatingFromFhirToHL7v3NoConsent(TestData testData) throws Exception {
         stubSpineUploadScrEndpoint();
         stubSpinePollingEndpoint();
         stubSpinePsisEndpoint(eventListQueryNoConsentResponse);
@@ -130,8 +136,8 @@ public class UploadScrUAT {
     }
 
     @ParameterizedTest(name = "[{index}] - {0}")
-    @ArgumentsSource(CustomArgumentsProvider.UploadScrInvalid.class)
-    void testTranslatingFromFhirToHL7v3InvalidRequest(String category, TestData testData) throws Exception {
+    @ArgumentsSource(UploadScrBadRequest.class)
+    void testTranslatingFromFhirToHL7v3InvalidRequest(TestData testData) throws Exception {
         var mvcResult = mockMvc.perform(
             post(FHIR_ENDPOINT)
                 .contentType(APPLICATION_FHIR_JSON_VALUE)
@@ -151,7 +157,7 @@ public class UploadScrUAT {
 
     private void stubSpinePsisEndpoint(Resource response) throws IOException {
         wireMockServer.stubFor(
-            WireMock.post(SPINE_PSIS_ENDPOINT)
+            WireMock.post(spineConfiguration.getPsisQueriesEndpoint())
                 .withHeader(SOAP_ACTION, equalTo(EVENT_LIST_QUERY_HEADER))
                 .withHeader(CONTENT_TYPE, equalTo(TEXT_XML_VALUE))
                 .willReturn(aResponse()
@@ -161,14 +167,14 @@ public class UploadScrUAT {
 
     private void stubSpineUploadScrEndpoint() {
         wireMockServer.stubFor(
-            WireMock.post(SPINE_SCR_ENDPOINT)
+            WireMock.post(spineConfiguration.getScrEndpoint())
                 .withHeader(SpineHttpHeaders.NHSD_SESSION_URID, equalTo(NHSD_SESSION_URID))
                 .withHeader(SpineHttpHeaders.NHSD_ASID, equalTo(NHSD_ASID))
                 .withHeader(SOAP_ACTION, equalTo(UPLOAD_SCR_HEADER))
                 .willReturn(aResponse()
                     .withStatus(ACCEPTED.value())
-                    .withHeader("Content-Location", SCR_SPINE_CONTENT_ENDPOINT)
-                    .withHeader("Retry-After", String.valueOf(INITIAL_WAIT_TIME))));
+                    .withHeader(CONTENT_LOCATION, SCR_SPINE_CONTENT_ENDPOINT)
+                    .withHeader(RETRY_AFTER, String.valueOf(INITIAL_WAIT_TIME))));
     }
 
     private void stubSpinePollingEndpoint() throws IOException {

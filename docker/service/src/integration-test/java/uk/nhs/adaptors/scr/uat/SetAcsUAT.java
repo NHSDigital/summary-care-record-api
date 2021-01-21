@@ -18,7 +18,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import uk.nhs.adaptors.scr.WireMockInitializer;
 import uk.nhs.adaptors.scr.consts.ScrHttpHeaders;
-import uk.nhs.adaptors.scr.uat.common.CustomArgumentsProvider;
+import uk.nhs.adaptors.scr.uat.common.CustomArgumentsProvider.SetAcsBadRequest;
+import uk.nhs.adaptors.scr.uat.common.CustomArgumentsProvider.SetAcsSpineError;
+import uk.nhs.adaptors.scr.uat.common.CustomArgumentsProvider.SetAcsSuccess;
 import uk.nhs.adaptors.scr.uat.common.TestData;
 
 import java.io.IOException;
@@ -54,13 +56,13 @@ public class SetAcsUAT {
     private static final String CLIENT_IP = "192.168.0.24";
     private static final String NHSD_SESSION_URID = "555254240100";
 
-    @Value("classpath:responses/acs/success.xml")
+    @Value("classpath:uat/responses/acs/success.xml")
     private Resource acsSuccessResponse;
 
-    @Value("classpath:responses/acs/invalidNhsNumber.xml")
+    @Value("classpath:uat/responses/acs/invalidNhsNumber.xml")
     private Resource acsErrorResponse;
 
-    @Value("classpath:responses/identity-service/userInfo.json")
+    @Value("classpath:uat/responses/identity-service/userInfo.json")
     private Resource userInfoResponse;
 
     @Autowired
@@ -70,27 +72,37 @@ public class SetAcsUAT {
     private WireMockServer wireMockServer;
 
     @ParameterizedTest(name = "[{index}] - {0}")
-    @ArgumentsSource(CustomArgumentsProvider.SetAcsSuccess.class)
-    public void testSetAcsPermission(String category, TestData testData) throws Exception {
+    @ArgumentsSource(SetAcsSuccess.class)
+    public void testSetAcsPermission(TestData testData) throws Exception {
         stubSpineAcsEndpoint(acsSuccessResponse);
         stubIdentityService(userInfoResponse);
 
-        performRequest(testData)
+        performRequest(testData.getFhirRequest())
             .andExpect(status().isCreated());
     }
 
     @ParameterizedTest(name = "[{index}] - {0}")
-    @ArgumentsSource(CustomArgumentsProvider.SetAcsInvalidNhsNumber.class)
-    public void testSetAcsPermissionInvalidNhs(String category, TestData testData) throws Exception {
+    @ArgumentsSource(SetAcsSpineError.class)
+    public void testSetAcsPermissionSpineError(TestData testData) throws Exception {
         stubSpineAcsEndpoint(acsErrorResponse);
         stubIdentityService(userInfoResponse);
 
-        performRequest(testData)
+        performRequest(testData.getFhirRequest())
             .andExpect(status().isBadRequest())
             .andExpect(content().json(testData.getFhirResponse()));
     }
 
-    private ResultActions performRequest(TestData testData) throws Exception {
+    @ParameterizedTest(name = "[{index}] - {0}")
+    @ArgumentsSource(SetAcsBadRequest.class)
+    public void testSetAcsPermissionBadRequest(TestData testData) throws Exception {
+        stubIdentityService(userInfoResponse);
+
+        performRequest(testData.getFhirRequest())
+            .andExpect(status().isBadRequest())
+            .andExpect(content().json(testData.getFhirResponse()));
+    }
+
+    private ResultActions performRequest(String request) throws Exception {
         return mockMvc.perform(post(ACS_ENDPOINT)
             .contentType(APPLICATION_FHIR_JSON)
             .header(ScrHttpHeaders.NHSD_ASID, NHSD_ASID)
@@ -98,7 +110,7 @@ public class SetAcsUAT {
             .header(ScrHttpHeaders.NHSD_SESSION_URID, NHSD_SESSION_URID)
             .header(AUTHORIZATION, BEARER_TOKEN)
             .header(ScrHttpHeaders.CLIENT_REQUEST_URL, wireMockServer.baseUrl())
-            .content(testData.getFhirRequest()));
+            .content(request));
 
     }
 

@@ -21,7 +21,9 @@ import uk.nhs.adaptors.scr.WireMockInitializer;
 import uk.nhs.adaptors.scr.config.SpineConfiguration;
 import uk.nhs.adaptors.scr.consts.ScrHttpHeaders;
 import uk.nhs.adaptors.scr.consts.SpineHttpHeaders;
-import uk.nhs.adaptors.scr.uat.common.CustomArgumentsProvider;
+import uk.nhs.adaptors.scr.uat.common.CustomArgumentsProvider.SendAlertBadRequest;
+import uk.nhs.adaptors.scr.uat.common.CustomArgumentsProvider.SendAlertSpineError;
+import uk.nhs.adaptors.scr.uat.common.CustomArgumentsProvider.SendAlertSuccess;
 import uk.nhs.adaptors.scr.uat.common.TestData;
 
 import java.io.IOException;
@@ -53,7 +55,7 @@ public class SendAlertUAT {
     private static final String CLIENT_IP = "192.168.0.24";
     private static final String ALERT_ENDPOINT = "/AuditEvent";
 
-    @Value("classpath:responses/alert/error.json")
+    @Value("classpath:uat/responses/alert/error.json")
     private Resource alertErrorResponse;
 
     @Autowired
@@ -66,8 +68,8 @@ public class SendAlertUAT {
     private SpineConfiguration spineConfiguration;
 
     @ParameterizedTest(name = "[{index}] - {0}")
-    @ArgumentsSource(CustomArgumentsProvider.SendAlertSuccess.class)
-    public void testSendAlertSuccess(String category, TestData testData) throws Exception {
+    @ArgumentsSource(SendAlertSuccess.class)
+    public void testSendAlertSuccess(TestData testData) throws Exception {
         stubSpineAlertEndpoint(OK, null);
 
         performRequest(testData.getFhirRequest())
@@ -75,10 +77,18 @@ public class SendAlertUAT {
     }
 
     @ParameterizedTest(name = "[{index}] - {0}")
-    @ArgumentsSource(CustomArgumentsProvider.SendAlertError.class)
-    public void testSendAlertError(String category, TestData testData) throws Exception {
+    @ArgumentsSource(SendAlertSpineError.class)
+    public void testSendAlertError(TestData testData) throws Exception {
         stubSpineAlertEndpoint(BAD_REQUEST, readString(alertErrorResponse.getFile().toPath(), UTF_8));
 
+        performRequest(testData.getFhirRequest())
+            .andExpect(status().isBadRequest())
+            .andExpect(content().json(testData.getFhirResponse()));
+    }
+
+    @ParameterizedTest(name = "[{index}] - {0}")
+    @ArgumentsSource(SendAlertBadRequest.class)
+    public void testSendAlertBadRequest(TestData testData) throws Exception {
         performRequest(testData.getFhirRequest())
             .andExpect(status().isBadRequest())
             .andExpect(content().json(testData.getFhirResponse()));
