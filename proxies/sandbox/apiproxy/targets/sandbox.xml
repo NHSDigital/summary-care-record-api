@@ -12,8 +12,18 @@
         <Name>AssignMessage.AddBaseUrl</Name>
       </Step>
     </Request>
+    <Response>
+      <Step>
+        <Name>AssignMessage.AddCors</Name>
+      </Step>
+    </Response>
   </PreFlow>
   <HTTPTargetConnection>
     {{ HOSTED_TARGET_CONNECTION }}
   </HTTPTargetConnection>
+  <DefaultFaultRule>
+    <Step>
+      <Name>AssignMessage.AddCors</Name>
+    </Step>
+  </DefaultFaultRule>
 </TargetEndpoint>
