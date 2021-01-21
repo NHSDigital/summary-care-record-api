@@ -1,5 +1,12 @@
 <TargetEndpoint name="apim">
-  <FaultRules/>
+  <FaultRules>
+    <FaultRule name="invalid_nhsd_session_urid">
+      <Condition>(grant_type is "authorization_code") and ((request.header.NHSD-Session-URID is null) or (not request.header.NHSD-Session-URID ~~ ".+"))</Condition>
+      <Step>
+        <Name>AssignMessage.MissingUserRoleIDHeader</Name>
+      </Step>
+    </FaultRule>
+  </FaultRules>
   <PreFlow>
     <Request>
       <Step>
@@ -11,7 +18,10 @@
       <Step>
         <Name>AssignMessage.AddBaseUrl</Name>
       </Step>
-    </Request>
+      <Step>
+        <Name>AssignMessage.AddFakeNHSDIdentity</Name>
+      </Step>
+    </Request>n
     <Response>
       <Step>
         <Name>AssignMessage.AddCors</Name>

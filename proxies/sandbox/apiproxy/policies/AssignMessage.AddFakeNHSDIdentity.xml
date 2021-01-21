@@ -1,0 +1,11 @@
+<AssignMessage async="false" continueOnError="false" enabled="true" name="AssignMessage.AddFakeNHSDIdentity">
+    <FaultRules/>
+    <Properties/>
+    <Set>
+        <Headers>
+          <Header name="NHSD-Identity-UUID">242424</Header>
+        </Headers>
+    </Set>
+    <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
+    <AssignTo createNew="true" transport="http" type="response"/>
+</AssignMessage>
