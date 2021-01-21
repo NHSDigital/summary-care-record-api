@@ -24,6 +24,7 @@ import uk.nhs.adaptors.scr.exceptions.UnexpectedSpineResponseException;
 import uk.nhs.adaptors.scr.models.ProcessingResult;
 
 import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
+import static org.springframework.http.HttpHeaders.RETRY_AFTER;
 import static org.springframework.http.HttpStatus.ACCEPTED;
 import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.http.MediaType.TEXT_XML_VALUE;
@@ -138,7 +139,7 @@ public class SpineClient implements SpineClientContract {
                 LOGGER.info("{} processing result received.", statusCode);
                 return ProcessingResult.parseProcessingResult(result.getBody());
             } else if (statusCode == ACCEPTED.value()) {
-                var nextRetryAfter = Long.parseLong(SpineHttpClient.getHeader(result.getHeaders(), SpineHttpClient.RETRY_AFTER_HEADER));
+                var nextRetryAfter = Long.parseLong(SpineHttpClient.getHeader(result.getHeaders(), RETRY_AFTER));
                 LOGGER.info("{} received. NextRetry in {}ms", statusCode, nextRetryAfter);
                 throw new NoSpineResultException(nextRetryAfter);
             } else {
