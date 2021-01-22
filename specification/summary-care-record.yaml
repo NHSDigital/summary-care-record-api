@@ -154,7 +154,7 @@ paths:
                       text: There's no patient's consent to store SCR
     get:
       description: |
-        # Overview
+        ## Overview
         Use this endpoint to retrieve the details of patient's Summary Care Record.
 
         To get the information you must provide patient's NHS Number and SCR UUID. UUID can be obtained using GET /DocumentReference endpoint.
@@ -209,7 +209,7 @@ paths:
       summary: Get patient's latest Summary Care Record identifier
       operationId: get-scr-id
       description: |
-        # Overview
+        ## Overview
         Use this endpoint to retrieve UUID of patient's latest record. This UUID can be then used to retrieve the Summary Care Record details.
 
         To get the information you must provide patient's NHS Number.
@@ -267,8 +267,16 @@ paths:
       summary: Update patient's consent to View SCR
       operationId: acs
       description: |
-        # Overview
+        ## Overview
         Use this endpoint to update the Permission to view for GP Summaries held for the patient
+
+        ## Sandbox test scenarios
+        You can test the following scenarios in our sandbox environment:
+
+        | Scenario                         | Request                                           | Response                                          |
+        | -------------------------------- | ------------------------------------------------- | -------------------- |
+        | Happy path                       | `NHSD-Session-URID`=`555254240100`                | HTTP Status 201      |
+        
       tags:
         - SCR
       parameters:
@@ -306,7 +314,7 @@ paths:
       summary: Send TMS Event Service (TES) message
       operationId: alert
       description: |
-        # Overview
+        ## Overview
         Use this endpoint to record TMS Event Service (TES) Alerts centrally.
       tags:
         - SCR
