@@ -28,6 +28,8 @@ properties:
         - $ref: ObservationEntry.yaml
 required:
   - resourceType
-  - timestamp
+  - id
   - identifier
+  - type
+  - timestamp
   - entry
