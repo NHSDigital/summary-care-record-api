@@ -1,22 +1,21 @@
 package uk.nhs.adaptors.scr.fhirmappings;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-
 import org.hl7.fhir.r4.model.Coding;
 import org.hl7.fhir.r4.model.Identifier;
 import org.hl7.fhir.r4.model.Observation;
 import org.hl7.fhir.r4.model.Period;
 import org.hl7.fhir.r4.model.Resource;
-
 import uk.nhs.adaptors.scr.exceptions.FhirMappingException;
 import uk.nhs.adaptors.scr.models.GpSummary;
 import uk.nhs.adaptors.scr.models.gpsummarymodels.EndTime;
 import uk.nhs.adaptors.scr.models.gpsummarymodels.ObservationObject;
 import uk.nhs.adaptors.scr.utils.DateUtil;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static uk.nhs.adaptors.scr.utils.DateUtil.formatDate;
 
 public class ObservationMapper {
 
@@ -71,21 +70,17 @@ public class ObservationMapper {
 
     private static void setObservationStartTime(ObservationObject observationObject, Observation observation) throws FhirMappingException {
         if (observation.hasEffectiveDateTimeType()) {
-            String strDate = observation.getEffectiveDateTimeType().getValueAsString();
-            observationObject.setObservationStartTime(DateUtil.formatDateFhirToHl7(strDate));
+            observationObject.setObservationStartTime(formatDate(observation.getEffectiveDateTimeType().getValue()));
         }
         if (observation.hasEffectivePeriod()) {
-            DateFormat dateFormat = new SimpleDateFormat(DateUtil.INPUT_PATTERN);
             Period period = observation.getEffectivePeriod();
             if (period.hasStart()) {
-                String strDate = dateFormat.format(period.getStart());
-                observationObject.setObservationStartTime(DateUtil.formatDate(strDate));
+                observationObject.setObservationStartTime(formatDate(period.getStart()));
             }
             if (period.hasEnd()) {
-                String strDate = dateFormat.format(period.getEnd());
                 List<EndTime> endTimeList = new ArrayList<>();
                 EndTime endTime = new EndTime();
-                endTime.setEndTime(DateUtil.formatDate(strDate));
+                endTime.setEndTime(DateUtil.formatDate(period.getEnd()));
                 endTimeList.add(endTime);
                 observationObject.setObservationEndTimeList(endTimeList);
             }

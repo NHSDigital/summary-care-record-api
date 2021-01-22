@@ -112,7 +112,7 @@ public class GpSummary {
 
     private static void gpSummarySetHeaderId(Bundle bundle, GpSummary gpSummary) {
         if (bundle.hasTimestampElement()) {
-            gpSummary.setHeaderTimeStamp(formatDate(bundle.getTimestampElement().asStringValue()));
+            gpSummary.setHeaderTimeStamp(formatDate(bundle.getTimestampElement().getValue()));
         } else {
             throw new FhirMappingException("bundle.timestamp must not be empty");
         }

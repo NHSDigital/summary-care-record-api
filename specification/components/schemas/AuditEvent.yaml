@@ -78,15 +78,20 @@ properties:
         description: The identity of source detecting the event
         type: object
         properties:
-          system:
-            type: string
-            default: "https://fhir.nhs.uk/Id/nhsSpineASID"
-          value:
-            type: string
-            example: 227319907548
+          identifier:
+            type: object
+            properties:
+              system:
+                type: string
+                default: "https://fhir.nhs.uk/Id/nhsSpineASID"
+              value:
+                type: string
+                example: 227319907548
+            required:
+              - system
+              - value
         required:
-          - system
-          - value
+          - identifier
     required:
       - observer
   entity:

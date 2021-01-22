@@ -1,24 +1,23 @@
 package uk.nhs.adaptors.scr.fhirmappings;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-
 import org.hl7.fhir.r4.model.CodeableConcept;
 import org.hl7.fhir.r4.model.Coding;
 import org.hl7.fhir.r4.model.Condition;
 import org.hl7.fhir.r4.model.Identifier;
 import org.hl7.fhir.r4.model.Period;
 import org.hl7.fhir.r4.model.Resource;
-
 import uk.nhs.adaptors.scr.exceptions.FhirMappingException;
 import uk.nhs.adaptors.scr.models.GpSummary;
 import uk.nhs.adaptors.scr.models.gpsummarymodels.AllConditions;
 import uk.nhs.adaptors.scr.models.gpsummarymodels.ConditionObject;
 import uk.nhs.adaptors.scr.models.gpsummarymodels.EndTime;
 import uk.nhs.adaptors.scr.utils.DateUtil;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static uk.nhs.adaptors.scr.utils.DateUtil.formatDate;
 
 public class ConditionMapper {
     public static void mapConditions(GpSummary gpSummary, List<Resource> conditions) throws FhirMappingException {
@@ -73,21 +72,18 @@ public class ConditionMapper {
 
     private static void setConditionTime(ConditionObject conditionObject, Condition condition) throws FhirMappingException {
         if (condition.hasOnsetDateTimeType()) {
-            String strDate = condition.getOnsetDateTimeType().getValueAsString();
-            conditionObject.setConditionStartTime(DateUtil.formatDateFhirToHl7(strDate));
+            conditionObject.setConditionStartTime(formatDate(condition.getOnsetDateTimeType().getValue()));
         }
         if (condition.hasOnsetPeriod()) {
-            DateFormat dateFormat = new SimpleDateFormat(DateUtil.INPUT_PATTERN);
             Period period = condition.getOnsetPeriod();
             if (period.hasStart()) {
-                String strDate = dateFormat.format(period.getStart());
-                conditionObject.setConditionStartTime(DateUtil.formatDate(strDate));
+                conditionObject.setConditionStartTime(DateUtil.formatDate(period.getStart()));
             }
             if (period.hasEnd()) {
-                String strDate = dateFormat.format(period.getEnd());
+                String endDate = DateUtil.formatDate(period.getEnd());
                 List<EndTime> endTimeList = new ArrayList<>();
                 EndTime endTime = new EndTime();
-                endTime.setEndTime(DateUtil.formatDate(strDate));
+                endTime.setEndTime(endDate);
                 endTimeList.add(endTime);
                 conditionObject.setConditionEndTimeList(endTimeList);
             }

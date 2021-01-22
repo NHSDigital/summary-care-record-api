@@ -58,7 +58,7 @@ public class CompositionMapper {
 
     private static void setCompositionDate(GpSummary gpSummary, Composition composition) throws FhirMappingException {
         if (composition.hasDateElement()) {
-            gpSummary.setCompositionDate(formatDate(composition.getDateElement().asStringValue()));
+            gpSummary.setCompositionDate(formatDate(composition.getDateElement().getValue()));
         } else {
             throw new FhirMappingException("Composition Date Element missing from payload");
         }
