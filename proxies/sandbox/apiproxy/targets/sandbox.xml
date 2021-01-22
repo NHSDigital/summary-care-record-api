@@ -5,6 +5,9 @@
       <Step>
         <Name>AssignMessage.MissingUserRoleIDHeader</Name>
       </Step>
+      <Step>
+        <Name>AssignMessage.AddCors</Name>
+      </Step>
     </FaultRule>
   </FaultRules>
   <PreFlow>
