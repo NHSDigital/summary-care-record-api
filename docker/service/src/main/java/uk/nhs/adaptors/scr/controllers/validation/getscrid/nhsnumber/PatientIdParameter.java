@@ -1,18 +1,18 @@
-package uk.nhs.adaptors.scr.controllers.validation.getscrid;
+package uk.nhs.adaptors.scr.controllers.validation.getscrid.nhsnumber;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
-import static java.lang.annotation.ElementType.METHOD;
+import static java.lang.annotation.ElementType.PARAMETER;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
-@Constraint(validatedBy = GetScrIdRequestValidator.class)
-@Target(METHOD)
+@Constraint(validatedBy = PatientIdParameterValidator.class)
+@Target(PARAMETER)
 @Retention(RUNTIME)
-public @interface GetScrIdRequest {
-    String message() default "Invalid GET SCR ID request";
+public @interface PatientIdParameter {
+    String message() default "Invalid NHS Number";
 
     Class<?>[] groups() default {};
 
