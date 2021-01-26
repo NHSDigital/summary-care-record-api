@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 import uk.nhs.adaptors.scr.exceptions.OperationOutcomeError;
@@ -111,6 +112,13 @@ public class OperationOutcomeExceptionHandler extends ResponseEntityExceptionHan
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<Object> handleConstraintViolationException(ConstraintViolationException ex) {
         OperationOutcome operationOutcome = createOperationOutcome(VALUE, ERROR, removeMethodNamePrefix(ex.getMessage()));
+        return errorResponse(new HttpHeaders(), BAD_REQUEST, operationOutcome);
+    }
+
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    public ResponseEntity<Object> handleMethodArgumentTypeMismatch(MethodArgumentTypeMismatchException ex) {
+        String responseMessage = String.format("Invalid value - %s in field '%s'", ex.getValue(), ex.getName());
+        OperationOutcome operationOutcome = createOperationOutcome(VALUE, ERROR, responseMessage);
         return errorResponse(new HttpHeaders(), BAD_REQUEST, operationOutcome);
     }
 
