@@ -102,14 +102,18 @@ servers:
   - url: 'https://int.api.service.nhs.uk/summary-care-record'
     description: Integration test environment.
 tags:
-  - name: SCR
+  - name: alert
+  - name: getScr
+  - name: getScrId
+  - name: setConsent
+  - name: uploadScr
 paths:
   /Bundle:
     post:
       summary: Upload patient's Summary Care Record
       operationId: upload-scr
       tags:
-        - SCR
+        - uploadScr
       parameters:
         - $ref: '#/components/parameters/BearerAuthorization'
         - $ref: '#/components/parameters/CorrelationID'
@@ -161,7 +165,7 @@ paths:
       summary: Get patient's Summary Care Record
       operationId: get-scr
       tags:
-        - SCR
+        - getScr
       parameters:
         - $ref: '#/components/parameters/BearerAuthorization'
         - $ref: '#/components/parameters/CorrelationID'
@@ -208,13 +212,13 @@ paths:
     get:
       summary: Get patient's latest Summary Care Record identifier
       operationId: get-scr-id
+      tags:
+        - getScrId
       description: |
         ## Overview
         Use this endpoint to retrieve UUID of patient's latest record. This UUID can be then used to retrieve the Summary Care Record details.
 
         To get the information you must provide patient's NHS Number.
-      tags:
-        - SCR
       parameters:
         - $ref: '#/components/parameters/BearerAuthorization'
         - $ref: '#/components/parameters/CorrelationID'
@@ -266,6 +270,8 @@ paths:
     post:
       summary: Update patient's consent to View SCR
       operationId: acs
+      tags:
+        - setAcs
       description: |
         ## Overview
         Use this endpoint to update the Permission to view for GP Summaries held for the patient
@@ -277,8 +283,6 @@ paths:
         | -------------------------------- | ------------------------------------------------- | -------------------- |
         | Happy path                       | `NHSD-Session-URID`=`555254240100`                | HTTP Status 201      |
         
-      tags:
-        - SCR
       parameters:
         - $ref: '#/components/parameters/BearerAuthorization'
         - $ref: '#/components/parameters/CorrelationID'
@@ -313,11 +317,11 @@ paths:
     post:
       summary: Send TMS Event Service (TES) message
       operationId: alert
+      tags:
+        - alert
       description: |
         ## Overview
         Use this endpoint to record TMS Event Service (TES) Alerts centrally.
-      tags:
-        - SCR
       parameters:
         - $ref: '#/components/parameters/BearerAuthorization'
         - $ref: '#/components/parameters/CorrelationID'
