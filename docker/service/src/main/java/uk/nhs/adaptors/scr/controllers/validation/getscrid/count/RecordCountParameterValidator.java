@@ -3,7 +3,6 @@ package uk.nhs.adaptors.scr.controllers.validation.getscrid.count;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import uk.nhs.adaptors.scr.exceptions.BadRequestException;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
@@ -20,20 +19,16 @@ public class RecordCountParameterValidator implements ConstraintValidator<Record
 
     @Override
     public boolean isValid(Integer count, ConstraintValidatorContext context) {
-        try {
-            checkGetScrCountParam(count);
-        } catch (BadRequestException exc) {
-            setErrorMessage(context, exc.getMessage());
+        if (!checkGetScrCountParam(count)) {
+            setErrorMessage(context, String.format("Invalid value - %s in field '_count'", count));
             return false;
         }
 
         return true;
     }
 
-    private void checkGetScrCountParam(Integer count) {
-        if (count != null && !SUPPORTED_COUNT.equals(count)) {
-            throw new BadRequestException(String.format("Invalid value - %s in field '_count'", count));
-        }
+    private boolean checkGetScrCountParam(Integer count) {
+        return count == null || SUPPORTED_COUNT.equals(count);
     }
 
     private void setErrorMessage(ConstraintValidatorContext cxt, String message) {

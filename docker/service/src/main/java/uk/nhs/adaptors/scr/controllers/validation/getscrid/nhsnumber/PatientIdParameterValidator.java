@@ -3,7 +3,6 @@ package uk.nhs.adaptors.scr.controllers.validation.getscrid.nhsnumber;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import uk.nhs.adaptors.scr.exceptions.BadRequestException;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
@@ -22,25 +21,21 @@ public class PatientIdParameterValidator implements ConstraintValidator<PatientI
 
     @Override
     public boolean isValid(String patientId, ConstraintValidatorContext context) {
-        try {
-            checkNhsNumber(patientId);
-        } catch (BadRequestException exc) {
-            setErrorMessage(context, exc.getMessage());
+        if (!checkNhsNumber(patientId)) {
+            setErrorMessage(context, String.format("Invalid value - %s in field 'patient'", patientId));
             return false;
         }
 
         return true;
     }
 
-    private void checkNhsNumber(String patientId) {
+    private boolean checkNhsNumber(String patientId) {
         if (isNotEmpty(patientId) && patientId.startsWith(PATIENT_ID_PREFIX)) {
             String nhsNumber = patientId.replace(PATIENT_ID_PREFIX, "");
-            if (isNotEmpty(nhsNumber)) {
-                return;
-            }
+            return isNotEmpty(nhsNumber);
         }
 
-        throw new BadRequestException(String.format("Invalid value - %s in field 'patient'", patientId));
+        return false;
     }
 
     private void setErrorMessage(ConstraintValidatorContext cxt, String message) {
