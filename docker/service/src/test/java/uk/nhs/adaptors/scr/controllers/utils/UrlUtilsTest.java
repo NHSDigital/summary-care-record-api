@@ -9,9 +9,9 @@ import static uk.nhs.adaptors.scr.controllers.utils.UrlUtils.extractHost;
 
 class UrlUtilsTest {
 
-    private static final String URL_NO_QUERY_PARAMS = "https://internal-dev.api.service.nhs.uk/summary-care-record"
+    private static final String URL_NO_QUERY_PARAMS = "https://internal-dev.api.service.nhs.uk/summary-care-record/FHIR/R4"
         + "/DocumentReference";
-    private static final String URL_WITH_QUERY_PARAMS = "https://internal-dev.api.service.nhs.uk/summary-care-record"
+    private static final String URL_WITH_QUERY_PARAMS = "https://internal-dev.api.service.nhs.uk/summary-care-record/FHIR/R4"
         + "/DocumentReference?patient=123";
 
     private static final String REQUEST_URI = "/DocumentReference";
@@ -20,7 +20,7 @@ class UrlUtilsTest {
     @ValueSource(strings = {URL_NO_QUERY_PARAMS, URL_WITH_QUERY_PARAMS})
     void whenExtractBaseUrlExpectCorrectBase(String url) {
         String base = extractBaseUrl(url, REQUEST_URI);
-        assertThat(base).isEqualTo("https://internal-dev.api.service.nhs.uk/summary-care-record");
+        assertThat(base).isEqualTo("https://internal-dev.api.service.nhs.uk/summary-care-record/FHIR/R4");
     }
 
     @ParameterizedTest

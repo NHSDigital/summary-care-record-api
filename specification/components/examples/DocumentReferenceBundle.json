@@ -5,7 +5,7 @@
   "total": 1,
   "entry": [
     {
-      "fullUrl": "https://api.service.nhs.uk/summary-care-record/DocumentReference/6d334ca8-a6e1-4bae-93b1-19a14a36ea7a",
+      "fullUrl": "https://api.service.nhs.uk/summary-care-record/FHIR/R4/DocumentReference/6d334ca8-a6e1-4bae-93b1-19a14a36ea7a",
       "resource": {
         "resourceType": "DocumentReference",
         "id": "6d334ca8-a6e1-4bae-93b1-19a14a36ea7a",
