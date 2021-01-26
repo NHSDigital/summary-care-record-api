@@ -1,4 +1,4 @@
-package uk.nhs.adaptors.scr.controllers.validation.getscrid.nhsnumber;
+package uk.nhs.adaptors.scr.controllers.validation.scr;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
@@ -8,11 +8,11 @@ import java.lang.annotation.Target;
 import static java.lang.annotation.ElementType.PARAMETER;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
-@Constraint(validatedBy = PatientIdParameterValidator.class)
+@Constraint(validatedBy = RecordCountValidator.class)
 @Target(PARAMETER)
 @Retention(RUNTIME)
-public @interface PatientIdParameter {
-    String message() default "Invalid NHS Number";
+public @interface RecordCount {
+    String message() default "Invalid Count Value";
 
     Class<?>[] groups() default {};
 

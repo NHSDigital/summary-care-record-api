@@ -1,4 +1,4 @@
-package uk.nhs.adaptors.scr.controllers.validation.getscrid.nhsnumber;
+package uk.nhs.adaptors.scr.controllers.validation.scr;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,17 +11,17 @@ import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
 @Component
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
-public class PatientIdParameterValidator implements ConstraintValidator<PatientIdParameter, String> {
+public class PatientIdValidator implements ConstraintValidator<PatientId, String> {
 
     private static final String PATIENT_ID_PREFIX = "https://fhir.nhs.uk/Id/nhs-number|";
 
     @Override
-    public void initialize(PatientIdParameter contactNumber) {
+    public void initialize(PatientId contactNumber) {
     }
 
     @Override
     public boolean isValid(String patientId, ConstraintValidatorContext context) {
-        if (!checkNhsNumber(patientId)) {
+        if (!isNhsNumber(patientId)) {
             setErrorMessage(context, String.format("Invalid value - %s in field 'patient'", patientId));
             return false;
         }
@@ -29,7 +29,7 @@ public class PatientIdParameterValidator implements ConstraintValidator<PatientI
         return true;
     }
 
-    private boolean checkNhsNumber(String patientId) {
+    private boolean isNhsNumber(String patientId) {
         if (isNotEmpty(patientId) && patientId.startsWith(PATIENT_ID_PREFIX)) {
             String nhsNumber = patientId.replace(PATIENT_ID_PREFIX, "");
             return isNotEmpty(nhsNumber);

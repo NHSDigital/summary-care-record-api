@@ -1,4 +1,4 @@
-package uk.nhs.adaptors.scr.controllers.validation.getscrid.type;
+package uk.nhs.adaptors.scr.controllers.validation.scr;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,26 +11,26 @@ import static org.apache.commons.lang3.StringUtils.isEmpty;
 
 @Component
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
-public class TypeCodeParameterValidator implements ConstraintValidator<TypeCodeParameter, String> {
+public class SortMethodValidator implements ConstraintValidator<SortMethod, String> {
 
-    private static final String SUPPORTED_TYPE = "http://snomed.info/sct|196981000000101";
+    private static final String SUPPORTED_SORT = "date";
 
     @Override
-    public void initialize(TypeCodeParameter contactNumber) {
+    public void initialize(SortMethod contactNumber) {
     }
 
     @Override
-    public boolean isValid(String type, ConstraintValidatorContext context) {
-        if (!checkGetScrTypeParam(type)) {
-            setErrorMessage(context, String.format("Invalid value - %s in field 'type'", type));
+    public boolean isValid(String sort, ConstraintValidatorContext context) {
+        if (!isScrSort(sort)) {
+            setErrorMessage(context, String.format("Invalid value - %s in field '_sort'", sort));
             return false;
         }
 
         return true;
     }
 
-    private boolean checkGetScrTypeParam(String type) {
-        return isEmpty(type) || SUPPORTED_TYPE.equals(type);
+    private boolean isScrSort(String sort) {
+        return isEmpty(sort) || SUPPORTED_SORT.equals(sort);
     }
 
     private void setErrorMessage(ConstraintValidatorContext cxt, String message) {

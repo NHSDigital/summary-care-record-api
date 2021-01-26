@@ -1,4 +1,4 @@
-package uk.nhs.adaptors.scr.controllers.validation.getscrid.count;
+package uk.nhs.adaptors.scr.controllers.validation.scr;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,17 +9,17 @@ import javax.validation.ConstraintValidatorContext;
 
 @Component
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
-public class RecordCountParameterValidator implements ConstraintValidator<RecordCountParameter, Integer> {
+public class RecordCountValidator implements ConstraintValidator<RecordCount, Integer> {
 
     private static final Integer SUPPORTED_COUNT = 1;
 
     @Override
-    public void initialize(RecordCountParameter contactNumber) {
+    public void initialize(RecordCount contactNumber) {
     }
 
     @Override
     public boolean isValid(Integer count, ConstraintValidatorContext context) {
-        if (!checkGetScrCountParam(count)) {
+        if (!isScrCount(count)) {
             setErrorMessage(context, String.format("Invalid value - %s in field '_count'", count));
             return false;
         }
@@ -27,7 +27,7 @@ public class RecordCountParameterValidator implements ConstraintValidator<Record
         return true;
     }
 
-    private boolean checkGetScrCountParam(Integer count) {
+    private boolean isScrCount(Integer count) {
         return count == null || SUPPORTED_COUNT.equals(count);
     }
 

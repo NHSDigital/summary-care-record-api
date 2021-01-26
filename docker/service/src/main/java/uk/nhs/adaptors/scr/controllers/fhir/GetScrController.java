@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import uk.nhs.adaptors.scr.components.FhirParser;
-import uk.nhs.adaptors.scr.controllers.validation.getscrid.count.RecordCountParameter;
-import uk.nhs.adaptors.scr.controllers.validation.getscrid.nhsnumber.PatientIdParameter;
-import uk.nhs.adaptors.scr.controllers.validation.getscrid.sort.SortMethodParameter;
-import uk.nhs.adaptors.scr.controllers.validation.getscrid.type.TypeCodeParameter;
+import uk.nhs.adaptors.scr.controllers.validation.scr.RecordCount;
+import uk.nhs.adaptors.scr.controllers.validation.scr.PatientId;
+import uk.nhs.adaptors.scr.controllers.validation.scr.SortMethod;
+import uk.nhs.adaptors.scr.controllers.validation.scr.TypeCode;
 import uk.nhs.adaptors.scr.services.GetScrService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -42,10 +42,10 @@ public class GetScrController {
     public String getScrId(@RequestHeader(NHSD_ASID) @NotNull String nhsdAsid,
                            @RequestHeader(CLIENT_IP) @NotNull String clientIp,
                            @RequestHeader(CLIENT_REQUEST_URL) @NotNull String clientRequestUrl,
-                           @RequestParam("patient") @NotNull @PatientIdParameter String patient,
-                           @RequestParam(required = false) @TypeCodeParameter String type,
-                           @RequestParam(name = "_sort", required = false) @SortMethodParameter String sort,
-                           @RequestParam(name = "_count", required = false) @RecordCountParameter Integer count,
+                           @RequestParam("patient") @NotNull @PatientId String patient,
+                           @RequestParam(required = false) @TypeCode String type,
+                           @RequestParam(name = "_sort", required = false) @SortMethod String sort,
+                           @RequestParam(name = "_count", required = false) @RecordCount Integer count,
                            HttpServletRequest request) {
         String nhsNumber = extractNhsNumber(patient);
         String baseUrl = extractBaseUrl(clientRequestUrl, request.getRequestURI());
