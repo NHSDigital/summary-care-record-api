@@ -29,7 +29,6 @@ import static java.time.OffsetDateTime.now;
 import static java.time.ZoneOffset.UTC;
 import static java.util.stream.Collectors.joining;
 import static uk.nhs.adaptors.scr.config.ConversationIdFilter.CORRELATION_ID_MDC_KEY;
-import static uk.nhs.adaptors.scr.controllers.utils.UrlUtils.extractHost;
 import static uk.nhs.adaptors.scr.utils.TemplateUtils.fillTemplate;
 import static uk.nhs.adaptors.scr.utils.TemplateUtils.loadTemplate;
 
@@ -55,7 +54,7 @@ public class AcsService {
     public void setPermission(RequestData requestData) {
         Parameters parameters = fhirParser.parseResource(requestData.getBody(), Parameters.class);
         ParametersParameterComponent parameter = getSetPermissionParameter(parameters);
-        UserInfo userInfo = identityService.getUserInfo(extractHost(requestData.getClientRequestUrl()), requestData.getAuthorization());
+        UserInfo userInfo = identityService.getUserInfo(requestData.getAuthorization());
         String acsRequest = prepareAcsRequest(parameter, requestData, getUserRoleCode(userInfo, requestData.getNhsdSessionUrid()),
             userInfo.getId());
         Response response = spineClient.sendAcsData(acsRequest, requestData.getNhsdAsid());

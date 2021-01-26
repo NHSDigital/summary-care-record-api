@@ -17,10 +17,8 @@ import javax.validation.constraints.NotNull;
 
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 import static uk.nhs.adaptors.scr.consts.ScrHttpHeaders.CLIENT_IP;
-import static uk.nhs.adaptors.scr.consts.ScrHttpHeaders.CLIENT_REQUEST_URL;
 import static uk.nhs.adaptors.scr.consts.ScrHttpHeaders.NHSD_ASID;
 import static uk.nhs.adaptors.scr.controllers.FhirMediaTypes.APPLICATION_FHIR_JSON_VALUE;
-import static uk.nhs.adaptors.scr.controllers.utils.UrlUtils.extractBaseUrl;
 
 @RestController
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -41,19 +39,17 @@ public class GetScrController {
     @SuppressWarnings("checkstyle:parameternumber")
     public String getScrId(@RequestHeader(NHSD_ASID) @NotNull String nhsdAsid,
                            @RequestHeader(CLIENT_IP) @NotNull String clientIp,
-                           @RequestHeader(CLIENT_REQUEST_URL) @NotNull String clientRequestUrl,
                            @RequestParam("patient") @NotNull String patient,
                            @RequestParam(required = false) String type,
                            @RequestParam(name = "_sort", required = false) String sort,
                            @RequestParam(name = "_count", required = false) Integer count,
                            HttpServletRequest request) {
         String nhsNumber = checkAndExtractNhsNumber(patient);
-        String baseUrl = extractBaseUrl(clientRequestUrl, request.getRequestURI());
         checkGetScrTypeParam(type);
         checkGetScrSortParam(sort);
         checkGetScrCountParam(count);
 
-        Bundle bundle = getScrService.getScrId(nhsNumber, nhsdAsid, clientIp, baseUrl);
+        Bundle bundle = getScrService.getScrId(nhsNumber, nhsdAsid, clientIp);
 
         return fhirParser.encodeToJson(bundle);
     }

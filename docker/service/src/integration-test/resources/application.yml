@@ -22,6 +22,8 @@ scr:
   partyIdFrom: ${SCR_PARTY_ID_FROM:TESTGEN-201324}
   partyIdTo: ${SCR_PARTY_ID_TO:YEA-0000806}
   nhsdAsidTo: ${SCR_NHSD_ASID_TO:655159266510}
+  serviceBasePath: ${SERVICE_BASE_PATH:summary-care-record/FHIR/R4}
+  baseUrl: https://${HOST_URL:internal-dev.api.service.nhs.uk}
 
 identity-service:
     userInfoEndpoint: /oauth2/userinfo

@@ -8,6 +8,10 @@ docker_service:
       environment:
         - name: SCR_SANDBOX_MODE
           value: "True"
+        - name: HOST_URL
+          value: "{{ APIGEE_HOSTNAME }}"
+        - name: SERVICE_BASE_PATH
+          value: "{{ SERVICE_BASE_PATH }}"
       health_check:
           matcher: "200"
           path: "/healthcheck"

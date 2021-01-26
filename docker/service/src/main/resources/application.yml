@@ -28,6 +28,8 @@ scr:
   partyIdFrom: ${SCR_PARTY_ID_FROM:TESTGEN-201324}
   partyIdTo: ${SCR_PARTY_ID_TO}
   nhsdAsidTo: ${SCR_NHSD_ASID_TO}
+  serviceBasePath: ${SERVICE_BASE_PATH}
+  baseUrl: https://${HOST_URL}
 
 spine:
   url: https://${SCR_SPINE_URL}

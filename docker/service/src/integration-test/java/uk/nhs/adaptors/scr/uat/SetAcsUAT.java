@@ -109,7 +109,6 @@ public class SetAcsUAT {
             .header(ScrHttpHeaders.CLIENT_IP, CLIENT_IP)
             .header(ScrHttpHeaders.NHSD_SESSION_URID, NHSD_SESSION_URID)
             .header(AUTHORIZATION, BEARER_TOKEN)
-            .header(ScrHttpHeaders.CLIENT_REQUEST_URL, wireMockServer.baseUrl())
             .content(request));
 
     }

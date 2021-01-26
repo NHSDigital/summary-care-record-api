@@ -16,7 +16,6 @@ import javax.validation.constraints.NotNull;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.HttpStatus.CREATED;
 import static uk.nhs.adaptors.scr.consts.ScrHttpHeaders.CLIENT_IP;
-import static uk.nhs.adaptors.scr.consts.ScrHttpHeaders.CLIENT_REQUEST_URL;
 import static uk.nhs.adaptors.scr.consts.ScrHttpHeaders.NHSD_ASID;
 import static uk.nhs.adaptors.scr.consts.ScrHttpHeaders.NHSD_SESSION_URID;
 import static uk.nhs.adaptors.scr.controllers.FhirMediaTypes.APPLICATION_FHIR_JSON_VALUE;
@@ -36,11 +35,9 @@ public class AcsController {
     public void setPermission(@RequestBody String parameters,
                               @RequestHeader(NHSD_ASID) @NotNull String nhsdAsid,
                               @RequestHeader(CLIENT_IP) @NotNull String clientIp,
-                              @RequestHeader(CLIENT_REQUEST_URL) @NotNull String clientRequestUrl,
                               @RequestHeader(NHSD_SESSION_URID) @NotNull String nhsdSessionUrid,
                               @RequestHeader(AUTHORIZATION) @NotNull String authorization) {
         RequestData requestData = new RequestData().setBody(parameters)
-            .setClientRequestUrl(clientRequestUrl)
             .setClientIp(clientIp)
             .setNhsdAsid(nhsdAsid)
             .setNhsdSessionUrid(nhsdSessionUrid)
