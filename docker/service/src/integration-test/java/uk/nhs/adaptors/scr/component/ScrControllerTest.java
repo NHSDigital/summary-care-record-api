@@ -29,7 +29,7 @@ import static org.springframework.http.HttpStatus.GATEWAY_TIMEOUT;
 public class ScrControllerTest {
     private static final String FHIR_ENDPOINT = "/Bundle";
     private static final String REQUEST_BODY = "something";
-    private static final int LONG_INITIAL_WAIT_TIME = 1000;
+    private static final int LONG_INITIAL_WAIT_TIME = 2000;
     private static final long SHORT_RESULT_TIMEOUT = 10;
     private static final String FHIR_JSON_CONTENT_TYPE = "application/fhir+json";
     private static final String NHSD_ASID = "123";
