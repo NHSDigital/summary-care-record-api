@@ -33,6 +33,8 @@ extends:
     product_display_name: ${{ variables.product_display_name }}
     product_description: ${{ variables.product_description }}
     spec_file: ${{ variables.spec_file }}
+    enable_monitoring: true
+    enable_status_monitoring: true
     apigee_deployments:
       - environment: internal-dev
         make_spec_visible: true
