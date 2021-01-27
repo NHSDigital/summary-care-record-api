@@ -117,7 +117,6 @@ public class GpSummaryMapper implements XmlToFhirMapper {
                 .setSystem(pertinentRootCreTypeCodeCodeSystem)
                 .setDisplay(pertinentRootCreTypeCodeDisplayName)));
 
-        //TODO enable once HTTP GET returns a proper HTML
         presentationTextValue
             .map(htmlParser::parse)
             .map(Collection::stream)

@@ -1,10 +1,12 @@
 package uk.nhs.adaptors.scr.mappings.from.hl7;
 
 import lombok.SneakyThrows;
+import org.hl7.fhir.r4.model.Annotation;
 import org.hl7.fhir.r4.model.CodeableConcept;
 import org.hl7.fhir.r4.model.Coding;
 import org.hl7.fhir.r4.model.Condition;
 import org.hl7.fhir.r4.model.DateTimeType;
+import org.hl7.fhir.r4.model.Reference;
 import org.hl7.fhir.r4.model.Resource;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
@@ -27,6 +29,8 @@ public class DiagnosisMapper implements XmlToFhirMapper {
     private static final String DIAGNOSIS_STATUS_CODE_CODE_XPATH = "./statusCode/@code";
     private static final String DIAGNOSIS_EFFECTIVE_TIME_LOW_XPATH = "./effectiveTime/low/@value";
     private static final String DIAGNOSIS_EFFECTIVE_TIME_HIGH_XPATH = "./effectiveTime/high/@value";
+    private static final String DIAGNOSIS_PERTINENT_SUPPORTING_INFO_XPATH = "./pertinentInformation/pertinentSupportingInfo/value";
+    private static final String DIAGNOSIS_PERTINENT_FINDING_XPATH = "./pertinentInformation1/templateId/pertinentFinding/id/@root";
 
     @SneakyThrows
     public List<Resource> map(Document document) {
@@ -45,6 +49,10 @@ public class DiagnosisMapper implements XmlToFhirMapper {
             var diagnosisEffectiveTimeHigh =
                 XmlUtils.getOptionalValueByXPath(node, DIAGNOSIS_EFFECTIVE_TIME_HIGH_XPATH)
                 .map(XmlToFhirMapper::parseDate);
+            var pertinentSupportingInfo =
+                XmlUtils.getOptionalValueByXPath(node, DIAGNOSIS_PERTINENT_SUPPORTING_INFO_XPATH);
+            var pertinentFinding =
+                XmlUtils.getOptionalValueByXPath(node, DIAGNOSIS_PERTINENT_FINDING_XPATH);
 
             var condition = new Condition();
             condition.setId(FhirHelper.randomUUID());
@@ -65,7 +73,32 @@ public class DiagnosisMapper implements XmlToFhirMapper {
                 condition.setOnset(lowDateTime);
             }
 
+            pertinentSupportingInfo
+                .map(value -> new Annotation().setText(value))
+                .ifPresent(condition::addNote);
+            pertinentFinding
+                .map(Reference::new)
+                .map(reference -> new Condition.ConditionEvidenceComponent().addDetail(reference))
+                .ifPresent(condition::addEvidence);
+
             resources.add(condition);
+
+
+//            var practitioner = new Practitioner();
+//            // map
+//
+//            var practitionerRole = new PractitionerRole();
+//            // map
+//            practitionerRole.setPractitioner() // link to practitioner
+//
+//            var encounter = new Encounter();
+//            // map
+//            encounter.addParticipant() // link to practitioner role
+//
+//            condition.setEncounter() // link to encounter
+//            //the same for FindingMapper
+//
+//            condition.addEvidence() // use the same ID as in XML
         }
         return resources;
     }
