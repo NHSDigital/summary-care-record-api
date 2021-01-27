@@ -8,7 +8,6 @@ import org.hl7.fhir.r4.model.Parameters.ParametersParameterComponent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import uk.nhs.adaptors.scr.components.FhirParser;
-import uk.nhs.adaptors.scr.exceptions.FhirMappingException;
 import uk.nhs.adaptors.scr.exceptions.FhirValidationException;
 import uk.nhs.adaptors.scr.models.AcsPermission;
 
@@ -37,9 +36,9 @@ public class AcsRequestValidator implements ConstraintValidator<AcsRequest, Stri
             Parameters parameters = fhirParser.parseResource(requestBody, Parameters.class);
 
             ParametersParameterComponent parameter = getSetPermissionParameter(parameters);
-            isNhsNumber(parameter);
-            isPermission(parameter);
-        } catch (FhirMappingException | FhirValidationException exc) {
+            checkNhsNumber(parameter);
+            checkPermission(parameter);
+        } catch (FhirValidationException exc) {
             setErrorMessage(context, exc.getMessage());
             return false;
         }
@@ -47,26 +46,26 @@ public class AcsRequestValidator implements ConstraintValidator<AcsRequest, Stri
         return true;
     }
 
-    private static void isNhsNumber(Parameters.ParametersParameterComponent parameter) {
+    private static void checkNhsNumber(Parameters.ParametersParameterComponent parameter) {
         parameter.getPart().stream()
             .filter(p -> NHS_NUMBER_PART_NAME.equals(p.getName()))
             .reduce((x, y) -> {
-                throw new FhirMappingException(String.format("Exactly 1 Parameter.Part named '%s' expected", NHS_NUMBER_PART_NAME));
+                throw new FhirValidationException(String.format("Exactly 1 Parameter.Part named '%s' expected", NHS_NUMBER_PART_NAME));
             })
-            .orElseThrow(() -> new FhirMappingException(String.format(
+            .orElseThrow(() -> new FhirValidationException(String.format(
                 "Parameter.Part named '%s' not found", NHS_NUMBER_PART_NAME))
         );
     }
 
-    private static void isPermission(Parameters.ParametersParameterComponent parameter) {
+    private static void checkPermission(Parameters.ParametersParameterComponent parameter) {
         Coding coding = (Coding) parameter.getPart().stream()
             .filter(p -> PERMISSION_CODE_PART_NAME.equals(p.getName()))
             .filter(p -> PERMISSION_CODE_SYSTEM.equals(((Coding) p.getValue()).getSystem()))
             .reduce((x, y) -> {
-                throw new FhirMappingException(String.format("Exactly 1 Parameter.Part named '%s' with valueCoding.system %s expected",
+                throw new FhirValidationException(String.format("Exactly 1 Parameter.Part named '%s' with valueCoding.system %s expected",
                     PERMISSION_CODE_PART_NAME, PERMISSION_CODE_SYSTEM));
             })
-            .orElseThrow(() -> new FhirMappingException(String.format(
+            .orElseThrow(() -> new FhirValidationException(String.format(
                 "Parameter.Part named '%s' with valueCoding.system %s not found", PERMISSION_CODE_PART_NAME, PERMISSION_CODE_SYSTEM))
             )
             .getValue();
@@ -76,7 +75,7 @@ public class AcsRequestValidator implements ConstraintValidator<AcsRequest, Stri
             AcsPermission.fromValue(permissionValue);
         } catch (Exception e) {
             LOGGER.error("Invalid permission value: " + permissionValue, e);
-            throw new FhirMappingException(String.format("Invalid value - %s in field 'valueCoding.code'", permissionValue));
+            throw new FhirValidationException(String.format("Invalid value - %s in field 'valueCoding.code'", permissionValue));
         }
     }
 
@@ -84,9 +83,9 @@ public class AcsRequestValidator implements ConstraintValidator<AcsRequest, Stri
         return parameters.getParameter().stream()
             .filter(p -> SET_PERMISSION_PARAM_NAME.equals(p.getName()))
             .reduce((x, y) -> {
-                throw new FhirMappingException(String.format("Exactly 1 parameter named '%s' expected", SET_PERMISSION_PARAM_NAME));
+                throw new FhirValidationException(String.format("Exactly 1 parameter named '%s' expected", SET_PERMISSION_PARAM_NAME));
             })
-            .orElseThrow(() -> new FhirMappingException(String.format(
+            .orElseThrow(() -> new FhirValidationException(String.format(
                 "Parameter named '%s' name not found", SET_PERMISSION_PARAM_NAME))
             );
     }
