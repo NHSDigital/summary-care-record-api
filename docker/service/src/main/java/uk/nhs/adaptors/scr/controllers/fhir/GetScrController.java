@@ -10,13 +10,12 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import uk.nhs.adaptors.scr.components.FhirParser;
-import uk.nhs.adaptors.scr.controllers.validation.scr.RecordCount;
 import uk.nhs.adaptors.scr.controllers.validation.scr.PatientId;
+import uk.nhs.adaptors.scr.controllers.validation.scr.RecordCount;
 import uk.nhs.adaptors.scr.controllers.validation.scr.SortMethod;
 import uk.nhs.adaptors.scr.controllers.validation.scr.TypeCode;
 import uk.nhs.adaptors.scr.services.GetScrService;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.NotNull;
 
 import static uk.nhs.adaptors.scr.consts.ScrHttpHeaders.CLIENT_IP;
@@ -42,11 +41,8 @@ public class GetScrController {
                            @RequestParam("patient") @NotNull @PatientId String patient,
                            @RequestParam(required = false) @TypeCode String type,
                            @RequestParam(name = "_sort", required = false) @SortMethod String sort,
-                           @RequestParam(name = "_count", required = false) @RecordCount Integer count,
-                           HttpServletRequest request) {
+                           @RequestParam(name = "_count", required = false) @RecordCount Integer count) {
         String nhsNumber = extractNhsNumber(patient);
-        String baseUrl = extractBaseUrl(clientRequestUrl, request.getRequestURI());
-
         Bundle bundle = getScrService.getScrId(nhsNumber, nhsdAsid, clientIp);
 
         return fhirParser.encodeToJson(bundle);
