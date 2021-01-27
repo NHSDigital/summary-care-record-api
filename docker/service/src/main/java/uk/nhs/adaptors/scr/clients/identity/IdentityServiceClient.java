@@ -7,6 +7,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 import uk.nhs.adaptors.scr.config.IdentityServiceConfiguration;
+import uk.nhs.adaptors.scr.config.ScrConfiguration;
 
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.HttpMethod.GET;
@@ -16,19 +17,19 @@ import static org.springframework.http.HttpMethod.GET;
 public class IdentityServiceClient implements IdentityServiceContract {
 
     private final IdentityServiceConfiguration identityServiceConfiguration;
-
+    private final ScrConfiguration scrConfiguration;
     private RestTemplate restTemplate = new RestTemplate();
 
     @Override
-    public UserInfo getUserInfo(String baseHost, String authorization) {
-        LOGGER.debug("Fetching UserInfo from {}", baseHost + identityServiceConfiguration.getUserInfoEndpoint());
+    public UserInfo getUserInfo(String authorization) {
+        LOGGER.debug("Fetching UserInfo from {}", scrConfiguration.getBaseUrl() + identityServiceConfiguration.getUserInfoEndpoint());
         HttpHeaders headers = new HttpHeaders();
         headers.set(AUTHORIZATION, authorization);
 
         HttpEntity entity = new HttpEntity(headers);
 
         ResponseEntity<UserInfo> response = restTemplate.exchange(
-            baseHost + identityServiceConfiguration.getUserInfoEndpoint(), GET, entity, UserInfo.class);
+            scrConfiguration.getBaseUrl() + identityServiceConfiguration.getUserInfoEndpoint(), GET, entity, UserInfo.class);
 
         LOGGER.debug("Fetched UserInfo");
         return response.getBody();

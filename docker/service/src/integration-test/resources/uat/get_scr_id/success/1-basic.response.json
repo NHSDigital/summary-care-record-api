@@ -5,7 +5,7 @@
   "total": 1,
   "entry": [
     {
-      "fullUrl": "localhost:9000/DocumentReference/6d334ca8-a6e1-4bae-93b1-19a14a36ea7a",
+      "fullUrl": "%s/summary-care-record/FHIR/R4/DocumentReference/6d334ca8-a6e1-4bae-93b1-19a14a36ea7a",
       "resource": {
         "resourceType": "DocumentReference",
         "id": "6d334ca8-a6e1-4bae-93b1-19a14a36ea7a",
@@ -39,7 +39,7 @@
         "content": [
           {
             "attachment": {
-              "url": "localhost:9000/Bundle?composition.identifier=FA60BE64-1F34-11EB-A2A8-000C29A364EB$composition.subject:Patient.identifier=https://fhir.nhs.uk/Id/nhs-number|9995000180"
+              "url": "%s/summary-care-record/FHIR/R4/Bundle?composition.identifier=FA60BE64-1F34-11EB-A2A8-000C29A364EB$composition.subject:Patient.identifier=https://fhir.nhs.uk/Id/nhs-number|9995000180"
             }
           }
         ],

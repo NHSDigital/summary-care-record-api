@@ -29,11 +29,11 @@ public class ScrSpringConfiguration {
 
     @Bean
     @Autowired
-    public IdentityServiceContract identityServiceClient(IdentityServiceConfiguration configuration) {
+    public IdentityServiceContract identityServiceClient(IdentityServiceConfiguration identityServiceConfiguration) {
         if (scrConfiguration.getSandboxMode()) {
             return new SandboxIdentityServiceClient();
         } else {
-            return new IdentityServiceClient(configuration);
+            return new IdentityServiceClient(identityServiceConfiguration, scrConfiguration);
         }
     }
 }

@@ -10,6 +10,10 @@ docker_service:
         value: "{{ 'DEBUG' if APIGEE_ENVIRONMENT == 'internal-dev' else 'INFO' }}"
       - name: SCR_SANDBOX_MODE
         value: "False"
+      - name: HOST_URL
+        value: "{{ APIGEE_HOSTNAME }}"
+      - name: SERVICE_BASE_PATH
+        value: "{{ SERVICE_BASE_PATH }}"
     secrets:
       - name: SCR_PARTY_ID_TO
         valueFrom: "/{{ account }}/api-deployment/scr/env-int/party-id"

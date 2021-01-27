@@ -13,7 +13,7 @@ public class SandboxIdentityServiceClient implements IdentityServiceContract {
 
     @Override
     @SneakyThrows
-    public UserInfo getUserInfo(String baseHost, String authorization) {
+    public UserInfo getUserInfo(String authorization) {
         String responseBody = IOUtils.toString(new ClassPathResource(GET_USER_INFO_RESPONSE).getInputStream(), UTF_8);
         ObjectMapper objectMapper = new ObjectMapper();
         return objectMapper.readValue(responseBody, UserInfo.class);

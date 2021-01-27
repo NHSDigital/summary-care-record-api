@@ -59,7 +59,6 @@ public class GetScrIdUAT {
     private static final String TYPE_PARAM = "http://snomed.info/sct|196981000000101";
     private static final String NHSD_ASID = "1029384756";
     private static final String CLIENT_IP = "192.168.0.24";
-    private static final String CLIENT_REQUEST_URL = "localhost:9000/DocumentReference";
     private static final String[] IGNORED_JSON_PATHS = new String[]{
         "id",
         "entry[*].fullUrl",
@@ -108,13 +107,13 @@ public class GetScrIdUAT {
             .contentType(APPLICATION_FHIR_JSON_VALUE)
             .header(ScrHttpHeaders.NHSD_ASID, NHSD_ASID)
             .header(ScrHttpHeaders.CLIENT_IP, CLIENT_IP)
-            .header(ScrHttpHeaders.CLIENT_REQUEST_URL, CLIENT_REQUEST_URL)
             .queryParam("patient", NHS_NUMBER)
             .queryParam("type", TYPE_PARAM)
             .queryParam("_sort", SORT_PARAM)
             .queryParam("_count", COUNT_PARAM))
             .andExpect(status().isOk())
-            .andExpect(fhirJson(testData.getFhirResponse(), IGNORED_JSON_PATHS));
+            .andExpect(fhirJson(String.format(testData.getFhirResponse(), wireMockServer.baseUrl(), wireMockServer.baseUrl()),
+                IGNORED_JSON_PATHS));
     }
 
     private void stubSpinePsisEndpoint(Resource response) throws IOException {

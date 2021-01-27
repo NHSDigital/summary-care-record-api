@@ -9,7 +9,6 @@ public class RequestData {
     private String body;
     private String nhsdAsid;
     private String clientIp;
-    private String clientRequestUrl;
     private String nhsdIdentity;
     private String nhsdSessionUrid;
     private String authorization;

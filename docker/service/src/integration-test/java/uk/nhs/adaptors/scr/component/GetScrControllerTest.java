@@ -42,7 +42,6 @@ public class GetScrControllerTest {
     private static final String TYPE_PARAM = "http://snomed.info/sct|196981000000101";
     private static final String NHSD_ASID = "1029384756";
     private static final String CLIENT_IP = "192.168.0.24";
-    private static final String CLIENT_REQUEST_URL = "localhost:9000/DocumentReference";
 
     @LocalServerPort
     private int port;
@@ -69,7 +68,6 @@ public class GetScrControllerTest {
             .contentType(APPLICATION_FHIR_JSON_VALUE)
             .header("nhsd-asid", NHSD_ASID)
             .header("client-ip", CLIENT_IP)
-            .header("client-request-url", CLIENT_REQUEST_URL)
             .get(GET_SCR_ID_ENDPOINT)
             .then()
             .statusCode(BAD_REQUEST.value())
@@ -92,7 +90,6 @@ public class GetScrControllerTest {
             .contentType(APPLICATION_FHIR_JSON_VALUE)
             .header("nhsd-asid", NHSD_ASID)
             .header("client-ip", CLIENT_IP)
-            .header("client-request-url", CLIENT_REQUEST_URL)
             .get(GET_SCR_ID_ENDPOINT)
             .then()
             .statusCode(BAD_REQUEST.value())
@@ -115,7 +112,6 @@ public class GetScrControllerTest {
             .contentType(APPLICATION_FHIR_JSON_VALUE)
             .header("nhsd-asid", NHSD_ASID)
             .header("client-ip", CLIENT_IP)
-            .header("client-request-url", CLIENT_REQUEST_URL)
             .get(GET_SCR_ID_ENDPOINT)
             .then()
             .statusCode(BAD_REQUEST.value())
@@ -138,7 +134,6 @@ public class GetScrControllerTest {
             .contentType(APPLICATION_FHIR_JSON_VALUE)
             .header("nhsd-asid", NHSD_ASID)
             .header("client-ip", CLIENT_IP)
-            .header("client-request-url", CLIENT_REQUEST_URL)
             .get(GET_SCR_ID_ENDPOINT)
             .then()
             .statusCode(BAD_REQUEST.value())
@@ -160,7 +155,6 @@ public class GetScrControllerTest {
             .contentType(APPLICATION_FHIR_JSON_VALUE)
             .header("nhsd-asid", NHSD_ASID)
             .header("client-ip", CLIENT_IP)
-            .header("client-request-url", CLIENT_REQUEST_URL)
             .get(GET_SCR_ID_ENDPOINT)
             .then()
             .statusCode(BAD_REQUEST.value())
