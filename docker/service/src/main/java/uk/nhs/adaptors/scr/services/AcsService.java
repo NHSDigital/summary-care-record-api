@@ -17,7 +17,6 @@ import uk.nhs.adaptors.scr.components.FhirParser;
 import uk.nhs.adaptors.scr.config.ScrConfiguration;
 import uk.nhs.adaptors.scr.config.SpineConfiguration;
 import uk.nhs.adaptors.scr.exceptions.BadRequestException;
-import uk.nhs.adaptors.scr.exceptions.FhirMappingException;
 import uk.nhs.adaptors.scr.models.AcsParams;
 import uk.nhs.adaptors.scr.models.AcsPermission;
 import uk.nhs.adaptors.scr.models.AcsResponse;
@@ -102,46 +101,29 @@ public class AcsService {
     private static String getNhsNumber(ParametersParameterComponent parameter) {
         return parameter.getPart().stream()
             .filter(p -> NHS_NUMBER_PART_NAME.equals(p.getName()))
-            .reduce((x, y) -> {
-                throw new FhirMappingException(String.format("Exactly 1 Parameter.Part named '%s' expected", NHS_NUMBER_PART_NAME));
-            })
-            .orElseThrow(() -> new FhirMappingException(String.format(
-                "Parameter.Part named '%s' not found", NHS_NUMBER_PART_NAME))
-            )
+            .findFirst()
+            .get()
             .getValue()
             .toString();
     }
 
     private static AcsPermission getPermission(ParametersParameterComponent parameter) {
-        Coding coding = (Coding) parameter.getPart().stream()
+        Coding coding = (Coding) parameter.getPart()
+            .stream()
             .filter(p -> PERMISSION_CODE_PART_NAME.equals(p.getName()))
             .filter(p -> PERMISSION_CODE_SYSTEM.equals(((Coding) p.getValue()).getSystem()))
-            .reduce((x, y) -> {
-                throw new FhirMappingException(String.format("Exactly 1 Parameter.Part named '%s' with valueCoding.system %s expected",
-                    PERMISSION_CODE_PART_NAME, PERMISSION_CODE_SYSTEM));
-            })
-            .orElseThrow(() -> new FhirMappingException(String.format(
-                "Parameter.Part named '%s' with valueCoding.system %s not found", PERMISSION_CODE_PART_NAME, PERMISSION_CODE_SYSTEM))
-            )
+            .findFirst()
+            .get()
             .getValue();
 
         String permissionValue = coding.getCode();
-        try {
-            return AcsPermission.fromValue(permissionValue);
-        } catch (Exception e) {
-            LOGGER.error("Invalid permission value: " + permissionValue, e);
-            throw new FhirMappingException(String.format("Invalid value - %s in field 'valueCoding.code'", permissionValue));
-        }
+        return AcsPermission.fromValue(permissionValue);
     }
 
     private static ParametersParameterComponent getSetPermissionParameter(Parameters parameters) {
         return parameters.getParameter().stream()
             .filter(p -> SET_PERMISSION_PARAM_NAME.equals(p.getName()))
-            .reduce((x, y) -> {
-                throw new FhirMappingException(String.format("Exactly 1 parameter named '%s' expected", SET_PERMISSION_PARAM_NAME));
-            })
-            .orElseThrow(() -> new FhirMappingException(String.format(
-                "Parameter named '%s' name not found", SET_PERMISSION_PARAM_NAME))
-            );
+            .findFirst()
+            .get();
     }
 }
