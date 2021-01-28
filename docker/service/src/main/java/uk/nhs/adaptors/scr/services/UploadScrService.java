@@ -116,7 +116,7 @@ public class UploadScrService {
         try {
             acknowledgementTypeCode = acknowledgementNode.getAttributes().getNamedItem("typeCode").getNodeValue();
         } catch (Exception ex) {
-            LOGGER.error("Unable to extract acknowledgement coe:\n{}", processingResult.getHl7());
+            LOGGER.error("Unable to extract acknowledgement code:\n{}", processingResult.getHl7());
             throw new UnexpectedSpineResponseException("Unable to extract acknowledgement code");
         }
 
