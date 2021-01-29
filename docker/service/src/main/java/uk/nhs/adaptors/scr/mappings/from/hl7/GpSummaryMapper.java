@@ -9,7 +9,7 @@ import org.hl7.fhir.r4.model.Identifier;
 import org.hl7.fhir.r4.model.Reference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.w3c.dom.Document;
+import org.w3c.dom.Node;
 import uk.nhs.adaptors.scr.utils.XmlUtils;
 
 import java.text.SimpleDateFormat;
@@ -52,7 +52,7 @@ public class GpSummaryMapper implements XmlToFhirMapper {
     private final HtmlParser htmlParser;
 
     @SneakyThrows
-    public List<Composition> map(Document document) {
+    public List<Composition> map(Node document) {
         var simpleDateFormat = new SimpleDateFormat(DATE_TIME_PATTERN);
 
         var gpSummaryId =

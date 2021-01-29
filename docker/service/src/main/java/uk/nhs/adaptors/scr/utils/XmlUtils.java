@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static javax.xml.xpath.XPathConstants.NODE;
 import static javax.xml.xpath.XPathConstants.NODESET;
 import static javax.xml.xpath.XPathConstants.STRING;
 
@@ -49,6 +50,22 @@ public class XmlUtils {
             nodes.add(nodeList.item(i));
         }
         return nodes;
+    }
+
+    @SneakyThrows
+    public static Node getNodeByXpath(Node root, String xpath) {
+        var xPathExpression = XPathFactory.newInstance().newXPath().compile(xpath);
+        var node = (Node) xPathExpression.evaluate(root, XPathConstants.NODE);
+
+        return node;
+    }
+
+    @SneakyThrows
+    public static Optional<Node> getOptionalNodeByXpath(Node root, String xpath) {
+        var xPathExpression = XPathFactory.newInstance().newXPath().compile(xpath);
+        return Optional.ofNullable(xPathExpression.evaluate(root, NODE))
+            .map(Node.class::cast)
+            .filter(it -> it != null);
     }
 
     @SneakyThrows

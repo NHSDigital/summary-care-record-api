@@ -46,7 +46,12 @@ public class GetScrServiceTest {
         "id",
         "entry[*].fullUrl",
         "entry[*].resource.subject.reference",
-        "entry[*].resource.id"
+        "entry[*].resource.id",
+        "entry[*].resource.encounter.reference",
+        "entry[*].resource.practitioner.reference",
+        "entry[*].resource.participant[*].individual.reference",
+        "entry[*].resource.organization.reference",
+        "entry[*].resource.owner.reference"
     };
 
     @Value("classpath:responses/event-list-query/successResponse.xml")
