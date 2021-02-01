@@ -7,12 +7,13 @@
   },
   "type": "searchset",
   "timestamp": "2020-12-14T13:23:10.000+01:00",
-  "total": 43,
+  "total": 44,
   "entry": [
     {
-      "fullUrl": "http://scr.nhs.uk/Composition/null",
+      "fullUrl": "http://scr.nhs.uk/Composition/540FC8F0-220A-4EE5-971A-A608B880DCB8",
       "resource": {
         "resourceType": "Composition",
+        "id": "540FC8F0-220A-4EE5-971A-A608B880DCB8",
         "identifier": {
           "system": "https://tools.ietf.org/html/rfc4122",
           "value": "BF4180FD-C403-4EF7-A4AB-E07303AF5477"
@@ -39,10 +40,7 @@
           }
         ],
         "subject": {
-          "identifier": {
-            "system": "2.16.840.1.113883.2.1.4.1",
-            "value": "9995000180"
-          }
+          "reference": "Patient/2975884D-6313-478E-B523-9AF7CF24A1A9"
         },
         "date": "2020-11-17T01:00:00+01:00",
         "relatesTo": [
@@ -81,6 +79,19 @@
               "status": "generated",
               "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n    <table summary=\"This table includes information about this patient's allergies and adverse reactions.\" id=\"Allergies\">\n        <thead>\n            <tr>\n                <th>Date</th>\n                <th>Description</th>\n                <th>Certainty</th>\n                <th>Severity</th>\n                <th>Supporting Information</th>\n            </tr>\n        </thead>\n        <tbody>\n            <tr class=\"oddRow\">\n                <td>12-May-2020</td>\n                <td>Toxic reaction to wasp sting</td>\n                <td/>\n                <td/>\n                <td>Problem; First</td>\n            </tr>\n        </tbody>\n    </table>\n</div>"
             }
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "http://scr.nhs.uk/Patient/2975884D-6313-478E-B523-9AF7CF24A1A9",
+      "resource": {
+        "resourceType": "Patient",
+        "id": "2975884D-6313-478E-B523-9AF7CF24A1A9",
+        "identifier": [
+          {
+            "system": "https://fhir.nhs.uk/Id/nhs-number",
+            "value": "9995000180"
           }
         ]
       }
