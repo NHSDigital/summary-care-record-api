@@ -19,11 +19,36 @@
           default: "final"
         type:
           $ref: compositionType.yaml
+        category:
+          type: array
+          items:
+            type: object
+            properties:
+              coding:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    system:
+                      type: string
+                      example: 2.16.840.1.113883.2.1.3.2.4.15
+                    code:
+                      type: string
+                      example: "163171000000105"
+                    display:
+                      type: string
+                      example: Care Professional Documentation
+                  required:
+                    - system
+                    - code
+                    - display
+            required:
+              - coding
+        subject:
+          $ref: compositionSubject.yaml
         date:
           type: string
           example: '2007-03-15T01:00:00Z'
-        subject:
-          $ref: compositionSubject.yaml
         author:
           type: array
           items:
@@ -33,6 +58,24 @@
           description: Human Readable name/title
           type: string
           example: 'General Practice Summary'
+        relatesTo:
+          type: array
+          items:
+            type: object
+            properties:
+              code: 
+                type: string
+                example: replaces
+              targetIdentifier:
+                type: object
+                properties:
+                  value:
+                    type: string
+                    example: D18B57ED-992E-45A2-A6AF-55200D20F48E
+                required:
+                - value
+            required:
+              - targetIdentifier
         section:
           type: array
           items:

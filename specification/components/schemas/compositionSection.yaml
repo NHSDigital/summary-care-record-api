@@ -7,5 +7,8 @@ properties:
     properties:
       status:
         type: string
+        example: generated
       div:
         type: string
+        example: "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n    <table summary=\"This table includes information about this patient's allergies and adverse reactions.\" id=\"Allergies\">\n        <thead>\n            <tr>\n                <th>Date</th>\n                <th>Description</th>\n                <th>Certainty</th>\n                <th>Severity</th>\n                <th>Supporting Information</th>\n            </tr>\n        </thead>\n        <tbody>\n            <tr class=\"oddRow\">\n                <td>12-May-2020</td>\n                <td>Toxic reaction to wasp sting</td>\n                <td/>\n                <td/>\n                <td>Problem; First</td>\n            </tr>\n        </tbody>\n    </table>\n</div>"
+

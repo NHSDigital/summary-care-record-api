@@ -1,0 +1,82 @@
+  type: object
+  properties:
+    fullUrl:
+      type: string
+      example: "urn:uuid:b1a41ee5-b88b-4f66-bd83-24343bf63dd8"
+    resource:
+      type: object
+      properties:
+        resourceType:
+          type: string
+          default: "Practitioner"
+        id:
+          type: string
+          example: "b1a41ee5-b88b-4f66-bd83-24343bf63dd8"
+        status:
+          type: string
+          default: finished
+        class:
+          type: object
+          properties:
+            system:
+              type: string
+              default: "http://terminology.hl7.org/CodeSystem/v3-NullFlavor"
+            code: 
+              type: string
+              default: UNK
+            display:
+              type: string
+              default: Unknown
+        participant:
+          type: array
+          items:
+            type: object
+            properties:
+              type:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    coding:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          system:
+                            type: string
+                            default: http://terminology.hl7.org/CodeSystem/v3-ParticipationType
+                          code: 
+                            type: string
+                            example: AUT
+                          display:
+                            type: string
+                            example: author
+                        required:
+                          - system
+                          - code
+                          - display
+                      minItems: 1
+                      maxItems: 1
+                minItems: 1
+                maxItems: 1
+              period:
+                type: object
+                properties:
+                  start:
+                    type: string
+                    example: "2020-11-17T01:00:00+01:00"
+                required:
+                  - start
+              individual:
+                type: object
+                properties:
+                  reference:
+                    type: string
+                    example: PractitionerRole/1CB6874C-67C4-4A3B-BE24-3D574382D464
+                required:
+                  - reference
+            required:
+              - type
+              - period
+              - individual
+        
