@@ -34,7 +34,7 @@ public class AgentPersonMapper implements XmlToFhirMapper {
     private static final String ADDRESS_XPATH = "./addr";
     private static final String TELECOM_XPATH = "./telecom";
     private static final String ORG_XPATH = "./representedOrganization";
-    private static final String PERSON_XPATH = "./representedPerson";
+    private static final String PERSON_XPATH = "./agentPerson";
     private static final String PERSON_SDS_XPATH = "./representedPersonSDS";
     private static final String PERSON_NAME_XPATH = "./name";
     private static final String ORG_SDS_XPATH = "./representedOrganizationSDS";

@@ -189,9 +189,9 @@
                                                             <addr use="WP">ORG ADDRESS</addr>
                                                             <telecom use="WP" value="0177865579"/>
                                                             <telecom use="MC" value="0189834144"/>
-                                                            <representedPerson classCode="PSN" determinerCode="INSTANCE">
+                                                            <agentPerson classCode="PSN" determinerCode="INSTANCE">
                                                               <name>BLOGGS Fred</name>
-                                                            </representedPerson>
+                                                            </agentPerson>
                                                           </UKCT_MT160018UK01.AgentPerson>
                                                         </author>
                                                     </UKCT_MT144042UK01.Diagnosis>
