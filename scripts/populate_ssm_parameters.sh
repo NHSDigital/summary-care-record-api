@@ -44,6 +44,10 @@ copy-secret "ptl/client/aws.api.veit07.devspineservices.nhs.uk/crt" "/ptl/api-de
 copy-secret "ptl/client/aws.api.intspineservices.nhs.uk/key" "/ptl/api-deployment/scr/certs/spine/int/key"
 copy-secret "ptl/client/aws.api.intspineservices.nhs.uk/crt" "/ptl/api-deployment/scr/certs/spine/int/crt"
 
+# ref
+copy-secret "ptl/client/aws.api.intspineservices.nhs.uk/key" "/ptl/api-deployment/scr/certs/spine/ref/key"
+copy-secret "ptl/client/aws.api.intspineservices.nhs.uk/crt" "/ptl/api-deployment/scr/certs/spine/ref/crt"
+
 # ptl envs root & sub ca
 copy-secret "ptl/veit07.devspineservices.nhs.uk/root-ca/crt" "/ptl/api-deployment/scr/certs/nhsd-root-ca/ptl/crt"
 copy-secret "ptl/veit07.devspineservices.nhs.uk/sub-ca/crt" "/ptl/api-deployment/scr/certs/nhsd-sub-ca/ptl/crt"
