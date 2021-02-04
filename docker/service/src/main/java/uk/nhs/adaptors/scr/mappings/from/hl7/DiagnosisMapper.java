@@ -32,9 +32,13 @@ import static uk.nhs.adaptors.scr.utils.FhirHelper.randomUUID;
 public class DiagnosisMapper implements XmlToFhirMapper {
 
     private static final String GP_SUMMARY_XPATH = "//QUPC_IN210000UK04/ControlActEvent/subject//GPSummary";
-    private static final String DIAGNOSIS_BASE_PATH =
-        GP_SUMMARY_XPATH + "/pertinentInformation2/pertinentCREType/component/UKCT_MT144042UK01.Diagnosis";
+    private static final String PERTINENT_CRET_BASE_PATH =
+        GP_SUMMARY_XPATH + "/pertinentInformation2/pertinentCREType[.//UKCT_MT144042UK01.Diagnosis]";
 
+    private static final String DIAGNOSIS_BASE_PATH = "./component/UKCT_MT144042UK01.Diagnosis";
+
+    private static final String PERTINENT_CODE_CODE_XPATH = "./code/@code";
+    private static final String PERTINENT_CODE_DISPLAY_XPATH = "./code/@displayName";
     private static final String DIAGNOSIS_ID_XPATH = "./id/@root";
     private static final String DIAGNOSIS_CODE_CODE_XPATH = "./code/@code";
     private static final String DIAGNOSIS_CODE_DISPLAY_XPATH = "./code/@displayName";
@@ -53,54 +57,63 @@ public class DiagnosisMapper implements XmlToFhirMapper {
     @SneakyThrows
     public List<Resource> map(Node document) {
         var resources = new ArrayList<Resource>();
-        for (var node : XmlUtils.getNodesByXPath(document, DIAGNOSIS_BASE_PATH)) {
-            var diagnosisId =
-                XmlUtils.getValueByXPath(node, DIAGNOSIS_ID_XPATH);
-            var diagnosisCodeCode =
-                XmlUtils.getValueByXPath(node, DIAGNOSIS_CODE_CODE_XPATH);
-            var diagnosisCodeDisplay =
-                XmlUtils.getValueByXPath(node, DIAGNOSIS_CODE_DISPLAY_XPATH);
-            var diagnosisStatusCodeCode =
-                XmlUtils.getValueByXPath(node, DIAGNOSIS_STATUS_CODE_CODE_XPATH);
-            var diagnosisEffectiveTimeLow =
-                XmlToFhirMapper.parseDate(XmlUtils.getValueByXPath(node, DIAGNOSIS_EFFECTIVE_TIME_LOW_XPATH));
-            var diagnosisEffectiveTimeHigh =
-                XmlUtils.getOptionalValueByXPath(node, DIAGNOSIS_EFFECTIVE_TIME_HIGH_XPATH)
-                    .map(XmlToFhirMapper::parseDate);
-            var pertinentSupportingInfo =
-                XmlUtils.getOptionalValueByXPath(node, DIAGNOSIS_PERTINENT_SUPPORTING_INFO_XPATH);
-            var pertinentFinding =
-                XmlUtils.getOptionalValueByXPath(node, DIAGNOSIS_PERTINENT_FINDING_XPATH);
+        for (var pertinentCREType : XmlUtils.getNodesByXPath(document, PERTINENT_CRET_BASE_PATH)) {
+            var pertinentCRETypeCode = XmlUtils.getValueByXPath(pertinentCREType, PERTINENT_CODE_CODE_XPATH);
+            var pertinentCRETypeDisplay = XmlUtils.getValueByXPath(pertinentCREType, PERTINENT_CODE_DISPLAY_XPATH);
+            for (var node : XmlUtils.getNodesByXPath(pertinentCREType, DIAGNOSIS_BASE_PATH)) {
+                var diagnosisId =
+                    XmlUtils.getValueByXPath(node, DIAGNOSIS_ID_XPATH);
+                var diagnosisCodeCode =
+                    XmlUtils.getValueByXPath(node, DIAGNOSIS_CODE_CODE_XPATH);
+                var diagnosisCodeDisplay =
+                    XmlUtils.getValueByXPath(node, DIAGNOSIS_CODE_DISPLAY_XPATH);
+                var diagnosisStatusCodeCode =
+                    XmlUtils.getValueByXPath(node, DIAGNOSIS_STATUS_CODE_CODE_XPATH);
+                var diagnosisEffectiveTimeLow =
+                    XmlToFhirMapper.parseDate(XmlUtils.getValueByXPath(node, DIAGNOSIS_EFFECTIVE_TIME_LOW_XPATH));
+                var diagnosisEffectiveTimeHigh =
+                    XmlUtils.getOptionalValueByXPath(node, DIAGNOSIS_EFFECTIVE_TIME_HIGH_XPATH)
+                        .map(XmlToFhirMapper::parseDate);
+                var pertinentSupportingInfo =
+                    XmlUtils.getOptionalValueByXPath(node, DIAGNOSIS_PERTINENT_SUPPORTING_INFO_XPATH);
+                var pertinentFinding =
+                    XmlUtils.getOptionalValueByXPath(node, DIAGNOSIS_PERTINENT_FINDING_XPATH);
 
-            var condition = new Condition();
-            condition.setId(randomUUID());
-            condition.addIdentifier()
-                .setValue(diagnosisId);
-            condition.setCode(new CodeableConcept().addCoding(new Coding()
-                .setCode(diagnosisCodeCode)
-                .setSystem(SNOMED_SYSTEM)
-                .setDisplay(diagnosisCodeDisplay)));
-            setConditionStatus(condition, diagnosisStatusCodeCode);
+                var condition = new Condition();
+                condition.setId(randomUUID());
+                condition.addIdentifier()
+                    .setValue(diagnosisId);
+                condition.setCode(new CodeableConcept().addCoding(new Coding()
+                    .setCode(diagnosisCodeCode)
+                    .setSystem(SNOMED_SYSTEM)
+                    .setDisplay(diagnosisCodeDisplay)));
+                setConditionStatus(condition, diagnosisStatusCodeCode);
 
-            var lowDateTime = new DateTimeType();
-            lowDateTime.setValue(diagnosisEffectiveTimeLow);
-            if (diagnosisEffectiveTimeHigh.isPresent()) {
-                condition.setOnset(lowDateTime);
-                condition.setAbatement(new DateTimeType().setValue(diagnosisEffectiveTimeHigh.get()));
-            } else {
-                condition.setOnset(lowDateTime);
+                condition.addCategory(new CodeableConcept(new Coding()
+                    .setSystem(SNOMED_SYSTEM)
+                    .setCode(pertinentCRETypeCode)
+                    .setDisplay(pertinentCRETypeDisplay)));
+
+                var lowDateTime = new DateTimeType();
+                lowDateTime.setValue(diagnosisEffectiveTimeLow);
+                if (diagnosisEffectiveTimeHigh.isPresent()) {
+                    condition.setOnset(lowDateTime);
+                    condition.setAbatement(new DateTimeType().setValue(diagnosisEffectiveTimeHigh.get()));
+                } else {
+                    condition.setOnset(lowDateTime);
+                }
+
+                pertinentSupportingInfo
+                    .map(value -> new Annotation().setText(value))
+                    .ifPresent(condition::addNote);
+                pertinentFinding
+                    .map(Reference::new)
+                    .map(reference -> new Condition.ConditionEvidenceComponent().addDetail(reference))
+                    .ifPresent(condition::addEvidence);
+
+                resources.add(condition);
+                mapEncounter(node, condition, resources);
             }
-
-            pertinentSupportingInfo
-                .map(value -> new Annotation().setText(value))
-                .ifPresent(condition::addNote);
-            pertinentFinding
-                .map(Reference::new)
-                .map(reference -> new Condition.ConditionEvidenceComponent().addDetail(reference))
-                .ifPresent(condition::addEvidence);
-
-            resources.add(condition);
-            mapEncounter(node, condition, resources);
         }
         return resources;
     }

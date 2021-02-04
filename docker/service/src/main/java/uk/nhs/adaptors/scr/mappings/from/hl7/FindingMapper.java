@@ -33,9 +33,12 @@ import static uk.nhs.adaptors.scr.utils.FhirHelper.randomUUID;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class FindingMapper implements XmlToFhirMapper {
 
-    private static final String BASE_PATH =
-        "//QUPC_IN210000UK04/ControlActEvent/subject//GPSummary/pertinentInformation2/pertinentCREType/component/UKCT_MT144043UK02.Finding";
-
+    private static final String GP_SUMMARY_XPATH = "//QUPC_IN210000UK04/ControlActEvent/subject//GPSummary";
+    private static final String PERTINENT_CRET_BASE_PATH =
+        GP_SUMMARY_XPATH + "/pertinentInformation2/pertinentCREType[.//UKCT_MT144043UK02.Finding]";
+    private static final String PERTINENT_CODE_CODE_XPATH = "./code/@code";
+    private static final String PERTINENT_CODE_DISPLAY_XPATH = "./code/@displayName";
+    private static final String FINDING_BASE_PATH = "./component/UKCT_MT144043UK02.Finding";
     private static final String FINDING_ID_XPATH = "./id/@root";
     private static final String FINDING_CODE_CODE_XPATH = "./code/@code";
     private static final String FINDING_CODE_DISPLAY_NAME_XPATH = "./code/@displayName";
@@ -58,46 +61,55 @@ public class FindingMapper implements XmlToFhirMapper {
     @SneakyThrows
     public List<Resource> map(Node document) {
         var resources = new ArrayList<Resource>();
-        for (var node : XmlUtils.getNodesByXPath(document, BASE_PATH)) {
-            var findingId =
-                XmlUtils.getValueByXPath(node, FINDING_ID_XPATH);
-            var findingCodeCode =
-                XmlUtils.getValueByXPath(node, FINDING_CODE_CODE_XPATH);
-            var findingCodeDisplayName =
-                XmlUtils.getValueByXPath(node, FINDING_CODE_DISPLAY_NAME_XPATH);
-            var findingStatusCode =
-                XmlUtils.getValueByXPath(node, FINDING_STATUS_CODE_XPATH);
-            var findingEffectiveTimeLow =
-                XmlUtils.getOptionalValueByXPath(node, FINDING_EFFECTIVE_TIME_LOW_XPATH)
-                    .map(XmlToFhirMapper::parseDate);
-            var findingEffectiveTimeHigh =
-                XmlUtils.getOptionalValueByXPath(node, FINDING_EFFECTIVE_TIME_HIGH_XPATH)
-                    .map(XmlToFhirMapper::parseDate);
-            var findingEffectiveTimeCentre =
-                XmlUtils.getOptionalValueByXPath(node, FINDING_EFFECTIVE_TIME_CENTRE_XPATH)
-                    .map(XmlToFhirMapper::parseDate);
+        for (var pertinentCREType : XmlUtils.getNodesByXPath(document, PERTINENT_CRET_BASE_PATH)) {
+            var pertinentCRETypeCode = XmlUtils.getValueByXPath(pertinentCREType, PERTINENT_CODE_CODE_XPATH);
+            var pertinentCRETypeDisplay = XmlUtils.getValueByXPath(pertinentCREType, PERTINENT_CODE_DISPLAY_XPATH);
+            for (var node : XmlUtils.getNodesByXPath(pertinentCREType, FINDING_BASE_PATH)) {
+                var findingId =
+                    XmlUtils.getValueByXPath(node, FINDING_ID_XPATH);
+                var findingCodeCode =
+                    XmlUtils.getValueByXPath(node, FINDING_CODE_CODE_XPATH);
+                var findingCodeDisplayName =
+                    XmlUtils.getValueByXPath(node, FINDING_CODE_DISPLAY_NAME_XPATH);
+                var findingStatusCode =
+                    XmlUtils.getValueByXPath(node, FINDING_STATUS_CODE_XPATH);
+                var findingEffectiveTimeLow =
+                    XmlUtils.getOptionalValueByXPath(node, FINDING_EFFECTIVE_TIME_LOW_XPATH)
+                        .map(XmlToFhirMapper::parseDate);
+                var findingEffectiveTimeHigh =
+                    XmlUtils.getOptionalValueByXPath(node, FINDING_EFFECTIVE_TIME_HIGH_XPATH)
+                        .map(XmlToFhirMapper::parseDate);
+                var findingEffectiveTimeCentre =
+                    XmlUtils.getOptionalValueByXPath(node, FINDING_EFFECTIVE_TIME_CENTRE_XPATH)
+                        .map(XmlToFhirMapper::parseDate);
 
-            var observation = new Observation();
-            observation.setId(FhirHelper.randomUUID());
-            observation.addIdentifier(new Identifier().setValue(findingId));
-            observation.setCode(new CodeableConcept().addCoding(new Coding()
-                .setCode(findingCodeCode)
-                .setSystem(SNOMED_SYSTEM)
-                .setDisplay(findingCodeDisplayName)));
-            observation.setStatus(mapStatus(findingStatusCode));
-            if (findingEffectiveTimeLow.isPresent() || findingEffectiveTimeHigh.isPresent()) {
-                var period = new Period();
-                findingEffectiveTimeLow.ifPresent(period::setStart);
-                findingEffectiveTimeHigh.ifPresent(period::setEnd);
-                observation.setEffective(period);
-            } else {
-                findingEffectiveTimeCentre
-                    .map(DateTimeType::new)
-                    .ifPresent(observation::setEffective);
+                var observation = new Observation();
+                observation.setId(FhirHelper.randomUUID());
+                observation.addIdentifier(new Identifier().setValue(findingId));
+                observation.setCode(new CodeableConcept().addCoding(new Coding()
+                    .setCode(findingCodeCode)
+                    .setSystem(SNOMED_SYSTEM)
+                    .setDisplay(findingCodeDisplayName)));
+                observation.setStatus(mapStatus(findingStatusCode));
+                if (findingEffectiveTimeLow.isPresent() || findingEffectiveTimeHigh.isPresent()) {
+                    var period = new Period();
+                    findingEffectiveTimeLow.ifPresent(period::setStart);
+                    findingEffectiveTimeHigh.ifPresent(period::setEnd);
+                    observation.setEffective(period);
+                } else {
+                    findingEffectiveTimeCentre
+                        .map(DateTimeType::new)
+                        .ifPresent(observation::setEffective);
+                }
+
+                observation.addCategory(new CodeableConcept(new Coding()
+                    .setSystem(SNOMED_SYSTEM)
+                    .setCode(pertinentCRETypeCode)
+                    .setDisplay(pertinentCRETypeDisplay)));
+
+                resources.add(observation);
+                mapEncounter(node, observation, resources);
             }
-
-            resources.add(observation);
-            mapEncounter(node, observation, resources);
         }
         return resources;
     }
