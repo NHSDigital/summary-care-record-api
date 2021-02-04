@@ -7,7 +7,7 @@
   },
   "type": "searchset",
   "timestamp": "2020-12-14T13:23:10.000+01:00",
-  "total": 44,
+  "total": 46,
   "entry": [
     {
       "fullUrl": "http://scr.nhs.uk/Composition/540FC8F0-220A-4EE5-971A-A608B880DCB8",
@@ -358,10 +358,25 @@
       }
     },
     {
+      "fullUrl": "http://scr.nhs.uk/Practitioner/9A24C61E-6C2E-4036-93A3-96FCDB030B36",
+      "resource": {
+        "resourceType": "Practitioner",
+        "id": "9A24C61E-6C2E-4036-93A3-96FCDB030B36",
+        "name": [
+          {
+            "text": "William Jones"
+          }
+        ]
+      }
+    },
+    {
       "fullUrl": "http://scr.nhs.uk/PractitionerRole/46CF0818-70D3-47D9-AA2D-0175E4804E7C",
       "resource": {
         "resourceType": "PractitionerRole",
         "id": "46CF0818-70D3-47D9-AA2D-0175E4804E7C",
+        "practitioner": {
+          "reference": "Practitioner/9A24C61E-6C2E-4036-93A3-96FCDB030B36"
+        },
         "organization": {
           "reference": "Organization/86E95C14-140C-4B24-BFAF-5DBE45F28C99"
         },
@@ -533,10 +548,25 @@
       }
     },
     {
+      "fullUrl": "http://scr.nhs.uk/Practitioner/F95C6FDD-F608-446B-949B-767896ABD241",
+      "resource": {
+        "resourceType": "Practitioner",
+        "id": "F95C6FDD-F608-446B-949B-767896ABD241",
+        "name": [
+          {
+            "text": "Stephan Spence"
+          }
+        ]
+      }
+    },
+    {
       "fullUrl": "http://scr.nhs.uk/PractitionerRole/296FB716-434C-40AA-9917-3BAB15A7228A",
       "resource": {
         "resourceType": "PractitionerRole",
         "id": "296FB716-434C-40AA-9917-3BAB15A7228A",
+        "practitioner": {
+          "reference": "Practitioner/F95C6FDD-F608-446B-949B-767896ABD241"
+        },
         "organization": {
           "reference": "Organization/6C6F3C1D-D8FA-486E-A8FD-F90837B4B99C"
         },

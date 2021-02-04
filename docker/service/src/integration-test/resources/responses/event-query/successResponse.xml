@@ -214,6 +214,9 @@
                                                             <addr use="WP">ORG ADDRESS_2</addr>
                                                             <telecom use="HP" value="0122865579"/>
                                                             <telecom use="PG" value="0189664144"/>
+                                                            <agentPerson classCode="PSN" determinerCode="INSTANCE">
+                                                              <name>William Jones</name>
+                                                            </agentPerson>
                                                             <representedOrganization classCode="ORG" determinerCode="INSTANCE">
                                                               <code code="021"/>
                                                               <name>Good Health Hospital</name>
@@ -250,6 +253,9 @@
                                                             <addr use="WP">ORG ADDRESS_2</addr>
                                                             <telecom use="HP" value="0122865579"/>
                                                             <telecom use="PG" value="0189664144"/>
+                                                            <agentPerson classCode="PSN" determinerCode="INSTANCE">
+                                                              <name>Stephan Spence</name>
+                                                            </agentPerson>
                                                             <representedOrganizationSDS classCode="ORG" determinerCode="INSTANCE">
                                                               <id root="1.2.826.0.1285.0.1.10" extension="57435939053"/>
                                                               <name>Good Health Hospital 2</name>
