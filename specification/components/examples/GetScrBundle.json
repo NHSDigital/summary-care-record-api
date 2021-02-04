@@ -114,6 +114,17 @@
             }
           ]
         },
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://snomed.info/sct",
+                "code": "163001000000103",
+                "display": "Diagnoses"
+              }
+            ]
+          }
+        ],
         "code": {
           "coding": [
             {
@@ -215,6 +226,17 @@
             }
           ]
         },
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://snomed.info/sct",
+                "code": "163001000000103",
+                "display": "Diagnoses"
+              }
+            ]
+          }
+        ],
         "code": {
           "coding": [
             {
@@ -342,6 +364,17 @@
             }
           ]
         },
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://snomed.info/sct",
+                "code": "163001000000103",
+                "display": "Diagnoses"
+              }
+            ]
+          }
+        ],
         "code": {
           "coding": [
             {
@@ -532,6 +565,17 @@
             }
           ]
         },
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://snomed.info/sct",
+                "code": "163001000000103",
+                "display": "Diagnoses"
+              }
+            ]
+          }
+        ],
         "code": {
           "coding": [
             {
@@ -708,6 +752,17 @@
             }
           ]
         },
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://snomed.info/sct",
+                "code": "163001000000103",
+                "display": "Diagnoses"
+              }
+            ]
+          }
+        ],
         "code": {
           "coding": [
             {
@@ -911,6 +966,17 @@
           }
         ],
         "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://snomed.info/sct",
+                "code": "163001000000104",
+                "display": "Investigation Results"
+              }
+            ]
+          }
+        ],
         "code": {
           "coding": [
             {
@@ -1022,6 +1088,17 @@
           }
         ],
         "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://snomed.info/sct",
+                "code": "163001000000104",
+                "display": "Investigation Results"
+              }
+            ]
+          }
+        ],
         "code": {
           "coding": [
             {
@@ -1127,6 +1204,17 @@
           }
         ],
         "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://snomed.info/sct",
+                "code": "163001000000104",
+                "display": "Investigation Results"
+              }
+            ]
+          }
+        ],
         "code": {
           "coding": [
             {

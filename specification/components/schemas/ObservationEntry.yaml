@@ -40,6 +40,31 @@
             - final
             - entered-in-error
           example: "final"
+        category:
+          type: array
+          items:
+            type: object
+            properties:
+              coding:
+                type: object
+                properties:
+                  system:
+                    type: string
+                    default: "http://snomed.info/sct"
+                  code:
+                    type: string
+                    example: "163001000000104"
+                  display:
+                    type: string
+                    example: Investigation Results
+                required:
+                  - system
+                  - code
+                  - display
+            required:
+              - coding
+          minItems: 1
+          maxItems: 1
         code:
           type: object
           properties:
@@ -75,5 +100,6 @@
         - resourceType
         - identifier
         - status
+        - category
         - code
             
