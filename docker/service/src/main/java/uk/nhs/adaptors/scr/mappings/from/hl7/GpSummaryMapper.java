@@ -6,7 +6,9 @@ import org.hl7.fhir.r4.model.CodeableConcept;
 import org.hl7.fhir.r4.model.Coding;
 import org.hl7.fhir.r4.model.Composition;
 import org.hl7.fhir.r4.model.Identifier;
+import org.hl7.fhir.r4.model.Meta;
 import org.hl7.fhir.r4.model.Patient;
+import org.hl7.fhir.r4.model.PractitionerRole;
 import org.hl7.fhir.r4.model.Reference;
 import org.hl7.fhir.r4.model.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,7 @@ import org.w3c.dom.Node;
 import uk.nhs.adaptors.scr.utils.XmlUtils;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -35,6 +38,9 @@ public class GpSummaryMapper implements XmlToFhirMapper {
     private static final String GP_SUMMARY_CODE_DISPLAY_NAME_XPATH = BASE_XPATH + "/code/@displayName";
     private static final String GP_SUMMARY_STATUS_CODE_XPATH = BASE_XPATH + "/statusCode/@code";
     private static final String GP_SUMMARY_EFFECTIVE_TIME_XPATH = BASE_XPATH + "/effectiveTime/@value";
+    private static final String GP_SUMMARY_AUTHOR_TIME_XPATH = BASE_XPATH + "/author/time/@value";
+    private static final String GP_SUMMARY_AUTHOR_AGENT_PERSON_SDS_XPATH = BASE_XPATH + "/author/UKCT_MT160018UK01.AgentPersonSDS";
+    private static final String GP_SUMMARY_AUTHOR_AGENT_PERSON_XPATH = BASE_XPATH + "/author/UKCT_MT160018UK01.AgentPerson";
 
     private static final String RECORD_TARGET_PATIENT_ID_EXTENSION_XPATH =
         BASE_XPATH + "/recordTarget/patient/id/@extension";
@@ -52,6 +58,8 @@ public class GpSummaryMapper implements XmlToFhirMapper {
     private static final String PRESENTATION_TEXT_VALUE =
         BASE_XPATH + "/excerptFrom/UKCT_MT144051UK01.CareProfessionalDocumentationCRE/component/presentationText/value/html";
 
+    private final AgentPersonSdsMapper agentPersonSdsMapper;
+    private final AgentPersonMapper agentPersonMapper;
     private final HtmlParser htmlParser;
 
     @SneakyThrows
@@ -70,6 +78,8 @@ public class GpSummaryMapper implements XmlToFhirMapper {
             XmlUtils.getValueByXPath(document, GP_SUMMARY_STATUS_CODE_XPATH);
         var gpSummaryEffectiveTime =
             simpleDateFormat.parse(XmlUtils.getValueByXPath(document, GP_SUMMARY_EFFECTIVE_TIME_XPATH));
+        var authorTime =
+            simpleDateFormat.parse(XmlUtils.getValueByXPath(document, GP_SUMMARY_AUTHOR_TIME_XPATH));
         var recordTargetPatientIdExtension =
             XmlUtils.getValueByXPath(document, RECORD_TARGET_PATIENT_ID_EXTENSION_XPATH);
         var replacementOfPriorMessageRefIdRoot =
@@ -83,7 +93,7 @@ public class GpSummaryMapper implements XmlToFhirMapper {
         var presentationTextValue =
             XmlUtils.getNodesByXPath(document, PRESENTATION_TEXT_VALUE).stream()
                 .findFirst();
-
+        List<Resource> resources = new ArrayList<>();
         var composition = new Composition();
         composition.setId(randomUUID());
 
@@ -98,10 +108,12 @@ public class GpSummaryMapper implements XmlToFhirMapper {
                 .setSystem(gpSummaryCodeCodeSystem)
                 .setDisplay(gpSummaryCodeDisplayName)));
 
+        composition.setMeta(new Meta().setLastUpdated(gpSummaryEffectiveTime));
+
         composition.setStatus(
             mapCompositionStatus(gpSummaryStatusCode));
 
-        composition.setDate(gpSummaryEffectiveTime);
+        composition.setDate(authorTime);
 
         Patient patient = getSubject(recordTargetPatientIdExtension);
 
@@ -123,7 +135,38 @@ public class GpSummaryMapper implements XmlToFhirMapper {
             .map(Collection::stream)
             .ifPresent(section -> section.forEach(composition::addSection));
 
-        return List.of(composition, patient);
+        resources.add(composition);
+        resources.add(patient);
+
+        addAuthor(document, resources, composition);
+
+        return resources;
+    }
+
+    private void addAuthor(Node document, List<Resource> resources, Composition composition) {
+        XmlUtils.getOptionalNodeByXpath(document, GP_SUMMARY_AUTHOR_AGENT_PERSON_SDS_XPATH)
+            .ifPresent(agentPersonSds -> {
+                List<? extends Resource> authorResources = agentPersonSdsMapper.map(agentPersonSds);
+                resources.addAll(authorResources);
+                composition.addAuthor(findPractitionerRole(authorResources));
+            });
+
+        XmlUtils.getOptionalNodeByXpath(document, GP_SUMMARY_AUTHOR_AGENT_PERSON_XPATH)
+            .ifPresent(agentPersonSds -> {
+                List<? extends Resource> authorResources = agentPersonMapper.map(agentPersonSds);
+                resources.addAll(authorResources);
+                composition.addAuthor(findPractitionerRole(authorResources));
+            });
+    }
+
+
+    private Reference findPractitionerRole(List<? extends Resource> authorResources) {
+        return authorResources
+            .stream()
+            .filter(it -> it instanceof PractitionerRole)
+            .map(Reference::new)
+            .findFirst()
+            .get();
     }
 
     private Patient getSubject(String recordTargetPatientIdExtension) {

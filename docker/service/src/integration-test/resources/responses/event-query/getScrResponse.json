@@ -7,13 +7,16 @@
   },
   "type": "searchset",
   "timestamp": "2020-12-14T13:23:10.000+01:00",
-  "total": 46,
+  "total": 48,
   "entry": [
     {
       "fullUrl": "http://scr.nhs.uk/Composition/540FC8F0-220A-4EE5-971A-A608B880DCB8",
       "resource": {
         "resourceType": "Composition",
         "id": "540FC8F0-220A-4EE5-971A-A608B880DCB8",
+        "meta": {
+          "lastUpdated": "2020-11-17T01:00:00.000+01:00"
+        },
         "identifier": {
           "system": "https://tools.ietf.org/html/rfc4122",
           "value": "BF4180FD-C403-4EF7-A4AB-E07303AF5477"
@@ -43,6 +46,11 @@
           "reference": "Patient/2975884D-6313-478E-B523-9AF7CF24A1A9"
         },
         "date": "2020-11-17T01:00:00+01:00",
+        "author": [
+          {
+            "reference": "PractitionerRole/365B031A-B016-41AE-9BE1-6C345FA93268"
+          }
+        ],
         "relatesTo": [
           {
             "code": "replaces",
@@ -92,6 +100,40 @@
           {
             "system": "https://fhir.nhs.uk/Id/nhs-number",
             "value": "9995000180"
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "http://scr.nhs.uk/PractitionerRole/365B031A-B016-41AE-9BE1-6C345FA93268",
+      "resource": {
+        "resourceType": "PractitionerRole",
+        "id": "365B031A-B016-41AE-9BE1-6C345FA93268",
+        "identifier": [
+          {
+            "system": "http://fhir.nhs.net/Id/sds-role-profile-id",
+            "value": "673836492727"
+          }
+        ],
+        "practitioner": {
+          "reference": "Practitioner/621B0135-AAE6-4089-9399-BFC3FBA14960"
+        }
+      }
+    },
+    {
+      "fullUrl": "http://scr.nhs.uk/Practitioner/621B0135-AAE6-4089-9399-BFC3FBA14960",
+      "resource": {
+        "resourceType": "Practitioner",
+        "id": "621B0135-AAE6-4089-9399-BFC3FBA14960",
+        "identifier": [
+          {
+            "system": "https://fhir.nhs.uk/Id/sds-user-id",
+            "value": "676789689789"
+          }
+        ],
+        "name": [
+          {
+            "text": "Dr Steve Jones"
           }
         ]
       }
