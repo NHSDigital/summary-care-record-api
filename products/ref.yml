@@ -1,0 +1,11 @@
+name: ''
+environments:
+    - ref
+attributes:
+    - name: access
+      value: public
+    - name: ratelimit
+      value: 40ps
+quota: 2400
+quotaInterval: 1
+quotaTimeUnit: minute
