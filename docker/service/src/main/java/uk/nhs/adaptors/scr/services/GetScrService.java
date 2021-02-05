@@ -13,8 +13,12 @@ import org.hl7.fhir.r4.model.DocumentReference;
 import org.hl7.fhir.r4.model.DocumentReference.DocumentReferenceContentComponent;
 import org.hl7.fhir.r4.model.DocumentReference.DocumentReferenceContextComponent;
 import org.hl7.fhir.r4.model.Identifier;
+import org.hl7.fhir.r4.model.Immunization;
+import org.hl7.fhir.r4.model.ImmunizationRecommendation;
 import org.hl7.fhir.r4.model.Patient;
 import org.hl7.fhir.r4.model.Reference;
+import org.hl7.fhir.r4.model.RelatedPerson;
+import org.hl7.fhir.r4.model.Resource;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -24,10 +28,15 @@ import uk.nhs.adaptors.scr.clients.SpineClient;
 import uk.nhs.adaptors.scr.clients.SpineHttpClient;
 import uk.nhs.adaptors.scr.config.ScrConfiguration;
 import uk.nhs.adaptors.scr.config.SpineConfiguration;
+import uk.nhs.adaptors.scr.mappings.from.hl7.CareEventMapper;
 import uk.nhs.adaptors.scr.mappings.from.hl7.DiagnosisMapper;
 import uk.nhs.adaptors.scr.mappings.from.hl7.FindingMapper;
 import uk.nhs.adaptors.scr.mappings.from.hl7.GpSummaryMapper;
 import uk.nhs.adaptors.scr.mappings.from.hl7.InteractionMapper;
+import uk.nhs.adaptors.scr.mappings.from.hl7.InvestigationMapper;
+import uk.nhs.adaptors.scr.mappings.from.hl7.PersonalPreferenceMapper;
+import uk.nhs.adaptors.scr.mappings.from.hl7.RiskToPatientMapper;
+import uk.nhs.adaptors.scr.mappings.from.hl7.TreatmentMapper;
 import uk.nhs.adaptors.scr.mappings.from.hl7.XmlToFhirMapper;
 import uk.nhs.adaptors.scr.models.EventListQueryParams;
 import uk.nhs.adaptors.scr.models.EventListQueryResponse;
@@ -84,6 +93,11 @@ public class GetScrService {
     private final GpSummaryMapper gpSummaryMapper;
     private final DiagnosisMapper diagnosisMapper;
     private final FindingMapper findingMapper;
+    private final RiskToPatientMapper riskToPatientMapper;
+    private final CareEventMapper careEventMapper;
+    private final InvestigationMapper investigationMapper;
+    private final TreatmentMapper treatmentMapper;
+    private final PersonalPreferenceMapper personalPreferenceMapper;
 
     public Bundle getScrId(String nhsNumber, String nhsdAsid, String clientIp, String baseUrl) {
         String scrIdXml = getScrIdRawXml(nhsNumber, nhsdAsid, clientIp);
@@ -134,13 +148,20 @@ public class GetScrService {
             var document = parseDocument(scrXml);
 
             var bundle = interactionMapper.map(document);
+            // extract patient mapper and pass patient ref below
 
             Stream.<XmlToFhirMapper>of(
                 gpSummaryMapper,
                 diagnosisMapper,
-                findingMapper)
+                findingMapper,
+                riskToPatientMapper,
+                careEventMapper,
+                investigationMapper,
+                treatmentMapper,
+                personalPreferenceMapper)
                 .map(mapper -> mapper.map(document))
                 .flatMap(Collection::stream)
+                .peek(it -> setPatientReferences(it, null))
                 .map(resource -> new Bundle.BundleEntryComponent()
                     .setFullUrl(baseUrl + "/" + resource.getResourceType() + "/" + resource.getId())
                     .setResource(resource))
@@ -152,6 +173,19 @@ public class GetScrService {
 
         } else {
             return interactionMapper.mapToEmpty();
+        }
+    }
+
+    private void setPatientReferences(Resource resource, Patient patient) {
+        if (resource instanceof ImmunizationRecommendation) {
+            ImmunizationRecommendation recommendation = (ImmunizationRecommendation) resource;
+            recommendation.setPatient(new Reference(patient));
+        } else if (resource instanceof Immunization) {
+            Immunization immunization = (Immunization) resource;
+            immunization.setPatient(new Reference(patient));
+        } else if (resource instanceof RelatedPerson) {
+            RelatedPerson relatedPerson = (RelatedPerson) resource;
+            relatedPerson.setPatient(new Reference(patient));
         }
     }
 

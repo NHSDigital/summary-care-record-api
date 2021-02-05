@@ -4,10 +4,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.hl7.fhir.r4.model.CodeableConcept;
 import org.hl7.fhir.r4.model.Coding;
-import org.hl7.fhir.r4.model.DateTimeType;
 import org.hl7.fhir.r4.model.Encounter;
 import org.hl7.fhir.r4.model.Encounter.EncounterParticipantComponent;
-import org.hl7.fhir.r4.model.Identifier;
 import org.hl7.fhir.r4.model.Observation;
 import org.hl7.fhir.r4.model.Period;
 import org.hl7.fhir.r4.model.PractitionerRole;
@@ -38,13 +36,6 @@ public class FindingMapper implements XmlToFhirMapper {
     private static final String PERTINENT_CODE_CODE_XPATH = "./code/@code";
     private static final String PERTINENT_CODE_DISPLAY_XPATH = "./code/@displayName";
     private static final String FINDING_BASE_PATH = "./component/UKCT_MT144043UK02.Finding";
-    private static final String FINDING_ID_XPATH = "./id/@root";
-    private static final String FINDING_CODE_CODE_XPATH = "./code/@code";
-    private static final String FINDING_CODE_DISPLAY_NAME_XPATH = "./code/@displayName";
-    private static final String FINDING_STATUS_CODE_XPATH = "./statusCode/@code";
-    private static final String FINDING_EFFECTIVE_TIME_LOW_XPATH = "./effectiveTime/low/@value";
-    private static final String FINDING_EFFECTIVE_TIME_HIGH_XPATH = "./effectiveTime/low/@value";
-    private static final String FINDING_EFFECTIVE_TIME_CENTRE_XPATH = "./effectiveTime/centre/@value";
     private static final String ENCOUNTER_PARTICIPATION_CODE_SYSTEM = "http://terminology.hl7.org/CodeSystem/v3-ParticipationType";
     private static final String FINDING_AUTHOR_XPATH = "./author";
     private static final String FINDING_INFORMANT_XPATH = "./informant";
@@ -54,8 +45,10 @@ public class FindingMapper implements XmlToFhirMapper {
     private static final String PERFORMER_EXTENSION_URL = "https://fhir.nhs.uk/StructureDefinition/Extension-SCR-ModeCode";
     private static final String ENCOUNTER_PARTICIPATION_MODE_SYSTEM = "http://terminology.hl7.org/CodeSystem/v3-ParticipationMode";
     private static final String ENCOUNTER_CLASS_SYSTEM = "http://terminology.hl7.org/CodeSystem/v3-NullFlavor";
+    private static final List<String> SARS_COV_2_CODES = List.of("1240581000000104", "163131000000108");
 
     private final ParticipantMapper participantMapper;
+    private final ObservationMapper observationMapper;
 
     @SneakyThrows
     public List<Resource> map(Node document) {
@@ -64,42 +57,7 @@ public class FindingMapper implements XmlToFhirMapper {
             var pertinentCRETypeCode = XmlUtils.getValueByXPath(pertinentCREType, PERTINENT_CODE_CODE_XPATH);
             var pertinentCRETypeDisplay = XmlUtils.getValueByXPath(pertinentCREType, PERTINENT_CODE_DISPLAY_XPATH);
             for (var node : XmlUtils.getNodesByXPath(pertinentCREType, FINDING_BASE_PATH)) {
-                var findingId =
-                    XmlUtils.getValueByXPath(node, FINDING_ID_XPATH);
-                var findingCodeCode =
-                    XmlUtils.getValueByXPath(node, FINDING_CODE_CODE_XPATH);
-                var findingCodeDisplayName =
-                    XmlUtils.getValueByXPath(node, FINDING_CODE_DISPLAY_NAME_XPATH);
-                var findingStatusCode =
-                    XmlUtils.getValueByXPath(node, FINDING_STATUS_CODE_XPATH);
-                var findingEffectiveTimeLow =
-                    XmlUtils.getOptionalValueByXPath(node, FINDING_EFFECTIVE_TIME_LOW_XPATH)
-                        .map(XmlToFhirMapper::parseDate);
-                var findingEffectiveTimeHigh =
-                    XmlUtils.getOptionalValueByXPath(node, FINDING_EFFECTIVE_TIME_HIGH_XPATH)
-                        .map(XmlToFhirMapper::parseDate);
-                var findingEffectiveTimeCentre =
-                    XmlUtils.getOptionalValueByXPath(node, FINDING_EFFECTIVE_TIME_CENTRE_XPATH)
-                        .map(XmlToFhirMapper::parseDate);
-
-                var observation = new Observation();
-                observation.setId(findingId);
-                observation.addIdentifier(new Identifier().setValue(findingId));
-                observation.setCode(new CodeableConcept().addCoding(new Coding()
-                    .setCode(findingCodeCode)
-                    .setSystem(SNOMED_SYSTEM)
-                    .setDisplay(findingCodeDisplayName)));
-                observation.setStatus(mapStatus(findingStatusCode));
-                if (findingEffectiveTimeLow.isPresent() || findingEffectiveTimeHigh.isPresent()) {
-                    var period = new Period();
-                    findingEffectiveTimeLow.ifPresent(period::setStart);
-                    findingEffectiveTimeHigh.ifPresent(period::setEnd);
-                    observation.setEffective(period);
-                } else {
-                    findingEffectiveTimeCentre
-                        .map(DateTimeType::new)
-                        .ifPresent(observation::setEffective);
-                }
+                Observation observation = observationMapper.mapObservation(node);
 
                 observation.addCategory(new CodeableConcept(new Coding()
                     .setSystem(SNOMED_SYSTEM)
@@ -107,7 +65,10 @@ public class FindingMapper implements XmlToFhirMapper {
                     .setDisplay(pertinentCRETypeDisplay)));
 
                 resources.add(observation);
-                mapEncounter(node, observation, resources);
+
+                if (SARS_COV_2_CODES.contains(observation.getCode().getCodingFirstRep().getCode())) {
+                    mapEncounter(node, observation, resources);
+                }
             }
         }
         return resources;
@@ -186,18 +147,5 @@ public class FindingMapper implements XmlToFhirMapper {
             .setCode(inf)
             .setSystem(ENCOUNTER_PARTICIPATION_CODE_SYSTEM)
             .setDisplay(informant));
-    }
-
-    private Observation.ObservationStatus mapStatus(String statusCode) {
-        switch (statusCode) {
-            case "normal":
-            case "active":
-            case "completed":
-                return Observation.ObservationStatus.FINAL;
-            case "nullified":
-                return Observation.ObservationStatus.ENTEREDINERROR;
-            default:
-                throw new IllegalArgumentException(statusCode);
-        }
     }
 }
