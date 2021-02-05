@@ -9,6 +9,7 @@ import org.hl7.fhir.r4.model.Condition;
 import org.hl7.fhir.r4.model.DateTimeType;
 import org.hl7.fhir.r4.model.Encounter;
 import org.hl7.fhir.r4.model.Encounter.EncounterParticipantComponent;
+import org.hl7.fhir.r4.model.Observation;
 import org.hl7.fhir.r4.model.Period;
 import org.hl7.fhir.r4.model.PractitionerRole;
 import org.hl7.fhir.r4.model.Reference;
@@ -46,7 +47,8 @@ public class DiagnosisMapper implements XmlToFhirMapper {
     private static final String DIAGNOSIS_EFFECTIVE_TIME_LOW_XPATH = "./effectiveTime/low/@value";
     private static final String DIAGNOSIS_EFFECTIVE_TIME_HIGH_XPATH = "./effectiveTime/high/@value";
     private static final String DIAGNOSIS_PERTINENT_SUPPORTING_INFO_XPATH = "./pertinentInformation/pertinentSupportingInfo/value";
-    private static final String DIAGNOSIS_PERTINENT_FINDING_XPATH = "./pertinentInformation1/templateId/pertinentFinding/id/@root";
+    private static final String DIAGNOSIS_PERTINENT_FINDINGS_XPATH = "./pertinentInformation1/pertinentFinding";
+    private static final String DIAGNOSIS_PERTINENT_FINDING_ID_XPATH = "./id/@root";
     private static final String DIAGNOSIS_AUTHOR_XPATH = "./author";
     private static final String DIAGNOSIS_INFORMANT_XPATH = "./informant";
     private static final String DIAGNOSIS_PARTICIPANT_TIME_XPATH = "./time/@value";
@@ -76,11 +78,9 @@ public class DiagnosisMapper implements XmlToFhirMapper {
                         .map(XmlToFhirMapper::parseDate);
                 var pertinentSupportingInfo =
                     XmlUtils.getOptionalValueByXPath(node, DIAGNOSIS_PERTINENT_SUPPORTING_INFO_XPATH);
-                var pertinentFinding =
-                    XmlUtils.getOptionalValueByXPath(node, DIAGNOSIS_PERTINENT_FINDING_XPATH);
 
                 var condition = new Condition();
-                condition.setId(randomUUID());
+                condition.setId(diagnosisId);
                 condition.addIdentifier()
                     .setValue(diagnosisId);
                 condition.setCode(new CodeableConcept().addCoding(new Coding()
@@ -106,10 +106,12 @@ public class DiagnosisMapper implements XmlToFhirMapper {
                 pertinentSupportingInfo
                     .map(value -> new Annotation().setText(value))
                     .ifPresent(condition::addNote);
-                pertinentFinding
-                    .map(Reference::new)
+
+                XmlUtils.getNodesByXPath(node, DIAGNOSIS_PERTINENT_FINDINGS_XPATH).stream()
+                    .map(it -> XmlUtils.getValueByXPath(it, DIAGNOSIS_PERTINENT_FINDING_ID_XPATH))
+                    .map(it -> new Reference(new Observation().setId(it)))
                     .map(reference -> new Condition.ConditionEvidenceComponent().addDetail(reference))
-                    .ifPresent(condition::addEvidence);
+                    .forEach(condition::addEvidence);
 
                 resources.add(condition);
                 mapEncounter(node, condition, resources);

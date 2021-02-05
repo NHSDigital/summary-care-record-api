@@ -17,7 +17,6 @@ import org.hl7.fhir.r4.model.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Node;
-import uk.nhs.adaptors.scr.utils.FhirHelper;
 import uk.nhs.adaptors.scr.utils.XmlUtils;
 
 import java.util.ArrayList;
@@ -84,7 +83,7 @@ public class FindingMapper implements XmlToFhirMapper {
                         .map(XmlToFhirMapper::parseDate);
 
                 var observation = new Observation();
-                observation.setId(FhirHelper.randomUUID());
+                observation.setId(findingId);
                 observation.addIdentifier(new Identifier().setValue(findingId));
                 observation.setCode(new CodeableConcept().addCoding(new Coding()
                     .setCode(findingCodeCode)

@@ -152,7 +152,7 @@
                                                     <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.component"/>
                                                     <seperatableInd value="false"/>
                                                     <UKCT_MT144042UK01.Diagnosis classCode="CON" moodCode="EVN">
-                                                        <id root="0F582D97-8F89-11EA-8B2D-B741F13EFC47"/>
+                                                        <id root="FCB84E15-02E5-495C-B334-D0685DCB0687"/>
                                                         <code code="1240751000000100" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="COVID-19">
                                                         </code>
                                                         <statusCode code="active"/>
@@ -194,13 +194,27 @@
                                                             </agentPerson>
                                                           </UKCT_MT160018UK01.AgentPerson>
                                                         </author>
+                                                        <pertinentInformation typeCode="PERT" contextConductionInd="true">
+                                                          <seperatableInd value="false"/>
+                                                          <pertinentSupportingInfo classCode="OBS" moodCode="EVN">
+                                                            <value>Problem; First, test</value>
+                                                            <code code="SupportingText" CodeSystem="2.16.840.1.113883.2.1.3.2.4.17.126" displayName="Supporting Text"/>
+                                                          </pertinentSupportingInfo>
+                                                        </pertinentInformation>
+                                                        <pertinentInformation1 typeCode="PERT" inversionInd="false" negationInd="false">
+                                                          <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.sourceOf1"/>
+                                                          <seperatableInd value="false"/>
+                                                          <pertinentFinding classCode="OBS" moodCode="EVN">
+                                                            <id root="F17999D2-FFE7-4CA4-8CE8-52CB45FF6F49"></id>
+                                                          </pertinentFinding>
+                                                        </pertinentInformation1>
                                                     </UKCT_MT144042UK01.Diagnosis>
                                                 </component>
                                                 <component typeCode="COMP" contextConductionInd="true">
                                                     <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.component"/>
                                                     <seperatableInd value="false"/>
                                                     <UKCT_MT144042UK01.Diagnosis classCode="CON" moodCode="EVN">
-                                                        <id root="0F582D97-8F89-11EA-8B2D-B741F13EFC47"/>
+                                                        <id root="958E584C-25B8-4BD7-A71D-7625FDC1ACD6"/>
                                                         <code code="1300731000000106" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="COVID-19 confirmed using clinical diagnostic criteria">
                                                         </code>
                                                         <statusCode code="active"/>
@@ -239,7 +253,7 @@
                                                     <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.component"/>
                                                     <seperatableInd value="false"/>
                                                     <UKCT_MT144042UK01.Diagnosis classCode="CON" moodCode="EVN">
-                                                        <id root="0F582D97-8F89-11EA-8B2D-B741F13EFC47"/>
+                                                        <id root="8CEB2867-551B-43D0-88B5-3278DA20A6B0"/>
                                                         <code code="1240761000000102" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Suspected COVID-19">
                                                         </code>
                                                         <statusCode code="active"/>
@@ -277,7 +291,7 @@
                                                   <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.component"/>
                                                   <seperatableInd value="false"/>
                                                   <UKCT_MT144042UK01.Diagnosis classCode="CON" moodCode="EVN">
-                                                    <id root="0D582D07-8F89-11EA-8B2D-B741F13EFC47"/>
+                                                    <id root="6ECDAE6D-32AB-421C-AA8F-0B1ABA454C70"/>
                                                     <code code="1240761000000102" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Suspected COVID-19">
                                                     </code>
                                                     <statusCode code="active"/>
@@ -321,7 +335,7 @@
                                                     <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.component"/>
                                                     <seperatableInd value="false"/>
                                                     <UKCT_MT144043UK02.Finding classCode="OBS" moodCode="EVN">
-                                                        <id root="0F582D97-8F89-11EA-8B2D-B741F13EFC47"/>
+                                                        <id root="F17999D2-FFE7-4CA4-8CE8-52CB45FF6F49"/>
                                                         <code code="163131000000108" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="SARS-CoV-2 (severe acute respiratory syndrome coronavirus 2) RNA (ribonucleic acid) detection result positive">
                                                         </code>
                                                         <statusCode code="completed"/>
@@ -352,7 +366,7 @@
                                               <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.component"/>
                                               <seperatableInd value="false"/>
                                               <UKCT_MT144043UK02.Finding classCode="OBS" moodCode="EVN">
-                                                <id root="0F582D97-8F89-11EA-8B2D-B741F13EFC47"/>
+                                                <id root="EE608FAA-2433-4BAD-A0D5-4A10E45AB2B0"/>
                                                 <code code="163131000000108" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="SARS-CoV-2 (severe acute respiratory syndrome coronavirus 2) RNA (ribonucleic acid) detection result positive">
                                                 </code>
                                                 <statusCode code="completed"/>
