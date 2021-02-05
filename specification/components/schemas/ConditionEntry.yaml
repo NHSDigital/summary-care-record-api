@@ -105,6 +105,38 @@
         onsetDateTime:
           type: string
           example: "2020-05-06T10:48:19+00:00"
+        evidence:
+          description: Supporting evidence - should link Observation resource
+          type: array
+          items:
+            type: object
+            properties:
+              detail:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    reference:
+                      type: string
+                      example: Observation/F17999D2-FFE7-4CA4-8CE8-52CB45FF6F49
+                      description: Reference to related Observation resource
+                  required:
+                    - reference
+            required:
+              - detail
+          minItems: 1
+        note:
+          description: Additional information about the Condition
+          type: array
+          items:
+            type: object
+            properties:
+              text:
+                type: string
+            required:
+              - text
+          minItems: 1
+          maxItems: 1
       required:
         - resourceType
         - identifier
