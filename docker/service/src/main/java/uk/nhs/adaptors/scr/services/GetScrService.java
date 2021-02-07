@@ -9,6 +9,7 @@ import org.hl7.fhir.r4.model.Bundle;
 import org.hl7.fhir.r4.model.Bundle.BundleEntryComponent;
 import org.hl7.fhir.r4.model.CodeableConcept;
 import org.hl7.fhir.r4.model.Coding;
+import org.hl7.fhir.r4.model.Composition;
 import org.hl7.fhir.r4.model.DocumentReference;
 import org.hl7.fhir.r4.model.DocumentReference.DocumentReferenceContentComponent;
 import org.hl7.fhir.r4.model.DocumentReference.DocumentReferenceContextComponent;
@@ -35,6 +36,7 @@ import uk.nhs.adaptors.scr.mappings.from.hl7.GpSummaryMapper;
 import uk.nhs.adaptors.scr.mappings.from.hl7.InteractionMapper;
 import uk.nhs.adaptors.scr.mappings.from.hl7.InvestigationMapper;
 import uk.nhs.adaptors.scr.mappings.from.hl7.PersonalPreferenceMapper;
+import uk.nhs.adaptors.scr.mappings.from.hl7.RecordTargetMapper;
 import uk.nhs.adaptors.scr.mappings.from.hl7.RiskToPatientMapper;
 import uk.nhs.adaptors.scr.mappings.from.hl7.TreatmentMapper;
 import uk.nhs.adaptors.scr.mappings.from.hl7.XmlToFhirMapper;
@@ -46,7 +48,6 @@ import uk.nhs.adaptors.scr.utils.TemplateUtils;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.StringReader;
 import java.time.format.DateTimeFormatter;
-import java.util.Collection;
 import java.util.stream.Stream;
 
 import static java.time.OffsetDateTime.now;
@@ -98,6 +99,7 @@ public class GetScrService {
     private final InvestigationMapper investigationMapper;
     private final TreatmentMapper treatmentMapper;
     private final PersonalPreferenceMapper personalPreferenceMapper;
+    private final RecordTargetMapper recordTargetMapper;
 
     public Bundle getScrId(String nhsNumber, String nhsdAsid, String clientIp, String baseUrl) {
         String scrIdXml = getScrIdRawXml(nhsNumber, nhsdAsid, clientIp);
@@ -148,7 +150,7 @@ public class GetScrService {
             var document = parseDocument(scrXml);
 
             var bundle = interactionMapper.map(document);
-            // extract patient mapper and pass patient ref below
+            Patient patient = recordTargetMapper.mapPatient(document);
 
             Stream.<XmlToFhirMapper>of(
                 gpSummaryMapper,
@@ -160,13 +162,12 @@ public class GetScrService {
                 treatmentMapper,
                 personalPreferenceMapper)
                 .map(mapper -> mapper.map(document))
-                .flatMap(Collection::stream)
-                .peek(it -> setPatientReferences(it, null))
-                .map(resource -> new Bundle.BundleEntryComponent()
-                    .setFullUrl(baseUrl + "/" + resource.getResourceType() + "/" + resource.getId())
-                    .setResource(resource))
+                .flatMap(resources -> resources.stream())
+                .peek(it -> setPatientReferences(it, patient))
+                .map(resource -> getBundleEntryComponent(baseUrl, resource))
                 .forEach(bundle::addEntry);
 
+            bundle.addEntry(getBundleEntryComponent(baseUrl, patient));
             bundle.setTotal(bundle.getEntry().size());
 
             return bundle;
@@ -174,6 +175,12 @@ public class GetScrService {
         } else {
             return interactionMapper.mapToEmpty();
         }
+    }
+
+    private BundleEntryComponent getBundleEntryComponent(String baseUrl, Resource resource) {
+        return new BundleEntryComponent()
+            .setFullUrl(baseUrl + "/" + resource.getResourceType() + "/" + resource.getId())
+            .setResource(resource);
     }
 
     private void setPatientReferences(Resource resource, Patient patient) {
@@ -186,6 +193,9 @@ public class GetScrService {
         } else if (resource instanceof RelatedPerson) {
             RelatedPerson relatedPerson = (RelatedPerson) resource;
             relatedPerson.setPatient(new Reference(patient));
+        } else if (resource instanceof Composition) {
+            Composition composition = (Composition) resource;
+            composition.setSubject(new Reference(patient));
         }
     }
 
