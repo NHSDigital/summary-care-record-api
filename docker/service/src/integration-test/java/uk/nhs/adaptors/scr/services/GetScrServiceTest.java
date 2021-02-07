@@ -52,7 +52,8 @@ public class GetScrServiceTest {
         "entry[*].resource.participant[*].individual.reference",
         "entry[*].resource.organization.reference",
         "entry[*].resource.owner.reference",
-        "entry[*].resource.author[*].reference"
+        "entry[*].resource.author[*].reference",
+        "entry[*].resource.patient.reference"
     };
 
     @Value("classpath:responses/event-list-query/successResponse.xml")

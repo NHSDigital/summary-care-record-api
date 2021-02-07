@@ -1,69 +1,68 @@
-package uk.nhs.adaptors.scr.mappings.from.hl7;
+package uk.nhs.adaptors.scr.mappings.from.hl7.common;
 
 import lombok.RequiredArgsConstructor;
 import org.hl7.fhir.r4.model.CodeableConcept;
 import org.hl7.fhir.r4.model.Coding;
 import org.hl7.fhir.r4.model.DateTimeType;
+import org.hl7.fhir.r4.model.Identifier;
 import org.hl7.fhir.r4.model.Meta;
+import org.hl7.fhir.r4.model.Observation;
 import org.hl7.fhir.r4.model.Period;
-import org.hl7.fhir.r4.model.Procedure;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Node;
+import uk.nhs.adaptors.scr.mappings.from.hl7.XmlToFhirMapper;
 
-import static org.hl7.fhir.r4.model.Procedure.ProcedureStatus.COMPLETED;
-import static org.hl7.fhir.r4.model.Procedure.ProcedureStatus.INPROGRESS;
-import static org.hl7.fhir.r4.model.Procedure.ProcedureStatus.NULL;
+import static org.hl7.fhir.r4.model.Observation.ObservationStatus.ENTEREDINERROR;
+import static org.hl7.fhir.r4.model.Observation.ObservationStatus.FINAL;
 import static uk.nhs.adaptors.scr.mappings.from.hl7.XmlToFhirMapper.SNOMED_SYSTEM;
 import static uk.nhs.adaptors.scr.utils.XmlUtils.getOptionalValueByXPath;
 
 @Component
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
-public class ProcedureMapper {
+public class ObservationMapper {
 
-    private static final String UK_CORE_PROCEDURE_PROFILE = "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Procedure";
+    private static final String UK_CORE_OBSERVATION_META = "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Observation";
     private static final String EFFECTIVE_TIME_CENTRE_XPATH = "./effectiveTime/centre/@value";
 
     private final CodedEntryMapper codedEntryMapper;
 
-    public Procedure mapProcedure(Node node) {
+    public Observation mapObservation(Node node) {
+        CodedEntry entry = codedEntryMapper.getCommonCodedEntryValues(node);
         var effectiveTimeCentre =
             getOptionalValueByXPath(node, EFFECTIVE_TIME_CENTRE_XPATH).map(XmlToFhirMapper::parseDate);
 
-        CommonCodedEntry entry = codedEntryMapper.getCommonCodedEntryValues(node);
-
-        Procedure procedure = new Procedure();
-        procedure.setId(entry.getId());
-        procedure.setMeta(new Meta().addProfile(UK_CORE_PROCEDURE_PROFILE));
-
-        procedure.setCode(new CodeableConcept(new Coding()
-            .setSystem(SNOMED_SYSTEM)
+        var observation = new Observation();
+        observation.setId(entry.getId());
+        observation.setMeta(new Meta().addProfile(UK_CORE_OBSERVATION_META));
+        observation.addIdentifier(new Identifier().setValue(entry.getId()));
+        observation.setCode(new CodeableConcept().addCoding(new Coding()
             .setCode(entry.getCodeValue())
+            .setSystem(SNOMED_SYSTEM)
             .setDisplay(entry.getCodeDisplay())));
-        procedure.setStatus(mapStatus(entry.getStatus()));
+        observation.setStatus(mapStatus(entry.getStatus()));
 
         if (entry.getEffectiveTimeLow().isPresent() || entry.getEffectiveTimeHigh().isPresent()) {
             var period = new Period();
             entry.getEffectiveTimeLow().ifPresent(period::setStart);
             entry.getEffectiveTimeHigh().ifPresent(period::setEnd);
-            procedure.setPerformed(period);
+            observation.setEffective(period);
         } else {
             effectiveTimeCentre
                 .map(DateTimeType::new)
-                .ifPresent(procedure::setPerformed);
+                .ifPresent(observation::setEffective);
         }
-        return procedure;
+        return observation;
     }
 
-    private static Procedure.ProcedureStatus mapStatus(String statusCode) {
+    private static Observation.ObservationStatus mapStatus(String statusCode) {
         switch (statusCode) {
-            case "active":
-                return INPROGRESS;
-            case "completed":
             case "normal":
-                return COMPLETED;
+            case "active":
+            case "completed":
+                return FINAL;
             case "nullified":
-                return NULL;
+                return ENTEREDINERROR;
             default:
                 throw new IllegalArgumentException(statusCode);
         }

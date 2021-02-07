@@ -18,6 +18,8 @@ import org.hl7.fhir.r4.model.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Node;
+import uk.nhs.adaptors.scr.mappings.from.hl7.common.CodedEntryMapper;
+import uk.nhs.adaptors.scr.mappings.from.hl7.common.CodedEntry;
 import uk.nhs.adaptors.scr.utils.XmlUtils;
 
 import java.util.ArrayList;
@@ -66,7 +68,7 @@ public class DiagnosisMapper implements XmlToFhirMapper {
                 var pertinentSupportingInfo =
                     getOptionalValueByXPath(node, DIAGNOSIS_PERTINENT_SUPPORTING_INFO_XPATH);
 
-                CommonCodedEntry entry = codedEntryMapper.getCommonCodedEntryValues(node);
+                CodedEntry entry = codedEntryMapper.getCommonCodedEntryValues(node);
                 var condition = new Condition();
                 condition.setId(entry.getId());
                 condition.addIdentifier()

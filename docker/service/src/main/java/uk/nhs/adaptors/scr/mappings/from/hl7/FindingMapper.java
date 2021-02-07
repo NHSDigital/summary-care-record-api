@@ -4,8 +4,14 @@ import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.hl7.fhir.r4.model.CodeableConcept;
 import org.hl7.fhir.r4.model.Coding;
+import org.hl7.fhir.r4.model.DateTimeType;
 import org.hl7.fhir.r4.model.Encounter;
 import org.hl7.fhir.r4.model.Encounter.EncounterParticipantComponent;
+import org.hl7.fhir.r4.model.Extension;
+import org.hl7.fhir.r4.model.Immunization;
+import org.hl7.fhir.r4.model.ImmunizationRecommendation;
+import org.hl7.fhir.r4.model.ImmunizationRecommendation.ImmunizationRecommendationRecommendationComponent;
+import org.hl7.fhir.r4.model.Meta;
 import org.hl7.fhir.r4.model.Observation;
 import org.hl7.fhir.r4.model.Period;
 import org.hl7.fhir.r4.model.PractitionerRole;
@@ -15,6 +21,9 @@ import org.hl7.fhir.r4.model.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Node;
+import uk.nhs.adaptors.scr.mappings.from.hl7.common.CodedEntryMapper;
+import uk.nhs.adaptors.scr.mappings.from.hl7.common.CodedEntry;
+import uk.nhs.adaptors.scr.mappings.from.hl7.common.ObservationMapper;
 import uk.nhs.adaptors.scr.utils.XmlUtils;
 
 import java.util.ArrayList;
@@ -23,6 +32,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.hl7.fhir.r4.model.Encounter.EncounterStatus.FINISHED;
+import static org.hl7.fhir.r4.model.Immunization.ImmunizationStatus.NOTDONE;
 import static uk.nhs.adaptors.scr.mappings.from.hl7.PerformerParticipationMode.getParticipationModeDisplay;
 import static uk.nhs.adaptors.scr.utils.FhirHelper.randomUUID;
 
@@ -30,6 +40,9 @@ import static uk.nhs.adaptors.scr.utils.FhirHelper.randomUUID;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class FindingMapper implements XmlToFhirMapper {
 
+    private static final String UK_CORE_IMMUNIZATION_PROFILE = "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Immunization";
+    private static final String IMMUNIZATION_EXTENSION_URL =
+        "https://fhir.hl7.org.uk/StructureDefinition/Extension-UKCore-VaccinationProcedure";
     private static final String GP_SUMMARY_XPATH = "//QUPC_IN210000UK04/ControlActEvent/subject//GPSummary";
     private static final String PERTINENT_CRET_BASE_PATH =
         GP_SUMMARY_XPATH + "/pertinentInformation2/pertinentCREType[.//UKCT_MT144043UK02.Finding]";
@@ -46,9 +59,12 @@ public class FindingMapper implements XmlToFhirMapper {
     private static final String ENCOUNTER_PARTICIPATION_MODE_SYSTEM = "http://terminology.hl7.org/CodeSystem/v3-ParticipationMode";
     private static final String ENCOUNTER_CLASS_SYSTEM = "http://terminology.hl7.org/CodeSystem/v3-NullFlavor";
     private static final List<String> SARS_COV_2_CODES = List.of("1240581000000104", "163131000000108");
+    private static final String MEDICATION_RECOMMENDATION_CRE_TYPE = "185371000000109";
+    private static final String MEDICATION_RECORD_CRE_TYPE = "163111000000100";
 
     private final ParticipantMapper participantMapper;
     private final ObservationMapper observationMapper;
+    private final CodedEntryMapper codedEntryMapper;
 
     @SneakyThrows
     public List<Resource> map(Node document) {
@@ -57,21 +73,75 @@ public class FindingMapper implements XmlToFhirMapper {
             var pertinentCRETypeCode = XmlUtils.getValueByXPath(pertinentCREType, PERTINENT_CODE_CODE_XPATH);
             var pertinentCRETypeDisplay = XmlUtils.getValueByXPath(pertinentCREType, PERTINENT_CODE_DISPLAY_XPATH);
             for (var node : XmlUtils.getNodesByXPath(pertinentCREType, FINDING_BASE_PATH)) {
-                Observation observation = observationMapper.mapObservation(node);
-
-                observation.addCategory(new CodeableConcept(new Coding()
-                    .setSystem(SNOMED_SYSTEM)
-                    .setCode(pertinentCRETypeCode)
-                    .setDisplay(pertinentCRETypeDisplay)));
-
-                resources.add(observation);
-
-                if (SARS_COV_2_CODES.contains(observation.getCode().getCodingFirstRep().getCode())) {
-                    mapEncounter(node, observation, resources);
+                switch (pertinentCRETypeCode) {
+                    case MEDICATION_RECOMMENDATION_CRE_TYPE:
+                        resources.add(mapMedicationRecommendation(node));
+                        break;
+                    case MEDICATION_RECORD_CRE_TYPE:
+                        resources.add(mapMedication(node));
+                        break;
+                    default:
+                        resources.add(mapObservation(resources, pertinentCRETypeCode, pertinentCRETypeDisplay, node));
                 }
             }
         }
         return resources;
+    }
+
+    private Immunization mapMedication(Node node) {
+        CodedEntry entry = codedEntryMapper.getCommonCodedEntryValues(node);
+        Immunization immunization = new Immunization();
+        immunization.setId(entry.getId());
+        immunization.setMeta(new Meta().addProfile(UK_CORE_IMMUNIZATION_PROFILE));
+        immunization.addExtension(new Extension()
+            .setUrl(IMMUNIZATION_EXTENSION_URL)
+            .setValue(new CodeableConcept(new Coding()
+                .setSystem(SNOMED_SYSTEM)
+                .setCode(entry.getCodeValue())
+                .setDisplay(entry.getCodeDisplay()))
+            )
+        );
+        immunization.setStatus(NOTDONE);
+        immunization.setVaccineCode(new CodeableConcept(new Coding()
+                .setSystem("http://terminology.hl7.org/CodeSystem/v3-NullFlavor")
+                .setCode("UNK")
+                .setDisplay("Unknown")
+            )
+        );
+        entry.getEffectiveTimeLow()
+            .ifPresent(date -> immunization.setOccurrence(new DateTimeType(date)));
+        return immunization;
+    }
+
+    private ImmunizationRecommendation mapMedicationRecommendation(Node node) {
+        CodedEntry entry = codedEntryMapper.getCommonCodedEntryValues(node);
+        ImmunizationRecommendation recommendation = new ImmunizationRecommendation();
+        recommendation.setId(entry.getId());
+        recommendation.setDate(entry.getEffectiveTimeLow().get());
+        ImmunizationRecommendationRecommendationComponent component =
+            new ImmunizationRecommendationRecommendationComponent();
+        component.addContraindicatedVaccineCode().addCoding()
+            .setSystem(SNOMED_SYSTEM)
+            .setCode(entry.getCodeValue())
+            .setDisplay(entry.getCodeDisplay());
+        recommendation.addRecommendation(component);
+
+        return recommendation;
+    }
+
+    private Observation mapObservation(ArrayList<Resource> resources, String creTypeCode, String creTypeDisplay, Node node) {
+        Observation observation = observationMapper.mapObservation(node);
+
+        observation.addCategory(new CodeableConcept(new Coding()
+            .setSystem(SNOMED_SYSTEM)
+            .setCode(creTypeCode)
+            .setDisplay(creTypeDisplay)));
+
+        if (SARS_COV_2_CODES.contains(observation.getCode().getCodingFirstRep().getCode())) {
+            mapEncounter(node, observation, resources);
+        }
+
+        return observation;
     }
 
     private void mapEncounter(Node finding, Observation observation, List<Resource> resources) {

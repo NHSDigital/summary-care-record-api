@@ -13,7 +13,7 @@ public class TelecomMapper {
     private static final String TELECOM_USE_XPATH = "./@use";
     private static final String TELECOM_VALUE_XPATH = "./@value";
 
-    ContactPoint mapTelecom(Node telecom) {
+    public ContactPoint mapTelecom(Node telecom) {
         return new ContactPoint()
             .setSystem(mapSystem(getNodeText(telecom, TELECOM_USE_XPATH)))
             .setValue(getNodeText(telecom, TELECOM_VALUE_XPATH));

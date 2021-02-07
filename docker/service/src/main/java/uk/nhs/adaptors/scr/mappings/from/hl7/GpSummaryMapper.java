@@ -7,7 +7,6 @@ import org.hl7.fhir.r4.model.Coding;
 import org.hl7.fhir.r4.model.Composition;
 import org.hl7.fhir.r4.model.Identifier;
 import org.hl7.fhir.r4.model.Meta;
-import org.hl7.fhir.r4.model.Patient;
 import org.hl7.fhir.r4.model.PractitionerRole;
 import org.hl7.fhir.r4.model.Reference;
 import org.hl7.fhir.r4.model.Resource;
@@ -28,7 +27,6 @@ import static uk.nhs.adaptors.scr.utils.FhirHelper.randomUUID;
 public class GpSummaryMapper implements XmlToFhirMapper {
 
     private static final String DATE_TIME_PATTERN = "yyyyMMddHHmmss";
-    private static final String NHS_NUMBER_SYSTEM = "https://fhir.nhs.uk/Id/nhs-number";
 
     private static final String BASE_XPATH = "//QUPC_IN210000UK04/ControlActEvent/subject//GPSummary";
 
@@ -41,9 +39,6 @@ public class GpSummaryMapper implements XmlToFhirMapper {
     private static final String GP_SUMMARY_AUTHOR_TIME_XPATH = BASE_XPATH + "/author/time/@value";
     private static final String GP_SUMMARY_AUTHOR_AGENT_PERSON_SDS_XPATH = BASE_XPATH + "/author/UKCT_MT160018UK01.AgentPersonSDS";
     private static final String GP_SUMMARY_AUTHOR_AGENT_PERSON_XPATH = BASE_XPATH + "/author/UKCT_MT160018UK01.AgentPerson";
-
-    private static final String RECORD_TARGET_PATIENT_ID_EXTENSION_XPATH =
-        BASE_XPATH + "/recordTarget/patient/id/@extension";
 
     private static final String REPLACEMENT_OF_PRIOR_MESSAGE_REF_ID_ROOT_XPATH =
         BASE_XPATH + "/replacementOf/priorMessageRef/id/@root";
@@ -80,8 +75,6 @@ public class GpSummaryMapper implements XmlToFhirMapper {
             simpleDateFormat.parse(XmlUtils.getValueByXPath(document, GP_SUMMARY_EFFECTIVE_TIME_XPATH));
         var authorTime =
             simpleDateFormat.parse(XmlUtils.getValueByXPath(document, GP_SUMMARY_AUTHOR_TIME_XPATH));
-        var recordTargetPatientIdExtension =
-            XmlUtils.getValueByXPath(document, RECORD_TARGET_PATIENT_ID_EXTENSION_XPATH);
         var replacementOfPriorMessageRefIdRoot =
             XmlUtils.getValueByXPath(document, REPLACEMENT_OF_PRIOR_MESSAGE_REF_ID_ROOT_XPATH);
         var pertinentRootCreTypeCodeCode =
@@ -115,10 +108,6 @@ public class GpSummaryMapper implements XmlToFhirMapper {
 
         composition.setDate(authorTime);
 
-        Patient patient = getSubject(recordTargetPatientIdExtension);
-
-        composition.setSubject(new Reference(patient));
-
         composition.addRelatesTo(
             new Composition.CompositionRelatesToComponent().setTarget(new Identifier()
                 .setValue(replacementOfPriorMessageRefIdRoot))
@@ -136,7 +125,6 @@ public class GpSummaryMapper implements XmlToFhirMapper {
             .ifPresent(section -> section.forEach(composition::addSection));
 
         resources.add(composition);
-        resources.add(patient);
 
         addAuthor(document, resources, composition);
 
@@ -167,15 +155,6 @@ public class GpSummaryMapper implements XmlToFhirMapper {
             .map(Reference::new)
             .findFirst()
             .get();
-    }
-
-    private Patient getSubject(String recordTargetPatientIdExtension) {
-        Patient patient = new Patient();
-        patient.setId(randomUUID());
-        patient.addIdentifier(new Identifier()
-            .setValue(recordTargetPatientIdExtension)
-            .setSystem(NHS_NUMBER_SYSTEM));
-        return patient;
     }
 
     private static Composition.CompositionStatus mapCompositionStatus(String compositionStatus) {

@@ -26,5 +26,4 @@ public interface XmlToFhirMapper {
 
         throw new ScrBaseException("Unsupported date format: " + date);
     }
-
 }

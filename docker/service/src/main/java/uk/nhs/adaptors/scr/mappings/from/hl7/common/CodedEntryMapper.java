@@ -1,7 +1,8 @@
-package uk.nhs.adaptors.scr.mappings.from.hl7;
+package uk.nhs.adaptors.scr.mappings.from.hl7.common;
 
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Node;
+import uk.nhs.adaptors.scr.mappings.from.hl7.XmlToFhirMapper;
 
 import static uk.nhs.adaptors.scr.utils.XmlUtils.getOptionalValueByXPath;
 import static uk.nhs.adaptors.scr.utils.XmlUtils.getValueByXPath;
@@ -16,7 +17,7 @@ public class CodedEntryMapper {
     private static final String STATUS_CODE_XPATH = "./statusCode/@code";
     private static final String ID_XPATH = "./id/@root";
 
-    public CommonCodedEntry getCommonCodedEntryValues(Node node) {
+    public CodedEntry getCommonCodedEntryValues(Node node) {
         var id = getValueByXPath(node, ID_XPATH);
         var codeValue = getValueByXPath(node, CODE_VALUE_XPATH);
         var codeDisplayName = getValueByXPath(node, CODE_DISPLAY_XPATH);
@@ -26,7 +27,7 @@ public class CodedEntryMapper {
             getOptionalValueByXPath(node, EFFECTIVE_TIME_HIGH_XPATH).map(XmlToFhirMapper::parseDate);
         var statusCode = getValueByXPath(node, STATUS_CODE_XPATH);
 
-        return new CommonCodedEntry()
+        return new CodedEntry()
             .setId(id)
             .setCodeValue(codeValue)
             .setCodeDisplay(codeDisplayName)

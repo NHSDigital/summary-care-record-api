@@ -5,18 +5,18 @@ import org.hl7.fhir.r4.model.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Node;
-import uk.nhs.adaptors.scr.mappings.from.hl7.common.ProcedureMapper;
+import uk.nhs.adaptors.scr.mappings.from.hl7.common.CommunicationMapper;
 
 import java.util.List;
 
 @Component
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
-public class InvestigationMapper implements XmlToFhirMapper {
+public class PatientCarerCorrespondenceMapper implements XmlToFhirMapper {
 
-    private final ProcedureMapper procedureMapper;
+    private final CommunicationMapper communicationMapper;
 
     @Override
     public List<? extends Resource> map(Node document) {
-        return procedureMapper.map(document, "UKCT_MT144045UK01.Investigation");
+        return communicationMapper.map(document, "UKCT_MT144035UK01.PatientCarerCorrespondence");
     }
 }
