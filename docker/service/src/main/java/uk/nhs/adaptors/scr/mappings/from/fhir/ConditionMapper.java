@@ -1,120 +1,68 @@
 package uk.nhs.adaptors.scr.mappings.from.fhir;
 
-import org.hl7.fhir.r4.model.CodeableConcept;
-import org.hl7.fhir.r4.model.Coding;
+import lombok.extern.slf4j.Slf4j;
+import org.hl7.fhir.r4.model.Bundle;
 import org.hl7.fhir.r4.model.Condition;
-import org.hl7.fhir.r4.model.Identifier;
+import org.hl7.fhir.r4.model.Encounter;
 import org.hl7.fhir.r4.model.Period;
-import org.hl7.fhir.r4.model.Resource;
 import uk.nhs.adaptors.scr.exceptions.FhirMappingException;
+import uk.nhs.adaptors.scr.exceptions.FhirValidationException;
 import uk.nhs.adaptors.scr.models.GpSummary;
-import uk.nhs.adaptors.scr.models.gpsummarymodels.AllConditions;
-import uk.nhs.adaptors.scr.models.gpsummarymodels.ConditionObject;
-import uk.nhs.adaptors.scr.models.gpsummarymodels.EndTime;
-import uk.nhs.adaptors.scr.utils.DateUtil;
+import uk.nhs.adaptors.scr.models.xml.Diagnosis;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
+import static uk.nhs.adaptors.scr.mappings.from.fhir.ParticipantAgentMapper.mapAuthor;
+import static uk.nhs.adaptors.scr.mappings.from.fhir.ParticipantAgentMapper.mapInformant;
+import static uk.nhs.adaptors.scr.utils.DateUtil.formatDateToHl7;
+import static uk.nhs.adaptors.scr.utils.FhirHelper.getDomainResourceList;
+import static uk.nhs.adaptors.scr.utils.FhirHelper.getResourceByReference;
+
+@Slf4j
 public class ConditionMapper {
-    public static void mapConditions(GpSummary gpSummary, List<Resource> conditions) throws FhirMappingException {
-        List<ConditionObject> conditionObjectList = conditions.stream()
-            .map(Condition.class::cast)
-            .map(ConditionMapper::mapCondition)
-            .collect(Collectors.toList());
 
-        if (!conditionObjectList.isEmpty()) {
-            AllConditions conditionListObject = new AllConditions();
-            List<AllConditions> conditionParent = new ArrayList<>();
-
-            conditionListObject.setConditionList(conditionObjectList);
-            conditionParent.add(conditionListObject);
-            gpSummary.setConditionParent(conditionParent);
-        }
+    public static void mapConditions(GpSummary gpSummary, Bundle bundle) {
+        getDomainResourceList(bundle, Condition.class).stream()
+            .map(condition -> mapDiagnosis(condition, bundle))
+            .forEach(diagnosis -> gpSummary.getDiagnoses().add(diagnosis));
     }
 
-    private static ConditionObject mapCondition(Condition condition) throws FhirMappingException {
-        ConditionObject conditionObject = new ConditionObject();
+    private static Diagnosis mapDiagnosis(Condition condition, Bundle bundle) throws FhirMappingException {
+        var diagnosis = new Diagnosis();
 
-        setConditionId(conditionObject, condition);
-        setConditionCoding(conditionObject, condition);
-        setConditionTime(conditionObject, condition);
-        setConditionStatus(conditionObject, condition);
-
-        return conditionObject;
-    }
-
-    private static void setConditionId(ConditionObject conditionObject, Condition condition) {
-        if (condition.hasIdentifier()) {
-            Identifier identifier = condition.getIdentifierFirstRep();
-            if (identifier.hasValue()) {
-                conditionObject.setConditionId(identifier.getValue());
-            }
-        }
-    }
-
-    private static void setConditionCoding(ConditionObject conditionObject, Condition condition) {
-        if (condition.hasCode()) {
-            if (condition.getCode().hasCoding()) {
-                Coding coding = condition.getCode().getCodingFirstRep();
-                if (coding.hasCode()) {
-                    conditionObject.setConditionCode(coding.getCode());
-                }
-                if (coding.hasDisplay()) {
-                    conditionObject.setConditionDisplay(coding.getDisplay());
-                }
-            }
-        }
-    }
-
-    private static void setConditionTime(ConditionObject conditionObject, Condition condition) throws FhirMappingException {
+        diagnosis.setIdRoot(condition.getIdentifierFirstRep().getValue());
+        diagnosis.setCodeCode(condition.getCode().getCodingFirstRep().getCode());
+        diagnosis.setCodeDisplayName(condition.getCode().getCodingFirstRep().getDisplay());
         if (condition.hasOnsetDateTimeType()) {
-            String strDate = condition.getOnsetDateTimeType().getValueAsString();
-            conditionObject.setConditionStartTime(DateUtil.formatDateFhirToHl7(strDate));
+            diagnosis.setEffectiveTimeLow(formatDateToHl7(condition.getOnsetDateTimeType().getValue()));
         }
         if (condition.hasOnsetPeriod()) {
-            DateFormat dateFormat = new SimpleDateFormat(DateUtil.INPUT_PATTERN);
             Period period = condition.getOnsetPeriod();
-            if (period.hasStart()) {
-                String strDate = dateFormat.format(period.getStart());
-                conditionObject.setConditionStartTime(DateUtil.formatDate(strDate));
-            }
-            if (period.hasEnd()) {
-                String strDate = dateFormat.format(period.getEnd());
-                List<EndTime> endTimeList = new ArrayList<>();
-                EndTime endTime = new EndTime();
-                endTime.setEndTime(DateUtil.formatDate(strDate));
-                endTimeList.add(endTime);
-                conditionObject.setConditionEndTimeList(endTimeList);
-            }
+            diagnosis.setEffectiveTimeLow(formatDateToHl7(period.getStart()));
+            diagnosis.setEffectiveTimeHigh(formatDateToHl7(period.getEnd()));
         }
-    }
+        Optional.ofNullable(condition.getEvidenceFirstRep().getDetailFirstRep().getReference())
+            .map(reference -> reference.split("/")[1])
+            .ifPresent(diagnosis::setFindingId);
+        diagnosis.setSupportingInformation(condition.getNoteFirstRep().getText());
 
-    private static void setConditionStatus(ConditionObject conditionObject, Condition condition) throws FhirMappingException {
-        if (condition.hasClinicalStatus()) {
-            CodeableConcept codeableConcept = condition.getClinicalStatus();
-            if (codeableConcept.hasCoding()) {
-                Coding coding = codeableConcept.getCodingFirstRep();
-                if (coding.hasCode()) {
-                    conditionObject.setConditionStatus(getHL7Status(coding.getCode()));
-                }
+        LOGGER.debug("Looking up Encounter for Condition.id={}", condition.getIdElement().getIdPart());
+        var encounter = getResourceByReference(bundle, condition.getEncounter().getReference(), Encounter.class)
+            .orElseThrow(() -> new FhirValidationException(String.format("Bundle is Missing Encounter %s that is linked to Condition %s", condition.getEncounter().getReference(), condition.getId())));
+
+        for (var encounterParticipant : encounter.getParticipant()) {
+            var code = encounterParticipant.getTypeFirstRep().getCodingFirstRep().getCode();
+            if ("AUT".equals(code)) {
+                var author = mapAuthor(bundle, encounterParticipant);
+                diagnosis.setAuthor(author);
+            } else if ("INF".equals(code)) {
+                var informant = mapInformant(bundle, encounterParticipant);
+                diagnosis.setInformant(informant);
+            } else {
+                throw new FhirValidationException(String.format("Invalid encounter %s participant code %s", encounter.getId(), code));
             }
         }
-    }
 
-    private static String getHL7Status(String status) {
-        switch (status) {
-            case "active":
-                return "active";
-            case "entered-in-error":
-                return "nullified";
-            case "confirmed":
-                return "completed";
-            default:
-                throw new FhirMappingException("Condition status is not valid, can only be active, confirmed or entered-in-error.");
-        }
+        return diagnosis;
     }
 }

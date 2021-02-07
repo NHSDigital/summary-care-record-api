@@ -5,6 +5,10 @@ public class FhirMappingException extends BadRequestException {
         super(message);
     }
 
+    public FhirMappingException(Throwable cause) {
+        super("Mapping exception", cause);
+    }
+
     public FhirMappingException(String message, Throwable cause) {
         super(message, cause);
     }

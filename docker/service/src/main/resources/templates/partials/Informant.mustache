@@ -1,0 +1,12 @@
+<informant typeCode="INF" contextControlCode="OP">
+    <time value="{{time}}"/>
+    {{#participantNonAgentRole}}
+        {{> NonAgentRole.mustache}}
+    {{/participantNonAgentRole}}
+    {{#agentPersonSDS}}
+        {{> AgentPersonSDS.mustache}}
+    {{/agentPersonSDS}}
+    {{#agentPerson}}
+        {{> AgentPerson.mustache}}
+    {{/agentPerson}}
+</informant>

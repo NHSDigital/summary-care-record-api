@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
 import uk.nhs.adaptors.scr.utils.XmlUtils;
 
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -22,6 +23,7 @@ import javax.xml.transform.stream.StreamResult;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathFactory;
+import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
@@ -53,7 +55,7 @@ public class HtmlParser {
             var currentNode = childNodes.item(i);
             if (H2.equals(currentNode.getNodeName())) {
                 //since this is the H2, we begin to capture following nodes as a new Document
-                targetDocument = createNewDocument();
+                targetDocument = createNewDocument("div", "http://www.w3.org/1999/xhtml");
                 items.add(Pair.of(currentNode, targetDocument));
             } else {
                 if (targetDocument == null) {
@@ -79,18 +81,16 @@ public class HtmlParser {
     }
 
     @SneakyThrows
-    private Document createNewDocument() {
+    public static Document createNewDocument(String tag, String xmlns) {
         var document = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
-        var rootNode = document.createElement("div");
-        var rootXmlns = document.createAttribute("xmlns");
-        rootXmlns.setValue("http://www.w3.org/1999/xhtml");
-        rootNode.getAttributes().setNamedItem(rootXmlns);
+        var rootNode = document.createElement(tag);
+        rootNode.setAttribute("xmlns", xmlns);
         document.appendChild(rootNode);
         return document;
     }
 
     @SneakyThrows
-    static String serialize(Document document) {
+    public static String serialize(Document document) {
         var xmlOutput = new StreamResult(new StringWriter());
         var transformer = TransformerFactory.newInstance().newTransformer();
         transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
@@ -101,7 +101,7 @@ public class HtmlParser {
     }
 
     @SneakyThrows
-    private static void removeEmptyNodes(Node document) {
+    public static void removeEmptyNodes(Node document) {
         XPathExpression xpathExp = XPathFactory.newInstance().newXPath()
             .compile("//text()[normalize-space(.) = '']");
         NodeList emptyTextNodes = (NodeList) xpathExp.evaluate(document, XPathConstants.NODESET);
@@ -109,6 +109,14 @@ public class HtmlParser {
             Node emptyTextNode = emptyTextNodes.item(i);
             emptyTextNode.getParentNode().removeChild(emptyTextNode);
         }
+    }
+
+    @SneakyThrows
+    public static Document parseDocument(String xml) {
+        return DocumentBuilderFactory
+            .newInstance()
+            .newDocumentBuilder()
+            .parse(new InputSource(new StringReader(xml)));
     }
 
     private static Composition.SectionComponent buildSectionComponent(ParsedHtml parsedHtml) {

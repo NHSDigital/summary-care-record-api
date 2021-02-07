@@ -1,15 +1,15 @@
 package uk.nhs.adaptors.scr.utils;
 
-import java.util.List;
-import java.util.UUID;
-import java.util.stream.Collectors;
-
 import org.hl7.fhir.r4.model.Bundle;
 import org.hl7.fhir.r4.model.Bundle.BundleEntryComponent;
 import org.hl7.fhir.r4.model.Resource;
-import org.hl7.fhir.r4.model.ResourceType;
-
 import uk.nhs.adaptors.scr.exceptions.FhirMappingException;
+import uk.nhs.adaptors.scr.exceptions.FhirValidationException;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
 public class FhirHelper {
 
@@ -27,11 +27,27 @@ public class FhirHelper {
             .orElseThrow(() -> new FhirMappingException(resourceType.getSimpleName() + " missing from payload"));
     }
 
-    public static List<Resource> getDomainResourceList(Bundle bundle, ResourceType resourceType) {
+    public static <T extends Resource> List<T> getDomainResourceList(Bundle bundle, Class<T> resourceType) {
         return bundle.getEntry().stream()
             .map(BundleEntryComponent::getResource)
-            .filter(resource -> resource.getResourceType() == resourceType)
+            .filter(resource -> resource.getClass() == resourceType)
+            .map(resourceType::cast)
             .collect(Collectors.toList());
+    }
+
+    public static <T extends Resource> Optional<T> getResourceByReference(Bundle bundle, String reference, Class<T> resourceType) {
+        var expectedResourceReference = resourceType.getSimpleName();
+        if (!expectedResourceReference.equals(reference.split("/")[0])) {
+            throw new FhirValidationException(String.format("Invalid resource reference. %s expected to be referencing %s", reference, expectedResourceReference));
+        }
+
+        var resourceId = reference.split("/")[1];
+        return bundle.getEntry().stream()
+            .map(BundleEntryComponent::getResource)
+            .filter(resource -> resourceType == resource.getClass())
+            .map(resourceType::cast)
+            .filter(resource -> resourceId.equals(resource.getIdElement().getIdPart()))
+            .findFirst();
     }
 
     public static String randomUUID() {

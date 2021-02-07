@@ -1,0 +1,12 @@
+<performer typeCode="PRF" contextControlCode="OP">
+    <time value="{{time}}"/>
+    {{#modeCodeCode}}
+    <modeCode code="{{modeCodeCode}}" codeSystem="2.16.840.1.113883.5.1064"/>
+    {{/modeCodeCode}}
+    {{#agentPersonSDS}}
+        {{> AgentPersonSDS.mustache}}
+    {{/agentPersonSDS}}
+    {{#agentPerson}}
+        {{> AgentPerson.mustache}}
+    {{/agentPerson}}
+</performer>

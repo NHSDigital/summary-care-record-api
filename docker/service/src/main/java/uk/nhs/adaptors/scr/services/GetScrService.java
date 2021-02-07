@@ -167,6 +167,8 @@ public class GetScrService {
                     .setResource(resource))
                 .forEach(bundle::addEntry);
 
+            //TODO list all Composition.section[].title and search xml using xpath to find all coded entries IDs and put in Composition.section.entry[]
+
             bundle.setTotal(bundle.getEntry().size());
 
             return bundle;

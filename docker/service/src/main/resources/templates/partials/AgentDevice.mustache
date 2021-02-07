@@ -1,0 +1,15 @@
+<UKCT_MT120601UK02.AgentDevice classCode="AGNT">
+    <id root="{{idRoot}}"/>
+    {{#device}}
+        {{> Device.mustache }}
+    {{/device}}
+    {{#deviceSDS}}
+        {{> DeviceSDS.mustache }}
+    {{/deviceSDS}}
+    {{#organization}}
+        {{> Organization.mustache }}
+    {{/organization}}
+    {{#organizationSDS}}
+        {{> OrganizationSDS.mustache }}
+    {{/organizationSDS}}
+</UKCT_MT120601UK02.AgentDevice>

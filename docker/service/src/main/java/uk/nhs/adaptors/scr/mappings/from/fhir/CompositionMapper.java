@@ -1,47 +1,36 @@
 package uk.nhs.adaptors.scr.mappings.from.fhir;
 
+import org.apache.commons.lang3.StringUtils;
+import org.hl7.fhir.r4.model.Bundle;
 import org.hl7.fhir.r4.model.Composition;
-import org.hl7.fhir.r4.model.Composition.CompositionRelatesToComponent;
 import uk.nhs.adaptors.scr.exceptions.FhirMappingException;
 import uk.nhs.adaptors.scr.models.GpSummary;
-import uk.nhs.adaptors.scr.models.gpsummarymodels.CompositionRelatesTo;
-import uk.nhs.adaptors.scr.models.gpsummarymodels.Presentation;
-
-import java.util.ArrayList;
-import java.util.List;
+import uk.nhs.adaptors.scr.models.xml.Presentation;
 
 import static org.apache.commons.lang3.StringUtils.EMPTY;
-import static uk.nhs.adaptors.scr.utils.DateUtil.formatDate;
+import static uk.nhs.adaptors.scr.mappings.from.hl7.HtmlParser.createNewDocument;
+import static uk.nhs.adaptors.scr.mappings.from.hl7.HtmlParser.parseDocument;
+import static uk.nhs.adaptors.scr.mappings.from.hl7.HtmlParser.removeEmptyNodes;
+import static uk.nhs.adaptors.scr.mappings.from.hl7.HtmlParser.serialize;
+import static uk.nhs.adaptors.scr.utils.DateUtil.formatDateFhirToHl7;
+import static uk.nhs.adaptors.scr.utils.FhirHelper.getDomainResource;
 import static uk.nhs.adaptors.scr.utils.FhirHelper.randomUUID;
 
 public class CompositionMapper {
-    public static void mapComposition(GpSummary gpSummary, Composition composition) throws FhirMappingException {
-        setCompositionRelatesToIds(gpSummary, composition);
+    public static void mapComposition(GpSummary gpSummary, Bundle bundle) throws FhirMappingException {
+        var composition = getDomainResource(bundle, Composition.class);
+
+        setCompositionRelatesToId(gpSummary, composition);
         setCompositionId(gpSummary, composition);
         setCompositionDate(gpSummary, composition);
-        setPresentations(gpSummary, composition);
+        setPresentation(gpSummary, composition);
     }
 
-    private static void setCompositionRelatesToIds(GpSummary gpSummary, Composition composition) throws FhirMappingException {
-        List<CompositionRelatesTo> compositionRelatesTos = new ArrayList<>();
-
-        if (composition.hasRelatesTo()) {
-            for (CompositionRelatesToComponent relatesTo : composition.getRelatesTo()) {
-                if (relatesTo.hasTargetIdentifier()) {
-                    if (relatesTo.getTargetIdentifier().hasValue()) {
-                        CompositionRelatesTo compositionRelatesTo = new CompositionRelatesTo();
-                        compositionRelatesTo.setCompositionRelatesToId(relatesTo.getTargetIdentifier().getValue().toUpperCase());
-                        compositionRelatesTos.add(compositionRelatesTo);
-                    } else {
-                        throw new FhirMappingException("Composition RelatesTo TargetIdentifier Value missing from payload");
-                    }
-                } else {
-                    throw new FhirMappingException("Composition RelatesTo TargetIdentifier missing from payload");
-                }
-            }
+    private static void setCompositionRelatesToId(GpSummary gpSummary, Composition composition) throws FhirMappingException {
+        var id = composition.getRelatesToFirstRep().getTargetIdentifier().getValue();
+        if (StringUtils.isNotBlank(id)) {
+            gpSummary.setCompositionRelatesToId(id.toUpperCase());
         }
-
-        gpSummary.setCompositionRelatesTos(compositionRelatesTos);
     }
 
     private static void setCompositionId(GpSummary gpSummary, Composition composition) throws FhirMappingException {
@@ -58,32 +47,39 @@ public class CompositionMapper {
 
     private static void setCompositionDate(GpSummary gpSummary, Composition composition) throws FhirMappingException {
         if (composition.hasDateElement()) {
-            gpSummary.setCompositionDate(formatDate(composition.getDateElement().asStringValue()));
+            gpSummary.setCompositionDate(formatDateFhirToHl7(composition.getDateElement().asStringValue()));
         } else {
             throw new FhirMappingException("Composition Date Element missing from payload");
         }
     }
 
-    private static void setPresentations(GpSummary gpSummary, Composition composition) throws FhirMappingException {
-        List<Presentation> presentationList = new ArrayList<>();
-
-        if (composition.hasSection()) {
-            for (Composition.SectionComponent section : composition.getSection()) {
-                Presentation presentation = new Presentation();
-                String value = EMPTY;
-
-                if (section.hasText()) {
-                    if (section.getText().hasDiv()) {
-                        value = section.getText().getDiv().toString();
-                    }
-                }
-
-                presentation.setPresentationId(randomUUID());
-                presentation.setPresentationText(value);
-                presentationList.add(presentation);
-            }
+    private static void setPresentation(GpSummary gpSummary, Composition composition) throws FhirMappingException {
+        if (!composition.hasSection()) {
+            throw new FhirMappingException("Missing mandatory Composition.section");
         }
 
-        gpSummary.setPresentations(presentationList);
+        Presentation presentation = new Presentation();
+
+        var htmlDocument = createNewDocument("html", "xhtml:NPfIT:PresentationText");
+        var bodyNode = htmlDocument.createElement("body");
+        htmlDocument.getDocumentElement().appendChild(bodyNode);
+
+        for (Composition.SectionComponent section : composition.getSection()) {
+            var h2Node = htmlDocument.createElement("h2");
+            h2Node.setAttribute("id", section.getCode().getCodingFirstRep().getCode());
+            h2Node.setNodeValue(section.getTitle());
+            bodyNode.appendChild(h2Node);
+
+            var divDocument = parseDocument(section.getText().getDiv().getValueAsString());
+            removeEmptyNodes(divDocument);
+            var divChildNodes = divDocument.getDocumentElement().getChildNodes();
+            for (int i = 0; i < divChildNodes.getLength(); i++) {
+                bodyNode.appendChild(htmlDocument.importNode(divChildNodes.item(i), true));
+            }
+        }
+        presentation.setPresentationId(randomUUID());
+        presentation.setPresentationText(serialize(htmlDocument));
+
+        gpSummary.setPresentation(presentation);
     }
 }
