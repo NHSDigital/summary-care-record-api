@@ -8,7 +8,7 @@
       properties:
         resourceType:
           type: string
-          default: "Observation"
+          default: "Immunization"
         id:
           type: string
           example: b1a41ee5-b88b-4f66-bd83-24343bf63dd8
@@ -19,74 +19,65 @@
             properties:
               profile:
                 type: string
-                default: "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Observation"
+                default: "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Immunization"
           minItems: 1
           maxItems: 1
-        identifier:
-          type: array
-          items:
-            type: object
-            properties: 
-              value:
-                type: string
-                example: 0F582D97-8F89-11EA-8B2D-B741F13EFC47
-            required:
-              - value
-          minItems: 1
-          maxItems: 1
-        status:
-          type: string
-          enum:
-            - final
-            - entered-in-error
-          example: "final"
-        category:
+        extension:
           type: array
           items:
             type: object
             properties:
-              coding:
-                type: object
-                properties:
-                  system:
-                    type: string
-                    default: "http://snomed.info/sct"
-                  code:
-                    type: string
-                    example: "163001000000104"
-                  display:
-                    type: string
-                    example: Investigation Results
-                required:
-                  - system
-                  - code
-                  - display
+              url:
+                type: string
+                default: "https://fhir.hl7.org.uk/StructureDefinition/Extension-UKCore-VaccinationProcedure"
+              valueCodeableConcept:
+                $ref: snomedCoding.yaml
             required:
-              - coding
+              - url
+              - valueCodeableConcept
           minItems: 1
           maxItems: 1
-        code:
+        status:
+          type: string
+          default: not-done
+        vaccineCode:
           type: object
           properties:
             coding:
               type: array
               items:
-                $ref: snomedCoding.yaml
-          required:
-            - coding
-        effectivePeriod:
+                type: object
+                properties:
+                  system:
+                    type: string
+                    default: "http://terminology.hl7.org/CodeSystem/v3-NullFlavor"
+                  code: 
+                    type: string
+                    default: UNK
+                  display:
+                    type: string
+                    default: Unknown
+                required:
+                  - system
+                  - code
+                  - display
+              minItems: 1
+              maxItems: 1
+        patient:
           type: object
           properties:
-            start:
+            reference:
               type: string
-              example: 2020-05-06T10:48:19+00:00
-            end:
-              type: string
-              example: 2020-05-26T11:56:18+00:00
+              example: "Patient/FE15DA5B-2A62-4C19-9362-5E5289A5C216"
+        occurrenceDateTime:
+          type: string
+          example: 2020-08-05T00:00:00+02:00
       required:
         - resourceType
         - identifier
         - status
+        - vaccineCode
+        - patient
         - category
         - code
             

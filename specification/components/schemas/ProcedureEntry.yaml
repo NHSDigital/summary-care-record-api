@@ -8,7 +8,7 @@
       properties:
         resourceType:
           type: string
-          default: "Observation"
+          default: "Procedure"
         id:
           type: string
           example: b1a41ee5-b88b-4f66-bd83-24343bf63dd8
@@ -19,27 +19,14 @@
             properties:
               profile:
                 type: string
-                default: "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Observation"
-          minItems: 1
-          maxItems: 1
-        identifier:
-          type: array
-          items:
-            type: object
-            properties: 
-              value:
-                type: string
-                example: 0F582D97-8F89-11EA-8B2D-B741F13EFC47
-            required:
-              - value
+                default: "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Procedure"
           minItems: 1
           maxItems: 1
         status:
           type: string
           enum:
-            - final
-            - entered-in-error
-          example: "final"
+            - completed
+            - in-progress
         category:
           type: array
           items:
@@ -53,10 +40,10 @@
                     default: "http://snomed.info/sct"
                   code:
                     type: string
-                    example: "163001000000104"
+                    example: "163081000000108"
                   display:
                     type: string
-                    example: Investigation Results
+                    example: Investigations
                 required:
                   - system
                   - code
@@ -74,7 +61,7 @@
                 $ref: snomedCoding.yaml
           required:
             - coding
-        effectivePeriod:
+        performedPeriod:
           type: object
           properties:
             start:

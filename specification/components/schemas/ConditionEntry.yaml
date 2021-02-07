@@ -87,17 +87,7 @@
             coding:
               type: array
               items:
-                type: object
-                properties:
-                  system:
-                    type: string
-                    default: "http://snomed.info/sct"
-                  code:
-                    type: string
-                    example: "1300721000000109"
-                  display:
-                    type: string
-                    example: "COVID-19 confirmed by laboratory test"
+                $ref: snomedCoding.yaml
               minItems: 1
               maxItems: 1
           required:

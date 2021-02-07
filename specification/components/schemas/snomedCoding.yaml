@@ -1,0 +1,15 @@
+type: object
+properties:
+  system:
+    type: string
+    example: "http://snomed.info/sct"
+  code:
+    type: string
+    example: "1240631000000102"
+  display:
+    type: string
+    example: "Did not attend SARS-CoV-2 (severe acute respiratory syndrome coronavirus 2) vaccination"
+required:
+  - system
+  - code
+  - display

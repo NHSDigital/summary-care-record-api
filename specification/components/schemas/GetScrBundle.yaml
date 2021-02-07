@@ -34,11 +34,16 @@ properties:
         - $ref: PatientEntry.yaml
         - $ref: PractitionerEntry.yaml
         - $ref: PractitionerRoleEntry.yaml
-        - $ref: EncounterEntry.yaml
+        - $ref: EncounterParticipantEntry.yaml
         - $ref: OrganizationEntry.yaml
         - $ref: RelatedPersonEntry.yaml
         - $ref: ObservationEntry.yaml
         - $ref: DeviceEntry.yaml
+        - $ref: EncounterCareEventEntry.yaml
+        - $ref: ProcedureEntry.yaml
+        - $ref: CommunicationEntry.yaml
+        - $ref: ImmunizationEntry.yaml
+        - $ref: ImmunizationRecommendationEntry.yaml
 required:
   - resourceType
   - timestamp
