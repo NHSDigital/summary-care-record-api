@@ -21,6 +21,9 @@ import org.hl7.fhir.r4.model.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Node;
+import uk.nhs.adaptors.scr.mappings.from.hl7.common.CodedEntryMapper;
+import uk.nhs.adaptors.scr.mappings.from.hl7.common.CodedEntry;
+import uk.nhs.adaptors.scr.mappings.from.hl7.common.ObservationMapper;
 import uk.nhs.adaptors.scr.utils.XmlUtils;
 
 import java.util.ArrayList;
@@ -86,7 +89,7 @@ public class FindingMapper implements XmlToFhirMapper {
     }
 
     private Immunization mapMedication(Node node) {
-        CommonCodedEntry entry = codedEntryMapper.getCommonCodedEntryValues(node);
+        CodedEntry entry = codedEntryMapper.getCommonCodedEntryValues(node);
         Immunization immunization = new Immunization();
         immunization.setId(entry.getId());
         immunization.setMeta(new Meta().addProfile(UK_CORE_IMMUNIZATION_PROFILE));
@@ -111,7 +114,7 @@ public class FindingMapper implements XmlToFhirMapper {
     }
 
     private ImmunizationRecommendation mapMedicationRecommendation(Node node) {
-        CommonCodedEntry entry = codedEntryMapper.getCommonCodedEntryValues(node);
+        CodedEntry entry = codedEntryMapper.getCommonCodedEntryValues(node);
         ImmunizationRecommendation recommendation = new ImmunizationRecommendation();
         recommendation.setId(entry.getId());
         recommendation.setDate(entry.getEffectiveTimeLow().get());

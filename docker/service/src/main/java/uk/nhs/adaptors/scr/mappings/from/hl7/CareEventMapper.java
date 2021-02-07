@@ -11,7 +11,8 @@ import org.hl7.fhir.r4.model.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Node;
-import uk.nhs.adaptors.scr.utils.XmlUtils;
+import uk.nhs.adaptors.scr.mappings.from.hl7.common.CodedEntryMapper;
+import uk.nhs.adaptors.scr.mappings.from.hl7.common.CodedEntry;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +20,7 @@ import java.util.List;
 import static org.hl7.fhir.r4.model.Encounter.EncounterStatus.FINISHED;
 import static org.hl7.fhir.r4.model.Encounter.EncounterStatus.INPROGRESS;
 import static org.hl7.fhir.r4.model.Encounter.EncounterStatus.NULL;
+import static uk.nhs.adaptors.scr.utils.XmlUtils.getNodesByXPath;
 
 @Component
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -35,8 +37,8 @@ public class CareEventMapper implements XmlToFhirMapper {
     @Override
     public List<? extends Resource> map(Node document) {
         List<Resource> resources = new ArrayList<>();
-        for (Node node : XmlUtils.getNodesByXPath(document, CARE_EVENT_BASE_PATH)) {
-            CommonCodedEntry entry = codedEntryMapper.getCommonCodedEntryValues(node);
+        for (Node node : getNodesByXPath(document, CARE_EVENT_BASE_PATH)) {
+            CodedEntry entry = codedEntryMapper.getCommonCodedEntryValues(node);
 
             Encounter encounter = new Encounter();
             encounter.setId(entry.getId());

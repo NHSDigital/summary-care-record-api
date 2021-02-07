@@ -35,7 +35,9 @@ import uk.nhs.adaptors.scr.mappings.from.hl7.FindingMapper;
 import uk.nhs.adaptors.scr.mappings.from.hl7.GpSummaryMapper;
 import uk.nhs.adaptors.scr.mappings.from.hl7.InteractionMapper;
 import uk.nhs.adaptors.scr.mappings.from.hl7.InvestigationMapper;
+import uk.nhs.adaptors.scr.mappings.from.hl7.PatientCarerCorrespondenceMapper;
 import uk.nhs.adaptors.scr.mappings.from.hl7.PersonalPreferenceMapper;
+import uk.nhs.adaptors.scr.mappings.from.hl7.ProvisionOfAdviceAndInformationMapper;
 import uk.nhs.adaptors.scr.mappings.from.hl7.RecordTargetMapper;
 import uk.nhs.adaptors.scr.mappings.from.hl7.RiskToPatientMapper;
 import uk.nhs.adaptors.scr.mappings.from.hl7.TreatmentMapper;
@@ -100,6 +102,8 @@ public class GetScrService {
     private final TreatmentMapper treatmentMapper;
     private final PersonalPreferenceMapper personalPreferenceMapper;
     private final RecordTargetMapper recordTargetMapper;
+    private final ProvisionOfAdviceAndInformationMapper adviceMapper;
+    private final PatientCarerCorrespondenceMapper correspondenceMapper;
 
     public Bundle getScrId(String nhsNumber, String nhsdAsid, String clientIp, String baseUrl) {
         String scrIdXml = getScrIdRawXml(nhsNumber, nhsdAsid, clientIp);
@@ -160,7 +164,9 @@ public class GetScrService {
                 careEventMapper,
                 investigationMapper,
                 treatmentMapper,
-                personalPreferenceMapper)
+                personalPreferenceMapper,
+                adviceMapper,
+                correspondenceMapper)
                 .map(mapper -> mapper.map(document))
                 .flatMap(resources -> resources.stream())
                 .peek(it -> setPatientReferences(it, patient))

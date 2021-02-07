@@ -1,4 +1,4 @@
-package uk.nhs.adaptors.scr.mappings.from.hl7;
+package uk.nhs.adaptors.scr.mappings.from.hl7.common;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -8,7 +8,7 @@ import java.util.Optional;
 
 @Getter
 @Setter
-public class CommonCodedEntry {
+public class CodedEntry {
     private String id;
     private String codeValue;
     private String codeDisplay;
