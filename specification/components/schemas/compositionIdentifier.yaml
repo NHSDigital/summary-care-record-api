@@ -1,0 +1,11 @@
+type: object
+properties:
+  system:
+    type: string
+    default: "https://tools.ietf.org/html/rfc4122"
+  value:
+    type: string
+    example: C058D90F-E526-4A27-A46E-E86229096AAC
+required:
+  - system
+  - value

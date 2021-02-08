@@ -1,0 +1,9 @@
+name: ''
+environments:
+    - internal-dev
+    - internal-dev-sandbox
+    - internal-qa
+    - internal-qa-sandbox
+    - sandbox
+    - dev
+    - int

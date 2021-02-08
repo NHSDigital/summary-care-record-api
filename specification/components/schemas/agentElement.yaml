@@ -1,0 +1,38 @@
+type: object
+description: An actor taking an active role in the event or activity that is logged.
+properties:
+  who:
+    type: object
+    properties:
+      identifier:
+        type: object
+        properties:
+          system:
+            type: string
+            example: "https://fhir.nhs.uk/Id/sds-user-id"
+          value: 
+            type: string
+            example: T10101
+        required:
+          - system
+          - value
+    required:
+      - identifier
+  role:
+    description: Agent role in the event
+    type: array
+    items:
+      type: object
+      properties:
+        text:
+          type: string
+          example: General Practitioner
+      required:
+        - text
+  requestor:
+    description: Whether user is initiator
+    type: boolean
+    default: false
+required:
+  - who
+  - requestor

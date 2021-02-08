@@ -1,0 +1,130 @@
+  type: object
+  properties:
+    fullUrl:
+      description: Absolute resource URL address
+      type: string
+      example: "https://int.api.service.nhs.uk/summary-care-record/FHIR/R4/DocumentReference/fa7eafcd-1294-433e-ab46-4db95b58635c"
+    resource:
+      description: A resource in the bundle. A reference to a document
+      type: object
+      properties:
+        resourceType:
+          type: string
+          default: "DocumentReference"
+        id:
+          type: string
+          example: 6d334ca8-a6e1-4bae-93b1-19a14a36ea7a
+        masterIdentifier:
+          description: Master Version Specific Identifier
+          type: object
+          properties:
+            system:
+              type: string
+              default: "https://fhir.nhs.uk/Id/nhsSCRUUID"
+            value:
+              description: Summary Care Record UUID
+              type: string
+              example: C058D90F-E526-4A27-A46E-E86229096AAC
+          required:
+            - system
+            - value
+        status:
+          type: string
+          default: current
+        type:
+          description: Fixed value describing kind of document
+          type: object
+          properties:
+            coding:
+              type: array
+              items:
+                $ref: scrCoding.yaml
+              minItems: 1
+              maxItems: 1
+        subject:
+          description: Subject of the document
+          type: object
+          properties:
+            reference:
+              type: string
+              example: Patient/9b9a16ed-3cd0-45b2-ab1f-e625dd0251c1
+          required:
+            - reference
+        securityLabel:
+          description: Information about patient's consent to View SCR
+          type: array
+          items:
+            type: object
+            properties:
+              coding:
+                type: object
+                properties:
+                  system:
+                    type: string
+                    default: "https://fhir.nhs.uk/CodeSystem/SCR-ACSPermission"
+                  code:
+                    type: string
+                    enum: ["Yes", "No", "Ask"]
+                    example: Ask
+                required:
+                  - system
+                  - code
+          minItems: 1
+          maxItems: 1
+        content:
+          description: Document referenced
+          type: array
+          items:
+            type: object
+            properties:
+              attachment:
+                type: object
+                properties:
+                  url:
+                    type: string
+                    example: "https://int.api.service.nhs.uk/summary-care-record/Bundle?composition.identifier=C058D90F-E526-4A27-A46E-E86229096AAC$composition.subject:Patient.identifier=https://fhir.nhs.uk/Id/nhs-number|9990001234"
+                required:
+                  - url
+            required:
+              - attachment
+          minItems: 1
+          maxItems: 1
+        context:
+          description: Context of the document content
+          type: object
+          properties:
+            event:
+              type: array
+              items:
+                type: object
+                properties:
+                  coding:
+                    type: array
+                    items:
+                      $ref: scrCoding.yaml
+                    minItems: 1
+                    maxItems: 1
+              minItems: 1
+              maxItems: 1
+      required:
+        - resourceType
+        - id
+        - masterIdentifier
+        - status
+        - type
+        - subject
+        - securityLabel
+        - content
+        - context
+    search:
+      type: object
+      properties:
+        mode:
+          type: string
+          default: match
+      required:
+        - mode
+  required:
+    - fullUrl
+    - resource
+    - search

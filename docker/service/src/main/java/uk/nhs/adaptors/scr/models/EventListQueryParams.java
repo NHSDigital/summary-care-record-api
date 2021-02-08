@@ -1,8 +1,10 @@
 package uk.nhs.adaptors.scr.models;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 public class EventListQueryParams {
     private String senderHostIpAddress;
     private String spinePsisEndpointUrl;

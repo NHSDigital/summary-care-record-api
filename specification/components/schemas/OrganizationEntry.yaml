@@ -2,6 +2,7 @@
   properties:
     fullUrl:
       type: string
+      example: "urn:uuid:a82b49f8-2780-47cc-aa4b-62f79aa4ade9"
     resource:
       type: object
       properties:
@@ -14,16 +15,38 @@
         identifier:
           type: array
           items:
-            $ref: identifier.yaml
+            type: object
+            properties:
+              use:
+                type: string
+                example: official
+              system:
+                type: string
+                default: "https://fhir.nhs.uk/Id/ods-organization-code"
+              value:
+                type: string
+                example: RR8
+            required:
+              - system
+              - value
+          minItems: 1
+          maxItems: 1
         type:
           type: array
           items:
             type: object
             properties:
               coding:
-                $ref: coding.yaml
+                type: array
+                items:
+                  type: object
+                  properties:
+                    code:
+                      type: string
+                      example: "021"
         name:
           type: string
+          example: LEEDS TEACHING HOSPITAL TRUST
         telecom:
           type: array
           items:
@@ -31,8 +54,10 @@
             properties:
               system:
                 type: string
+                example: phone
               value:
                 type: string
+                example: "0113 243 3144"
         address:
           type: array
           items:
@@ -42,13 +67,19 @@
                 type: array
                 items:
                   type: string
+                  example: "BECKETT STREET"
               city:
                 type: string
+                example: "LEEDS"
               district:
                 type: string
+                example: "CITY OF LEEDS"
               postalCode:
                 type: string
+                example: "LS9 7TF"
               country:
                 type: string
+                example: "ENGLAND"
       required:
         - resourceType
+        - id

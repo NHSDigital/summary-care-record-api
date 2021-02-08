@@ -1,0 +1,87 @@
+  type: object
+  properties:
+    fullUrl:
+      type: string
+      example: "urn:uuid:a82b49f8-2780-47cc-aa4b-62f79aa4ade9"
+    resource:
+      type: object
+      properties:
+        resourceType:
+          type: string
+          default: "Device"
+        id:
+          type: string
+          example: "b6f5dd89-fc3a-466d-baad-126c0aac46fc"
+        identifier:
+          type: array
+          items:
+            type: object
+            properties:
+              system:
+                type: string
+                example: "https://fhir.nhs.uk/Id/SDSDevice"
+              value:
+                type: string
+                example: "7867868687687"
+            required:
+              - value
+          minItems: 1
+        deviceName:
+          description: The name of the device as given by the manufacturer
+          type: array
+          items:
+            type: object
+            properties:
+              name: 
+                type: string
+              type:
+                type: string
+                example: manufacturer-name
+            required:
+              - name
+              - type
+        type:
+          description: The kind or type of device
+          type: object
+          properties:
+            coding:
+              type: array
+              items:
+                type: object
+                properties:
+                  code:
+                    type: string
+                  display:
+                    type: string
+                required:
+                  - code
+                  - display
+          required:
+            - coding
+        version:
+          description: The actual design of the device or software version running on the device
+          type: object
+          properties:
+            value:
+              type: string
+          required:
+            - value
+        owner:
+          description: Organization responsible for device
+          type: object
+          properties:
+            reference:
+              type: string
+              example: "Organization/2FF8C5EC-E517-421A-B4A4-D7EAAA1EFE12"
+        note:
+          type: array
+          items:
+            type: object
+            properties:
+              text:
+                type: string
+            required:
+              - text
+      required:
+        - resourceType
+        - id

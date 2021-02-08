@@ -19,10 +19,12 @@ public class SpineConfiguration {
     private String acsEndpoint;
     private String scrEndpoint;
     private String psisQueriesEndpoint;
+    private String alertEndpoint;
 
-    private String endpointPrivateKey;
-    private String endpointCert;
-    private String caCerts;
+    private String clientKey;
+    private String clientCert;
+    private String rootCA;
+    private String subCA;
 
     private long scrResultRepeatTimeout;
     @NotNull

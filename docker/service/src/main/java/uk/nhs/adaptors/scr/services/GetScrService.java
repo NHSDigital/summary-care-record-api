@@ -23,6 +23,8 @@ import org.hl7.fhir.r4.model.Resource;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import uk.nhs.adaptors.scr.clients.spine.SpineClientContract;
+import uk.nhs.adaptors.scr.clients.spine.SpineHttpClient;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 import uk.nhs.adaptors.scr.clients.SpineClient;
@@ -73,7 +75,7 @@ public class GetScrService {
     private static final Mustache QUPC_IN190000UK04_TEMPLATE = loadTemplate("QUPC_IN190000UK04.mustache");
     private static final String CORRELATION_ID_MDC_KEY = "CorrelationId";
 
-    private static final String ACS_SYSTEM = "https://fhir.nhs.uk/R4/CodeSystem/SCR-ACSPermission";
+    private static final String ACS_SYSTEM = "https://fhir.nhs.uk/CodeSystem/SCR-ACSPermission";
     private static final String NHS_ID_SYSTEM = "https://fhir.nhs.uk/Id/nhs-number";
     private static final String SCR_ID_SYSTEM = "https://fhir.nhs.uk/Id/nhsSCRUUID";
     private static final String SNOMED_SYSTEM = "http://snomed.info/sct";
@@ -87,7 +89,7 @@ public class GetScrService {
         .setCode(GP_SUMMARY_SNOMED_CODE)
         .setDisplay(GP_SUMMARY_DISPLAY));
 
-    private final SpineClient spineClient;
+    private final SpineClientContract spineClient;
 
     private final ScrConfiguration scrConfiguration;
     private final SpineConfiguration spineConfiguration;
@@ -105,7 +107,7 @@ public class GetScrService {
     private final ProvisionOfAdviceAndInformationMapper adviceMapper;
     private final PatientCarerCorrespondenceMapper correspondenceMapper;
 
-    public Bundle getScrId(String nhsNumber, String nhsdAsid, String clientIp, String baseUrl) {
+    public Bundle getScrId(String nhsNumber, String nhsdAsid, String clientIp) {
         String scrIdXml = getScrIdRawXml(nhsNumber, nhsdAsid, clientIp);
 
         EventListQueryResponse response = EventListQueryResponse.parseXml(scrIdXml);
@@ -115,10 +117,10 @@ public class GetScrService {
             bundle.setTotal(1);
 
             Patient patient = buildPatientResource(nhsNumber);
-            DocumentReference documentReference = buildDocumentReference(nhsNumber, baseUrl, response, patient);
+            DocumentReference documentReference = buildDocumentReference(nhsNumber, response, patient);
 
             bundle.addEntry(new BundleEntryComponent()
-                .setFullUrl(baseUrl + "/DocumentReference/" + documentReference.getId())
+                .setFullUrl(getScrUrl() + "/DocumentReference/" + documentReference.getId())
                 .setResource(documentReference)
                 .setSearch(new Bundle.BundleEntrySearchComponent().setMode(MATCH))
             );
@@ -231,14 +233,14 @@ public class GetScrService {
         return result.getBody();
     }
 
-    private DocumentReference buildDocumentReference(
-        String nhsNumber, String baseUrl, EventListQueryResponse response, Patient patient) {
-
+    private DocumentReference buildDocumentReference(String nhsNumber,
+                                                     EventListQueryResponse response,
+                                                     Patient patient) {
         DocumentReference documentReference = new DocumentReference();
         documentReference.setId(randomUUID());
 
         documentReference.addSecurityLabel(new CodeableConcept(new Coding()
-            .setCode(response.getViewPermission().value())
+            .setCode(response.getViewPermission().getFhirValue())
             .setSystem(ACS_SYSTEM)));
 
         documentReference.setStatus(CURRENT);
@@ -246,7 +248,7 @@ public class GetScrService {
         documentReference.setSubject(new Reference(patient));
 
         DocumentReferenceContentComponent content =
-            buildDocumentReferenceContent(nhsNumber, baseUrl, response.getLatestScrId());
+            buildDocumentReferenceContent(nhsNumber, response.getLatestScrId());
         documentReference.addContent(content);
 
         documentReference.setMasterIdentifier(new Identifier()
@@ -260,11 +262,9 @@ public class GetScrService {
         return documentReference;
     }
 
-    private DocumentReferenceContentComponent buildDocumentReferenceContent(
-        String nhsNumber, String baseUrl, String scrId) {
-
+    private DocumentReferenceContentComponent buildDocumentReferenceContent(String nhsNumber, String scrId) {
         DocumentReferenceContentComponent content = new DocumentReferenceContentComponent();
-        String attachmentUrl = String.format(ATTACHMENT_URL, baseUrl, scrId, nhsNumber);
+        String attachmentUrl = String.format(ATTACHMENT_URL, getScrUrl(), scrId, nhsNumber);
         content.setAttachment(new Attachment().setUrl(attachmentUrl));
         return content;
     }
@@ -304,5 +304,9 @@ public class GetScrService {
             .setSenderHostIpAddress(clientIp)
             .setPsisEventId(psisEventId);
         return TemplateUtils.fillTemplate(QUPC_IN190000UK04_TEMPLATE, eventListQueryParams);
+    }
+
+    private String getScrUrl() {
+        return String.format("%s/%s", scrConfiguration.getBaseUrl(), scrConfiguration.getServiceBasePath());
     }
 }

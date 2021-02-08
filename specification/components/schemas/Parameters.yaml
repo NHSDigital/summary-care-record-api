@@ -1,0 +1,14 @@
+type: object
+properties:
+  resourceType:
+    type: string
+    default: "Parameters"
+  parameter:
+    type: array
+    items:
+      $ref: Parameter.yaml
+    minItems: 1
+    maxItems: 1
+required:
+  - resourceType
+  - parameter

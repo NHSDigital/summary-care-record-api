@@ -1,0 +1,128 @@
+type: object
+properties:
+  resourceType:
+    type: string
+    default: "AuditEvent"
+  id:
+    type: string
+    example: 1C03CF4F-D404-4D76-B192-4F81727059F6
+  extension:
+    description: Notification message to be displayed on forwarding the Alert
+    type: array
+    items:
+      type: object
+      properties:
+        url:
+          type: string
+          default: https://fhir.nhs.uk/StructureDefinition/Extension-SCR-NotificationMessage
+        valueString:
+          type: string
+          example: "Alert: Permission to view override 1C03CF4F-D404-4D76-B192-4F81727059F6"
+      required:
+        - url
+        - valueString
+  type:
+    description: Fixed value
+    type: object
+    properties:
+      system:
+        type: string
+        default: "http://terminology.hl7.org/CodeSystem/iso-21089-lifecycle"
+      code:
+        type: string
+        default: access
+      display:
+        type: string
+        default: "Access/View Record Lifecycle Event"
+    required:
+      - system
+      - code
+      - display
+  subtype:
+    description: A valueset to identify the reason a viewing alert has been triggered while viewing a Summary Care Record
+    type: array
+    items:
+      type: object
+      properties:
+        system:
+          type: string
+          default: "https://fhir.nhs.uk/CodeSystem/SCR-AlertReason"
+        code:
+          type: string
+          enum: [0, 1, 2, 3, 4, 5]
+          example: 1
+        display:
+          type: string
+          example: Access made in the public interest
+      required:
+        - system
+        - code
+        - display
+    minItems: 1
+    maxItems: 1
+  recorded:
+    description: The time when the event was recorded
+    type: string
+    example: "2020-11-13T00:00:00+00:00"
+  agent:
+    type: array
+    items:
+      $ref: agentElement.yaml
+    minItems: 3
+    maxItems: 3
+  source:
+    description: The system that is reporting the event.
+    type: object
+    properties:
+      observer:
+        description: The identity of source detecting the event
+        type: object
+        properties:
+          identifier:
+            type: object
+            properties:
+              system:
+                type: string
+                default: "https://fhir.nhs.uk/Id/nhsSpineASID"
+              value:
+                type: string
+                example: 227319907548
+            required:
+              - system
+              - value
+        required:
+          - identifier
+    required:
+      - observer
+  entity:
+    description: Specific instances of data or objects that have been accessed
+    type: array
+    items:
+      type: object
+      properties:
+        what:
+          description: Identifies a specific instance of the entity
+          type: object
+          properties:
+            identifier:
+              type: object
+              properties:
+                value:
+                  type: string
+                  example: 1C03CF4F-D404-4D76-B192-4F81727059F6
+              required:
+                - value
+          required:
+            - identifier
+      required:
+        - what
+required:
+  - resourceType
+  - id
+  - extension
+  - type
+  - subtype
+  - recorded
+  - agent
+  - source
+  - entity

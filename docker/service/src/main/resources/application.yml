@@ -1,7 +1,16 @@
 server:
-    port: ${SCR_SERVER_PORT:9000}
-    tomcat:
-        relaxed-query-chars: "|"
+  port: ${SCR_SERVER_PORT:9000}
+  tomcat:
+    relaxed-query-chars: "|"
+  error:
+    whitelabel:
+      enabled: false
+
+spring:
+  mvc:
+    throw-exception-if-no-handler-found: true
+  resources:
+    add-mappings: false
 
 management:
   endpoints:
@@ -11,18 +20,26 @@ management:
       exposure:
         include: info, health, metrics, mappings
 
+identity-service:
+  userInfoEndpoint: /oauth2/userinfo
+
 scr:
+  sandboxMode: ${SCR_SANDBOX_MODE:False}
   partyIdFrom: ${SCR_PARTY_ID_FROM:TESTGEN-201324}
   partyIdTo: ${SCR_PARTY_ID_TO}
   nhsdAsidTo: ${SCR_NHSD_ASID_TO}
+  serviceBasePath: ${SERVICE_BASE_PATH}
+  baseUrl: https://${HOST_URL}
 
 spine:
-  url: ${SCR_SPINE_URL}
-  acsEndpoint: /acs
+  url: https://${SCR_SPINE_URL}
+  acsEndpoint: /sync-service
+  alertEndpoint: /clinical/alert
   scrEndpoint: ${SCR_SPINE_ENDPOINT:/clinical}
   psisQueriesEndpoint: ${SCR_SPINE_PSIS_ENDPOINT:/sync-service}
   scrResultRepeatTimeout: ${SCR_SPINE_RESULT_REPEAT_TIMEOUT:50000} # 50sec - how much time to wait for all repeated Spine GET retries
   scrResultTimeout: ${SCR_SPINE_RESULT_TIMEOUT:60000} # 60sec - how much time to wait for this API entire SCR POST (Spine POST + polling Spine GET)
-  endpointCert: ${SCR_SPINE_ENDPOINT_CERT:}
-  endpointPrivateKey: ${SCR_SPINE_ENDPOINT_KEY:}
-  caCerts: ${SCR_SPINE_ENDPOINT_CACERT:}
+  clientKey: ${SCR_SPINE_CLIENT_KEY:}
+  clientCert: ${SCR_SPINE_CLIENT_CERT:}
+  rootCA: ${SCR_SPINE_ROOT_CA_CERT:}
+  subCA: ${SCR_SPINE_SUB_CA_CERT:}

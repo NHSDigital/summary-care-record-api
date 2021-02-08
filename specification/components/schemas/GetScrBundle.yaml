@@ -1,0 +1,51 @@
+type: object
+properties:
+  resourceType:
+    type: string
+    default: "Bundle"
+  id:
+    type: string
+    example: "f61e545c-d52c-4b62-9668-3dcc6c27fc50"
+  identifier:
+    type: object
+    properties:
+      system: 
+        type: string
+        default: "https://tools.ietf.org/html/rfc4122"
+      value:
+        type: string
+        example: 1ff370b6-fc5b-40a1-9721-2a942e301666
+  type:
+    description: type of the Bundle
+    type: string
+    default: "searchset"
+  timestamp:
+    type: string
+    example: "2007-03-15T01:00:00Z"
+  total:
+    type: integer
+    example: 43
+    description: Total number of entries in the Bundle
+  entry:
+    type: array
+    items:
+      anyOf:
+        - $ref: CompositionGetEntry.yaml
+        - $ref: PatientEntry.yaml
+        - $ref: PractitionerEntry.yaml
+        - $ref: PractitionerRoleEntry.yaml
+        - $ref: EncounterParticipantEntry.yaml
+        - $ref: OrganizationEntry.yaml
+        - $ref: RelatedPersonEntry.yaml
+        - $ref: ObservationEntry.yaml
+        - $ref: DeviceEntry.yaml
+        - $ref: EncounterCareEventEntry.yaml
+        - $ref: ProcedureEntry.yaml
+        - $ref: CommunicationEntry.yaml
+        - $ref: ImmunizationEntry.yaml
+        - $ref: ImmunizationRecommendationEntry.yaml
+required:
+  - resourceType
+  - timestamp
+  - identifier
+  - entry

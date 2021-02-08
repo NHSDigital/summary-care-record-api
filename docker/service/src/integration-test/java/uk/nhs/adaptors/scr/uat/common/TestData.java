@@ -2,7 +2,6 @@ package uk.nhs.adaptors.scr.uat.common;
 
 import lombok.Builder;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.core.io.Resource;
 
@@ -21,7 +20,6 @@ public class TestData {
 
     private final String fhirRequest;
     private final String fhirResponse;
-    private final FhirFormat fhirFormat;
 
     public static TestData build(List<Resource> resources) {
         if (isEmpty(resources)) {
@@ -31,14 +29,15 @@ public class TestData {
         var list = new ArrayList<>(resources);
         var testDataBuilder = TestData.builder();
 
-        var fhirResponse = list.stream()
+        list.stream()
             .filter(resource -> resource.getFilename() != null)
             .filter(resource -> resource.getFilename().endsWith(RESPONSE_FILE_ENDING))
             .findFirst()
-            .orElseThrow(() -> new IllegalStateException(String.format("Missing %s resource", RESPONSE_FILE_ENDING)));
+            .ifPresent(it -> {
+                testDataBuilder.fhirResponse(TestData.readFile(it));
+                list.remove(it);
+            });
 
-        testDataBuilder.fhirResponse(TestData.readFile(fhirResponse));
-        list.remove(fhirResponse);
 
         if (!isEmpty(list)) {
             var fhirResource = list.get(0);
@@ -54,10 +53,5 @@ public class TestData {
     @SneakyThrows
     private static String readFile(Resource resource) {
         return new String(readAllBytes(resource.getFile().toPath()), UTF_8);
-    }
-
-    @RequiredArgsConstructor
-    public enum FhirFormat {
-        JSON
     }
 }

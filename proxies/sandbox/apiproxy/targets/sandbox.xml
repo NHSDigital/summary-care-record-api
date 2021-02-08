@@ -1,20 +1,42 @@
-<TargetEndpoint name="sandbox">
-    <Description/>
-    <FaultRules/>
-    <Flows/>
-    <PostFlow name="PostFlow">
-        <Request/>
-        <Response/>
-    </PostFlow>
-    <PreFlow name="PreFlow">
-        <Request/>
-        <Response>
-          <Step>
-            <Name>AssignMessage.AddCors</Name>
-          </Step>
-        </Response>
-    </PreFlow>
-    <HostedTarget>
-        <Properties/>
-    </HostedTarget>
+<TargetEndpoint name="apim">
+  <FaultRules>
+    <FaultRule name="invalid_nhsd_session_urid">
+      <Condition>((request.header.NHSD-Session-URID is null) or (not request.header.NHSD-Session-URID ~~ ".+"))</Condition>
+      <Step>
+        <Name>AssignMessage.MissingUserRoleIDHeader</Name>
+      </Step>
+      <Step>
+        <Name>AssignMessage.AddCors</Name>
+      </Step>
+    </FaultRule>
+  </FaultRules>
+  <PreFlow>
+    <Request>
+      <Step>
+        <Name>AssignMessage.AddAsidHeader</Name>
+      </Step>
+      <Step>
+        <Name>AssignMessage.AddOriginalRequestIp</Name>
+      </Step>
+      <Step>
+        <Name>AssignMessage.AddBaseUrl</Name>
+      </Step>
+      <Step>
+        <Name>AssignMessage.AddFakeNHSDIdentity</Name>
+      </Step>
+    </Request>n
+    <Response>
+      <Step>
+        <Name>AssignMessage.AddCors</Name>
+      </Step>
+    </Response>
+  </PreFlow>
+  <HTTPTargetConnection>
+    {{ HOSTED_TARGET_CONNECTION }}
+  </HTTPTargetConnection>
+  <DefaultFaultRule>
+    <Step>
+      <Name>AssignMessage.AddCors</Name>
+    </Step>
+  </DefaultFaultRule>
 </TargetEndpoint>

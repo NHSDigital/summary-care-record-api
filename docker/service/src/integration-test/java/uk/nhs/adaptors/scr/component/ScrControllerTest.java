@@ -8,13 +8,15 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.web.HttpMediaTypeNotAcceptableException;
+import uk.nhs.adaptors.scr.clients.spine.SpineClientContract;
 import uk.nhs.adaptors.scr.components.FhirParser;
 import uk.nhs.adaptors.scr.config.ScrConfiguration;
 import uk.nhs.adaptors.scr.config.SpineConfiguration;
+import uk.nhs.adaptors.scr.consts.ScrHttpHeaders;
 import uk.nhs.adaptors.scr.services.UploadScrService;
 
 import static io.restassured.RestAssured.given;
+import static java.util.UUID.randomUUID;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.when;
@@ -31,6 +33,9 @@ public class ScrControllerTest {
     private static final long SHORT_RESULT_TIMEOUT = 10;
     private static final String FHIR_JSON_CONTENT_TYPE = "application/fhir+json";
     private static final String NHSD_ASID = "123";
+    private static final String CLIENT_IP = "192.168.0.24";
+    private static final String NHSD_IDENTITY = randomUUID().toString();
+    private static final String NHSD_SESSION_URID = "845354532";
 
     @LocalServerPort
     private int port;
@@ -47,14 +52,16 @@ public class ScrControllerTest {
     @MockBean
     private ScrConfiguration scrConfiguration;
 
+    @MockBean
+    private SpineClientContract spineClient;
+
     @Test
-    public void whenRequestProcessingTakesTooMuchTimeExpect504() throws HttpMediaTypeNotAcceptableException {
-        when(spineConfiguration.getEndpointCert()).thenReturn("some_cert");
+    public void whenRequestProcessingTakesTooMuchTimeExpect504() {
         when(scrConfiguration.getPartyIdFrom()).thenReturn("some-party-from");
         when(scrConfiguration.getPartyIdTo()).thenReturn("some-party-to");
         when(scrConfiguration.getNhsdAsidTo()).thenReturn("some-asid-to");
 
-        when(fhirParser.parseBundle(any(), any())).thenReturn(new Bundle());
+        when(fhirParser.parseResource(any(), any())).thenReturn(new Bundle());
         doAnswer(invocation -> {
             try {
                 Thread.sleep(LONG_INITIAL_WAIT_TIME);
@@ -62,14 +69,17 @@ public class ScrControllerTest {
                 return null;
             }
             return null;
-        }).when(uploadScrService).handleFhir(any());
+        }).when(uploadScrService).uploadScr(any());
 
         when(spineConfiguration.getScrResultTimeout()).thenReturn(SHORT_RESULT_TIMEOUT);
 
         given()
             .port(port)
             .contentType(FHIR_JSON_CONTENT_TYPE)
-            .header("Nhsd-Asid", NHSD_ASID)
+            .header(ScrHttpHeaders.NHSD_ASID, NHSD_ASID)
+            .header(ScrHttpHeaders.CLIENT_IP, CLIENT_IP)
+            .header(ScrHttpHeaders.NHSD_IDENTITY, NHSD_IDENTITY)
+            .header(ScrHttpHeaders.NHSD_SESSION_URID, NHSD_SESSION_URID)
             .body(REQUEST_BODY)
             .when()
             .post(FHIR_ENDPOINT)

@@ -13,4 +13,7 @@ public class ScrConfiguration {
     private String partyIdTo;
     private String partyIdFrom;
     private String nhsdAsidTo;
+    private Boolean sandboxMode;
+    private String baseUrl;
+    private String serviceBasePath;
 }

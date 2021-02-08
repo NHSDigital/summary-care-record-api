@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.http.conn.ssl.NoopHostnameVerifier;
+import org.apache.http.conn.ssl.DefaultHostnameVerifier;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.conn.ssl.TrustAllStrategy;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -16,6 +16,7 @@ import org.springframework.stereotype.Component;
 import uk.nhs.adaptors.scr.config.SpineConfiguration;
 import uk.nhs.adaptors.scr.exceptions.ScrBaseException;
 
+import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLContext;
 import java.security.KeyStore;
 import java.util.ArrayList;
@@ -32,8 +33,7 @@ public class ScrHttpClientBuilder {
         var httpClientBuilder = HttpClients.custom();
         if (spineConfiguration.getUrl().startsWith("https://")) {
             LOGGER.debug("Setting up HTTP client with mutual TLS");
-            //TODO: NoopHostnameVerifier works for mock - in production DefaultHostnameVerifier should be used
-            NoopHostnameVerifier hostnameVerifier = new NoopHostnameVerifier();
+            HostnameVerifier hostnameVerifier = new DefaultHostnameVerifier();
             SSLConnectionSocketFactory factory = new SSLConnectionSocketFactory(buildSSLContext(), hostnameVerifier);
             httpClientBuilder.setSSLSocketFactory(factory);
         }
@@ -43,13 +43,13 @@ public class ScrHttpClientBuilder {
     @SneakyThrows
     private SSLContext buildSSLContext() {
         var invalidSslValues = new ArrayList<String>();
-        if (StringUtils.isBlank(spineConfiguration.getEndpointPrivateKey())) {
+        if (StringUtils.isBlank(spineConfiguration.getClientKey())) {
             invalidSslValues.add("private key");
         }
-        if (StringUtils.isBlank(spineConfiguration.getEndpointCert())) {
+        if (StringUtils.isBlank(spineConfiguration.getClientCert())) {
             invalidSslValues.add("cert");
         }
-        if (StringUtils.isBlank(spineConfiguration.getCaCerts())) {
+        if (StringUtils.isBlank(spineConfiguration.getSubCA() + spineConfiguration.getRootCA())) {
             invalidSslValues.add("cacert");
         }
         if (!invalidSslValues.isEmpty()) {
@@ -60,11 +60,11 @@ public class ScrHttpClientBuilder {
 
         var randomPassword = UUID.randomUUID().toString();
         KeyStore ks = EnvKeyStore.createFromPEMStrings(
-            spineConfiguration.getEndpointPrivateKey(),
-            spineConfiguration.getEndpointCert(),
+            spineConfiguration.getClientKey(),
+            spineConfiguration.getClientCert(),
             randomPassword).keyStore();
         KeyStore ts = EnvKeyStore.createFromPEMStrings(
-            spineConfiguration.getCaCerts(),
+            spineConfiguration.getSubCA() + spineConfiguration.getRootCA(),
             randomPassword).keyStore();
         return SSLContexts.custom()
             .loadKeyMaterial(ks, randomPassword.toCharArray())

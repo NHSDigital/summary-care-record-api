@@ -1,6 +1,6 @@
 package uk.nhs.adaptors.scr.config;
 
-import static uk.nhs.adaptors.scr.consts.HttpHeaders.CORRELATION_ID_HEADER;
+import static uk.nhs.adaptors.scr.consts.ScrHttpHeaders.CORRELATION_ID;
 
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -24,19 +24,19 @@ import lombok.EqualsAndHashCode;
 @Component
 public class ConversationIdFilter extends OncePerRequestFilter {
 
-    private static final String MDC_KEY = "CorrelationId";
+    public static final String CORRELATION_ID_MDC_KEY = "CorrelationId";
 
     @Override
     protected void doFilterInternal(final HttpServletRequest request, final HttpServletResponse response, final FilterChain chain)
         throws java.io.IOException, ServletException {
         try {
-            var token = request.getHeader(CORRELATION_ID_HEADER);
+            var token = request.getHeader(CORRELATION_ID);
             if (StringUtils.isEmpty(token)) {
                 token = getRandomCorrelationId();
             }
             applyCorrelationId(token);
             token = URLEncoder.encode(token, StandardCharsets.UTF_8);
-            response.addHeader(CORRELATION_ID_HEADER, token);
+            response.addHeader(CORRELATION_ID, token);
             chain.doFilter(request, response);
         } finally {
             resetCorrelationId();
@@ -48,10 +48,10 @@ public class ConversationIdFilter extends OncePerRequestFilter {
     }
 
     public void applyCorrelationId(String id) {
-        MDC.put(MDC_KEY, id);
+        MDC.put(CORRELATION_ID_MDC_KEY, id);
     }
 
     public void resetCorrelationId() {
-        MDC.remove(MDC_KEY);
+        MDC.remove(CORRELATION_ID_MDC_KEY);
     }
 }

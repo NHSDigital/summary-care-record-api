@@ -7,7 +7,6 @@ install-python:
 
 install-node:
 	npm install
-	cd sandbox && npm install
 
 install-hooks:
 	cp scripts/pre-commit .git/hooks/pre-commit
@@ -31,11 +30,14 @@ check-licenses:
 	npm run check-licenses
 	scripts/check_python_licenses.sh
 
+deploy-proxy:
+	scripts/deploy_proxy.sh
+
+deploy-spec:
+	scripts/deploy_spec.sh
+
 format:
 	poetry run black **/*.py
-
-sandbox: update-examples
-	cd sandbox && npm run start
 
 build-proxy:
 	scripts/build_proxy.sh
@@ -43,13 +45,17 @@ build-proxy:
 release: clean publish build-proxy
 	mkdir -p dist
 	cp -r build/. dist
-	cp ecs-proxies-deploy.yml dist/ecs-deploy-internal-dev.yml
-#	cp ecs-proxies-deploy.yml dist/ecs-deploy-internal-qa.yml
-#	cp ecs-proxies-deploy-sandbox.yml dist/ecs-deploy-internal-qa-sandbox.yml
-#	cp ecs-proxies-deploy-sandbox.yml dist/ecs-deploy-sandbox.yml
-#	cp ecs-proxies-deploy.yml dist/ecs-deploy-int.yml
-#	cp ecs-proxies-deploy.yml dist/ecs-deploy-ref.yml
-#	cp ecs-proxies-deploy.yml dist/ecs-deploy-prod.yml
+
+	for env in internal-dev internal-qa; do \
+		cat ecs-proxies-deploy.yml | sed -e 's/{{ SPINE_ENV }}/test/g' -e 's/{{ SANDBOX_MODE_ENABLED }}/0/g' > dist/ecs-deploy-$$env.yml; \
+	done
+
+	cat ecs-proxies-deploy.yml | sed -e 's/{{ SPINE_ENV }}/int/g' > dist/ecs-deploy-int.yml
+	cat ecs-proxies-deploy.yml | sed -e 's/{{ SPINE_ENV }}/ref/g' > dist/ecs-deploy-ref.yml
+
+	for env in internal-dev-sandbox internal-qa-sandbox sandbox; do \
+		cp ecs-proxies-deploy-sandbox.yml dist/ecs-deploy-$$env.yml; \
+	done
 
 test:
 	echo "TODO: add tests"

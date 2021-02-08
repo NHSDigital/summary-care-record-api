@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.async.WebAsyncTask;
-import uk.nhs.adaptors.scr.components.FhirParser;
 import uk.nhs.adaptors.scr.config.ScrConfiguration;
 import uk.nhs.adaptors.scr.config.SpineConfiguration;
 import uk.nhs.adaptors.scr.consts.HttpHeaders;
@@ -27,6 +26,11 @@ import uk.nhs.adaptors.scr.services.UploadScrService;
 import javax.validation.constraints.NotNull;
 import java.util.concurrent.Callable;
 
+import static org.springframework.http.HttpStatus.CREATED;
+import static uk.nhs.adaptors.scr.consts.ScrHttpHeaders.CLIENT_IP;
+import static uk.nhs.adaptors.scr.consts.ScrHttpHeaders.NHSD_ASID;
+import static uk.nhs.adaptors.scr.consts.ScrHttpHeaders.NHSD_IDENTITY;
+import static uk.nhs.adaptors.scr.consts.ScrHttpHeaders.NHSD_SESSION_URID;
 import static uk.nhs.adaptors.scr.controllers.FhirMediaTypes.APPLICATION_FHIR_JSON_VALUE;
 
 @RestController
@@ -42,31 +46,35 @@ public class SendScrController {
         path = "/Bundle",
         consumes = {APPLICATION_FHIR_JSON_VALUE},
         produces = {APPLICATION_FHIR_JSON_VALUE})
-    @ResponseStatus(HttpStatus.OK)
     public WebAsyncTask<ResponseEntity<?>> sendScr(
-        @RequestHeader(HttpHeaders.CONTENT_TYPE) @NotNull MediaType contentType,
-        @RequestHeader(HttpHeaders.NHSD_ASID) @NotNull String nhsdAsid,
-        @RequestBody String body)
-        throws FhirValidationException, HttpMediaTypeNotAcceptableException {
-
-        LOGGER.debug("Using cfg: asid-from={} party-from={} asid-to={} party-to={}",
+        @RequestHeader(NHSD_ASID) @NotNull String nhsdAsid,
+        @RequestHeader(CLIENT_IP) @NotNull String clientIp,
+        @RequestHeader(NHSD_IDENTITY) @NotNull String nhsdIdentity,
+        @RequestHeader(NHSD_SESSION_URID) @NotNull String nhsdSessionUrid,
+        @RequestBody String body) {
+        LOGGER.debug("Using cfg: asid-from={} party-from={} asid-to={} party-to={} client-ip={} NHSD-Identity-UUID={} NHSD-Session-URID={}",
             nhsdAsid,
             scrConfiguration.getPartyIdFrom(),
             scrConfiguration.getNhsdAsidTo(),
-            scrConfiguration.getPartyIdTo());
+            scrConfiguration.getPartyIdTo(),
+            clientIp,
+            nhsdIdentity,
+            nhsdSessionUrid);
 
         var requestData = new RequestData();
-        requestData.setBundle(fhirParser.parseBundle(contentType, body));
-        requestData.setNhsdAsid(nhsdAsid);
+        requestData.setBody(body)
+            .setNhsdAsid(nhsdAsid)
+            .setClientIp(clientIp)
+            .setNhsdIdentity(nhsdIdentity)
+            .setNhsdSessionUrid(nhsdSessionUrid);
 
         var mdcContextMap = MDC.getCopyOfContextMap();
         Callable<ResponseEntity<?>> callable = () -> {
             MDC.setContextMap(mdcContextMap);
-            uploadScrService.handleFhir(requestData);
+            uploadScrService.uploadScr(requestData);
             return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .contentType(contentType)
-                .body(fhirParser.encodeResource(contentType, buildSuccessResponse()));
+                .status(CREATED)
+                .build();
         };
 
         var task = new WebAsyncTask<>(spineConfiguration.getScrResultTimeout(), callable);
@@ -75,14 +83,5 @@ public class SendScrController {
         });
 
         return task;
-    }
-
-    private OperationOutcome buildSuccessResponse() {
-        var operationOutcome = new OperationOutcome();
-        operationOutcome.addIssue()
-            .setSeverity(OperationOutcome.IssueSeverity.INFORMATION)
-            .setCode(OperationOutcome.IssueType.INFORMATIONAL)
-            .setDiagnostics("Resource has been successfully updated.");
-        return operationOutcome;
     }
 }

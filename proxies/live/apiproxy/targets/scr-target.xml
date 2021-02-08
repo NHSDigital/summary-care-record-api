@@ -9,11 +9,22 @@
       </Step>
       <Condition>oauthV2.OauthV2.VerifyAccessToken.failed</Condition>
     </FaultRule>
+    <FaultRule name="invalid_nhsd_session_urid">
+      <Condition>(grant_type is "authorization_code") and ((request.header.NHSD-Session-URID is null) or (not request.header.NHSD-Session-URID ~~ ".+"))</Condition>
+      <Step>
+        <Name>AssignMessage.MissingUserRoleIDHeader</Name>
+      </Step>
+    </FaultRule>
   </FaultRules>
   <PreFlow>
     <Request>
       <Step>
         <Name>OauthV2.VerifyAccessToken</Name>
+      </Step>
+      <Step>
+        <!-- Header NHSD-Session-URID must be present and not empty for 'authorization_code'-->
+        <Name>RaiseFault.400BadRequest</Name>
+        <Condition>(grant_type is "authorization_code") and ((request.header.NHSD-Session-URID is null) or (not request.header.NHSD-Session-URID ~~ ".+"))</Condition>
       </Step>
       <Step>
         <Name>Quota</Name>
@@ -58,6 +69,12 @@
     </HTTPTargetConnection>
   -->
   <HTTPTargetConnection>
+    <Properties>
+      <!-- Whitelist the 'expected' error code responses so the responses pass unhindered to caller
+      Anything unexpected will be sanitsed by the DefaultFaultRule -
+      https://docs.apigee.com/api-platform/fundamentals/fault-handling#customhandlingofhttperrorcodesfromthetargetserver -->
+      <Property name="success.codes">1xx,2xx,3xx,4xx</Property>
+    </Properties>
     {{ HOSTED_TARGET_CONNECTION }}
   </HTTPTargetConnection>
   <DefaultFaultRule>

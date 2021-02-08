@@ -2,6 +2,7 @@
   properties:
     fullUrl:
       type: string
+      example: "urn:uuid:b1a41ee5-b88b-4f66-bd83-24343bf63dd8"
     resource:
       type: object
       properties:
@@ -14,7 +15,19 @@
         identifier:
           type: array
           items:
-            $ref: identifier.yaml
+            type: object
+            properties:
+              system:
+                type: string
+                default: "https://fhir.nhs.uk/Id/sds-user-id"
+              value:
+                type: string
+                example: "676789689789"
+            required:
+              - system
+              - value
+          minItems: 1
+          maxItems: 1
         name:
           type: array
           items:
@@ -22,13 +35,19 @@
             properties:
               family:
                 type: string
+                example: Smith
               given:
                 type: array
                 items:
                   type: string
+                  example: John
               prefix:
                 type: array
                 items:
                   type: string
+                  example: Mr.
+              text: 
+                type: string
+                example: Mr. John Smith
       required:
         - resourceType

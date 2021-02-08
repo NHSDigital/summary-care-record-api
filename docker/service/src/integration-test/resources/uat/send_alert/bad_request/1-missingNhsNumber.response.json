@@ -1,0 +1,12 @@
+{
+  "resourceType": "OperationOutcome",
+  "issue": [
+    {
+      "severity": "error",
+      "code": "value",
+      "details": {
+        "text": "Missing 'agent' entry with 'who.identifier.system' 'https://fhir.nhs.uk/Id/nhs-number' and non-empty 'value'"
+      }
+    }
+  ]
+}

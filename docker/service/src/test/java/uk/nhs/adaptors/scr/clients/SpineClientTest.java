@@ -13,6 +13,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
+import uk.nhs.adaptors.scr.clients.spine.SpineClient;
+import uk.nhs.adaptors.scr.clients.spine.SpineHttpClient;
 import uk.nhs.adaptors.scr.config.ScrConfiguration;
 import uk.nhs.adaptors.scr.config.SpineConfiguration;
 import uk.nhs.adaptors.scr.exceptions.NoSpineResultException;
@@ -23,6 +25,7 @@ import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static java.util.UUID.randomUUID;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
@@ -37,7 +40,6 @@ class SpineClientTest {
 
     private static final String SPINE_URL = "https://spine";
     private static final String CONTENT_LOCATION = "/content-location";
-    private static final String ACS_ENDPOINT = "/acs";
     private static final String SCR_ENDPOINT = "/scr";
     private static final String SOAP_ENVELOPE = "<soap:Envelope>envelope_data</soap:Envelope>";
     private static final String HL7 = "<hl7:MCCI_IN010000UK13>hl7</hl7:MCCI_IN010000UK13>";
@@ -45,6 +47,8 @@ class SpineClientTest {
     private static final String ACS_REQUEST_BODY = "some_acs_body";
     private static final String NHSD_ASID = "123123";
     private static final String PARTY_TO_ID = "spine_party_key";
+    private static final String NHSD_IDENTITY = randomUUID().toString();
+    private static final String NHSD_SESSION_URID = "937463642332";
 
     @Mock
     private SpineConfiguration spineConfiguration;
@@ -71,7 +75,7 @@ class SpineClientTest {
         when(spineHttpClient.sendRequest(any(HttpPost.class)))
             .thenReturn(new SpineHttpClient.Response(HttpStatus.ACCEPTED.value(), headers, RESPONSE_BODY));
 
-        var response = spineClient.sendScrData(ACS_REQUEST_BODY);
+        var response = spineClient.sendScrData(ACS_REQUEST_BODY, NHSD_ASID, NHSD_IDENTITY, NHSD_SESSION_URID);
 
         var httpPostArgumentCaptor = ArgumentCaptor.forClass(HttpPost.class);
         verify(spineHttpClient).sendRequest(httpPostArgumentCaptor.capture());
@@ -90,7 +94,7 @@ class SpineClientTest {
         when(spineHttpClient.sendRequest(any(HttpPost.class)))
             .thenReturn(new SpineHttpClient.Response(HttpStatus.OK.value(), new Header[0], RESPONSE_BODY));
 
-        assertThatThrownBy(() -> spineClient.sendScrData(ACS_REQUEST_BODY))
+        assertThatThrownBy(() -> spineClient.sendScrData(ACS_REQUEST_BODY, NHSD_ASID, NHSD_IDENTITY, NHSD_SESSION_URID))
             .isExactlyInstanceOf(UnexpectedSpineResponseException.class);
     }
 
@@ -107,7 +111,8 @@ class SpineClientTest {
             .thenReturn(new SpineHttpClient.Response(HttpStatus.ACCEPTED.value(), postResponseHeaders, null))
             .thenReturn(new SpineHttpClient.Response(HttpStatus.OK.value(), new Header[0], RESPONSE_BODY));
 
-        var result = spineClient.getScrProcessingResult(CONTENT_LOCATION, 50, NHSD_ASID);
+        var result = spineClient.getScrProcessingResult(CONTENT_LOCATION, 50, NHSD_ASID, NHSD_IDENTITY,
+            NHSD_SESSION_URID);
 
         var requestArgumentCaptor = ArgumentCaptor.forClass(HttpGet.class);
         verify(spineHttpClient, times(2)).sendRequest(requestArgumentCaptor.capture());
@@ -129,7 +134,7 @@ class SpineClientTest {
                 },
                 null));
 
-        assertThatThrownBy(() -> spineClient.getScrProcessingResult(CONTENT_LOCATION, 100, NHSD_ASID))
+        assertThatThrownBy(() -> spineClient.getScrProcessingResult(CONTENT_LOCATION, 100, NHSD_ASID, NHSD_IDENTITY, NHSD_SESSION_URID))
             .isExactlyInstanceOf(NoSpineResultException.class)
             .hasMessage("Spine polling yield no result");
 

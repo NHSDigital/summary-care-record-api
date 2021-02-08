@@ -1,3 +1,8 @@
+server:
+  error:
+    whitelabel:
+      enabled: false
+
 management:
   endpoints:
     web:
@@ -6,18 +11,32 @@ management:
       exposure:
         include: info, health, metrics
 
+spring:
+  mvc:
+    throw-exception-if-no-handler-found: true
+  resources:
+    add-mappings: false
+
 scr:
+  sandboxMode: ${SCR_SANDBOX_MODE:False}
   partyIdFrom: ${SCR_PARTY_ID_FROM:TESTGEN-201324}
   partyIdTo: ${SCR_PARTY_ID_TO:YEA-0000806}
   nhsdAsidTo: ${SCR_NHSD_ASID_TO:655159266510}
+  serviceBasePath: ${SERVICE_BASE_PATH:summary-care-record/FHIR/R4}
+  baseUrl: https://${HOST_URL:internal-dev.api.service.nhs.uk}
+
+identity-service:
+    userInfoEndpoint: /oauth2/userinfo
 
 spine:
     url: ${SCR_SPINE_URL:http://localhost:8081}
-    acsEndpoint: /acs
+    acsEndpoint: /sync-service
+    alertEndpoint: /clinical/alert
     scrEndpoint: /clinical
     psisQueriesEndpoint: /sync-service
     scrResultRepeatTimeout: 4000
     scrResultTimeout: 5000
-    endpointCert: ""
-    endpointPrivateKey: ""
-    caCerts: ""
+    clientKey: ${SCR_SPINE_CLIENT_KEY:}
+    clientCert: ${SCR_SPINE_CLIENT_CERT:}
+    rootCA: ${SCR_SPINE_ROOT_CA_CERT:}
+    subCA: ${SCR_SPINE_SUB_CA_CERT:}

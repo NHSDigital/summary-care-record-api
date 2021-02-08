@@ -1,9 +1,18 @@
 package uk.nhs.adaptors.scr.utils;
 
+import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.r4.model.Bundle;
 import org.hl7.fhir.r4.model.Bundle.BundleEntryComponent;
+import org.hl7.fhir.r4.model.Identifier;
+import org.hl7.fhir.r4.model.Patient;
 import org.hl7.fhir.r4.model.Resource;
+import org.hl7.fhir.r4.model.ResourceType;
 import uk.nhs.adaptors.scr.exceptions.FhirMappingException;
+import uk.nhs.adaptors.scr.models.gpsummarymodels.PatientId;
+
+import java.util.List;
+import java.util.UUID;
+import java.util.stream.Collectors;
 import uk.nhs.adaptors.scr.exceptions.FhirValidationException;
 
 import java.util.List;
@@ -52,5 +61,25 @@ public class FhirHelper {
 
     public static String randomUUID() {
         return UUID.randomUUID().toString().toUpperCase();
+    }
+
+    public static PatientId getNhsNumber(Patient patient) {
+        return patient.getIdentifier().stream()
+            .filter(identifier -> NHS_NUMBER_IDENTIFIER_SYSTEM.equals(identifier.getSystem()))
+            .peek(identifier -> {
+                if (StringUtils.isBlank(identifier.getValue())) {
+                    throw new FhirMappingException(String.format(
+                        "patient.identifier[].value for system %s must not be empty", NHS_NUMBER_IDENTIFIER_SYSTEM));
+                }
+            })
+            .map(Identifier::getValue)
+            .map(PatientId::new)
+            .reduce((x, y) -> {
+                throw new FhirMappingException("Patient.identifier[] must contain 1 NHS Number");
+            })
+            .orElseThrow(() -> new FhirMappingException(String.format(
+                "patient.identifier[] for system %s must not be empty", NHS_NUMBER_IDENTIFIER_SYSTEM))
+            );
+
     }
 }
