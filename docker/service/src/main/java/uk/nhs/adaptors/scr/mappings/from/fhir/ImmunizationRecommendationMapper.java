@@ -31,7 +31,7 @@ public class ImmunizationRecommendationMapper {
 
         //TODO is this the correct type? missing from https://data.developer.nhs.uk/dms/mim/6.3.01/Domains/Templates/Document%20files/cre_types_and_templates.htm
         return new Finding()
-            .setIdRoot(immunizationRecommendation.getIdElement().getIdPart())
+            .setIdRoot(immunizationRecommendation.getIdentifierFirstRep().getValue())
             .setCodeCode(coding.getCode())
             .setCodeDisplayName(coding.getDisplay())
             .setEffectiveTimeLow(formatDateToHl7(immunizationRecommendation.getDate()));

@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class Finding extends CREType {
+public class Finding {
     private String idRoot;
     private String codeCode;
     private String codeDisplayName;

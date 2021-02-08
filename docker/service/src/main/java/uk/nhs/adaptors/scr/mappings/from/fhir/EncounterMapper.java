@@ -28,7 +28,7 @@ public class EncounterMapper {
 
     private static CareEvent mapCareEvent(Encounter encounter) {
         var careEvent = new CareEvent();
-        careEvent.setIdRoot(encounter.getIdElement().getIdPart());
+        careEvent.setIdRoot(encounter.getIdentifierFirstRep().getValue());
         careEvent.setCodeCode(encounter.getTypeFirstRep().getCodingFirstRep().getCode());
         careEvent.setCodeDisplayName(encounter.getTypeFirstRep().getCodingFirstRep().getDisplay());
         careEvent.setStatusCodeCode(mapStatusCode(encounter.getStatus()));
