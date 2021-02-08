@@ -2,6 +2,7 @@ package uk.nhs.adaptors.scr.mappings.from.hl7;
 
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
+import org.hl7.fhir.r4.model.Bundle;
 import org.hl7.fhir.r4.model.CodeableConcept;
 import org.hl7.fhir.r4.model.Coding;
 import org.hl7.fhir.r4.model.Composition;
@@ -12,6 +13,7 @@ import org.hl7.fhir.r4.model.Reference;
 import org.hl7.fhir.r4.model.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import uk.nhs.adaptors.scr.utils.XmlUtils;
 
@@ -20,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import static uk.nhs.adaptors.scr.utils.FhirHelper.getDomainResource;
 import static uk.nhs.adaptors.scr.utils.FhirHelper.randomUUID;
 
 @Component
@@ -52,6 +55,9 @@ public class GpSummaryMapper implements XmlToFhirMapper {
 
     private static final String PRESENTATION_TEXT_VALUE =
         BASE_XPATH + "/excerptFrom/UKCT_MT144051UK01.CareProfessionalDocumentationCRE/component/presentationText/value/html";
+
+    private static final String CODED_ENTRY_ID_XPATH =
+        BASE_XPATH + "/pertinentInformation2/pertinentCREType/code[@displayName='%s']/following-sibling::component/*/id/@root";
 
     private final AgentPersonSdsMapper agentPersonSdsMapper;
     private final AgentPersonMapper agentPersonMapper;
@@ -129,6 +135,16 @@ public class GpSummaryMapper implements XmlToFhirMapper {
         addAuthor(document, resources, composition);
 
         return resources;
+    }
+
+    public void map(Bundle bundle, Document document) {
+        for (var  section : getDomainResource(bundle, Composition.class).getSection()) {
+            var xpath = String.format(CODED_ENTRY_ID_XPATH, section.getTitle());
+            for (Node node : XmlUtils.getNodesByXPath(document.getDocumentElement(), xpath)) {
+                var codedEntryId = node.getNodeValue();
+                section.addEntry(new Reference().setReference(codedEntryId));
+            }
+        }
     }
 
     private void addAuthor(Node document, List<Resource> resources, Composition composition) {

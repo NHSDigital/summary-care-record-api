@@ -125,6 +125,236 @@
                                                                             </tr>
                                                                         </tbody>
                                                                     </table>
+                                                                    <h2 id="AcuteMedsHeader">Acute Medications (For the 12 month period 14-May-2019 to 14-May-2020)</h2>
+                                                                    <table summary="This table includes information about this patient's acute medications." id="AcuteMeds">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th>Type</th>
+                                                                                <th>Date</th>
+                                                                                <th>Medication Item</th>
+                                                                                <th>Dosage Instructions</th>
+                                                                                <th>Quantity</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            <tr class="oddRow">
+                                                                                <td>Acute Medication</td>
+                                                                                <td>Prescribed: 12-May-2020</td>
+                                                                                <td>Co-codamol 8mg/500mg effervescent tablets</td>
+                                                                                <td>One To Be Taken Four Times A Day</td>
+                                                                                <td>112 tablet</td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                    <h2 id="RepeatMedsHeader">Current Repeat Medications</h2>
+                                                                    <table summary="This table includes information about this patient's current repeat medications." id="RepeatMeds">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th>Type</th>
+                                                                                <th>Date</th>
+                                                                                <th>Medication Item</th>
+                                                                                <th>Dosage Instructions</th>
+                                                                                <th>Quantity</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            <tr class="oddRow">
+                                                                                <td>Repeat Medication</td>
+                                                                                <td>Last Issued: 12-May-2020</td>
+                                                                                <td>Paracetamol 250mg/5ml oral suspension</td>
+                                                                                <td>One 5ml Spoonful Every 4 To 6 Hours When Necessary. No More Than 4 doses in 24 Hours</td>
+                                                                                <td>40 ml</td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                    <h2 id="DiscRepeatMedsHeader">Discontinued Repeat Medications (For the 6 month period 14-Nov-2019 to 14-May-2020)</h2>
+                                                                    <table summary="This table includes information about this patient's discontinued repeat medications." id="DiscRepeatMeds">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th>Type</th>
+                                                                                <th>Date</th>
+                                                                                <th>Medication Item</th>
+                                                                                <th>Dosage Instructions</th>
+                                                                                <th>Quantity</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            <tr>
+                                                                                <td colspan="5">No relevant information available for this category.</td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                    <h2 id="RisksToPatientHeader">Risks to Patient</h2>
+                                                                    <table id="RisksToPatient">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th>Date</th>
+                                                                                <th>Description</th>
+                                                                                <th>Additional information</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            <tr class="oddRow">
+                                                                                <td>14-May-2020</td>
+                                                                                <td>Low risk category for developing complication from COVID-19 infection</td>
+                                                                                <td>Problem; Review</td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                    <h2 id="DiagnosesHeader">Diagnoses</h2>
+                                                                    <table id="Diagnoses">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th>Date</th>
+                                                                                <th>Description</th>
+                                                                                <th>Additional information</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            <tr class="oddRow">
+                                                                                <td>13-May-2020</td>
+                                                                                <td>COVID-19 confirmed by laboratory test</td>
+                                                                                <td>Problem; First, test</td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                    <h2 id="ProblemsHeader">Problems and Issues</h2>
+                                                                    <table id="Problems">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th>Date</th>
+                                                                                <th>Description</th>
+                                                                                <th>Additional information</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            <tr class="oddRow">
+                                                                                <td>14-May-2020</td>
+                                                                                <td>2019-nCoV (novel coronavirus) detected</td>
+                                                                                <td>Significant Active</td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                    <h2 id="ObservationsHeader">Clinical Observations and Findings</h2>
+                                                                    <table id="Observations">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th>Date</th>
+                                                                                <th>Description</th>
+                                                                                <th>Additional information</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            <tr class="oddRow">
+                                                                                <td>14-May-2020</td>
+                                                                                <td>2019-nCoV (novel coronavirus) detected</td>
+                                                                                <td>Problem; New</td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                    <h2 id="TreatmentsHeader">Treatments</h2>
+                                                                    <table id="Treatments">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th>Date</th>
+                                                                                <th>Description</th>
+                                                                                <th>Additional information</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            <tr class="oddRow">
+                                                                                <td>13-May-2020</td>
+                                                                                <td>2019-nCoV (novel coronavirus) vaccination</td>
+                                                                                <td>Problem; First, Manufacturer: jh, Expiry Date: 29-May-2020, Batch Number: 2, GMS: GMS, Injection site: Left arm, test</td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                    <h2 id="ResultsHeader">Investigation Results</h2>
+                                                                    <table id="Results">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th>Date</th>
+                                                                                <th>Description</th>
+                                                                                <th>Additional information</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            <tr class="oddRow">
+                                                                                <td>13-May-2020</td>
+                                                                                <td>Assessment using COVID-19 severity scale</td>
+                                                                                <td>Problem; First, test</td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                    <h2 id="EventsHeader">Care Events</h2>
+                                                                    <table id="Events">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th>Date</th>
+                                                                                <th>Description</th>
+                                                                                <th>Additional information</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            <tr class="oddRow">
+                                                                                <td>13-May-2020</td>
+                                                                                <td>Did not attend 2019-nCoV (novel coronavirus) vaccination</td>
+                                                                                <td>Problem; First, test</td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                    <h2 id="ProceduresHeader">Administrative Procedures</h2>
+                                                                    <table id="Procedures">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th>Date</th>
+                                                                                <th>Description</th>
+                                                                                <th>Additional information</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            <tr class="oddRow">
+                                                                                <td>14-May-2020</td>
+                                                                                <td>Household isolation note issued to patient</td>
+                                                                                <td>Test</td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                    <h2 id="AdviceHeader">Provision of Advice and Information to Patients and Carers</h2>
+                                                                    <table id="Advice">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th>Date</th>
+                                                                                <th>Description</th>
+                                                                                <th>Additional information</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            <tr class="oddRow">
+                                                                                <td>13-May-2020</td>
+                                                                                <td>Advice given about SARS-CoV-2 (severe acute respiratory syndrome coronavirus 2) by telephone</td>
+                                                                                <td>Problem; First, test</td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                    <h2 id="PreferencesHeader">Personal Preferences</h2>
+                                                                    <table id="Preferences">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th>Date</th>
+                                                                                <th>Description</th>
+                                                                                <th>Additional information</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            <tr class="oddRow">
+                                                                                <td>13-May-2020</td>
+                                                                                <td>2019-nCoV (novel coronavirus) vaccination declined</td>
+                                                                                <td>Problem; First, test</td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                    <p id="SendTime">Summary Sent: 14-May-2020 14:31</p>
                                                                 </body>
                                                             </html>
                                                         </value>

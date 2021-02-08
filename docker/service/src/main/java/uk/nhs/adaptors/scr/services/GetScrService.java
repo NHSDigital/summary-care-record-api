@@ -176,7 +176,7 @@ public class GetScrService {
             bundle.addEntry(getBundleEntryComponent(baseUrl, patient));
             bundle.setTotal(bundle.getEntry().size());
 
-            //TODO list all Composition.section[].title and search xml using xpath to find all coded entries IDs and put in Composition.section.entry[]
+            gpSummaryMapper.map(bundle, document);
 
             return bundle;
 
