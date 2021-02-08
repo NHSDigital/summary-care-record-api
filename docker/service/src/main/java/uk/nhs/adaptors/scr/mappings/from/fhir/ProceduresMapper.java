@@ -42,7 +42,7 @@ public class ProceduresMapper {
 
     private static Investigation mapInvestigation(Procedure procedure) {
         return new Investigation()
-            .setIdRoot(procedure.getIdElement().getIdPart())
+            .setIdRoot(procedure.getIdentifierFirstRep().getValue())
             .setCodeCode(procedure.getCode().getCodingFirstRep().getCode())
             .setCodeDisplayName(procedure.getCode().getCodingFirstRep().getDisplay())
             .setStatusCodeCode(mapStatus(procedure.getStatus()))
@@ -51,7 +51,7 @@ public class ProceduresMapper {
 
     private static Treatment mapTreatment(Procedure procedure) {
         return new Treatment()
-            .setIdRoot(procedure.getIdElement().getIdPart())
+            .setIdRoot(procedure.getIdentifierFirstRep().getValue())
             .setCodeCode(procedure.getCode().getCodingFirstRep().getCode())
             .setCodeDisplayName(procedure.getCode().getCodingFirstRep().getDisplay())
             .setStatusCodeCode(mapStatus(procedure.getStatus()))

@@ -60,7 +60,7 @@ public class UploadScrService {
 
     private String mapRequestData(RequestData requestData) {
         try {
-            GpSummary gpSummary = GpSummary.fromRequestData(requestData);
+            GpSummary gpSummary = GpSummary.fromBundle(requestData.getBundle());
             gpSummary.setPartyIdFrom(scrConfiguration.getPartyIdFrom());
             gpSummary.setPartyIdTo(scrConfiguration.getPartyIdTo());
             gpSummary.setNhsdAsidTo(scrConfiguration.getNhsdAsidTo());

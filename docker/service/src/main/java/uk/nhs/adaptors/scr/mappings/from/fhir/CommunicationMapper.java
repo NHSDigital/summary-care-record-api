@@ -42,7 +42,7 @@ public class CommunicationMapper {
 
     private static ProvisionOfAdviceAndInformation mapProvisionOfAdviceAndInformationToPatientsAndCarers(Communication communication) {
         return new ProvisionOfAdviceAndInformation()
-            .setIdRoot(communication.getIdElement().getIdPart())
+            .setIdRoot(communication.getIdentifierFirstRep().getValue())
             .setStatusCodeCode(mapStatus(communication.getStatus()))
             .setCodeCode(communication.getTopic().getCodingFirstRep().getCode())
             .setCodeDisplayName(communication.getTopic().getCodingFirstRep().getDisplay())
@@ -51,7 +51,7 @@ public class CommunicationMapper {
 
     private static PatientCarerCorrespondence mapPatientCarerCorrespondence(Communication communication) {
         return new PatientCarerCorrespondence()
-            .setIdRoot(communication.getIdElement().getIdPart())
+            .setIdRoot(communication.getIdentifierFirstRep().getValue())
             .setStatusCodeCode(mapStatus(communication.getStatus()))
             .setCodeCode(communication.getTopic().getCodingFirstRep().getCode())
             .setCodeDisplayName(communication.getTopic().getCodingFirstRep().getDisplay())

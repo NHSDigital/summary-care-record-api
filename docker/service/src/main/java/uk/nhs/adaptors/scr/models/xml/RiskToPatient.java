@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class RiskToPatient extends CREType {
+public class RiskToPatient {
     private String idRoot;
     private String codeCode;
     private String codeDisplayName;

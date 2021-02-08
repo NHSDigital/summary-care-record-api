@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class PersonalPreference extends CREType {
+public class PersonalPreference {
     private String idRoot;
     private String codeCode;
     private String codeDisplayName;

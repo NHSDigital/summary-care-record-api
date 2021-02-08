@@ -76,7 +76,7 @@ public class ObservationMapper {
 
     private static PersonalPreference mapPersonalPreference(Observation observation) {
         return new PersonalPreference()
-            .setIdRoot(observation.getIdElement().getIdPart())
+            .setIdRoot(observation.getIdentifierFirstRep().getValue())
             .setCodeCode(observation.getCode().getCodingFirstRep().getCode())
             .setCodeDisplayName(observation.getCode().getCodingFirstRep().getDisplay())
             .setStatusCodeCode(mapStatus(observation.getStatus()))
@@ -85,7 +85,7 @@ public class ObservationMapper {
 
     private static RiskToPatient mapRiskToPatient(Observation observation) {
         return new RiskToPatient()
-            .setIdRoot(observation.getIdElement().getIdPart())
+            .setIdRoot(observation.getIdentifierFirstRep().getValue())
             .setCodeCode(observation.getCode().getCodingFirstRep().getCode())
             .setCodeDisplayName(observation.getCode().getCodingFirstRep().getDisplay())
             .setStatusCodeCode(mapStatus(observation.getStatus()))

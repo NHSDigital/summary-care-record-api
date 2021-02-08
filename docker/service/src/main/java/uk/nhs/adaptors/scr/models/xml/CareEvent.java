@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class CareEvent extends CREType {
+public class CareEvent {
     private String idRoot;
     private String codeCode;
     private String codeDisplayName;
