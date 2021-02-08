@@ -1,6 +1,7 @@
 package uk.nhs.adaptors.scr.mappings.from.fhir;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.r4.model.Bundle;
 import org.hl7.fhir.r4.model.DateTimeType;
 import org.hl7.fhir.r4.model.Encounter;
@@ -114,22 +115,25 @@ public class ObservationMapper {
         }
 
         LOGGER.debug("Looking up Encounter for Condition.id={}", observation.getIdElement().getIdPart());
-        var encounter = getResourceByReference(bundle, observation.getEncounter().getReference(), Encounter.class)
-            .orElseThrow(() -> new FhirValidationException(String.format("Bundle is Missing Encounter %s that is linked to Condition %s", observation.getEncounter().getReference(), observation.getId())));
+        var encounterReference = observation.getEncounter().getReference();
+        if (StringUtils.isNotBlank(encounterReference)) {
+            var encounter = getResourceByReference(bundle, encounterReference, Encounter.class)
+                .orElseThrow(() -> new FhirValidationException(String.format("Bundle is Missing Encounter %s that is linked to Condition %s", observation.getEncounter().getReference(), observation.getId())));
 
-        for (var encounterParticipant : encounter.getParticipant()) {
-            var code = encounterParticipant.getTypeFirstRep().getCodingFirstRep().getCode();
-            if ("AUT".equals(code)) {
-                var author = mapAuthor1(bundle, encounterParticipant);
-                finding.setAuthor(author);
-            } else if ("INF".equals(code)) {
-                var informant = mapInformant(bundle, encounterParticipant);
-                finding.setInformant(informant);
-            } else if ("PRF".equals(code)) {
-                var performer = mapPerformer(bundle, encounterParticipant);
-                finding.setPerformer(performer);
-            } else {
-                throw new FhirValidationException(String.format("Invalid encounter %s participant code %s", encounter.getId(), code));
+            for (var encounterParticipant : encounter.getParticipant()) {
+                var code = encounterParticipant.getTypeFirstRep().getCodingFirstRep().getCode();
+                if ("AUT".equals(code)) {
+                    var author = mapAuthor1(bundle, encounterParticipant);
+                    finding.setAuthor(author);
+                } else if ("INF".equals(code)) {
+                    var informant = mapInformant(bundle, encounterParticipant);
+                    finding.setInformant(informant);
+                } else if ("PRF".equals(code)) {
+                    var performer = mapPerformer(bundle, encounterParticipant);
+                    finding.setPerformer(performer);
+                } else {
+                    throw new FhirValidationException(String.format("Invalid encounter %s participant code %s", encounter.getId(), code));
+                }
             }
         }
 
