@@ -3,7 +3,17 @@ info:
   version: 1.0.0
   title: Summary Care Record API
   description: |
-    ## Overview
+  
+    <div class="emphasis-box emphasis-box-emphasis navigationMarker-sub" aria-label="Highlighted Information">
+        <div class="emphasis-box__image">
+                <img src="https://digital.nhs.uk/svg-magic/binaries/content/gallery/website/icons/universal/information.svg?colour=005eb8" alt="" width="100" height="100">
+        </div>
+    <div class="emphasis-box__content">
+            <div data-uipath="website.contentblock.emphasis.content"><p>This API is initially for use by new market entrant GP IT developers with other use cases to follow later.</p></div>
+    </div>
+</div>
+
+## Overview
     Use this API to access a patient's [Summary Care Record (SCR)](https://digital.nhs.uk/services/summary-care-records-scr) - an electronic record of important patient information, created from GP medical records. SCRs can be seen and used by authorised staff in other areas of the health and care system involved in the patient's direct care.
 
     Also use this API to access the Access Control Service (ACS) - which manages consent to share information for SCR.
