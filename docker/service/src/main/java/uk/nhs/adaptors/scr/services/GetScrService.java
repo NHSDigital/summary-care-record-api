@@ -176,6 +176,8 @@ public class GetScrService {
             bundle.addEntry(getBundleEntryComponent(patient));
             bundle.setTotal(bundle.getEntry().size());
 
+            gpSummaryMapper.map(bundle, document);
+
             return bundle;
 
         } else {
