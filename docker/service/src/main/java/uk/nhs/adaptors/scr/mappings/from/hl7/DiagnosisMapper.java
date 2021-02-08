@@ -18,8 +18,8 @@ import org.hl7.fhir.r4.model.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Node;
-import uk.nhs.adaptors.scr.mappings.from.hl7.common.CodedEntryMapper;
 import uk.nhs.adaptors.scr.mappings.from.hl7.common.CodedEntry;
+import uk.nhs.adaptors.scr.mappings.from.hl7.common.CodedEntryMapper;
 import uk.nhs.adaptors.scr.utils.XmlUtils;
 
 import java.util.ArrayList;
@@ -52,8 +52,6 @@ public class DiagnosisMapper implements XmlToFhirMapper {
     private static final String DIAGNOSIS_INFORMANT_XPATH = "./informant";
     private static final String DIAGNOSIS_PARTICIPANT_TIME_XPATH = "./time/@value";
     private static final String ENCOUNTER_PARTICIPATION_CODE_SYSTEM = "http://terminology.hl7.org/CodeSystem/v3-ParticipationType";
-    private static final List<String> COVID_ENTRIES = List.of("1240751000000100", "1300721000000109", "1240581000000104",
-        "1300731000000106", "1240761000000102");
 
     private final ParticipantMapper participantMapper;
     private final CodedEntryMapper codedEntryMapper;
@@ -94,19 +92,17 @@ public class DiagnosisMapper implements XmlToFhirMapper {
                 }
 
                 resources.add(condition);
-                if (COVID_ENTRIES.contains(entry.getCodeValue())) {
-                    pertinentSupportingInfo
-                        .map(value -> new Annotation().setText(value))
-                        .ifPresent(condition::addNote);
+                pertinentSupportingInfo
+                    .map(value -> new Annotation().setText(value))
+                    .ifPresent(condition::addNote);
 
-                    getNodesByXPath(node, DIAGNOSIS_PERTINENT_FINDINGS_XPATH).stream()
-                        .map(it -> getValueByXPath(it, DIAGNOSIS_PERTINENT_FINDING_ID_XPATH))
-                        .map(it -> new Reference(new Observation().setId(it)))
-                        .map(reference -> new Condition.ConditionEvidenceComponent().addDetail(reference))
-                        .forEach(condition::addEvidence);
+                getNodesByXPath(node, DIAGNOSIS_PERTINENT_FINDINGS_XPATH).stream()
+                    .map(it -> getValueByXPath(it, DIAGNOSIS_PERTINENT_FINDING_ID_XPATH))
+                    .map(it -> new Reference(new Observation().setId(it)))
+                    .map(reference -> new Condition.ConditionEvidenceComponent().addDetail(reference))
+                    .forEach(condition::addEvidence);
 
-                    mapEncounter(node, condition, resources);
-                }
+                mapEncounter(node, condition, resources);
             }
         }
         return resources;

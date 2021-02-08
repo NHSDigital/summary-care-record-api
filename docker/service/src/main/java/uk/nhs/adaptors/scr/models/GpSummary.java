@@ -26,35 +26,12 @@ import uk.nhs.adaptors.scr.models.xml.Presentation;
 import uk.nhs.adaptors.scr.models.xml.ProvisionOfAdviceAndInformation;
 import uk.nhs.adaptors.scr.models.xml.RiskToPatient;
 import uk.nhs.adaptors.scr.models.xml.Treatment;
-import uk.nhs.adaptors.scr.models.gpsummarymodels.AllConditions;
-import uk.nhs.adaptors.scr.models.gpsummarymodels.CompositionRelatesTo;
-import uk.nhs.adaptors.scr.models.gpsummarymodels.ObservationObject;
-import uk.nhs.adaptors.scr.models.gpsummarymodels.OrganizationAddress;
-import uk.nhs.adaptors.scr.models.gpsummarymodels.OrganizationId;
-import uk.nhs.adaptors.scr.models.gpsummarymodels.OrganizationTelecom;
-import uk.nhs.adaptors.scr.models.gpsummarymodels.OrganizationType;
-import uk.nhs.adaptors.scr.models.gpsummarymodels.PatientId;
-import uk.nhs.adaptors.scr.models.gpsummarymodels.PractitionerId;
-import uk.nhs.adaptors.scr.models.gpsummarymodels.PractitionerName;
-import uk.nhs.adaptors.scr.models.gpsummarymodels.PractitionerRoleCode;
-import uk.nhs.adaptors.scr.models.gpsummarymodels.PractitionerRoleIdentifier;
-import uk.nhs.adaptors.scr.models.gpsummarymodels.Presentation;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.stream.Stream;
 
-import static uk.nhs.adaptors.scr.utils.DateUtil.formatTimestampFhirToHl7;
-import java.util.List;
-
-import static uk.nhs.adaptors.scr.fhirmappings.CompositionMapper.mapComposition;
-import static uk.nhs.adaptors.scr.fhirmappings.ConditionMapper.mapConditions;
-import static uk.nhs.adaptors.scr.fhirmappings.ObservationMapper.mapObservations;
-import static uk.nhs.adaptors.scr.fhirmappings.OrganizationMapper.mapOrganization;
-import static uk.nhs.adaptors.scr.fhirmappings.PatientMapper.mapPatient;
-import static uk.nhs.adaptors.scr.fhirmappings.PractitionerMapper.mapPractitioner;
-import static uk.nhs.adaptors.scr.fhirmappings.PractitionerRoleMapper.mapPractitionerRole;
 import static uk.nhs.adaptors.scr.utils.DateUtil.formatDate;
 import static uk.nhs.adaptors.scr.utils.FhirHelper.UUID_IDENTIFIER_SYSTEM;
 
@@ -127,7 +104,7 @@ public class GpSummary {
 
     private static void gpSummarySetHeaderTimeStamp(GpSummary gpSummary, Bundle bundle) {
         if (bundle.hasTimestampElement()) {
-            gpSummary.setHeaderTimeStamp(formatTimestampFhirToHl7(bundle.getTimestampElement().asStringValue()));
+            gpSummary.setHeaderTimeStamp(formatDate(bundle.getTimestampElement().getValue()));
         } else {
             throw new FhirMappingException("bundle.timestamp must not be empty");
         }

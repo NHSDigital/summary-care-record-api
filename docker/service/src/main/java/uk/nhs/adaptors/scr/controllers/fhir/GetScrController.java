@@ -58,13 +58,10 @@ public class GetScrController {
         @RequestHeader("Nhsd-Asid") @NotNull String nhsdAsid,
         @RequestHeader("client-ip") @NotNull String clientIp,
         @RequestHeader("client-request-url") @NotNull String clientRequestUrl,
-        @RequestParam("composition.identifier") @NotNull String nhsNumber,
-        HttpServletRequest request) throws HttpMediaTypeNotAcceptableException {
+        @RequestParam("composition.identifier") @NotNull String nhsNumber) {
 
-        String baseUrl = extractBaseUrl(clientRequestUrl, request.getRequestURI());
+        var bundle = getScrService.getScr(nhsNumber, nhsdAsid, clientIp);
 
-        var bundle = getScrService.getScr(nhsNumber, nhsdAsid, clientIp, baseUrl);
-
-        return fhirParser.encodeResource(APPLICATION_FHIR_JSON, bundle);
+        return fhirParser.encodeToJson(bundle);
     }
 }

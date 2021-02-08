@@ -8,7 +8,6 @@ import org.springframework.web.HttpMediaTypeNotAcceptableException;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 import uk.nhs.adaptors.scr.components.FhirParser;
-import uk.nhs.adaptors.scr.controllers.FhirMediaTypes;
 import uk.nhs.utils.HtmlParserArgumentsProvider;
 
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -33,8 +32,7 @@ class HtmlParserTest {
         var composition = new Composition();
         composition.setSection(compositionSections);
 
-        var actualJson = fhirParser
-            .encodeResource(FhirMediaTypes.APPLICATION_FHIR_JSON, composition);
+        var actualJson = fhirParser.encodeToJson(composition);
 
         assertThat(actualJson).isEqualTo(expectedJson);
     }

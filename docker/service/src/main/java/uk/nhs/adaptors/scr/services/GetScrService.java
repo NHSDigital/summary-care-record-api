@@ -23,12 +23,10 @@ import org.hl7.fhir.r4.model.Resource;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import uk.nhs.adaptors.scr.clients.spine.SpineClientContract;
-import uk.nhs.adaptors.scr.clients.spine.SpineHttpClient;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
-import uk.nhs.adaptors.scr.clients.SpineClient;
-import uk.nhs.adaptors.scr.clients.SpineHttpClient;
+import uk.nhs.adaptors.scr.clients.spine.SpineClientContract;
+import uk.nhs.adaptors.scr.clients.spine.SpineHttpClient;
 import uk.nhs.adaptors.scr.config.ScrConfiguration;
 import uk.nhs.adaptors.scr.config.SpineConfiguration;
 import uk.nhs.adaptors.scr.mappings.from.hl7.CareEventMapper;
@@ -144,7 +142,7 @@ public class GetScrService {
         return bundle;
     }
 
-    public Bundle getScr(String nhsNumber, String nhsdAsid, String clientIp, String baseUrl) {
+    public Bundle getScr(String nhsNumber, String nhsdAsid, String clientIp) {
         String scrIdXml = getScrIdRawXml(nhsNumber, nhsdAsid, clientIp);
         LOGGER.debug("Received SCR ID XML:\n{}", scrIdXml);
         EventListQueryResponse response = EventListQueryResponse.parseXml(scrIdXml);
@@ -172,13 +170,11 @@ public class GetScrService {
                 .map(mapper -> mapper.map(document))
                 .flatMap(resources -> resources.stream())
                 .peek(it -> setPatientReferences(it, patient))
-                .map(resource -> getBundleEntryComponent(baseUrl, resource))
+                .map(resource -> getBundleEntryComponent(resource))
                 .forEach(bundle::addEntry);
 
-            bundle.addEntry(getBundleEntryComponent(baseUrl, patient));
+            bundle.addEntry(getBundleEntryComponent(patient));
             bundle.setTotal(bundle.getEntry().size());
-
-            //TODO list all Composition.section[].title and search xml using xpath to find all coded entries IDs and put in Composition.section.entry[]
 
             return bundle;
 
@@ -187,9 +183,9 @@ public class GetScrService {
         }
     }
 
-    private BundleEntryComponent getBundleEntryComponent(String baseUrl, Resource resource) {
+    private BundleEntryComponent getBundleEntryComponent(Resource resource) {
         return new BundleEntryComponent()
-            .setFullUrl(baseUrl + "/" + resource.getResourceType() + "/" + resource.getId())
+            .setFullUrl(getScrUrl() + "/" + resource.getResourceType() + "/" + resource.getId())
             .setResource(resource);
     }
 
@@ -221,7 +217,7 @@ public class GetScrService {
         return isNotEmpty(response.getLatestScrId()) && asList(YES, ASK).contains(response.getViewPermission());
     }
 
-    private String getScrIdRawXml(String nhsNumber, String nhsdAsid, String clientIp) {
+    public String getScrIdRawXml(String nhsNumber, String nhsdAsid, String clientIp) {
         String requestBody = prepareEventListQueryRequest(nhsNumber, nhsdAsid, clientIp);
         SpineHttpClient.Response result = spineClient.sendGetScrId(requestBody, nhsdAsid);
         return result.getBody();

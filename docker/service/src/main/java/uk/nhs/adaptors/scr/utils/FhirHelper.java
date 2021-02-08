@@ -6,13 +6,7 @@ import org.hl7.fhir.r4.model.Bundle.BundleEntryComponent;
 import org.hl7.fhir.r4.model.Identifier;
 import org.hl7.fhir.r4.model.Patient;
 import org.hl7.fhir.r4.model.Resource;
-import org.hl7.fhir.r4.model.ResourceType;
 import uk.nhs.adaptors.scr.exceptions.FhirMappingException;
-import uk.nhs.adaptors.scr.models.gpsummarymodels.PatientId;
-
-import java.util.List;
-import java.util.UUID;
-import java.util.stream.Collectors;
 import uk.nhs.adaptors.scr.exceptions.FhirValidationException;
 
 import java.util.List;
@@ -47,7 +41,8 @@ public class FhirHelper {
     public static <T extends Resource> Optional<T> getResourceByReference(Bundle bundle, String reference, Class<T> resourceType) {
         var expectedResourceReference = resourceType.getSimpleName();
         if (!expectedResourceReference.equals(reference.split("/")[0])) {
-            throw new FhirValidationException(String.format("Invalid resource reference. %s expected to be referencing %s", reference, expectedResourceReference));
+            throw new FhirValidationException(String.format("Invalid resource reference. %s expected to be referencing %s",
+                reference, expectedResourceReference));
         }
 
         var resourceId = reference.split("/")[1];
@@ -63,7 +58,7 @@ public class FhirHelper {
         return UUID.randomUUID().toString().toUpperCase();
     }
 
-    public static PatientId getNhsNumber(Patient patient) {
+    public static String getNhsNumber(Patient patient) {
         return patient.getIdentifier().stream()
             .filter(identifier -> NHS_NUMBER_IDENTIFIER_SYSTEM.equals(identifier.getSystem()))
             .peek(identifier -> {
@@ -73,7 +68,6 @@ public class FhirHelper {
                 }
             })
             .map(Identifier::getValue)
-            .map(PatientId::new)
             .reduce((x, y) -> {
                 throw new FhirMappingException("Patient.identifier[] must contain 1 NHS Number");
             })

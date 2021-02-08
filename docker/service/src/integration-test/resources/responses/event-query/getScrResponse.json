@@ -1104,7 +1104,7 @@
             "coding": [
               {
                 "system": "http://snomed.info/sct",
-                "code": "163001000000104",
+                "code": "163141000000104",
                 "display": "Investigation Results"
               }
             ]
@@ -1224,7 +1224,7 @@
             "coding": [
               {
                 "system": "http://snomed.info/sct",
-                "code": "163001000000104",
+                "code": "163141000000104",
                 "display": "Investigation Results"
               }
             ]
@@ -1388,7 +1388,7 @@
             "coding": [
               {
                 "system": "http://snomed.info/sct",
-                "code": "163001000000104",
+                "code": "163141000000104",
                 "display": "Investigation Results"
               }
             ]

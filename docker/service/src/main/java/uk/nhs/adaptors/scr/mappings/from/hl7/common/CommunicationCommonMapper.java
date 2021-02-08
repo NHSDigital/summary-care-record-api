@@ -23,7 +23,7 @@ import static uk.nhs.adaptors.scr.utils.XmlUtils.getValueByXPath;
 
 @Component
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
-public class CommunicationMapper {
+public class CommunicationCommonMapper {
 
     private static final String GP_SUMMARY_XPATH = "//QUPC_IN210000UK04/ControlActEvent/subject//GPSummary";
     private static final String UK_CORE_COMMUNICATION_PROFILE = "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Encounter";

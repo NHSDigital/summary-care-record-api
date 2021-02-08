@@ -18,10 +18,9 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import uk.nhs.adaptors.scr.clients.SpineClient;
-import uk.nhs.adaptors.scr.clients.SpineHttpClient;
+import uk.nhs.adaptors.scr.clients.spine.SpineClientContract;
+import uk.nhs.adaptors.scr.clients.spine.SpineHttpClient.Response;
 import uk.nhs.adaptors.scr.components.FhirParser;
-import uk.nhs.adaptors.scr.controllers.FhirMediaTypes;
 
 import java.nio.charset.Charset;
 
@@ -40,7 +39,6 @@ public class GetScrServiceTest {
     private static final String NHS_NUMBER = "1234567890";
     private static final String NHS_ASID = "23456";
     private static final String CLIENT_IP = "192.168.1.1";
-    private static final String BASE_URL = "http://scr.nhs.uk";
 
     private static final String[] IGNORED_JSON_PATHS = new String[]{
         "id",
@@ -56,7 +54,7 @@ public class GetScrServiceTest {
         "entry[*].resource.patient.reference"
     };
 
-    @Value("classpath:responses/event-list-query/successResponse.xml")
+    @Value("classpath:uat/responses/event-list-query/success.xml")
     private Resource eventListQuerySuccessResponse;
 
     @Value("classpath:responses/event-query/successResponse.xml")
@@ -72,7 +70,7 @@ public class GetScrServiceTest {
     private GetScrService getScrService;
 
     @MockBean
-    private SpineClient spineClient;
+    private SpineClientContract spineClient;
 
     @Autowired
     private FhirParser fhirParser;
@@ -80,11 +78,11 @@ public class GetScrServiceTest {
     @SneakyThrows
     @BeforeEach
     void setUp() {
-        when(spineClient.sendGetScrId(any(), any())).thenReturn(SpineHttpClient.Response.builder()
+        when(spineClient.sendGetScrId(any(), any())).thenReturn(Response.builder()
             .statusCode(HttpStatus.OK.value())
             .body(IOUtils.toString(eventListQuerySuccessResponse.getInputStream(), Charset.defaultCharset()))
             .build());
-        when(spineClient.sendGetScr(any(), any())).thenReturn(SpineHttpClient.Response.builder()
+        when(spineClient.sendGetScr(any(), any())).thenReturn(Response.builder()
             .statusCode(HttpStatus.OK.value())
             .body(IOUtils.toString(eventQuerySuccessResponse.getInputStream(), Charset.defaultCharset()))
             .build());
@@ -93,8 +91,8 @@ public class GetScrServiceTest {
     @SneakyThrows
     @Test
     void getScrId() {
-        var bundle = getScrService.getScrId(NHS_NUMBER, NHS_ASID, CLIENT_IP, BASE_URL);
-        var actualJson = fhirParser.encodeResource(FhirMediaTypes.APPLICATION_FHIR_JSON, bundle);
+        var bundle = getScrService.getScrId(NHS_NUMBER, NHS_ASID, CLIENT_IP);
+        var actualJson = fhirParser.encodeToJson(bundle);
         var expectedJson = IOUtils.toString(getScrIdResponse.getInputStream(), Charset.defaultCharset());
 
         assertFhirEqual(expectedJson, actualJson, IGNORED_JSON_PATHS);
@@ -103,8 +101,8 @@ public class GetScrServiceTest {
     @SneakyThrows
     @Test
     void getScr() {
-        var bundle = getScrService.getScr(NHS_NUMBER, NHS_ASID, CLIENT_IP, BASE_URL);
-        var actualJson = fhirParser.encodeResource(FhirMediaTypes.APPLICATION_FHIR_JSON, bundle);
+        var bundle = getScrService.getScr(NHS_NUMBER, NHS_ASID, CLIENT_IP);
+        var actualJson = fhirParser.encodeToJson(bundle);
         var expectedJson = IOUtils.toString(getScrResponse.getInputStream(), Charset.defaultCharset());
 
         assertFhirEqual(expectedJson, actualJson, IGNORED_JSON_PATHS);

@@ -49,6 +49,11 @@ public class SandboxSpineClient implements SpineClientContract {
     }
 
     @Override
+    public Response sendGetScr(String requestBody, String nhsdAsid) {
+        return null;
+    }
+
+    @Override
     public Response sendAlert(String requestBody, String nhsdAsid, String nhsdIdentity, String nhsdSessionUrid) {
         return new Response(OK.value(), null, null);
     }

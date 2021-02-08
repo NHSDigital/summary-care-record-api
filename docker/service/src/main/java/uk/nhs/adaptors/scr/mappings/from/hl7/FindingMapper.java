@@ -21,9 +21,9 @@ import org.hl7.fhir.r4.model.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Node;
-import uk.nhs.adaptors.scr.mappings.from.hl7.common.CodedEntryMapper;
 import uk.nhs.adaptors.scr.mappings.from.hl7.common.CodedEntry;
-import uk.nhs.adaptors.scr.mappings.from.hl7.common.ObservationMapper;
+import uk.nhs.adaptors.scr.mappings.from.hl7.common.CodedEntryMapper;
+import uk.nhs.adaptors.scr.mappings.from.hl7.common.ObservationCommonMapper;
 import uk.nhs.adaptors.scr.utils.XmlUtils;
 
 import java.util.ArrayList;
@@ -61,9 +61,11 @@ public class FindingMapper implements XmlToFhirMapper {
     private static final List<String> SARS_COV_2_CODES = List.of("1240581000000104", "163131000000108");
     private static final String MEDICATION_RECOMMENDATION_CRE_TYPE = "185371000000109";
     private static final String MEDICATION_RECORD_CRE_TYPE = "163111000000100";
+    private static final String INVESTIGATION_RESULT_CRE_TYPE = "163141000000104";
+    private static final String CLINICAL_OBSERVATION_CRE_TYPE = "163131000000108";
 
     private final ParticipantMapper participantMapper;
-    private final ObservationMapper observationMapper;
+    private final ObservationCommonMapper observationCommonMapper;
     private final CodedEntryMapper codedEntryMapper;
 
     @SneakyThrows
@@ -80,7 +82,8 @@ public class FindingMapper implements XmlToFhirMapper {
                     case MEDICATION_RECORD_CRE_TYPE:
                         resources.add(mapMedication(node));
                         break;
-                    default:
+                    case CLINICAL_OBSERVATION_CRE_TYPE:
+                    case INVESTIGATION_RESULT_CRE_TYPE:
                         resources.add(mapObservation(resources, pertinentCRETypeCode, pertinentCRETypeDisplay, node));
                 }
             }
@@ -130,16 +133,14 @@ public class FindingMapper implements XmlToFhirMapper {
     }
 
     private Observation mapObservation(ArrayList<Resource> resources, String creTypeCode, String creTypeDisplay, Node node) {
-        Observation observation = observationMapper.mapObservation(node);
+        Observation observation = observationCommonMapper.mapObservation(node);
 
         observation.addCategory(new CodeableConcept(new Coding()
             .setSystem(SNOMED_SYSTEM)
             .setCode(creTypeCode)
             .setDisplay(creTypeDisplay)));
 
-        if (SARS_COV_2_CODES.contains(observation.getCode().getCodingFirstRep().getCode())) {
-            mapEncounter(node, observation, resources);
-        }
+        mapEncounter(node, observation, resources);
 
         return observation;
     }

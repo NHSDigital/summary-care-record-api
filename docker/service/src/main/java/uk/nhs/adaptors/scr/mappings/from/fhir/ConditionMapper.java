@@ -48,7 +48,8 @@ public class ConditionMapper {
 
         LOGGER.debug("Looking up Encounter for Condition.id={}", condition.getIdElement().getIdPart());
         var encounter = getResourceByReference(bundle, condition.getEncounter().getReference(), Encounter.class)
-            .orElseThrow(() -> new FhirValidationException(String.format("Bundle is Missing Encounter %s that is linked to Condition %s", condition.getEncounter().getReference(), condition.getId())));
+            .orElseThrow(() -> new FhirValidationException(String.format("Bundle is Missing Encounter %s that is linked to Condition %s",
+                condition.getEncounter().getReference(), condition.getId())));
 
         for (var encounterParticipant : encounter.getParticipant()) {
             var code = encounterParticipant.getTypeFirstRep().getCodingFirstRep().getCode();

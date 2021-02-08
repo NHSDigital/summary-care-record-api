@@ -2,23 +2,16 @@ package uk.nhs.adaptors.scr.controllers.fhir;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.hl7.fhir.r4.model.OperationOutcome;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.HttpMediaTypeNotAcceptableException;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.async.WebAsyncTask;
 import uk.nhs.adaptors.scr.config.ScrConfiguration;
 import uk.nhs.adaptors.scr.config.SpineConfiguration;
-import uk.nhs.adaptors.scr.consts.HttpHeaders;
-import uk.nhs.adaptors.scr.exceptions.FhirValidationException;
 import uk.nhs.adaptors.scr.exceptions.ScrTimeoutException;
 import uk.nhs.adaptors.scr.models.RequestData;
 import uk.nhs.adaptors.scr.services.UploadScrService;
@@ -37,7 +30,6 @@ import static uk.nhs.adaptors.scr.controllers.FhirMediaTypes.APPLICATION_FHIR_JS
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Slf4j
 public class SendScrController {
-    private final FhirParser fhirParser;
     private final UploadScrService uploadScrService;
     private final SpineConfiguration spineConfiguration;
     private final ScrConfiguration scrConfiguration;

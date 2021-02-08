@@ -170,7 +170,7 @@ public class SpineClient implements SpineClientContract {
 
     @Override
     @SneakyThrows
-    public SpineHttpClient.Response sendAlert(String requestBody, String nhsdAsid, String nhsdIdentity, String nhsdSessionUrid) {
+    public Response sendAlert(String requestBody, String nhsdAsid, String nhsdIdentity, String nhsdSessionUrid) {
         LOGGER.debug("Sending Alert request to SPINE: {}", requestBody);
         var request = new HttpPost(spineConfiguration.getUrl() + spineConfiguration.getAlertEndpoint());
         request.addHeader(CONTENT_TYPE, APPLICATION_FHIR_JSON_VALUE);
@@ -181,7 +181,8 @@ public class SpineClient implements SpineClientContract {
     }
 
     @SneakyThrows
-    public SpineHttpClient.Response sendGetScr(String requestBody, String nhsdAsid) {
+    @Override
+    public Response sendGetScr(String requestBody, String nhsdAsid) {
         var uri = spineConfiguration.getUrl() + spineConfiguration.getPsisQueriesEndpoint();
         var request = new HttpPost(uri);
         LOGGER.debug("Sending GET SCR request to Spine uri:{} body:{}", uri, requestBody);

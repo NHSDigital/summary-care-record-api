@@ -12,7 +12,7 @@ import static uk.nhs.adaptors.scr.mappings.from.hl7.HtmlParser.createNewDocument
 import static uk.nhs.adaptors.scr.mappings.from.hl7.HtmlParser.parseDocument;
 import static uk.nhs.adaptors.scr.mappings.from.hl7.HtmlParser.removeEmptyNodes;
 import static uk.nhs.adaptors.scr.mappings.from.hl7.HtmlParser.serialize;
-import static uk.nhs.adaptors.scr.utils.DateUtil.formatDateFhirToHl7;
+import static uk.nhs.adaptors.scr.utils.DateUtil.formatDate;
 import static uk.nhs.adaptors.scr.utils.FhirHelper.getDomainResource;
 import static uk.nhs.adaptors.scr.utils.FhirHelper.randomUUID;
 
@@ -47,7 +47,7 @@ public class CompositionMapper {
 
     private static void setCompositionDate(GpSummary gpSummary, Composition composition) throws FhirMappingException {
         if (composition.hasDateElement()) {
-            gpSummary.setCompositionDate(formatDateFhirToHl7(composition.getDateElement().asStringValue()));
+            gpSummary.setCompositionDate(formatDate(composition.getDateElement().getValue()));
         } else {
             throw new FhirMappingException("Composition Date Element missing from payload");
         }

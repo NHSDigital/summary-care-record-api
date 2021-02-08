@@ -57,7 +57,7 @@ public class GetScrControllerTest {
     }
 
     @Test
-    public void whenInvalidNhsNumberThenExpectHttp400() throws IOException {
+    public void whenInvalidNhsNumberThenExpectHttp400() {
         String response = given()
             .port(port)
             .when()
@@ -79,7 +79,7 @@ public class GetScrControllerTest {
     }
 
     @Test
-    public void whenInvalidTypeParamThenExpectHttp400() throws IOException {
+    public void whenInvalidTypeParamThenExpectHttp400() {
         String response = given()
             .port(port)
             .when()
@@ -101,7 +101,7 @@ public class GetScrControllerTest {
     }
 
     @Test
-    public void whenInvalidSortParamThenExpectHttp400() throws IOException {
+    public void whenInvalidSortParamThenExpectHttp400() {
         String response = given()
             .port(port)
             .when()
@@ -123,7 +123,7 @@ public class GetScrControllerTest {
     }
 
     @Test
-    public void whenInvalidCountParamThenExpectHttp400() throws IOException {
+    public void whenInvalidCountParamThenExpectHttp400() {
         String response = given()
             .port(port)
             .when()
@@ -145,7 +145,7 @@ public class GetScrControllerTest {
     }
 
     @Test
-    public void whenMissingRequiredParamParamThenExpectHttp400() throws IOException {
+    public void whenMissingRequiredParamParamThenExpectHttp400() {
         String response = given()
             .port(port)
             .when()
