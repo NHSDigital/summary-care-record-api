@@ -5,6 +5,7 @@ import org.hl7.fhir.r4.model.CodeableConcept;
 import org.hl7.fhir.r4.model.Coding;
 import org.hl7.fhir.r4.model.Encounter;
 import org.hl7.fhir.r4.model.Encounter.EncounterStatus;
+import org.hl7.fhir.r4.model.Identifier;
 import org.hl7.fhir.r4.model.Meta;
 import org.hl7.fhir.r4.model.Period;
 import org.hl7.fhir.r4.model.Resource;
@@ -42,6 +43,7 @@ public class CareEventMapper implements XmlToFhirMapper {
 
             Encounter encounter = new Encounter();
             encounter.setId(entry.getId());
+            encounter.addIdentifier(new Identifier().setValue(entry.getId()));
             encounter.setMeta(new Meta().addProfile(UK_CORE_ENCOUNTER_PROFILE));
 
             encounter.setClass_(new Coding()

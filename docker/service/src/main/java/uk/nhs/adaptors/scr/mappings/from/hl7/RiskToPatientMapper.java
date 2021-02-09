@@ -8,7 +8,7 @@ import org.hl7.fhir.r4.model.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Node;
-import uk.nhs.adaptors.scr.mappings.from.hl7.common.ObservationCommonMapper;
+import uk.nhs.adaptors.scr.mappings.from.hl7.common.ObservationHL7Mapper;
 import uk.nhs.adaptors.scr.utils.XmlUtils;
 
 import java.util.ArrayList;
@@ -26,7 +26,7 @@ public class RiskToPatientMapper implements XmlToFhirMapper {
     private static final String PERTINENT_CODE_DISPLAY_XPATH = "./code/@displayName";
     private static final String RISK_BASE_PATH = "./component/UKCT_MT144054UK01.RiskToPatient";
 
-    private final ObservationCommonMapper observationCommonMapper;
+    private final ObservationHL7Mapper observationHL7Mapper;
 
     @Override
     public List<? extends Resource> map(Node document) {
@@ -35,7 +35,7 @@ public class RiskToPatientMapper implements XmlToFhirMapper {
             var pertinentCRETypeCode = getValueByXPath(pertinentCREType, PERTINENT_CODE_CODE_XPATH);
             var pertinentCRETypeDisplay = getValueByXPath(pertinentCREType, PERTINENT_CODE_DISPLAY_XPATH);
             for (var node : XmlUtils.getNodesByXPath(pertinentCREType, RISK_BASE_PATH)) {
-                Observation observation = observationCommonMapper.mapObservation(node);
+                Observation observation = observationHL7Mapper.mapObservation(node);
 
                 observation.addCategory(new CodeableConcept(new Coding()
                     .setSystem(SNOMED_SYSTEM)

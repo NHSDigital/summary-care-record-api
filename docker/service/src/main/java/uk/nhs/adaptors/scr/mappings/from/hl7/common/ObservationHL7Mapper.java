@@ -20,7 +20,7 @@ import static uk.nhs.adaptors.scr.utils.XmlUtils.getOptionalValueByXPath;
 
 @Component
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
-public class ObservationCommonMapper {
+public class ObservationHL7Mapper {
 
     private static final String UK_CORE_OBSERVATION_META = "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Observation";
     private static final String EFFECTIVE_TIME_CENTRE_XPATH = "./effectiveTime/centre/@value";

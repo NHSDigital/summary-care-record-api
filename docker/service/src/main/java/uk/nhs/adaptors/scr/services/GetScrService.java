@@ -4,6 +4,7 @@ import com.github.mustachejava.Mustache;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.r4.model.Attachment;
 import org.hl7.fhir.r4.model.Bundle;
 import org.hl7.fhir.r4.model.Bundle.BundleEntryComponent;
@@ -142,14 +143,13 @@ public class GetScrService {
         return bundle;
     }
 
-    public Bundle getScr(String nhsNumber, String nhsdAsid, String clientIp) {
+    public Bundle getScr(String nhsNumber, String compositionId, String nhsdAsid, String clientIp) {
         String scrIdXml = getScrIdRawXml(nhsNumber, nhsdAsid, clientIp);
         LOGGER.debug("Received SCR ID XML:\n{}", scrIdXml);
         EventListQueryResponse response = EventListQueryResponse.parseXml(scrIdXml);
 
-        if (isPermissionGiven(response)) {
-            String psisEventId = response.getLatestScrId();
-            String scrXml = getScrRawXml(psisEventId, nhsNumber, nhsdAsid, clientIp);
+        if (isPermissionGiven(response) && StringUtils.equals(response.getLatestScrId(), compositionId)) {
+            String scrXml = getScrRawXml(response.getLatestScrId(), nhsNumber, nhsdAsid, clientIp);
             LOGGER.debug("Received SCR XML:\n{}", scrXml);
             var document = parseDocument(scrXml);
 

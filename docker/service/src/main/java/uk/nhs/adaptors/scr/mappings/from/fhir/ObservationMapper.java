@@ -6,6 +6,7 @@ import org.hl7.fhir.r4.model.Bundle;
 import org.hl7.fhir.r4.model.DateTimeType;
 import org.hl7.fhir.r4.model.Encounter;
 import org.hl7.fhir.r4.model.Observation;
+import org.hl7.fhir.r4.model.Observation.ObservationStatus;
 import org.hl7.fhir.r4.model.Period;
 import uk.nhs.adaptors.scr.exceptions.FhirValidationException;
 import uk.nhs.adaptors.scr.models.GpSummary;
@@ -81,7 +82,7 @@ public class ObservationMapper {
             .setCodeCode(observation.getCode().getCodingFirstRep().getCode())
             .setCodeDisplayName(observation.getCode().getCodingFirstRep().getDisplay())
             .setStatusCodeCode(mapStatus(observation.getStatus()))
-            .setEffectiveTimeLow(formatDateToHl7(observation.getEffectiveDateTimeType().getValue()));
+            .setEffectiveTimeLow(getEffectiveTimeLow(observation));
     }
 
     private static RiskToPatient mapRiskToPatient(Observation observation) {
@@ -90,7 +91,17 @@ public class ObservationMapper {
             .setCodeCode(observation.getCode().getCodingFirstRep().getCode())
             .setCodeDisplayName(observation.getCode().getCodingFirstRep().getDisplay())
             .setStatusCodeCode(mapStatus(observation.getStatus()))
-            .setEffectiveTimeLow(formatDateToHl7(observation.getEffectiveDateTimeType().getValue()));
+            .setEffectiveTimeLow(getEffectiveTimeLow(observation));
+    }
+
+    private static String getEffectiveTimeLow(Observation observation) {
+        if (observation.hasEffectivePeriod()) {
+            return formatDateToHl7(observation.getEffectivePeriod().getStart());
+        } else if (observation.hasEffectiveDateTimeType()) {
+            return formatDateToHl7(observation.getEffectiveDateTimeType().getValue());
+        }
+
+        return null;
     }
 
     private static Finding mapFinding(Observation observation, Bundle bundle) {
@@ -118,7 +129,9 @@ public class ObservationMapper {
         var encounterReference = observation.getEncounter().getReference();
         if (StringUtils.isNotBlank(encounterReference)) {
             var encounter = getResourceByReference(bundle, encounterReference, Encounter.class)
-                .orElseThrow(() -> new FhirValidationException(String.format("Bundle is Missing Encounter %s that is linked to Condition %s", observation.getEncounter().getReference(), observation.getId())));
+                .orElseThrow(() ->
+                    new FhirValidationException(String.format("Bundle is Missing Encounter %s that is linked to Condition %s",
+                        observation.getEncounter().getReference(), observation.getId())));
 
             for (var encounterParticipant : encounter.getParticipant()) {
                 var code = encounterParticipant.getTypeFirstRep().getCodingFirstRep().getCode();
@@ -140,7 +153,7 @@ public class ObservationMapper {
         return finding;
     }
 
-    private static String mapStatus(Observation.ObservationStatus status) {
+    private static String mapStatus(ObservationStatus status) {
         switch (status) {
             case REGISTERED:
             case PRELIMINARY:

@@ -19,8 +19,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import uk.nhs.adaptors.scr.WireMockInitializer;
 import uk.nhs.adaptors.scr.config.SpineConfiguration;
 import uk.nhs.adaptors.scr.consts.ScrHttpHeaders;
-import uk.nhs.adaptors.scr.uat.common.CustomArgumentsProvider.GetScrIdNoConsent;
-import uk.nhs.adaptors.scr.uat.common.CustomArgumentsProvider.GetScrIdSuccess;
+import uk.nhs.adaptors.scr.uat.common.CustomArgumentsProvider.GetScrNoConsent;
+import uk.nhs.adaptors.scr.uat.common.CustomArgumentsProvider.GetScrSuccess;
 import uk.nhs.adaptors.scr.uat.common.TestData;
 
 import java.io.IOException;
@@ -44,21 +44,27 @@ import static uk.nhs.adaptors.scr.utils.FhirJsonResultMatcher.fhirJson;
 @DirtiesContext
 @Slf4j
 @ContextConfiguration(initializers = {WireMockInitializer.class})
-public class GetScrIdUAT {
-
+public class GetScrUAT {
     private static final String EVENT_LIST_QUERY_HEADER = "urn:nhs:names:services:psisquery/QUPC_IN180000SM04";
+    private static final String EVENT_QUERY_HEADER = "urn:nhs:names:services:psisquery/QUPC_IN190000UK04";
     private static final String GET_SCR_ID_ENDPOINT = "/DocumentReference";
-    private static final String NHS_NUMBER = "https://fhir.nhs.uk/Id/nhs-number|9995000180";
-    private static final String SORT_PARAM = "date";
-    private static final String COUNT_PARAM = "1";
-    private static final String TYPE_PARAM = "http://snomed.info/sct|196981000000101";
-    private static final String NHSD_ASID = "1029384756";
+    private static final String GET_SCR_ENDPOINT = "/Bundle";
+    private static final String COMPOSITION =
+        "FA60BE64-1F34-11EB-A2A8-000C29A364EB$composition.subject:Patient.identifier=https://fhir.nhs.uk/Id/nhs-number|9995000180";
+    private static final String NHSD_ASID = "7695489345";
     private static final String CLIENT_IP = "192.168.0.24";
     private static final String[] IGNORED_JSON_PATHS = new String[]{
         "id",
         "entry[*].fullUrl",
         "entry[*].resource.subject.reference",
-        "entry[*].resource.id"
+        "entry[*].resource.id",
+        "entry[*].resource.encounter.reference",
+        "entry[*].resource.practitioner.reference",
+        "entry[*].resource.participant[*].individual.reference",
+        "entry[*].resource.organization.reference",
+        "entry[*].resource.owner.reference",
+        "entry[*].resource.author[*].reference",
+        "entry[*].resource.patient.reference"
     };
 
     @Value("classpath:uat/responses/event-list-query/success.xml")
@@ -66,6 +72,9 @@ public class GetScrIdUAT {
 
     @Value("classpath:uat/responses/event-list-query/noConsent.xml")
     private Resource eventListQueryNoConsentResponse;
+
+    @Value("classpath:uat/responses/event-query/success.xml")
+    private Resource eventQuerySuccessResponse;
 
     @Autowired
     private MockMvc mockMvc;
@@ -82,39 +91,50 @@ public class GetScrIdUAT {
     }
 
     @ParameterizedTest(name = "[{index}] - {0}")
-    @ArgumentsSource(GetScrIdSuccess.class)
-    void testRetrieveLatestScrId(TestData testData) throws Exception {
-        stubSpinePsisEndpoint(eventListQuerySuccessResponse);
+    @ArgumentsSource(GetScrNoConsent.class)
+    void testGetScrNoConsent(TestData testData) throws Exception {
+        stubSpinePsisEventListEndpoint(eventListQueryNoConsentResponse);
 
         performRequestAndAssert(testData);
     }
 
     @ParameterizedTest(name = "[{index}] - {0}")
-    @ArgumentsSource(GetScrIdNoConsent.class)
-    void testRetrieveLatestScrIdNoConsent(TestData testData) throws Exception {
-        stubSpinePsisEndpoint(eventListQueryNoConsentResponse);
+    @ArgumentsSource(GetScrSuccess.class)
+    void testGetScrSuccess(TestData testData) throws Exception {
+        stubSpinePsisEventListEndpoint(eventListQuerySuccessResponse);
+        stubSpinePsisEventQueryEndpoint(eventQuerySuccessResponse);
 
         performRequestAndAssert(testData);
     }
 
     private void performRequestAndAssert(TestData testData) throws Exception {
-        mockMvc.perform(get(GET_SCR_ID_ENDPOINT)
+        mockMvc.perform(get(GET_SCR_ENDPOINT)
             .contentType(APPLICATION_FHIR_JSON_VALUE)
             .header(ScrHttpHeaders.NHSD_ASID, NHSD_ASID)
             .header(ScrHttpHeaders.CLIENT_IP, CLIENT_IP)
-            .queryParam("patient", NHS_NUMBER)
-            .queryParam("type", TYPE_PARAM)
-            .queryParam("_sort", SORT_PARAM)
-            .queryParam("_count", COUNT_PARAM))
+            .queryParam("composition.identifier", COMPOSITION))
             .andExpect(status().isOk())
-            .andExpect(fhirJson(String.format(testData.getFhirResponse(), wireMockServer.baseUrl(), wireMockServer.baseUrl()),
-                IGNORED_JSON_PATHS));
+            .andExpect(fhirJson(String.format(testData.getFhirResponse(),
+                wireMockServer.baseUrl(),
+                wireMockServer.baseUrl()),
+                IGNORED_JSON_PATHS)
+            );
     }
 
-    private void stubSpinePsisEndpoint(Resource response) throws IOException {
+    private void stubSpinePsisEventListEndpoint(Resource response) throws IOException {
         wireMockServer.stubFor(
             WireMock.post(spineConfiguration.getPsisQueriesEndpoint())
                 .withHeader(SOAP_ACTION, equalTo(EVENT_LIST_QUERY_HEADER))
+                .withHeader(CONTENT_TYPE, equalTo(TEXT_XML_VALUE))
+                .willReturn(aResponse()
+                    .withStatus(OK.value())
+                    .withBody(readString(response.getFile().toPath(), UTF_8))));
+    }
+
+    private void stubSpinePsisEventQueryEndpoint(Resource response) throws IOException {
+        wireMockServer.stubFor(
+            WireMock.post(spineConfiguration.getPsisQueriesEndpoint())
+                .withHeader(SOAP_ACTION, equalTo(EVENT_QUERY_HEADER))
                 .withHeader(CONTENT_TYPE, equalTo(TEXT_XML_VALUE))
                 .willReturn(aResponse()
                     .withStatus(OK.value())

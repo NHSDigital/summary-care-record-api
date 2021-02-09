@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.hl7.fhir.r4.model.CodeableConcept;
 import org.hl7.fhir.r4.model.Coding;
 import org.hl7.fhir.r4.model.DateTimeType;
+import org.hl7.fhir.r4.model.Identifier;
 import org.hl7.fhir.r4.model.Meta;
 import org.hl7.fhir.r4.model.Period;
 import org.hl7.fhir.r4.model.Procedure;
@@ -26,7 +27,7 @@ import static uk.nhs.adaptors.scr.utils.XmlUtils.getValueByXPath;
 
 @Component
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
-public class ProcedureMapper {
+public class ProcedureHL7Mapper {
 
     private static final String UK_CORE_PROCEDURE_PROFILE = "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Procedure";
     private static final String GP_SUMMARY_XPATH = "//QUPC_IN210000UK04/ControlActEvent/subject//GPSummary";
@@ -64,6 +65,7 @@ public class ProcedureMapper {
 
         Procedure procedure = new Procedure();
         procedure.setId(entry.getId());
+        procedure.addIdentifier(new Identifier().setValue(entry.getId()));
         procedure.setMeta(new Meta().addProfile(UK_CORE_PROCEDURE_PROFILE));
 
         procedure.setCode(new CodeableConcept(new Coding()

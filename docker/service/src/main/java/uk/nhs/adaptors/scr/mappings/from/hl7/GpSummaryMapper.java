@@ -23,7 +23,6 @@ import java.util.Collection;
 import java.util.List;
 
 import static uk.nhs.adaptors.scr.utils.FhirHelper.getDomainResource;
-import static uk.nhs.adaptors.scr.utils.FhirHelper.randomUUID;
 
 @Component
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -32,6 +31,7 @@ public class GpSummaryMapper implements XmlToFhirMapper {
     private static final String DATE_TIME_PATTERN = "yyyyMMddHHmmss";
 
     private static final String BASE_XPATH = "//QUPC_IN210000UK04/ControlActEvent/subject//GPSummary";
+    private static final String EVENT_ID_XPATH = "//QUPC_IN210000UK04/ControlActEvent/subject/queryResponseEvent/event/eventID/@root";
 
     private static final String GP_SUMMARY_ID_XPATH = BASE_XPATH + "/id/@root";
     private static final String GP_SUMMARY_CODE_CODE_XPATH = BASE_XPATH + "/code/@code";
@@ -92,9 +92,11 @@ public class GpSummaryMapper implements XmlToFhirMapper {
         var presentationTextValue =
             XmlUtils.getNodesByXPath(document, PRESENTATION_TEXT_VALUE).stream()
                 .findFirst();
+        var eventId = XmlUtils.getValueByXPath(document, EVENT_ID_XPATH);
+
         List<Resource> resources = new ArrayList<>();
         var composition = new Composition();
-        composition.setId(randomUUID());
+        composition.setId(eventId);
 
         composition.setIdentifier(
             new Identifier()

@@ -211,7 +211,7 @@ public class ParticipantAgentMapper {
                 representedOrganization.setCodeCode(organization.getTypeFirstRep().getCodingFirstRep().getCode());
                 representedOrganization.setName(organization.getName());
                 agentPerson.setRepresentedOrganization(representedOrganization);
-            } else {
+            } else if (organization.hasIdentifier()) {
                 var representedOrganizationSDS = new OrganizationSDS("representedOrganizationSDS");
                 if ("https://fhir.nhs.uk/Id/ods-organization-code".equals(organization.getIdentifierFirstRep().getSystem())) {
                     representedOrganizationSDS.setIdRoot("1.2.826.0.1285.0.1.10");

@@ -46,7 +46,7 @@ public class ProceduresMapper {
             .setCodeCode(procedure.getCode().getCodingFirstRep().getCode())
             .setCodeDisplayName(procedure.getCode().getCodingFirstRep().getDisplay())
             .setStatusCodeCode(mapStatus(procedure.getStatus()))
-            .setEffectiveTimeLow(formatDateToHl7(procedure.getPerformedDateTimeType().getValue()));
+            .setEffectiveTimeLow(getEffectiveTimeLow(procedure));
     }
 
     private static Treatment mapTreatment(Procedure procedure) {
@@ -55,7 +55,17 @@ public class ProceduresMapper {
             .setCodeCode(procedure.getCode().getCodingFirstRep().getCode())
             .setCodeDisplayName(procedure.getCode().getCodingFirstRep().getDisplay())
             .setStatusCodeCode(mapStatus(procedure.getStatus()))
-            .setEffectiveTimeLow(formatDateToHl7(procedure.getPerformedDateTimeType().getValue()));
+            .setEffectiveTimeLow(getEffectiveTimeLow(procedure));
+    }
+
+    private static String getEffectiveTimeLow(Procedure procedure) {
+        if (procedure.hasPerformedPeriod()) {
+            return formatDateToHl7(procedure.getPerformedPeriod().getStart());
+        } else if (procedure.hasPerformedDateTimeType()) {
+            return formatDateToHl7(procedure.getPerformedDateTimeType().getValue());
+        }
+
+        return null;
     }
 
     private static String mapStatus(Procedure.ProcedureStatus status) {

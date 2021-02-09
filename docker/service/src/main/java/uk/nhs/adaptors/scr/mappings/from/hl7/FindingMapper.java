@@ -8,6 +8,7 @@ import org.hl7.fhir.r4.model.DateTimeType;
 import org.hl7.fhir.r4.model.Encounter;
 import org.hl7.fhir.r4.model.Encounter.EncounterParticipantComponent;
 import org.hl7.fhir.r4.model.Extension;
+import org.hl7.fhir.r4.model.Identifier;
 import org.hl7.fhir.r4.model.Immunization;
 import org.hl7.fhir.r4.model.ImmunizationRecommendation;
 import org.hl7.fhir.r4.model.ImmunizationRecommendation.ImmunizationRecommendationRecommendationComponent;
@@ -23,7 +24,7 @@ import org.springframework.stereotype.Component;
 import org.w3c.dom.Node;
 import uk.nhs.adaptors.scr.mappings.from.hl7.common.CodedEntry;
 import uk.nhs.adaptors.scr.mappings.from.hl7.common.CodedEntryMapper;
-import uk.nhs.adaptors.scr.mappings.from.hl7.common.ObservationCommonMapper;
+import uk.nhs.adaptors.scr.mappings.from.hl7.common.ObservationHL7Mapper;
 import uk.nhs.adaptors.scr.utils.XmlUtils;
 
 import java.util.ArrayList;
@@ -58,14 +59,11 @@ public class FindingMapper implements XmlToFhirMapper {
     private static final String PERFORMER_EXTENSION_URL = "https://fhir.nhs.uk/StructureDefinition/Extension-SCR-ModeCode";
     private static final String ENCOUNTER_PARTICIPATION_MODE_SYSTEM = "http://terminology.hl7.org/CodeSystem/v3-ParticipationMode";
     private static final String ENCOUNTER_CLASS_SYSTEM = "http://terminology.hl7.org/CodeSystem/v3-NullFlavor";
-    private static final List<String> SARS_COV_2_CODES = List.of("1240581000000104", "163131000000108");
     private static final String MEDICATION_RECOMMENDATION_CRE_TYPE = "185371000000109";
     private static final String MEDICATION_RECORD_CRE_TYPE = "163111000000100";
-    private static final String INVESTIGATION_RESULT_CRE_TYPE = "163141000000104";
-    private static final String CLINICAL_OBSERVATION_CRE_TYPE = "163131000000108";
 
     private final ParticipantMapper participantMapper;
-    private final ObservationCommonMapper observationCommonMapper;
+    private final ObservationHL7Mapper observationHL7Mapper;
     private final CodedEntryMapper codedEntryMapper;
 
     @SneakyThrows
@@ -82,8 +80,7 @@ public class FindingMapper implements XmlToFhirMapper {
                     case MEDICATION_RECORD_CRE_TYPE:
                         resources.add(mapMedication(node));
                         break;
-                    case CLINICAL_OBSERVATION_CRE_TYPE:
-                    case INVESTIGATION_RESULT_CRE_TYPE:
+                    default:
                         resources.add(mapObservation(resources, pertinentCRETypeCode, pertinentCRETypeDisplay, node));
                 }
             }
@@ -95,6 +92,7 @@ public class FindingMapper implements XmlToFhirMapper {
         CodedEntry entry = codedEntryMapper.getCommonCodedEntryValues(node);
         Immunization immunization = new Immunization();
         immunization.setId(entry.getId());
+        immunization.addIdentifier(new Identifier().setValue(entry.getId()));
         immunization.setMeta(new Meta().addProfile(UK_CORE_IMMUNIZATION_PROFILE));
         immunization.addExtension(new Extension()
             .setUrl(IMMUNIZATION_EXTENSION_URL)
@@ -120,6 +118,7 @@ public class FindingMapper implements XmlToFhirMapper {
         CodedEntry entry = codedEntryMapper.getCommonCodedEntryValues(node);
         ImmunizationRecommendation recommendation = new ImmunizationRecommendation();
         recommendation.setId(entry.getId());
+        recommendation.addIdentifier(new Identifier().setValue(entry.getId()));
         recommendation.setDate(entry.getEffectiveTimeLow().get());
         ImmunizationRecommendationRecommendationComponent component =
             new ImmunizationRecommendationRecommendationComponent();
@@ -133,7 +132,7 @@ public class FindingMapper implements XmlToFhirMapper {
     }
 
     private Observation mapObservation(ArrayList<Resource> resources, String creTypeCode, String creTypeDisplay, Node node) {
-        Observation observation = observationCommonMapper.mapObservation(node);
+        Observation observation = observationHL7Mapper.mapObservation(node);
 
         observation.addCategory(new CodeableConcept(new Coding()
             .setSystem(SNOMED_SYSTEM)

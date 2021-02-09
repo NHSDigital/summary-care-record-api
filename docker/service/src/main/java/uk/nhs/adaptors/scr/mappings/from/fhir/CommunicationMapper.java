@@ -2,6 +2,7 @@ package uk.nhs.adaptors.scr.mappings.from.fhir;
 
 import org.hl7.fhir.r4.model.Bundle;
 import org.hl7.fhir.r4.model.Communication;
+import org.hl7.fhir.r4.model.Communication.CommunicationStatus;
 import uk.nhs.adaptors.scr.models.GpSummary;
 import uk.nhs.adaptors.scr.models.xml.PatientCarerCorrespondence;
 import uk.nhs.adaptors.scr.models.xml.ProvisionOfAdviceAndInformation;
@@ -58,7 +59,7 @@ public class CommunicationMapper {
             .setEffectiveTimeLow(formatDateToHl7(communication.getSent()));
     }
 
-    private static String mapStatus(Communication.CommunicationStatus status) {
+    private static String mapStatus(CommunicationStatus status) {
         switch (status) {
             case PREPARATION:
             case INPROGRESS:

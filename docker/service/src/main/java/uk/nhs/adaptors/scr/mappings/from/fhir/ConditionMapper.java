@@ -3,6 +3,7 @@ package uk.nhs.adaptors.scr.mappings.from.fhir;
 import io.micrometer.core.instrument.util.StringUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.hl7.fhir.r4.model.Bundle;
+import org.hl7.fhir.r4.model.CodeableConcept;
 import org.hl7.fhir.r4.model.Condition;
 import org.hl7.fhir.r4.model.Encounter;
 import org.hl7.fhir.r4.model.Period;
@@ -34,6 +35,7 @@ public class ConditionMapper {
         diagnosis.setIdRoot(condition.getIdentifierFirstRep().getValue());
         diagnosis.setCodeCode(condition.getCode().getCodingFirstRep().getCode());
         diagnosis.setCodeDisplayName(condition.getCode().getCodingFirstRep().getDisplay());
+        diagnosis.setStatusCodeCode(mapStatus(condition.getClinicalStatus()));
         if (condition.hasOnsetDateTimeType()) {
             diagnosis.setEffectiveTimeLow(formatDateToHl7(condition.getOnsetDateTimeType().getValue()));
         }
@@ -51,7 +53,9 @@ public class ConditionMapper {
         var encounterReference = condition.getEncounter().getReference();
         if (StringUtils.isNotBlank(encounterReference)) {
             var encounter = getResourceByReference(bundle, encounterReference, Encounter.class)
-                .orElseThrow(() -> new FhirValidationException(String.format("Bundle is Missing Encounter %s that is linked to Condition %s", condition.getEncounter().getReference(), condition.getId())));
+                .orElseThrow(() ->
+                    new FhirValidationException(String.format("Bundle is Missing Encounter %s that is linked to Condition %s",
+                        condition.getEncounter().getReference(), condition.getId())));
 
             for (var encounterParticipant : encounter.getParticipant()) {
                 var code = encounterParticipant.getTypeFirstRep().getCodingFirstRep().getCode();
@@ -68,5 +72,17 @@ public class ConditionMapper {
         }
 
         return diagnosis;
+    }
+
+    private static String mapStatus(CodeableConcept status) {
+        switch (status.getCodingFirstRep().getCode()) {
+            case "confirmed":
+                return "completed";
+            case "normal":
+            case "active:":
+                return "active";
+            default:
+                return "nullified";
+        }
     }
 }

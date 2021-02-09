@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.hl7.fhir.r4.model.CodeableConcept;
 import org.hl7.fhir.r4.model.Coding;
 import org.hl7.fhir.r4.model.Communication;
+import org.hl7.fhir.r4.model.Identifier;
 import org.hl7.fhir.r4.model.Meta;
 import org.hl7.fhir.r4.model.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,7 @@ import static uk.nhs.adaptors.scr.utils.XmlUtils.getValueByXPath;
 
 @Component
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
-public class CommunicationCommonMapper {
+public class CommunicationHL7Mapper {
 
     private static final String GP_SUMMARY_XPATH = "//QUPC_IN210000UK04/ControlActEvent/subject//GPSummary";
     private static final String UK_CORE_COMMUNICATION_PROFILE = "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Encounter";
@@ -60,6 +61,7 @@ public class CommunicationCommonMapper {
         CodedEntry entry = codedEntryMapper.getCommonCodedEntryValues(node);
         Communication communication = new Communication();
         communication.setId(entry.getId());
+        communication.addIdentifier(new Identifier().setValue(entry.getId()));
         communication.setMeta(new Meta().addProfile(UK_CORE_COMMUNICATION_PROFILE));
         communication.setStatus(mapStatus(entry.getStatus()));
 
