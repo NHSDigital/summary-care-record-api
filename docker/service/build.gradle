@@ -32,8 +32,6 @@ dependencies {
     implementation 'ca.uhn.hapi.fhir:hapi-fhir-base:4.2.0'
     implementation 'ca.uhn.hapi.fhir:hapi-fhir-structures-r4:4.2.0'
     implementation 'ca.uhn.hapi.fhir:hapi-fhir-validation-resources-r4:4.2.0'
-    implementation 'ca.uhn.hapi.fhir:hapi-fhir-structures-dstu3:4.2.0'
-    implementation 'ca.uhn.hapi.fhir:hapi-fhir-validation-resources-dstu3:4.2.0'
     implementation 'com.github.spullara.mustache.java:compiler:0.9.5'
     implementation 'org.apache.httpcomponents:httpclient:4.5.12'
     implementation 'org.apache.commons:commons-text:1.9'
