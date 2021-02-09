@@ -1,9 +1,10 @@
 package uk.nhs.adaptors.scr.mappings.from.hl7.common;
 
+import org.hl7.fhir.r4.model.DateTimeType;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Node;
-import uk.nhs.adaptors.scr.mappings.from.hl7.XmlToFhirMapper;
 
+import static uk.nhs.adaptors.scr.mappings.from.hl7.XmlToFhirMapper.parseDate;
 import static uk.nhs.adaptors.scr.utils.XmlUtils.getOptionalValueByXPath;
 import static uk.nhs.adaptors.scr.utils.XmlUtils.getValueByXPath;
 
@@ -22,9 +23,9 @@ public class CodedEntryMapper {
         var codeValue = getValueByXPath(node, CODE_VALUE_XPATH);
         var codeDisplayName = getValueByXPath(node, CODE_DISPLAY_XPATH);
         var effectiveTimeLow =
-            getOptionalValueByXPath(node, EFFECTIVE_TIME_LOW_XPATH).map(XmlToFhirMapper::parseDate);
+            getOptionalValueByXPath(node, EFFECTIVE_TIME_LOW_XPATH).map(it -> parseDate(it, DateTimeType.class));
         var effectiveTimeHigh =
-            getOptionalValueByXPath(node, EFFECTIVE_TIME_HIGH_XPATH).map(XmlToFhirMapper::parseDate);
+            getOptionalValueByXPath(node, EFFECTIVE_TIME_HIGH_XPATH).map(it -> parseDate(it, DateTimeType.class));
         var statusCode = getValueByXPath(node, STATUS_CODE_XPATH);
 
         return new CodedEntry()

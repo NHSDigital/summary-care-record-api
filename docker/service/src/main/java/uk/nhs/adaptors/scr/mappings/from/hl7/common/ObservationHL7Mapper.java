@@ -3,6 +3,7 @@ package uk.nhs.adaptors.scr.mappings.from.hl7.common;
 import lombok.RequiredArgsConstructor;
 import org.hl7.fhir.r4.model.CodeableConcept;
 import org.hl7.fhir.r4.model.Coding;
+import org.hl7.fhir.r4.model.DateTimeType;
 import org.hl7.fhir.r4.model.Identifier;
 import org.hl7.fhir.r4.model.Meta;
 import org.hl7.fhir.r4.model.Observation;
@@ -10,11 +11,11 @@ import org.hl7.fhir.r4.model.Period;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Node;
-import uk.nhs.adaptors.scr.mappings.from.hl7.XmlToFhirMapper;
 
 import static org.hl7.fhir.r4.model.Observation.ObservationStatus.ENTEREDINERROR;
 import static org.hl7.fhir.r4.model.Observation.ObservationStatus.FINAL;
 import static uk.nhs.adaptors.scr.mappings.from.hl7.XmlToFhirMapper.SNOMED_SYSTEM;
+import static uk.nhs.adaptors.scr.mappings.from.hl7.XmlToFhirMapper.parseDate;
 import static uk.nhs.adaptors.scr.utils.XmlUtils.getOptionalValueByXPath;
 
 @Component
@@ -29,7 +30,7 @@ public class ObservationHL7Mapper {
     public Observation mapObservation(Node node) {
         CodedEntry entry = codedEntryMapper.getCommonCodedEntryValues(node);
         var effectiveTimeCentre =
-            getOptionalValueByXPath(node, EFFECTIVE_TIME_CENTRE_XPATH).map(XmlToFhirMapper::parseDate);
+            getOptionalValueByXPath(node, EFFECTIVE_TIME_CENTRE_XPATH).map(it -> parseDate(it, DateTimeType.class));
 
         var observation = new Observation();
         observation.setId(entry.getId());

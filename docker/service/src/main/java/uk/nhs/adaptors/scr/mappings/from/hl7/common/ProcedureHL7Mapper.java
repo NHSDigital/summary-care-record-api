@@ -3,6 +3,7 @@ package uk.nhs.adaptors.scr.mappings.from.hl7.common;
 import lombok.RequiredArgsConstructor;
 import org.hl7.fhir.r4.model.CodeableConcept;
 import org.hl7.fhir.r4.model.Coding;
+import org.hl7.fhir.r4.model.DateTimeType;
 import org.hl7.fhir.r4.model.Identifier;
 import org.hl7.fhir.r4.model.Meta;
 import org.hl7.fhir.r4.model.Period;
@@ -11,7 +12,6 @@ import org.hl7.fhir.r4.model.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Node;
-import uk.nhs.adaptors.scr.mappings.from.hl7.XmlToFhirMapper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +20,7 @@ import static org.hl7.fhir.r4.model.Procedure.ProcedureStatus.COMPLETED;
 import static org.hl7.fhir.r4.model.Procedure.ProcedureStatus.INPROGRESS;
 import static org.hl7.fhir.r4.model.Procedure.ProcedureStatus.NULL;
 import static uk.nhs.adaptors.scr.mappings.from.hl7.XmlToFhirMapper.SNOMED_SYSTEM;
+import static uk.nhs.adaptors.scr.mappings.from.hl7.XmlToFhirMapper.parseDate;
 import static uk.nhs.adaptors.scr.utils.XmlUtils.getNodesByXPath;
 import static uk.nhs.adaptors.scr.utils.XmlUtils.getOptionalValueByXPath;
 import static uk.nhs.adaptors.scr.utils.XmlUtils.getValueByXPath;
@@ -58,7 +59,7 @@ public class ProcedureHL7Mapper {
 
     public Procedure mapProcedure(Node node) {
         var effectiveTimeCentre =
-            getOptionalValueByXPath(node, EFFECTIVE_TIME_CENTRE_XPATH).map(XmlToFhirMapper::parseDate);
+            getOptionalValueByXPath(node, EFFECTIVE_TIME_CENTRE_XPATH).map(it -> parseDate(it, DateTimeType.class));
 
         CodedEntry entry = codedEntryMapper.getCommonCodedEntryValues(node);
 

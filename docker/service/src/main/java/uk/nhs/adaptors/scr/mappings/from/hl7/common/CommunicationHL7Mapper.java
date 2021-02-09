@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.hl7.fhir.r4.model.CodeableConcept;
 import org.hl7.fhir.r4.model.Coding;
 import org.hl7.fhir.r4.model.Communication;
+import org.hl7.fhir.r4.model.DateTimeType;
 import org.hl7.fhir.r4.model.Identifier;
 import org.hl7.fhir.r4.model.Meta;
 import org.hl7.fhir.r4.model.Resource;
@@ -77,7 +78,7 @@ public class CommunicationHL7Mapper {
 
         entry.getEffectiveTimeLow().ifPresent(communication::setSentElement);
         getOptionalValueByXPath(node, EFFECTIVE_TIME_XPATH)
-            .ifPresent(date -> communication.setSentElement(parseDate(date)));
+            .ifPresent(date -> communication.setSentElement(parseDate(date, DateTimeType.class)));
 
         return communication;
     }

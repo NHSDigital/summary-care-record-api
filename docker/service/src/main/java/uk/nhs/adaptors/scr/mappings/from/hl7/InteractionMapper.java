@@ -3,11 +3,10 @@ package uk.nhs.adaptors.scr.mappings.from.hl7;
 import lombok.SneakyThrows;
 import org.hl7.fhir.r4.model.Bundle;
 import org.hl7.fhir.r4.model.Identifier;
+import org.hl7.fhir.r4.model.InstantType;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
 import uk.nhs.adaptors.scr.utils.XmlUtils;
-
-import java.text.SimpleDateFormat;
 
 import static org.hl7.fhir.r4.model.Bundle.BundleType.SEARCHSET;
 import static uk.nhs.adaptors.scr.utils.FhirHelper.randomUUID;
@@ -27,19 +26,17 @@ public class InteractionMapper {
 
     @SneakyThrows
     public Bundle map(Document document) {
-        var simpleDateFormat = new SimpleDateFormat(DATE_TIME_PATTERN);
-
         var interactionId =
             XmlUtils.getValueByXPath(document, INTERACTION_ID_XPATH);
         var interactionCreationTime =
-            simpleDateFormat.parse(XmlUtils.getValueByXPath(document, INTERACTION_CREATION_TIME_XPATH));
+            XmlToFhirMapper.parseDate(XmlUtils.getValueByXPath(document, INTERACTION_CREATION_TIME_XPATH), InstantType.class);
 
         var bundle = buildBundle();
 
         bundle.setIdentifier(new Identifier()
             .setValue(interactionId)
             .setSystem("https://tools.ietf.org/html/rfc4122"));
-        bundle.setTimestamp(interactionCreationTime);
+        bundle.setTimestampElement(interactionCreationTime);
 
         return bundle;
     }

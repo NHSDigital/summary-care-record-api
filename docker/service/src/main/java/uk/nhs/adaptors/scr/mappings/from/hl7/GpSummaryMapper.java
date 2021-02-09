@@ -6,7 +6,9 @@ import org.hl7.fhir.r4.model.Bundle;
 import org.hl7.fhir.r4.model.CodeableConcept;
 import org.hl7.fhir.r4.model.Coding;
 import org.hl7.fhir.r4.model.Composition;
+import org.hl7.fhir.r4.model.DateTimeType;
 import org.hl7.fhir.r4.model.Identifier;
+import org.hl7.fhir.r4.model.InstantType;
 import org.hl7.fhir.r4.model.Meta;
 import org.hl7.fhir.r4.model.PractitionerRole;
 import org.hl7.fhir.r4.model.Reference;
@@ -17,11 +19,11 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import uk.nhs.adaptors.scr.utils.XmlUtils;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import static uk.nhs.adaptors.scr.mappings.from.hl7.XmlToFhirMapper.parseDate;
 import static uk.nhs.adaptors.scr.utils.FhirHelper.getDomainResource;
 
 @Component
@@ -65,8 +67,6 @@ public class GpSummaryMapper implements XmlToFhirMapper {
 
     @SneakyThrows
     public List<Resource> map(Node document) {
-        var simpleDateFormat = new SimpleDateFormat(DATE_TIME_PATTERN);
-
         var gpSummaryId =
             XmlUtils.getValueByXPath(document, GP_SUMMARY_ID_XPATH);
         var gpSummaryCodeCode =
@@ -78,9 +78,9 @@ public class GpSummaryMapper implements XmlToFhirMapper {
         var gpSummaryStatusCode =
             XmlUtils.getValueByXPath(document, GP_SUMMARY_STATUS_CODE_XPATH);
         var gpSummaryEffectiveTime =
-            simpleDateFormat.parse(XmlUtils.getValueByXPath(document, GP_SUMMARY_EFFECTIVE_TIME_XPATH));
+            parseDate(XmlUtils.getValueByXPath(document, GP_SUMMARY_EFFECTIVE_TIME_XPATH), InstantType.class);
         var authorTime =
-            simpleDateFormat.parse(XmlUtils.getValueByXPath(document, GP_SUMMARY_AUTHOR_TIME_XPATH));
+            parseDate(XmlUtils.getValueByXPath(document, GP_SUMMARY_AUTHOR_TIME_XPATH), DateTimeType.class);
         var replacementOfPriorMessageRefIdRoot =
             XmlUtils.getValueByXPath(document, REPLACEMENT_OF_PRIOR_MESSAGE_REF_ID_ROOT_XPATH);
         var pertinentRootCreTypeCodeCode =
@@ -109,12 +109,12 @@ public class GpSummaryMapper implements XmlToFhirMapper {
                 .setSystem(gpSummaryCodeCodeSystem)
                 .setDisplay(gpSummaryCodeDisplayName)));
 
-        composition.setMeta(new Meta().setLastUpdated(gpSummaryEffectiveTime));
+        composition.setMeta(new Meta().setLastUpdatedElement(gpSummaryEffectiveTime));
 
         composition.setStatus(
             mapCompositionStatus(gpSummaryStatusCode));
 
-        composition.setDate(authorTime);
+        composition.setDateElement(authorTime);
 
         composition.addRelatesTo(
             new Composition.CompositionRelatesToComponent().setTarget(new Identifier()
@@ -140,7 +140,7 @@ public class GpSummaryMapper implements XmlToFhirMapper {
     }
 
     public void map(Bundle bundle, Document document) {
-        for (var  section : getDomainResource(bundle, Composition.class).getSection()) {
+        for (var section : getDomainResource(bundle, Composition.class).getSection()) {
             var xpath = String.format(CODED_ENTRY_ID_XPATH, section.getTitle());
             for (Node node : XmlUtils.getNodesByXPath(document.getDocumentElement(), xpath)) {
                 var codedEntryId = node.getNodeValue();

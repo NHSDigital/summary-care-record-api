@@ -6,7 +6,7 @@
     "value": "821533D3-3E0F-11EB-8111-F40343488B16"
   },
   "type": "searchset",
-  "timestamp": "2020-12-14T13:23:10.000+01:00",
+  "timestamp": "2020-12-14T13:23:10+00:00",
   "total": 58,
   "entry": [
     {
@@ -15,7 +15,7 @@
         "resourceType": "Composition",
         "id": "BF4180FD-C403-4EF7-A4AB-E07303AF5477",
         "meta": {
-          "lastUpdated": "2020-11-17T01:00:00.000+01:00"
+          "lastUpdated": "2020-11-17T01:00:00+00:00"
         },
         "identifier": {
           "system": "https://tools.ietf.org/html/rfc4122",
@@ -45,7 +45,7 @@
         "subject": {
           "reference": "Patient/565B3BEF-9A19-4763-8887-9F7CB75995E3"
         },
-        "date": "2020-11-17T01:00:00+01:00",
+        "date": "2020-11-17T01:00:00+00:00",
         "author": [
           {
             "reference": "PractitionerRole/C89A53D3-E063-4023-B89C-1A105ABAABB7"
@@ -412,7 +412,7 @@
         "encounter": {
           "reference": "Encounter/DE2F2DAB-5BB1-480C-AA67-A2A68D06620D"
         },
-        "onsetDateTime": "2020-05-06T12:48:19+02:00"
+        "onsetDateTime": "2020-05-06T12:48:19+00:00"
       }
     },
     {
@@ -474,7 +474,7 @@
               }
             ],
             "period": {
-              "start": "2020-11-17T01:00:00+01:00"
+              "start": "2020-11-17T01:00:00+00:00"
             },
             "individual": {
               "reference": "PractitionerRole/29325FBB-AA13-4645-BAE4-314AD6D21083"
@@ -524,7 +524,7 @@
         "encounter": {
           "reference": "Encounter/920DCE4E-3E44-4966-B7C4-B61DAB9E4FDE"
         },
-        "onsetDateTime": "2020-05-06T12:48:19+02:00",
+        "onsetDateTime": "2020-05-06T12:48:19+00:00",
         "evidence": [
           {
             "detail": [
@@ -626,7 +626,7 @@
               }
             ],
             "period": {
-              "start": "2020-11-18T01:00:00+01:00"
+              "start": "2020-11-18T01:00:00+00:00"
             },
             "individual": {
               "reference": "PractitionerRole/4EAE23ED-8F8D-455B-A15E-96B077F02411"
@@ -676,7 +676,7 @@
         "encounter": {
           "reference": "Encounter/13DDB7F7-EF7A-4825-B0A1-B17B7B4DE942"
         },
-        "onsetDateTime": "2020-05-06T12:48:19+02:00"
+        "onsetDateTime": "2020-05-06T12:48:19+00:00"
       }
     },
     {
@@ -808,7 +808,7 @@
               }
             ],
             "period": {
-              "start": "2020-12-18T01:00:00+01:00"
+              "start": "2020-12-18T01:00:00+00:00"
             },
             "individual": {
               "reference": "PractitionerRole/E3FE00AE-40E8-43D8-8779-13E24C1E2ACB"
@@ -827,7 +827,7 @@
               }
             ],
             "period": {
-              "start": "2016-06-30T10:33:58+02:00"
+              "start": "2016-06-30T10:33:58+00:00"
             },
             "individual": {
               "reference": "PractitionerRole/24362D88-A6AB-4DDA-94E6-97BB5B0A27AE"
@@ -877,7 +877,7 @@
         "encounter": {
           "reference": "Encounter/330A104F-F328-4A65-A0B8-DEEC91A0E262"
         },
-        "onsetDateTime": "2020-05-06T12:48:19+02:00"
+        "onsetDateTime": "2020-05-06T12:48:19+00:00"
       }
     },
     {
@@ -998,7 +998,7 @@
               }
             ],
             "period": {
-              "start": "2020-12-18T01:00:00+01:00"
+              "start": "2020-12-18T01:00:00+00:00"
             },
             "individual": {
               "reference": "PractitionerRole/E5E45994-E9A4-4BAB-A4B2-DCA8AF1B6493"
@@ -1017,7 +1017,7 @@
               }
             ],
             "period": {
-              "start": "2016-06-30T10:33:58+02:00"
+              "start": "2016-06-30T10:33:58+00:00"
             },
             "individual": {
               "reference": "RelatedPerson/B0A64A15-3552-4525-8305-1DBFDF548C97"
@@ -1067,7 +1067,7 @@
         "encounter": {
           "reference": "Encounter/0EB8181D-2CCB-444D-826F-9F0B05698730"
         },
-        "onsetDateTime": "2020-05-06T12:48:19+02:00"
+        "onsetDateTime": "2020-05-06T12:48:19+00:00"
       }
     },
     {
@@ -1219,7 +1219,7 @@
               }
             ],
             "period": {
-              "start": "2020-12-18T01:00:00+01:00"
+              "start": "2020-12-18T01:00:00+00:00"
             },
             "individual": {
               "reference": "PractitionerRole/528485E6-E9F6-4F6C-8603-5C4688AC3E4D"
@@ -1238,7 +1238,7 @@
               }
             ],
             "period": {
-              "start": "2016-06-30T10:33:58+02:00"
+              "start": "2016-06-30T10:33:58+00:00"
             },
             "individual": {
               "reference": "PractitionerRole/2EAC367D-5C65-4564-8475-D62C44B21A02"
@@ -1320,7 +1320,7 @@
               }
             ],
             "period": {
-              "start": "2016-06-30T10:33:58+02:00"
+              "start": "2016-06-30T10:33:58+00:00"
             },
             "individual": {
               "reference": "PractitionerRole/839ABFE3-1063-4B03-A716-E67377417F9B"
@@ -1369,7 +1369,7 @@
           "reference": "Encounter/74852157-6F69-497F-8116-7E2F4493999A"
         },
         "effectivePeriod": {
-          "start": "2020-05-06T12:48:19+02:00"
+          "start": "2020-05-06T12:48:19+00:00"
         }
       }
     },
@@ -1440,7 +1440,7 @@
               }
             ],
             "period": {
-              "start": "2016-06-30T10:33:58+02:00"
+              "start": "2016-06-30T10:33:58+00:00"
             },
             "individual": {
               "reference": "PractitionerRole/3AA33898-49AB-41FC-9805-E30031DFB37D"
@@ -1489,7 +1489,7 @@
           "reference": "Encounter/54096A6E-03C3-48B8-B448-7C813EC926DA"
         },
         "effectivePeriod": {
-          "start": "2020-05-06T12:48:19+02:00"
+          "start": "2020-05-06T12:48:19+00:00"
         }
       }
     },
@@ -1604,7 +1604,7 @@
               }
             ],
             "period": {
-              "start": "2016-06-30T10:33:58+02:00"
+              "start": "2016-06-30T10:33:58+00:00"
             },
             "individual": {
               "reference": "PractitionerRole/29BF2890-7D56-4FC5-A3A9-7D3483205EFD"
@@ -1653,7 +1653,7 @@
           "reference": "Encounter/863E4623-2F33-45C5-B02F-26BBAEDE24E8"
         },
         "effectivePeriod": {
-          "start": "2020-05-06T12:48:19+02:00"
+          "start": "2020-05-06T12:48:19+00:00"
         }
       }
     },

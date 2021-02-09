@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.hl7.fhir.r4.model.Encounter.EncounterStatus.FINISHED;
+import static uk.nhs.adaptors.scr.mappings.from.hl7.XmlToFhirMapper.parseDate;
 import static uk.nhs.adaptors.scr.utils.FhirHelper.randomUUID;
 import static uk.nhs.adaptors.scr.utils.XmlUtils.getNodesByXPath;
 import static uk.nhs.adaptors.scr.utils.XmlUtils.getOptionalValueByXPath;
@@ -124,25 +125,25 @@ public class DiagnosisMapper implements XmlToFhirMapper {
     }
 
     private void mapInformant(List<Resource> resources, Encounter encounter, Node informant) {
-        DateTimeType time = XmlToFhirMapper.parseDate(getValueByXPath(informant, DIAGNOSIS_PARTICIPANT_TIME_XPATH));
+        DateTimeType time = parseDate(getValueByXPath(informant, DIAGNOSIS_PARTICIPANT_TIME_XPATH), DateTimeType.class);
         participantMapper.map(informant)
             .stream()
             .peek(it -> resources.add(it))
             .filter(it -> it instanceof PractitionerRole || it instanceof RelatedPerson)
             .forEach(it -> encounter.addParticipant(new EncounterParticipantComponent()
-                .setPeriod(new Period().setStart(time.getValue()))
+                .setPeriod(new Period().setStartElement(time))
                 .addType(getParticipationType("INF", "informant"))
                 .setIndividual(new Reference(it))));
     }
 
     private void mapAuthor(List<Resource> resources, Encounter encounter, Node author) {
-        DateTimeType time = XmlToFhirMapper.parseDate(getValueByXPath(author, DIAGNOSIS_PARTICIPANT_TIME_XPATH));
+        DateTimeType time = parseDate(getValueByXPath(author, DIAGNOSIS_PARTICIPANT_TIME_XPATH), DateTimeType.class);
         participantMapper.map(author)
             .stream()
             .peek(it -> resources.add(it))
             .filter(it -> it instanceof PractitionerRole)
             .forEach(it -> encounter.addParticipant(new EncounterParticipantComponent()
-                .setPeriod(new Period().setStart(time.getValue()))
+                .setPeriod(new Period().setStartElement(time))
                 .addType(getParticipationType("AUT", "author"))
                 .setIndividual(new Reference(it))));
     }
