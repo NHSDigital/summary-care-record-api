@@ -24,13 +24,13 @@ properties:
     example: "2007-03-15T01:00:00Z"
   total:
     type: integer
-    example: 43
+    example: 58
     description: Total number of entries in the Bundle
   entry:
     type: array
     items:
       anyOf:
-        - $ref: CompositionGetEntry.yaml
+        - $ref: CompositionEntry.yaml
         - $ref: PatientEntry.yaml
         - $ref: PractitionerEntry.yaml
         - $ref: PractitionerRoleEntry.yaml

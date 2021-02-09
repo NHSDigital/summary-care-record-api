@@ -22,6 +22,18 @@
                 default: "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Procedure"
           minItems: 1
           maxItems: 1
+        identifier:
+          type: array
+          items:
+            type: object
+            properties:
+              value:
+                type: string
+                example: 0F582D97-8F89-11EA-8B2D-B741F13EFC47
+            required:
+              - value
+          minItems: 1
+          maxItems: 1
         status:
           type: string
           enum:

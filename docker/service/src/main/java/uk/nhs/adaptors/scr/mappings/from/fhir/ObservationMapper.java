@@ -96,9 +96,9 @@ public class ObservationMapper {
 
     private static String getEffectiveTimeLow(Observation observation) {
         if (observation.hasEffectivePeriod()) {
-            return formatDateToHl7(observation.getEffectivePeriod().getStart());
+            return formatDateToHl7(observation.getEffectivePeriod().getStartElement());
         } else if (observation.hasEffectiveDateTimeType()) {
-            return formatDateToHl7(observation.getEffectiveDateTimeType().getValue());
+            return formatDateToHl7(observation.getEffectiveDateTimeType());
         }
 
         return null;
@@ -112,14 +112,14 @@ public class ObservationMapper {
         finding.setCodeDisplayName(observation.getCode().getCodingFirstRep().getDisplay());
         finding.setStatusCodeCode(mapStatus(observation.getStatus()));
         if (observation.getEffective() instanceof DateTimeType) {
-            finding.setEffectiveTimeCenter(formatDateToHl7(observation.getEffectiveDateTimeType().getValue()));
+            finding.setEffectiveTimeCenter(formatDateToHl7(observation.getEffectiveDateTimeType()));
         } else if (observation.getEffective() instanceof Period) {
             var period = observation.getEffectivePeriod();
             if (period.hasStart()) {
-                finding.setEffectiveTimeLow(formatDateToHl7(period.getStart()));
+                finding.setEffectiveTimeLow(formatDateToHl7(period.getStartElement()));
             }
             if (period.hasEnd()) {
-                finding.setEffectiveTimeHigh(formatDateToHl7(period.getEnd()));
+                finding.setEffectiveTimeHigh(formatDateToHl7(period.getEndElement()));
             }
         } else {
             throw new FhirValidationException("Observation.effective must be of type DateTimeType or Period");

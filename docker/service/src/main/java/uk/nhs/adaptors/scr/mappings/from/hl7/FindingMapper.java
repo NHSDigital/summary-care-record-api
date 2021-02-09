@@ -28,7 +28,6 @@ import uk.nhs.adaptors.scr.mappings.from.hl7.common.ObservationHL7Mapper;
 import uk.nhs.adaptors.scr.utils.XmlUtils;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -110,7 +109,7 @@ public class FindingMapper implements XmlToFhirMapper {
             )
         );
         entry.getEffectiveTimeLow()
-            .ifPresent(date -> immunization.setOccurrence(new DateTimeType(date)));
+            .ifPresent(date -> immunization.setOccurrence(date));
         return immunization;
     }
 
@@ -119,7 +118,7 @@ public class FindingMapper implements XmlToFhirMapper {
         ImmunizationRecommendation recommendation = new ImmunizationRecommendation();
         recommendation.setId(entry.getId());
         recommendation.addIdentifier(new Identifier().setValue(entry.getId()));
-        recommendation.setDate(entry.getEffectiveTimeLow().get());
+        recommendation.setDateElement(entry.getEffectiveTimeLow().get());
         ImmunizationRecommendationRecommendationComponent component =
             new ImmunizationRecommendationRecommendationComponent();
         component.addContraindicatedVaccineCode().addCoding()
@@ -165,7 +164,7 @@ public class FindingMapper implements XmlToFhirMapper {
     }
 
     private void mapPerformer(List<Resource> resources, Encounter encounter, Node performer) {
-        Date time = XmlToFhirMapper.parseDate(XmlUtils.getValueByXPath(performer, FINDING_PARTICIPANT_TIME_XPATH));
+        DateTimeType time = XmlToFhirMapper.parseDate(XmlUtils.getValueByXPath(performer, FINDING_PARTICIPANT_TIME_XPATH));
         participantMapper.map(performer)
             .stream()
             .peek(it -> resources.add(it))
@@ -180,34 +179,34 @@ public class FindingMapper implements XmlToFhirMapper {
                         .setCode(modeCode)
                         .setDisplay(getParticipationModeDisplay(modeCode))));
                 encounter.addParticipant(participant
-                    .setPeriod(new Period().setStart(time))
+                    .setPeriod(new Period().setStart(time.getValue()))
                     .addType(getParticipationType("PRF", "performer"))
                     .setIndividual(it));
             });
     }
 
     private void mapInformant(List<Resource> resources, Encounter encounter, Node informant) {
-        Date time = XmlToFhirMapper.parseDate(XmlUtils.getValueByXPath(informant, FINDING_PARTICIPANT_TIME_XPATH));
+        DateTimeType time = XmlToFhirMapper.parseDate(XmlUtils.getValueByXPath(informant, FINDING_PARTICIPANT_TIME_XPATH));
         participantMapper.map(informant)
             .stream()
             .peek(it -> resources.add(it))
             .filter(it -> it instanceof PractitionerRole || it instanceof RelatedPerson)
             .map(Reference::new)
             .forEach(it -> encounter.addParticipant(new EncounterParticipantComponent()
-                .setPeriod(new Period().setStart(time))
+                .setPeriod(new Period().setStart(time.getValue()))
                 .addType(getParticipationType("INF", "informant"))
                 .setIndividual(it)));
     }
 
     private void mapAuthor(List<Resource> resources, Encounter encounter, Node author) {
-        Date time = XmlToFhirMapper.parseDate(XmlUtils.getValueByXPath(author, FINDING_PARTICIPANT_TIME_XPATH));
+        DateTimeType time = XmlToFhirMapper.parseDate(XmlUtils.getValueByXPath(author, FINDING_PARTICIPANT_TIME_XPATH));
         participantMapper.map(author)
             .stream()
             .peek(it -> resources.add(it))
             .filter(it -> it instanceof PractitionerRole)
             .map(Reference::new)
             .forEach(it -> encounter.addParticipant(new EncounterParticipantComponent()
-                .setPeriod(new Period().setStart(time))
+                .setPeriod(new Period().setStart(time.getValue()))
                 .addType(getParticipationType("AUT", "author"))
                 .setIndividual(it)));
     }

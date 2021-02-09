@@ -26,13 +26,13 @@ import uk.nhs.adaptors.scr.models.xml.Presentation;
 import uk.nhs.adaptors.scr.models.xml.ProvisionOfAdviceAndInformation;
 import uk.nhs.adaptors.scr.models.xml.RiskToPatient;
 import uk.nhs.adaptors.scr.models.xml.Treatment;
+import uk.nhs.adaptors.scr.utils.DateUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.stream.Stream;
 
-import static uk.nhs.adaptors.scr.utils.DateUtil.formatDate;
 import static uk.nhs.adaptors.scr.utils.FhirHelper.UUID_IDENTIFIER_SYSTEM;
 
 @Getter
@@ -104,7 +104,7 @@ public class GpSummary {
 
     private static void gpSummarySetHeaderTimeStamp(GpSummary gpSummary, Bundle bundle) {
         if (bundle.hasTimestampElement()) {
-            gpSummary.setHeaderTimeStamp(formatDate(bundle.getTimestampElement().getValue()));
+            gpSummary.setHeaderTimeStamp(DateUtil.formatTimestampToHl7(bundle.getTimestampElement()));
         } else {
             throw new FhirMappingException("bundle.timestamp must not be empty");
         }

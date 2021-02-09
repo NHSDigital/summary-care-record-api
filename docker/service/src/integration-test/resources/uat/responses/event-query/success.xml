@@ -857,7 +857,7 @@
                                                 <code code="1240781000000106" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Severe acute respiratory syndrome coronavirus 2 vaccination invitation short message service text message sent (situation)">
                                                 </code>
                                                 <statusCode code="normal"/>
-                                                <effectiveTime value="20200805"/>
+                                                <effectiveTime value="20200906"/>
                                               </UKCT_MT144035UK01.PatientCarerCorrespondence>
                                             </component>
                                           </pertinentCREType>

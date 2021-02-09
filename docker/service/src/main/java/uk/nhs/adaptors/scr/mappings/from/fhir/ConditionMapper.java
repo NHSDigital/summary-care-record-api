@@ -37,12 +37,12 @@ public class ConditionMapper {
         diagnosis.setCodeDisplayName(condition.getCode().getCodingFirstRep().getDisplay());
         diagnosis.setStatusCodeCode(mapStatus(condition.getClinicalStatus()));
         if (condition.hasOnsetDateTimeType()) {
-            diagnosis.setEffectiveTimeLow(formatDateToHl7(condition.getOnsetDateTimeType().getValue()));
+            diagnosis.setEffectiveTimeLow(formatDateToHl7(condition.getOnsetDateTimeType()));
         }
         if (condition.hasOnsetPeriod()) {
             Period period = condition.getOnsetPeriod();
-            diagnosis.setEffectiveTimeLow(formatDateToHl7(period.getStart()));
-            diagnosis.setEffectiveTimeHigh(formatDateToHl7(period.getEnd()));
+            diagnosis.setEffectiveTimeLow(formatDateToHl7(period.getStartElement()));
+            diagnosis.setEffectiveTimeHigh(formatDateToHl7(period.getEndElement()));
         }
         Optional.ofNullable(condition.getEvidenceFirstRep().getDetailFirstRep().getReference())
             .map(reference -> reference.split("/")[1])

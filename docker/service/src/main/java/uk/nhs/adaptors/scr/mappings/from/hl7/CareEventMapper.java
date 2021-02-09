@@ -12,8 +12,8 @@ import org.hl7.fhir.r4.model.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Node;
-import uk.nhs.adaptors.scr.mappings.from.hl7.common.CodedEntryMapper;
 import uk.nhs.adaptors.scr.mappings.from.hl7.common.CodedEntry;
+import uk.nhs.adaptors.scr.mappings.from.hl7.common.CodedEntryMapper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,8 +60,8 @@ public class CareEventMapper implements XmlToFhirMapper {
 
             if (entry.getEffectiveTimeLow().isPresent() || entry.getEffectiveTimeHigh().isPresent()) {
                 var period = new Period();
-                entry.getEffectiveTimeLow().ifPresent(period::setStart);
-                entry.getEffectiveTimeHigh().ifPresent(period::setEnd);
+                entry.getEffectiveTimeLow().ifPresent(period::setStartElement);
+                entry.getEffectiveTimeHigh().ifPresent(period::setEndElement);
                 encounter.setPeriod(period);
             }
 

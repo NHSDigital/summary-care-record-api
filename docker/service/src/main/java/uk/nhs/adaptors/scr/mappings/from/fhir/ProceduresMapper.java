@@ -60,9 +60,9 @@ public class ProceduresMapper {
 
     private static String getEffectiveTimeLow(Procedure procedure) {
         if (procedure.hasPerformedPeriod()) {
-            return formatDateToHl7(procedure.getPerformedPeriod().getStart());
+            return formatDateToHl7(procedure.getPerformedPeriod().getStartElement());
         } else if (procedure.hasPerformedDateTimeType()) {
-            return formatDateToHl7(procedure.getPerformedDateTimeType().getValue());
+            return formatDateToHl7(procedure.getPerformedDateTimeType());
         }
 
         return null;

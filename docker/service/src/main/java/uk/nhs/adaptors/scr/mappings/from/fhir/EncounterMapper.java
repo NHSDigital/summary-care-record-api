@@ -32,8 +32,8 @@ public class EncounterMapper {
         careEvent.setCodeCode(encounter.getTypeFirstRep().getCodingFirstRep().getCode());
         careEvent.setCodeDisplayName(encounter.getTypeFirstRep().getCodingFirstRep().getDisplay());
         careEvent.setStatusCodeCode(mapStatusCode(encounter.getStatus()));
-        careEvent.setEffectiveTimeLow(formatDateToHl7(encounter.getPeriod().getStart()));
-        careEvent.setEffectiveTimeHigh(formatDateToHl7(encounter.getPeriod().getEnd()));
+        careEvent.setEffectiveTimeLow(formatDateToHl7(encounter.getPeriod().getStartElement()));
+        careEvent.setEffectiveTimeHigh(formatDateToHl7(encounter.getPeriod().getEndElement()));
         return careEvent;
     }
 

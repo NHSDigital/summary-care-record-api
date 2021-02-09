@@ -1,43 +1,55 @@
 {
   "resourceType": "Bundle",
-  "id": "f98f991d-d52c-4b62-9668-3dcc6c27fc50",
+  "id": "28E24A01-5D33-4173-B5CE-82C004948815",
   "identifier": {
     "system": "https://tools.ietf.org/html/rfc4122",
-    "value": "003D8B36-12D9-11EB-9062-005056276454"
+    "value": "821533D3-3E0F-11EB-8111-F40343488B16"
   },
   "type": "document",
-  "timestamp": "2020-11-17T01:00:00Z",
-  "entry":  [
+  "timestamp": "2020-12-14T13:23:10.000+01:00",
+  "entry": [
     {
-      "fullUrl": "urn:uuid:2880eedf-76f0-4f38-9681-dc158e937da7",
+      "fullUrl": "https://int.api.service.nhs.uk/summary-care-record/FHIR/R4/Composition/BF4180FD-C403-4EF7-A4AB-E07303AF5477",
       "resource": {
         "resourceType": "Composition",
-        "id": "2880eedf-76f0-4f38-9681-dc158e937da7",
+        "id": "BF4180FD-C403-4EF7-A4AB-E07303AF5477",
+        "meta": {
+          "lastUpdated": "2020-11-17T01:00:00.000+01:00"
+        },
         "identifier": {
           "system": "https://tools.ietf.org/html/rfc4122",
-          "value": "003D8B36-12D9-11EB-9062-005056276454"
+          "value": "BF4180FD-C403-4EF7-A4AB-E07303AF5477"
         },
         "status": "final",
         "type": {
-          "coding":  [
+          "coding": [
             {
-              "system": "http://snomed.info/sct",
+              "system": "2.16.840.1.113883.2.1.3.2.4.15",
               "code": "196981000000101",
               "display": "General Practice Summary"
             }
           ]
         },
-        "date": "2020-11-17T01:00:00Z",
-        "subject": {
-          "reference": "urn:uuid:b6f5dd89-fc3a-466d-baad-126c0aac46fc"
-        },
-        "author":  [
+        "category": [
           {
-            "reference": "urn:uuid:83c26c8f-ee72-4534-8891-0136972b2106",
-            "display": "Dr Steve Jones"
+            "coding": [
+              {
+                "system": "2.16.840.1.113883.2.1.3.2.4.15",
+                "code": "163171000000105",
+                "display": "Care Professional Documentation"
+              }
+            ]
           }
         ],
-        "title": "General Practice Summary",
+        "subject": {
+          "reference": "Patient/565B3BEF-9A19-4763-8887-9F7CB75995E3"
+        },
+        "date": "2020-11-17T01:00:00+01:00",
+        "author": [
+          {
+            "reference": "PractitionerRole/C89A53D3-E063-4023-B89C-1A105ABAABB7"
+          }
+        ],
         "relatesTo": [
           {
             "code": "replaces",
@@ -46,511 +58,2005 @@
             }
           }
         ],
-        "section":  [
-          {
-            "title": "Diagnoses",
-            "text": {
-              "status": "generated",
-              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><table><thead><tr><th>Date</th><th>Medication Item</th><th>Dosage instructions</th><th>Quantity or duration</th><th>Reason for medication</th><th>Supporting information</th></tr></thead><tbody><tr><td>Start 03-Jan-92 End 02-Feb-06</td><td>Bendrofluazide 2.5mg tablets</td><td>One daliy</td><td /><td>hypokalaemia</td><td /></tr></tbody></table></div>"
-            }
-          },
-          {
-            "title": "Diagnoses",
-            "text": {
-              "status": "generated",
-              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><table><thead><tr><th>Date</th><th>Medication Item</th><th>Dosage instructions</th><th>Quantity or duration</th><th>Reason for medication</th><th>Supporting information</th></tr></thead><tbody><tr><td>Start 03-Jan-92 End 02-Feb-06</td><td>Bendrofluazide 2.5mg tablets</td><td>One daliy</td><td /><td>hypokalaemia</td><td /></tr></tbody></table></div>"
-            }
-          },
-          {
-            "title": "Diagnoses",
-            "text": {
-              "status": "generated",
-              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><table><thead><tr><th>Date</th><th>Medication Item</th><th>Dosage instructions</th><th>Quantity or duration</th><th>Reason for medication</th><th>Supporting information</th></tr></thead><tbody><tr><td>Start 03-Jan-92 End 02-Feb-06</td><td>Bendrofluazide 2.5mg tablets</td><td>One daliy</td><td /><td>hypokalaemia</td><td /></tr></tbody></table></div>"
-            }
-          },
-          {
-            "title": "Diagnoses",
-            "text": {
-              "status": "generated",
-              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><table><thead><tr><th>Date</th><th>Medication Item</th><th>Dosage instructions</th><th>Quantity or duration</th><th>Reason for medication</th><th>Supporting information</th></tr></thead><tbody><tr><td>Start 03-Jan-92 End 02-Feb-06</td><td>Bendrofluazide 2.5mg tablets</td><td>One daliy</td><td /><td>hypokalaemia</td><td /></tr></tbody></table></div>"
-            }
-          },
-          {
-            "title": "Clinical observations and findings",
-            "text": {
-              "status": "generated",
-              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><table><thead><tr><th>Date</th><th>Medication Item</th><th>Dosage instructions</th><th>Quantity or duration</th><th>Reason for medication</th><th>Supporting information</th></tr></thead><tbody><tr><td>Start 03-Jan-92 End 02-Feb-06</td><td>Bendrofluazide 2.5mg tablets</td><td>One daliy</td><td /><td>hypokalaemia</td><td /></tr></tbody></table></div>"
-            }
-          },
-          {
-            "title": "Investigation results",
-            "text": {
-              "status": "generated",
-              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><table><thead><tr><th>Date</th><th>Medication Item</th><th>Dosage instructions</th><th>Quantity or duration</th><th>Reason for medication</th><th>Supporting information</th></tr></thead><tbody><tr><td>Start 03-Jan-92 End 02-Feb-06</td><td>Bendrofluazide 2.5mg tablets</td><td>One daliy</td><td /><td>hypokalaemia</td><td /></tr></tbody></table></div>"
-            }
-          },
+        "section": [
           {
             "title": "General Practice Summary",
+            "code": {
+              "coding": [
+                {
+                  "code": "Title"
+                }
+              ]
+            },
             "text": {
               "status": "generated",
-              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h3>Sourced from the patient's General Practice record. This information has not been verified by the practice prior to sending. This summary \n may not include all the information pertinent to this patient NB the patient may have opted to leave out items from this summary</h3><h3>Time of summary creation 16.00 15-Mar-2007</h3><h3>Author Dr Steve Jones, The Bridge Street Practice, Bridge Street, Bridge Town, Bridgeshire, \n BT1 1BT, England, +4401234567890</h3><h3>Date of sending this summary 15-Mar-2007</h3></div>"
+              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n    <h3 id=\"Disclaimer\">Sourced from the patient's General Practice record. This summary may not include all the information pertinent to this patient.</h3>\n    <p id=\"CreateTime\">Summary Created: 14-May-2020 14:31</p>\n    <p id=\"RegistrationStartedStatement\" class=\"HighlightedStatement\">At the time this record was created, this patient had recently registered with the GP Practice. GP Summary information may not be complete.</p>\n    <p id=\"Author\">Created by: SMITH, Sean (Mr)</p>\n    <p id=\"Practice\">EMISWebCR1 50004, Fulford Grange, Rawdon, Leeds, West Yorkshire, LS19 7BY.</p>\n</div>"
             }
           },
           {
             "title": "Allergies and Adverse Reactions",
+            "code": {
+              "coding": [
+                {
+                  "code": "AllergiesHeader"
+                }
+              ]
+            },
             "text": {
               "status": "generated",
-              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><table><thead><tr><th>Date</th><th>Description</th><th>Supporting information</th></tr></thead><tbody><tr><td>13-Jan-07</td><td>Refused consent for upload to national shared electronic record</td></tr><tr><td>14-Nov-06</td><td>Allergy to Drug - Penicillin, (probably present) . </td><td>Patient stated that they told that they were were allergic to penicillin by their parents </td></tr></tbody></table></div>"
+              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n    <table summary=\"This table includes information about this patient's allergies and adverse reactions.\" id=\"Allergies\">\n        <thead>\n            <tr>\n                <th>Date</th>\n                <th>Description</th>\n                <th>Certainty</th>\n                <th>Severity</th>\n                <th>Supporting Information</th>\n            </tr>\n        </thead>\n        <tbody>\n            <tr class=\"oddRow\">\n                <td>12-May-2020</td>\n                <td>Toxic reaction to wasp sting</td>\n                <td/>\n                <td/>\n                <td>Problem; First</td>\n            </tr>\n        </tbody>\n    </table>\n</div>"
             }
           },
           {
-            "title": "Repeat Medication",
+            "title": "Acute Medications (For the 12 month period 14-May-2019 to 14-May-2020)",
+            "code": {
+              "coding": [
+                {
+                  "code": "AcuteMedsHeader"
+                }
+              ]
+            },
             "text": {
               "status": "generated",
-              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><table><thead><tr><th>Date first prescribed</th><th>Medication Item</th><th>Dosage instructions</th><th>Quantity or duration</th><th>Reason for medication</th><th>Supporting information</th></tr></thead><tbody><tr><td>02-Mar-06</td><td>1% Hydrocortisone cream</td><td>use on affected areas twice a day</td><td /><td /><td>Used for eczema on forearms</td></tr><tr><td>12-Jan-05</td><td>atenolol 50mg tablets</td><td>take one daily</td><td /><td>Ischaemic Heart disease</td><td /></tr><tr><td>30-Apr-04</td><td>lisinopril 10mg</td><td>take one daily</td><td /><td>Ischaemic Heart disease</td><td /></tr></tbody></table></div>"
+              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n    <table summary=\"This table includes information about this patient's acute medications.\" id=\"AcuteMeds\">\n        <thead>\n            <tr>\n                <th>Type</th>\n                <th>Date</th>\n                <th>Medication Item</th>\n                <th>Dosage Instructions</th>\n                <th>Quantity</th>\n            </tr>\n        </thead>\n        <tbody>\n            <tr class=\"oddRow\">\n                <td>Acute Medication</td>\n                <td>Prescribed: 12-May-2020</td>\n                <td>Co-codamol 8mg/500mg effervescent tablets</td>\n                <td>One To Be Taken Four Times A Day</td>\n                <td>112 tablet</td>\n            </tr>\n        </tbody>\n    </table>\n</div>"
             }
           },
           {
-            "title": "Acute Medication",
+            "title": "Current Repeat Medications",
+            "code": {
+              "coding": [
+                {
+                  "code": "RepeatMedsHeader"
+                }
+              ]
+            },
             "text": {
               "status": "generated",
-              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><table><thead><tr><th>Date prescribed</th><th>Medication Item</th><th>Dosage instructions</th><th>Quantity or duration</th><th>Reason for medication</th><th>Supporting information</th></tr></thead><tbody><tr><td>13-Jan-07</td><td>Refused consent for upload to national shared electronic record</td><td /><td /><td /><td /></tr><tr><td>12-Nov-06</td><td>Amoxycillin 500mg tablets</td><td>one four times daily</td><td>7 days</td><td /><td>Chest infection - green sputum for 3 days</td></tr><tr><td>16-Nov-06</td><td>erythromycin 500mg tablets</td><td>one four times daily</td><td>7 days</td><td>Allergy to Penicillin</td><td /></tr><tr><td>01-Dec-06</td><td>Paracetamol 500mg tablets</td><td>one or two tablet four times daily as required</td><td>100 tablets</td><td>Right Knee pain</td><td /></tr><tr><td>01-Dec-06</td><td>Codeine 30mg tablets</td><td>one or two tablet four times daily as required</td><td>100 tablets</td><td>Right Knee pain</td><td /></tr></tbody></table></div>"
+              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n    <table summary=\"This table includes information about this patient's current repeat medications.\" id=\"RepeatMeds\">\n        <thead>\n            <tr>\n                <th>Type</th>\n                <th>Date</th>\n                <th>Medication Item</th>\n                <th>Dosage Instructions</th>\n                <th>Quantity</th>\n            </tr>\n        </thead>\n        <tbody>\n            <tr class=\"oddRow\">\n                <td>Repeat Medication</td>\n                <td>Last Issued: 12-May-2020</td>\n                <td>Paracetamol 250mg/5ml oral suspension</td>\n                <td>One 5ml Spoonful Every 4 To 6 Hours When Necessary. No More Than 4 doses in 24 Hours</td>\n                <td>40 ml</td>\n            </tr>\n        </tbody>\n    </table>\n</div>"
             }
           },
           {
-            "title": "Discontinued Repeat Medication",
+            "title": "Discontinued Repeat Medications (For the 6 month period 14-Nov-2019 to 14-May-2020)",
+            "code": {
+              "coding": [
+                {
+                  "code": "DiscRepeatMedsHeader"
+                }
+              ]
+            },
             "text": {
               "status": "generated",
-              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><table><thead><tr><th>Date</th><th>Medication Item</th><th>Dosage instructions</th><th>Quantity or duration</th><th>Reason for medication</th><th>Supporting information</th></tr></thead><tbody><tr><td>Start 03-Jan-92 End 02-Feb-06</td><td>Bendrofluazide 2.5mg tablets</td><td>One daliy</td><td /><td>hypokalaemia</td><td /></tr></tbody></table></div>"
+              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n    <table summary=\"This table includes information about this patient's discontinued repeat medications.\" id=\"DiscRepeatMeds\">\n        <thead>\n            <tr>\n                <th>Type</th>\n                <th>Date</th>\n                <th>Medication Item</th>\n                <th>Dosage Instructions</th>\n                <th>Quantity</th>\n            </tr>\n        </thead>\n        <tbody>\n            <tr>\n                <td colspan=\"5\">No relevant information available for this category.</td>\n            </tr>\n        </tbody>\n    </table>\n</div>"
             }
           },
           {
-            "title": "Risks to Care professional or Third Party",
+            "title": "Risks to Patient",
+            "code": {
+              "coding": [
+                {
+                  "code": "RisksToPatientHeader"
+                }
+              ]
+            },
             "text": {
               "status": "generated",
-              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><table><thead><tr><th>Date</th><th>Description</th><th>Supporting information</th></tr></thead><tbody><tr><td>14-Feb-05</td><td>Hepatitis B</td><td>Hepatitis B surface antigen positive on last test 3 months ago</td></tr></tbody></table></div>"
-            }
+              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n    <table id=\"RisksToPatient\">\n        <thead>\n            <tr>\n                <th>Date</th>\n                <th>Description</th>\n                <th>Additional information</th>\n            </tr>\n        </thead>\n        <tbody>\n            <tr class=\"oddRow\">\n                <td>14-May-2020</td>\n                <td>Low risk category for developing complication from COVID-19 infection</td>\n                <td>Problem; Review</td>\n            </tr>\n        </tbody>\n    </table>\n</div>"
+            },
+            "entry": [
+              {
+                "reference": "10CE2F30-8AF5-11EA-9FCE-AFDCAECF9DFB"
+              }
+            ]
           },
           {
             "title": "Diagnoses",
+            "code": {
+              "coding": [
+                {
+                  "code": "DiagnosesHeader"
+                }
+              ]
+            },
             "text": {
               "status": "generated",
-              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><table><thead><tr><th>Date</th><th>Description</th><th>Supporting information</th></tr></thead><tbody><tr><td>12-Jan-06</td><td>Myocardial Infarction</td><td /></tr><tr><td>12-Jan-06</td><td>Ischaemic heart disease</td><td>No symptomatic problems - on preventative measures only.</td></tr><tr><td>14-Feb-05</td><td>Hepatitis B</td><td>Hepatitis B surface antigen positive on last test 3 months ago.</td></tr><tr><td>30-Apr-04</td><td>Osteoarthritis</td><td>Starting to affect both hips and both knees.</td></tr><tr><td>17-Dec-99</td><td>Lobar Pneumonia</td><td>Left lower lobe - treated in hospital with antibiotics</td></tr></tbody></table></div>"
+              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n    <table id=\"Diagnoses\">\n        <thead>\n            <tr>\n                <th>Date</th>\n                <th>Description</th>\n                <th>Additional information</th>\n            </tr>\n        </thead>\n        <tbody>\n            <tr class=\"oddRow\">\n                <td>13-May-2020</td>\n                <td>COVID-19 confirmed by laboratory test</td>\n                <td>Problem; First, test</td>\n            </tr>\n        </tbody>\n    </table>\n</div>"
+            },
+            "entry": [
+              {
+                "reference": "FCB84E15-02E5-495C-B334-D0685DCB0687"
+              },
+              {
+                "reference": "0F582D97-8F89-11EA-8B2D-B741F13EFC47"
+              },
+              {
+                "reference": "958E584C-25B8-4BD7-A71D-7625FDC1ACD6"
+              },
+              {
+                "reference": "8CEB2867-551B-43D0-88B5-3278DA20A6B0"
+              },
+              {
+                "reference": "6ECDAE6D-32AB-421C-AA8F-0B1ABA454C70"
+              }
+            ]
+          },
+          {
+            "title": "Problems and Issues",
+            "code": {
+              "coding": [
+                {
+                  "code": "ProblemsHeader"
+                }
+              ]
+            },
+            "text": {
+              "status": "generated",
+              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n    <table id=\"Problems\">\n        <thead>\n            <tr>\n                <th>Date</th>\n                <th>Description</th>\n                <th>Additional information</th>\n            </tr>\n        </thead>\n        <tbody>\n            <tr class=\"oddRow\">\n                <td>14-May-2020</td>\n                <td>2019-nCoV (novel coronavirus) detected</td>\n                <td>Significant Active</td>\n            </tr>\n        </tbody>\n    </table>\n</div>"
             }
           },
           {
-            "title": "Problems and issues",
+            "title": "Clinical Observations and Findings",
+            "code": {
+              "coding": [
+                {
+                  "code": "ObservationsHeader"
+                }
+              ]
+            },
             "text": {
               "status": "generated",
-              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><table><thead><tr><th>Date</th><th>Description</th><th>Supporting information</th></tr></thead><tbody><tr><td>12-Jan-06</td><td>Ischaemic heart disease</td><td>No symptomatic problems - on preventative measures only.</td></tr><tr><td>20-Feb-03</td><td>Knee pain - right</td><td /></tr></tbody></table></div>"
-            }
-          },
-          {
-            "title": "Clinical Observation and Findings",
-            "text": {
-              "status": "generated",
-              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><table><thead><tr><th>Date</th><th>Description</th><th>Supporting information</th></tr></thead><tbody><tr><td>12-Jan-06</td><td>body weight - value = 95Kg</td><td /></tr><tr><td>10-Feb-03</td><td>Knee pain - right</td><td /></tr></tbody></table></div>"
-            }
+              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n    <table id=\"Observations\">\n        <thead>\n            <tr>\n                <th>Date</th>\n                <th>Description</th>\n                <th>Additional information</th>\n            </tr>\n        </thead>\n        <tbody>\n            <tr class=\"oddRow\">\n                <td>14-May-2020</td>\n                <td>2019-nCoV (novel coronavirus) detected</td>\n                <td>Problem; New</td>\n            </tr>\n        </tbody>\n    </table>\n</div>"
+            },
+            "entry": [
+              {
+                "reference": "19ABC6D1-8AF5-11EA-9FCE-AFDCAECF9DFB"
+              },
+              {
+                "reference": "19ABC6D1-8AF5-11EA-9FCE-AFDCAECF9DFB"
+              }
+            ]
           },
           {
             "title": "Treatments",
+            "code": {
+              "coding": [
+                {
+                  "code": "TreatmentsHeader"
+                }
+              ]
+            },
             "text": {
               "status": "generated",
-              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><table><thead><tr><th>Date</th><th>Description</th><th>Supporting information</th></tr></thead><tbody><tr><td>22-Feb-06</td><td>Knee replacement - right</td><td /></tr></tbody></table></div>"
-            }
+              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n    <table id=\"Treatments\">\n        <thead>\n            <tr>\n                <th>Date</th>\n                <th>Description</th>\n                <th>Additional information</th>\n            </tr>\n        </thead>\n        <tbody>\n            <tr class=\"oddRow\">\n                <td>13-May-2020</td>\n                <td>2019-nCoV (novel coronavirus) vaccination</td>\n                <td>Problem; First, Manufacturer: jh, Expiry Date: 29-May-2020, Batch Number: 2, GMS: GMS, Injection site: Left arm, test</td>\n            </tr>\n        </tbody>\n    </table>\n</div>"
+            },
+            "entry": [
+              {
+                "reference": "0F5A9E72-8F89-11EA-8B2D-B741F13EFC47"
+              }
+            ]
           },
           {
-            "title": "Investigations",
+            "title": "Investigation Results",
+            "code": {
+              "coding": [
+                {
+                  "code": "ResultsHeader"
+                }
+              ]
+            },
             "text": {
               "status": "generated",
-              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><table><thead><tr><th>Date</th><th>Description</th><th>Supporting information</th></tr></thead><tbody><tr><td>10-Mar-07</td><td>Magnetic resonance imaging - planned</td><td>to look into ongoing pain in the right knee.</td></tr></tbody></table></div>"
+              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n    <table id=\"Results\">\n        <thead>\n            <tr>\n                <th>Date</th>\n                <th>Description</th>\n                <th>Additional information</th>\n            </tr>\n        </thead>\n        <tbody>\n            <tr class=\"oddRow\">\n                <td>13-May-2020</td>\n                <td>Assessment using COVID-19 severity scale</td>\n                <td>Problem; First, test</td>\n            </tr>\n        </tbody>\n    </table>\n</div>"
+            },
+            "entry": [
+              {
+                "reference": "F17999D2-FFE7-4CA4-8CE8-52CB45FF6F49"
+              },
+              {
+                "reference": "EE608FAA-2433-4BAD-A0D5-4A10E45AB2B0"
+              },
+              {
+                "reference": "0F582D97-8F89-11CA-8B2D-B741F13EFC47"
+              },
+              {
+                "reference": "3CDB62E6-EFEA-4036-9709-52AE7ED7D930"
+              }
+            ]
+          },
+          {
+            "title": "Care Events",
+            "code": {
+              "coding": [
+                {
+                  "code": "EventsHeader"
+                }
+              ]
+            },
+            "text": {
+              "status": "generated",
+              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n    <table id=\"Events\">\n        <thead>\n            <tr>\n                <th>Date</th>\n                <th>Description</th>\n                <th>Additional information</th>\n            </tr>\n        </thead>\n        <tbody>\n            <tr class=\"oddRow\">\n                <td>13-May-2020</td>\n                <td>Did not attend 2019-nCoV (novel coronavirus) vaccination</td>\n                <td>Problem; First, test</td>\n            </tr>\n        </tbody>\n    </table>\n</div>"
+            },
+            "entry": [
+              {
+                "reference": "0F582D91-8F89-11EA-8B2D-B741F13EFC47"
+              }
+            ]
+          },
+          {
+            "title": "Administrative Procedures",
+            "code": {
+              "coding": [
+                {
+                  "code": "ProceduresHeader"
+                }
+              ]
+            },
+            "text": {
+              "status": "generated",
+              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n    <table id=\"Procedures\">\n        <thead>\n            <tr>\n                <th>Date</th>\n                <th>Description</th>\n                <th>Additional information</th>\n            </tr>\n        </thead>\n        <tbody>\n            <tr class=\"oddRow\">\n                <td>14-May-2020</td>\n                <td>Household isolation note issued to patient</td>\n                <td>Test</td>\n            </tr>\n        </tbody>\n    </table>\n</div>"
             }
           },
           {
             "title": "Provision of Advice and Information to Patients and Carers",
+            "code": {
+              "coding": [
+                {
+                  "code": "AdviceHeader"
+                }
+              ]
+            },
             "text": {
               "status": "generated",
-              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><table><thead><tr><th>Date</th><th>Description</th><th>Supporting information</th></tr></thead><tbody><tr><td>12-Mar-07</td><td>Advice about exercise</td><td>Advised to only perform light exercise.</td></tr></tbody></table></div>"
-            }
+              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n    <table id=\"Advice\">\n        <thead>\n            <tr>\n                <th>Date</th>\n                <th>Description</th>\n                <th>Additional information</th>\n            </tr>\n        </thead>\n        <tbody>\n            <tr class=\"oddRow\">\n                <td>13-May-2020</td>\n                <td>Advice given about SARS-CoV-2 (severe acute respiratory syndrome coronavirus 2) by telephone</td>\n                <td>Problem; First, test</td>\n            </tr>\n        </tbody>\n    </table>\n</div>"
+            },
+            "entry": [
+              {
+                "reference": "0F582D83-8F89-11EA-8B2D-B741F13EFC47"
+              }
+            ]
           },
           {
             "title": "Personal Preferences",
+            "code": {
+              "coding": [
+                {
+                  "code": "PreferencesHeader"
+                }
+              ]
+            },
             "text": {
               "status": "generated",
-              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><table><thead><tr><th>Date</th><th>Description</th><th>Supporting information</th></tr></thead><tbody><tr><td>15-Jan-06</td><td>Preference for male healthcare professional</td><td /></tr></tbody></table></div>"
-            }
-          },
-          {
-            "title": "Social and Personal Circumstances",
-            "text": {
-              "status": "generated",
-              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><table><thead><tr><th>Date</th><th>Description</th><th>Supporting information</th></tr></thead><tbody><tr><td>01-Jan-76</td><td>Director of photography (motion picture)</td><td /></tr></tbody></table></div>"
-            }
-          },
-          {
-            "title": "Services, Care Professionals and Carers",
-            "text": {
-              "status": "generated",
-              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><table><thead><tr><th>Date</th><th>Description</th><th>Supporting information</th><th>Person or Organisation</th></tr></thead><tbody><tr><td>12-Jan-07</td><td>District nurse attends</td><td /><td>Petra Caull Role id 139852035803 person id 591650593093</td></tr></tbody></table></div>"
-            }
-          },
-          {
-            "title": "Lifestyle",
-            "text": {
-              "status": "generated",
-              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><table><thead><tr><th>Date</th><th>Description</th><th>Supporting information</th></tr></thead><tbody><tr><td>12-Jan-06</td><td>Non smoker</td><td /></tr></tbody></table></div>"
-            }
-          },
-          {
-            "title": "Family History",
-            "text": {
-              "status": "generated",
-              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><table><thead><tr><th>Date</th><th>Description</th><th>Supporting information</th></tr></thead><tbody><tr><td>12-Jun-91</td><td>Family history of Ischeamic heart disease</td><td>Father died of heart attack at age 55</td></tr></tbody></table></div>"
-            }
+              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n    <table id=\"Preferences\">\n        <thead>\n            <tr>\n                <th>Date</th>\n                <th>Description</th>\n                <th>Additional information</th>\n            </tr>\n        </thead>\n        <tbody>\n            <tr class=\"oddRow\">\n                <td>13-May-2020</td>\n                <td>2019-nCoV (novel coronavirus) vaccination declined</td>\n                <td>Problem; First, test</td>\n            </tr>\n        </tbody>\n    </table>\n    <p id=\"SendTime\">Summary Sent: 14-May-2020 14:31</p>\n</div>"
+            },
+            "entry": [
+              {
+                "reference": "0F5A9E73-8F89-11EA-8B2D-B741F13EFC47"
+              }
+            ]
           }
         ]
       }
     },
     {
-      "fullUrl": "urn:uuid:83c26c8f-ee72-4534-8891-0136972b2106",
+      "fullUrl": "https://int.api.service.nhs.uk/summary-care-record/FHIR/R4/PractitionerRole/C89A53D3-E063-4023-B89C-1A105ABAABB7",
       "resource": {
         "resourceType": "PractitionerRole",
-        "id": "83c26c8f-ee72-4534-8891-0136972b2106",
-        "identifier":  [
+        "id": "C89A53D3-E063-4023-B89C-1A105ABAABB7",
+        "identifier": [
           {
             "system": "http://fhir.nhs.net/Id/sds-role-profile-id",
             "value": "673836492727"
           }
         ],
         "practitioner": {
-          "reference": "urn:uuid:b1a41ee5-b88b-4f66-bd83-24343bf63dd8"
-        },
-        "code": [
-          {
-            "coding": [
-              {
-                "code": "R0070",
-                "display": "Associate Specialist",
-                "system": "https://fhir.nhs.uk/CodeSystem/HL7v3-SDSJobRoleName"
-              }
-            ]
-          }
-        ]
+          "reference": "Practitioner/7EB18277-C51A-4AEA-9D93-0B12BB0E140D"
+        }
       }
     },
     {
-      "fullUrl": "urn:uuid:a82b49f8-2780-47cc-aa4b-62f79aa4ade9",
-      "resource": {
-        "resourceType": "Organization",
-        "id": "a82b49f8-2780-47cc-aa4b-62f79aa4ade9",
-        "identifier":  [
-          {
-            "use": "official",
-            "system": "https://fhir.nhs.uk/Id/ods-organization-code",
-            "value": "RR8"
-          }
-        ],
-        "type": [
-          {
-            "coding": [
-              {
-                "code": "1",
-                "system": "1",
-                "display": "1"
-              }
-            ]
-          }
-        ],
-        "name": "LEEDS TEACHING HOSPITAL TRUST",
-        "telecom": [
-          {
-            "system": "phone",
-            "value": "0113 243 3144"
-          }
-        ],
-        "address": [
-          {
-            "line": [
-              "ST. JAMES'S UNIVERSITY HOSPITAL",
-              "BECKETT STREET"
-            ],
-            "city": "LEEDS",
-            "district": "CITY OF LEEDS",
-            "postalCode": "LS9 7TF",
-            "country": "ENGLAND"
-          }
-        ]
-      }
-    },
-    {
-      "fullUrl": "urn:uuid:b1a41ee5-b88b-4f66-bd83-24343bf63dd8",
+      "fullUrl": "https://int.api.service.nhs.uk/summary-care-record/FHIR/R4/Practitioner/7EB18277-C51A-4AEA-9D93-0B12BB0E140D",
       "resource": {
         "resourceType": "Practitioner",
-        "id": "b1a41ee5-b88b-4f66-bd83-24343bf63dd8",
+        "id": "7EB18277-C51A-4AEA-9D93-0B12BB0E140D",
         "identifier": [
           {
             "system": "https://fhir.nhs.uk/Id/sds-user-id",
             "value": "676789689789"
           }
         ],
-        "name":  [
+        "name": [
           {
-            "family": "Jones",
-            "given":  [
-              "Steve"
+            "text": "Dr Steve Jones"
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "https://int.api.service.nhs.uk/summary-care-record/FHIR/R4/Condition/FCB84E15-02E5-495C-B334-D0685DCB0687",
+      "resource": {
+        "resourceType": "Condition",
+        "id": "FCB84E15-02E5-495C-B334-D0685DCB0687",
+        "identifier": [
+          {
+            "value": "FCB84E15-02E5-495C-B334-D0685DCB0687"
+          }
+        ],
+        "clinicalStatus": {
+          "coding": [
+            {
+              "system": "http://hl7.org/fhir/ValueSet/condition-clinical",
+              "code": "active"
+            }
+          ]
+        },
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://snomed.info/sct",
+                "code": "163001000000103",
+                "display": "Diagnoses"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "1240751000000100",
+              "display": "COVID-19"
+            }
+          ]
+        },
+        "encounter": {
+          "reference": "Encounter/DE2F2DAB-5BB1-480C-AA67-A2A68D06620D"
+        },
+        "onsetDateTime": "2020-05-06T12:48:19+02:00"
+      }
+    },
+    {
+      "fullUrl": "https://int.api.service.nhs.uk/summary-care-record/FHIR/R4/PractitionerRole/29325FBB-AA13-4645-BAE4-314AD6D21083",
+      "resource": {
+        "resourceType": "PractitionerRole",
+        "id": "29325FBB-AA13-4645-BAE4-314AD6D21083",
+        "identifier": [
+          {
+            "system": "http://fhir.nhs.net/Id/sds-role-profile-id",
+            "value": "673836492727"
+          }
+        ],
+        "practitioner": {
+          "reference": "Practitioner/20CE162F-C21A-4B87-8ABC-2FA927AAB65F"
+        }
+      }
+    },
+    {
+      "fullUrl": "https://int.api.service.nhs.uk/summary-care-record/FHIR/R4/Practitioner/20CE162F-C21A-4B87-8ABC-2FA927AAB65F",
+      "resource": {
+        "resourceType": "Practitioner",
+        "id": "20CE162F-C21A-4B87-8ABC-2FA927AAB65F",
+        "identifier": [
+          {
+            "system": "https://fhir.nhs.uk/Id/sds-user-id",
+            "value": "676789689789"
+          }
+        ],
+        "name": [
+          {
+            "text": "Dr Steve Jones"
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "https://int.api.service.nhs.uk/summary-care-record/FHIR/R4/Encounter/DE2F2DAB-5BB1-480C-AA67-A2A68D06620D",
+      "resource": {
+        "resourceType": "Encounter",
+        "id": "DE2F2DAB-5BB1-480C-AA67-A2A68D06620D",
+        "status": "finished",
+        "class": {
+          "system": "http://terminology.hl7.org/CodeSystem/v3-NullFlavor",
+          "code": "UNK",
+          "display": "Unknown"
+        },
+        "participant": [
+          {
+            "type": [
+              {
+                "coding": [
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/v3-ParticipationType",
+                    "code": "AUT",
+                    "display": "author"
+                  }
+                ]
+              }
             ],
-            "prefix":  [
-              "Dr"
+            "period": {
+              "start": "2020-11-17T01:00:00+01:00"
+            },
+            "individual": {
+              "reference": "PractitionerRole/29325FBB-AA13-4645-BAE4-314AD6D21083"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "https://int.api.service.nhs.uk/summary-care-record/FHIR/R4/Condition/0F582D97-8F89-11EA-8B2D-B741F13EFC47",
+      "resource": {
+        "resourceType": "Condition",
+        "id": "0F582D97-8F89-11EA-8B2D-B741F13EFC47",
+        "identifier": [
+          {
+            "value": "0F582D97-8F89-11EA-8B2D-B741F13EFC47"
+          }
+        ],
+        "clinicalStatus": {
+          "coding": [
+            {
+              "system": "http://hl7.org/fhir/ValueSet/condition-clinical",
+              "code": "active"
+            }
+          ]
+        },
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://snomed.info/sct",
+                "code": "163001000000103",
+                "display": "Diagnoses"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "1300721000000109",
+              "display": "COVID-19 confirmed by laboratory test"
+            }
+          ]
+        },
+        "encounter": {
+          "reference": "Encounter/920DCE4E-3E44-4966-B7C4-B61DAB9E4FDE"
+        },
+        "onsetDateTime": "2020-05-06T12:48:19+02:00",
+        "evidence": [
+          {
+            "detail": [
+              {
+                "reference": "Observation/F17999D2-FFE7-4CA4-8CE8-52CB45FF6F49"
+              }
+            ]
+          }
+        ],
+        "note": [
+          {
+            "text": "Problem; First, test"
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "https://int.api.service.nhs.uk/summary-care-record/FHIR/R4/Practitioner/4E7AFF7E-FD68-4C52-A8C5-89268F1FDE5D",
+      "resource": {
+        "resourceType": "Practitioner",
+        "id": "4E7AFF7E-FD68-4C52-A8C5-89268F1FDE5D",
+        "name": [
+          {
+            "text": "BLOGGS Fred"
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "https://int.api.service.nhs.uk/summary-care-record/FHIR/R4/PractitionerRole/4EAE23ED-8F8D-455B-A15E-96B077F02411",
+      "resource": {
+        "resourceType": "PractitionerRole",
+        "id": "4EAE23ED-8F8D-455B-A15E-96B077F02411",
+        "practitioner": {
+          "reference": "Practitioner/4E7AFF7E-FD68-4C52-A8C5-89268F1FDE5D"
+        },
+        "organization": {
+          "reference": "Organization/CD7FAF21-0126-456E-B681-703571153CA3"
+        },
+        "code": [
+          {
+            "coding": [
+              {
+                "system": "https://fhir.nhs.uk/CodeSystem/HL7v3-SDSJobRoleName",
+                "code": "NR0050",
+                "display": "Consultant"
+              }
             ]
           }
         ]
       }
     },
     {
-      "fullUrl": "urn:uuid:b6f5dd89-fc3a-466d-baad-126c0aac46fc",
+      "fullUrl": "https://int.api.service.nhs.uk/summary-care-record/FHIR/R4/Organization/CD7FAF21-0126-456E-B681-703571153CA3",
       "resource": {
-        "resourceType": "Patient",
-        "id": "b6f5dd89-fc3a-466d-baad-126c0aac46fc",
-        "identifier":  [
+        "resourceType": "Organization",
+        "id": "CD7FAF21-0126-456E-B681-703571153CA3",
+        "telecom": [
           {
-            "extension":  [
+            "system": "phone",
+            "value": "0177865579"
+          },
+          {
+            "system": "phone",
+            "value": "0189834144"
+          }
+        ],
+        "address": [
+          {
+            "line": [
+              "ORG ADDRESS"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "https://int.api.service.nhs.uk/summary-care-record/FHIR/R4/Encounter/920DCE4E-3E44-4966-B7C4-B61DAB9E4FDE",
+      "resource": {
+        "resourceType": "Encounter",
+        "id": "920DCE4E-3E44-4966-B7C4-B61DAB9E4FDE",
+        "status": "finished",
+        "class": {
+          "system": "http://terminology.hl7.org/CodeSystem/v3-NullFlavor",
+          "code": "UNK",
+          "display": "Unknown"
+        },
+        "participant": [
+          {
+            "type": [
               {
-                "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-NHSNumberVerificationStatus-1",
+                "coding": [
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/v3-ParticipationType",
+                    "code": "AUT",
+                    "display": "author"
+                  }
+                ]
+              }
+            ],
+            "period": {
+              "start": "2020-11-18T01:00:00+01:00"
+            },
+            "individual": {
+              "reference": "PractitionerRole/4EAE23ED-8F8D-455B-A15E-96B077F02411"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "https://int.api.service.nhs.uk/summary-care-record/FHIR/R4/Condition/958E584C-25B8-4BD7-A71D-7625FDC1ACD6",
+      "resource": {
+        "resourceType": "Condition",
+        "id": "958E584C-25B8-4BD7-A71D-7625FDC1ACD6",
+        "identifier": [
+          {
+            "value": "958E584C-25B8-4BD7-A71D-7625FDC1ACD6"
+          }
+        ],
+        "clinicalStatus": {
+          "coding": [
+            {
+              "system": "http://hl7.org/fhir/ValueSet/condition-clinical",
+              "code": "active"
+            }
+          ]
+        },
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://snomed.info/sct",
+                "code": "163001000000103",
+                "display": "Diagnoses"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "1300731000000106",
+              "display": "COVID-19 confirmed using clinical diagnostic criteria"
+            }
+          ]
+        },
+        "encounter": {
+          "reference": "Encounter/13DDB7F7-EF7A-4825-B0A1-B17B7B4DE942"
+        },
+        "onsetDateTime": "2020-05-06T12:48:19+02:00"
+      }
+    },
+    {
+      "fullUrl": "https://int.api.service.nhs.uk/summary-care-record/FHIR/R4/Practitioner/C8A2E6BA-4304-4428-A97D-AF4009ABBE91",
+      "resource": {
+        "resourceType": "Practitioner",
+        "id": "C8A2E6BA-4304-4428-A97D-AF4009ABBE91",
+        "name": [
+          {
+            "text": "William Jones"
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "https://int.api.service.nhs.uk/summary-care-record/FHIR/R4/PractitionerRole/E3FE00AE-40E8-43D8-8779-13E24C1E2ACB",
+      "resource": {
+        "resourceType": "PractitionerRole",
+        "id": "E3FE00AE-40E8-43D8-8779-13E24C1E2ACB",
+        "practitioner": {
+          "reference": "Practitioner/C8A2E6BA-4304-4428-A97D-AF4009ABBE91"
+        },
+        "organization": {
+          "reference": "Organization/C952E630-7934-4C18-A670-235E5A7F0802"
+        },
+        "code": [
+          {
+            "coding": [
+              {
+                "system": "https://fhir.nhs.uk/CodeSystem/HL7v3-SDSJobRoleName",
+                "code": "NR0010",
+                "display": "Medical Director"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "https://int.api.service.nhs.uk/summary-care-record/FHIR/R4/Organization/C952E630-7934-4C18-A670-235E5A7F0802",
+      "resource": {
+        "resourceType": "Organization",
+        "id": "C952E630-7934-4C18-A670-235E5A7F0802",
+        "type": [
+          {
+            "coding": [
+              {
+                "code": "021"
+              }
+            ]
+          }
+        ],
+        "name": "Good Health Hospital",
+        "telecom": [
+          {
+            "system": "phone",
+            "value": "0122865579"
+          },
+          {
+            "system": "pager",
+            "value": "0189664144"
+          }
+        ],
+        "address": [
+          {
+            "line": [
+              "ORG ADDRESS_2"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "https://int.api.service.nhs.uk/summary-care-record/FHIR/R4/PractitionerRole/24362D88-A6AB-4DDA-94E6-97BB5B0A27AE",
+      "resource": {
+        "resourceType": "PractitionerRole",
+        "id": "24362D88-A6AB-4DDA-94E6-97BB5B0A27AE",
+        "identifier": [
+          {
+            "system": "http://fhir.nhs.net/Id/sds-role-profile-id",
+            "value": "578934433"
+          }
+        ],
+        "practitioner": {
+          "reference": "Practitioner/0DDEE68F-4A92-4ECF-8B25-B83C5D1C0C68"
+        }
+      }
+    },
+    {
+      "fullUrl": "https://int.api.service.nhs.uk/summary-care-record/FHIR/R4/Practitioner/0DDEE68F-4A92-4ECF-8B25-B83C5D1C0C68",
+      "resource": {
+        "resourceType": "Practitioner",
+        "id": "0DDEE68F-4A92-4ECF-8B25-B83C5D1C0C68",
+        "identifier": [
+          {
+            "system": "https://fhir.nhs.uk/Id/sds-user-id",
+            "value": "9054354543"
+          }
+        ],
+        "name": [
+          {
+            "text": "Anna Maria"
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "https://int.api.service.nhs.uk/summary-care-record/FHIR/R4/Encounter/13DDB7F7-EF7A-4825-B0A1-B17B7B4DE942",
+      "resource": {
+        "resourceType": "Encounter",
+        "id": "13DDB7F7-EF7A-4825-B0A1-B17B7B4DE942",
+        "status": "finished",
+        "class": {
+          "system": "http://terminology.hl7.org/CodeSystem/v3-NullFlavor",
+          "code": "UNK",
+          "display": "Unknown"
+        },
+        "participant": [
+          {
+            "type": [
+              {
+                "coding": [
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/v3-ParticipationType",
+                    "code": "AUT",
+                    "display": "author"
+                  }
+                ]
+              }
+            ],
+            "period": {
+              "start": "2020-12-18T01:00:00+01:00"
+            },
+            "individual": {
+              "reference": "PractitionerRole/E3FE00AE-40E8-43D8-8779-13E24C1E2ACB"
+            }
+          },
+          {
+            "type": [
+              {
+                "coding": [
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/v3-ParticipationType",
+                    "code": "INF",
+                    "display": "informant"
+                  }
+                ]
+              }
+            ],
+            "period": {
+              "start": "2016-06-30T10:33:58+02:00"
+            },
+            "individual": {
+              "reference": "PractitionerRole/24362D88-A6AB-4DDA-94E6-97BB5B0A27AE"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "https://int.api.service.nhs.uk/summary-care-record/FHIR/R4/Condition/8CEB2867-551B-43D0-88B5-3278DA20A6B0",
+      "resource": {
+        "resourceType": "Condition",
+        "id": "8CEB2867-551B-43D0-88B5-3278DA20A6B0",
+        "identifier": [
+          {
+            "value": "8CEB2867-551B-43D0-88B5-3278DA20A6B0"
+          }
+        ],
+        "clinicalStatus": {
+          "coding": [
+            {
+              "system": "http://hl7.org/fhir/ValueSet/condition-clinical",
+              "code": "active"
+            }
+          ]
+        },
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://snomed.info/sct",
+                "code": "163001000000103",
+                "display": "Diagnoses"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "1240761000000102",
+              "display": "Suspected COVID-19"
+            }
+          ]
+        },
+        "encounter": {
+          "reference": "Encounter/330A104F-F328-4A65-A0B8-DEEC91A0E262"
+        },
+        "onsetDateTime": "2020-05-06T12:48:19+02:00"
+      }
+    },
+    {
+      "fullUrl": "https://int.api.service.nhs.uk/summary-care-record/FHIR/R4/Practitioner/BDDA65CD-2DB8-44D1-B289-B0BA1182FA21",
+      "resource": {
+        "resourceType": "Practitioner",
+        "id": "BDDA65CD-2DB8-44D1-B289-B0BA1182FA21",
+        "name": [
+          {
+            "text": "Stephan Spence"
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "https://int.api.service.nhs.uk/summary-care-record/FHIR/R4/PractitionerRole/E5E45994-E9A4-4BAB-A4B2-DCA8AF1B6493",
+      "resource": {
+        "resourceType": "PractitionerRole",
+        "id": "E5E45994-E9A4-4BAB-A4B2-DCA8AF1B6493",
+        "practitioner": {
+          "reference": "Practitioner/BDDA65CD-2DB8-44D1-B289-B0BA1182FA21"
+        },
+        "organization": {
+          "reference": "Organization/92CB3A00-A4E2-485F-8671-6E2E499536DB"
+        },
+        "code": [
+          {
+            "coding": [
+              {
+                "system": "https://fhir.nhs.uk/CodeSystem/HL7v3-SDSJobRoleName",
+                "code": "NR0020",
+                "display": "Clinical Director - Medical"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "https://int.api.service.nhs.uk/summary-care-record/FHIR/R4/Organization/92CB3A00-A4E2-485F-8671-6E2E499536DB",
+      "resource": {
+        "resourceType": "Organization",
+        "id": "92CB3A00-A4E2-485F-8671-6E2E499536DB",
+        "identifier": [
+          {
+            "system": "https://fhir.nhs.uk/Id/ods-organization-code",
+            "value": "57435939053"
+          }
+        ],
+        "name": "Good Health Hospital 2",
+        "telecom": [
+          {
+            "system": "phone",
+            "value": "0122865579"
+          },
+          {
+            "system": "pager",
+            "value": "0189664144"
+          }
+        ],
+        "address": [
+          {
+            "line": [
+              "ORG ADDRESS_2"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "https://int.api.service.nhs.uk/summary-care-record/FHIR/R4/RelatedPerson/B0A64A15-3552-4525-8305-1DBFDF548C97",
+      "resource": {
+        "resourceType": "RelatedPerson",
+        "id": "B0A64A15-3552-4525-8305-1DBFDF548C97",
+        "patient": {
+          "reference": "Patient/565B3BEF-9A19-4763-8887-9F7CB75995E3"
+        },
+        "relationship": [
+          {
+            "coding": [
+              {
+                "system": "https://fhir.nhs.uk/STU3/ValueSet/PersonRelationshipType-1",
+                "code": "01",
+                "display": "Brother"
+              }
+            ]
+          }
+        ],
+        "name": [
+          {
+            "text": "JONES Bob"
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "https://int.api.service.nhs.uk/summary-care-record/FHIR/R4/Encounter/330A104F-F328-4A65-A0B8-DEEC91A0E262",
+      "resource": {
+        "resourceType": "Encounter",
+        "id": "330A104F-F328-4A65-A0B8-DEEC91A0E262",
+        "status": "finished",
+        "class": {
+          "system": "http://terminology.hl7.org/CodeSystem/v3-NullFlavor",
+          "code": "UNK",
+          "display": "Unknown"
+        },
+        "participant": [
+          {
+            "type": [
+              {
+                "coding": [
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/v3-ParticipationType",
+                    "code": "AUT",
+                    "display": "author"
+                  }
+                ]
+              }
+            ],
+            "period": {
+              "start": "2020-12-18T01:00:00+01:00"
+            },
+            "individual": {
+              "reference": "PractitionerRole/E5E45994-E9A4-4BAB-A4B2-DCA8AF1B6493"
+            }
+          },
+          {
+            "type": [
+              {
+                "coding": [
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/v3-ParticipationType",
+                    "code": "INF",
+                    "display": "informant"
+                  }
+                ]
+              }
+            ],
+            "period": {
+              "start": "2016-06-30T10:33:58+02:00"
+            },
+            "individual": {
+              "reference": "RelatedPerson/B0A64A15-3552-4525-8305-1DBFDF548C97"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "https://int.api.service.nhs.uk/summary-care-record/FHIR/R4/Condition/6ECDAE6D-32AB-421C-AA8F-0B1ABA454C70",
+      "resource": {
+        "resourceType": "Condition",
+        "id": "6ECDAE6D-32AB-421C-AA8F-0B1ABA454C70",
+        "identifier": [
+          {
+            "value": "6ECDAE6D-32AB-421C-AA8F-0B1ABA454C70"
+          }
+        ],
+        "clinicalStatus": {
+          "coding": [
+            {
+              "system": "http://hl7.org/fhir/ValueSet/condition-clinical",
+              "code": "active"
+            }
+          ]
+        },
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://snomed.info/sct",
+                "code": "163001000000103",
+                "display": "Diagnoses"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "1240761000000102",
+              "display": "Suspected COVID-19"
+            }
+          ]
+        },
+        "encounter": {
+          "reference": "Encounter/0EB8181D-2CCB-444D-826F-9F0B05698730"
+        },
+        "onsetDateTime": "2020-05-06T12:48:19+02:00"
+      }
+    },
+    {
+      "fullUrl": "https://int.api.service.nhs.uk/summary-care-record/FHIR/R4/Practitioner/EDF20F0A-E2B9-4077-9EC8-89B4A1D6ABEF",
+      "resource": {
+        "resourceType": "Practitioner",
+        "id": "EDF20F0A-E2B9-4077-9EC8-89B4A1D6ABEF",
+        "identifier": [
+          {
+            "system": "https://fhir.nhs.uk/Id/sds-user-id",
+            "value": "8563857943834"
+          }
+        ],
+        "name": [
+          {
+            "text": "Gregory House"
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "https://int.api.service.nhs.uk/summary-care-record/FHIR/R4/PractitionerRole/528485E6-E9F6-4F6C-8603-5C4688AC3E4D",
+      "resource": {
+        "resourceType": "PractitionerRole",
+        "id": "528485E6-E9F6-4F6C-8603-5C4688AC3E4D",
+        "practitioner": {
+          "reference": "Practitioner/EDF20F0A-E2B9-4077-9EC8-89B4A1D6ABEF"
+        },
+        "organization": {
+          "reference": "Organization/82896F68-1EC4-48ED-AC9C-31219BE48D1C"
+        },
+        "code": [
+          {
+            "coding": [
+              {
+                "system": "https://fhir.nhs.uk/CodeSystem/HL7v3-SDSJobRoleName",
+                "code": "NR0080",
+                "display": "Staff Grade"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "https://int.api.service.nhs.uk/summary-care-record/FHIR/R4/Organization/82896F68-1EC4-48ED-AC9C-31219BE48D1C",
+      "resource": {
+        "resourceType": "Organization",
+        "id": "82896F68-1EC4-48ED-AC9C-31219BE48D1C",
+        "telecom": [
+          {
+            "system": "phone",
+            "value": "0332865579"
+          }
+        ],
+        "address": [
+          {
+            "line": [
+              "ORG ADDRESS_4"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "https://int.api.service.nhs.uk/summary-care-record/FHIR/R4/Practitioner/62E22530-06D0-4622-84B8-46BE42E51467",
+      "resource": {
+        "resourceType": "Practitioner",
+        "id": "62E22530-06D0-4622-84B8-46BE42E51467",
+        "identifier": [
+          {
+            "system": "https://fhir.nhs.uk/Id/sds-user-id",
+            "value": "564735334"
+          }
+        ],
+        "name": [
+          {
+            "text": "Thomas Moore"
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "https://int.api.service.nhs.uk/summary-care-record/FHIR/R4/PractitionerRole/2EAC367D-5C65-4564-8475-D62C44B21A02",
+      "resource": {
+        "resourceType": "PractitionerRole",
+        "id": "2EAC367D-5C65-4564-8475-D62C44B21A02",
+        "practitioner": {
+          "reference": "Practitioner/62E22530-06D0-4622-84B8-46BE42E51467"
+        },
+        "organization": {
+          "reference": "Organization/5BF9CD67-5A0D-43AF-B654-E0F85D2B5FDA"
+        },
+        "code": [
+          {
+            "coding": [
+              {
+                "system": "https://fhir.nhs.uk/CodeSystem/HL7v3-SDSJobRoleName",
+                "code": "NR0100",
+                "display": "Clinical Assistant"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "https://int.api.service.nhs.uk/summary-care-record/FHIR/R4/Organization/5BF9CD67-5A0D-43AF-B654-E0F85D2B5FDA",
+      "resource": {
+        "resourceType": "Organization",
+        "id": "5BF9CD67-5A0D-43AF-B654-E0F85D2B5FDA",
+        "telecom": [
+          {
+            "system": "phone",
+            "value": "573459834"
+          }
+        ],
+        "address": [
+          {
+            "line": [
+              "ORG ADDRESS_4"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "https://int.api.service.nhs.uk/summary-care-record/FHIR/R4/Encounter/0EB8181D-2CCB-444D-826F-9F0B05698730",
+      "resource": {
+        "resourceType": "Encounter",
+        "id": "0EB8181D-2CCB-444D-826F-9F0B05698730",
+        "status": "finished",
+        "class": {
+          "system": "http://terminology.hl7.org/CodeSystem/v3-NullFlavor",
+          "code": "UNK",
+          "display": "Unknown"
+        },
+        "participant": [
+          {
+            "type": [
+              {
+                "coding": [
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/v3-ParticipationType",
+                    "code": "AUT",
+                    "display": "author"
+                  }
+                ]
+              }
+            ],
+            "period": {
+              "start": "2020-12-18T01:00:00+01:00"
+            },
+            "individual": {
+              "reference": "PractitionerRole/528485E6-E9F6-4F6C-8603-5C4688AC3E4D"
+            }
+          },
+          {
+            "type": [
+              {
+                "coding": [
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/v3-ParticipationType",
+                    "code": "INF",
+                    "display": "informant"
+                  }
+                ]
+              }
+            ],
+            "period": {
+              "start": "2016-06-30T10:33:58+02:00"
+            },
+            "individual": {
+              "reference": "PractitionerRole/2EAC367D-5C65-4564-8475-D62C44B21A02"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "https://int.api.service.nhs.uk/summary-care-record/FHIR/R4/PractitionerRole/839ABFE3-1063-4B03-A716-E67377417F9B",
+      "resource": {
+        "resourceType": "PractitionerRole",
+        "id": "839ABFE3-1063-4B03-A716-E67377417F9B",
+        "identifier": [
+          {
+            "system": "http://fhir.nhs.net/Id/sds-role-profile-id",
+            "value": "89823498234"
+          }
+        ],
+        "practitioner": {
+          "reference": "Practitioner/53A9AEDB-5497-413B-B272-F1C51771A55D"
+        }
+      }
+    },
+    {
+      "fullUrl": "https://int.api.service.nhs.uk/summary-care-record/FHIR/R4/Practitioner/53A9AEDB-5497-413B-B272-F1C51771A55D",
+      "resource": {
+        "resourceType": "Practitioner",
+        "id": "53A9AEDB-5497-413B-B272-F1C51771A55D",
+        "identifier": [
+          {
+            "system": "https://fhir.nhs.uk/Id/sds-user-id",
+            "value": "9699575667"
+          }
+        ],
+        "name": [
+          {
+            "text": "Maria Smith"
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "https://int.api.service.nhs.uk/summary-care-record/FHIR/R4/Encounter/74852157-6F69-497F-8116-7E2F4493999A",
+      "resource": {
+        "resourceType": "Encounter",
+        "id": "74852157-6F69-497F-8116-7E2F4493999A",
+        "status": "finished",
+        "class": {
+          "system": "http://terminology.hl7.org/CodeSystem/v3-NullFlavor",
+          "code": "UNK",
+          "display": "Unknown"
+        },
+        "participant": [
+          {
+            "extension": [
+              {
+                "url": "https://fhir.nhs.uk/StructureDefinition/Extension-SCR-ModeCode",
                 "valueCodeableConcept": {
-                  "coding":  [
+                  "coding": [
                     {
-                      "system": "https://fhir.hl7.org.uk/STU3/CodeSystem/CareConnect-NHSNumberVerificationStatus-1",
-                      "code": "01",
-                      "display": "Number present and verified"
+                      "system": "http://terminology.hl7.org/CodeSystem/v3-ParticipationMode",
+                      "code": "PHYSICAL",
+                      "display": "physical presence"
                     }
                   ]
                 }
               }
             ],
+            "type": [
+              {
+                "coding": [
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/v3-ParticipationType",
+                    "code": "PRF",
+                    "display": "performer"
+                  }
+                ]
+              }
+            ],
+            "period": {
+              "start": "2016-06-30T10:33:58+02:00"
+            },
+            "individual": {
+              "reference": "PractitionerRole/839ABFE3-1063-4B03-A716-E67377417F9B"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "https://int.api.service.nhs.uk/summary-care-record/FHIR/R4/Observation/F17999D2-FFE7-4CA4-8CE8-52CB45FF6F49",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "F17999D2-FFE7-4CA4-8CE8-52CB45FF6F49",
+        "meta": {
+          "profile": [
+            "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Observation"
+          ]
+        },
+        "identifier": [
+          {
+            "value": "F17999D2-FFE7-4CA4-8CE8-52CB45FF6F49"
+          }
+        ],
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://snomed.info/sct",
+                "code": "163141000000104",
+                "display": "Investigation Results"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "163131000000108",
+              "display": "SARS-CoV-2 (severe acute respiratory syndrome coronavirus 2) RNA (ribonucleic acid) detection result positive"
+            }
+          ]
+        },
+        "encounter": {
+          "reference": "Encounter/74852157-6F69-497F-8116-7E2F4493999A"
+        },
+        "effectivePeriod": {
+          "start": "2020-05-06T12:48:19+02:00"
+        }
+      }
+    },
+    {
+      "fullUrl": "https://int.api.service.nhs.uk/summary-care-record/FHIR/R4/Device/4FCE15F1-6969-41BD-9298-BE595CB6E995",
+      "resource": {
+        "resourceType": "Device",
+        "id": "4FCE15F1-6969-41BD-9298-BE595CB6E995",
+        "identifier": [
+          {
+            "system": "https://fhir.nhs.uk/Id/SDSDevice",
+            "value": "930484003023"
+          },
+          {
+            "value": "AAA5F1E0-6DF2-11EA-AE26-C5CB3G0B33D1"
+          }
+        ],
+        "owner": {
+          "reference": "Organization/F806387E-824C-4931-8ABF-DE7A545046C1"
+        }
+      }
+    },
+    {
+      "fullUrl": "https://int.api.service.nhs.uk/summary-care-record/FHIR/R4/Organization/F806387E-824C-4931-8ABF-DE7A545046C1",
+      "resource": {
+        "resourceType": "Organization",
+        "id": "F806387E-824C-4931-8ABF-DE7A545046C1",
+        "identifier": [
+          {
+            "system": "https://fhir.nhs.uk/Id/ods-organization-code",
+            "value": "7635043534"
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "https://int.api.service.nhs.uk/summary-care-record/FHIR/R4/PractitionerRole/3AA33898-49AB-41FC-9805-E30031DFB37D",
+      "resource": {
+        "resourceType": "PractitionerRole",
+        "id": "3AA33898-49AB-41FC-9805-E30031DFB37D",
+        "organization": {
+          "reference": "Organization/F806387E-824C-4931-8ABF-DE7A545046C1"
+        }
+      }
+    },
+    {
+      "fullUrl": "https://int.api.service.nhs.uk/summary-care-record/FHIR/R4/Encounter/54096A6E-03C3-48B8-B448-7C813EC926DA",
+      "resource": {
+        "resourceType": "Encounter",
+        "id": "54096A6E-03C3-48B8-B448-7C813EC926DA",
+        "status": "finished",
+        "class": {
+          "system": "http://terminology.hl7.org/CodeSystem/v3-NullFlavor",
+          "code": "UNK",
+          "display": "Unknown"
+        },
+        "participant": [
+          {
+            "type": [
+              {
+                "coding": [
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/v3-ParticipationType",
+                    "code": "AUT",
+                    "display": "author"
+                  }
+                ]
+              }
+            ],
+            "period": {
+              "start": "2016-06-30T10:33:58+02:00"
+            },
+            "individual": {
+              "reference": "PractitionerRole/3AA33898-49AB-41FC-9805-E30031DFB37D"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "https://int.api.service.nhs.uk/summary-care-record/FHIR/R4/Observation/EE608FAA-2433-4BAD-A0D5-4A10E45AB2B0",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "EE608FAA-2433-4BAD-A0D5-4A10E45AB2B0",
+        "meta": {
+          "profile": [
+            "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Observation"
+          ]
+        },
+        "identifier": [
+          {
+            "value": "EE608FAA-2433-4BAD-A0D5-4A10E45AB2B0"
+          }
+        ],
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://snomed.info/sct",
+                "code": "163141000000104",
+                "display": "Investigation Results"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "163131000000108",
+              "display": "SARS-CoV-2 (severe acute respiratory syndrome coronavirus 2) RNA (ribonucleic acid) detection result positive"
+            }
+          ]
+        },
+        "encounter": {
+          "reference": "Encounter/54096A6E-03C3-48B8-B448-7C813EC926DA"
+        },
+        "effectivePeriod": {
+          "start": "2020-05-06T12:48:19+02:00"
+        }
+      }
+    },
+    {
+      "fullUrl": "https://int.api.service.nhs.uk/summary-care-record/FHIR/R4/Device/C21F61F0-B9CB-49A3-A966-9BFC4ED2FBEC",
+      "resource": {
+        "resourceType": "Device",
+        "id": "C21F61F0-B9CB-49A3-A966-9BFC4ED2FBEC",
+        "identifier": [
+          {
+            "value": "7867868687687"
+          },
+          {
+            "value": "AAA5F1E0-6DF2-11EA-AE26-C5CB3F0B33D1"
+          }
+        ],
+        "deviceName": [
+          {
+            "name": "Some device name",
+            "type": "other"
+          },
+          {
+            "name": "Mfc model name",
+            "type": "manufacturer-name"
+          }
+        ],
+        "type": {
+          "coding": [
+            {
+              "code": "01",
+              "display": "Some device"
+            }
+          ]
+        },
+        "version": [
+          {
+            "value": "v.1.10.245-beta"
+          }
+        ],
+        "owner": {
+          "reference": "Organization/8D1D94AB-26D3-4A1F-BC22-A02670BCB444"
+        },
+        "note": [
+          {
+            "text": "Device description"
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "https://int.api.service.nhs.uk/summary-care-record/FHIR/R4/Organization/8D1D94AB-26D3-4A1F-BC22-A02670BCB444",
+      "resource": {
+        "resourceType": "Organization",
+        "id": "8D1D94AB-26D3-4A1F-BC22-A02670BCB444",
+        "type": [
+          {
+            "coding": [
+              {
+                "code": "214"
+              }
+            ]
+          }
+        ],
+        "name": "Device owner org",
+        "telecom": [
+          {
+            "system": "phone",
+            "value": "fax:01392251689"
+          }
+        ],
+        "address": [
+          {
+            "line": [
+              "ADDRESS LINE 1"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "https://int.api.service.nhs.uk/summary-care-record/FHIR/R4/PractitionerRole/29BF2890-7D56-4FC5-A3A9-7D3483205EFD",
+      "resource": {
+        "resourceType": "PractitionerRole",
+        "id": "29BF2890-7D56-4FC5-A3A9-7D3483205EFD",
+        "organization": {
+          "reference": "Organization/8D1D94AB-26D3-4A1F-BC22-A02670BCB444"
+        }
+      }
+    },
+    {
+      "fullUrl": "https://int.api.service.nhs.uk/summary-care-record/FHIR/R4/Encounter/863E4623-2F33-45C5-B02F-26BBAEDE24E8",
+      "resource": {
+        "resourceType": "Encounter",
+        "id": "863E4623-2F33-45C5-B02F-26BBAEDE24E8",
+        "status": "finished",
+        "class": {
+          "system": "http://terminology.hl7.org/CodeSystem/v3-NullFlavor",
+          "code": "UNK",
+          "display": "Unknown"
+        },
+        "participant": [
+          {
+            "type": [
+              {
+                "coding": [
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/v3-ParticipationType",
+                    "code": "AUT",
+                    "display": "author"
+                  }
+                ]
+              }
+            ],
+            "period": {
+              "start": "2016-06-30T10:33:58+02:00"
+            },
+            "individual": {
+              "reference": "PractitionerRole/29BF2890-7D56-4FC5-A3A9-7D3483205EFD"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "https://int.api.service.nhs.uk/summary-care-record/FHIR/R4/Observation/0F582D97-8F89-11CA-8B2D-B741F13EFC47",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "0F582D97-8F89-11CA-8B2D-B741F13EFC47",
+        "meta": {
+          "profile": [
+            "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Observation"
+          ]
+        },
+        "identifier": [
+          {
+            "value": "0F582D97-8F89-11CA-8B2D-B741F13EFC47"
+          }
+        ],
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://snomed.info/sct",
+                "code": "163141000000104",
+                "display": "Investigation Results"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "1240581000000104",
+              "display": "SARS-CoV-2 (severe acute respiratory syndrome coronavirus 2) RNA (ribonucleic acid) detection result positive"
+            }
+          ]
+        },
+        "encounter": {
+          "reference": "Encounter/863E4623-2F33-45C5-B02F-26BBAEDE24E8"
+        },
+        "effectivePeriod": {
+          "start": "2020-05-06T12:48:19+02:00"
+        }
+      }
+    },
+    {
+      "fullUrl": "https://int.api.service.nhs.uk/summary-care-record/FHIR/R4/Observation/3CDB62E6-EFEA-4036-9709-52AE7ED7D930",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "3CDB62E6-EFEA-4036-9709-52AE7ED7D930",
+        "meta": {
+          "profile": [
+            "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Observation"
+          ]
+        },
+        "identifier": [
+          {
+            "value": "3CDB62E6-EFEA-4036-9709-52AE7ED7D930"
+          }
+        ],
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://snomed.info/sct",
+                "code": "163141000000104",
+                "display": "Investigation Results"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "1322781000000102",
+              "display": "Severe acute respiratory syndrome coronavirus 2 antigen detection result positive (finding)"
+            }
+          ]
+        },
+        "effectivePeriod": {
+          "start": "2020-08-05"
+        }
+      }
+    },
+    {
+      "fullUrl": "https://int.api.service.nhs.uk/summary-care-record/FHIR/R4/ImmunizationRecommendation/19ABC6D1-8AF5-11EA-9FCE-AFDCAECF9DFB",
+      "resource": {
+        "resourceType": "ImmunizationRecommendation",
+        "id": "19ABC6D1-8AF5-11EA-9FCE-AFDCAECF9DFB",
+        "identifier": [
+          {
+            "value": "19ABC6D1-8AF5-11EA-9FCE-AFDCAECF9DFB"
+          }
+        ],
+        "patient": {
+          "reference": "Patient/565B3BEF-9A19-4763-8887-9F7CB75995E3"
+        },
+        "date": "2020-08-05",
+        "recommendation": [
+          {
+            "contraindicatedVaccineCode": [
+              {
+                "coding": [
+                  {
+                    "system": "http://snomed.info/sct",
+                    "code": "1240661000000107",
+                    "display": "Severe acute respiratory syndrome coronavirus 2 vaccination contraindicated (situation)"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "https://int.api.service.nhs.uk/summary-care-record/FHIR/R4/Immunization/19ABC6D1-8AF5-11EA-9FCE-AFDCAECF9DFB",
+      "resource": {
+        "resourceType": "Immunization",
+        "id": "19ABC6D1-8AF5-11EA-9FCE-AFDCAECF9DFB",
+        "meta": {
+          "profile": [
+            "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Immunization"
+          ]
+        },
+        "extension": [
+          {
+            "url": "https://fhir.hl7.org.uk/StructureDefinition/Extension-UKCore-VaccinationProcedure",
+            "valueCodeableConcept": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "1240681000000103",
+                  "display": "Severe acute respiratory syndrome coronavirus 2 vaccination not done (situation)"
+                }
+              ]
+            }
+          }
+        ],
+        "identifier": [
+          {
+            "value": "19ABC6D1-8AF5-11EA-9FCE-AFDCAECF9DFB"
+          }
+        ],
+        "status": "not-done",
+        "vaccineCode": {
+          "coding": [
+            {
+              "system": "http://terminology.hl7.org/CodeSystem/v3-NullFlavor",
+              "code": "UNK",
+              "display": "Unknown"
+            }
+          ]
+        },
+        "patient": {
+          "reference": "Patient/565B3BEF-9A19-4763-8887-9F7CB75995E3"
+        },
+        "occurrenceDateTime": "2020-08-05"
+      }
+    },
+    {
+      "fullUrl": "https://int.api.service.nhs.uk/summary-care-record/FHIR/R4/Observation/10CE2F30-8AF5-11EA-9FCE-AFDCAECF9DFB",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "10CE2F30-8AF5-11EA-9FCE-AFDCAECF9DFB",
+        "meta": {
+          "profile": [
+            "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Observation"
+          ]
+        },
+        "identifier": [
+          {
+            "value": "10CE2F30-8AF5-11EA-9FCE-AFDCAECF9DFB"
+          }
+        ],
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://snomed.info/sct",
+                "code": "163231000000100",
+                "display": "Risks to Patient"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "1240441000000108",
+              "display": "Close exposure to severe acute respiratory syndrome coronavirus 2 infection (event)"
+            }
+          ]
+        },
+        "effectivePeriod": {
+          "start": "2020-08-05"
+        }
+      }
+    },
+    {
+      "fullUrl": "https://int.api.service.nhs.uk/summary-care-record/FHIR/R4/Encounter/0F582D91-8F89-11EA-8B2D-B741F13EFC47",
+      "resource": {
+        "resourceType": "Encounter",
+        "id": "0F582D91-8F89-11EA-8B2D-B741F13EFC47",
+        "meta": {
+          "profile": [
+            "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Encounter"
+          ]
+        },
+        "identifier": [
+          {
+            "value": "0F582D91-8F89-11EA-8B2D-B741F13EFC47"
+          }
+        ],
+        "status": "finished",
+        "class": {
+          "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+          "code": "GENRL",
+          "display": "General"
+        },
+        "type": [
+          {
+            "coding": [
+              {
+                "system": "http://snomed.info/sct",
+                "code": "1240631000000102",
+                "display": "Did not attend SARS-CoV-2 (severe acute respiratory syndrome coronavirus 2) vaccination"
+              }
+            ]
+          }
+        ],
+        "period": {
+          "start": "2020-08-05"
+        }
+      }
+    },
+    {
+      "fullUrl": "https://int.api.service.nhs.uk/summary-care-record/FHIR/R4/Procedure/0F5A9E75-8F89-11EA-8B2D-B741F13EFC47",
+      "resource": {
+        "resourceType": "Procedure",
+        "id": "0F5A9E75-8F89-11EA-8B2D-B741F13EFC47",
+        "meta": {
+          "profile": [
+            "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Procedure"
+          ]
+        },
+        "identifier": [
+          {
+            "value": "0F5A9E75-8F89-11EA-8B2D-B741F13EFC47"
+          }
+        ],
+        "status": "completed",
+        "category": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "163081000000108",
+              "display": "Investigations"
+            }
+          ]
+        },
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "1240461000000109",
+              "display": "Measurement of severe acute respiratory syndrome coronavirus 2 antibody (procedure)"
+            }
+          ]
+        },
+        "performedPeriod": {
+          "start": "2020-08-05"
+        }
+      }
+    },
+    {
+      "fullUrl": "https://int.api.service.nhs.uk/summary-care-record/FHIR/R4/Procedure/0F5A9E72-8F89-11EA-8B2D-B741F13EFC47",
+      "resource": {
+        "resourceType": "Procedure",
+        "id": "0F5A9E72-8F89-11EA-8B2D-B741F13EFC47",
+        "meta": {
+          "profile": [
+            "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Procedure"
+          ]
+        },
+        "identifier": [
+          {
+            "value": "0F5A9E72-8F89-11EA-8B2D-B741F13EFC47"
+          }
+        ],
+        "status": "completed",
+        "category": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "163071000000106",
+              "display": "Treatments"
+            }
+          ]
+        },
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "1240491000000103",
+              "display": "Severe acute respiratory syndrome coronavirus 2 vaccination (procedure)"
+            }
+          ]
+        },
+        "performedPeriod": {
+          "start": "2020-08-05"
+        }
+      }
+    },
+    {
+      "fullUrl": "https://int.api.service.nhs.uk/summary-care-record/FHIR/R4/Observation/0F5A9E73-8F89-11EA-8B2D-B741F13EFC47",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "0F5A9E73-8F89-11EA-8B2D-B741F13EFC47",
+        "meta": {
+          "profile": [
+            "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Observation"
+          ]
+        },
+        "identifier": [
+          {
+            "value": "0F5A9E73-8F89-11EA-8B2D-B741F13EFC47"
+          }
+        ],
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://snomed.info/sct",
+                "code": "162961000000108",
+                "display": "Personal Preferences"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "1240651000000109",
+              "display": "SARS-CoV-2 (severe acute respiratory syndrome coronavirus 2) vaccination declined"
+            }
+          ]
+        },
+        "effectivePeriod": {
+          "start": "2020-08-05"
+        }
+      }
+    },
+    {
+      "fullUrl": "https://int.api.service.nhs.uk/summary-care-record/FHIR/R4/Communication/0F582D83-8F89-11EA-8B2D-B741F13EFC47",
+      "resource": {
+        "resourceType": "Communication",
+        "id": "0F582D83-8F89-11EA-8B2D-B741F13EFC47",
+        "meta": {
+          "profile": [
+            "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Encounter"
+          ]
+        },
+        "identifier": [
+          {
+            "value": "0F582D83-8F89-11EA-8B2D-B741F13EFC47"
+          }
+        ],
+        "status": "completed",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://snomed.info/sct",
+                "code": "163101000000102",
+                "display": "Provision of Advice and Information to Patients and Carers"
+              }
+            ]
+          }
+        ],
+        "topic": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "1240711000000104",
+              "display": "Educated about severe acute respiratory syndrome coronavirus 2 infection (situation)"
+            }
+          ]
+        },
+        "sent": "2020-08-05"
+      }
+    },
+    {
+      "fullUrl": "https://int.api.service.nhs.uk/summary-care-record/FHIR/R4/Communication/0F582D83-8F89-11EA-8B2D-B741F13EFC47",
+      "resource": {
+        "resourceType": "Communication",
+        "id": "0F582D83-8F89-11EA-8B2D-B741F13EFC47",
+        "meta": {
+          "profile": [
+            "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Encounter"
+          ]
+        },
+        "identifier": [
+          {
+            "value": "0F582D83-8F89-11EA-8B2D-B741F13EFC47"
+          }
+        ],
+        "status": "completed",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://snomed.info/sct",
+                "code": "163181000000107",
+                "display": "Patient/carer correspondence"
+              }
+            ]
+          }
+        ],
+        "topic": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "1240781000000106",
+              "display": "Severe acute respiratory syndrome coronavirus 2 vaccination invitation short message service text message sent (situation)"
+            }
+          ]
+        },
+        "sent": "2020-09-06"
+      }
+    },
+    {
+      "fullUrl": "https://int.api.service.nhs.uk/summary-care-record/FHIR/R4/Patient/565B3BEF-9A19-4763-8887-9F7CB75995E3",
+      "resource": {
+        "resourceType": "Patient",
+        "id": "565B3BEF-9A19-4763-8887-9F7CB75995E3",
+        "identifier": [
+          {
             "system": "https://fhir.nhs.uk/Id/nhs-number",
             "value": "9995000180"
-          }
-        ]
-      }
-    },
-    {
-      "fullUrl": "baecc1c2-c86c-482c-8cea-981b47a6cc48",
-      "resource": {
-        "resourceType": "Condition",
-        "meta": [
-          {
-            "profile": "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Condition"
-          }
-        ],
-        "identifier": [
-          {
-            "value": "0F582D97-8F89-11EA-8B2D-B741F13EFC47"
-          }
-        ],
-        "clinicalStatus": [
-          {
-            "coding": [
-              {
-                "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
-                "code": "active",
-                "display": "Active"
-              }
-            ]
-          }
-        ],
-        "code": [
-          {
-            "coding": [
-              {
-                "system": "http://snomed.info/sct",
-                "code": "1240751000000100",
-                "display": "COVID-19"
-              }
-            ]
-          }
-        ],
-        "onsetDateTime": "2020-05-06T10:48:19+00:00"
-      }
-    },
-    {
-      "fullUrl": "baecc1c2-c86c-482c-8cea-981b47a6cc48",
-      "resource": {
-        "resourceType": "Condition",
-        "meta": [
-          {
-            "profile": "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Condition"
-          }
-        ],
-        "identifier": [
-          {
-            "value": "0F582D97-8F89-11EA-8B2D-B741F13EFC47"
-          }
-        ],
-        "clinicalStatus": [
-          {
-            "coding": [
-              {
-                "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
-                "code": "active",
-                "display": "Active"
-              }
-            ]
-          }
-        ],
-        "code": [
-          {
-            "coding": [
-              {
-                "system": "http://snomed.info/sct",
-                "code": "1300721000000109",
-                "display": "COVID-19 confirmed by laboratory test"
-              }
-            ]
-          }
-        ],
-        "onsetDateTime": "2020-05-06T10:48:19+00:00"
-      }
-    },
-    {
-      "fullUrl": "baecc1c2-c86c-482c-8cea-981b47a6cc48",
-      "resource": {
-        "resourceType": "Condition",
-        "meta": [
-          {
-            "profile": "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Condition"
-          }
-        ],
-        "identifier": [
-          {
-            "value": "0F582D97-8F89-11EA-8B2D-B741F13EFC47"
-          }
-        ],
-        "clinicalStatus": [
-          {
-            "coding": [
-              {
-                "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
-                "code": "active",
-                "display": "Active"
-              }
-            ]
-          }
-        ],
-        "code": [
-          {
-            "coding": [
-              {
-                "system": "http://snomed.info/sct",
-                "code": "1300731000000106",
-                "display": "COVID-19 confirmed using clinical diagnostic criteria"
-              }
-            ]
-          }
-        ],
-        "onsetDateTime": "2020-05-06T10:48:19+00:00"
-      }
-    },
-    {
-      "fullUrl": "baecc1c2-c86c-482c-8cea-981b47a6cc48",
-      "resource": {
-        "resourceType": "Condition",
-        "meta": [
-          {
-            "profile": "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Condition"
-          }
-        ],
-        "identifier": [
-          {
-            "value": "0F582D97-8F89-11EA-8B2D-B741F13EFC47"
-          }
-        ],
-        "clinicalStatus": [
-          {
-            "coding": [
-              {
-                "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
-                "code": "active",
-                "display": "Active"
-              }
-            ]
-          }
-        ],
-        "code": [
-          {
-            "coding": [
-              {
-                "system": "http://snomed.info/sct",
-                "code": "1240761000000102",
-                "display": "Suspected COVID-19"
-              }
-            ]
-          }
-        ],
-        "onsetDateTime": "2020-05-06T10:48:19+00:00"
-      }
-    },
-    {
-      "fullUrl": "baecc1c2-c86c-482c-8cea-981b47a6cc48",
-      "resource": {
-        "resourceType": "Observation",
-        "meta": [
-          {
-            "profile": "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Observation"
-          }
-        ],
-        "identifier": [
-          {
-            "value": "0F582D97-8F89-11EA-8B2D-B741F13EFC47"
-          }
-        ],
-        "status": "final",
-        "code": [
-          {
-            "coding": [
-              {
-                "system": "http://snomed.info/sct",
-                "code": "163131000000108",
-                "display": "SARS-CoV-2 (severe acute respiratory syndrome coronavirus 2) RNA (ribonucleic acid) detection result positive"
-              }
-            ]
-          }
-        ],
-        "effectivePeriod": [
-          {
-            "start": "2020-05-06T10:48:19+00:00"
-          }
-        ]
-      }
-    },
-    {
-      "fullUrl": "baecc1c2-c86c-482c-8cea-981b47a6cc48",
-      "resource": {
-        "resourceType": "Observation",
-        "meta": [
-          {
-            "profile": "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Observation"
-          }
-        ],
-        "identifier": [
-          {
-            "value": "0F582D97-8F89-11EA-8B2D-B741F13EFC47"
-          }
-        ],
-        "status": "final",
-        "code": [
-          {
-            "coding": [
-              {
-                "system": "http://snomed.info/sct",
-                "code": "1240581000000104",
-                "display": "SARS-CoV-2 (severe acute respiratory syndrome coronavirus 2) RNA (ribonucleic acid) detection result positive"
-              }
-            ]
-          }
-        ],
-        "effectivePeriod": [
-          {
-            "start": "2020-05-06T10:48:19+00:00"
           }
         ]
       }

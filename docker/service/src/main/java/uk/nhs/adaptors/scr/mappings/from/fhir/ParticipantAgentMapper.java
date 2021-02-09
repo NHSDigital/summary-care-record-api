@@ -37,14 +37,14 @@ public class ParticipantAgentMapper {
 
     public static Participant.Author mapAuthor(Bundle bundle, EncounterParticipantComponent encounterParticipant) {
         var author = new Participant.Author();
-        author.setTime(formatDateToHl7(encounterParticipant.getPeriod().getStart()));
+        author.setTime(formatDateToHl7(encounterParticipant.getPeriod().getStartElement()));
         setParticipantAgents(bundle, encounterParticipant.getIndividual(), author);
         return author;
     }
 
     public static Participant.Author1 mapAuthor1(Bundle bundle, EncounterParticipantComponent encounterParticipant) {
         var author = new Participant.Author1();
-        author.setTime(formatDateToHl7(encounterParticipant.getPeriod().getStart()));
+        author.setTime(formatDateToHl7(encounterParticipant.getPeriod().getStartElement()));
 
         var practitionerRoleReference = encounterParticipant.getIndividual().getReference();
         var practitionerRole = getResourceByReference(bundle, practitionerRoleReference, PractitionerRole.class)
@@ -125,7 +125,7 @@ public class ParticipantAgentMapper {
 
     public static Participant.Informant mapInformant(Bundle bundle, EncounterParticipantComponent encounterParticipant) {
         var informant = new Participant.Informant();
-        informant.setTime(formatDateToHl7(encounterParticipant.getPeriod().getStart()));
+        informant.setTime(formatDateToHl7(encounterParticipant.getPeriod().getStartElement()));
 
         var participantType = encounterParticipant.getIndividual().getReference().split("/")[0];
         if (PractitionerRole.class.getSimpleName().equals(participantType)) {
@@ -149,7 +149,7 @@ public class ParticipantAgentMapper {
 
     public static Participant.Performer mapPerformer(Bundle bundle, EncounterParticipantComponent encounterParticipant) {
         var performer = new Participant.Performer();
-        performer.setTime(formatDateToHl7(encounterParticipant.getPeriod().getStart()));
+        performer.setTime(formatDateToHl7(encounterParticipant.getPeriod().getStartElement()));
         var modeCodeExtension = encounterParticipant.getExtensionByUrl(MODE_CODE_URL);
         if (modeCodeExtension != null) {
             performer.setModeCodeCode(((CodeableConcept) modeCodeExtension.getValue()).getCodingFirstRep().getCode());

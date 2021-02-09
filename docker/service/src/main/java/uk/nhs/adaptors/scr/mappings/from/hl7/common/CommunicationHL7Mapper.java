@@ -19,7 +19,9 @@ import static org.hl7.fhir.r4.model.Communication.CommunicationStatus.INPROGRESS
 import static org.hl7.fhir.r4.model.Communication.CommunicationStatus.NULL;
 import static org.hl7.fhir.r4.model.Communication.CommunicationStatus.STOPPED;
 import static uk.nhs.adaptors.scr.mappings.from.hl7.XmlToFhirMapper.SNOMED_SYSTEM;
+import static uk.nhs.adaptors.scr.mappings.from.hl7.XmlToFhirMapper.parseDate;
 import static uk.nhs.adaptors.scr.utils.XmlUtils.getNodesByXPath;
+import static uk.nhs.adaptors.scr.utils.XmlUtils.getOptionalValueByXPath;
 import static uk.nhs.adaptors.scr.utils.XmlUtils.getValueByXPath;
 
 @Component
@@ -32,6 +34,7 @@ public class CommunicationHL7Mapper {
     private static final String PERTINENT_CODE_CODE_XPATH = "./code/@code";
     private static final String PERTINENT_CODE_DISPLAY_XPATH = "./code/@displayName";
     private static final String ENTRY_BASE_PATH = "./component/%s";
+    private static final String EFFECTIVE_TIME_XPATH = "./effectiveTime/@value";
 
     private final CodedEntryMapper codedEntryMapper;
 
@@ -72,7 +75,9 @@ public class CommunicationHL7Mapper {
             )
         );
 
-        entry.getEffectiveTimeLow().ifPresent(communication::setSent);
+        entry.getEffectiveTimeLow().ifPresent(communication::setSentElement);
+        getOptionalValueByXPath(node, EFFECTIVE_TIME_XPATH)
+            .ifPresent(date -> communication.setSentElement(parseDate(date)));
 
         return communication;
     }

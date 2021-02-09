@@ -23,7 +23,6 @@ import uk.nhs.adaptors.scr.mappings.from.hl7.common.CodedEntryMapper;
 import uk.nhs.adaptors.scr.utils.XmlUtils;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -82,13 +81,11 @@ public class DiagnosisMapper implements XmlToFhirMapper {
                     .setCode(pertinentCRETypeCode)
                     .setDisplay(pertinentCRETypeDisplay)));
 
-                var lowDateTime = new DateTimeType();
-                lowDateTime.setValue(entry.getEffectiveTimeLow().get());
                 if (entry.getEffectiveTimeHigh().isPresent()) {
-                    condition.setOnset(lowDateTime);
-                    condition.setAbatement(new DateTimeType().setValue(entry.getEffectiveTimeHigh().get()));
+                    condition.setOnset(entry.getEffectiveTimeLow().get());
+                    condition.setAbatement(entry.getEffectiveTimeHigh().get());
                 } else {
-                    condition.setOnset(lowDateTime);
+                    condition.setOnset(entry.getEffectiveTimeLow().get());
                 }
 
                 resources.add(condition);
@@ -127,25 +124,25 @@ public class DiagnosisMapper implements XmlToFhirMapper {
     }
 
     private void mapInformant(List<Resource> resources, Encounter encounter, Node informant) {
-        Date time = XmlToFhirMapper.parseDate(getValueByXPath(informant, DIAGNOSIS_PARTICIPANT_TIME_XPATH));
+        DateTimeType time = XmlToFhirMapper.parseDate(getValueByXPath(informant, DIAGNOSIS_PARTICIPANT_TIME_XPATH));
         participantMapper.map(informant)
             .stream()
             .peek(it -> resources.add(it))
             .filter(it -> it instanceof PractitionerRole || it instanceof RelatedPerson)
             .forEach(it -> encounter.addParticipant(new EncounterParticipantComponent()
-                .setPeriod(new Period().setStart(time))
+                .setPeriod(new Period().setStart(time.getValue()))
                 .addType(getParticipationType("INF", "informant"))
                 .setIndividual(new Reference(it))));
     }
 
     private void mapAuthor(List<Resource> resources, Encounter encounter, Node author) {
-        Date time = XmlToFhirMapper.parseDate(getValueByXPath(author, DIAGNOSIS_PARTICIPANT_TIME_XPATH));
+        DateTimeType time = XmlToFhirMapper.parseDate(getValueByXPath(author, DIAGNOSIS_PARTICIPANT_TIME_XPATH));
         participantMapper.map(author)
             .stream()
             .peek(it -> resources.add(it))
             .filter(it -> it instanceof PractitionerRole)
             .forEach(it -> encounter.addParticipant(new EncounterParticipantComponent()
-                .setPeriod(new Period().setStart(time))
+                .setPeriod(new Period().setStart(time.getValue()))
                 .addType(getParticipationType("AUT", "author"))
                 .setIndividual(new Reference(it))));
     }

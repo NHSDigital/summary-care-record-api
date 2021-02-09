@@ -47,7 +47,7 @@ public class CommunicationMapper {
             .setStatusCodeCode(mapStatus(communication.getStatus()))
             .setCodeCode(communication.getTopic().getCodingFirstRep().getCode())
             .setCodeDisplayName(communication.getTopic().getCodingFirstRep().getDisplay())
-            .setEffectiveTimeLow(formatDateToHl7(communication.getSent()));
+            .setEffectiveTimeLow(formatDateToHl7(communication.getSentElement()));
     }
 
     private static PatientCarerCorrespondence mapPatientCarerCorrespondence(Communication communication) {
@@ -56,7 +56,7 @@ public class CommunicationMapper {
             .setStatusCodeCode(mapStatus(communication.getStatus()))
             .setCodeCode(communication.getTopic().getCodingFirstRep().getCode())
             .setCodeDisplayName(communication.getTopic().getCodingFirstRep().getDisplay())
-            .setEffectiveTimeLow(formatDateToHl7(communication.getSent()));
+            .setEffectiveTimeLow(formatDateToHl7(communication.getSentElement()));
     }
 
     private static String mapStatus(CommunicationStatus status) {

@@ -35,7 +35,7 @@ public class ImmunizationMapper {
             .setCodeCode(codeableConcept.getCodingFirstRep().getCode())
             .setCodeDisplayName(codeableConcept.getCodingFirstRep().getDisplay())
             .setStatusCodeCode(mapStatus(immunization.getStatus()))
-            .setEffectiveTimeLow(formatDateToHl7(immunization.getOccurrenceDateTimeType().getValue()));
+            .setEffectiveTimeLow(formatDateToHl7(immunization.getOccurrenceDateTimeType()));
     }
 
     private static String mapStatus(Immunization.ImmunizationStatus status) {

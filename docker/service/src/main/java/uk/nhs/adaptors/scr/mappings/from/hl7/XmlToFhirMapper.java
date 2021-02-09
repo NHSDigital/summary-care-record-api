@@ -1,6 +1,7 @@
 package uk.nhs.adaptors.scr.mappings.from.hl7;
 
 import lombok.SneakyThrows;
+import org.hl7.fhir.r4.model.DateTimeType;
 import org.hl7.fhir.r4.model.Resource;
 import org.w3c.dom.Node;
 import uk.nhs.adaptors.scr.exceptions.ScrBaseException;
@@ -8,6 +9,9 @@ import uk.nhs.adaptors.scr.exceptions.ScrBaseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+
+import static ca.uhn.fhir.model.api.TemporalPrecisionEnum.DAY;
+import static ca.uhn.fhir.model.api.TemporalPrecisionEnum.SECOND;
 
 public interface XmlToFhirMapper {
     String DATE_TIME_PATTERN = "yyyyMMddHHmmss";
@@ -17,11 +21,13 @@ public interface XmlToFhirMapper {
     List<? extends Resource> map(Node document);
 
     @SneakyThrows
-    static Date parseDate(String date) {
+    static DateTimeType parseDate(String date) {
         if (date.length() == DATE_PATTERN.length()) {
-            return new SimpleDateFormat(DATE_PATTERN).parse(date);
+            Date parsed = new SimpleDateFormat(DATE_PATTERN).parse(date);
+            return new DateTimeType(parsed, DAY);
         } else if (date.length() == DATE_TIME_PATTERN.length()) {
-            return new SimpleDateFormat(DATE_TIME_PATTERN).parse(date);
+            Date parsed = new SimpleDateFormat(DATE_TIME_PATTERN).parse(date);
+            return new DateTimeType(parsed, SECOND);
         }
 
         throw new ScrBaseException("Unsupported date format: " + date);

@@ -35,6 +35,6 @@ public class ImmunizationRecommendationMapper {
             .setCodeCode(coding.getCode())
             .setCodeDisplayName(coding.getDisplay())
             .setStatusCodeCode("completed")
-            .setEffectiveTimeLow(formatDateToHl7(immunizationRecommendation.getDate()));
+            .setEffectiveTimeLow(formatDateToHl7(immunizationRecommendation.getDateElement()));
     }
 }

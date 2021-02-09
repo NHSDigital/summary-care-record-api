@@ -3,7 +3,6 @@ package uk.nhs.adaptors.scr.mappings.from.hl7.common;
 import lombok.RequiredArgsConstructor;
 import org.hl7.fhir.r4.model.CodeableConcept;
 import org.hl7.fhir.r4.model.Coding;
-import org.hl7.fhir.r4.model.DateTimeType;
 import org.hl7.fhir.r4.model.Identifier;
 import org.hl7.fhir.r4.model.Meta;
 import org.hl7.fhir.r4.model.Period;
@@ -76,12 +75,11 @@ public class ProcedureHL7Mapper {
 
         if (entry.getEffectiveTimeLow().isPresent() || entry.getEffectiveTimeHigh().isPresent()) {
             var period = new Period();
-            entry.getEffectiveTimeLow().ifPresent(period::setStart);
-            entry.getEffectiveTimeHigh().ifPresent(period::setEnd);
+            entry.getEffectiveTimeLow().ifPresent(period::setStartElement);
+            entry.getEffectiveTimeHigh().ifPresent(period::setEndElement);
             procedure.setPerformed(period);
         } else {
             effectiveTimeCentre
-                .map(DateTimeType::new)
                 .ifPresent(procedure::setPerformed);
         }
         return procedure;

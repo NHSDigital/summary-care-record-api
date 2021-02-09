@@ -6,7 +6,7 @@ import uk.nhs.adaptors.scr.models.GpSummary;
 import uk.nhs.adaptors.scr.models.xml.Participant;
 
 import static uk.nhs.adaptors.scr.mappings.from.fhir.ParticipantAgentMapper.setParticipantAgents;
-import static uk.nhs.adaptors.scr.utils.DateUtil.formatDateToHl7;
+import static uk.nhs.adaptors.scr.utils.DateUtil.formatTimestampToHl7;
 import static uk.nhs.adaptors.scr.utils.FhirHelper.getDomainResource;
 
 public class AuthorMapper {
@@ -15,7 +15,7 @@ public class AuthorMapper {
 
         var author = new Participant.Author();
 
-        author.setTime(formatDateToHl7(composition.getMeta().getLastUpdated()));
+        author.setTime(formatTimestampToHl7(composition.getMeta().getLastUpdatedElement()));
         setParticipantAgents(bundle, composition.getAuthorFirstRep(), author);
 
         gpSummary.setAuthor(author);
