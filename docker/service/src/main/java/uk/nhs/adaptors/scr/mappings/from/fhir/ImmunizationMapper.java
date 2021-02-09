@@ -29,7 +29,6 @@ public class ImmunizationMapper {
     private static Finding mapImmunization(Immunization immunization) {
         var codeableConcept = (CodeableConcept) immunization.getExtensionByUrl(EXTENSION_URL).getValue();
 
-        //TODO is this the correct type? missing from https://data.developer.nhs.uk/dms/mim/6.3.01/Domains/Templates/Document%20files/cre_types_and_templates.htm
         return new Finding()
             .setIdRoot(immunization.getIdentifierFirstRep().getValue())
             .setCodeCode(codeableConcept.getCodingFirstRep().getCode())
