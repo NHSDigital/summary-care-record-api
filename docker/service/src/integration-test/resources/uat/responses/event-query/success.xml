@@ -1,0 +1,887 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<SOAP-ENV:Envelope
+        xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+                   xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing"
+                   xmlns="urn:hl7-org:v3"
+        xmlns:psis="urn:npfit:psisqr">
+    <SOAP-ENV:Header>
+        <wsa:MessageID>uuid:821533D3-3E0F-11EB-8111-F40343488B16</wsa:MessageID>
+        <wsa:Action>urn:nhs:names:services:psisquery/QUPC_IN210000UK04</wsa:Action>
+        <wsa:To/>
+        <wsa:From>
+            <wsa:Address>https://msg.intspineservices.nhs.uk/sync-service</wsa:Address>
+        </wsa:From>
+        <communicationFunctionRcv typeCode="RCV">
+            <device classCode="DEV" determinerCode="INSTANCE">
+                <id root="1.2.826.0.1285.0.2.0.107" extension="200000001162"/>
+            </device>
+        </communicationFunctionRcv>
+        <communicationFunctionSnd typeCode="SND">
+            <device classCode="DEV" determinerCode="INSTANCE">
+                <id root="1.2.826.0.1285.0.2.0.107" extension="655159266510"/>
+            </device>
+        </communicationFunctionSnd>
+        <wsa:RelatesTo>uuid:FD778600-4677-41F4-BE62-18E021E0D234</wsa:RelatesTo>
+    </SOAP-ENV:Header>
+    <SOAP-ENV:Body>
+        <eventQueryResponse>
+            <QUPC_IN210000UK04>
+                <id root="821533D3-3E0F-11EB-8111-F40343488B16"/>
+                <creationTime value="20201214132310"/>
+                <versionCode code="V3NPfIT4.2.00"/>
+                <interactionId root="2.16.840.1.113883.2.1.3.2.4.12" extension="QUPC_IN210000UK04"/>
+                <processingCode code="P"/>
+                <processingModeCode code="T"/>
+                <acceptAckCode code="NE"/>
+                <acknowledgement typeCode="AA">
+                    <messageRef>
+                        <id root="FD778600-4677-41F4-BE62-18E021E0D234"/>
+                    </messageRef>
+                </acknowledgement>
+                <communicationFunctionRcv typeCode="RCV">
+                    <device classCode="DEV" determinerCode="INSTANCE">
+                        <id root="1.2.826.0.1285.0.2.0.107" extension="200000001162"/>
+                    </device>
+                </communicationFunctionRcv>
+                <communicationFunctionSnd typeCode="SND">
+                    <device classCode="DEV" determinerCode="INSTANCE">
+                        <id root="1.2.826.0.1285.0.2.0.107" extension="655159266510"/>
+                    </device>
+                </communicationFunctionSnd>
+                <ControlActEvent classCode="CACT" moodCode="EVN">
+                    <author1 typeCode="AUT">
+                        <AgentSystemSDS classCode="AGNT">
+                            <agentSystemSDS classCode="DEV" determinerCode="INSTANCE">
+                                <id root="1.2.826.0.1285.0.2.0.107" extension="655159266510"/>
+                            </agentSystemSDS>
+                        </AgentSystemSDS>
+                    </author1>
+                    <subject typeCode="SUBJ">
+                        <psis:queryResponseEvent
+                                xmlns:other="urn:some:other:namespace">
+                            <psis:recordTarget>
+                                <psis:patient>
+                                    <psis:id extension="9995000180" root="2.16.840.1.113883.2.1.4.1"/>
+                                </psis:patient>
+                            </psis:recordTarget>
+                            <psis:event>
+                                <psis:eventID root="BF4180FD-C403-4EF7-A4AB-E07303AF5477"/>
+                                <psis:payloadID extension="REPC_MT150007UK05" root="2.16.840.1.113883.2.1.3.2.4.12"/>
+                                <psis:persistenceDate value="20201125123012"/>
+                                <psis:eventStatus code="1" codeSystem="2.16.840.1.113883.2.1.3.2.4.17.59" displayName="Normal"/>
+                                <psis:eventType code="196981000000101" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="General Practice Summary"/>
+                                <psis:hl7Data>
+                                    <GPSummary classCode="COMPOSITION" moodCode="EVN">
+                                        <id root="BF4180FD-C403-4EF7-A4AB-E07303AF5477"/>
+                                        <code code="196981000000101" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="General Practice Summary"/>
+                                        <effectiveTime value="20201117010000"/>
+                                        <statusCode code="active"/>
+                                        <author typeCode="AUT" contextControlCode="OP">
+                                            <time value="20201117010000"/>
+                                            <UKCT_MT160018UK01.AgentPersonSDS classCode="AGNT">
+                                                <id root="1.2.826.0.1285.0.2.0.67" extension="673836492727"/>
+                                                <agentPersonSDS classCode="PSN" determinerCode="INSTANCE">
+                                                    <id root="1.2.826.0.1285.0.2.0.65" extension="676789689789"/>
+                                                    <name>Dr Steve Jones</name>
+                                                </agentPersonSDS>
+                                            </UKCT_MT160018UK01.AgentPersonSDS>
+                                        </author>
+                                        <excerptFrom typeCode="XCRPT" inversionInd="false" contextConductionInd="true" negationInd="false">
+                                            <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.excerptFrom"/>
+                                            <seperatableInd value="false"/>
+                                            <UKCT_MT144051UK01.CareProfessionalDocumentationCRE classCode="CATEGORY" moodCode="EVN">
+                                                <code code="163171000000105" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Care Professional Documentation"/>
+                                                <component typeCode="COMP" inversionInd="false" negationInd="false">
+                                                    <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.component"/>
+                                                    <seperatableInd value="false"/>
+                                                    <presentationText classCode="OBS" moodCode="EVN">
+                                                        <value>
+                                                            <html xmlns="xhtml:NPfIT:PresentationText">
+                                                                <body>
+                                                                    <h2 id="Title">General Practice Summary</h2>
+                                                                    <h3 id="Disclaimer">Sourced from the patient's General Practice record. This summary may not include all the information pertinent to this patient.</h3>
+                                                                    <p id="CreateTime">Summary Created: 14-May-2020 14:31</p>
+                                                                    <p id="RegistrationStartedStatement" class="HighlightedStatement">At the time this record was created, this patient had recently registered with the GP Practice. GP Summary information may not be complete.</p>
+                                                                    <p id="Author">Created by: SMITH, Sean (Mr)</p>
+                                                                    <p id="Practice">EMISWebCR1 50004, Fulford Grange, Rawdon, Leeds, West Yorkshire, LS19 7BY.</p>
+                                                                    <h2 id="AllergiesHeader">Allergies and Adverse Reactions</h2>
+                                                                    <table summary="This table includes information about this patient's allergies and adverse reactions." id="Allergies">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th>Date</th>
+                                                                                <th>Description</th>
+                                                                                <th>Certainty</th>
+                                                                                <th>Severity</th>
+                                                                                <th>Supporting Information</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            <tr class="oddRow">
+                                                                                <td>12-May-2020</td>
+                                                                                <td>Toxic reaction to wasp sting</td>
+                                                                                <td/>
+                                                                                <td/>
+                                                                                <td>Problem; First</td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                    <h2 id="AcuteMedsHeader">Acute Medications (For the 12 month period 14-May-2019 to 14-May-2020)</h2>
+                                                                    <table summary="This table includes information about this patient's acute medications." id="AcuteMeds">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th>Type</th>
+                                                                                <th>Date</th>
+                                                                                <th>Medication Item</th>
+                                                                                <th>Dosage Instructions</th>
+                                                                                <th>Quantity</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            <tr class="oddRow">
+                                                                                <td>Acute Medication</td>
+                                                                                <td>Prescribed: 12-May-2020</td>
+                                                                                <td>Co-codamol 8mg/500mg effervescent tablets</td>
+                                                                                <td>One To Be Taken Four Times A Day</td>
+                                                                                <td>112 tablet</td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                    <h2 id="RepeatMedsHeader">Current Repeat Medications</h2>
+                                                                    <table summary="This table includes information about this patient's current repeat medications." id="RepeatMeds">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th>Type</th>
+                                                                                <th>Date</th>
+                                                                                <th>Medication Item</th>
+                                                                                <th>Dosage Instructions</th>
+                                                                                <th>Quantity</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            <tr class="oddRow">
+                                                                                <td>Repeat Medication</td>
+                                                                                <td>Last Issued: 12-May-2020</td>
+                                                                                <td>Paracetamol 250mg/5ml oral suspension</td>
+                                                                                <td>One 5ml Spoonful Every 4 To 6 Hours When Necessary. No More Than 4 doses in 24 Hours</td>
+                                                                                <td>40 ml</td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                    <h2 id="DiscRepeatMedsHeader">Discontinued Repeat Medications (For the 6 month period 14-Nov-2019 to 14-May-2020)</h2>
+                                                                    <table summary="This table includes information about this patient's discontinued repeat medications." id="DiscRepeatMeds">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th>Type</th>
+                                                                                <th>Date</th>
+                                                                                <th>Medication Item</th>
+                                                                                <th>Dosage Instructions</th>
+                                                                                <th>Quantity</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            <tr>
+                                                                                <td colspan="5">No relevant information available for this category.</td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                    <h2 id="RisksToPatientHeader">Risks to Patient</h2>
+                                                                    <table id="RisksToPatient">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th>Date</th>
+                                                                                <th>Description</th>
+                                                                                <th>Additional information</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            <tr class="oddRow">
+                                                                                <td>14-May-2020</td>
+                                                                                <td>Low risk category for developing complication from COVID-19 infection</td>
+                                                                                <td>Problem; Review</td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                    <h2 id="DiagnosesHeader">Diagnoses</h2>
+                                                                    <table id="Diagnoses">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th>Date</th>
+                                                                                <th>Description</th>
+                                                                                <th>Additional information</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            <tr class="oddRow">
+                                                                                <td>13-May-2020</td>
+                                                                                <td>COVID-19 confirmed by laboratory test</td>
+                                                                                <td>Problem; First, test</td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                    <h2 id="ProblemsHeader">Problems and Issues</h2>
+                                                                    <table id="Problems">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th>Date</th>
+                                                                                <th>Description</th>
+                                                                                <th>Additional information</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            <tr class="oddRow">
+                                                                                <td>14-May-2020</td>
+                                                                                <td>2019-nCoV (novel coronavirus) detected</td>
+                                                                                <td>Significant Active</td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                    <h2 id="ObservationsHeader">Clinical Observations and Findings</h2>
+                                                                    <table id="Observations">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th>Date</th>
+                                                                                <th>Description</th>
+                                                                                <th>Additional information</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            <tr class="oddRow">
+                                                                                <td>14-May-2020</td>
+                                                                                <td>2019-nCoV (novel coronavirus) detected</td>
+                                                                                <td>Problem; New</td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                    <h2 id="TreatmentsHeader">Treatments</h2>
+                                                                    <table id="Treatments">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th>Date</th>
+                                                                                <th>Description</th>
+                                                                                <th>Additional information</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            <tr class="oddRow">
+                                                                                <td>13-May-2020</td>
+                                                                                <td>2019-nCoV (novel coronavirus) vaccination</td>
+                                                                                <td>Problem; First, Manufacturer: jh, Expiry Date: 29-May-2020, Batch Number: 2, GMS: GMS, Injection site: Left arm, test</td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                    <h2 id="ResultsHeader">Investigation Results</h2>
+                                                                    <table id="Results">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th>Date</th>
+                                                                                <th>Description</th>
+                                                                                <th>Additional information</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            <tr class="oddRow">
+                                                                                <td>13-May-2020</td>
+                                                                                <td>Assessment using COVID-19 severity scale</td>
+                                                                                <td>Problem; First, test</td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                    <h2 id="EventsHeader">Care Events</h2>
+                                                                    <table id="Events">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th>Date</th>
+                                                                                <th>Description</th>
+                                                                                <th>Additional information</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            <tr class="oddRow">
+                                                                                <td>13-May-2020</td>
+                                                                                <td>Did not attend 2019-nCoV (novel coronavirus) vaccination</td>
+                                                                                <td>Problem; First, test</td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                    <h2 id="ProceduresHeader">Administrative Procedures</h2>
+                                                                    <table id="Procedures">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th>Date</th>
+                                                                                <th>Description</th>
+                                                                                <th>Additional information</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            <tr class="oddRow">
+                                                                                <td>14-May-2020</td>
+                                                                                <td>Household isolation note issued to patient</td>
+                                                                                <td>Test</td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                    <h2 id="AdviceHeader">Provision of Advice and Information to Patients and Carers</h2>
+                                                                    <table id="Advice">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th>Date</th>
+                                                                                <th>Description</th>
+                                                                                <th>Additional information</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            <tr class="oddRow">
+                                                                                <td>13-May-2020</td>
+                                                                                <td>Advice given about SARS-CoV-2 (severe acute respiratory syndrome coronavirus 2) by telephone</td>
+                                                                                <td>Problem; First, test</td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                    <h2 id="PreferencesHeader">Personal Preferences</h2>
+                                                                    <table id="Preferences">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th>Date</th>
+                                                                                <th>Description</th>
+                                                                                <th>Additional information</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            <tr class="oddRow">
+                                                                                <td>13-May-2020</td>
+                                                                                <td>2019-nCoV (novel coronavirus) vaccination declined</td>
+                                                                                <td>Problem; First, test</td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                    <p id="SendTime">Summary Sent: 14-May-2020 14:31</p>
+                                                                </body>
+                                                            </html>
+                                                        </value>
+                                                        <id root="A909C986-30A1-4886-A2D1-F170ED933820"/>
+                                                        <code code="PresentationText" codeSystem="2.16.840.1.113883.2.1.3.2.4.17.126" displayName="Presentation Text"/>
+                                                        <statusCode code="completed"/>
+                                                        <effectiveTime value="20201117010000"/>
+                                                    </presentationText>
+                                                </component>
+                                            </UKCT_MT144051UK01.CareProfessionalDocumentationCRE>
+                                        </excerptFrom>
+                                        <pertinentInformation1 typeCode="PERT" inversionInd="false" contextConductionInd="true" negationInd="false">
+                                            <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.pertinentInformation1"/>
+                                            <seperatableInd value="true"/>
+                                            <pertinentRootCREType classCode="CATEGORY" moodCode="EVN">
+                                                <code code="163171000000105" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Care Professional Documentation"/>
+                                            </pertinentRootCREType>
+                                        </pertinentInformation1>
+                                        <pertinentInformation2 typeCode="PERT" inversionInd="false" contextConductionInd="true" negationInd="false">
+                                            <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.pertinentInformation1"/>
+                                            <seperatableInd value="true"/>
+                                            <pertinentCREType classCode="CATEGORY" moodCode="EVN">
+                                                <code code="163001000000103" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Diagnoses"/>
+                                                <component typeCode="COMP" contextConductionInd="true">
+                                                    <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.component"/>
+                                                    <seperatableInd value="false"/>
+                                                    <UKCT_MT144042UK01.Diagnosis classCode="CON" moodCode="EVN">
+                                                        <id root="FCB84E15-02E5-495C-B334-D0685DCB0687"/>
+                                                        <code code="1240751000000100" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="COVID-19">
+                                                        </code>
+                                                        <statusCode code="active"/>
+                                                        <effectiveTime>
+                                                            <low value="20200506124819"/>
+                                                        </effectiveTime>
+                                                        <author typeCode="AUT" contextControlCode="OP">
+                                                          <time value="20201117010000"/>
+                                                          <UKCT_MT160018UK01.AgentPersonSDS classCode="AGNT">
+                                                            <id root="1.2.826.0.1285.0.2.0.67" extension="673836492727"/>
+                                                            <agentPersonSDS classCode="PSN" determinerCode="INSTANCE">
+                                                              <id root="1.2.826.0.1285.0.2.0.65" extension="676789689789"/>
+                                                              <name>Dr Steve Jones</name>
+                                                            </agentPersonSDS>
+                                                          </UKCT_MT160018UK01.AgentPersonSDS>
+                                                        </author>
+                                                    </UKCT_MT144042UK01.Diagnosis>
+                                                </component>
+                                                <component typeCode="COMP" contextConductionInd="true">
+                                                    <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.component"/>
+                                                    <seperatableInd value="false"/>
+                                                    <UKCT_MT144042UK01.Diagnosis classCode="CON" moodCode="EVN">
+                                                        <id root="0F582D97-8F89-11EA-8B2D-B741F13EFC47"/>
+                                                        <code code="1300721000000109" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="COVID-19 confirmed by laboratory test">
+                                                        </code>
+                                                        <statusCode code="active"/>
+                                                        <effectiveTime>
+                                                            <low value="20200506124819"/>
+                                                        </effectiveTime>
+                                                        <author typeCode="AUT" contextControlCode="OP">
+                                                          <time value="20201118010000"/>
+                                                          <UKCT_MT160018UK01.AgentPerson classCode="AGNT">
+                                                            <code code="NR0050" codeSystem="2.16.840.1.113883.2.1.3.2.4.17.124" displayName="Consultant"/>
+                                                            <addr use="WP">ORG ADDRESS</addr>
+                                                            <telecom use="WP" value="0177865579"/>
+                                                            <telecom use="MC" value="0189834144"/>
+                                                            <agentPerson classCode="PSN" determinerCode="INSTANCE">
+                                                              <name>BLOGGS Fred</name>
+                                                            </agentPerson>
+                                                          </UKCT_MT160018UK01.AgentPerson>
+                                                        </author>
+                                                        <pertinentInformation typeCode="PERT" contextConductionInd="true">
+                                                          <seperatableInd value="false"/>
+                                                          <pertinentSupportingInfo classCode="OBS" moodCode="EVN">
+                                                            <value>Problem; First, test</value>
+                                                            <code code="SupportingText" CodeSystem="2.16.840.1.113883.2.1.3.2.4.17.126" displayName="Supporting Text"/>
+                                                          </pertinentSupportingInfo>
+                                                        </pertinentInformation>
+                                                        <pertinentInformation1 typeCode="PERT" inversionInd="false" negationInd="false">
+                                                          <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.sourceOf1"/>
+                                                          <seperatableInd value="false"/>
+                                                          <pertinentFinding classCode="OBS" moodCode="EVN">
+                                                            <id root="F17999D2-FFE7-4CA4-8CE8-52CB45FF6F49"></id>
+                                                          </pertinentFinding>
+                                                        </pertinentInformation1>
+                                                    </UKCT_MT144042UK01.Diagnosis>
+                                                </component>
+                                                <component typeCode="COMP" contextConductionInd="true">
+                                                    <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.component"/>
+                                                    <seperatableInd value="false"/>
+                                                    <UKCT_MT144042UK01.Diagnosis classCode="CON" moodCode="EVN">
+                                                        <id root="958E584C-25B8-4BD7-A71D-7625FDC1ACD6"/>
+                                                        <code code="1300731000000106" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="COVID-19 confirmed using clinical diagnostic criteria">
+                                                        </code>
+                                                        <statusCode code="active"/>
+                                                        <effectiveTime>
+                                                            <low value="20200506124819"/>
+                                                        </effectiveTime>
+                                                        <author typeCode="AUT" contextControlCode="OP">
+                                                          <time value="20201218010000"/>
+                                                          <UKCT_MT160018UK01.AgentPerson classCode="AGNT">
+                                                            <code code="NR0010" codeSystem="2.16.840.1.113883.2.1.3.2.4.17.124" displayName="Medical Director"/>
+                                                            <addr use="WP">ORG ADDRESS_2</addr>
+                                                            <telecom use="HP" value="0122865579"/>
+                                                            <telecom use="PG" value="0189664144"/>
+                                                            <agentPerson classCode="PSN" determinerCode="INSTANCE">
+                                                              <name>William Jones</name>
+                                                            </agentPerson>
+                                                            <representedOrganization classCode="ORG" determinerCode="INSTANCE">
+                                                              <code code="021"/>
+                                                              <name>Good Health Hospital</name>
+                                                            </representedOrganization>
+                                                          </UKCT_MT160018UK01.AgentPerson>
+                                                        </author>
+                                                        <informant typeCode="INF" contextControlCode="OP">
+                                                          <time value="20160630103358"/>
+                                                          <UKCT_MT160018UK01.AgentPersonSDS classCode="AGNT">
+                                                            <id root="1.2.826.0.1285.0.2.0.67" extension="578934433"/>
+                                                            <agentPersonSDS classCode="PSN" determinerCode="INSTANCE">
+                                                              <id root="1.2.826.0.1285.0.2.0.65" extension="9054354543"/>
+                                                              <name>Anna Maria</name>
+                                                            </agentPersonSDS>
+                                                          </UKCT_MT160018UK01.AgentPersonSDS>
+                                                        </informant>
+                                                    </UKCT_MT144042UK01.Diagnosis>
+                                                </component>
+                                                <component typeCode="COMP" contextConductionInd="true">
+                                                    <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.component"/>
+                                                    <seperatableInd value="false"/>
+                                                    <UKCT_MT144042UK01.Diagnosis classCode="CON" moodCode="EVN">
+                                                        <id root="8CEB2867-551B-43D0-88B5-3278DA20A6B0"/>
+                                                        <code code="1240761000000102" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Suspected COVID-19">
+                                                        </code>
+                                                        <statusCode code="active"/>
+                                                        <effectiveTime>
+                                                            <low value="20200506124819"/>
+                                                        </effectiveTime>
+                                                        <author typeCode="AUT" contextControlCode="OP">
+                                                          <time value="20201218010000"/>
+                                                          <UKCT_MT160018UK01.AgentPerson classCode="AGNT">
+                                                            <code code="NR0020" codeSystem="2.16.840.1.113883.2.1.3.2.4.17.124" displayName="Clinical Director - Medical"/>
+                                                            <addr use="WP">ORG ADDRESS_2</addr>
+                                                            <telecom use="HP" value="0122865579"/>
+                                                            <telecom use="PG" value="0189664144"/>
+                                                            <agentPerson classCode="PSN" determinerCode="INSTANCE">
+                                                              <name>Stephan Spence</name>
+                                                            </agentPerson>
+                                                            <representedOrganizationSDS classCode="ORG" determinerCode="INSTANCE">
+                                                              <id root="1.2.826.0.1285.0.1.10" extension="57435939053"/>
+                                                              <name>Good Health Hospital 2</name>
+                                                            </representedOrganizationSDS>
+                                                          </UKCT_MT160018UK01.AgentPerson>
+                                                        </author>
+                                                        <informant typeCode="INF" contextControlCode="OP">
+                                                          <time value="20160630103358"/>
+                                                          <participantNonAgentRole classCode="ROL">
+                                                            <code code="01" displayName="Brother" codeSystem="2.16.840.1.113883.2.1.3.2.4.16.15"></code>
+                                                            <playingNonAgentPerson classCode="PSN" determinerCode="INSTANCE">
+                                                              <name>JONES Bob</name>
+                                                            </playingNonAgentPerson>
+                                                          </participantNonAgentRole>
+                                                        </informant>
+                                                    </UKCT_MT144042UK01.Diagnosis>
+                                                </component>
+                                                <component typeCode="COMP" contextConductionInd="true">
+                                                  <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.component"/>
+                                                  <seperatableInd value="false"/>
+                                                  <UKCT_MT144042UK01.Diagnosis classCode="CON" moodCode="EVN">
+                                                    <id root="6ECDAE6D-32AB-421C-AA8F-0B1ABA454C70"/>
+                                                    <code code="1240761000000102" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Suspected COVID-19">
+                                                    </code>
+                                                    <statusCode code="active"/>
+                                                    <effectiveTime>
+                                                      <low value="20200506124819"/>
+                                                    </effectiveTime>
+                                                    <author typeCode="AUT" contextControlCode="OP">
+                                                      <time value="20201218010000"/>
+                                                      <UKCT_MT160018UK01.AgentPerson classCode="AGNT">
+                                                        <code code="NR0080" codeSystem="2.16.840.1.113883.2.1.3.2.4.17.124" displayName="Staff Grade"/>
+                                                        <addr use="WP">ORG ADDRESS_4</addr>
+                                                        <telecom use="WP" value="0332865579"/>
+                                                        <representedPersonSDS classCode="PSN" determinerCode="INSTANCE">
+                                                          <id root="1.2.826.0.1285.0.2.0.65" extension="8563857943834"/>
+                                                          <name>Gregory House</name>
+                                                        </representedPersonSDS>
+                                                      </UKCT_MT160018UK01.AgentPerson>
+                                                    </author>
+                                                    <informant typeCode="INF" contextControlCode="OP">
+                                                      <time value="20160630103358"/>
+                                                      <UKCT_MT160018UK01.AgentPerson classCode="AGNT">
+                                                        <code code="NR0100" codeSystem="2.16.840.1.113883.2.1.3.2.4.17.124" displayName="Clinical Assistant"/>
+                                                        <addr use="WP">ORG ADDRESS_4</addr>
+                                                        <telecom use="WP" value="573459834"/>
+                                                        <representedPersonSDS classCode="PSN" determinerCode="INSTANCE">
+                                                          <id root="1.2.826.0.1285.0.2.0.65" extension="564735334"/>
+                                                          <name>Thomas Moore</name>
+                                                        </representedPersonSDS>
+                                                      </UKCT_MT160018UK01.AgentPerson>
+                                                    </informant>
+                                                  </UKCT_MT144042UK01.Diagnosis>
+                                                </component>
+                                            </pertinentCREType>
+                                        </pertinentInformation2>
+                                        <pertinentInformation2 typeCode="PERT" inversionInd="false" contextConductionInd="true" negationInd="false">
+                                            <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.pertinentInformation1"/>
+                                            <seperatableInd value="true"/>
+                                            <pertinentCREType classCode="CATEGORY" moodCode="EVN">
+                                                <code code="163141000000104" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Investigation Results"/>
+                                                <component typeCode="COMP" contextConductionInd="true">
+                                                    <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.component"/>
+                                                    <seperatableInd value="false"/>
+                                                    <UKCT_MT144043UK02.Finding classCode="OBS" moodCode="EVN">
+                                                        <id root="F17999D2-FFE7-4CA4-8CE8-52CB45FF6F49"/>
+                                                        <code code="163131000000108" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="SARS-CoV-2 (severe acute respiratory syndrome coronavirus 2) RNA (ribonucleic acid) detection result positive">
+                                                        </code>
+                                                        <statusCode code="completed"/>
+                                                        <effectiveTime>
+                                                            <low value="20200506124819"/>
+                                                        </effectiveTime>
+                                                        <performer typeCode="PRF" contextControlCode="OP">
+                                                          <time value="20160630103358"/>
+                                                          <modeCode code="PHYSICAL" codeSystem="2.16.840.1.113883.5.1064"/>
+                                                          <UKCT_MT160018UK01.AgentPersonSDS classCode="AGNT">
+                                                            <id root="1.2.826.0.1285.0.2.0.67" extension="89823498234"></id>
+                                                            <agentPersonSDS classCode="PSN" determinerCode="INSTANCE">
+                                                              <id root="1.2.826.0.1285.0.2.0.65" extension="9699575667"></id>
+                                                              <name>Maria Smith</name>
+                                                            </agentPersonSDS>
+                                                          </UKCT_MT160018UK01.AgentPersonSDS>
+                                                        </performer>
+                                                    </UKCT_MT144043UK02.Finding>
+                                                </component>
+                                            </pertinentCREType>
+                                        </pertinentInformation2>
+                                        <pertinentInformation2 typeCode="PERT" inversionInd="false" contextConductionInd="true" negationInd="false">
+                                          <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.pertinentInformation1"/>
+                                          <seperatableInd value="true"/>
+                                          <pertinentCREType classCode="CATEGORY" moodCode="EVN">
+                                            <code code="163141000000104" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Investigation Results"/>
+                                            <component typeCode="COMP" contextConductionInd="true">
+                                              <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.component"/>
+                                              <seperatableInd value="false"/>
+                                              <UKCT_MT144043UK02.Finding classCode="OBS" moodCode="EVN">
+                                                <id root="EE608FAA-2433-4BAD-A0D5-4A10E45AB2B0"/>
+                                                <code code="163131000000108" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="SARS-CoV-2 (severe acute respiratory syndrome coronavirus 2) RNA (ribonucleic acid) detection result positive">
+                                                </code>
+                                                <statusCode code="completed"/>
+                                                <effectiveTime>
+                                                  <low value="20200506124819"/>
+                                                </effectiveTime>
+                                                <author typeCode="AUT" contextControlCode="OP">
+                                                  <time value="20160630103358"/>
+                                                  <UKCT_MT120601UK02.AgentDevice classCode="AGNT">
+                                                    <id root="AAA5F1E0-6DF2-11EA-AE26-C5CB3G0B33D1"/>
+                                                    <agentDeviceSDS classCode="DEV" determinerCode="INSTANCE">
+                                                      <id root="1.2.826.0.1285.0.2.0.107" extension="930484003023"/>
+                                                    </agentDeviceSDS>
+                                                    <representedOrganizationSDS classCode="ORG" determinerCode="INSTANCE">
+                                                      <id root="1.2.826.0.1285.0.1.10" extension="7635043534"></id>
+                                                    </representedOrganizationSDS>
+                                                  </UKCT_MT120601UK02.AgentDevice>
+                                                </author>
+                                              </UKCT_MT144043UK02.Finding>
+                                            </component>
+                                          </pertinentCREType>
+                                      </pertinentInformation2>
+                                        <pertinentInformation2 typeCode="PERT" inversionInd="false" contextConductionInd="true" negationInd="false">
+                                            <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.pertinentInformation1"/>
+                                            <seperatableInd value="true"/>
+                                            <pertinentCREType classCode="CATEGORY" moodCode="EVN">
+                                                <code code="163141000000104" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Investigation Results"/>
+                                                <component typeCode="COMP" contextConductionInd="true">
+                                                    <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.component"/>
+                                                    <seperatableInd value="false"/>
+                                                    <UKCT_MT144043UK02.Finding classCode="OBS" moodCode="EVN">
+                                                        <id root="0F582D97-8F89-11CA-8B2D-B741F13EFC47"/>
+                                                        <code code="1240581000000104" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="SARS-CoV-2 (severe acute respiratory syndrome coronavirus 2) RNA (ribonucleic acid) detection result positive">
+                                                        </code>
+                                                        <statusCode code="completed"/>
+                                                        <effectiveTime>
+                                                            <low value="20200506124819"/>
+                                                        </effectiveTime>
+                                                        <author typeCode="AUT" contextControlCode="OP">
+                                                          <time value="20160630103358"/>
+                                                          <UKCT_MT120601UK02.AgentDevice classCode="AGNT">
+                                                            <id root="AAA5F1E0-6DF2-11EA-AE26-C5CB3F0B33D1"/>
+                                                            <agentDevice classCode="DEV" determinerCode="INSTANCE">
+                                                              <id root="1.2.826.0.1285.0.2.0.107" extension="7867868687687"/>
+                                                              <code code="01" displayName="Some device" codeSystem="ABC"/>
+                                                              <name>Some device name</name>
+                                                              <desc>Device description</desc>
+                                                              <manufacturerModelName>Mfc model name</manufacturerModelName>
+                                                              <softwareName>v.1.10.245-beta</softwareName>
+                                                            </agentDevice>
+                                                            <representedOrganization classCode="ORG" determinerCode="INSTANCE">
+                                                              <code code="214"/>
+                                                              <name>Device owner org</name>
+                                                              <addr>ADDRESS LINE 1</addr>
+                                                              <telecom use="WP" value="fax:01392251689"/>
+                                                            </representedOrganization>
+                                                          </UKCT_MT120601UK02.AgentDevice>
+                                                        </author>
+                                                    </UKCT_MT144043UK02.Finding>
+                                                </component>
+                                            </pertinentCREType>
+                                        </pertinentInformation2>
+                                        <pertinentInformation2 typeCode="PERT" inversionInd="false"
+                                                               contextConductionInd="true" negationInd="false">
+                                          <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2"
+                                                      extension="CSAB_RM-NPfITUK10.pertinentInformation1" />
+                                          <seperatableInd value="true" />
+                                          <pertinentCREType classCode="CATEGORY" moodCode="EVN">
+                                            <code code="163141000000104"                    codeSystem="2.16.840.1.113883.2.1.3.2.4.15"
+                                                  displayName="Investigation Results" />
+                                            <component typeCode="COMP" contextConductionInd="true">
+                                              <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2"
+                                                          extension="CSAB_RM-NPfITUK10.component" />
+                                              <seperatableInd value="false" />
+                                              <UKCT_MT144043UK02.Finding classCode="OBS" moodCode="EVN">
+                                                <id root="3CDB62E6-EFEA-4036-9709-52AE7ED7D930" />
+                                                <code code="1322781000000102"   codeSystem="2.16.840.1.113883.2.1.3.2.4.15"
+                                                      displayName="Severe acute respiratory syndrome coronavirus 2 antigen detection result positive (finding)">
+                                                </code>
+                                                <statusCode code="active" />
+                                                <effectiveTime>
+                                                  <low value="20200805" />
+                                                </effectiveTime>
+                                              </UKCT_MT144043UK02.Finding>
+                                            </component>
+                                          </pertinentCREType>
+                                        </pertinentInformation2>
+                                        <pertinentInformation2 typeCode="PERT" inversionInd="false" contextConductionInd="true" negationInd="false">
+                                          <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.pertinentInformation1"/>
+                                          <seperatableInd value="true"/>
+                                          <pertinentCREType classCode="CATEGORY" moodCode="EVN">
+                                            <code code="163231000000100" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Risks to Patient"/>
+                                            <component typeCode="COMP" contextConductionInd="true">
+                                              <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.component"/>
+                                              <seperatableInd value="false"/>
+                                              <UKCT_MT144054UK01.RiskToPatient classCode="OBS" moodCode="EVN">
+                                                <id root="10CE2F30-8AF5-11EA-9FCE-AFDCAECF9DFB"/>
+                                                <code code="1240441000000108" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Close exposure to severe acute respiratory syndrome coronavirus 2 infection (event)"/>
+                                                <statusCode code="normal"/>
+                                                <effectiveTime>
+                                                  <low value="20200805"/>
+                                                </effectiveTime>
+                                              </UKCT_MT144054UK01.RiskToPatient>
+                                            </component>
+                                          </pertinentCREType>
+                                        </pertinentInformation2>
+                                        <pertinentInformation2 typeCode="PERT" inversionInd="false" contextConductionInd="true" negationInd="false">
+                                          <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.pertinentInformation1"/>
+                                          <seperatableInd value="true"/>
+                                          <pertinentCREType classCode="CATEGORY" moodCode="EVN">
+                                            <code code="162951000000105" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Care Events"/>
+                                            <component typeCode="COMP" contextConductionInd="true">
+                                              <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.component"/>
+                                              <seperatableInd value="false"/>
+                                              <UKCT_MT144037UK01.CareEvent classCode="ENC" moodCode="EVN">
+                                                <id root="0F582D91-8F89-11EA-8B2D-B741F13EFC47"/>
+                                                <code code="1240631000000102" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Did not attend SARS-CoV-2 (severe acute respiratory syndrome coronavirus 2) vaccination">
+                                                </code>
+                                                <statusCode code="normal"/>
+                                                <effectiveTime>
+                                                  <low value="20200805"/>
+                                                </effectiveTime>
+                                              </UKCT_MT144037UK01.CareEvent>
+                                            </component>
+                                          </pertinentCREType>
+                                        </pertinentInformation2>
+                                        <pertinentInformation2 typeCode="PERT" inversionInd="false" contextConductionInd="true" negationInd="false">
+                                          <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.pertinentInformation1"/>
+                                          <seperatableInd value="true"/>
+                                          <pertinentCREType classCode="CATEGORY" moodCode="EVN">
+                                            <code code="163081000000108" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Investigations"/>
+                                            <component typeCode="COMP" contextConductionInd="true">
+                                              <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.component"/>
+                                              <seperatableInd value="false"/>
+                                              <UKCT_MT144045UK01.Investigation classCode="PROC" moodCode="EVN">
+                                                <id root="0F5A9E75-8F89-11EA-8B2D-B741F13EFC47"/>
+                                                <code code="1240461000000109" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Measurement of severe acute respiratory syndrome coronavirus 2 antibody (procedure)">
+                                                </code>
+                                                <statusCode code="normal"/>
+                                                <effectiveTime>
+                                                  <low value="20200805"/>
+                                                </effectiveTime>
+                                              </UKCT_MT144045UK01.Investigation>
+                                            </component>
+                                          </pertinentCREType>
+                                        </pertinentInformation2>
+                                        <pertinentInformation2 typeCode="PERT" inversionInd="false" contextConductionInd="true" negationInd="false">
+                                          <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.pertinentInformation1"/>
+                                          <seperatableInd value="true"/>
+                                          <pertinentCREType classCode="CATEGORY" moodCode="EVN">
+                                            <code code="163071000000106" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Treatments"/>
+                                            <component typeCode="COMP" contextConductionInd="true">
+                                              <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.component"/>
+                                              <seperatableInd value="false"/>
+                                              <UKCT_MT144055UK01.Treatment classCode="PROC" moodCode="EVN">
+                                                <id root="0F5A9E72-8F89-11EA-8B2D-B741F13EFC47"/>
+                                                <code code="1240491000000103" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Severe acute respiratory syndrome coronavirus 2 vaccination (procedure)">
+                                                </code>
+                                                <statusCode code="normal"/>
+                                                <effectiveTime>
+                                                  <low value="20200805"/>
+                                                </effectiveTime>
+                                              </UKCT_MT144055UK01.Treatment>
+                                            </component>
+                                          </pertinentCREType>
+                                        </pertinentInformation2>
+                                        <pertinentInformation2 typeCode="PERT" inversionInd="false" contextConductionInd="true" negationInd="false">
+                                          <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.pertinentInformation1"/>
+                                          <seperatableInd value="true"/>
+                                          <pertinentCREType classCode="CATEGORY" moodCode="EVN">
+                                            <code code="162961000000108" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Personal Preferences"/>
+                                            <component typeCode="COMP" contextConductionInd="true">
+                                              <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.component"/>
+                                              <seperatableInd value="false"/>
+                                              <UKCT_MT144046UK01.PersonalPreference classCode="OBS" moodCode="EVN">
+                                                <id root="0F5A9E73-8F89-11EA-8B2D-B741F13EFC47"/>
+                                                <code code="1240651000000109" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="SARS-CoV-2 (severe acute respiratory syndrome coronavirus 2) vaccination declined">
+                                                  <originalText>Severe acute respiratory syndrome coronavirus 2 vaccination declined (situation)</originalText>
+                                                </code>
+                                                <statusCode code="completed"/>
+                                                <effectiveTime>
+                                                  <low value="20200805"/>
+                                                </effectiveTime>
+                                              </UKCT_MT144046UK01.PersonalPreference>
+                                            </component>
+                                          </pertinentCREType>
+                                        </pertinentInformation2>
+                                        <pertinentInformation2 typeCode="PERT" inversionInd="false" contextConductionInd="true" negationInd="false">
+                                          <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.pertinentInformation1"/>
+                                          <seperatableInd value="true"/>
+                                          <pertinentCREType classCode="CATEGORY" moodCode="EVN">
+                                            <code code="185371000000109" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Clinical Observations and Findings"/>
+                                            <component typeCode="COMP" contextConductionInd="true">
+                                              <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.component"/>
+                                              <seperatableInd value="false"/>
+                                              <UKCT_MT144043UK02.Finding classCode="OBS" moodCode="EVN">
+                                                <id root="19ABC6D1-8AF5-11EA-9FCE-AFDCAECF9DFB"/>
+                                                <code code="1240661000000107" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Severe acute respiratory syndrome coronavirus 2 vaccination contraindicated (situation)">
+                                                </code>
+                                                <statusCode code="completed"/>
+                                                <effectiveTime>
+                                                  <low value="20200805"/>
+                                                </effectiveTime>
+                                              </UKCT_MT144043UK02.Finding>
+                                            </component>
+                                          </pertinentCREType>
+                                        </pertinentInformation2>
+                                        <pertinentInformation2 typeCode="PERT" inversionInd="false" contextConductionInd="true" negationInd="false">
+                                          <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.pertinentInformation1"/>
+                                          <seperatableInd value="true"/>
+                                          <pertinentCREType classCode="CATEGORY" moodCode="EVN">
+                                            <code code="163111000000100" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Clinical Observations and Findings"/>
+                                            <component typeCode="COMP" contextConductionInd="true">
+                                              <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.component"/>
+                                              <seperatableInd value="false"/>
+                                              <UKCT_MT144043UK02.Finding classCode="OBS" moodCode="EVN">
+                                                <id root="19ABC6D1-8AF5-11EA-9FCE-AFDCAECF9DFB"/>
+                                                <code code="1240681000000103" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Severe acute respiratory syndrome coronavirus 2 vaccination not done (situation)">
+                                                </code>
+                                                <statusCode code="completed"/>
+                                                <effectiveTime>
+                                                  <low value="20200805"/>
+                                                </effectiveTime>
+                                              </UKCT_MT144043UK02.Finding>
+                                            </component>
+                                          </pertinentCREType>
+                                        </pertinentInformation2>
+                                        <pertinentInformation2 typeCode="PERT" inversionInd="false" contextConductionInd="true" negationInd="false">
+                                          <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.pertinentInformation1"/>
+                                          <seperatableInd value="true"/>
+                                          <pertinentCREType classCode="CATEGORY" moodCode="EVN">
+                                            <code code="163101000000102" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Provision of Advice and Information to Patients and Carers"/>
+                                            <component typeCode="COMP" contextConductionInd="true">
+                                              <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.component"/>
+                                              <seperatableInd value="false"/>
+                                              <UKCT_MT144049UK01.ProvisionOfAdviceAndInformation classCode="INFRM" moodCode="EVN">
+                                                <id root="0F582D83-8F89-11EA-8B2D-B741F13EFC47"/>
+                                                <code code="1240711000000104" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Educated about severe acute respiratory syndrome coronavirus 2 infection (situation)">
+                                                </code>
+                                                <statusCode code="normal"/>
+                                                <effectiveTime>
+                                                  <low value="20200805"/>
+                                                </effectiveTime>
+                                              </UKCT_MT144049UK01.ProvisionOfAdviceAndInformation>
+                                            </component>
+                                          </pertinentCREType>
+                                        </pertinentInformation2>
+                                        <pertinentInformation2 typeCode="PERT" inversionInd="false" contextConductionInd="true" negationInd="false">
+                                          <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.pertinentInformation1"/>
+                                          <seperatableInd value="true"/>
+                                          <pertinentCREType classCode="CATEGORY" moodCode="EVN">
+                                            <code code="163181000000107" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Patient/carer correspondence"/>
+                                            <component typeCode="COMP" contextConductionInd="true">
+                                              <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.component"/>
+                                              <seperatableInd value="false"/>
+                                              <UKCT_MT144035UK01.PatientCarerCorrespondence classCode="DOC" moodCode="EVN">
+                                                <id root="0F582D83-8F89-11EA-8B2D-B741F13EFC47"/>
+                                                <code code="1240781000000106" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Severe acute respiratory syndrome coronavirus 2 vaccination invitation short message service text message sent (situation)">
+                                                </code>
+                                                <statusCode code="normal"/>
+                                                <effectiveTime value="20200906"/>
+                                              </UKCT_MT144035UK01.PatientCarerCorrespondence>
+                                            </component>
+                                          </pertinentCREType>
+                                        </pertinentInformation2>
+                                        <recordTarget typeCode="RCT">
+                                            <patient classCode="PAT">
+                                                <id root="2.16.840.1.113883.2.1.4.1" extension="9995000180"/>
+                                            </patient>
+                                        </recordTarget>
+                                        <replacementOf typeCode="RPLC">
+                                            <priorMessageRef classCode="COMPOSITION" moodCode="EVN">
+                                                <id root="D18B57ED-992E-45A2-A6AF-55200D20F48E"/>
+                                            </priorMessageRef>
+                                        </replacementOf>
+                                    </GPSummary>
+                                </psis:hl7Data>
+                            </psis:event>
+                        </psis:queryResponseEvent>
+                    </subject>
+                    <queryAck type="QueryAck">
+                        <queryResponseCode code="OK"/>
+                    </queryAck>
+                </ControlActEvent>
+            </QUPC_IN210000UK04>
+        </eventQueryResponse>
+    </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>

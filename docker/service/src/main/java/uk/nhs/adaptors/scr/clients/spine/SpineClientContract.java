@@ -9,5 +9,6 @@ public interface SpineClientContract {
     ProcessingResult getScrProcessingResult(String contentLocation, long initialWaitTime, String nhsdAsid,
                                             String nhsdIdentity, String nhsdSessionUrid);
     Response sendGetScrId(String requestBody, String nhsdAsid);
+    Response sendGetScr(String requestBody, String nhsdAsid);
     Response sendAlert(String requestBody, String nhsdAsid, String nhsdIdentity, String nhsdSessionUrid);
 }

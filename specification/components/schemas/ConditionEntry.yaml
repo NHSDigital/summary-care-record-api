@@ -8,6 +8,9 @@
         resourceType:
           type: string
           default: "Condition"
+        id:
+          type: string
+          example: "13FF1F43-5097-400E-9E32-CCE3282F3A97"
         meta:
           type: array
           items:
@@ -53,32 +56,81 @@
                 minItems: 1
                 maxItems: 1
           minItems: 1
-        code:
+        category:
           type: array
           items:
             type: object
             properties:
               coding:
+                type: object
+                properties:
+                  system:
+                    type: string
+                    default: "http://snomed.info/sct"
+                  code:
+                    type: string
+                    example: "163001000000103"
+                  display:
+                    type: string
+                    example: Diagnoses
+                required:
+                  - system
+                  - code
+                  - display
+            required:
+              - coding
+          minItems: 1
+          maxItems: 1
+        code:
+          type: object
+          properties:
+            coding:
+              type: array
+              items:
+                $ref: snomedCoding.yaml
+              minItems: 1
+              maxItems: 1
+          required:
+            - coding
+        onsetDateTime:
+          type: string
+          example: "2020-05-06T10:48:19+00:00"
+        evidence:
+          description: Supporting evidence - should link Observation resource
+          type: array
+          items:
+            type: object
+            properties:
+              detail:
                 type: array
                 items:
                   type: object
                   properties:
-                    system:
+                    reference:
                       type: string
-                      default: "http://snomed.info/sct"
-                    code:
-                      type: string
-                      example: "1300721000000109"
-                    display:
-                      type: string
-                      example: "COVID-19 confirmed by laboratory test"
-                minItems: 1
-                maxItems: 1
+                      example: Observation/F17999D2-FFE7-4CA4-8CE8-52CB45FF6F49
+                      description: Reference to related Observation resource
+                  required:
+                    - reference
+            required:
+              - detail
+          minItems: 1
+        note:
+          description: Additional information about the Condition
+          type: array
+          items:
+            type: object
+            properties:
+              text:
+                type: string
+            required:
+              - text
           minItems: 1
           maxItems: 1
-        onsetDateTime:
-          type: string
-          example: "2020-05-06T10:48:19+00:00"
       required:
         - resourceType
+        - identifier
+        - status
+        - category
+        - code
 

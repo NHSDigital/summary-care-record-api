@@ -19,13 +19,20 @@ properties:
     type: array
     items:
       anyOf:
-        - $ref: CompositionUploadEntry.yaml
+        - $ref: CompositionEntry.yaml
         - $ref: PatientEntry.yaml
         - $ref: PractitionerEntry.yaml
         - $ref: PractitionerRoleEntry.yaml
+        - $ref: EncounterParticipantEntry.yaml
         - $ref: OrganizationEntry.yaml
-        - $ref: ConditionEntry.yaml
+        - $ref: RelatedPersonEntry.yaml
         - $ref: ObservationEntry.yaml
+        - $ref: DeviceEntry.yaml
+        - $ref: EncounterCareEventEntry.yaml
+        - $ref: ProcedureEntry.yaml
+        - $ref: CommunicationEntry.yaml
+        - $ref: ImmunizationEntry.yaml
+        - $ref: ImmunizationRecommendationEntry.yaml
 required:
   - resourceType
   - id

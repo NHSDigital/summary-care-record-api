@@ -1,0 +1,85 @@
+  type: object
+  properties:
+    fullUrl:
+      type: string
+      example: baecc1c2-c86c-482c-8cea-981b47a6cc48
+    resource:
+      type: object
+      properties:
+        resourceType:
+          type: string
+          default: "Communication"
+        id:
+          type: string
+          example: b1a41ee5-b88b-4f66-bd83-24343bf63dd8
+        meta:
+          type: array
+          items:
+            type: object
+            properties:
+              profile:
+                type: string
+                default: "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Communication"
+          minItems: 1
+          maxItems: 1
+        identifier:
+          type: array
+          items:
+            type: object
+            properties: 
+              value:
+                type: string
+                example: 0F582D97-8F89-11EA-8B2D-B741F13EFC47
+            required:
+              - value
+          minItems: 1
+          maxItems: 1
+        status:
+          type: string
+          enum:
+            - completed
+            - in-progress
+        category:
+          type: array
+          items:
+            type: object
+            properties:
+              coding:
+                type: object
+                properties:
+                  system:
+                    type: string
+                    default: "http://snomed.info/sct"
+                  code:
+                    type: string
+                    example: "163101000000102"
+                  display:
+                    type: string
+                    example: Provision of Advice and Information to Patients and Carers
+                required:
+                  - system
+                  - code
+                  - display
+            required:
+              - coding
+          minItems: 1
+          maxItems: 1
+        code:
+          type: object
+          properties:
+            coding:
+              type: array
+              items:
+                $ref: snomedCoding.yaml
+          required:
+            - coding
+        sent:
+          type: string
+          example: 2020-05-06T10:48:19+00:00
+      required:
+        - resourceType
+        - identifier
+        - status
+        - category
+        - code
+            

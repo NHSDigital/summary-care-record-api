@@ -7,9 +7,6 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
-import org.skyscreamer.jsonassert.Customization;
-import org.skyscreamer.jsonassert.JSONAssert;
-import org.skyscreamer.jsonassert.comparator.CustomComparator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -19,7 +16,6 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultMatcher;
 import uk.nhs.adaptors.scr.WireMockInitializer;
 import uk.nhs.adaptors.scr.config.SpineConfiguration;
 import uk.nhs.adaptors.scr.consts.ScrHttpHeaders;
@@ -33,8 +29,6 @@ import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
 import static com.github.tomakehurst.wiremock.client.WireMock.equalTo;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.nio.file.Files.readString;
-import static java.util.Arrays.stream;
-import static org.skyscreamer.jsonassert.JSONCompareMode.STRICT;
 import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
 import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.http.MediaType.TEXT_XML_VALUE;
@@ -42,6 +36,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static uk.nhs.adaptors.scr.consts.SpineHttpHeaders.SOAP_ACTION;
 import static uk.nhs.adaptors.scr.controllers.FhirMediaTypes.APPLICATION_FHIR_JSON_VALUE;
+import static uk.nhs.adaptors.scr.utils.FhirJsonResultMatcher.fhirJson;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -124,16 +119,5 @@ public class GetScrIdUAT {
                 .willReturn(aResponse()
                     .withStatus(OK.value())
                     .withBody(readString(response.getFile().toPath(), UTF_8))));
-    }
-
-    public ResultMatcher fhirJson(String jsonContent, String... ignoredPaths) {
-        return result -> {
-            var customizations = stream(ignoredPaths)
-                .map(jsonPath -> new Customization(jsonPath, (o1, o2) -> true))
-                .toArray(Customization[]::new);
-            String content = result.getResponse().getContentAsString(UTF_8);
-            JSONAssert.assertEquals(jsonContent, content,
-                new CustomComparator(STRICT, customizations));
-        };
     }
 }

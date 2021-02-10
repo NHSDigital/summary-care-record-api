@@ -37,7 +37,13 @@
             type: object
             properties:
               coding:
-                $ref: coding.yaml
+                type: array
+                items:
+                  type: object
+                  properties:
+                    code:
+                      type: string
+                      example: "021"
         name:
           type: string
           example: LEEDS TEACHING HOSPITAL TRUST
@@ -76,3 +82,4 @@
                 example: "ENGLAND"
       required:
         - resourceType
+        - id

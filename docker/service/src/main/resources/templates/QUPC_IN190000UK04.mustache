@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:hl7="urn:hl7-org:v3">
+    <SOAP-ENV:Header>
+        <wsa:MessageID xmlns:SOAP="http://schemas.xmlsoap.org/soap/envelope/">uuid:{{generatedMessageId}}</wsa:MessageID>
+        <wsa:Action>urn:nhs:names:services:psisquery/QUPC_IN190000UK04</wsa:Action>
+        <wsa:To>{{spinePsisEndpointUrl}}</wsa:To>
+        <wsa:From>
+            <wsa:Address>{{sender_host_ip_address}}</wsa:Address>
+        </wsa:From>
+        <hl7:communicationFunctionRcv>
+            <hl7:device>
+                <hl7:id xmlns:SOAP="http://schemas.xmlsoap.org/soap/envelope/" extension="{{spineToASID}}" root="1.2.826.0.1285.0.2.0.107"/>
+            </hl7:device>
+        </hl7:communicationFunctionRcv>
+        <hl7:communicationFunctionSnd>
+            <hl7:device>
+                <hl7:id xmlns:SOAP="http://schemas.xmlsoap.org/soap/envelope/" extension="{{senderFromASID}}" root="1.2.826.0.1285.0.2.0.107"/>
+            </hl7:device>
+        </hl7:communicationFunctionSnd>
+        <wsa:ReplyTo>
+            <wsa:Address>{{senderHostIpAddress}}</wsa:Address>
+        </wsa:ReplyTo>
+    </SOAP-ENV:Header>
+    <SOAP-ENV:Body>
+        <QUPC_IN190000UK04 xmlns="urn:hl7-org:v3">
+            <id xmlns:SOAP="http://schemas.xmlsoap.org/soap/envelope/" root="{{generatedMessageId}}"/>
+            <creationTime value="{{messageCreationTime}}"/>
+            <versionCode code="V3NPfIT4.2.00"/>
+            <interactionId root="2.16.840.1.113883.2.1.3.2.4.12" extension="QUPC_IN190000UK04"/>
+            <processingCode code="P"/>
+            <processingModeCode code="T"/>
+            <acceptAckCode code="NE"/>
+            <communicationFunctionRcv typeCode="RCV">
+                <device classCode="DEV" determinerCode="INSTANCE">
+                    <hl7:id xmlns:SOAP="http://schemas.xmlsoap.org/soap/envelope/" extension="{{spineToASID}}" root="1.2.826.0.1285.0.2.0.107"/>
+                </device>
+            </communicationFunctionRcv>
+            <communicationFunctionSnd typeCode="SND">
+                <device classCode="DEV" determinerCode="INSTANCE">
+                    <hl7:id xmlns:SOAP="http://schemas.xmlsoap.org/soap/envelope/" extension="{{senderFromASID}}" root="1.2.826.0.1285.0.2.0.107"/>
+                </device>
+            </communicationFunctionSnd>
+            <ControlActEvent classCode="CACT" moodCode="EVN">
+                <author1 typeCode="AUT">
+                    <AgentSystemSDS classCode="AGNT">
+                        <agentSystemSDS classCode="DEV" determinerCode="INSTANCE">
+                            <hl7:id xmlns:SOAP="http://schemas.xmlsoap.org/soap/envelope/" extension="{{senderFromASID}}" root="1.2.826.0.1285.0.2.0.107"/>
+                        </agentSystemSDS>
+                    </AgentSystemSDS>
+                </author1>
+                <query>
+                    <dissentOverride>
+                        <value code="0" codeSystem="2.16.840.1.113883.2.1.3.2.4.17.60"/>
+                        <semanticsText>DissentOverride</semanticsText>
+                    </dissentOverride>
+                    <eventRecord>
+                        <value root="{{psisEventId}}"/>
+                        <semanticsText>EventRecord</semanticsText>
+                    </eventRecord>
+                    <nHSNumber>
+                        <value root="2.16.840.1.113883.2.1.4.1" extension="{{nhsNumber}}"/>
+                        <semanticsText>NHSNumber</semanticsText>
+                    </nHSNumber>
+                </query>
+            </ControlActEvent>
+        </QUPC_IN190000UK04>
+    </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>

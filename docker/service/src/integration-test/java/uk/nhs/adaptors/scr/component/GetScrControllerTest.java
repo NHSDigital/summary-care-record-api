@@ -18,8 +18,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import uk.nhs.adaptors.scr.WireMockInitializer;
 
-import java.io.IOException;
-
 import static io.restassured.RestAssured.given;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hl7.fhir.r4.model.OperationOutcome.IssueSeverity.ERROR;
@@ -57,7 +55,7 @@ public class GetScrControllerTest {
     }
 
     @Test
-    public void whenInvalidNhsNumberThenExpectHttp400() throws IOException {
+    public void whenInvalidNhsNumberThenExpectHttp400() {
         String response = given()
             .port(port)
             .when()
@@ -79,7 +77,7 @@ public class GetScrControllerTest {
     }
 
     @Test
-    public void whenInvalidTypeParamThenExpectHttp400() throws IOException {
+    public void whenInvalidTypeParamThenExpectHttp400() {
         String response = given()
             .port(port)
             .when()
@@ -101,7 +99,7 @@ public class GetScrControllerTest {
     }
 
     @Test
-    public void whenInvalidSortParamThenExpectHttp400() throws IOException {
+    public void whenInvalidSortParamThenExpectHttp400() {
         String response = given()
             .port(port)
             .when()
@@ -123,7 +121,7 @@ public class GetScrControllerTest {
     }
 
     @Test
-    public void whenInvalidCountParamThenExpectHttp400() throws IOException {
+    public void whenInvalidCountParamThenExpectHttp400() {
         String response = given()
             .port(port)
             .when()
@@ -145,7 +143,7 @@ public class GetScrControllerTest {
     }
 
     @Test
-    public void whenMissingRequiredParamParamThenExpectHttp400() throws IOException {
+    public void whenMissingRequiredParamParamThenExpectHttp400() {
         String response = given()
             .port(port)
             .when()

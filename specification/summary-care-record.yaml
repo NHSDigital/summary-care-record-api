@@ -90,6 +90,11 @@ info:
 
       For more details on sandbox testing, or to try out the sandbox using our \"Try this API\" feature, see the documentation for each endpoint.
 
+    ### Integration testing
+    Our [integration test environment](https://digital.nhs.uk/developer/guides-and-documentation/testing#integration-testing):
+    * is for formal integration testing
+    * is stateful, so persists updates
+
     ## Onboarding
     You need to get your software approved by us before it can go live with this API. We call this onboarding. The onboarding process can sometimes be quite long, so it’s worth planning well ahead.
 
@@ -164,6 +169,14 @@ paths:
         Use this endpoint to retrieve the details of patient's Summary Care Record.
 
         To get the information you must provide patient's NHS Number and SCR UUID. UUID can be obtained using GET /DocumentReference endpoint.
+
+        ## Sandbox test scenarios
+        You can test the following scenarios in our sandbox environment:
+
+        | Scenario                         | Request                                           | Response                                                                                                                              |
+        | -------------------------------- | ------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
+        | Happy path                       | `composition.identifier`=`FA60BE64-1F34-11EB-A2A8-000C29A364EB$composition.subject:Patient.identifier=https://fhir.nhs.uk/Id/nhs-number|9995000180`                | HTTP Status 200      |
+        
       summary: Get patient's Summary Care Record
       operationId: get-scr
       parameters:
@@ -275,7 +288,7 @@ paths:
         ## Sandbox test scenarios
         You can test the following scenarios in our sandbox environment:
 
-        | Scenario                         | Request                                           | Response                                          |
+        | Scenario                         | Request                                           | Response             |
         | -------------------------------- | ------------------------------------------------- | -------------------- |
         | Happy path                       | `NHSD-Session-URID`=`555254240100`                | HTTP Status 201      |
         

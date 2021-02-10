@@ -2,45 +2,42 @@ package uk.nhs.adaptors.scr.models;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import org.hl7.fhir.r4.model.Bundle;
-import org.hl7.fhir.r4.model.Composition;
-import org.hl7.fhir.r4.model.Organization;
-import org.hl7.fhir.r4.model.Patient;
-import org.hl7.fhir.r4.model.Practitioner;
-import org.hl7.fhir.r4.model.PractitionerRole;
-import org.hl7.fhir.r4.model.Resource;
-import org.hl7.fhir.r4.model.ResourceType;
 import uk.nhs.adaptors.scr.exceptions.FhirMappingException;
-import uk.nhs.adaptors.scr.models.gpsummarymodels.AllConditions;
-import uk.nhs.adaptors.scr.models.gpsummarymodels.CompositionRelatesTo;
-import uk.nhs.adaptors.scr.models.gpsummarymodels.ObservationObject;
-import uk.nhs.adaptors.scr.models.gpsummarymodels.OrganizationAddress;
-import uk.nhs.adaptors.scr.models.gpsummarymodels.OrganizationId;
-import uk.nhs.adaptors.scr.models.gpsummarymodels.OrganizationTelecom;
-import uk.nhs.adaptors.scr.models.gpsummarymodels.OrganizationType;
-import uk.nhs.adaptors.scr.models.gpsummarymodels.PatientId;
-import uk.nhs.adaptors.scr.models.gpsummarymodels.PractitionerId;
-import uk.nhs.adaptors.scr.models.gpsummarymodels.PractitionerName;
-import uk.nhs.adaptors.scr.models.gpsummarymodels.PractitionerRoleCode;
-import uk.nhs.adaptors.scr.models.gpsummarymodels.PractitionerRoleIdentifier;
-import uk.nhs.adaptors.scr.models.gpsummarymodels.Presentation;
+import uk.nhs.adaptors.scr.mappings.from.fhir.AuthorMapper;
+import uk.nhs.adaptors.scr.mappings.from.fhir.CommunicationMapper;
+import uk.nhs.adaptors.scr.mappings.from.fhir.CompositionMapper;
+import uk.nhs.adaptors.scr.mappings.from.fhir.ConditionMapper;
+import uk.nhs.adaptors.scr.mappings.from.fhir.EncounterMapper;
+import uk.nhs.adaptors.scr.mappings.from.fhir.ImmunizationMapper;
+import uk.nhs.adaptors.scr.mappings.from.fhir.ImmunizationRecommendationMapper;
+import uk.nhs.adaptors.scr.mappings.from.fhir.ObservationMapper;
+import uk.nhs.adaptors.scr.mappings.from.fhir.PatientMapper;
+import uk.nhs.adaptors.scr.mappings.from.fhir.ProceduresMapper;
+import uk.nhs.adaptors.scr.models.xml.CareEvent;
+import uk.nhs.adaptors.scr.models.xml.Diagnosis;
+import uk.nhs.adaptors.scr.models.xml.Finding;
+import uk.nhs.adaptors.scr.models.xml.Investigation;
+import uk.nhs.adaptors.scr.models.xml.Participant;
+import uk.nhs.adaptors.scr.models.xml.PatientCarerCorrespondence;
+import uk.nhs.adaptors.scr.models.xml.PersonalPreference;
+import uk.nhs.adaptors.scr.models.xml.Presentation;
+import uk.nhs.adaptors.scr.models.xml.ProvisionOfAdviceAndInformation;
+import uk.nhs.adaptors.scr.models.xml.RiskToPatient;
+import uk.nhs.adaptors.scr.models.xml.Treatment;
+import uk.nhs.adaptors.scr.utils.DateUtil;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.function.BiConsumer;
+import java.util.stream.Stream;
 
-import static uk.nhs.adaptors.scr.fhirmappings.CompositionMapper.mapComposition;
-import static uk.nhs.adaptors.scr.fhirmappings.ConditionMapper.mapConditions;
-import static uk.nhs.adaptors.scr.fhirmappings.ObservationMapper.mapObservations;
-import static uk.nhs.adaptors.scr.fhirmappings.OrganizationMapper.mapOrganization;
-import static uk.nhs.adaptors.scr.fhirmappings.PatientMapper.mapPatient;
-import static uk.nhs.adaptors.scr.fhirmappings.PractitionerMapper.mapPractitioner;
-import static uk.nhs.adaptors.scr.fhirmappings.PractitionerRoleMapper.mapPractitionerRole;
-import static uk.nhs.adaptors.scr.utils.DateUtil.formatDate;
 import static uk.nhs.adaptors.scr.utils.FhirHelper.UUID_IDENTIFIER_SYSTEM;
-import static uk.nhs.adaptors.scr.utils.FhirHelper.getDomainResource;
-import static uk.nhs.adaptors.scr.utils.FhirHelper.getDomainResourceList;
 
 @Getter
 @Setter
+@Slf4j
 public class GpSummary {
     private String headerId;
     private String headerTimeStamp;
@@ -50,51 +47,46 @@ public class GpSummary {
     private String nhsdAsidTo;
     private String partyIdFrom;
     private String partyIdTo;
-    private List<CompositionRelatesTo> compositionRelatesTos;
-    private List<PractitionerRoleIdentifier> practitionerRoleIdentifiers;
-    private List<PractitionerRoleCode> practitionerRoleCodes;
-    private List<PractitionerId> practitionerIds;
-    private List<PractitionerName> practitionerNames;
-    private List<OrganizationAddress> organizationAddresses;
-    private List<OrganizationTelecom> organizationTelecoms;
-    private List<OrganizationType> organizationTypes;
-    private String organizationName;
-    private List<OrganizationId> organizationIds;
-    private List<PatientId> patientIds;
-    private List<Presentation> presentations;
-    private List<ObservationObject> observationList;
-    private List<AllConditions> conditionParent;
+    private String compositionRelatesToId;
+    private String patientId;
+    private Participant.Author author;
+    private Presentation presentation;
+    private List<Diagnosis> diagnoses = new ArrayList<>();
+    private List<Finding> clinicalObservationsAndFindings = new ArrayList<>();
+    private List<Finding> medicationRecommendations = new ArrayList<>();
+    private List<Finding> medicationRecords = new ArrayList<>();
+    private List<Finding> investigationResults = new ArrayList<>();
+    private List<RiskToPatient> risksToPatient = new ArrayList<>();
+    private List<CareEvent> careEvents = new ArrayList<>();
+    private List<Investigation> investigations = new ArrayList<>();
+    private List<Treatment> treatments = new ArrayList<>();
+    private List<ProvisionOfAdviceAndInformation> provisionsOfAdviceAndInformationToPatientsAndCarers = new ArrayList<>();
+    private List<PatientCarerCorrespondence> patientCarerCorrespondences = new ArrayList<>();
+    private List<PersonalPreference> personalPreferences = new ArrayList<>();
 
-    public static GpSummary fromRequestData(Bundle bundle, String nhsdAsid) throws FhirMappingException {
+    public static GpSummary fromBundle(Bundle bundle, String nhsdAsid) throws FhirMappingException {
         GpSummary gpSummary = new GpSummary();
-        mapBundle(gpSummary, bundle);
         gpSummary.setNhsdAsidFrom(nhsdAsid);
+
+        Stream.<BiConsumer<GpSummary, Bundle>>of(
+            GpSummary::gpSummarySetHeaderTimeStamp,
+            GpSummary::gpSummarySetHeaderId,
+            AuthorMapper::mapAuthor,
+            CompositionMapper::mapComposition,
+            ConditionMapper::mapConditions,
+            ObservationMapper::mapObservations,
+            EncounterMapper::mapEncounters,
+            ImmunizationRecommendationMapper::mapImmunizationRecommendations,
+            ImmunizationMapper::mapImmunizations,
+            ProceduresMapper::mapProcedures,
+            CommunicationMapper::mapCommunications,
+            PatientMapper::mapPatient)
+            .forEach(mapper -> mapper.accept(gpSummary, bundle));
 
         return gpSummary;
     }
 
-    private static void mapBundle(GpSummary gpSummary, Bundle bundle) {
-        Composition composition = getDomainResource(bundle, Composition.class);
-        PractitionerRole practitionerRole = getDomainResource(bundle, PractitionerRole.class);
-        Organization organization = getDomainResource(bundle, Organization.class);
-        Practitioner practitioner = getDomainResource(bundle, Practitioner.class);
-        Patient patient = getDomainResource(bundle, Patient.class);
-        List<Resource> conditionList = getDomainResourceList(bundle, ResourceType.Condition);
-        List<Resource> observationList = getDomainResourceList(bundle, ResourceType.Observation);
-
-        gpSummarySetHeaderId(bundle, gpSummary);
-        gpSummarySetHeaderTimeStamp(bundle, gpSummary);
-
-        mapComposition(gpSummary, composition);
-        mapPractitionerRole(gpSummary, practitionerRole);
-        mapOrganization(gpSummary, organization);
-        mapPractitioner(gpSummary, practitioner);
-        mapPatient(gpSummary, patient);
-        mapObservations(gpSummary, observationList);
-        mapConditions(gpSummary, conditionList);
-    }
-
-    private static void gpSummarySetHeaderTimeStamp(Bundle bundle, GpSummary gpSummary) {
+    private static void gpSummarySetHeaderId(GpSummary gpSummary, Bundle bundle) {
         if (bundle.hasIdentifier()) {
             var identifier = bundle.getIdentifier();
             if (!UUID_IDENTIFIER_SYSTEM.equals(identifier.getSystem())) {
@@ -110,9 +102,9 @@ public class GpSummary {
         }
     }
 
-    private static void gpSummarySetHeaderId(Bundle bundle, GpSummary gpSummary) {
+    private static void gpSummarySetHeaderTimeStamp(GpSummary gpSummary, Bundle bundle) {
         if (bundle.hasTimestampElement()) {
-            gpSummary.setHeaderTimeStamp(formatDate(bundle.getTimestampElement().getValue()));
+            gpSummary.setHeaderTimeStamp(DateUtil.formatTimestampToHl7(bundle.getTimestampElement()));
         } else {
             throw new FhirMappingException("bundle.timestamp must not be empty");
         }

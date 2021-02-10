@@ -1,0 +1,18 @@
+<UKCT_MT160018UK01.AgentPerson classCode="AGNT">
+    <code code="{{codeCode}}" codeSystem="2.16.840.1.113883.2.1.3.2.4.17.124" displayName="{{codeDisplayName}}"/>
+    <addr use="WP">{{address}}</addr>
+    {{#telecom}}
+    <telecom use="{{use}}" value="{{value}}"/>
+    {{/telecom}}
+    {{#agentPerson}}
+    <agentPerson classCode="PSN" determinerCode="INSTANCE">
+        <name>{{name}}</name>
+    </agentPerson>
+    {{/agentPerson}}
+    {{#representedOrganization}}
+        {{> Organization.mustache }}
+    {{/representedOrganization}}
+    {{#representedOrganizationSDS}}
+        {{> OrganizationSDS.mustache }}
+    {{/representedOrganizationSDS}}
+</UKCT_MT160018UK01.AgentPerson>

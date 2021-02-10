@@ -2,30 +2,56 @@ package uk.nhs.adaptors.scr.services;
 
 import com.github.mustachejava.Mustache;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.r4.model.Attachment;
 import org.hl7.fhir.r4.model.Bundle;
 import org.hl7.fhir.r4.model.Bundle.BundleEntryComponent;
 import org.hl7.fhir.r4.model.CodeableConcept;
 import org.hl7.fhir.r4.model.Coding;
+import org.hl7.fhir.r4.model.Composition;
 import org.hl7.fhir.r4.model.DocumentReference;
 import org.hl7.fhir.r4.model.DocumentReference.DocumentReferenceContentComponent;
 import org.hl7.fhir.r4.model.DocumentReference.DocumentReferenceContextComponent;
 import org.hl7.fhir.r4.model.Identifier;
+import org.hl7.fhir.r4.model.Immunization;
+import org.hl7.fhir.r4.model.ImmunizationRecommendation;
 import org.hl7.fhir.r4.model.Patient;
 import org.hl7.fhir.r4.model.Reference;
+import org.hl7.fhir.r4.model.RelatedPerson;
+import org.hl7.fhir.r4.model.Resource;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.w3c.dom.Document;
+import org.xml.sax.InputSource;
 import uk.nhs.adaptors.scr.clients.spine.SpineClientContract;
 import uk.nhs.adaptors.scr.clients.spine.SpineHttpClient;
 import uk.nhs.adaptors.scr.config.ScrConfiguration;
 import uk.nhs.adaptors.scr.config.SpineConfiguration;
+import uk.nhs.adaptors.scr.mappings.from.hl7.CareEventMapper;
+import uk.nhs.adaptors.scr.mappings.from.hl7.DiagnosisMapper;
+import uk.nhs.adaptors.scr.mappings.from.hl7.FindingMapper;
+import uk.nhs.adaptors.scr.mappings.from.hl7.GpSummaryMapper;
+import uk.nhs.adaptors.scr.mappings.from.hl7.InteractionMapper;
+import uk.nhs.adaptors.scr.mappings.from.hl7.InvestigationMapper;
+import uk.nhs.adaptors.scr.mappings.from.hl7.PatientCarerCorrespondenceMapper;
+import uk.nhs.adaptors.scr.mappings.from.hl7.PersonalPreferenceMapper;
+import uk.nhs.adaptors.scr.mappings.from.hl7.ProvisionOfAdviceAndInformationMapper;
+import uk.nhs.adaptors.scr.mappings.from.hl7.RecordTargetMapper;
+import uk.nhs.adaptors.scr.mappings.from.hl7.RiskToPatientMapper;
+import uk.nhs.adaptors.scr.mappings.from.hl7.TreatmentMapper;
+import uk.nhs.adaptors.scr.mappings.from.hl7.XmlToFhirMapper;
 import uk.nhs.adaptors.scr.models.EventListQueryParams;
 import uk.nhs.adaptors.scr.models.EventListQueryResponse;
+import uk.nhs.adaptors.scr.models.EventQueryParams;
 import uk.nhs.adaptors.scr.utils.TemplateUtils;
 
+import javax.xml.parsers.DocumentBuilderFactory;
+import java.io.StringReader;
 import java.time.format.DateTimeFormatter;
+import java.util.stream.Stream;
 
 import static java.time.OffsetDateTime.now;
 import static java.time.ZoneOffset.UTC;
@@ -44,8 +70,8 @@ import static uk.nhs.adaptors.scr.utils.TemplateUtils.loadTemplate;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class GetScrService {
 
-    private static final Mustache QUPC_IN180000UK04_TEMPLATE =
-        loadTemplate("QUPC_IN180000SM04.mustache");
+    private static final Mustache QUPC_IN180000SM04_TEMPLATE = loadTemplate("QUPC_IN180000SM04.mustache");
+    private static final Mustache QUPC_IN190000UK04_TEMPLATE = loadTemplate("QUPC_IN190000UK04.mustache");
     private static final String CORRELATION_ID_MDC_KEY = "CorrelationId";
 
     private static final String ACS_SYSTEM = "https://fhir.nhs.uk/CodeSystem/SCR-ACSPermission";
@@ -67,21 +93,26 @@ public class GetScrService {
     private final ScrConfiguration scrConfiguration;
     private final SpineConfiguration spineConfiguration;
 
-    public String getScrIdRawXml(String nhsNumber, String nhsdAsid, String clientIp) {
-        String requestBody = prepareEventListQueryRequest(nhsNumber, nhsdAsid, clientIp);
-        SpineHttpClient.Response result = spineClient.sendGetScrId(requestBody, nhsdAsid);
-        return result.getBody();
-    }
+    private final InteractionMapper interactionMapper;
+    private final GpSummaryMapper gpSummaryMapper;
+    private final DiagnosisMapper diagnosisMapper;
+    private final FindingMapper findingMapper;
+    private final RiskToPatientMapper riskToPatientMapper;
+    private final CareEventMapper careEventMapper;
+    private final InvestigationMapper investigationMapper;
+    private final TreatmentMapper treatmentMapper;
+    private final PersonalPreferenceMapper personalPreferenceMapper;
+    private final RecordTargetMapper recordTargetMapper;
+    private final ProvisionOfAdviceAndInformationMapper adviceMapper;
+    private final PatientCarerCorrespondenceMapper correspondenceMapper;
 
     public Bundle getScrId(String nhsNumber, String nhsdAsid, String clientIp) {
         String scrIdXml = getScrIdRawXml(nhsNumber, nhsdAsid, clientIp);
 
         EventListQueryResponse response = EventListQueryResponse.parseXml(scrIdXml);
 
-        Bundle bundle = new Bundle();
-        bundle.setType(SEARCHSET);
-        bundle.setId(randomUUID());
-        if (isNotEmpty(response.getLatestScrId()) && asList(YES, ASK).contains(response.getViewPermission())) {
+        Bundle bundle = buildBundle();
+        if (isPermissionGiven(response)) {
             bundle.setTotal(1);
 
             Patient patient = buildPatientResource(nhsNumber);
@@ -103,6 +134,101 @@ public class GetScrService {
         }
 
         return bundle;
+    }
+
+    private Bundle buildBundle() {
+        Bundle bundle = new Bundle();
+        bundle.setType(SEARCHSET);
+        bundle.setId(randomUUID());
+        return bundle;
+    }
+
+    public Bundle getScr(String nhsNumber, String compositionId, String nhsdAsid, String clientIp) {
+        String scrIdXml = getScrIdRawXml(nhsNumber, nhsdAsid, clientIp);
+        LOGGER.debug("Received SCR ID XML:\n{}", scrIdXml);
+        EventListQueryResponse response = EventListQueryResponse.parseXml(scrIdXml);
+
+        if (isPermissionGiven(response) && StringUtils.equals(response.getLatestScrId(), compositionId)) {
+            String scrXml = getScrRawXml(response.getLatestScrId(), nhsNumber, nhsdAsid, clientIp);
+            LOGGER.debug("Received SCR XML:\n{}", scrXml);
+            var document = parseDocument(scrXml);
+
+            var bundle = interactionMapper.map(document);
+            Patient patient = recordTargetMapper.mapPatient(document);
+
+            Stream.<XmlToFhirMapper>of(
+                gpSummaryMapper,
+                diagnosisMapper,
+                findingMapper,
+                riskToPatientMapper,
+                careEventMapper,
+                investigationMapper,
+                treatmentMapper,
+                personalPreferenceMapper,
+                adviceMapper,
+                correspondenceMapper)
+                .map(mapper -> mapper.map(document))
+                .flatMap(resources -> resources.stream())
+                .peek(it -> setPatientReferences(it, patient))
+                .map(resource -> getBundleEntryComponent(resource))
+                .forEach(bundle::addEntry);
+
+            bundle.addEntry(getBundleEntryComponent(patient));
+            bundle.setTotal(bundle.getEntry().size());
+
+            gpSummaryMapper.map(bundle, document);
+
+            return bundle;
+
+        } else {
+            return interactionMapper.mapToEmpty();
+        }
+    }
+
+    private BundleEntryComponent getBundleEntryComponent(Resource resource) {
+        return new BundleEntryComponent()
+            .setFullUrl(getScrUrl() + "/" + resource.getResourceType() + "/" + resource.getId())
+            .setResource(resource);
+    }
+
+    private void setPatientReferences(Resource resource, Patient patient) {
+        if (resource instanceof ImmunizationRecommendation) {
+            ImmunizationRecommendation recommendation = (ImmunizationRecommendation) resource;
+            recommendation.setPatient(new Reference(patient));
+        } else if (resource instanceof Immunization) {
+            Immunization immunization = (Immunization) resource;
+            immunization.setPatient(new Reference(patient));
+        } else if (resource instanceof RelatedPerson) {
+            RelatedPerson relatedPerson = (RelatedPerson) resource;
+            relatedPerson.setPatient(new Reference(patient));
+        } else if (resource instanceof Composition) {
+            Composition composition = (Composition) resource;
+            composition.setSubject(new Reference(patient));
+        }
+    }
+
+    @SneakyThrows
+    private static Document parseDocument(String xml) {
+        return DocumentBuilderFactory
+            .newInstance()
+            .newDocumentBuilder()
+            .parse(new InputSource(new StringReader(xml)));
+    }
+
+    private static boolean isPermissionGiven(EventListQueryResponse response) {
+        return isNotEmpty(response.getLatestScrId()) && asList(YES, ASK).contains(response.getViewPermission());
+    }
+
+    public String getScrIdRawXml(String nhsNumber, String nhsdAsid, String clientIp) {
+        String requestBody = prepareEventListQueryRequest(nhsNumber, nhsdAsid, clientIp);
+        SpineHttpClient.Response result = spineClient.sendGetScrId(requestBody, nhsdAsid);
+        return result.getBody();
+    }
+
+    private String getScrRawXml(String psisEventId, String nhsNumber, String nhsdAsid, String clientIp) {
+        String requestBody = prepareEventQueryRequest(psisEventId, nhsNumber, nhsdAsid, clientIp);
+        SpineHttpClient.Response result = spineClient.sendGetScr(requestBody, nhsdAsid);
+        return result.getBody();
     }
 
     private DocumentReference buildDocumentReference(String nhsNumber,
@@ -162,7 +288,20 @@ public class GetScrService {
             .setSpineToASID(scrConfiguration.getNhsdAsidTo())
             .setSpinePsisEndpointUrl(spineConfiguration.getUrl() + spineConfiguration.getPsisQueriesEndpoint())
             .setSenderHostIpAddress(clientIp);
-        return TemplateUtils.fillTemplate(QUPC_IN180000UK04_TEMPLATE, eventListQueryParams);
+        return TemplateUtils.fillTemplate(QUPC_IN180000SM04_TEMPLATE, eventListQueryParams);
+    }
+
+    private String prepareEventQueryRequest(String psisEventId, String nhsNumber, String nhsdAsid, String clientIp) {
+        var eventListQueryParams = new EventQueryParams()
+            .setGeneratedMessageId(MDC.get(CORRELATION_ID_MDC_KEY))
+            .setMessageCreationTime(DateTimeFormatter.ofPattern("YYYYMMddHHmmss").format(now(UTC)))
+            .setNhsNumber(nhsNumber)
+            .setSenderFromASID(nhsdAsid)
+            .setSpineToASID(scrConfiguration.getNhsdAsidTo())
+            .setSpinePsisEndpointUrl(spineConfiguration.getUrl() + spineConfiguration.getPsisQueriesEndpoint())
+            .setSenderHostIpAddress(clientIp)
+            .setPsisEventId(psisEventId);
+        return TemplateUtils.fillTemplate(QUPC_IN190000UK04_TEMPLATE, eventListQueryParams);
     }
 
     private String getScrUrl() {

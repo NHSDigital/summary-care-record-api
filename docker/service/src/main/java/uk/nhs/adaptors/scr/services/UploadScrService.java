@@ -87,12 +87,12 @@ public class UploadScrService {
 
     private String getNhsNumber(Bundle bundle) {
         Patient patient = FhirHelper.getDomainResource(bundle, Patient.class);
-        return FhirHelper.getNhsNumber(patient).getPatientId();
+        return FhirHelper.getNhsNumber(patient);
     }
 
     private String mapRequestData(Bundle bundle, String nhsdAsid) {
         try {
-            GpSummary gpSummary = GpSummary.fromRequestData(bundle, nhsdAsid);
+            GpSummary gpSummary = GpSummary.fromBundle(bundle, nhsdAsid);
             gpSummary.setPartyIdFrom(scrConfiguration.getPartyIdFrom());
             gpSummary.setPartyIdTo(scrConfiguration.getPartyIdTo());
             gpSummary.setNhsdAsidTo(scrConfiguration.getNhsdAsidTo());
