@@ -175,7 +175,7 @@ paths:
 
         | Scenario                         | Request                                           | Response                                                                                                                              |
         | -------------------------------- | ------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
-        | Happy path                       | `composition.identifier`=`FA60BE64-1F34-11EB-A2A8-000C29A364EB$composition.subject:Patient.identifier=https://fhir.nhs.uk/Id/nhs-number|9995000180`                | HTTP Status 201      |
+        | Happy path                       | `composition.identifier`=`FA60BE64-1F34-11EB-A2A8-000C29A364EB$composition.subject:Patient.identifier=https://fhir.nhs.uk/Id/nhs-number|9995000180`                | HTTP Status 200      |
         
       summary: Get patient's Summary Care Record
       operationId: get-scr
