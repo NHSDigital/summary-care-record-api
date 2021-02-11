@@ -24,7 +24,7 @@ identity-service:
   userInfoEndpoint: /oauth2/userinfo
 
 scr:
-  sandboxMode: ${SCR_SANDBOX_MODE:True}
+  sandboxMode: ${SCR_SANDBOX_MODE:False}
   partyIdFrom: ${SCR_PARTY_ID_FROM:TESTGEN-201324}
   partyIdTo: ${SCR_PARTY_ID_TO}
   nhsdAsidTo: ${SCR_NHSD_ASID_TO}
