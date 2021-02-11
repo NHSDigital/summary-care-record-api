@@ -52,6 +52,8 @@ public class DiagnosisMapper implements XmlToFhirMapper {
     private static final String DIAGNOSIS_INFORMANT_XPATH = "./informant";
     private static final String DIAGNOSIS_PARTICIPANT_TIME_XPATH = "./time/@value";
     private static final String ENCOUNTER_PARTICIPATION_CODE_SYSTEM = "http://terminology.hl7.org/CodeSystem/v3-ParticipationType";
+    private static final List<String> COVID_19_ENTRIES = List.of("1240751000000100", "1300721000000109", "1300731000000106",
+        "1240761000000102");
 
     private final ParticipantMapper participantMapper;
     private final CodedEntryMapper codedEntryMapper;
@@ -63,44 +65,46 @@ public class DiagnosisMapper implements XmlToFhirMapper {
             var pertinentCRETypeCode = getValueByXPath(pertinentCREType, PERTINENT_CODE_CODE_XPATH);
             var pertinentCRETypeDisplay = getValueByXPath(pertinentCREType, PERTINENT_CODE_DISPLAY_XPATH);
             for (var node : getNodesByXPath(pertinentCREType, DIAGNOSIS_BASE_PATH)) {
-                var pertinentSupportingInfo =
-                    getOptionalValueByXPath(node, DIAGNOSIS_PERTINENT_SUPPORTING_INFO_XPATH);
-
                 CodedEntry entry = codedEntryMapper.getCommonCodedEntryValues(node);
-                var condition = new Condition();
-                condition.setId(entry.getId());
-                condition.addIdentifier()
-                    .setValue(entry.getId());
-                condition.setCode(new CodeableConcept().addCoding(new Coding()
-                    .setCode(entry.getCodeValue())
-                    .setSystem(SNOMED_SYSTEM)
-                    .setDisplay(entry.getCodeDisplay())));
-                setConditionStatus(condition, entry.getStatus());
+                if (COVID_19_ENTRIES.contains(entry.getCodeValue())) {
+                    var pertinentSupportingInfo =
+                        getOptionalValueByXPath(node, DIAGNOSIS_PERTINENT_SUPPORTING_INFO_XPATH);
 
-                condition.addCategory(new CodeableConcept(new Coding()
-                    .setSystem(SNOMED_SYSTEM)
-                    .setCode(pertinentCRETypeCode)
-                    .setDisplay(pertinentCRETypeDisplay)));
+                    var condition = new Condition();
+                    condition.setId(entry.getId());
+                    condition.addIdentifier()
+                        .setValue(entry.getId());
+                    condition.setCode(new CodeableConcept().addCoding(new Coding()
+                        .setCode(entry.getCodeValue())
+                        .setSystem(SNOMED_SYSTEM)
+                        .setDisplay(entry.getCodeDisplay())));
+                    setConditionStatus(condition, entry.getStatus());
 
-                if (entry.getEffectiveTimeHigh().isPresent()) {
-                    condition.setOnset(entry.getEffectiveTimeLow().get());
-                    condition.setAbatement(entry.getEffectiveTimeHigh().get());
-                } else {
-                    condition.setOnset(entry.getEffectiveTimeLow().get());
+                    condition.addCategory(new CodeableConcept(new Coding()
+                        .setSystem(SNOMED_SYSTEM)
+                        .setCode(pertinentCRETypeCode)
+                        .setDisplay(pertinentCRETypeDisplay)));
+
+                    if (entry.getEffectiveTimeHigh().isPresent()) {
+                        condition.setOnset(entry.getEffectiveTimeLow().get());
+                        condition.setAbatement(entry.getEffectiveTimeHigh().get());
+                    } else {
+                        condition.setOnset(entry.getEffectiveTimeLow().get());
+                    }
+
+                    resources.add(condition);
+                    pertinentSupportingInfo
+                        .map(value -> new Annotation().setText(value))
+                        .ifPresent(condition::addNote);
+
+                    getNodesByXPath(node, DIAGNOSIS_PERTINENT_FINDINGS_XPATH).stream()
+                        .map(it -> getValueByXPath(it, DIAGNOSIS_PERTINENT_FINDING_ID_XPATH))
+                        .map(it -> new Reference(new Observation().setId(it)))
+                        .map(reference -> new Condition.ConditionEvidenceComponent().addDetail(reference))
+                        .forEach(condition::addEvidence);
+
+                    mapEncounter(node, condition, resources);
                 }
-
-                resources.add(condition);
-                pertinentSupportingInfo
-                    .map(value -> new Annotation().setText(value))
-                    .ifPresent(condition::addNote);
-
-                getNodesByXPath(node, DIAGNOSIS_PERTINENT_FINDINGS_XPATH).stream()
-                    .map(it -> getValueByXPath(it, DIAGNOSIS_PERTINENT_FINDING_ID_XPATH))
-                    .map(it -> new Reference(new Observation().setId(it)))
-                    .map(reference -> new Condition.ConditionEvidenceComponent().addDetail(reference))
-                    .forEach(condition::addEvidence);
-
-                mapEncounter(node, condition, resources);
             }
         }
         return resources;
