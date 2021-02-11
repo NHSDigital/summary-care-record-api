@@ -184,16 +184,9 @@ paths:
         - $ref: '#/components/parameters/CorrelationID'
         - $ref: '#/components/parameters/RequestID'
         - in: query
-          name: composition.identifier
-          description: Identifier of SCR composition - can be retrieved using GET /DocumentReference endpoint available in this API.
-          example: f61e545c-d52c-4b62-9668-3dcc6c27fc50
-          required: true
-          schema: 
-            type: string
-        - in: query
           name: composition.subject:Patient.identifier
           description: The patient's NHS Number. Must be preceded with FHIR identifier (eg."composition.subject:Patient.identifier=https://fhir.nhs.uk/Id/nhs-number|9995000180")
-          example: composition.subject:Patient.identifier=https://fhir.nhs.uk/Id/nhs-number|9995000180
+          example: FA60BE64-1F34-11EB-A2A8-000C29A364EB$composition.subject:Patient.identifier=https://fhir.nhs.uk/Id/nhs-number|9995000180
           required: true
           schema:
             type: string
