@@ -92,8 +92,13 @@ info:
 
     ### Integration testing
     Our [integration test environment](https://digital.nhs.uk/developer/guides-and-documentation/testing#integration-testing):
+
     * is for formal integration testing
     * is stateful, so persists updates
+    * includes authorisation, with smartcard and non-smartcard options
+
+    For more details see [integration testing with our RESTful APIs](https://digital.nhs.uk/developer/guides-and-documentation/testing#integration-testing-with-our-restful-apis).   
+
 
     ## Onboarding
     You need to get your software approved by us before it can go live with this API. We call this onboarding. The onboarding process can sometimes be quite long, so it’s worth planning well ahead.
@@ -185,15 +190,8 @@ paths:
         - $ref: '#/components/parameters/RequestID'
         - in: query
           name: composition.identifier
-          description: Identifier of SCR composition - can be retrieved using GET /DocumentReference endpoint available in this API.
-          example: f61e545c-d52c-4b62-9668-3dcc6c27fc50
-          required: true
-          schema: 
-            type: string
-        - in: query
-          name: composition.subject:Patient.identifier
           description: The patient's NHS Number. Must be preceded with FHIR identifier (eg."composition.subject:Patient.identifier=https://fhir.nhs.uk/Id/nhs-number|9995000180")
-          example: composition.subject:Patient.identifier=https://fhir.nhs.uk/Id/nhs-number|9995000180
+          example: FA60BE64-1F34-11EB-A2A8-000C29A364EB$composition.subject:Patient.identifier=https://fhir.nhs.uk/Id/nhs-number|9995000180
           required: true
           schema:
             type: string

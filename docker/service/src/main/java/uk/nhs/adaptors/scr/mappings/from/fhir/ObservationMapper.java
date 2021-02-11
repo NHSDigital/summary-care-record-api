@@ -11,8 +11,6 @@ import org.hl7.fhir.r4.model.Period;
 import uk.nhs.adaptors.scr.exceptions.FhirValidationException;
 import uk.nhs.adaptors.scr.models.GpSummary;
 import uk.nhs.adaptors.scr.models.xml.Finding;
-import uk.nhs.adaptors.scr.models.xml.PersonalPreference;
-import uk.nhs.adaptors.scr.models.xml.RiskToPatient;
 
 import java.util.List;
 import java.util.function.Predicate;
@@ -32,20 +30,12 @@ public class ObservationMapper {
         observation -> "163131000000108".equals(observation.getCategoryFirstRep().getCodingFirstRep().getCode());
     private static final Predicate<Observation> IS_INVESTIGATION_RESULT =
         observation -> "163141000000104".equals(observation.getCategoryFirstRep().getCodingFirstRep().getCode());
-    private static final Predicate<Observation> IS_RISK_TO_PATIENT =
-        observation -> "163231000000100".equals(observation.getCategoryFirstRep().getCodingFirstRep().getCode());
-    private static final Predicate<Observation> IS_PERSONAL_PREFERENCE =
-        observation -> "162961000000108".equals(observation.getCategoryFirstRep().getCodingFirstRep().getCode());
 
     public static void mapObservations(GpSummary gpSummary, Bundle bundle) {
         gpSummary.getClinicalObservationsAndFindings()
             .addAll(mapClinicalObservationsAndFindings(bundle));
         gpSummary.getInvestigationResults()
             .addAll(mapInvestigationResults(bundle));
-        gpSummary.getRisksToPatient()
-            .addAll(mapRisksToPatient(bundle));
-        gpSummary.getPersonalPreferences()
-            .addAll(mapPersonalPreferences(bundle));
     }
 
     private static List<Finding> mapClinicalObservationsAndFindings(Bundle bundle) {
@@ -60,48 +50,6 @@ public class ObservationMapper {
             .filter(IS_INVESTIGATION_RESULT)
             .map(observation -> mapFinding(observation, bundle))
             .collect(Collectors.toList());
-    }
-
-    private static List<RiskToPatient> mapRisksToPatient(Bundle bundle) {
-        return getDomainResourceList(bundle, Observation.class).stream()
-            .filter(IS_RISK_TO_PATIENT)
-            .map(ObservationMapper::mapRiskToPatient)
-            .collect(Collectors.toList());
-    }
-
-    private static List<PersonalPreference> mapPersonalPreferences(Bundle bundle) {
-        return getDomainResourceList(bundle, Observation.class).stream()
-            .filter(IS_PERSONAL_PREFERENCE)
-            .map(ObservationMapper::mapPersonalPreference)
-            .collect(Collectors.toList());
-    }
-
-    private static PersonalPreference mapPersonalPreference(Observation observation) {
-        return new PersonalPreference()
-            .setIdRoot(observation.getIdentifierFirstRep().getValue())
-            .setCodeCode(observation.getCode().getCodingFirstRep().getCode())
-            .setCodeDisplayName(observation.getCode().getCodingFirstRep().getDisplay())
-            .setStatusCodeCode(mapStatus(observation.getStatus()))
-            .setEffectiveTimeLow(getEffectiveTimeLow(observation));
-    }
-
-    private static RiskToPatient mapRiskToPatient(Observation observation) {
-        return new RiskToPatient()
-            .setIdRoot(observation.getIdentifierFirstRep().getValue())
-            .setCodeCode(observation.getCode().getCodingFirstRep().getCode())
-            .setCodeDisplayName(observation.getCode().getCodingFirstRep().getDisplay())
-            .setStatusCodeCode(mapStatus(observation.getStatus()))
-            .setEffectiveTimeLow(getEffectiveTimeLow(observation));
-    }
-
-    private static String getEffectiveTimeLow(Observation observation) {
-        if (observation.hasEffectivePeriod()) {
-            return formatDateToHl7(observation.getEffectivePeriod().getStartElement());
-        } else if (observation.hasEffectiveDateTimeType()) {
-            return formatDateToHl7(observation.getEffectiveDateTimeType());
-        }
-
-        return null;
     }
 
     private static Finding mapFinding(Observation observation, Bundle bundle) {

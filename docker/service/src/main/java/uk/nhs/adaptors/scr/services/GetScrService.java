@@ -15,8 +15,6 @@ import org.hl7.fhir.r4.model.DocumentReference;
 import org.hl7.fhir.r4.model.DocumentReference.DocumentReferenceContentComponent;
 import org.hl7.fhir.r4.model.DocumentReference.DocumentReferenceContextComponent;
 import org.hl7.fhir.r4.model.Identifier;
-import org.hl7.fhir.r4.model.Immunization;
-import org.hl7.fhir.r4.model.ImmunizationRecommendation;
 import org.hl7.fhir.r4.model.Patient;
 import org.hl7.fhir.r4.model.Reference;
 import org.hl7.fhir.r4.model.RelatedPerson;
@@ -30,18 +28,11 @@ import uk.nhs.adaptors.scr.clients.spine.SpineClientContract;
 import uk.nhs.adaptors.scr.clients.spine.SpineHttpClient;
 import uk.nhs.adaptors.scr.config.ScrConfiguration;
 import uk.nhs.adaptors.scr.config.SpineConfiguration;
-import uk.nhs.adaptors.scr.mappings.from.hl7.CareEventMapper;
 import uk.nhs.adaptors.scr.mappings.from.hl7.DiagnosisMapper;
 import uk.nhs.adaptors.scr.mappings.from.hl7.FindingMapper;
 import uk.nhs.adaptors.scr.mappings.from.hl7.GpSummaryMapper;
 import uk.nhs.adaptors.scr.mappings.from.hl7.InteractionMapper;
-import uk.nhs.adaptors.scr.mappings.from.hl7.InvestigationMapper;
-import uk.nhs.adaptors.scr.mappings.from.hl7.PatientCarerCorrespondenceMapper;
-import uk.nhs.adaptors.scr.mappings.from.hl7.PersonalPreferenceMapper;
-import uk.nhs.adaptors.scr.mappings.from.hl7.ProvisionOfAdviceAndInformationMapper;
 import uk.nhs.adaptors.scr.mappings.from.hl7.RecordTargetMapper;
-import uk.nhs.adaptors.scr.mappings.from.hl7.RiskToPatientMapper;
-import uk.nhs.adaptors.scr.mappings.from.hl7.TreatmentMapper;
 import uk.nhs.adaptors.scr.mappings.from.hl7.XmlToFhirMapper;
 import uk.nhs.adaptors.scr.models.EventListQueryParams;
 import uk.nhs.adaptors.scr.models.EventListQueryResponse;
@@ -97,14 +88,7 @@ public class GetScrService {
     private final GpSummaryMapper gpSummaryMapper;
     private final DiagnosisMapper diagnosisMapper;
     private final FindingMapper findingMapper;
-    private final RiskToPatientMapper riskToPatientMapper;
-    private final CareEventMapper careEventMapper;
-    private final InvestigationMapper investigationMapper;
-    private final TreatmentMapper treatmentMapper;
-    private final PersonalPreferenceMapper personalPreferenceMapper;
     private final RecordTargetMapper recordTargetMapper;
-    private final ProvisionOfAdviceAndInformationMapper adviceMapper;
-    private final PatientCarerCorrespondenceMapper correspondenceMapper;
 
     public Bundle getScrId(String nhsNumber, String nhsdAsid, String clientIp) {
         String scrIdXml = getScrIdRawXml(nhsNumber, nhsdAsid, clientIp);
@@ -159,14 +143,7 @@ public class GetScrService {
             Stream.<XmlToFhirMapper>of(
                 gpSummaryMapper,
                 diagnosisMapper,
-                findingMapper,
-                riskToPatientMapper,
-                careEventMapper,
-                investigationMapper,
-                treatmentMapper,
-                personalPreferenceMapper,
-                adviceMapper,
-                correspondenceMapper)
+                findingMapper)
                 .map(mapper -> mapper.map(document))
                 .flatMap(resources -> resources.stream())
                 .peek(it -> setPatientReferences(it, patient))
@@ -192,13 +169,7 @@ public class GetScrService {
     }
 
     private void setPatientReferences(Resource resource, Patient patient) {
-        if (resource instanceof ImmunizationRecommendation) {
-            ImmunizationRecommendation recommendation = (ImmunizationRecommendation) resource;
-            recommendation.setPatient(new Reference(patient));
-        } else if (resource instanceof Immunization) {
-            Immunization immunization = (Immunization) resource;
-            immunization.setPatient(new Reference(patient));
-        } else if (resource instanceof RelatedPerson) {
+        if (resource instanceof RelatedPerson) {
             RelatedPerson relatedPerson = (RelatedPerson) resource;
             relatedPerson.setPatient(new Reference(patient));
         } else if (resource instanceof Composition) {

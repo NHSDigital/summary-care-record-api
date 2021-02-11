@@ -6,15 +6,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.hl7.fhir.r4.model.Bundle;
 import uk.nhs.adaptors.scr.exceptions.FhirMappingException;
 import uk.nhs.adaptors.scr.mappings.from.fhir.AuthorMapper;
-import uk.nhs.adaptors.scr.mappings.from.fhir.CommunicationMapper;
 import uk.nhs.adaptors.scr.mappings.from.fhir.CompositionMapper;
 import uk.nhs.adaptors.scr.mappings.from.fhir.ConditionMapper;
-import uk.nhs.adaptors.scr.mappings.from.fhir.EncounterMapper;
-import uk.nhs.adaptors.scr.mappings.from.fhir.ImmunizationMapper;
-import uk.nhs.adaptors.scr.mappings.from.fhir.ImmunizationRecommendationMapper;
 import uk.nhs.adaptors.scr.mappings.from.fhir.ObservationMapper;
 import uk.nhs.adaptors.scr.mappings.from.fhir.PatientMapper;
-import uk.nhs.adaptors.scr.mappings.from.fhir.ProceduresMapper;
 import uk.nhs.adaptors.scr.models.xml.CareEvent;
 import uk.nhs.adaptors.scr.models.xml.Diagnosis;
 import uk.nhs.adaptors.scr.models.xml.Finding;
@@ -75,11 +70,6 @@ public class GpSummary {
             CompositionMapper::mapComposition,
             ConditionMapper::mapConditions,
             ObservationMapper::mapObservations,
-            EncounterMapper::mapEncounters,
-            ImmunizationRecommendationMapper::mapImmunizationRecommendations,
-            ImmunizationMapper::mapImmunizations,
-            ProceduresMapper::mapProcedures,
-            CommunicationMapper::mapCommunications,
             PatientMapper::mapPatient)
             .forEach(mapper -> mapper.accept(gpSummary, bundle));
 
