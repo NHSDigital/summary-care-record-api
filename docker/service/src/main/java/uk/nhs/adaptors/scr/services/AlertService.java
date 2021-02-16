@@ -27,8 +27,10 @@ public class AlertService {
         if (status == null || !status.is2xxSuccessful()) {
             OperationOutcome error = fhirParser.parseResource(response.getBody(), OperationOutcome.class);
             if (status != null && status.is4xxClientError()) {
+                LOGGER.error("Spine processing error: {}", status);
                 throw new BadRequestException(getErrorReason(error));
             } else {
+                LOGGER.error("Spine processing error: {}", getErrorReason(error));
                 throw new UnexpectedSpineResponseException(getErrorReason(error));
             }
         }

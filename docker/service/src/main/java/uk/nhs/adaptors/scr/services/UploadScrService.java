@@ -77,6 +77,7 @@ public class UploadScrService {
     }
 
     private void checkPermission(Bundle bundle, String nhsdAsid, String clientIp) {
+        LOGGER.info("Checking permission to store SCR");
         String nhsNumber = getNhsNumber(bundle);
         String scrIdXml = getScrService.getScrIdRawXml(nhsNumber, nhsdAsid, clientIp);
         EventListQueryResponse eventListQueryResponse = EventListQueryResponse.parseXml(scrIdXml);

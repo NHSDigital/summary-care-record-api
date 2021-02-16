@@ -33,7 +33,6 @@ import uk.nhs.adaptors.scr.mappings.from.hl7.FindingMapper;
 import uk.nhs.adaptors.scr.mappings.from.hl7.GpSummaryMapper;
 import uk.nhs.adaptors.scr.mappings.from.hl7.InteractionMapper;
 import uk.nhs.adaptors.scr.mappings.from.hl7.RecordTargetMapper;
-import uk.nhs.adaptors.scr.mappings.from.hl7.XmlToFhirMapper;
 import uk.nhs.adaptors.scr.models.EventListQueryParams;
 import uk.nhs.adaptors.scr.models.EventListQueryResponse;
 import uk.nhs.adaptors.scr.models.EventQueryParams;
@@ -140,7 +139,7 @@ public class GetScrService {
             var bundle = interactionMapper.map(document);
             Patient patient = recordTargetMapper.mapPatient(document);
 
-            Stream.<XmlToFhirMapper>of(
+            Stream.of(
                 gpSummaryMapper,
                 diagnosisMapper,
                 findingMapper)

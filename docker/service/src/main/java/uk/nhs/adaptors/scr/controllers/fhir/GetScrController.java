@@ -46,6 +46,7 @@ public class GetScrController {
                            @RequestParam(required = false) @TypeCode String type,
                            @RequestParam(name = "_sort", required = false) @SortMethod String sort,
                            @RequestParam(name = "_count", required = false) @RecordCount Integer count) {
+        LOGGER.info("Received GET SCR ID request");
         String nhsNumber = extractNhsNumber(patient);
         Bundle bundle = getScrService.getScrId(nhsNumber, nhsdAsid, clientIp);
 
@@ -62,6 +63,7 @@ public class GetScrController {
         @RequestHeader("Nhsd-Asid") @NotNull String nhsdAsid,
         @RequestHeader("client-ip") @NotNull String clientIp,
         @RequestParam("composition.identifier") @NotNull String composition) {
+        LOGGER.info("Received GET SCR request");
 
         List<String> compositionValues = parseComposition(composition);
         var bundle = getScrService.getScr(compositionValues.get(1), compositionValues.get(0), nhsdAsid, clientIp);
