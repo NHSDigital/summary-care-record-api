@@ -33,7 +33,6 @@ import uk.nhs.adaptors.scr.mappings.from.hl7.FindingMapper;
 import uk.nhs.adaptors.scr.mappings.from.hl7.GpSummaryMapper;
 import uk.nhs.adaptors.scr.mappings.from.hl7.InteractionMapper;
 import uk.nhs.adaptors.scr.mappings.from.hl7.RecordTargetMapper;
-import uk.nhs.adaptors.scr.mappings.from.hl7.XmlToFhirMapper;
 import uk.nhs.adaptors.scr.models.EventListQueryParams;
 import uk.nhs.adaptors.scr.models.EventListQueryResponse;
 import uk.nhs.adaptors.scr.models.EventQueryParams;
