@@ -140,7 +140,7 @@ public class GetScrService {
             var bundle = interactionMapper.map(document);
             Patient patient = recordTargetMapper.mapPatient(document);
 
-            Stream.<XmlToFhirMapper>of(
+            Stream.of(
                 gpSummaryMapper,
                 diagnosisMapper,
                 findingMapper)

@@ -55,7 +55,8 @@ public class SpineClient implements SpineClientContract {
     @Override
     public Response sendAcsData(String requestBody, String nhsdAsid) {
         var url = spineConfiguration.getUrl() + spineConfiguration.getAcsEndpoint();
-        LOGGER.debug("Sending ACS SetPermission request to SPINE. URL: {}, Body: {}", url, requestBody);
+        LOGGER.info("Sending ACS Set Permission Spine request. URL: {}", url);
+        LOGGER.debug("Body: {}", requestBody);
         var request = new HttpPost(url);
         setSoapHeaders(request, SET_PERMISSION_SOAP_ACTION, TEXT_XML_VALUE);
         request.setHeader(NHSD_ASID, nhsdAsid);
@@ -75,7 +76,8 @@ public class SpineClient implements SpineClientContract {
     @Override
     public Response sendScrData(String requestBody, String nhsdAsid, String nhsdIdentity, String nhsdSessionUrid) {
         var url = spineConfiguration.getUrl() + spineConfiguration.getScrEndpoint();
-        LOGGER.debug("Sending SCR Upload request to SPINE. URL: {}, Body: {}", url, requestBody);
+        LOGGER.info("Sending SCR Upload request to SPINE. URL: {}", url);
+        LOGGER.debug("Body: {}", requestBody);
 
         var request = new HttpPost(url);
         setUploadScrHeaders(request, nhsdAsid, nhsdIdentity, nhsdSessionUrid);
@@ -152,7 +154,8 @@ public class SpineClient implements SpineClientContract {
     @SneakyThrows
     @Override
     public Response sendGetScrId(String requestBody, String nhsdAsid) {
-        LOGGER.debug("Sending GET SCR ID request to SPINE: {}", requestBody);
+        LOGGER.info("Sending GET SCR ID Spine request");
+        LOGGER.debug("Body: {}", requestBody);
         var request = new HttpPost(spineConfiguration.getUrl() + spineConfiguration.getPsisQueriesEndpoint());
         setSoapHeaders(request, GET_SCR_ID_SOAP_ACTION, TEXT_XML_VALUE);
 
@@ -171,7 +174,8 @@ public class SpineClient implements SpineClientContract {
     @Override
     @SneakyThrows
     public Response sendAlert(String requestBody, String nhsdAsid, String nhsdIdentity, String nhsdSessionUrid) {
-        LOGGER.debug("Sending Alert request to SPINE: {}", requestBody);
+        LOGGER.info("Sending ALERT Spine request");
+        LOGGER.debug("Body: {}", requestBody);
         var request = new HttpPost(spineConfiguration.getUrl() + spineConfiguration.getAlertEndpoint());
         request.addHeader(CONTENT_TYPE, APPLICATION_FHIR_JSON_VALUE);
         setCommonHeaders(request, nhsdAsid, nhsdIdentity, nhsdSessionUrid);
@@ -185,7 +189,8 @@ public class SpineClient implements SpineClientContract {
     public Response sendGetScr(String requestBody, String nhsdAsid) {
         var uri = spineConfiguration.getUrl() + spineConfiguration.getPsisQueriesEndpoint();
         var request = new HttpPost(uri);
-        LOGGER.debug("Sending GET SCR request to Spine uri:{} body:{}", uri, requestBody);
+        LOGGER.info("Sending GET SCR Spine request. URL: {}", uri);
+        LOGGER.debug("Body: {}", requestBody);
         request.addHeader(SOAP_ACTION, "urn:nhs:names:services:psisquery/QUPC_IN190000UK04");
         request.addHeader(CONTENT_TYPE, TEXT_XML_VALUE);
         request.addHeader(NHSD_ASID, nhsdAsid);

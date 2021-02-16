@@ -131,6 +131,7 @@ public class OperationOutcomeExceptionHandler extends ResponseEntityExceptionHan
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Object> handleAllExceptions(Exception ex) {
+        LOGGER.error("Error occurred: {}", ex.getMessage());
         OperationOutcome operationOutcome;
         HttpStatus httpStatus;
         if (ex instanceof OperationOutcomeError) {
@@ -141,7 +142,6 @@ public class OperationOutcomeExceptionHandler extends ResponseEntityExceptionHan
             operationOutcome = createOperationOutcome(EXCEPTION, ERROR, ex.getMessage());
             httpStatus = INTERNAL_SERVER_ERROR;
         }
-
         return errorResponse(new HttpHeaders(), httpStatus, operationOutcome);
     }
 
