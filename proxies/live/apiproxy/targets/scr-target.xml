@@ -39,6 +39,9 @@
         <Name>AssignMessage.AddIssuerHeader</Name>
       </Step>
       <Step>
+        <Name>AssignMessage.AddTokenAmrHeader</Name>
+      </Step>
+      <Step>
         <Name>KeyValueMapOperations.GetSecureVariables</Name>
       </Step>
       <Step>

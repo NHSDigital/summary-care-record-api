@@ -1,0 +1,10 @@
+<AssignMessage async="false" continueOnError="false" enabled="true" name="AssignMessage.AddTokenAmrHeader">
+  <Add>
+      <Headers>
+          <Header name="auth-method-reference">{accesstoken.id_token-amr}</Header>
+          <Header name="jwt">{accesstoken.id_token}</Header>
+      </Headers>
+  </Add>
+  <IgnoreUnresolvedVariables>false</IgnoreUnresolvedVariables>
+  <AssignTo createNew="false" transport="http" type="request"/>
+</AssignMessage>
