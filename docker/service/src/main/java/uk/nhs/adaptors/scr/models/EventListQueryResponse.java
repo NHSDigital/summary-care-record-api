@@ -2,17 +2,14 @@ package uk.nhs.adaptors.scr.models;
 
 import lombok.Getter;
 import lombok.SneakyThrows;
-import org.w3c.dom.Document;
-import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
 import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.xpath.XPathExpression;
-import javax.xml.xpath.XPathFactory;
 import java.io.StringReader;
 
-import static javax.xml.xpath.XPathConstants.NODESET;
 import static uk.nhs.adaptors.scr.models.AcsPermission.ASK;
+import static uk.nhs.adaptors.scr.utils.XmlUtils.getNodeAttributeValue;
+import static uk.nhs.adaptors.scr.utils.XmlUtils.getNodeText;
 
 @Getter
 public class EventListQueryResponse {
@@ -41,24 +38,6 @@ public class EventListQueryResponse {
         response.storePermission = storeNodeText != null ? AcsPermission.fromValue(storeNodeText) : ASK;
         response.latestScrId = getNodeAttributeValue(soapEnvelope, LATEST_SCR_ID_XPATH, "root");
 
-
         return response;
-    }
-
-    @SneakyThrows
-    private static String getNodeAttributeValue(Document document, String xpath, String attributeName) {
-        XPathExpression xPathExpression = XPathFactory.newInstance().newXPath().compile(xpath);
-        NodeList nodeList = ((NodeList) xPathExpression.evaluate(document, NODESET));
-
-        return nodeList.getLength() > 0
-            ? nodeList.item(0).getAttributes().getNamedItem(attributeName).getNodeValue() : null;
-    }
-
-    @SneakyThrows
-    private static String getNodeText(Document document, String xpath) {
-        XPathExpression xPathExpression = XPathFactory.newInstance().newXPath().compile(xpath);
-        NodeList nodeList = ((NodeList) xPathExpression.evaluate(document, NODESET));
-
-        return nodeList.getLength() > 0 ? nodeList.item(0).getTextContent() : null;
     }
 }

@@ -18,6 +18,7 @@ public class SandboxSpineClient implements SpineClientContract {
 
     private static final String ACS_SET_PERMISSION_RESPONSE = "mock-spine/setConsent.xml";
     private static final String EVENT_LIST_QUERY_RESPONSE = "mock-spine/getScrId.xml";
+    private static final String EVENT_QUERY_RESPONSE = "mock-spine/getScr.xml";
     private static final String UPLOAD_SCR_POLLING_RESPONSE = "mock-spine/uploadScrPolling.xml";
 
     @Override
@@ -45,6 +46,12 @@ public class SandboxSpineClient implements SpineClientContract {
     @Override
     public Response sendGetScrId(String requestBody, String nhsdAsid) {
         String responseBody = getResourceAsString(EVENT_LIST_QUERY_RESPONSE);
+        return new Response(OK.value(), null, responseBody);
+    }
+
+    @Override
+    public Response sendGetScr(String requestBody, String nhsdAsid) {
+        String responseBody = getResourceAsString(EVENT_QUERY_RESPONSE);
         return new Response(OK.value(), null, responseBody);
     }
 

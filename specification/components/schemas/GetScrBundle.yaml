@@ -22,14 +22,23 @@ properties:
   timestamp:
     type: string
     example: "2007-03-15T01:00:00Z"
+  total:
+    type: integer
+    example: 58
+    description: Total number of entries in the Bundle
   entry:
     type: array
     items:
       anyOf:
-        - $ref: CompositionGetEntry.yaml
+        - $ref: CompositionEntry.yaml
         - $ref: PatientEntry.yaml
         - $ref: PractitionerEntry.yaml
         - $ref: PractitionerRoleEntry.yaml
+        - $ref: EncounterParticipantEntry.yaml
+        - $ref: OrganizationEntry.yaml
+        - $ref: RelatedPersonEntry.yaml
+        - $ref: ObservationEntry.yaml
+        - $ref: DeviceEntry.yaml
 required:
   - resourceType
   - timestamp

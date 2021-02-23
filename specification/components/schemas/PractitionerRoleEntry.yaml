@@ -26,6 +26,7 @@
               - system
               - value
           minItems: 1
+          maxItems: 1
         practitioner:
           type: object
           properties:

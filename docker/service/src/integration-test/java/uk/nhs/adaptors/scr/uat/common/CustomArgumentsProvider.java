@@ -86,6 +86,18 @@ public abstract class CustomArgumentsProvider implements ArgumentsProvider {
         }
     }
 
+    public static class GetScrSuccess extends CustomArgumentsProvider {
+        public GetScrSuccess() {
+            super("get_scr", "success");
+        }
+    }
+
+    public static class GetScrNoConsent extends CustomArgumentsProvider {
+        public GetScrNoConsent() {
+            super("get_scr", "no_consent");
+        }
+    }
+
     public static class SetAcsSuccess extends CustomArgumentsProvider {
         public SetAcsSuccess() {
             super("set_acs", "success");

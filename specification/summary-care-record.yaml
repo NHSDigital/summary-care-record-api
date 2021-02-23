@@ -3,6 +3,16 @@ info:
   version: 1.0.0
   title: Summary Care Record API
   description: |
+    
+    <div class="emphasis-box emphasis-box-emphasis navigationMarker-sub" aria-label="Highlighted Information">
+        <div class="emphasis-box__image">
+                <img src="https://digital.nhs.uk/svg-magic/binaries/content/gallery/website/icons/universal/information.svg?colour=005eb8" alt="" width="100" height="100">
+        </div>
+    <div class="emphasis-box__content">
+            <div data-uipath="website.contentblock.emphasis.content"><p>This API is initially for use by new market entrant GP IT developers with other use cases to follow later.</p></div>
+    </div>
+    </div>
+
     ## Overview
     Use this API to access a patient's [Summary Care Record (SCR)](https://digital.nhs.uk/services/summary-care-records-scr) - an electronic record of important patient information, created from GP medical records. SCRs can be seen and used by authorised staff in other areas of the health and care system involved in the patient's direct care.
 
@@ -80,6 +90,16 @@ info:
 
       For more details on sandbox testing, or to try out the sandbox using our \"Try this API\" feature, see the documentation for each endpoint.
 
+    ### Integration testing
+    Our [integration test environment](https://digital.nhs.uk/developer/guides-and-documentation/testing#integration-testing):
+
+    * is for formal integration testing
+    * is stateful, so persists updates
+    * includes authorisation, with smartcard and non-smartcard options
+
+    For more details see [integration testing with our RESTful APIs](https://digital.nhs.uk/developer/guides-and-documentation/testing#integration-testing-with-our-restful-apis).   
+
+
     ## Onboarding
     You need to get your software approved by us before it can go live with this API. We call this onboarding. The onboarding process can sometimes be quite long, so it’s worth planning well ahead.
 
@@ -153,7 +173,15 @@ paths:
         ## Overview
         Use this endpoint to retrieve the details of patient's Summary Care Record.
 
-        To get the information you must provide patient's NHS Number and SCR UUID. UUID can be obtained using GET /DocumentReference endpoint.
+        To get the information you must provide patient's NHS number and SCR UUID. UUID can be obtained using GET /DocumentReference endpoint.
+
+        ## Sandbox test scenarios
+        You can test the following scenarios in our sandbox environment:
+
+        | Scenario                         | Request                                           | Response                                                                                                                              |
+        | -------------------------------- | ------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
+        | Happy path                       | `composition.identifier`=`FA60BE64-1F34-11EB-A2A8-000C29A364EB$composition.subject:Patient.identifier=https://fhir.nhs.uk/Id/nhs-number|9995000180`                | HTTP Status 200      |
+        
       summary: Get patient's Summary Care Record
       operationId: get-scr
       parameters:
@@ -162,15 +190,8 @@ paths:
         - $ref: '#/components/parameters/RequestID'
         - in: query
           name: composition.identifier
-          description: Identifier of SCR composition - can be retrieved using GET /DocumentReference endpoint available in this API.
-          example: f61e545c-d52c-4b62-9668-3dcc6c27fc50
-          required: true
-          schema: 
-            type: string
-        - in: query
-          name: composition.subject:Patient.identifier
-          description: The patient's NHS Number. Must be preceded with FHIR identifier (eg."composition.subject:Patient.identifier=https://fhir.nhs.uk/Id/nhs-number|9995000180")
-          example: composition.subject:Patient.identifier=https://fhir.nhs.uk/Id/nhs-number|9995000180
+          description: The patient's NHS number. Must be preceded with FHIR identifier (eg."composition.subject:Patient.identifier=https://fhir.nhs.uk/Id/nhs-number|9995000180")
+          example: FA60BE64-1F34-11EB-A2A8-000C29A364EB$composition.subject:Patient.identifier=https://fhir.nhs.uk/Id/nhs-number|9995000180
           required: true
           schema:
             type: string
@@ -206,7 +227,7 @@ paths:
         ## Overview
         Use this endpoint to retrieve UUID of patient's latest record. This UUID can be then used to retrieve the Summary Care Record details.
 
-        To get the information you must provide patient's NHS Number.
+        To get the information you must provide patient's NHS number.
       parameters:
         - $ref: '#/components/parameters/BearerAuthorization'
         - $ref: '#/components/parameters/CorrelationID'
@@ -214,7 +235,7 @@ paths:
         - $ref: '#/components/parameters/RoleID'
         - in: query
           name: patient
-          description: The patient's NHS Number. Must be preceded with FHIR identifier (eg."patient=https://fhir.nhs.uk/Id/nhs-number|9995000180")
+          description: The patient's NHS number. Must be preceded with FHIR identifier (eg."patient=https://fhir.nhs.uk/Id/nhs-number|9995000180")
           required: true
           example: https://fhir.nhs.uk/Id/nhs-number|9995000180
           schema:
@@ -265,7 +286,7 @@ paths:
         ## Sandbox test scenarios
         You can test the following scenarios in our sandbox environment:
 
-        | Scenario                         | Request                                           | Response                                          |
+        | Scenario                         | Request                                           | Response             |
         | -------------------------------- | ------------------------------------------------- | -------------------- |
         | Happy path                       | `NHSD-Session-URID`=`555254240100`                | HTTP Status 201      |
         

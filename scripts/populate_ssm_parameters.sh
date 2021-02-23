@@ -55,4 +55,4 @@ copy-secret "ptl/veit07.devspineservices.nhs.uk/sub-ca/crt" "/ptl/api-deployment
 # spine urls by spine env
 copy-parameter "/ptl/platform-common/test/host" "/ptl/api-deployment/scr/test/host"
 copy-parameter "/ptl/platform-common/int/host" "/ptl/api-deployment/scr/int/host"
-copy-parameter "/ptl/platform-common/ref/host" "/ptl/api-deployment/scr/ref/host"
+copy-parameter "/ptl/platform-common/ref/hosts/spine-clinicals" "/ptl/api-deployment/scr/ref/host"

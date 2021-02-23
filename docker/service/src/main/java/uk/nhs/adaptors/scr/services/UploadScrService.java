@@ -77,6 +77,7 @@ public class UploadScrService {
     }
 
     private void checkPermission(Bundle bundle, String nhsdAsid, String clientIp) {
+        LOGGER.info("Checking permission to store SCR");
         String nhsNumber = getNhsNumber(bundle);
         String scrIdXml = getScrService.getScrIdRawXml(nhsNumber, nhsdAsid, clientIp);
         EventListQueryResponse eventListQueryResponse = EventListQueryResponse.parseXml(scrIdXml);
@@ -87,12 +88,12 @@ public class UploadScrService {
 
     private String getNhsNumber(Bundle bundle) {
         Patient patient = FhirHelper.getDomainResource(bundle, Patient.class);
-        return FhirHelper.getNhsNumber(patient).getPatientId();
+        return FhirHelper.getNhsNumber(patient);
     }
 
     private String mapRequestData(Bundle bundle, String nhsdAsid) {
         try {
-            GpSummary gpSummary = GpSummary.fromRequestData(bundle, nhsdAsid);
+            GpSummary gpSummary = GpSummary.fromBundle(bundle, nhsdAsid);
             gpSummary.setPartyIdFrom(scrConfiguration.getPartyIdFrom());
             gpSummary.setPartyIdTo(scrConfiguration.getPartyIdTo());
             gpSummary.setNhsdAsidTo(scrConfiguration.getNhsdAsidTo());

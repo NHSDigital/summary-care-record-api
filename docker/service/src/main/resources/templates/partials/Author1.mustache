@@ -1,0 +1,12 @@
+<author typeCode="AUT" contextControlCode="OP">
+    <time value="{{time}}"/>
+    {{#agentDevice}}
+        {{> AgentDevice.mustache }}
+    {{/agentDevice}}
+    {{#agentPersonSDS}}
+        {{> AgentPersonSDS.mustache}}
+    {{/agentPersonSDS}}
+    {{#agentPerson}}
+        {{> AgentPerson.mustache}}
+    {{/agentPerson}}
+</author>
