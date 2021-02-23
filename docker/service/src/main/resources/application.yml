@@ -21,7 +21,7 @@ management:
         include: info, health, metrics, mappings
 
 identity-service:
-  userInfoEndpoint: /oauth2/userinfo
+  userInfoEndpoint: ${IDENTITY_SERVICE_URI:/oauth2/userinfo}
 
 scr:
   sandboxMode: ${SCR_SANDBOX_MODE:False}
