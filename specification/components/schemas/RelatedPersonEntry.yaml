@@ -2,7 +2,7 @@
   properties:
     fullUrl:
       type: string
-      example: "urn:uuid:a82b49f8-2780-47cc-aa4b-62f79aa4ade9"
+      example: "https://api.service.nhs.uk/summary-care-record/FHIR/R4/RelatedPerson/0d9f28bc-32ef-4ac3-818e-48cad97f52df"
     resource:
       type: object
       properties:
@@ -11,7 +11,7 @@
           default: "RelatedPerson"
         id:
           type: string
-          example: "b6f5dd89-fc3a-466d-baad-126c0aac46fc"
+          example: "0d9f28bc-32ef-4ac3-818e-48cad97f52df"
         relationship:
           type: array
           items:

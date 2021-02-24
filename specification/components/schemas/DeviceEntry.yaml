@@ -2,7 +2,7 @@
   properties:
     fullUrl:
       type: string
-      example: "urn:uuid:a82b49f8-2780-47cc-aa4b-62f79aa4ade9"
+      example: "https://api.service.nhs.uk/summary-care-record/FHIR/R4/Device/b8a7db40-367e-4d13-8647-e6b65f59b77b"
     resource:
       type: object
       properties:
@@ -11,7 +11,7 @@
           default: "Device"
         id:
           type: string
-          example: "b6f5dd89-fc3a-466d-baad-126c0aac46fc"
+          example: "b8a7db40-367e-4d13-8647-e6b65f59b77b"
         identifier:
           type: array
           items:
