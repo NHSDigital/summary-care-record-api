@@ -2,7 +2,7 @@
   properties:
     fullUrl:
       type: string
-      example: "urn:uuid:a82b49f8-2780-47cc-aa4b-62f79aa4ade9"
+      example: "https://api.service.nhs.uk/summary-care-record/FHIR/R4/Organization/a82b49f8-2780-47cc-aa4b-62f79aa4ade9"
     resource:
       type: object
       properties:
@@ -11,7 +11,7 @@
           default: "Organization"
         id:
           type: string
-          example: "b6f5dd89-fc3a-466d-baad-126c0aac46fc"
+          example: "a82b49f8-2780-47cc-aa4b-62f79aa4ade9"
         identifier:
           type: array
           items:

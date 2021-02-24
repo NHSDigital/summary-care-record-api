@@ -2,7 +2,7 @@
   properties:
     fullUrl:
       type: string
-      example: "urn:uuid:2880eedf-76f0-4f38-9681-dc158e937da7"
+      example: "https://api.service.nhs.uk/summary-care-record/FHIR/R4/Composition/2880eedf-76f0-4f38-9681-dc158e937da7"
     resource:
       type: object
       properties:
