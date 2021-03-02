@@ -14,6 +14,8 @@ docker_service:
         value: "{{ APIGEE_HOSTNAME }}"
       - name: SERVICE_BASE_PATH
         value: "{{ SERVICE_BASE_PATH }}"
+      - name: IDENTITY_SERVICE_URI
+        value: "{{ '/oauth2-no-smartcard/userinfo' if APIGEE_ENVIRONMENT == 'int' else '/oauth2/userinfo' }}"
     secrets:
       - name: SCR_PARTY_ID_TO
         valueFrom: "/{{ account }}/api-deployment/scr/env-int/party-id"

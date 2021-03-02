@@ -11,7 +11,7 @@ properties:
         default: https://fhir.nhs.uk/CodeSystem/SCR-ACSPermission
       code:
         type: string
-        enum: ["Ask", "Yes", "No"]
+        description: "The following values are allowed: Yes, No, Ask"
     required:
       - system
       - code
