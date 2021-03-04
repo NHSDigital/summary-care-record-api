@@ -2,7 +2,7 @@
   properties:
     fullUrl:
       type: string
-      example: "https://api.service.nhs.uk/summary-care-record/FHIR/R4/RelatedPerson/0d9f28bc-32ef-4ac3-818e-48cad97f52df"
+      example: "https://api.service.nhs.uk/summary-care-record/FHIR/R4/RelatedPerson/086DE219-FEDF-41D4-BA5D-55EE3B1CAE9F"
     resource:
       type: object
       properties:
@@ -11,7 +11,7 @@
           default: "RelatedPerson"
         id:
           type: string
-          example: "0d9f28bc-32ef-4ac3-818e-48cad97f52df"
+          example: 086DE219-FEDF-41D4-BA5D-55EE3B1CAE9F
         relationship:
           type: array
           items:

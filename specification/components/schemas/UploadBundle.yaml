@@ -5,7 +5,7 @@ properties:
     default: "Bundle"
   id:
     type: string
-    example: "f61e545c-d52c-4b62-9668-3dcc6c27fc50"
+    example: 582B5B22-062C-47E2-BCC0-7C6A77D96ABA
   identifier:
     $ref: compositionIdentifier.yaml
   type:

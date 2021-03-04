@@ -70,8 +70,6 @@ public class GpSummaryMapper implements XmlToFhirMapper {
             XmlUtils.getValueByXPath(document, GP_SUMMARY_ID_XPATH);
         var gpSummaryCodeCode =
             XmlUtils.getValueByXPath(document, GP_SUMMARY_CODE_CODE_XPATH);
-        var gpSummaryCodeCodeSystem =
-            XmlUtils.getValueByXPath(document, GP_SUMMARY_CODE_CODE_SYSTEM_XPATH);
         var gpSummaryCodeDisplayName =
             XmlUtils.getValueByXPath(document, GP_SUMMARY_CODE_DISPLAY_NAME_XPATH);
         var gpSummaryStatusCode =
@@ -84,8 +82,6 @@ public class GpSummaryMapper implements XmlToFhirMapper {
             XmlUtils.getOptionalValueByXPath(document, REPLACEMENT_OF_PRIOR_MESSAGE_REF_ID_ROOT_XPATH);
         var pertinentRootCreTypeCodeCode =
             XmlUtils.getValueByXPath(document, PERTINENT_ROOT_CRE_TYPE_CODE_CODE_XPATH);
-        var pertinentRootCreTypeCodeCodeSystem =
-            XmlUtils.getValueByXPath(document, PERTINENT_ROOT_CRE_TYPE_CODE_CODE_SYSTEM_XPATH);
         var pertinentRootCreTypeCodeDisplayName =
             XmlUtils.getValueByXPath(document, PERTINENT_ROOT_CRE_TYPE_CODE_DISPLAY_NAME_XPATH);
         var presentationTextValue =
@@ -105,7 +101,7 @@ public class GpSummaryMapper implements XmlToFhirMapper {
         composition.setType(
             new CodeableConcept().addCoding(new Coding()
                 .setCode(gpSummaryCodeCode)
-                .setSystem(gpSummaryCodeCodeSystem)
+                .setSystem(SNOMED_SYSTEM)
                 .setDisplay(gpSummaryCodeDisplayName)));
 
         composition.setMeta(new Meta().setLastUpdatedElement(gpSummaryEffectiveTime));
@@ -125,7 +121,7 @@ public class GpSummaryMapper implements XmlToFhirMapper {
         composition.addCategory(
             new CodeableConcept().addCoding(new Coding()
                 .setCode(pertinentRootCreTypeCodeCode)
-                .setSystem(pertinentRootCreTypeCodeCodeSystem)
+                .setSystem(SNOMED_SYSTEM)
                 .setDisplay(pertinentRootCreTypeCodeDisplayName)));
 
         presentationTextValue

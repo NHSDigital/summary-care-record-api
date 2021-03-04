@@ -277,11 +277,11 @@ paths:
 
   /$setPermission:
     post:
-      summary: Update patient's consent to View SCR
+      summary: Update patient's consent to share SCR
       operationId: acs
       description: |
         ## Overview
-        Use this endpoint to update the Permission to view for GP Summaries held for the patient
+        Use this endpoint to update the Permission to share the GP Summaries
 
         ## Sandbox test scenarios
         You can test the following scenarios in our sandbox environment:

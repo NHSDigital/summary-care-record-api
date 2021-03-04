@@ -5,7 +5,7 @@ properties:
     default: "Bundle"
   id:
     type: string
-    example: "f61e545c-d52c-4b62-9668-3dcc6c27fc50"
+    example: CE6B1A4F-51A4-4E03-AAB3-BA6113888E9F
   identifier:
     type: object
     properties:
@@ -14,7 +14,7 @@ properties:
         default: "https://tools.ietf.org/html/rfc4122"
       value:
         type: string
-        example: 1ff370b6-fc5b-40a1-9721-2a942e301666
+        example: 10C71ECE-08F8-41D8-8A39-45D42DFC61D4
   type:
     description: type of the Bundle
     type: string
