@@ -1,11 +1,11 @@
 package uk.nhs.adaptors.scr.utils;
 
-import java.io.IOException;
-import java.io.StringWriter;
-
 import com.github.mustachejava.DefaultMustacheFactory;
 import com.github.mustachejava.Mustache;
 import com.github.mustachejava.MustacheFactory;
+import lombok.SneakyThrows;
+
+import java.io.StringWriter;
 
 public class TemplateUtils {
     private static final String TEMPLATES_DIRECTORY = "templates";
@@ -16,16 +16,13 @@ public class TemplateUtils {
         return m;
     }
 
+    @SneakyThrows
     public static String fillTemplate(Mustache template, Object content) {
         StringWriter writer = new StringWriter();
         String data = "";
 
-        try {
-            template.execute(writer, content).flush();
-            data += writer.toString();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        template.execute(writer, content).flush();
+        data += writer.toString();
 
         return data;
     }

@@ -15,8 +15,9 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import uk.nhs.adaptors.scr.utils.XmlUtils;
 
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
@@ -29,6 +30,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
+import static javax.xml.XMLConstants.ACCESS_EXTERNAL_DTD;
+import static javax.xml.XMLConstants.ACCESS_EXTERNAL_STYLESHEET;
+import static uk.nhs.adaptors.scr.utils.XmlUtils.documentBuilder;
 
 @Component
 public class HtmlParser {
@@ -82,7 +87,7 @@ public class HtmlParser {
 
     @SneakyThrows
     public static Document createNewDocument(String tag, String xmlns) {
-        var document = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
+        var document = documentBuilder().newDocument();
         var rootNode = document.createElement(tag);
         rootNode.setAttribute("xmlns", xmlns);
         document.appendChild(rootNode);
@@ -92,11 +97,7 @@ public class HtmlParser {
     @SneakyThrows
     public static String serialize(Document document) {
         var xmlOutput = new StreamResult(new StringWriter());
-        var transformer = TransformerFactory.newInstance().newTransformer();
-        transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
-        transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
-        transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-        transformer.transform(new DOMSource(document), xmlOutput);
+        transformer().transform(new DOMSource(document), xmlOutput);
         return xmlOutput.getWriter().toString();
     }
 
@@ -113,10 +114,7 @@ public class HtmlParser {
 
     @SneakyThrows
     public static Document parseDocument(String xml) {
-        return DocumentBuilderFactory
-            .newInstance()
-            .newDocumentBuilder()
-            .parse(new InputSource(new StringReader(xml)));
+        return documentBuilder().parse(new InputSource(new StringReader(xml)));
     }
 
     private static Composition.SectionComponent buildSectionComponent(ParsedHtml parsedHtml) {
@@ -143,5 +141,16 @@ public class HtmlParser {
         private final String h2Id;
         private final String h2Value;
         private final String html;
+    }
+
+    private static Transformer transformer() throws TransformerConfigurationException {
+        TransformerFactory transformerFactory = TransformerFactory.newInstance();
+        transformerFactory.setAttribute(ACCESS_EXTERNAL_DTD, "");
+        transformerFactory.setAttribute(ACCESS_EXTERNAL_STYLESHEET, "");
+        var transformer = transformerFactory.newTransformer();
+        transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
+        transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+        transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+        return transformer;
     }
 }

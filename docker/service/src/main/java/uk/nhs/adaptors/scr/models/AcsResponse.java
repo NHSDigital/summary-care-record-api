@@ -6,7 +6,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathFactory;
 import java.io.StringReader;
@@ -15,6 +14,7 @@ import java.util.List;
 
 import static javax.xml.xpath.XPathConstants.NODESET;
 import static org.springframework.util.CollectionUtils.isEmpty;
+import static uk.nhs.adaptors.scr.utils.XmlUtils.documentBuilder;
 
 @Getter
 public class AcsResponse {
@@ -23,10 +23,7 @@ public class AcsResponse {
 
     @SneakyThrows
     public static AcsResponse parseXml(String xml) {
-        var soapEnvelope = DocumentBuilderFactory
-            .newInstance()
-            .newDocumentBuilder()
-            .parse(new InputSource(new StringReader(xml)));
+        var soapEnvelope = documentBuilder().parse(new InputSource(new StringReader(xml)));
 
         AcsResponse response = new AcsResponse();
         response.errorReasons = getErrorReasons(soapEnvelope);

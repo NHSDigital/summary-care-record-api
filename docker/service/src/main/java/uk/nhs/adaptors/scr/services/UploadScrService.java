@@ -26,7 +26,6 @@ import uk.nhs.adaptors.scr.models.RequestData;
 import uk.nhs.adaptors.scr.utils.FhirHelper;
 import uk.nhs.adaptors.scr.utils.TemplateUtils;
 
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
@@ -41,6 +40,7 @@ import static org.springframework.http.HttpHeaders.RETRY_AFTER;
 import static uk.nhs.adaptors.scr.clients.spine.SpineHttpClient.getHeader;
 import static uk.nhs.adaptors.scr.models.AcsPermission.ASK;
 import static uk.nhs.adaptors.scr.models.AcsPermission.YES;
+import static uk.nhs.adaptors.scr.utils.XmlUtils.documentBuilder;
 
 @Component
 @Slf4j
@@ -106,9 +106,7 @@ public class UploadScrService {
 
     @SneakyThrows
     private void validateProcessingResult(ProcessingResult processingResult) {
-        var hl7Document = DocumentBuilderFactory
-            .newInstance()
-            .newDocumentBuilder()
+        var hl7Document = documentBuilder()
             .parse(new InputSource(new StringReader(processingResult.getHl7())));
 
         var acknowledgementXPath = XPathFactory.newInstance().newXPath().compile("/MCCI_IN010000UK13/acknowledgement");
