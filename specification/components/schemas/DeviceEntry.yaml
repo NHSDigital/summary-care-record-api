@@ -2,7 +2,7 @@
   properties:
     fullUrl:
       type: string
-      example: "https://api.service.nhs.uk/summary-care-record/FHIR/R4/Device/b8a7db40-367e-4d13-8647-e6b65f59b77b"
+      example: "https://api.service.nhs.uk/summary-care-record/FHIR/R4/Device/C5F6616C-AA6F-4A8C-85FF-0183C3D15D37"
     resource:
       type: object
       properties:
@@ -11,7 +11,7 @@
           default: "Device"
         id:
           type: string
-          example: "b8a7db40-367e-4d13-8647-e6b65f59b77b"
+          example: "C5F6616C-AA6F-4A8C-85FF-0183C3D15D37"
         identifier:
           type: array
           items:
@@ -34,6 +34,7 @@
             properties:
               name: 
                 type: string
+                example: other 
               type:
                 type: string
                 example: manufacturer-name
@@ -51,8 +52,10 @@
                 properties:
                   code:
                     type: string
+                    example: "707728009"
                   display:
                     type: string
+                    example: Device system
                 required:
                   - code
                   - display
@@ -64,6 +67,7 @@
           properties:
             value:
               type: string
+              example: "1.0.0"
           required:
             - value
         owner:
@@ -80,6 +84,7 @@
             properties:
               text:
                 type: string
+                example: Additional information
             required:
               - text
       required:

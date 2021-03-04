@@ -6,7 +6,7 @@ properties:
   id:
     description: UUID identifying the Bundle
     type: string
-    example: "f61e545c-d52c-4b62-9668-3dcc6c27fc50"
+    example: 92A00AC6-4C89-46A1-867D-2C448AC3809E
   type:
     description: Type of the bundle
     type: string

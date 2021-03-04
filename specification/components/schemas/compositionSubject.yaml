@@ -3,6 +3,6 @@ type: object
 properties:
   reference:
     type: string
-    example: "Patient/8238688f-52df-48f2-8780-41826b2a811d"
+    example: "Patient/B61AF2BD-0FFD-49CC-8374-C70DAFF8878F"
 required:
   - reference

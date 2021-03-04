@@ -3,7 +3,7 @@
     fullUrl:
       description: UUID identifying resource within a bundle 
       type: string
-      example: Patient/9b9a16ed-3cd0-45b2-ab1f-e625dd0251c1
+      example: "https://api.service.nhs.uk/summary-care-record/FHIR/R4/Patient/3346650E-BECA-4C00-BF07-18E27CE69114"
     resource:
       type: object
       properties:
@@ -12,7 +12,7 @@
           default: "Patient"
         id:
           type: string
-          example: "b6f5dd89-fc3a-466d-baad-126c0aac46fc"
+          example: 3346650E-BECA-4C00-BF07-18E27CE69114
         identifier:
           type: array
           items:

@@ -24,7 +24,7 @@
         "type": {
           "coding": [
             {
-              "system": "2.16.840.1.113883.2.1.3.2.4.15",
+              "system": "http://snomed.info/sct",
               "code": "196981000000101",
               "display": "General Practice Summary"
             }
@@ -34,7 +34,7 @@
           {
             "coding": [
               {
-                "system": "2.16.840.1.113883.2.1.3.2.4.15",
+                "system": "http://snomed.info/sct",
                 "code": "163171000000105",
                 "display": "Care Professional Documentation"
               }

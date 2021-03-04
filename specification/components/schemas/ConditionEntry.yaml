@@ -2,6 +2,7 @@
   properties:
     fullUrl:
       type: string
+      example: "https://api.service.nhs.uk/summary-care-record/FHIR/R4/Condition/ADB4683E-BE01-4B08-AE36-079837BFF19E"
     resource:
       type: object
       properties:
@@ -10,7 +11,7 @@
           default: "Condition"
         id:
           type: string
-          example: "13FF1F43-5097-400E-9E32-CCE3282F3A97"
+          example: "ADB4683E-BE01-4B08-AE36-079837BFF19E"
         meta:
           type: array
           items:
