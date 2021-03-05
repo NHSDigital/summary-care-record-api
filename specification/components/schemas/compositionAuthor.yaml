@@ -3,7 +3,7 @@ type: object
 properties:
   reference:
     type: string
-    example: "urn:uuid:83c26c8f-ee72-4534-8891-0136972b2106"
+    example: "PractitionerRole/33661E10-AA36-491A-AFFE-5C10C0BF9304"
   display:
     type: string
     example: "Dr Steve Jones"

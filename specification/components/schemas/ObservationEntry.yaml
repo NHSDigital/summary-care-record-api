@@ -2,7 +2,7 @@
   properties:
     fullUrl:
       type: string
-      example: baecc1c2-c86c-482c-8cea-981b47a6cc48
+      example: "https://api.service.nhs.uk/summary-care-record/FHIR/R4/Observation/02778CD7-E78E-4BF5-9B05-1C634275DB91"
     resource:
       type: object
       properties:
@@ -11,7 +11,7 @@
           default: "Observation"
         id:
           type: string
-          example: b1a41ee5-b88b-4f66-bd83-24343bf63dd8
+          example: 02778CD7-E78E-4BF5-9B05-1C634275DB91
         meta:
           type: array
           items:
@@ -39,7 +39,7 @@
           enum:
             - final
             - entered-in-error
-          example: "final"
+          example: final
         category:
           type: array
           items:

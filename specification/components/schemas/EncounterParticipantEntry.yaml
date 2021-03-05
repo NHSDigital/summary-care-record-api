@@ -2,16 +2,16 @@
   properties:
     fullUrl:
       type: string
-      example: "urn:uuid:b1a41ee5-b88b-4f66-bd83-24343bf63dd8"
+      example: "https://api.service.nhs.uk/summary-care-record/FHIR/R4/Encounter/6E1B91CC-C25A-4466-94A6-DFDE260C12AB"
     resource:
       type: object
       properties:
         resourceType:
           type: string
-          default: "Practitioner"
+          default: "Encounter"
         id:
           type: string
-          example: "b1a41ee5-b88b-4f66-bd83-24343bf63dd8"
+          example: 6E1B91CC-C25A-4466-94A6-DFDE260C12AB
         status:
           type: string
           default: finished

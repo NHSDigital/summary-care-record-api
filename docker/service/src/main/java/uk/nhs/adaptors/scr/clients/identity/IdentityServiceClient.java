@@ -22,7 +22,7 @@ public class IdentityServiceClient implements IdentityServiceContract {
 
     @Override
     public UserInfo getUserInfo(String authorization) {
-        LOGGER.debug("Fetching UserInfo from {}", scrConfiguration.getBaseUrl() + identityServiceConfiguration.getUserInfoEndpoint());
+        LOGGER.info("Fetching UserInfo from {}", scrConfiguration.getBaseUrl() + identityServiceConfiguration.getUserInfoEndpoint());
         HttpHeaders headers = new HttpHeaders();
         headers.set(AUTHORIZATION, authorization);
 
@@ -31,7 +31,7 @@ public class IdentityServiceClient implements IdentityServiceContract {
         ResponseEntity<UserInfo> response = restTemplate.exchange(
             scrConfiguration.getBaseUrl() + identityServiceConfiguration.getUserInfoEndpoint(), GET, entity, UserInfo.class);
 
-        LOGGER.debug("Fetched UserInfo");
+        LOGGER.info("Fetched UserInfo");
         return response.getBody();
     }
 }

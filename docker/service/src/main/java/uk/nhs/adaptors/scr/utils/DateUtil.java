@@ -5,6 +5,9 @@ import org.hl7.fhir.r4.model.DateTimeType;
 import org.hl7.fhir.r4.model.InstantType;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 
 @Slf4j
 public class DateUtil {
@@ -19,8 +22,8 @@ public class DateUtil {
                     sdfOutput = new SimpleDateFormat(DATE_PATTERN);
                     return sdfOutput.format(date.getValue());
                 case SECOND:
-                    sdfOutput = new SimpleDateFormat(DATE_TIME_PATTERN);
-                    return sdfOutput.format(date.getValue());
+                    return LocalDateTime.ofInstant(date.toCalendar().toInstant(), ZoneId.of("Europe/London"))
+                        .format(DateTimeFormatter.ofPattern(DATE_TIME_PATTERN));
                 default:
                     return date.asStringValue();
             }

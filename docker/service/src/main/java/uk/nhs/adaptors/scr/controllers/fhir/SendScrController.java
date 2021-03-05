@@ -44,6 +44,7 @@ public class SendScrController {
         @RequestHeader(NHSD_IDENTITY) @NotNull String nhsdIdentity,
         @RequestHeader(NHSD_SESSION_URID) @NotNull String nhsdSessionUrid,
         @RequestBody String body) {
+        LOGGER.info("Received Upload SCR request");
         LOGGER.debug("Using cfg: asid-from={} party-from={} asid-to={} party-to={} client-ip={} NHSD-Identity-UUID={} NHSD-Session-URID={}",
             nhsdAsid,
             scrConfiguration.getPartyIdFrom(),

@@ -2,6 +2,7 @@ type: object
 properties:
   title:
     type: string
+    example: Allergies and Adverse Reactions
   text:
     type: object
     properties:

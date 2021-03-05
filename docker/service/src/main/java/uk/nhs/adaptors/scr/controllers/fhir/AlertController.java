@@ -36,7 +36,7 @@ public class AlertController {
                           @RequestHeader(NHSD_IDENTITY) @NotNull String nhsdIdentity,
                           @RequestHeader(NHSD_SESSION_URID) @NotNull String nhsdSessionUrid,
                           @RequestBody @AlertRequest String body) {
-
+        LOGGER.info("Received ALERT request");
         alertService.sendAlert(body, nhsdAsid, nhsdIdentity, nhsdSessionUrid);
     }
 }

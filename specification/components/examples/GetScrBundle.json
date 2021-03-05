@@ -10,7 +10,7 @@
   "total": 48,
   "entry": [
     {
-      "fullUrl": "https://int.api.service.nhs.uk/summary-care-record/FHIR/R4/Composition/12345678-C403-4EF7-A4AB-E07303AF5477",
+      "fullUrl": "https://api.service.nhs.uk/summary-care-record/FHIR/R4/Composition/12345678-C403-4EF7-A4AB-E07303AF5477",
       "resource": {
         "resourceType": "Composition",
         "id": "12345678-C403-4EF7-A4AB-E07303AF5477",
@@ -25,7 +25,7 @@
         "type": {
           "coding": [
             {
-              "system": "2.16.840.1.113883.2.1.3.2.4.15",
+              "system": "http://snomed.info/sct",
               "code": "196981000000101",
               "display": "General Practice Summary"
             }
@@ -35,7 +35,7 @@
           {
             "coding": [
               {
-                "system": "2.16.840.1.113883.2.1.3.2.4.15",
+                "system": "http://snomed.info/sct",
                 "code": "163171000000105",
                 "display": "Care Professional Documentation"
               }
@@ -259,7 +259,7 @@
       }
     },
     {
-      "fullUrl": "https://int.api.service.nhs.uk/summary-care-record/FHIR/R4/PractitionerRole/D4873C9F-243F-4D57-8FA1-062FE9148D80",
+      "fullUrl": "https://api.service.nhs.uk/summary-care-record/FHIR/R4/PractitionerRole/D4873C9F-243F-4D57-8FA1-062FE9148D80",
       "resource": {
         "resourceType": "PractitionerRole",
         "id": "D4873C9F-243F-4D57-8FA1-062FE9148D80",
@@ -275,7 +275,7 @@
       }
     },
     {
-      "fullUrl": "https://int.api.service.nhs.uk/summary-care-record/FHIR/R4/Practitioner/A59922DC-D982-445F-86E4-72E060305C64",
+      "fullUrl": "https://api.service.nhs.uk/summary-care-record/FHIR/R4/Practitioner/A59922DC-D982-445F-86E4-72E060305C64",
       "resource": {
         "resourceType": "Practitioner",
         "id": "A59922DC-D982-445F-86E4-72E060305C64",
@@ -293,7 +293,7 @@
       }
     },
     {
-      "fullUrl": "https://int.api.service.nhs.uk/summary-care-record/FHIR/R4/Condition/FCB84E15-02E5-495C-B334-D0685DCB0687",
+      "fullUrl": "https://api.service.nhs.uk/summary-care-record/FHIR/R4/Condition/FCB84E15-02E5-495C-B334-D0685DCB0687",
       "resource": {
         "resourceType": "Condition",
         "id": "FCB84E15-02E5-495C-B334-D0685DCB0687",
@@ -337,7 +337,7 @@
       }
     },
     {
-      "fullUrl": "https://int.api.service.nhs.uk/summary-care-record/FHIR/R4/PractitionerRole/8CA37D05-8B17-4AC3-98AF-1509D1B2D528",
+      "fullUrl": "https://api.service.nhs.uk/summary-care-record/FHIR/R4/PractitionerRole/8CA37D05-8B17-4AC3-98AF-1509D1B2D528",
       "resource": {
         "resourceType": "PractitionerRole",
         "id": "8CA37D05-8B17-4AC3-98AF-1509D1B2D528",
@@ -353,7 +353,7 @@
       }
     },
     {
-      "fullUrl": "https://int.api.service.nhs.uk/summary-care-record/FHIR/R4/Practitioner/54D46F45-9FA4-4CF0-BC63-E74E98BE7562",
+      "fullUrl": "https://api.service.nhs.uk/summary-care-record/FHIR/R4/Practitioner/54D46F45-9FA4-4CF0-BC63-E74E98BE7562",
       "resource": {
         "resourceType": "Practitioner",
         "id": "54D46F45-9FA4-4CF0-BC63-E74E98BE7562",
@@ -371,7 +371,7 @@
       }
     },
     {
-      "fullUrl": "https://int.api.service.nhs.uk/summary-care-record/FHIR/R4/Encounter/BBB85C92-AC8C-4856-B636-7799B8A7B127",
+      "fullUrl": "https://api.service.nhs.uk/summary-care-record/FHIR/R4/Encounter/BBB85C92-AC8C-4856-B636-7799B8A7B127",
       "resource": {
         "resourceType": "Encounter",
         "id": "BBB85C92-AC8C-4856-B636-7799B8A7B127",
@@ -405,7 +405,7 @@
       }
     },
     {
-      "fullUrl": "https://int.api.service.nhs.uk/summary-care-record/FHIR/R4/Condition/0F582D97-8F89-11EA-8B2D-B741F13EFC47",
+      "fullUrl": "https://api.service.nhs.uk/summary-care-record/FHIR/R4/Condition/0F582D97-8F89-11EA-8B2D-B741F13EFC47",
       "resource": {
         "resourceType": "Condition",
         "id": "0F582D97-8F89-11EA-8B2D-B741F13EFC47",
@@ -463,7 +463,7 @@
       }
     },
     {
-      "fullUrl": "https://int.api.service.nhs.uk/summary-care-record/FHIR/R4/Practitioner/19A3F809-B0A6-4945-B901-A0C65EB0B604",
+      "fullUrl": "https://api.service.nhs.uk/summary-care-record/FHIR/R4/Practitioner/19A3F809-B0A6-4945-B901-A0C65EB0B604",
       "resource": {
         "resourceType": "Practitioner",
         "id": "19A3F809-B0A6-4945-B901-A0C65EB0B604",
@@ -475,7 +475,7 @@
       }
     },
     {
-      "fullUrl": "https://int.api.service.nhs.uk/summary-care-record/FHIR/R4/PractitionerRole/14440C9F-933D-4CB7-A680-DA3EE2C55EDD",
+      "fullUrl": "https://api.service.nhs.uk/summary-care-record/FHIR/R4/PractitionerRole/14440C9F-933D-4CB7-A680-DA3EE2C55EDD",
       "resource": {
         "resourceType": "PractitionerRole",
         "id": "14440C9F-933D-4CB7-A680-DA3EE2C55EDD",
@@ -499,7 +499,7 @@
       }
     },
     {
-      "fullUrl": "https://int.api.service.nhs.uk/summary-care-record/FHIR/R4/Organization/451C13D2-DD07-49FE-A20C-23FAC733B487",
+      "fullUrl": "https://api.service.nhs.uk/summary-care-record/FHIR/R4/Organization/451C13D2-DD07-49FE-A20C-23FAC733B487",
       "resource": {
         "resourceType": "Organization",
         "id": "451C13D2-DD07-49FE-A20C-23FAC733B487",
@@ -523,7 +523,7 @@
       }
     },
     {
-      "fullUrl": "https://int.api.service.nhs.uk/summary-care-record/FHIR/R4/Encounter/3801EA34-8FE8-4FCC-8BCE-D52A58AE1F46",
+      "fullUrl": "https://api.service.nhs.uk/summary-care-record/FHIR/R4/Encounter/3801EA34-8FE8-4FCC-8BCE-D52A58AE1F46",
       "resource": {
         "resourceType": "Encounter",
         "id": "3801EA34-8FE8-4FCC-8BCE-D52A58AE1F46",
@@ -557,7 +557,7 @@
       }
     },
     {
-      "fullUrl": "https://int.api.service.nhs.uk/summary-care-record/FHIR/R4/Condition/958E584C-25B8-4BD7-A71D-7625FDC1ACD6",
+      "fullUrl": "https://api.service.nhs.uk/summary-care-record/FHIR/R4/Condition/958E584C-25B8-4BD7-A71D-7625FDC1ACD6",
       "resource": {
         "resourceType": "Condition",
         "id": "958E584C-25B8-4BD7-A71D-7625FDC1ACD6",
@@ -601,7 +601,7 @@
       }
     },
     {
-      "fullUrl": "https://int.api.service.nhs.uk/summary-care-record/FHIR/R4/Practitioner/74FB4E32-13E8-4299-A665-AAEF0B10FA2E",
+      "fullUrl": "https://api.service.nhs.uk/summary-care-record/FHIR/R4/Practitioner/74FB4E32-13E8-4299-A665-AAEF0B10FA2E",
       "resource": {
         "resourceType": "Practitioner",
         "id": "74FB4E32-13E8-4299-A665-AAEF0B10FA2E",
@@ -613,7 +613,7 @@
       }
     },
     {
-      "fullUrl": "https://int.api.service.nhs.uk/summary-care-record/FHIR/R4/PractitionerRole/9BACE9BD-3682-474F-8931-2AD957FA73F3",
+      "fullUrl": "https://api.service.nhs.uk/summary-care-record/FHIR/R4/PractitionerRole/9BACE9BD-3682-474F-8931-2AD957FA73F3",
       "resource": {
         "resourceType": "PractitionerRole",
         "id": "9BACE9BD-3682-474F-8931-2AD957FA73F3",
@@ -637,7 +637,7 @@
       }
     },
     {
-      "fullUrl": "https://int.api.service.nhs.uk/summary-care-record/FHIR/R4/Organization/124DAA78-503C-40B6-BB8E-AE4323A003AB",
+      "fullUrl": "https://api.service.nhs.uk/summary-care-record/FHIR/R4/Organization/124DAA78-503C-40B6-BB8E-AE4323A003AB",
       "resource": {
         "resourceType": "Organization",
         "id": "124DAA78-503C-40B6-BB8E-AE4323A003AB",
@@ -671,7 +671,7 @@
       }
     },
     {
-      "fullUrl": "https://int.api.service.nhs.uk/summary-care-record/FHIR/R4/PractitionerRole/527D9BA2-2E8A-46E9-8980-B76AF93C5B9E",
+      "fullUrl": "https://api.service.nhs.uk/summary-care-record/FHIR/R4/PractitionerRole/527D9BA2-2E8A-46E9-8980-B76AF93C5B9E",
       "resource": {
         "resourceType": "PractitionerRole",
         "id": "527D9BA2-2E8A-46E9-8980-B76AF93C5B9E",
@@ -687,7 +687,7 @@
       }
     },
     {
-      "fullUrl": "https://int.api.service.nhs.uk/summary-care-record/FHIR/R4/Practitioner/C0C4F8FE-FEC4-465B-AC4B-08C5C538C7B1",
+      "fullUrl": "https://api.service.nhs.uk/summary-care-record/FHIR/R4/Practitioner/C0C4F8FE-FEC4-465B-AC4B-08C5C538C7B1",
       "resource": {
         "resourceType": "Practitioner",
         "id": "C0C4F8FE-FEC4-465B-AC4B-08C5C538C7B1",
@@ -705,7 +705,7 @@
       }
     },
     {
-      "fullUrl": "https://int.api.service.nhs.uk/summary-care-record/FHIR/R4/Encounter/2163362D-8230-49AC-AB1F-334F8B960406",
+      "fullUrl": "https://api.service.nhs.uk/summary-care-record/FHIR/R4/Encounter/2163362D-8230-49AC-AB1F-334F8B960406",
       "resource": {
         "resourceType": "Encounter",
         "id": "2163362D-8230-49AC-AB1F-334F8B960406",
@@ -758,7 +758,7 @@
       }
     },
     {
-      "fullUrl": "https://int.api.service.nhs.uk/summary-care-record/FHIR/R4/Condition/8CEB2867-551B-43D0-88B5-3278DA20A6B0",
+      "fullUrl": "https://api.service.nhs.uk/summary-care-record/FHIR/R4/Condition/8CEB2867-551B-43D0-88B5-3278DA20A6B0",
       "resource": {
         "resourceType": "Condition",
         "id": "8CEB2867-551B-43D0-88B5-3278DA20A6B0",
@@ -802,7 +802,7 @@
       }
     },
     {
-      "fullUrl": "https://int.api.service.nhs.uk/summary-care-record/FHIR/R4/Practitioner/F1DEB15F-7AD7-4F94-9D61-561ED6AF9219",
+      "fullUrl": "https://api.service.nhs.uk/summary-care-record/FHIR/R4/Practitioner/F1DEB15F-7AD7-4F94-9D61-561ED6AF9219",
       "resource": {
         "resourceType": "Practitioner",
         "id": "F1DEB15F-7AD7-4F94-9D61-561ED6AF9219",
@@ -814,7 +814,7 @@
       }
     },
     {
-      "fullUrl": "https://int.api.service.nhs.uk/summary-care-record/FHIR/R4/PractitionerRole/85636A51-EBDA-4956-BA79-1E38CBEFD795",
+      "fullUrl": "https://api.service.nhs.uk/summary-care-record/FHIR/R4/PractitionerRole/85636A51-EBDA-4956-BA79-1E38CBEFD795",
       "resource": {
         "resourceType": "PractitionerRole",
         "id": "85636A51-EBDA-4956-BA79-1E38CBEFD795",
@@ -838,7 +838,7 @@
       }
     },
     {
-      "fullUrl": "https://int.api.service.nhs.uk/summary-care-record/FHIR/R4/Organization/079966EC-9038-42B8-A735-A784B35A1AA2",
+      "fullUrl": "https://api.service.nhs.uk/summary-care-record/FHIR/R4/Organization/079966EC-9038-42B8-A735-A784B35A1AA2",
       "resource": {
         "resourceType": "Organization",
         "id": "079966EC-9038-42B8-A735-A784B35A1AA2",
@@ -869,7 +869,7 @@
       }
     },
     {
-      "fullUrl": "https://int.api.service.nhs.uk/summary-care-record/FHIR/R4/RelatedPerson/C53594AA-2F1B-4965-949C-6E9E2836C3C2",
+      "fullUrl": "https://api.service.nhs.uk/summary-care-record/FHIR/R4/RelatedPerson/C53594AA-2F1B-4965-949C-6E9E2836C3C2",
       "resource": {
         "resourceType": "RelatedPerson",
         "id": "C53594AA-2F1B-4965-949C-6E9E2836C3C2",
@@ -895,7 +895,7 @@
       }
     },
     {
-      "fullUrl": "https://int.api.service.nhs.uk/summary-care-record/FHIR/R4/Encounter/CE58DFE7-D5C5-4C9A-A5A1-930FA9D2D02D",
+      "fullUrl": "https://api.service.nhs.uk/summary-care-record/FHIR/R4/Encounter/CE58DFE7-D5C5-4C9A-A5A1-930FA9D2D02D",
       "resource": {
         "resourceType": "Encounter",
         "id": "CE58DFE7-D5C5-4C9A-A5A1-930FA9D2D02D",
@@ -948,7 +948,7 @@
       }
     },
     {
-      "fullUrl": "https://int.api.service.nhs.uk/summary-care-record/FHIR/R4/Condition/6ECDAE6D-32AB-421C-AA8F-0B1ABA454C70",
+      "fullUrl": "https://api.service.nhs.uk/summary-care-record/FHIR/R4/Condition/6ECDAE6D-32AB-421C-AA8F-0B1ABA454C70",
       "resource": {
         "resourceType": "Condition",
         "id": "6ECDAE6D-32AB-421C-AA8F-0B1ABA454C70",
@@ -992,7 +992,7 @@
       }
     },
     {
-      "fullUrl": "https://int.api.service.nhs.uk/summary-care-record/FHIR/R4/Practitioner/0E942D47-343B-4F5A-9EF6-6DD17F88CAEB",
+      "fullUrl": "https://api.service.nhs.uk/summary-care-record/FHIR/R4/Practitioner/0E942D47-343B-4F5A-9EF6-6DD17F88CAEB",
       "resource": {
         "resourceType": "Practitioner",
         "id": "0E942D47-343B-4F5A-9EF6-6DD17F88CAEB",
@@ -1004,7 +1004,7 @@
       }
     },
     {
-      "fullUrl": "https://int.api.service.nhs.uk/summary-care-record/FHIR/R4/PractitionerRole/F5FB41E1-38F6-4770-AF67-388268ABC232",
+      "fullUrl": "https://api.service.nhs.uk/summary-care-record/FHIR/R4/PractitionerRole/F5FB41E1-38F6-4770-AF67-388268ABC232",
       "resource": {
         "resourceType": "PractitionerRole",
         "id": "F5FB41E1-38F6-4770-AF67-388268ABC232",
@@ -1028,7 +1028,7 @@
       }
     },
     {
-      "fullUrl": "https://int.api.service.nhs.uk/summary-care-record/FHIR/R4/Organization/549CCBC5-C4D8-4B0C-A536-D7C21AEC5F67",
+      "fullUrl": "https://api.service.nhs.uk/summary-care-record/FHIR/R4/Organization/549CCBC5-C4D8-4B0C-A536-D7C21AEC5F67",
       "resource": {
         "resourceType": "Organization",
         "id": "549CCBC5-C4D8-4B0C-A536-D7C21AEC5F67",
@@ -1048,7 +1048,7 @@
       }
     },
     {
-      "fullUrl": "https://int.api.service.nhs.uk/summary-care-record/FHIR/R4/Practitioner/DBE47B01-5BCD-4665-94F6-7065764AEAF7",
+      "fullUrl": "https://api.service.nhs.uk/summary-care-record/FHIR/R4/Practitioner/DBE47B01-5BCD-4665-94F6-7065764AEAF7",
       "resource": {
         "resourceType": "Practitioner",
         "id": "DBE47B01-5BCD-4665-94F6-7065764AEAF7",
@@ -1060,7 +1060,7 @@
       }
     },
     {
-      "fullUrl": "https://int.api.service.nhs.uk/summary-care-record/FHIR/R4/PractitionerRole/836EA179-9F18-4C77-B5C1-1EE5972B114F",
+      "fullUrl": "https://api.service.nhs.uk/summary-care-record/FHIR/R4/PractitionerRole/836EA179-9F18-4C77-B5C1-1EE5972B114F",
       "resource": {
         "resourceType": "PractitionerRole",
         "id": "836EA179-9F18-4C77-B5C1-1EE5972B114F",
@@ -1084,7 +1084,7 @@
       }
     },
     {
-      "fullUrl": "https://int.api.service.nhs.uk/summary-care-record/FHIR/R4/Organization/10102F5F-354C-4FB7-8DDE-EE8FA8E16840",
+      "fullUrl": "https://api.service.nhs.uk/summary-care-record/FHIR/R4/Organization/10102F5F-354C-4FB7-8DDE-EE8FA8E16840",
       "resource": {
         "resourceType": "Organization",
         "id": "10102F5F-354C-4FB7-8DDE-EE8FA8E16840",
@@ -1104,7 +1104,7 @@
       }
     },
     {
-      "fullUrl": "https://int.api.service.nhs.uk/summary-care-record/FHIR/R4/Encounter/ABBDD14F-FD8F-4AC2-B046-617594A10DE5",
+      "fullUrl": "https://api.service.nhs.uk/summary-care-record/FHIR/R4/Encounter/ABBDD14F-FD8F-4AC2-B046-617594A10DE5",
       "resource": {
         "resourceType": "Encounter",
         "id": "ABBDD14F-FD8F-4AC2-B046-617594A10DE5",
@@ -1157,7 +1157,7 @@
       }
     },
     {
-      "fullUrl": "https://int.api.service.nhs.uk/summary-care-record/FHIR/R4/PractitionerRole/CEB9FBDC-CB5B-48DB-8397-14F3BDE67134",
+      "fullUrl": "https://api.service.nhs.uk/summary-care-record/FHIR/R4/PractitionerRole/CEB9FBDC-CB5B-48DB-8397-14F3BDE67134",
       "resource": {
         "resourceType": "PractitionerRole",
         "id": "CEB9FBDC-CB5B-48DB-8397-14F3BDE67134",
@@ -1173,7 +1173,7 @@
       }
     },
     {
-      "fullUrl": "https://int.api.service.nhs.uk/summary-care-record/FHIR/R4/Practitioner/65728DF1-C3F5-4251-8BF7-915B8E0D739E",
+      "fullUrl": "https://api.service.nhs.uk/summary-care-record/FHIR/R4/Practitioner/65728DF1-C3F5-4251-8BF7-915B8E0D739E",
       "resource": {
         "resourceType": "Practitioner",
         "id": "65728DF1-C3F5-4251-8BF7-915B8E0D739E",
@@ -1191,7 +1191,7 @@
       }
     },
     {
-      "fullUrl": "https://int.api.service.nhs.uk/summary-care-record/FHIR/R4/Encounter/0FD9239D-D36D-4CBD-8702-6E4DE66C9DFA",
+      "fullUrl": "https://api.service.nhs.uk/summary-care-record/FHIR/R4/Encounter/0FD9239D-D36D-4CBD-8702-6E4DE66C9DFA",
       "resource": {
         "resourceType": "Encounter",
         "id": "0FD9239D-D36D-4CBD-8702-6E4DE66C9DFA",
@@ -1239,7 +1239,7 @@
       }
     },
     {
-      "fullUrl": "https://int.api.service.nhs.uk/summary-care-record/FHIR/R4/Observation/F17999D2-FFE7-4CA4-8CE8-52CB45FF6F49",
+      "fullUrl": "https://api.service.nhs.uk/summary-care-record/FHIR/R4/Observation/F17999D2-FFE7-4CA4-8CE8-52CB45FF6F49",
       "resource": {
         "resourceType": "Observation",
         "id": "F17999D2-FFE7-4CA4-8CE8-52CB45FF6F49",
@@ -1283,7 +1283,7 @@
       }
     },
     {
-      "fullUrl": "https://int.api.service.nhs.uk/summary-care-record/FHIR/R4/Device/597C3057-D9BD-4B5D-9BAC-BF252484C930",
+      "fullUrl": "https://api.service.nhs.uk/summary-care-record/FHIR/R4/Device/597C3057-D9BD-4B5D-9BAC-BF252484C930",
       "resource": {
         "resourceType": "Device",
         "id": "597C3057-D9BD-4B5D-9BAC-BF252484C930",
@@ -1302,7 +1302,7 @@
       }
     },
     {
-      "fullUrl": "https://int.api.service.nhs.uk/summary-care-record/FHIR/R4/Organization/98A39533-3A15-4E5E-9D3B-B88B6DA09DAC",
+      "fullUrl": "https://api.service.nhs.uk/summary-care-record/FHIR/R4/Organization/98A39533-3A15-4E5E-9D3B-B88B6DA09DAC",
       "resource": {
         "resourceType": "Organization",
         "id": "98A39533-3A15-4E5E-9D3B-B88B6DA09DAC",
@@ -1315,7 +1315,7 @@
       }
     },
     {
-      "fullUrl": "https://int.api.service.nhs.uk/summary-care-record/FHIR/R4/PractitionerRole/54BE5F17-1FD1-423B-8AAF-942A6AAD6DE7",
+      "fullUrl": "https://api.service.nhs.uk/summary-care-record/FHIR/R4/PractitionerRole/54BE5F17-1FD1-423B-8AAF-942A6AAD6DE7",
       "resource": {
         "resourceType": "PractitionerRole",
         "id": "54BE5F17-1FD1-423B-8AAF-942A6AAD6DE7",
@@ -1325,7 +1325,7 @@
       }
     },
     {
-      "fullUrl": "https://int.api.service.nhs.uk/summary-care-record/FHIR/R4/Encounter/00BC09AD-0DCE-4416-8AF9-BB5144E7ED13",
+      "fullUrl": "https://api.service.nhs.uk/summary-care-record/FHIR/R4/Encounter/00BC09AD-0DCE-4416-8AF9-BB5144E7ED13",
       "resource": {
         "resourceType": "Encounter",
         "id": "00BC09AD-0DCE-4416-8AF9-BB5144E7ED13",
@@ -1359,7 +1359,7 @@
       }
     },
     {
-      "fullUrl": "https://int.api.service.nhs.uk/summary-care-record/FHIR/R4/Observation/EE608FAA-2433-4BAD-A0D5-4A10E45AB2B0",
+      "fullUrl": "https://api.service.nhs.uk/summary-care-record/FHIR/R4/Observation/EE608FAA-2433-4BAD-A0D5-4A10E45AB2B0",
       "resource": {
         "resourceType": "Observation",
         "id": "EE608FAA-2433-4BAD-A0D5-4A10E45AB2B0",
@@ -1403,7 +1403,7 @@
       }
     },
     {
-      "fullUrl": "https://int.api.service.nhs.uk/summary-care-record/FHIR/R4/Device/1A315863-F230-4B0C-B9A4-2C6DD86D8229",
+      "fullUrl": "https://api.service.nhs.uk/summary-care-record/FHIR/R4/Device/1A315863-F230-4B0C-B9A4-2C6DD86D8229",
       "resource": {
         "resourceType": "Device",
         "id": "1A315863-F230-4B0C-B9A4-2C6DD86D8229",
@@ -1444,7 +1444,7 @@
       }
     },
     {
-      "fullUrl": "https://int.api.service.nhs.uk/summary-care-record/FHIR/R4/Organization/5FFC11AD-3F18-4DCB-9304-86CFFC736DCD",
+      "fullUrl": "https://api.service.nhs.uk/summary-care-record/FHIR/R4/Organization/5FFC11AD-3F18-4DCB-9304-86CFFC736DCD",
       "resource": {
         "resourceType": "Organization",
         "id": "5FFC11AD-3F18-4DCB-9304-86CFFC736DCD",
@@ -1474,7 +1474,7 @@
       }
     },
     {
-      "fullUrl": "https://int.api.service.nhs.uk/summary-care-record/FHIR/R4/PractitionerRole/205D1A13-631C-4BF9-A1F7-F06743294D35",
+      "fullUrl": "https://api.service.nhs.uk/summary-care-record/FHIR/R4/PractitionerRole/205D1A13-631C-4BF9-A1F7-F06743294D35",
       "resource": {
         "resourceType": "PractitionerRole",
         "id": "205D1A13-631C-4BF9-A1F7-F06743294D35",
@@ -1484,7 +1484,7 @@
       }
     },
     {
-      "fullUrl": "https://int.api.service.nhs.uk/summary-care-record/FHIR/R4/Encounter/5BD81F0B-C5F4-44E6-85CD-2CE38C823C0F",
+      "fullUrl": "https://api.service.nhs.uk/summary-care-record/FHIR/R4/Encounter/5BD81F0B-C5F4-44E6-85CD-2CE38C823C0F",
       "resource": {
         "resourceType": "Encounter",
         "id": "5BD81F0B-C5F4-44E6-85CD-2CE38C823C0F",
@@ -1518,7 +1518,7 @@
       }
     },
     {
-      "fullUrl": "https://int.api.service.nhs.uk/summary-care-record/FHIR/R4/Observation/0F582D97-8F89-11CA-8B2D-B741F13EFC47",
+      "fullUrl": "https://api.service.nhs.uk/summary-care-record/FHIR/R4/Observation/0F582D97-8F89-11CA-8B2D-B741F13EFC47",
       "resource": {
         "resourceType": "Observation",
         "id": "0F582D97-8F89-11CA-8B2D-B741F13EFC47",
@@ -1562,7 +1562,7 @@
       }
     },
     {
-      "fullUrl": "https://int.api.service.nhs.uk/summary-care-record/FHIR/R4/Patient/A7B4936A-D50A-43C3-862C-5874518ABC24",
+      "fullUrl": "https://api.service.nhs.uk/summary-care-record/FHIR/R4/Patient/A7B4936A-D50A-43C3-862C-5874518ABC24",
       "resource": {
         "resourceType": "Patient",
         "id": "A7B4936A-D50A-43C3-862C-5874518ABC24",

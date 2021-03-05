@@ -3,6 +3,6 @@ type: object
 properties:
   reference:
     type: string
-    example: "urn:uuid:b6f5dd89-fc3a-466d-baad-126c0aac46fc"
+    example: "Patient/B61AF2BD-0FFD-49CC-8374-C70DAFF8878F"
 required:
   - reference

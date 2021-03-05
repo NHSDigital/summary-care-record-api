@@ -33,13 +33,11 @@ import uk.nhs.adaptors.scr.mappings.from.hl7.FindingMapper;
 import uk.nhs.adaptors.scr.mappings.from.hl7.GpSummaryMapper;
 import uk.nhs.adaptors.scr.mappings.from.hl7.InteractionMapper;
 import uk.nhs.adaptors.scr.mappings.from.hl7.RecordTargetMapper;
-import uk.nhs.adaptors.scr.mappings.from.hl7.XmlToFhirMapper;
 import uk.nhs.adaptors.scr.models.EventListQueryParams;
 import uk.nhs.adaptors.scr.models.EventListQueryResponse;
 import uk.nhs.adaptors.scr.models.EventQueryParams;
 import uk.nhs.adaptors.scr.utils.TemplateUtils;
 
-import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.StringReader;
 import java.time.format.DateTimeFormatter;
 import java.util.stream.Stream;
@@ -55,6 +53,7 @@ import static uk.nhs.adaptors.scr.models.AcsPermission.ASK;
 import static uk.nhs.adaptors.scr.models.AcsPermission.YES;
 import static uk.nhs.adaptors.scr.utils.FhirHelper.randomUUID;
 import static uk.nhs.adaptors.scr.utils.TemplateUtils.loadTemplate;
+import static uk.nhs.adaptors.scr.utils.XmlUtils.documentBuilder;
 
 @Component
 @Slf4j
@@ -140,7 +139,7 @@ public class GetScrService {
             var bundle = interactionMapper.map(document);
             Patient patient = recordTargetMapper.mapPatient(document);
 
-            Stream.<XmlToFhirMapper>of(
+            Stream.of(
                 gpSummaryMapper,
                 diagnosisMapper,
                 findingMapper)
@@ -180,10 +179,7 @@ public class GetScrService {
 
     @SneakyThrows
     private static Document parseDocument(String xml) {
-        return DocumentBuilderFactory
-            .newInstance()
-            .newDocumentBuilder()
-            .parse(new InputSource(new StringReader(xml)));
+        return documentBuilder().parse(new InputSource(new StringReader(xml)));
     }
 
     private static boolean isPermissionGiven(EventListQueryResponse response) {

@@ -173,7 +173,7 @@ paths:
         ## Overview
         Use this endpoint to retrieve the details of patient's Summary Care Record.
 
-        To get the information you must provide patient's NHS Number and SCR UUID. UUID can be obtained using GET /DocumentReference endpoint.
+        To get the information you must provide patient's NHS number and SCR UUID. UUID can be obtained using GET /DocumentReference endpoint.
 
         ## Sandbox test scenarios
         You can test the following scenarios in our sandbox environment:
@@ -190,7 +190,7 @@ paths:
         - $ref: '#/components/parameters/RequestID'
         - in: query
           name: composition.identifier
-          description: The patient's NHS Number. Must be preceded with FHIR identifier (eg."composition.subject:Patient.identifier=https://fhir.nhs.uk/Id/nhs-number|9995000180")
+          description: The patient's NHS number. Must be preceded with FHIR identifier (eg."composition.subject:Patient.identifier=https://fhir.nhs.uk/Id/nhs-number|9995000180")
           example: FA60BE64-1F34-11EB-A2A8-000C29A364EB$composition.subject:Patient.identifier=https://fhir.nhs.uk/Id/nhs-number|9995000180
           required: true
           schema:
@@ -227,7 +227,7 @@ paths:
         ## Overview
         Use this endpoint to retrieve UUID of patient's latest record. This UUID can be then used to retrieve the Summary Care Record details.
 
-        To get the information you must provide patient's NHS Number.
+        To get the information you must provide patient's NHS number.
       parameters:
         - $ref: '#/components/parameters/BearerAuthorization'
         - $ref: '#/components/parameters/CorrelationID'
@@ -235,7 +235,7 @@ paths:
         - $ref: '#/components/parameters/RoleID'
         - in: query
           name: patient
-          description: The patient's NHS Number. Must be preceded with FHIR identifier (eg."patient=https://fhir.nhs.uk/Id/nhs-number|9995000180")
+          description: The patient's NHS number. Must be preceded with FHIR identifier (eg."patient=https://fhir.nhs.uk/Id/nhs-number|9995000180")
           required: true
           example: https://fhir.nhs.uk/Id/nhs-number|9995000180
           schema:
@@ -277,11 +277,11 @@ paths:
 
   /$setPermission:
     post:
-      summary: Update patient's consent to View SCR
+      summary: Update patient's consent to share SCR
       operationId: acs
       description: |
         ## Overview
-        Use this endpoint to update the Permission to view for GP Summaries held for the patient
+        Use this endpoint to update the Permission to share the GP Summaries
 
         ## Sandbox test scenarios
         You can test the following scenarios in our sandbox environment:

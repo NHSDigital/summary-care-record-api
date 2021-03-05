@@ -5,7 +5,7 @@ properties:
     default: nhsNumber 
   valueString:
     type: string
-    example: 999999998
+    example: 9995000180
 required:
   - name
   - valueString

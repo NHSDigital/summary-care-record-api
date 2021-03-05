@@ -3,7 +3,7 @@
     fullUrl:
       description: Absolute resource URL address
       type: string
-      example: "https://int.api.service.nhs.uk/summary-care-record/FHIR/R4/DocumentReference/fa7eafcd-1294-433e-ab46-4db95b58635c"
+      example: "https://api.service.nhs.uk/summary-care-record/FHIR/R4/DocumentReference/D0AD7E01-5FAF-443C-B0D4-D4F6E37B65C3"
     resource:
       description: A resource in the bundle. A reference to a document
       type: object
@@ -13,7 +13,7 @@
           default: "DocumentReference"
         id:
           type: string
-          example: 6d334ca8-a6e1-4bae-93b1-19a14a36ea7a
+          example: D0AD7E01-5FAF-443C-B0D4-D4F6E37B65C3
         masterIdentifier:
           description: Master Version Specific Identifier
           type: object
@@ -63,8 +63,8 @@
                     type: string
                     default: "https://fhir.nhs.uk/CodeSystem/SCR-ACSPermission"
                   code:
+                    description: "The following values are allowed: Yes, No, Ask"
                     type: string
-                    enum: ["Yes", "No", "Ask"]
                     example: Ask
                 required:
                   - system
@@ -82,7 +82,7 @@
                 properties:
                   url:
                     type: string
-                    example: "https://int.api.service.nhs.uk/summary-care-record/Bundle?composition.identifier=C058D90F-E526-4A27-A46E-E86229096AAC$composition.subject:Patient.identifier=https://fhir.nhs.uk/Id/nhs-number|9990001234"
+                    example: "https://api.service.nhs.uk/summary-care-record/FHIR/R4/Bundle?composition.identifier=C058D90F-E526-4A27-A46E-E86229096AAC$composition.subject:Patient.identifier=https://fhir.nhs.uk/Id/nhs-number|9990001234"
                 required:
                   - url
             required:

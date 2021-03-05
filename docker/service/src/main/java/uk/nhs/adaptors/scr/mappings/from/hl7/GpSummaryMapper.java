@@ -23,14 +23,13 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import static org.hl7.fhir.r4.model.Composition.DocumentRelationshipType.REPLACES;
 import static uk.nhs.adaptors.scr.mappings.from.hl7.XmlToFhirMapper.parseDate;
 import static uk.nhs.adaptors.scr.utils.FhirHelper.getDomainResource;
 
 @Component
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class GpSummaryMapper implements XmlToFhirMapper {
-
-    private static final String DATE_TIME_PATTERN = "yyyyMMddHHmmss";
 
     private static final String BASE_XPATH = "//QUPC_IN210000UK04/ControlActEvent/subject//GPSummary";
     private static final String EVENT_ID_XPATH = "//QUPC_IN210000UK04/ControlActEvent/subject/queryResponseEvent/event/eventID/@root";
@@ -71,8 +70,6 @@ public class GpSummaryMapper implements XmlToFhirMapper {
             XmlUtils.getValueByXPath(document, GP_SUMMARY_ID_XPATH);
         var gpSummaryCodeCode =
             XmlUtils.getValueByXPath(document, GP_SUMMARY_CODE_CODE_XPATH);
-        var gpSummaryCodeCodeSystem =
-            XmlUtils.getValueByXPath(document, GP_SUMMARY_CODE_CODE_SYSTEM_XPATH);
         var gpSummaryCodeDisplayName =
             XmlUtils.getValueByXPath(document, GP_SUMMARY_CODE_DISPLAY_NAME_XPATH);
         var gpSummaryStatusCode =
@@ -82,11 +79,9 @@ public class GpSummaryMapper implements XmlToFhirMapper {
         var authorTime =
             parseDate(XmlUtils.getValueByXPath(document, GP_SUMMARY_AUTHOR_TIME_XPATH), DateTimeType.class);
         var replacementOfPriorMessageRefIdRoot =
-            XmlUtils.getValueByXPath(document, REPLACEMENT_OF_PRIOR_MESSAGE_REF_ID_ROOT_XPATH);
+            XmlUtils.getOptionalValueByXPath(document, REPLACEMENT_OF_PRIOR_MESSAGE_REF_ID_ROOT_XPATH);
         var pertinentRootCreTypeCodeCode =
             XmlUtils.getValueByXPath(document, PERTINENT_ROOT_CRE_TYPE_CODE_CODE_XPATH);
-        var pertinentRootCreTypeCodeCodeSystem =
-            XmlUtils.getValueByXPath(document, PERTINENT_ROOT_CRE_TYPE_CODE_CODE_SYSTEM_XPATH);
         var pertinentRootCreTypeCodeDisplayName =
             XmlUtils.getValueByXPath(document, PERTINENT_ROOT_CRE_TYPE_CODE_DISPLAY_NAME_XPATH);
         var presentationTextValue =
@@ -106,7 +101,7 @@ public class GpSummaryMapper implements XmlToFhirMapper {
         composition.setType(
             new CodeableConcept().addCoding(new Coding()
                 .setCode(gpSummaryCodeCode)
-                .setSystem(gpSummaryCodeCodeSystem)
+                .setSystem(SNOMED_SYSTEM)
                 .setDisplay(gpSummaryCodeDisplayName)));
 
         composition.setMeta(new Meta().setLastUpdatedElement(gpSummaryEffectiveTime));
@@ -116,15 +111,17 @@ public class GpSummaryMapper implements XmlToFhirMapper {
 
         composition.setDateElement(authorTime);
 
-        composition.addRelatesTo(
-            new Composition.CompositionRelatesToComponent().setTarget(new Identifier()
-                .setValue(replacementOfPriorMessageRefIdRoot))
-                .setCode(Composition.DocumentRelationshipType.REPLACES));
+        replacementOfPriorMessageRefIdRoot
+            .ifPresent(val -> composition.addRelatesTo(
+                new Composition.CompositionRelatesToComponent().setTarget(new Identifier()
+                    .setValue(val))
+                    .setCode(REPLACES)
+            ));
 
         composition.addCategory(
             new CodeableConcept().addCoding(new Coding()
                 .setCode(pertinentRootCreTypeCodeCode)
-                .setSystem(pertinentRootCreTypeCodeCodeSystem)
+                .setSystem(SNOMED_SYSTEM)
                 .setDisplay(pertinentRootCreTypeCodeDisplayName)));
 
         presentationTextValue

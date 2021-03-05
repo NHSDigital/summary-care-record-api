@@ -6,6 +6,8 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import uk.nhs.adaptors.scr.exceptions.FhirMappingException;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathFactory;
@@ -13,9 +15,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static javax.xml.XMLConstants.ACCESS_EXTERNAL_DTD;
+import static javax.xml.XMLConstants.ACCESS_EXTERNAL_SCHEMA;
 import static javax.xml.xpath.XPathConstants.NODE;
 import static javax.xml.xpath.XPathConstants.NODESET;
 import static javax.xml.xpath.XPathConstants.STRING;
+import static org.apache.commons.lang3.StringUtils.EMPTY;
 
 public class XmlUtils {
     @SneakyThrows
@@ -74,5 +79,13 @@ public class XmlUtils {
         NodeList nodeList = ((NodeList) xPathExpression.evaluate(node, NODESET));
 
         return nodeList.getLength() > 0 ? nodeList.item(0).getTextContent() : null;
+    }
+
+    @SneakyThrows
+    public static DocumentBuilder documentBuilder() {
+        DocumentBuilderFactory df = DocumentBuilderFactory.newInstance();
+        df.setAttribute(ACCESS_EXTERNAL_DTD, EMPTY);
+        df.setAttribute(ACCESS_EXTERNAL_SCHEMA, EMPTY);
+        return df.newDocumentBuilder();
     }
 }

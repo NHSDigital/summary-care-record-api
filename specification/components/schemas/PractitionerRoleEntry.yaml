@@ -2,6 +2,7 @@
   properties:
     fullUrl:
       type: string
+      example: "https://api.service.nhs.uk/summary-care-record/FHIR/R4/PractitionerRole/FE7B9F77-3BC9-4D99-84DC-292D0762183C"
     resource:
       type: object
       properties:
@@ -10,7 +11,7 @@
           default: "PractitionerRole"
         id:
           type: string
-          example: "83c26c8f-ee72-4534-8891-0136972b2106"
+          example: FE7B9F77-3BC9-4D99-84DC-292D0762183C
         identifier:
           type: array
           items:
@@ -32,7 +33,7 @@
           properties:
             reference:
               type: string
-              example: 'urn:uuid:b1a41ee5-b88b-4f66-bd83-24343bf63dd8'
+              example: 'Practitioner/F4D5093D-351E-4C6E-819E-DCCBC4B9A7FD'
         code:
           type: array
           items:

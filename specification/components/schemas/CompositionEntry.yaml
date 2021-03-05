@@ -2,7 +2,7 @@
   properties:
     fullUrl:
       type: string
-      example: "urn:uuid:2880eedf-76f0-4f38-9681-dc158e937da7"
+      example: "https://api.service.nhs.uk/summary-care-record/FHIR/R4/Composition/25FCE159-C82D-482B-8EA9-86DEF2C3929B"
     resource:
       type: object
       properties:
@@ -11,7 +11,15 @@
           default: Composition
         id:
           type: string
-          example: "2880eedf-76f0-4f38-9681-dc158e937da7"
+          example: "25FCE159-C82D-482B-8EA9-86DEF2C3929B"
+        meta:
+          type: object
+          properties:
+            lastUpdated:
+              type: string
+              example: "2020-11-17T01:00:00+00:00"
+          required:
+            - lastUpdated
         identifier:
           $ref: compositionIdentifier.yaml
         status:
@@ -31,13 +39,13 @@
                   properties:
                     system:
                       type: string
-                      example: 2.16.840.1.113883.2.1.3.2.4.15
+                      default: "http://snomed.info/sct"
                     code:
                       type: string
-                      example: "163171000000105"
+                      default: "163171000000105"
                     display:
                       type: string
-                      example: Care Professional Documentation
+                      default: Care Professional Documentation
                   required:
                     - system
                     - code
@@ -82,5 +90,12 @@
             $ref: compositionSection.yaml
       required:
         - resourceType
+        - id
+        - meta
+        - identifier
+        - status
+        - type
+        - category
+        - subject
         - date
         - title
