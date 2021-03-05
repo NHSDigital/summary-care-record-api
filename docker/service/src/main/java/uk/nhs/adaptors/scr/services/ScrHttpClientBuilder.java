@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import uk.nhs.adaptors.scr.config.SpineConfiguration;
 import uk.nhs.adaptors.scr.exceptions.ScrBaseException;
+import uk.nhs.adaptors.scr.logging.LogExecutionTime;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLContext;
@@ -29,6 +30,7 @@ public class ScrHttpClientBuilder {
 
     private final SpineConfiguration spineConfiguration;
 
+    @LogExecutionTime
     public CloseableHttpClient build() {
         var httpClientBuilder = HttpClients.custom();
         if (spineConfiguration.getUrl().startsWith("https://")) {
