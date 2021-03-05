@@ -28,6 +28,7 @@ import uk.nhs.adaptors.scr.clients.spine.SpineClientContract;
 import uk.nhs.adaptors.scr.clients.spine.SpineHttpClient;
 import uk.nhs.adaptors.scr.config.ScrConfiguration;
 import uk.nhs.adaptors.scr.config.SpineConfiguration;
+import uk.nhs.adaptors.scr.logging.LogExecutionTime;
 import uk.nhs.adaptors.scr.mappings.from.hl7.DiagnosisMapper;
 import uk.nhs.adaptors.scr.mappings.from.hl7.FindingMapper;
 import uk.nhs.adaptors.scr.mappings.from.hl7.GpSummaryMapper;
@@ -89,6 +90,7 @@ public class GetScrService {
     private final FindingMapper findingMapper;
     private final RecordTargetMapper recordTargetMapper;
 
+    @LogExecutionTime
     public Bundle getScrId(String nhsNumber, String nhsdAsid, String clientIp) {
         String scrIdXml = getScrIdRawXml(nhsNumber, nhsdAsid, clientIp);
 
@@ -126,6 +128,7 @@ public class GetScrService {
         return bundle;
     }
 
+    @LogExecutionTime
     public Bundle getScr(String nhsNumber, String compositionId, String nhsdAsid, String clientIp) {
         String scrIdXml = getScrIdRawXml(nhsNumber, nhsdAsid, clientIp);
         LOGGER.debug("Received SCR ID XML:\n{}", scrIdXml);
@@ -186,6 +189,7 @@ public class GetScrService {
         return isNotEmpty(response.getLatestScrId()) && asList(YES, ASK).contains(response.getViewPermission());
     }
 
+    @LogExecutionTime
     public String getScrIdRawXml(String nhsNumber, String nhsdAsid, String clientIp) {
         String requestBody = prepareEventListQueryRequest(nhsNumber, nhsdAsid, clientIp);
         SpineHttpClient.Response result = spineClient.sendGetScrId(requestBody, nhsdAsid);

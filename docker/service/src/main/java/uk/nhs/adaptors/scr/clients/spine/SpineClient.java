@@ -21,6 +21,7 @@ import uk.nhs.adaptors.scr.exceptions.NoSpineResultException;
 import uk.nhs.adaptors.scr.exceptions.ScrBaseException;
 import uk.nhs.adaptors.scr.exceptions.ScrTimeoutException;
 import uk.nhs.adaptors.scr.exceptions.UnexpectedSpineResponseException;
+import uk.nhs.adaptors.scr.logging.LogExecutionTime;
 import uk.nhs.adaptors.scr.models.ProcessingResult;
 
 import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
@@ -74,6 +75,7 @@ public class SpineClient implements SpineClientContract {
 
     @SneakyThrows
     @Override
+    @LogExecutionTime
     public Response sendScrData(String requestBody, String nhsdAsid, String nhsdIdentity, String nhsdSessionUrid) {
         var url = spineConfiguration.getUrl() + spineConfiguration.getScrEndpoint();
         LOGGER.info("Sending SCR Upload request to SPINE. URL: {}", url);
@@ -153,6 +155,7 @@ public class SpineClient implements SpineClientContract {
 
     @SneakyThrows
     @Override
+    @LogExecutionTime
     public Response sendGetScrId(String requestBody, String nhsdAsid) {
         LOGGER.info("Sending GET SCR ID Spine request");
         LOGGER.debug("Body: {}", requestBody);
@@ -186,6 +189,7 @@ public class SpineClient implements SpineClientContract {
 
     @SneakyThrows
     @Override
+    @LogExecutionTime
     public Response sendGetScr(String requestBody, String nhsdAsid) {
         var uri = spineConfiguration.getUrl() + spineConfiguration.getPsisQueriesEndpoint();
         var request = new HttpPost(uri);

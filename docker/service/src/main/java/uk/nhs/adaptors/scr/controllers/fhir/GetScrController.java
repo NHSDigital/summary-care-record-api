@@ -15,6 +15,7 @@ import uk.nhs.adaptors.scr.controllers.validation.scr.RecordCount;
 import uk.nhs.adaptors.scr.controllers.validation.scr.SortMethod;
 import uk.nhs.adaptors.scr.controllers.validation.scr.TypeCode;
 import uk.nhs.adaptors.scr.exceptions.FhirValidationException;
+import uk.nhs.adaptors.scr.logging.LogExecutionTime;
 import uk.nhs.adaptors.scr.services.GetScrService;
 
 import javax.validation.constraints.NotNull;
@@ -40,6 +41,7 @@ public class GetScrController {
     @GetMapping(path = "/DocumentReference",
         produces = {APPLICATION_FHIR_JSON_VALUE})
     @SuppressWarnings("checkstyle:parameternumber")
+    @LogExecutionTime
     public String getScrId(@RequestHeader(NHSD_ASID) @NotNull String nhsdAsid,
                            @RequestHeader(CLIENT_IP) @NotNull String clientIp,
                            @RequestParam("patient") @NotNull @PatientId String patient,
@@ -59,6 +61,7 @@ public class GetScrController {
 
     @GetMapping(path = "/Bundle",
         produces = {APPLICATION_FHIR_JSON_VALUE})
+    @LogExecutionTime
     public String getScr(
         @RequestHeader("Nhsd-Asid") @NotNull String nhsdAsid,
         @RequestHeader("client-ip") @NotNull String clientIp,

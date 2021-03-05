@@ -29,6 +29,7 @@ identity-service:
     userInfoEndpoint: /oauth2/userinfo
 
 spine:
+    useSsl: false
     url: ${SCR_SPINE_URL:http://localhost:8081}
     acsEndpoint: /sync-service
     alertEndpoint: /clinical/alert
@@ -40,3 +41,10 @@ spine:
     clientCert: ${SCR_SPINE_CLIENT_CERT:}
     rootCA: ${SCR_SPINE_ROOT_CA_CERT:}
     subCA: ${SCR_SPINE_SUB_CA_CERT:}
+    connectionPool:
+        maxTotalConnections: 10
+        defaultKeepAliveTime: 20000
+        connectionTimeout: 30000
+        requestTimeout: 30000
+        socketTimeout: 60000
+        idleConnectionWaitTime: 30000
