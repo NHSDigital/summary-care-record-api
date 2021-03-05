@@ -17,7 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import uk.nhs.adaptors.scr.exceptions.ScrBaseException;
 import uk.nhs.adaptors.scr.logging.LogExecutionTime;
-import uk.nhs.adaptors.scr.services.ScrHttpClientBuilder;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -28,7 +27,7 @@ import java.util.Arrays;
 @Slf4j
 public class SpineHttpClient {
 
-    private final ScrHttpClientBuilder scrHttpClientBuilder;
+    private final CloseableHttpClient client;
 
     @SuppressFBWarnings(
         value = "RCN_REDUNDANT_NULLCHECK_WOULD_HAVE_BEEN_A_NPE",
@@ -36,7 +35,7 @@ public class SpineHttpClient {
     @LogExecutionTime
     public Response sendRequest(HttpRequestBase request) {
         LOGGER.debug("Attempting to send SPINE request: {}", request.getRequestLine().toString());
-        try (CloseableHttpClient client = scrHttpClientBuilder.build()) {
+        try {
             try (CloseableHttpResponse response = client.execute(request)) {
                 var statusCode = response.getStatusLine().getStatusCode();
                 var headers = response.getAllHeaders();
