@@ -54,6 +54,7 @@ public class SpineClient implements SpineClientContract {
 
     @SneakyThrows
     @Override
+    @LogExecutionTime
     public Response sendAcsData(String requestBody, String nhsdAsid) {
         var url = spineConfiguration.getUrl() + spineConfiguration.getAcsEndpoint();
         LOGGER.info("Sending ACS Set Permission Spine request. URL: {}", url);
@@ -115,6 +116,7 @@ public class SpineClient implements SpineClientContract {
     }
 
     @Override
+    @LogExecutionTime
     public ProcessingResult getScrProcessingResult(String contentLocation, long initialWaitTime, String nhsdAsid,
                                                    String nhsdIdentity, String nhsdSessionUrid) {
         var repeatTimeout = spineConfiguration.getScrResultRepeatTimeout();
@@ -176,6 +178,7 @@ public class SpineClient implements SpineClientContract {
 
     @Override
     @SneakyThrows
+    @LogExecutionTime
     public Response sendAlert(String requestBody, String nhsdAsid, String nhsdIdentity, String nhsdSessionUrid) {
         LOGGER.info("Sending ALERT Spine request");
         LOGGER.debug("Body: {}", requestBody);
