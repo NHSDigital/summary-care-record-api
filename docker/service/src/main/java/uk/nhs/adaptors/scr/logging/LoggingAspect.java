@@ -23,8 +23,8 @@ public class LoggingAspect {
         stopWatch.start(methodName);
         Object result = proceedingJoinPoint.proceed();
         stopWatch.stop();
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug(String.format("Execution time of %s: %f seconds", stopWatch.getId(), stopWatch.getTotalTimeSeconds()));
+        if (LOGGER.isInfoEnabled()) {
+            LOGGER.info(String.format("Execution time of %s: %f seconds", stopWatch.getId(), stopWatch.getTotalTimeSeconds()));
         }
         return result;
     }
