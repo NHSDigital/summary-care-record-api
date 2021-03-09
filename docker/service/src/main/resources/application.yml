@@ -32,7 +32,7 @@ scr:
   baseUrl: https://${HOST_URL}
 
 spine:
-  useSsl: true
+  tlsEnabled: ${TLS_ENABLED:True}
   url: https://${SCR_SPINE_URL}
   acsEndpoint: /sync-service
   alertEndpoint: /clinical/alert

@@ -10,6 +10,8 @@ docker_service:
         value: "{{ 'DEBUG' if APIGEE_ENVIRONMENT == 'internal-dev' else 'INFO' }}"
       - name: SCR_SANDBOX_MODE
         value: "False"
+      - name: TLS_ENABLED
+        value: "True"
       - name: HOST_URL
         value: "{{ APIGEE_HOSTNAME }}"
       - name: SERVICE_BASE_PATH
