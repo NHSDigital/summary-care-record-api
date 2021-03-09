@@ -7,19 +7,18 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.io.IOUtils;
 import org.apache.http.Header;
 import org.apache.http.NameValuePair;
-import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpRequestBase;
-import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.client.protocol.HttpClientContext;
+import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import uk.nhs.adaptors.scr.exceptions.ScrBaseException;
 import uk.nhs.adaptors.scr.logging.LogExecutionTime;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 
 @Component
@@ -27,7 +26,10 @@ import java.util.Arrays;
 @Slf4j
 public class SpineHttpClient {
 
-    private final CloseableHttpClient client;
+    private final HttpClient client;
+    private final SpineResponseHandler spineResponseHandler;
+    private final PoolingHttpClientConnectionManager clientConnectionManager;
+
 
     @SuppressFBWarnings(
         value = "RCN_REDUNDANT_NULLCHECK_WOULD_HAVE_BEEN_A_NPE",
@@ -36,17 +38,10 @@ public class SpineHttpClient {
     public Response sendRequest(HttpRequestBase request) {
         LOGGER.debug("Attempting to send SPINE request: {}", request.getRequestLine().toString());
         try {
-            try (CloseableHttpResponse response = client.execute(request)) {
-                var statusCode = response.getStatusLine().getStatusCode();
-                var headers = response.getAllHeaders();
-                var body = readResponseBody(response);
-                LOGGER.debug("Spine response: HTTP status: {}, body: {}", statusCode, body);
-                return Response.builder()
-                    .statusCode(statusCode)
-                    .headers(headers)
-                    .body(body)
-                    .build();
-            }
+            LOGGER.info("Leased connections: " + clientConnectionManager.getTotalStats().getLeased());
+            LOGGER.info("Available connections: " + clientConnectionManager.getTotalStats().getAvailable());
+
+            return client.execute(request, spineResponseHandler, HttpClientContext.create());
         } catch (IOException e) {
             LOGGER.error("Error while sending SPINE request", e);
             throw new ScrBaseException("Unexpected exception while sending Spine request", e);
@@ -59,10 +54,6 @@ public class SpineHttpClient {
             .map(NameValuePair::getValue)
             .findFirst()
             .orElseThrow(() -> new ScrBaseException("Response missing " + headerName + " header"));
-    }
-
-    private String readResponseBody(CloseableHttpResponse response) throws IOException {
-        return IOUtils.toString(response.getEntity().getContent(), StandardCharsets.UTF_8.name());
     }
 
     @Builder
