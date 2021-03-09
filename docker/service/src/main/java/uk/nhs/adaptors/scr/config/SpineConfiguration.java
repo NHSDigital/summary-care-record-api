@@ -14,7 +14,7 @@ import javax.validation.constraints.NotNull;
 @Getter
 @Setter
 public class SpineConfiguration {
-    private boolean useSsl;
+    private boolean tlsEnabled;
     private String url;
     private String acsEndpoint;
     private String scrEndpoint;

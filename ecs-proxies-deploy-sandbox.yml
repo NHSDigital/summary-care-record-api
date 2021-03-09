@@ -8,6 +8,8 @@ docker_service:
       environment:
         - name: SCR_SANDBOX_MODE
           value: "True"
+        - name: TLS_ENABLED
+          value: "False"
         - name: HOST_URL
           value: "{{ APIGEE_HOSTNAME }}"
         - name: SERVICE_BASE_PATH

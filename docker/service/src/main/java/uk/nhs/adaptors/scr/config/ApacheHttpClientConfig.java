@@ -62,7 +62,7 @@ public class ApacheHttpClientConfig {
 
     private Registry<ConnectionSocketFactory> getConnectionSocketFactoryRegistry() {
         RegistryBuilder<ConnectionSocketFactory> builder = RegistryBuilder.create();
-        if (spineConfiguration.isUseSsl()) {
+        if (spineConfiguration.isTlsEnabled()) {
             builder.register("https", new SSLConnectionSocketFactory(buildSSLContext(spineConfiguration)));
         } else {
             builder.register("http", PlainConnectionSocketFactory.getSocketFactory());
