@@ -9,6 +9,7 @@ import org.hl7.fhir.r4.model.Parameters.ParametersParameterComponent;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.w3c.dom.Document;
 import uk.nhs.adaptors.scr.clients.identity.IdentityServiceContract;
 import uk.nhs.adaptors.scr.clients.identity.UserInfo;
 import uk.nhs.adaptors.scr.clients.spine.SpineClientContract;
@@ -56,7 +57,7 @@ public class AcsService {
         UserInfo userInfo = identityService.getUserInfo(requestData.getAuthorization());
         String acsRequest = prepareAcsRequest(parameter, requestData, getUserRoleCode(userInfo, requestData.getNhsdSessionUrid()),
             userInfo.getId());
-        Response response = spineClient.sendAcsData(acsRequest, requestData.getNhsdAsid());
+        Response<Document> response = spineClient.sendAcsData(acsRequest, requestData.getNhsdAsid());
         AcsResponse acsResponse = AcsResponse.parseXml(response.getBody());
         if (!acsResponse.isSuccessful()) {
             handleUnsuccessfulOperation(acsResponse);

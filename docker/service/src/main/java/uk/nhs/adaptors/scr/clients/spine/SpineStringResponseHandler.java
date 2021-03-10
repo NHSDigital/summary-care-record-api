@@ -1,5 +1,6 @@
 package uk.nhs.adaptors.scr.clients.spine;
 
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpResponse;
@@ -9,26 +10,24 @@ import uk.nhs.adaptors.scr.clients.spine.SpineHttpClient.Response;
 import uk.nhs.adaptors.scr.logging.LogExecutionTime;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
+
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 @Component
 @Slf4j
-public class SpineResponseHandler implements ResponseHandler<Response> {
+public class SpineStringResponseHandler implements ResponseHandler<Response<String>> {
+    @SneakyThrows
     @Override
     @LogExecutionTime
-    public Response handleResponse(HttpResponse response) throws IOException {
+    public Response<String> handleResponse(HttpResponse response) {
         var statusCode = response.getStatusLine().getStatusCode();
         var headers = response.getAllHeaders();
-        var body = readResponseBody(response);
-        LOGGER.debug("Spine response: HTTP status: {}, body: {}", statusCode, body);
-        return Response.builder()
-            .statusCode(statusCode)
-            .headers(headers)
-            .body(body)
-            .build();
+        String responseBody = readResponseBody(response);
+        LOGGER.debug("Spine String response: HTTP status: {}, body: {}", statusCode, responseBody);
+        return new Response<>(statusCode, headers, responseBody);
     }
 
     private static String readResponseBody(HttpResponse response) throws IOException {
-        return IOUtils.toString(response.getEntity().getContent(), StandardCharsets.UTF_8.name());
+        return IOUtils.toString(response.getEntity().getContent(), UTF_8.name());
     }
 }

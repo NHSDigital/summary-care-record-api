@@ -4,16 +4,13 @@ import lombok.Getter;
 import lombok.SneakyThrows;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
 
 import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathFactory;
-import java.io.StringReader;
 
 import static javax.xml.xpath.XPathConstants.NODESET;
 import static uk.nhs.adaptors.scr.models.AcsPermission.ASK;
 import static uk.nhs.adaptors.scr.models.AcsPermission.NO;
-import static uk.nhs.adaptors.scr.utils.XmlUtils.documentBuilder;
 import static uk.nhs.adaptors.scr.utils.XmlUtils.getNodeAttributeValue;
 import static uk.nhs.adaptors.scr.utils.XmlUtils.getNodeText;
 
@@ -32,9 +29,7 @@ public class EventListQueryResponse {
     private String latestScrId;
 
     @SneakyThrows
-    public static EventListQueryResponse parseXml(String xml) {
-        var soapEnvelope = documentBuilder().parse(new InputSource(new StringReader(xml)));
-
+    public static EventListQueryResponse parseXml(Document soapEnvelope) {
         EventListQueryResponse response = new EventListQueryResponse();
         response.viewPermission = getPermissionValue(soapEnvelope, VIEW_PERMISSION_XPATH);
         response.storePermission = getPermissionValue(soapEnvelope, STORE_PERMISSION_XPATH);

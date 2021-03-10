@@ -15,6 +15,7 @@ import org.springframework.retry.backoff.BackOffContext;
 import org.springframework.retry.backoff.BackOffInterruptedException;
 import org.springframework.retry.backoff.BackOffPolicy;
 import org.springframework.retry.support.RetryTemplate;
+import org.w3c.dom.Document;
 import uk.nhs.adaptors.scr.clients.spine.SpineHttpClient.Response;
 import uk.nhs.adaptors.scr.config.SpineConfiguration;
 import uk.nhs.adaptors.scr.exceptions.NoSpineResultException;
@@ -51,11 +52,13 @@ public class SpineClient implements SpineClientContract {
 
     private final SpineConfiguration spineConfiguration;
     private final SpineHttpClient spineHttpClient;
+    private final SpineStringResponseHandler stringResponseHandler;
+    private final SpineXmlResponseHandler xmlResponseHandler;
 
     @SneakyThrows
     @Override
     @LogExecutionTime
-    public Response sendAcsData(String requestBody, String nhsdAsid) {
+    public Response<Document> sendAcsData(String requestBody, String nhsdAsid) {
         var url = spineConfiguration.getUrl() + spineConfiguration.getAcsEndpoint();
         LOGGER.info("Sending ACS Set Permission Spine request. URL: {}", url);
         LOGGER.debug("Body: {}", requestBody);
@@ -64,7 +67,7 @@ public class SpineClient implements SpineClientContract {
         request.setHeader(NHSD_ASID, nhsdAsid);
         request.setEntity(new StringEntity(requestBody));
 
-        var response = spineHttpClient.sendRequest(request);
+        var response = spineHttpClient.sendRequest(request, xmlResponseHandler);
         var statusCode = response.getStatusCode();
 
         if (statusCode != OK.value()) {
@@ -77,7 +80,7 @@ public class SpineClient implements SpineClientContract {
     @SneakyThrows
     @Override
     @LogExecutionTime
-    public Response sendScrData(String requestBody, String nhsdAsid, String nhsdIdentity, String nhsdSessionUrid) {
+    public Response<String> sendScrData(String requestBody, String nhsdAsid, String nhsdIdentity, String nhsdSessionUrid) {
         var url = spineConfiguration.getUrl() + spineConfiguration.getScrEndpoint();
         LOGGER.info("Sending SCR Upload request to SPINE. URL: {}", url);
         LOGGER.debug("Body: {}", requestBody);
@@ -86,7 +89,7 @@ public class SpineClient implements SpineClientContract {
         setUploadScrHeaders(request, nhsdAsid, nhsdIdentity, nhsdSessionUrid);
         request.setEntity(new StringEntity(requestBody));
 
-        var response = spineHttpClient.sendRequest(request);
+        var response = spineHttpClient.sendRequest(request, stringResponseHandler);
         var statusCode = response.getStatusCode();
 
         if (statusCode != ACCEPTED.value()) {
@@ -138,7 +141,7 @@ public class SpineClient implements SpineClientContract {
             var request = new HttpGet(spineConfiguration.getUrl() + contentLocation);
             setCommonHeaders(request, nhsdAsid, nhsdIdentity, nhsdSessionUrid);
 
-            var result = spineHttpClient.sendRequest(request);
+            var result = spineHttpClient.sendRequest(request, stringResponseHandler);
             int statusCode = result.getStatusCode();
 
             if (statusCode == OK.value()) {
@@ -158,7 +161,7 @@ public class SpineClient implements SpineClientContract {
     @SneakyThrows
     @Override
     @LogExecutionTime
-    public Response sendGetScrId(String requestBody, String nhsdAsid) {
+    public Response<Document> sendGetScrId(String requestBody, String nhsdAsid) {
         LOGGER.info("Sending GET SCR ID Spine request");
         LOGGER.debug("Body: {}", requestBody);
         var request = new HttpPost(spineConfiguration.getUrl() + spineConfiguration.getPsisQueriesEndpoint());
@@ -166,7 +169,7 @@ public class SpineClient implements SpineClientContract {
 
         request.setEntity(new StringEntity(requestBody));
 
-        var response = spineHttpClient.sendRequest(request);
+        var response = spineHttpClient.sendRequest(request, xmlResponseHandler);
         var statusCode = response.getStatusCode();
 
         if (statusCode != OK.value()) {
@@ -179,7 +182,7 @@ public class SpineClient implements SpineClientContract {
     @Override
     @SneakyThrows
     @LogExecutionTime
-    public Response sendAlert(String requestBody, String nhsdAsid, String nhsdIdentity, String nhsdSessionUrid) {
+    public Response<String> sendAlert(String requestBody, String nhsdAsid, String nhsdIdentity, String nhsdSessionUrid) {
         LOGGER.info("Sending ALERT Spine request");
         LOGGER.debug("Body: {}", requestBody);
         var request = new HttpPost(spineConfiguration.getUrl() + spineConfiguration.getAlertEndpoint());
@@ -187,13 +190,13 @@ public class SpineClient implements SpineClientContract {
         setCommonHeaders(request, nhsdAsid, nhsdIdentity, nhsdSessionUrid);
         request.setEntity(new StringEntity(requestBody));
 
-        return spineHttpClient.sendRequest(request);
+        return spineHttpClient.sendRequest(request, stringResponseHandler);
     }
 
     @SneakyThrows
     @Override
     @LogExecutionTime
-    public Response sendGetScr(String requestBody, String nhsdAsid) {
+    public Response<Document> sendGetScr(String requestBody, String nhsdAsid) {
         var uri = spineConfiguration.getUrl() + spineConfiguration.getPsisQueriesEndpoint();
         var request = new HttpPost(uri);
         LOGGER.info("Sending GET SCR Spine request. URL: {}", uri);
@@ -204,7 +207,7 @@ public class SpineClient implements SpineClientContract {
 
         request.setEntity(new StringEntity(requestBody));
 
-        var response = spineHttpClient.sendRequest(request);
+        var response = spineHttpClient.sendRequest(request, xmlResponseHandler);
         var statusCode = response.getStatusCode();
 
         if (statusCode != OK.value()) {
