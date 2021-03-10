@@ -14,6 +14,7 @@ import static org.springframework.http.HttpHeaders.CONTENT_LOCATION;
 import static org.springframework.http.HttpHeaders.RETRY_AFTER;
 import static org.springframework.http.HttpStatus.ACCEPTED;
 import static org.springframework.http.HttpStatus.OK;
+import static uk.nhs.adaptors.scr.utils.DocumentBuilderUtil.documentBuilder;
 
 public class SandboxSpineClient implements SpineClientContract {
 
@@ -25,7 +26,7 @@ public class SandboxSpineClient implements SpineClientContract {
     @SneakyThrows
     @Override
     public Response<Document> sendAcsData(String requestBody, String nhsdAsid) {
-        return new Response(OK.value(), null, ACS_SET_PERMISSION_RESPONSE);
+        return new Response(OK.value(), null, getResourceAsXmlDocument(ACS_SET_PERMISSION_RESPONSE));
     }
 
     @Override
@@ -47,13 +48,13 @@ public class SandboxSpineClient implements SpineClientContract {
     @SneakyThrows
     @Override
     public Response<Document> sendGetScrId(String requestBody, String nhsdAsid) {
-        return new Response(OK.value(), null, new ClassPathResource(EVENT_LIST_QUERY_RESPONSE).getInputStream());
+        return new Response(OK.value(), null, getResourceAsXmlDocument(EVENT_LIST_QUERY_RESPONSE));
     }
 
     @SneakyThrows
     @Override
     public Response<Document> sendGetScr(String requestBody, String nhsdAsid) {
-        return new Response(OK.value(), null, new ClassPathResource(EVENT_QUERY_RESPONSE).getInputStream());
+        return new Response(OK.value(), null, getResourceAsXmlDocument(EVENT_QUERY_RESPONSE));
     }
 
     @Override
@@ -64,5 +65,10 @@ public class SandboxSpineClient implements SpineClientContract {
     @SneakyThrows
     private static String getResourceAsString(String path) {
         return IOUtils.toString(new ClassPathResource(path).getInputStream(), UTF_8);
+    }
+
+    @SneakyThrows
+    private static Document getResourceAsXmlDocument(String path) {
+        return documentBuilder().parse(new ClassPathResource(path).getInputStream());
     }
 }
