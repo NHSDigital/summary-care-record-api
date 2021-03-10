@@ -9,14 +9,13 @@ import org.hl7.fhir.r4.model.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Node;
+import uk.nhs.adaptors.scr.utils.XmlUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import static uk.nhs.adaptors.scr.utils.FhirHelper.randomUUID;
-import static uk.nhs.adaptors.scr.utils.XmlUtils.getOptionalNodeByXpath;
-import static uk.nhs.adaptors.scr.utils.XmlUtils.getOptionalValueByXPath;
 
 @Component
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -32,6 +31,7 @@ public class AgentDeviceMapper implements XmlToFhirMapper {
     private final DeviceSdsMapper deviceSdsMapper;
     private final OrganisationMapper organisationMapper;
     private final OrganisationSdsMapper organisationSdsMapper;
+    private final XmlUtils xmlUtils;
 
     @Override
     public List<? extends Resource> map(Node agentDevice) {
@@ -52,8 +52,8 @@ public class AgentDeviceMapper implements XmlToFhirMapper {
 
     private Organization mapOrganization(Node agentDevice) {
         Organization org;
-        Optional<Node> orgNode = getOptionalNodeByXpath(agentDevice, ORG_XPATH);
-        Optional<Node> orgSdsNode = getOptionalNodeByXpath(agentDevice, ORG_SDS_XPATH);
+        Optional<Node> orgNode = xmlUtils.getOptionalNodeByXpath(agentDevice, ORG_XPATH);
+        Optional<Node> orgSdsNode = xmlUtils.getOptionalNodeByXpath(agentDevice, ORG_SDS_XPATH);
         if (orgNode.isPresent()) {
             org = organisationMapper.mapOrganization(orgNode.get());
         } else if (orgSdsNode.isPresent()) {
@@ -68,8 +68,8 @@ public class AgentDeviceMapper implements XmlToFhirMapper {
     private Device mapDevice(Node agentDevice) {
         Device device;
 
-        Optional<Node> deviceSds = getOptionalNodeByXpath(agentDevice, AGENT_DEVICE_SDS_XPATH);
-        Optional<Node> deviceHl7 = getOptionalNodeByXpath(agentDevice, AGENT_DEVICE_XPATH);
+        Optional<Node> deviceSds = xmlUtils.getOptionalNodeByXpath(agentDevice, AGENT_DEVICE_SDS_XPATH);
+        Optional<Node> deviceHl7 = xmlUtils.getOptionalNodeByXpath(agentDevice, AGENT_DEVICE_XPATH);
 
         if (deviceSds.isPresent()) {
             device = deviceSdsMapper.mapDeviceSds(deviceSds.get());
@@ -80,7 +80,7 @@ public class AgentDeviceMapper implements XmlToFhirMapper {
             device.setId(randomUUID());
         }
 
-        getOptionalValueByXPath(agentDevice, ID_ROOT_XPATH)
+        xmlUtils.getOptionalValueByXPath(agentDevice, ID_ROOT_XPATH)
             .ifPresent(id -> device.addIdentifier().setValue(id));
 
         return device;

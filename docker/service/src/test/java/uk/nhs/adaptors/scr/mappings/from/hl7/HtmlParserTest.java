@@ -4,13 +4,14 @@ import lombok.SneakyThrows;
 import org.hl7.fhir.r4.model.Composition;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
-import org.springframework.web.HttpMediaTypeNotAcceptableException;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 import uk.nhs.adaptors.scr.components.FhirParser;
+import uk.nhs.adaptors.scr.utils.XmlUtils;
 import uk.nhs.utils.HtmlParserArgumentsProvider;
 
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.xpath.XPathFactory;
 import java.io.StringReader;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -19,11 +20,11 @@ import static uk.nhs.utils.Utils.readResourceFile;
 class HtmlParserTest {
 
     private FhirParser fhirParser = new FhirParser();
-    private HtmlParser htmlParser = new HtmlParser();
+    private HtmlParser htmlParser = new HtmlParser(new XmlUtils(XPathFactory.newInstance()));
 
     @ParameterizedTest(name = "[{index}] - {0}.html/json")
     @ArgumentsSource(HtmlParserArgumentsProvider.class)
-    public void When_ParsingHtml_Expect_CompositionSectionsAreCreated(String fileName) throws HttpMediaTypeNotAcceptableException {
+    public void When_ParsingHtml_Expect_CompositionSectionsAreCreated(String fileName) {
         var html = parseXml(readResourceFile(String.format("html_parser/%s.html", fileName))).getDocumentElement();
         var expectedJson = readResourceFile(String.format("html_parser/%s.json", fileName));
 

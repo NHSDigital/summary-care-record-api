@@ -8,7 +8,7 @@ import org.w3c.dom.Document;
 import uk.nhs.adaptors.scr.clients.spine.SpineHttpClient.Response;
 import uk.nhs.adaptors.scr.logging.LogExecutionTime;
 
-import static uk.nhs.adaptors.scr.utils.XmlUtils.documentBuilder;
+import static uk.nhs.adaptors.scr.utils.DocumentBuilderUtil.documentBuilder;
 
 @Component
 public class SpineXmlResponseHandler implements ResponseHandler<Response<Document>> {

@@ -10,12 +10,10 @@ import uk.nhs.adaptors.scr.clients.spine.SpineHttpClient.Response;
 import uk.nhs.adaptors.scr.models.ProcessingResult;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static org.apache.commons.io.IOUtils.toInputStream;
 import static org.springframework.http.HttpHeaders.CONTENT_LOCATION;
 import static org.springframework.http.HttpHeaders.RETRY_AFTER;
 import static org.springframework.http.HttpStatus.ACCEPTED;
 import static org.springframework.http.HttpStatus.OK;
-import static uk.nhs.adaptors.scr.utils.XmlUtils.documentBuilder;
 
 public class SandboxSpineClient implements SpineClientContract {
 
@@ -27,8 +25,7 @@ public class SandboxSpineClient implements SpineClientContract {
     @SneakyThrows
     @Override
     public Response<Document> sendAcsData(String requestBody, String nhsdAsid) {
-        String responseBody = getResourceAsString(ACS_SET_PERMISSION_RESPONSE);
-        return new Response(OK.value(), null, documentBuilder().parse(toInputStream(responseBody, "UTF_8")));
+        return new Response(OK.value(), null, ACS_SET_PERMISSION_RESPONSE);
     }
 
     @Override
@@ -50,15 +47,13 @@ public class SandboxSpineClient implements SpineClientContract {
     @SneakyThrows
     @Override
     public Response<Document> sendGetScrId(String requestBody, String nhsdAsid) {
-        String responseBody = getResourceAsString(EVENT_LIST_QUERY_RESPONSE);
-        return new Response(OK.value(), null, documentBuilder().parse(toInputStream(responseBody, UTF_8)));
+        return new Response(OK.value(), null, new ClassPathResource(EVENT_LIST_QUERY_RESPONSE).getInputStream());
     }
 
     @SneakyThrows
     @Override
     public Response<Document> sendGetScr(String requestBody, String nhsdAsid) {
-        String responseBody = getResourceAsString(EVENT_QUERY_RESPONSE);
-        return new Response(OK.value(), null, documentBuilder().parse(toInputStream(responseBody, UTF_8)));
+        return new Response(OK.value(), null, new ClassPathResource(EVENT_QUERY_RESPONSE).getInputStream());
     }
 
     @Override

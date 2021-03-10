@@ -18,6 +18,7 @@ import org.hl7.fhir.r4.model.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 import uk.nhs.adaptors.scr.mappings.from.hl7.common.CodedEntry;
 import uk.nhs.adaptors.scr.mappings.from.hl7.common.CodedEntryMapper;
 import uk.nhs.adaptors.scr.utils.XmlUtils;
@@ -29,9 +30,6 @@ import java.util.Optional;
 import static org.hl7.fhir.r4.model.Encounter.EncounterStatus.FINISHED;
 import static uk.nhs.adaptors.scr.mappings.from.hl7.XmlToFhirMapper.parseDate;
 import static uk.nhs.adaptors.scr.utils.FhirHelper.randomUUID;
-import static uk.nhs.adaptors.scr.utils.XmlUtils.getNodesByXPath;
-import static uk.nhs.adaptors.scr.utils.XmlUtils.getOptionalValueByXPath;
-import static uk.nhs.adaptors.scr.utils.XmlUtils.getValueByXPath;
 
 @Component
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -57,18 +55,23 @@ public class DiagnosisMapper implements XmlToFhirMapper {
 
     private final ParticipantMapper participantMapper;
     private final CodedEntryMapper codedEntryMapper;
+    private final XmlUtils xmlUtils;
 
     @SneakyThrows
     public List<Resource> map(Node document) {
         var resources = new ArrayList<Resource>();
-        for (var pertinentCREType : getNodesByXPath(document, PERTINENT_CRET_BASE_PATH)) {
-            var pertinentCRETypeCode = getValueByXPath(pertinentCREType, PERTINENT_CODE_CODE_XPATH);
-            var pertinentCRETypeDisplay = getValueByXPath(pertinentCREType, PERTINENT_CODE_DISPLAY_XPATH);
-            for (var node : getNodesByXPath(pertinentCREType, DIAGNOSIS_BASE_PATH)) {
+        NodeList pertinentNodes = xmlUtils.getNodeListByXPath(document, PERTINENT_CRET_BASE_PATH);
+        for (int i = 0; i < pertinentNodes.getLength(); i++) {
+            Node pertinentCREType = xmlUtils.getNodeAndDetachFromParent(pertinentNodes, i);
+            var pertinentCRETypeCode = xmlUtils.getValueByXPath(pertinentCREType, PERTINENT_CODE_CODE_XPATH);
+            var pertinentCRETypeDisplay = xmlUtils.getValueByXPath(pertinentCREType, PERTINENT_CODE_DISPLAY_XPATH);
+            NodeList diagnosisNodes = xmlUtils.getNodeListByXPath(pertinentCREType, DIAGNOSIS_BASE_PATH);
+            for (int j = 0; j < diagnosisNodes.getLength(); j++) {
+                Node node = xmlUtils.getNodeAndDetachFromParent(diagnosisNodes, j);
                 CodedEntry entry = codedEntryMapper.getCommonCodedEntryValues(node);
                 if (COVID_19_ENTRIES.contains(entry.getCodeValue())) {
                     var pertinentSupportingInfo =
-                        getOptionalValueByXPath(node, DIAGNOSIS_PERTINENT_SUPPORTING_INFO_XPATH);
+                        xmlUtils.getOptionalValueByXPath(node, DIAGNOSIS_PERTINENT_SUPPORTING_INFO_XPATH);
 
                     var condition = new Condition();
                     condition.setId(entry.getId());
@@ -97,8 +100,8 @@ public class DiagnosisMapper implements XmlToFhirMapper {
                         .map(value -> new Annotation().setText(value))
                         .ifPresent(condition::addNote);
 
-                    getNodesByXPath(node, DIAGNOSIS_PERTINENT_FINDINGS_XPATH).stream()
-                        .map(it -> getValueByXPath(it, DIAGNOSIS_PERTINENT_FINDING_ID_XPATH))
+                    xmlUtils.getNodesByXPath(node, DIAGNOSIS_PERTINENT_FINDINGS_XPATH).stream()
+                        .map(it -> xmlUtils.getValueByXPath(it, DIAGNOSIS_PERTINENT_FINDING_ID_XPATH))
                         .map(it -> new Reference(new Observation().setId(it)))
                         .map(reference -> new Condition.ConditionEvidenceComponent().addDetail(reference))
                         .forEach(condition::addEvidence);
@@ -111,8 +114,8 @@ public class DiagnosisMapper implements XmlToFhirMapper {
     }
 
     private void mapEncounter(Node diagnosis, Condition condition, List<Resource> resources) {
-        Optional<Node> author = XmlUtils.getOptionalNodeByXpath(diagnosis, DIAGNOSIS_AUTHOR_XPATH);
-        Optional<Node> informant = XmlUtils.getOptionalNodeByXpath(diagnosis, DIAGNOSIS_INFORMANT_XPATH);
+        Optional<Node> author = xmlUtils.getOptionalNodeByXpath(diagnosis, DIAGNOSIS_AUTHOR_XPATH);
+        Optional<Node> informant = xmlUtils.getOptionalNodeByXpath(diagnosis, DIAGNOSIS_INFORMANT_XPATH);
         if (author.isPresent() || informant.isPresent()) {
             Encounter encounter = new Encounter();
             encounter.setStatus(FINISHED);
@@ -129,7 +132,7 @@ public class DiagnosisMapper implements XmlToFhirMapper {
     }
 
     private void mapInformant(List<Resource> resources, Encounter encounter, Node informant) {
-        DateTimeType time = parseDate(getValueByXPath(informant, DIAGNOSIS_PARTICIPANT_TIME_XPATH), DateTimeType.class);
+        DateTimeType time = parseDate(xmlUtils.getValueByXPath(informant, DIAGNOSIS_PARTICIPANT_TIME_XPATH), DateTimeType.class);
         participantMapper.map(informant)
             .stream()
             .peek(it -> resources.add(it))
@@ -141,7 +144,7 @@ public class DiagnosisMapper implements XmlToFhirMapper {
     }
 
     private void mapAuthor(List<Resource> resources, Encounter encounter, Node author) {
-        DateTimeType time = parseDate(getValueByXPath(author, DIAGNOSIS_PARTICIPANT_TIME_XPATH), DateTimeType.class);
+        DateTimeType time = parseDate(xmlUtils.getValueByXPath(author, DIAGNOSIS_PARTICIPANT_TIME_XPATH), DateTimeType.class);
         participantMapper.map(author)
             .stream()
             .peek(it -> resources.add(it))

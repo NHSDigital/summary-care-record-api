@@ -2,17 +2,18 @@ package uk.nhs.adaptors.scr.mappings.from.hl7;
 
 import io.micrometer.core.instrument.util.StringUtils;
 import lombok.Builder;
+import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.apache.commons.lang3.tuple.Pair;
 import org.hl7.fhir.r4.model.CodeableConcept;
 import org.hl7.fhir.r4.model.Coding;
 import org.hl7.fhir.r4.model.Composition;
 import org.hl7.fhir.r4.model.Narrative;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
 import uk.nhs.adaptors.scr.utils.XmlUtils;
 
 import javax.xml.transform.OutputKeys;
@@ -24,7 +25,6 @@ import javax.xml.transform.stream.StreamResult;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathFactory;
-import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,18 +33,21 @@ import java.util.stream.Collectors;
 
 import static javax.xml.XMLConstants.ACCESS_EXTERNAL_DTD;
 import static javax.xml.XMLConstants.ACCESS_EXTERNAL_STYLESHEET;
-import static uk.nhs.adaptors.scr.utils.XmlUtils.documentBuilder;
+import static uk.nhs.adaptors.scr.utils.DocumentBuilderUtil.documentBuilder;
 
 @Component
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class HtmlParser {
 
     private static final String H2 = "h2";
+
+    private final XmlUtils xmlUtils;
 
     @SneakyThrows
     public List<Composition.SectionComponent> parse(Node html) {
         removeEmptyNodes(html);
 
-        var bodyNode = XmlUtils.getNodesByXPath(html, "./body").stream()
+        var bodyNode = xmlUtils.getNodesByXPath(html, "./body").stream()
             .findFirst()
             .orElseThrow(() -> new IllegalStateException("Missing body node in html"));
 
@@ -110,11 +113,6 @@ public class HtmlParser {
             Node emptyTextNode = emptyTextNodes.item(i);
             emptyTextNode.getParentNode().removeChild(emptyTextNode);
         }
-    }
-
-    @SneakyThrows
-    public static Document parseDocument(String xml) {
-        return documentBuilder().parse(new InputSource(new StringReader(xml)));
     }
 
     private static Composition.SectionComponent buildSectionComponent(ParsedHtml parsedHtml) {

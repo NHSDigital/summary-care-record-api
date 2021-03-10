@@ -2,7 +2,6 @@ package uk.nhs.adaptors.scr.services;
 
 import com.github.mustachejava.Mustache;
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.r4.model.Attachment;
@@ -23,7 +22,6 @@ import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
-import org.xml.sax.InputSource;
 import uk.nhs.adaptors.scr.clients.spine.SpineClientContract;
 import uk.nhs.adaptors.scr.clients.spine.SpineHttpClient.Response;
 import uk.nhs.adaptors.scr.config.ScrConfiguration;
@@ -36,11 +34,10 @@ import uk.nhs.adaptors.scr.mappings.from.hl7.InteractionMapper;
 import uk.nhs.adaptors.scr.mappings.from.hl7.RecordTargetMapper;
 import uk.nhs.adaptors.scr.models.EventListQueryParams;
 import uk.nhs.adaptors.scr.models.EventListQueryResponse;
+import uk.nhs.adaptors.scr.models.EventListQueryResponseParser;
 import uk.nhs.adaptors.scr.models.EventQueryParams;
 import uk.nhs.adaptors.scr.utils.TemplateUtils;
 
-import java.io.InputStream;
-import java.io.StringReader;
 import java.time.format.DateTimeFormatter;
 import java.util.stream.Stream;
 
@@ -55,7 +52,6 @@ import static uk.nhs.adaptors.scr.models.AcsPermission.ASK;
 import static uk.nhs.adaptors.scr.models.AcsPermission.YES;
 import static uk.nhs.adaptors.scr.utils.FhirHelper.randomUUID;
 import static uk.nhs.adaptors.scr.utils.TemplateUtils.loadTemplate;
-import static uk.nhs.adaptors.scr.utils.XmlUtils.documentBuilder;
 
 @Component
 @Slf4j
@@ -90,12 +86,13 @@ public class GetScrService {
     private final DiagnosisMapper diagnosisMapper;
     private final FindingMapper findingMapper;
     private final RecordTargetMapper recordTargetMapper;
+    private final EventListQueryResponseParser eventListQueryResponseParser;
 
     @LogExecutionTime
     public Bundle getScrId(String nhsNumber, String nhsdAsid, String clientIp) {
         Document scrIdXml = getScrIdRawXml(nhsNumber, nhsdAsid, clientIp);
 
-        EventListQueryResponse response = EventListQueryResponse.parseXml(scrIdXml);
+        EventListQueryResponse response = eventListQueryResponseParser.parseXml(scrIdXml);
 
         Bundle bundle = buildBundle();
         if (isPermissionGiven(response)) {
@@ -133,7 +130,7 @@ public class GetScrService {
     public Bundle getScr(String nhsNumber, String compositionId, String nhsdAsid, String clientIp) {
         Document scrIdXml = getScrIdRawXml(nhsNumber, nhsdAsid, clientIp);
         LOGGER.debug("Received SCR ID XML:\n{}", scrIdXml);
-        EventListQueryResponse response = EventListQueryResponse.parseXml(scrIdXml);
+        EventListQueryResponse response = eventListQueryResponseParser.parseXml(scrIdXml);
 
         if (isPermissionGiven(response) && StringUtils.equals(response.getLatestScrId(), compositionId)) {
             Document document = getScrRawXml(response.getLatestScrId(), nhsNumber, nhsdAsid, clientIp);
@@ -154,8 +151,6 @@ public class GetScrService {
 
             bundle.addEntry(getBundleEntryComponent(patient));
             bundle.setTotal(bundle.getEntry().size());
-
-            gpSummaryMapper.map(bundle, document);
 
             return bundle;
 
@@ -178,16 +173,6 @@ public class GetScrService {
             Composition composition = (Composition) resource;
             composition.setSubject(new Reference(patient));
         }
-    }
-
-    @SneakyThrows
-    private static Document parseDocument(String xml) {
-        return documentBuilder().parse(new InputSource(new StringReader(xml)));
-    }
-
-    @SneakyThrows
-    private static Document parseDocument(InputStream inputStream) {
-        return documentBuilder().parse(inputStream);
     }
 
     private static boolean isPermissionGiven(EventListQueryResponse response) {

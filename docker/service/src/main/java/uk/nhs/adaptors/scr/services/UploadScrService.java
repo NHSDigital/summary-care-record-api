@@ -11,7 +11,6 @@ import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
 import uk.nhs.adaptors.scr.clients.spine.SpineClientContract;
 import uk.nhs.adaptors.scr.components.FhirParser;
 import uk.nhs.adaptors.scr.config.ScrConfiguration;
@@ -20,6 +19,7 @@ import uk.nhs.adaptors.scr.exceptions.ForbiddenException;
 import uk.nhs.adaptors.scr.exceptions.NonSuccessSpineProcessingResultException;
 import uk.nhs.adaptors.scr.exceptions.UnexpectedSpineResponseException;
 import uk.nhs.adaptors.scr.models.EventListQueryResponse;
+import uk.nhs.adaptors.scr.models.EventListQueryResponseParser;
 import uk.nhs.adaptors.scr.models.GpSummary;
 import uk.nhs.adaptors.scr.models.ProcessingResult;
 import uk.nhs.adaptors.scr.models.RequestData;
@@ -29,7 +29,6 @@ import uk.nhs.adaptors.scr.utils.TemplateUtils;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
-import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,7 +39,7 @@ import static org.springframework.http.HttpHeaders.RETRY_AFTER;
 import static uk.nhs.adaptors.scr.clients.spine.SpineHttpClient.getHeader;
 import static uk.nhs.adaptors.scr.models.AcsPermission.ASK;
 import static uk.nhs.adaptors.scr.models.AcsPermission.YES;
-import static uk.nhs.adaptors.scr.utils.XmlUtils.documentBuilder;
+import static uk.nhs.adaptors.scr.utils.DocumentBuilderUtil.parseDocument;
 
 @Component
 @Slf4j
@@ -51,6 +50,7 @@ public class UploadScrService {
     private final SpineClientContract spineClient;
     private final ScrConfiguration scrConfiguration;
     private final GetScrService getScrService;
+    private final EventListQueryResponseParser eventListQueryResponseParser;
 
     private static final Mustache REPC_RM150007UK05_TEMPLATE =
         TemplateUtils.loadTemplate("REPC_RM150007UK05.mustache");
@@ -80,7 +80,7 @@ public class UploadScrService {
         LOGGER.info("Checking permission to store SCR");
         String nhsNumber = getNhsNumber(bundle);
         Document scrIdXml = getScrService.getScrIdRawXml(nhsNumber, nhsdAsid, clientIp);
-        EventListQueryResponse eventListQueryResponse = EventListQueryResponse.parseXml(scrIdXml);
+        EventListQueryResponse eventListQueryResponse = eventListQueryResponseParser.parseXml(scrIdXml);
         if (!asList(YES, ASK).contains(eventListQueryResponse.getStorePermission())) {
             throw new ForbiddenException("Forbidden update with error - there's no patient's consent to store SCR");
         }
@@ -106,8 +106,7 @@ public class UploadScrService {
 
     @SneakyThrows
     private void validateProcessingResult(ProcessingResult processingResult) {
-        var hl7Document = documentBuilder()
-            .parse(new InputSource(new StringReader(processingResult.getHl7())));
+        var hl7Document = parseDocument(processingResult.getHl7());
 
         var acknowledgementXPath = XPathFactory.newInstance().newXPath().compile("/MCCI_IN010000UK13/acknowledgement");
         var acknowledgementNode = ((NodeList) acknowledgementXPath.evaluate(hl7Document, XPathConstants.NODESET)).item(0);

@@ -63,31 +63,31 @@ public class GpSummaryMapper implements XmlToFhirMapper {
     private final AgentPersonSdsMapper agentPersonSdsMapper;
     private final AgentPersonMapper agentPersonMapper;
     private final HtmlParser htmlParser;
+    private final XmlUtils xmlUtils;
 
     @SneakyThrows
     public List<Resource> map(Node document) {
         var gpSummaryId =
-            XmlUtils.getValueByXPath(document, GP_SUMMARY_ID_XPATH);
+            xmlUtils.getValueByXPath(document, GP_SUMMARY_ID_XPATH);
         var gpSummaryCodeCode =
-            XmlUtils.getValueByXPath(document, GP_SUMMARY_CODE_CODE_XPATH);
+            xmlUtils.getValueByXPath(document, GP_SUMMARY_CODE_CODE_XPATH);
         var gpSummaryCodeDisplayName =
-            XmlUtils.getValueByXPath(document, GP_SUMMARY_CODE_DISPLAY_NAME_XPATH);
+            xmlUtils.getValueByXPath(document, GP_SUMMARY_CODE_DISPLAY_NAME_XPATH);
         var gpSummaryStatusCode =
-            XmlUtils.getValueByXPath(document, GP_SUMMARY_STATUS_CODE_XPATH);
+            xmlUtils.getValueByXPath(document, GP_SUMMARY_STATUS_CODE_XPATH);
         var gpSummaryEffectiveTime =
-            parseDate(XmlUtils.getValueByXPath(document, GP_SUMMARY_EFFECTIVE_TIME_XPATH), InstantType.class);
+            parseDate(xmlUtils.getValueByXPath(document, GP_SUMMARY_EFFECTIVE_TIME_XPATH), InstantType.class);
         var authorTime =
-            parseDate(XmlUtils.getValueByXPath(document, GP_SUMMARY_AUTHOR_TIME_XPATH), DateTimeType.class);
+            parseDate(xmlUtils.getValueByXPath(document, GP_SUMMARY_AUTHOR_TIME_XPATH), DateTimeType.class);
         var replacementOfPriorMessageRefIdRoot =
-            XmlUtils.getOptionalValueByXPath(document, REPLACEMENT_OF_PRIOR_MESSAGE_REF_ID_ROOT_XPATH);
+            xmlUtils.getOptionalValueByXPath(document, REPLACEMENT_OF_PRIOR_MESSAGE_REF_ID_ROOT_XPATH);
         var pertinentRootCreTypeCodeCode =
-            XmlUtils.getValueByXPath(document, PERTINENT_ROOT_CRE_TYPE_CODE_CODE_XPATH);
+            xmlUtils.getValueByXPath(document, PERTINENT_ROOT_CRE_TYPE_CODE_CODE_XPATH);
         var pertinentRootCreTypeCodeDisplayName =
-            XmlUtils.getValueByXPath(document, PERTINENT_ROOT_CRE_TYPE_CODE_DISPLAY_NAME_XPATH);
+            xmlUtils.getValueByXPath(document, PERTINENT_ROOT_CRE_TYPE_CODE_DISPLAY_NAME_XPATH);
         var presentationTextValue =
-            XmlUtils.getNodesByXPath(document, PRESENTATION_TEXT_VALUE).stream()
-                .findFirst();
-        var eventId = XmlUtils.getValueByXPath(document, EVENT_ID_XPATH);
+            xmlUtils.getOptionalNodeByXpath(document, PRESENTATION_TEXT_VALUE);
+        var eventId = xmlUtils.getValueByXPath(document, EVENT_ID_XPATH);
 
         List<Resource> resources = new ArrayList<>();
         var composition = new Composition();
@@ -127,7 +127,14 @@ public class GpSummaryMapper implements XmlToFhirMapper {
         presentationTextValue
             .map(htmlParser::parse)
             .map(Collection::stream)
-            .ifPresent(section -> section.forEach(composition::addSection));
+            .ifPresent(it -> it.forEach(section -> {
+                var xpath = String.format(CODED_ENTRY_ID_XPATH, section.getTitle());
+                for (Node node : xmlUtils.getNodesByXPath(document, xpath)) {
+                    var codedEntryId = node.getNodeValue();
+                    section.addEntry(new Reference().setReference(codedEntryId));
+                }
+                composition.addSection(section);
+            }));
 
         resources.add(composition);
 
@@ -139,7 +146,7 @@ public class GpSummaryMapper implements XmlToFhirMapper {
     public void map(Bundle bundle, Document document) {
         for (var section : getDomainResource(bundle, Composition.class).getSection()) {
             var xpath = String.format(CODED_ENTRY_ID_XPATH, section.getTitle());
-            for (Node node : XmlUtils.getNodesByXPath(document.getDocumentElement(), xpath)) {
+            for (Node node : xmlUtils.getNodesByXPath(document.getDocumentElement(), xpath)) {
                 var codedEntryId = node.getNodeValue();
                 section.addEntry(new Reference().setReference(codedEntryId));
             }
@@ -147,14 +154,14 @@ public class GpSummaryMapper implements XmlToFhirMapper {
     }
 
     private void addAuthor(Node document, List<Resource> resources, Composition composition) {
-        XmlUtils.getOptionalNodeByXpath(document, GP_SUMMARY_AUTHOR_AGENT_PERSON_SDS_XPATH)
+        xmlUtils.getOptionalNodeByXpath(document, GP_SUMMARY_AUTHOR_AGENT_PERSON_SDS_XPATH)
             .ifPresent(agentPersonSds -> {
                 List<? extends Resource> authorResources = agentPersonSdsMapper.map(agentPersonSds);
                 resources.addAll(authorResources);
                 composition.addAuthor(findPractitionerRole(authorResources));
             });
 
-        XmlUtils.getOptionalNodeByXpath(document, GP_SUMMARY_AUTHOR_AGENT_PERSON_XPATH)
+        xmlUtils.getOptionalNodeByXpath(document, GP_SUMMARY_AUTHOR_AGENT_PERSON_XPATH)
             .ifPresent(agentPersonSds -> {
                 List<? extends Resource> authorResources = agentPersonMapper.map(agentPersonSds);
                 resources.addAll(authorResources);
