@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.hl7.fhir.r4.model.Bundle;
+import org.springframework.stereotype.Component;
 import uk.nhs.adaptors.scr.exceptions.FhirMappingException;
 import uk.nhs.adaptors.scr.mappings.from.fhir.AuthorMapper;
 import uk.nhs.adaptors.scr.mappings.from.fhir.CompositionMapper;
@@ -33,6 +34,7 @@ import static uk.nhs.adaptors.scr.utils.FhirHelper.UUID_IDENTIFIER_SYSTEM;
 @Getter
 @Setter
 @Slf4j
+@Component
 public class GpSummary {
     private String headerId;
     private String headerTimeStamp;

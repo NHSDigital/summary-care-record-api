@@ -1,9 +1,11 @@
 package uk.nhs.adaptors.scr.mappings.from.hl7;
 
+import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.hl7.fhir.r4.model.Bundle;
 import org.hl7.fhir.r4.model.Identifier;
 import org.hl7.fhir.r4.model.InstantType;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
 import uk.nhs.adaptors.scr.utils.XmlUtils;
@@ -12,12 +14,15 @@ import static org.hl7.fhir.r4.model.Bundle.BundleType.SEARCHSET;
 import static uk.nhs.adaptors.scr.utils.FhirHelper.randomUUID;
 
 @Component
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class InteractionMapper {
 
     private static final String DATE_TIME_PATTERN = "yyyyMMddHHmmss";
 
     private static final String INTERACTION_ID_XPATH = "//QUPC_IN210000UK04/id/@root";
     private static final String INTERACTION_CREATION_TIME_XPATH = "//QUPC_IN210000UK04/creationTime/@value";
+
+    private final XmlUtils xmlUtils;
 
     public Bundle mapToEmpty() {
         return buildBundle()
@@ -27,9 +32,9 @@ public class InteractionMapper {
     @SneakyThrows
     public Bundle map(Document document) {
         var interactionId =
-            XmlUtils.getValueByXPath(document, INTERACTION_ID_XPATH);
+            xmlUtils.getValueByXPath(document, INTERACTION_ID_XPATH);
         var interactionCreationTime =
-            XmlToFhirMapper.parseDate(XmlUtils.getValueByXPath(document, INTERACTION_CREATION_TIME_XPATH), InstantType.class);
+            XmlToFhirMapper.parseDate(xmlUtils.getValueByXPath(document, INTERACTION_CREATION_TIME_XPATH), InstantType.class);
 
         var bundle = buildBundle();
 

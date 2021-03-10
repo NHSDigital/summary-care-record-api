@@ -5,6 +5,7 @@ import org.apache.commons.io.IOUtils;
 import org.apache.http.Header;
 import org.apache.http.message.BasicHeader;
 import org.springframework.core.io.ClassPathResource;
+import org.w3c.dom.Document;
 import uk.nhs.adaptors.scr.clients.spine.SpineHttpClient.Response;
 import uk.nhs.adaptors.scr.models.ProcessingResult;
 
@@ -21,14 +22,14 @@ public class SandboxSpineClient implements SpineClientContract {
     private static final String EVENT_QUERY_RESPONSE = "mock-spine/getScr.xml";
     private static final String UPLOAD_SCR_POLLING_RESPONSE = "mock-spine/uploadScrPolling.xml";
 
+    @SneakyThrows
     @Override
-    public Response sendAcsData(String requestBody, String nhsdAsid) {
-        String responseBody = getResourceAsString(ACS_SET_PERMISSION_RESPONSE);
-        return new Response(OK.value(), null, responseBody);
+    public Response<Document> sendAcsData(String requestBody, String nhsdAsid) {
+        return new Response(OK.value(), null, ACS_SET_PERMISSION_RESPONSE);
     }
 
     @Override
-    public Response sendScrData(String requestBody, String nhsdAsid, String nhsdIdentity, String nhsdSessionUrid) {
+    public Response<String> sendScrData(String requestBody, String nhsdAsid, String nhsdIdentity, String nhsdSessionUrid) {
         Header[] headers = {
             new BasicHeader(CONTENT_LOCATION, ""),
             new BasicHeader(RETRY_AFTER, "300")
@@ -43,20 +44,20 @@ public class SandboxSpineClient implements SpineClientContract {
         return ProcessingResult.parseProcessingResult(responseBody);
     }
 
+    @SneakyThrows
     @Override
-    public Response sendGetScrId(String requestBody, String nhsdAsid) {
-        String responseBody = getResourceAsString(EVENT_LIST_QUERY_RESPONSE);
-        return new Response(OK.value(), null, responseBody);
+    public Response<Document> sendGetScrId(String requestBody, String nhsdAsid) {
+        return new Response(OK.value(), null, new ClassPathResource(EVENT_LIST_QUERY_RESPONSE).getInputStream());
+    }
+
+    @SneakyThrows
+    @Override
+    public Response<Document> sendGetScr(String requestBody, String nhsdAsid) {
+        return new Response(OK.value(), null, new ClassPathResource(EVENT_QUERY_RESPONSE).getInputStream());
     }
 
     @Override
-    public Response sendGetScr(String requestBody, String nhsdAsid) {
-        String responseBody = getResourceAsString(EVENT_QUERY_RESPONSE);
-        return new Response(OK.value(), null, responseBody);
-    }
-
-    @Override
-    public Response sendAlert(String requestBody, String nhsdAsid, String nhsdIdentity, String nhsdSessionUrid) {
+    public Response<String> sendAlert(String requestBody, String nhsdAsid, String nhsdIdentity, String nhsdSessionUrid) {
         return new Response(OK.value(), null, null);
     }
 

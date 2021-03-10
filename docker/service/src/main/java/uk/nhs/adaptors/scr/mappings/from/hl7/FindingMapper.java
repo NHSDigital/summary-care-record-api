@@ -18,6 +18,7 @@ import org.hl7.fhir.r4.model.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 import uk.nhs.adaptors.scr.mappings.from.hl7.common.CodedEntry;
 import uk.nhs.adaptors.scr.mappings.from.hl7.common.CodedEntryMapper;
 import uk.nhs.adaptors.scr.utils.XmlUtils;
@@ -32,7 +33,6 @@ import static org.hl7.fhir.r4.model.Observation.ObservationStatus.FINAL;
 import static uk.nhs.adaptors.scr.mappings.from.hl7.PerformerParticipationMode.getParticipationModeDisplay;
 import static uk.nhs.adaptors.scr.mappings.from.hl7.XmlToFhirMapper.parseDate;
 import static uk.nhs.adaptors.scr.utils.FhirHelper.randomUUID;
-import static uk.nhs.adaptors.scr.utils.XmlUtils.getOptionalValueByXPath;
 
 @Component
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -59,14 +59,19 @@ public class FindingMapper implements XmlToFhirMapper {
 
     private final ParticipantMapper participantMapper;
     private final CodedEntryMapper codedEntryMapper;
+    private final XmlUtils xmlUtils;
 
     @SneakyThrows
     public List<Resource> map(Node document) {
         var resources = new ArrayList<Resource>();
-        for (var pertinentCREType : XmlUtils.getNodesByXPath(document, PERTINENT_CRET_BASE_PATH)) {
-            var pertinentCRETypeCode = XmlUtils.getValueByXPath(pertinentCREType, PERTINENT_CODE_CODE_XPATH);
-            var pertinentCRETypeDisplay = XmlUtils.getValueByXPath(pertinentCREType, PERTINENT_CODE_DISPLAY_XPATH);
-            for (var node : XmlUtils.getNodesByXPath(pertinentCREType, FINDING_BASE_PATH)) {
+        NodeList pertinentNodes = xmlUtils.getNodeListByXPath(document, PERTINENT_CRET_BASE_PATH);
+        for (int i = 0; i < pertinentNodes.getLength(); i++) {
+            Node pertinentCREType = xmlUtils.getNodeAndDetachFromParent(pertinentNodes, i);
+            var pertinentCRETypeCode = xmlUtils.getValueByXPath(pertinentCREType, PERTINENT_CODE_CODE_XPATH);
+            var pertinentCRETypeDisplay = xmlUtils.getValueByXPath(pertinentCREType, PERTINENT_CODE_DISPLAY_XPATH);
+            NodeList findingNodes = xmlUtils.getNodeListByXPath(pertinentCREType, FINDING_BASE_PATH);
+            for (int j = 0; j < findingNodes.getLength(); j++) {
+                Node node = xmlUtils.getNodeAndDetachFromParent(findingNodes, j);
                 mapObservation(resources, pertinentCRETypeCode, pertinentCRETypeDisplay, node);
             }
         }
@@ -77,7 +82,7 @@ public class FindingMapper implements XmlToFhirMapper {
         CodedEntry entry = codedEntryMapper.getCommonCodedEntryValues(node);
         if (SARS_COV_2_CODE.equals(entry.getCodeValue())) {
             var effectiveTimeCentre =
-                getOptionalValueByXPath(node, EFFECTIVE_TIME_CENTRE_XPATH).map(it -> parseDate(it, DateTimeType.class));
+                xmlUtils.getOptionalValueByXPath(node, EFFECTIVE_TIME_CENTRE_XPATH).map(it -> parseDate(it, DateTimeType.class));
 
             var observation = new Observation();
             observation.setId(entry.getId());
@@ -123,10 +128,10 @@ public class FindingMapper implements XmlToFhirMapper {
     }
 
     private void mapEncounter(Node finding, Observation observation, List<Resource> resources) {
-        Optional<Node> author = XmlUtils.getOptionalNodeByXpath(finding, FINDING_AUTHOR_XPATH);
-        Optional<Node> informant = XmlUtils.getOptionalNodeByXpath(finding, FINDING_INFORMANT_XPATH);
-        List<Node> performers = XmlUtils.getNodesByXPath(finding, FINDING_PERFORMER_XPATH);
-        if (author.isPresent() || informant.isPresent() || !performers.isEmpty()) {
+        Optional<Node> author = xmlUtils.getOptionalNodeByXpath(finding, FINDING_AUTHOR_XPATH);
+        Optional<Node> informant = xmlUtils.getOptionalNodeByXpath(finding, FINDING_INFORMANT_XPATH);
+        NodeList performerNodes = xmlUtils.getNodeListByXPath(finding, FINDING_PERFORMER_XPATH);
+        if (author.isPresent() || informant.isPresent() || performerNodes.getLength() > 0) {
             Encounter encounter = new Encounter();
             encounter.setStatus(FINISHED);
             encounter.setClass_(new Coding()
@@ -134,7 +139,7 @@ public class FindingMapper implements XmlToFhirMapper {
                 .setSystem(ENCOUNTER_CLASS_SYSTEM)
                 .setDisplay("Unknown"));
             encounter.setId(randomUUID());
-            performers.stream().forEach(performerNode -> mapPerformer(resources, encounter, performerNode));
+            mapPerformers(resources, encounter, performerNodes);
             author.ifPresent(authorNode -> mapAuthor(resources, encounter, authorNode));
             informant.ifPresent(informantNode -> mapInformant(resources, encounter, informantNode));
             observation.setEncounter(new Reference(encounter));
@@ -142,8 +147,17 @@ public class FindingMapper implements XmlToFhirMapper {
         }
     }
 
+    private void mapPerformers(List<Resource> resources, Encounter encounter, NodeList performerNodes) {
+        if (performerNodes.getLength() > 0) {
+            for (int i = 0; i < performerNodes.getLength(); i++) {
+                Node performer = xmlUtils.getNodeAndDetachFromParent(performerNodes, i);
+                mapPerformer(resources, encounter, performer);
+            }
+        }
+    }
+
     private void mapPerformer(List<Resource> resources, Encounter encounter, Node performer) {
-        DateTimeType time = parseDate(XmlUtils.getValueByXPath(performer, FINDING_PARTICIPANT_TIME_XPATH), DateTimeType.class);
+        DateTimeType time = parseDate(xmlUtils.getValueByXPath(performer, FINDING_PARTICIPANT_TIME_XPATH), DateTimeType.class);
         participantMapper.map(performer)
             .stream()
             .peek(it -> resources.add(it))
@@ -151,7 +165,7 @@ public class FindingMapper implements XmlToFhirMapper {
             .map(Reference::new)
             .forEach(it -> {
                 EncounterParticipantComponent participant = new EncounterParticipantComponent();
-                String modeCode = XmlUtils.getValueByXPath(performer, FINDING_PERFORMER_MODE_CODE_XPATH);
+                String modeCode = xmlUtils.getValueByXPath(performer, FINDING_PERFORMER_MODE_CODE_XPATH);
                 participant.addExtension(PERFORMER_EXTENSION_URL, new CodeableConcept(
                     new Coding()
                         .setSystem(ENCOUNTER_PARTICIPATION_MODE_SYSTEM)
@@ -165,7 +179,7 @@ public class FindingMapper implements XmlToFhirMapper {
     }
 
     private void mapInformant(List<Resource> resources, Encounter encounter, Node informant) {
-        DateTimeType time = parseDate(XmlUtils.getValueByXPath(informant, FINDING_PARTICIPANT_TIME_XPATH), DateTimeType.class);
+        DateTimeType time = parseDate(xmlUtils.getValueByXPath(informant, FINDING_PARTICIPANT_TIME_XPATH), DateTimeType.class);
         participantMapper.map(informant)
             .stream()
             .peek(it -> resources.add(it))
@@ -178,7 +192,7 @@ public class FindingMapper implements XmlToFhirMapper {
     }
 
     private void mapAuthor(List<Resource> resources, Encounter encounter, Node author) {
-        DateTimeType time = parseDate(XmlUtils.getValueByXPath(author, FINDING_PARTICIPANT_TIME_XPATH), DateTimeType.class);
+        DateTimeType time = parseDate(xmlUtils.getValueByXPath(author, FINDING_PARTICIPANT_TIME_XPATH), DateTimeType.class);
         participantMapper.map(author)
             .stream()
             .peek(it -> resources.add(it))

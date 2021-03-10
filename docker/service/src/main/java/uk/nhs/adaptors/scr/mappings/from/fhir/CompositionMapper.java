@@ -9,10 +9,10 @@ import uk.nhs.adaptors.scr.models.xml.Presentation;
 
 import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static uk.nhs.adaptors.scr.mappings.from.hl7.HtmlParser.createNewDocument;
-import static uk.nhs.adaptors.scr.mappings.from.hl7.HtmlParser.parseDocument;
 import static uk.nhs.adaptors.scr.mappings.from.hl7.HtmlParser.removeEmptyNodes;
 import static uk.nhs.adaptors.scr.mappings.from.hl7.HtmlParser.serialize;
 import static uk.nhs.adaptors.scr.utils.DateUtil.formatDateToHl7;
+import static uk.nhs.adaptors.scr.utils.DocumentBuilderUtil.parseDocument;
 import static uk.nhs.adaptors.scr.utils.FhirHelper.getDomainResource;
 import static uk.nhs.adaptors.scr.utils.FhirHelper.randomUUID;
 

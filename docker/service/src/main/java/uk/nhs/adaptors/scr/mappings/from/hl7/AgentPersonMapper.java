@@ -13,6 +13,7 @@ import org.hl7.fhir.r4.model.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Node;
+import uk.nhs.adaptors.scr.utils.XmlUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,10 +21,6 @@ import java.util.Optional;
 
 import static java.util.stream.Collectors.toList;
 import static uk.nhs.adaptors.scr.utils.FhirHelper.randomUUID;
-import static uk.nhs.adaptors.scr.utils.XmlUtils.getNodeText;
-import static uk.nhs.adaptors.scr.utils.XmlUtils.getNodesByXPath;
-import static uk.nhs.adaptors.scr.utils.XmlUtils.getOptionalNodeByXpath;
-import static uk.nhs.adaptors.scr.utils.XmlUtils.getValueByXPath;
 
 @Component
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -45,6 +42,7 @@ public class AgentPersonMapper implements XmlToFhirMapper {
     private final PersonSdsMapper personSdsMapper;
     private final OrganisationMapper organisationMapper;
     private final OrganisationSdsMapper organisationSdsMapper;
+    private final XmlUtils xmlUtils;
 
     @Override
     public List<? extends Resource> map(Node agentPerson) {
@@ -62,7 +60,7 @@ public class AgentPersonMapper implements XmlToFhirMapper {
     }
 
     private void mapPersonSds(Node agentPerson, PractitionerRole role, List<Resource> resources) {
-        getOptionalNodeByXpath(agentPerson, PERSON_SDS_XPATH)
+        xmlUtils.getOptionalNodeByXpath(agentPerson, PERSON_SDS_XPATH)
             .ifPresent(personSds -> {
                 var practitioner = personSdsMapper.mapPractitioner(personSds);
                 role.setPractitioner(new Reference(practitioner));
@@ -71,19 +69,19 @@ public class AgentPersonMapper implements XmlToFhirMapper {
     }
 
     private void mapPerson(Node agentPerson, PractitionerRole role, List<Resource> resources) {
-        getOptionalNodeByXpath(agentPerson, PERSON_XPATH)
+        xmlUtils.getOptionalNodeByXpath(agentPerson, PERSON_XPATH)
             .ifPresent(person -> {
                 var practitioner = new Practitioner();
                 practitioner.setId(randomUUID());
-                practitioner.addName().setText(getNodeText(person, PERSON_NAME_XPATH));
+                practitioner.addName().setText(xmlUtils.getNodeText(person, PERSON_NAME_XPATH));
                 role.setPractitioner(new Reference(practitioner));
                 resources.add(practitioner);
             });
     }
 
     private PractitionerRole mapPractitionerRole(Node agentPerson) {
-        var code = getValueByXPath(agentPerson, CODE_XPATH);
-        var display = getValueByXPath(agentPerson, CODE_DISPLAY_XPATH);
+        var code = xmlUtils.getValueByXPath(agentPerson, CODE_XPATH);
+        var display = xmlUtils.getValueByXPath(agentPerson, CODE_DISPLAY_XPATH);
         var role = new PractitionerRole()
             .addCode(new CodeableConcept(
                 new Coding()
@@ -95,7 +93,7 @@ public class AgentPersonMapper implements XmlToFhirMapper {
     }
 
     private List<ContactPoint> mapContactPoints(Node agentPerson) {
-        return getNodesByXPath(agentPerson, TELECOM_XPATH)
+        return xmlUtils.getNodesByXPath(agentPerson, TELECOM_XPATH)
             .stream()
             .map(telecomMapper::mapTelecom)
             .collect(toList());
@@ -103,8 +101,8 @@ public class AgentPersonMapper implements XmlToFhirMapper {
 
     private Organization mapOrganization(Node agentPerson) {
         Organization org;
-        Optional<Node> orgNode = getOptionalNodeByXpath(agentPerson, ORG_XPATH);
-        Optional<Node> orgSdsNode = getOptionalNodeByXpath(agentPerson, ORG_SDS_XPATH);
+        Optional<Node> orgNode = xmlUtils.getOptionalNodeByXpath(agentPerson, ORG_XPATH);
+        Optional<Node> orgSdsNode = xmlUtils.getOptionalNodeByXpath(agentPerson, ORG_SDS_XPATH);
         if (orgNode.isPresent()) {
             org = organisationMapper.mapOrganization(orgNode.get());
         } else if (orgSdsNode.isPresent()) {
@@ -117,7 +115,7 @@ public class AgentPersonMapper implements XmlToFhirMapper {
         org.setTelecom(mapContactPoints(agentPerson))
             .addAddress(
                 new Address()
-                    .addLine(getValueByXPath(agentPerson, ADDRESS_XPATH)));
+                    .addLine(xmlUtils.getValueByXPath(agentPerson, ADDRESS_XPATH)));
 
         return org;
     }

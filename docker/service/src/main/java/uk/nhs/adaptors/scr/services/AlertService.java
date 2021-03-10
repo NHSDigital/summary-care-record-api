@@ -21,7 +21,7 @@ public class AlertService {
     private final FhirParser fhirParser;
 
     public void sendAlert(String body, String nhsdAsid, String nhsdIdentity, String nhsdSessionUrid) {
-        Response response = spineClient.sendAlert(body, nhsdAsid, nhsdIdentity, nhsdSessionUrid);
+        Response<String> response = spineClient.sendAlert(body, nhsdAsid, nhsdIdentity, nhsdSessionUrid);
 
         HttpStatus status = HttpStatus.resolve(response.getStatusCode());
         if (status == null || !status.is2xxSuccessful()) {

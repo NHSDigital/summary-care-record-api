@@ -5,11 +5,11 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.Header;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.client.protocol.HttpClientContext;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
@@ -27,21 +27,19 @@ import java.util.Arrays;
 public class SpineHttpClient {
 
     private final HttpClient client;
-    private final SpineResponseHandler spineResponseHandler;
     private final PoolingHttpClientConnectionManager clientConnectionManager;
-
 
     @SuppressFBWarnings(
         value = "RCN_REDUNDANT_NULLCHECK_WOULD_HAVE_BEEN_A_NPE",
         justification = "SpotBugs issue with fix not yet released https://github.com/spotbugs/spotbugs/pull/1248")
     @LogExecutionTime
-    public Response sendRequest(HttpRequestBase request) {
+    public <T> Response<T> sendRequest(HttpRequestBase request, ResponseHandler<? extends Response<T>> responseHandler) {
         LOGGER.debug("Attempting to send SPINE request: {}", request.getRequestLine().toString());
         try {
             LOGGER.info("Leased connections: " + clientConnectionManager.getTotalStats().getLeased());
             LOGGER.info("Available connections: " + clientConnectionManager.getTotalStats().getAvailable());
 
-            return client.execute(request, spineResponseHandler, HttpClientContext.create());
+            return client.execute(request, responseHandler, HttpClientContext.create());
         } catch (IOException e) {
             LOGGER.error("Error while sending SPINE request", e);
             throw new ScrBaseException("Unexpected exception while sending Spine request", e);
@@ -58,11 +56,10 @@ public class SpineHttpClient {
 
     @Builder
     @Getter
-    @ToString
     @AllArgsConstructor
-    public static class Response {
+    public static class Response<T> {
         private final int statusCode;
         private final Header[] headers;
-        private final String body;
+        private final T body;
     }
 }

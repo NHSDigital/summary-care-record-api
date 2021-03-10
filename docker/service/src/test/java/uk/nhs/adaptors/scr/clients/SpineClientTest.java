@@ -15,6 +15,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import uk.nhs.adaptors.scr.clients.spine.SpineClient;
 import uk.nhs.adaptors.scr.clients.spine.SpineHttpClient;
+import uk.nhs.adaptors.scr.clients.spine.SpineStringResponseHandler;
 import uk.nhs.adaptors.scr.config.ScrConfiguration;
 import uk.nhs.adaptors.scr.config.SpineConfiguration;
 import uk.nhs.adaptors.scr.exceptions.NoSpineResultException;
@@ -29,6 +30,7 @@ import static java.util.UUID.randomUUID;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.atLeast;
 import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.times;
@@ -56,6 +58,8 @@ class SpineClientTest {
     private ScrConfiguration scrConfiguration;
     @Mock
     private SpineHttpClient spineHttpClient;
+    @Mock
+    private SpineStringResponseHandler stringResponseHandler;
 
     @InjectMocks
     private SpineClient spineClient;
@@ -69,16 +73,16 @@ class SpineClientTest {
     @Test
     void whenSendingScrReturns202ExpectResult() {
         when(spineConfiguration.getScrEndpoint()).thenReturn(SCR_ENDPOINT);
-        var headers = new Header[] {
+        var headers = new Header[]{
             new BasicHeader("Header-Name", "headerValue")
         };
-        when(spineHttpClient.sendRequest(any(HttpPost.class)))
+        when(spineHttpClient.sendRequest(any(HttpPost.class), eq(stringResponseHandler)))
             .thenReturn(new SpineHttpClient.Response(HttpStatus.ACCEPTED.value(), headers, RESPONSE_BODY));
 
         var response = spineClient.sendScrData(ACS_REQUEST_BODY, NHSD_ASID, NHSD_IDENTITY, NHSD_SESSION_URID);
 
         var httpPostArgumentCaptor = ArgumentCaptor.forClass(HttpPost.class);
-        verify(spineHttpClient).sendRequest(httpPostArgumentCaptor.capture());
+        verify(spineHttpClient).sendRequest(httpPostArgumentCaptor.capture(), eq(stringResponseHandler));
 
         var httpPost = httpPostArgumentCaptor.getValue();
         assertThat(httpPost.getURI().toString()).isEqualTo(SPINE_URL + SCR_ENDPOINT);
@@ -91,7 +95,7 @@ class SpineClientTest {
     @Test
     void whenSendingScrReturnsNon202ExpectResult() {
         when(spineConfiguration.getScrEndpoint()).thenReturn(SCR_ENDPOINT);
-        when(spineHttpClient.sendRequest(any(HttpPost.class)))
+        when(spineHttpClient.sendRequest(any(HttpPost.class), eq(stringResponseHandler)))
             .thenReturn(new SpineHttpClient.Response(HttpStatus.OK.value(), new Header[0], RESPONSE_BODY));
 
         assertThatThrownBy(() -> spineClient.sendScrData(ACS_REQUEST_BODY, NHSD_ASID, NHSD_IDENTITY, NHSD_SESSION_URID))
@@ -103,11 +107,11 @@ class SpineClientTest {
     void whenGetScrProcessingResultReturnsWithOneRetryWithinTimeExpectResult() {
         when(spineConfiguration.getScrResultRepeatTimeout()).thenReturn(500L);
 
-        var postResponseHeaders = new Header[] {
+        var postResponseHeaders = new Header[]{
             new BasicHeader("Retry-After", "50")
         };
 
-        when(spineHttpClient.sendRequest(any()))
+        when(spineHttpClient.sendRequest(any(), eq(stringResponseHandler)))
             .thenReturn(new SpineHttpClient.Response(HttpStatus.ACCEPTED.value(), postResponseHeaders, null))
             .thenReturn(new SpineHttpClient.Response(HttpStatus.OK.value(), new Header[0], RESPONSE_BODY));
 
@@ -115,7 +119,7 @@ class SpineClientTest {
             NHSD_SESSION_URID);
 
         var requestArgumentCaptor = ArgumentCaptor.forClass(HttpGet.class);
-        verify(spineHttpClient, times(2)).sendRequest(requestArgumentCaptor.capture());
+        verify(spineHttpClient, times(2)).sendRequest(requestArgumentCaptor.capture(), eq(stringResponseHandler));
 
         assertRequestUri(requestArgumentCaptor.getAllValues());
         assertThat(result).isEqualTo(new ProcessingResult().setSoapEnvelope(SOAP_ENVELOPE).setHl7(HL7));
@@ -126,10 +130,10 @@ class SpineClientTest {
     void whenGetScrProcessingResultReachesRepeatTimeoutExpectException() {
         when(spineConfiguration.getScrResultRepeatTimeout()).thenReturn(500L);
 
-        when(spineHttpClient.sendRequest(any()))
+        when(spineHttpClient.sendRequest(any(), eq(stringResponseHandler)))
             .thenReturn(new SpineHttpClient.Response(
                 HttpStatus.ACCEPTED.value(),
-                new Header[] {
+                new Header[]{
                     new BasicHeader("Retry-After", String.valueOf(200))
                 },
                 null));
@@ -139,7 +143,7 @@ class SpineClientTest {
             .hasMessage("Spine polling yield no result");
 
         var requestArgumentCaptor = ArgumentCaptor.forClass(HttpGet.class);
-        verify(spineHttpClient, atLeast(2)).sendRequest(requestArgumentCaptor.capture());
+        verify(spineHttpClient, atLeast(2)).sendRequest(requestArgumentCaptor.capture(), eq(stringResponseHandler));
         assertRequestUri(requestArgumentCaptor.getAllValues());
     }
 
