@@ -13,6 +13,7 @@ import org.springframework.web.context.request.async.WebAsyncTask;
 import uk.nhs.adaptors.scr.config.ScrConfiguration;
 import uk.nhs.adaptors.scr.config.SpineConfiguration;
 import uk.nhs.adaptors.scr.exceptions.ScrTimeoutException;
+import uk.nhs.adaptors.scr.logging.LogExecutionTime;
 import uk.nhs.adaptors.scr.models.RequestData;
 import uk.nhs.adaptors.scr.services.UploadScrService;
 
@@ -38,6 +39,7 @@ public class SendScrController {
         path = "/Bundle",
         consumes = {APPLICATION_FHIR_JSON_VALUE},
         produces = {APPLICATION_FHIR_JSON_VALUE})
+    @LogExecutionTime
     public WebAsyncTask<ResponseEntity<?>> sendScr(
         @RequestHeader(NHSD_ASID) @NotNull String nhsdAsid,
         @RequestHeader(CLIENT_IP) @NotNull String clientIp,

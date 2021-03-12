@@ -29,7 +29,7 @@ public class ScrSpringConfiguration {
     @Bean
     public SpineClientContract spineClient() {
         if (scrConfiguration.getSandboxMode()) {
-            return new SandboxSpineClient();
+            return new SandboxSpineClient(scrConfiguration);
         } else {
             return new SpineClient(spineConfiguration, spineHttpClient, stringResponseHandler, xmlResponseHandler);
         }

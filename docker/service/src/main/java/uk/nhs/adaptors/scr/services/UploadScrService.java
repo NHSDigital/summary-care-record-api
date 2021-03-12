@@ -1,6 +1,5 @@
 package uk.nhs.adaptors.scr.services;
 
-import com.github.mustachejava.Mustache;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -13,18 +12,16 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import uk.nhs.adaptors.scr.clients.spine.SpineClientContract;
 import uk.nhs.adaptors.scr.components.FhirParser;
-import uk.nhs.adaptors.scr.config.ScrConfiguration;
-import uk.nhs.adaptors.scr.exceptions.FhirMappingException;
 import uk.nhs.adaptors.scr.exceptions.ForbiddenException;
 import uk.nhs.adaptors.scr.exceptions.NonSuccessSpineProcessingResultException;
 import uk.nhs.adaptors.scr.exceptions.UnexpectedSpineResponseException;
+import uk.nhs.adaptors.scr.logging.LogExecutionTime;
+import uk.nhs.adaptors.scr.mappings.from.fhir.BundleMapper;
 import uk.nhs.adaptors.scr.models.EventListQueryResponse;
 import uk.nhs.adaptors.scr.models.EventListQueryResponseParser;
-import uk.nhs.adaptors.scr.models.GpSummary;
 import uk.nhs.adaptors.scr.models.ProcessingResult;
 import uk.nhs.adaptors.scr.models.RequestData;
 import uk.nhs.adaptors.scr.utils.FhirHelper;
-import uk.nhs.adaptors.scr.utils.TemplateUtils;
 
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
@@ -48,16 +45,14 @@ public class UploadScrService {
 
     private final FhirParser fhirParser;
     private final SpineClientContract spineClient;
-    private final ScrConfiguration scrConfiguration;
     private final GetScrService getScrService;
     private final EventListQueryResponseParser eventListQueryResponseParser;
+    private final BundleMapper bundleMapper;
 
-    private static final Mustache REPC_RM150007UK05_TEMPLATE =
-        TemplateUtils.loadTemplate("REPC_RM150007UK05.mustache");
-
+    @LogExecutionTime
     public void uploadScr(RequestData requestData) {
         Bundle bundle = fhirParser.parseResource(requestData.getBody(), Bundle.class);
-        var spineRequest = mapRequestData(bundle, requestData.getNhsdAsid());
+        var spineRequest = bundleMapper.map(bundle, requestData.getNhsdAsid());
         checkPermission(bundle, requestData.getNhsdAsid(), requestData.getClientIp());
         var response = spineClient.sendScrData(spineRequest, requestData.getNhsdAsid(),
             requestData.getNhsdIdentity(), requestData.getNhsdSessionUrid());
@@ -89,19 +84,6 @@ public class UploadScrService {
     private String getNhsNumber(Bundle bundle) {
         Patient patient = FhirHelper.getDomainResource(bundle, Patient.class);
         return FhirHelper.getNhsNumber(patient);
-    }
-
-    private String mapRequestData(Bundle bundle, String nhsdAsid) {
-        try {
-            GpSummary gpSummary = GpSummary.fromBundle(bundle, nhsdAsid);
-            gpSummary.setPartyIdFrom(scrConfiguration.getPartyIdFrom());
-            gpSummary.setPartyIdTo(scrConfiguration.getPartyIdTo());
-            gpSummary.setNhsdAsidTo(scrConfiguration.getNhsdAsidTo());
-            return TemplateUtils.fillTemplate(REPC_RM150007UK05_TEMPLATE, gpSummary);
-
-        } catch (Exception ex) {
-            throw new FhirMappingException(ex.getMessage());
-        }
     }
 
     @SneakyThrows
