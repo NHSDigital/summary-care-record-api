@@ -6,6 +6,7 @@ import ca.uhn.fhir.parser.StrictErrorHandler;
 import org.hl7.fhir.instance.model.api.IBaseResource;
 import org.springframework.stereotype.Component;
 import uk.nhs.adaptors.scr.exceptions.FhirValidationException;
+import uk.nhs.adaptors.scr.logging.LogExecutionTime;
 
 @Component
 public class FhirParser {
@@ -19,6 +20,7 @@ public class FhirParser {
         jsonParser = ctx.newJsonParser();
     }
 
+    @LogExecutionTime
     public <T extends IBaseResource> T parseResource(String body, Class<T> klass) {
         try {
             return jsonParser.parseResource(klass, body);
