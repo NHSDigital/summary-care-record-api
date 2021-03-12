@@ -11,7 +11,7 @@ docker_service:
       - name: SCR_LOGGING_LEVEL
         value: "{{ 'DEBUG' if APIGEE_ENVIRONMENT == 'internal-dev' else 'INFO' }}"
       - name: SCR_SANDBOX_MODE
-        value: "False"
+        value: "{{ SANDBOX_MODE_ENABLED }}"
       - name: TLS_ENABLED
         value: "True"
       - name: HOST_URL
