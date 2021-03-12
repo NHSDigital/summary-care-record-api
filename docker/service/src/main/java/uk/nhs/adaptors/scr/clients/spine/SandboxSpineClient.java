@@ -17,6 +17,7 @@ import static org.springframework.http.HttpStatus.ACCEPTED;
 import static org.springframework.http.HttpStatus.OK;
 import static uk.nhs.adaptors.scr.utils.DocumentBuilderUtil.documentBuilder;
 
+@SuppressWarnings("checkstyle:magicnumber")
 public class SandboxSpineClient implements SpineClientContract {
 
     private static final String ACS_SET_PERMISSION_RESPONSE = "mock-spine/setConsent.xml";
