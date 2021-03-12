@@ -9,6 +9,7 @@ import org.w3c.dom.Document;
 import uk.nhs.adaptors.scr.clients.spine.SpineHttpClient.Response;
 import uk.nhs.adaptors.scr.models.ProcessingResult;
 
+import static java.lang.Thread.sleep;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.springframework.http.HttpHeaders.CONTENT_LOCATION;
 import static org.springframework.http.HttpHeaders.RETRY_AFTER;
@@ -29,18 +30,22 @@ public class SandboxSpineClient implements SpineClientContract {
         return new Response(OK.value(), null, getResourceAsXmlDocument(ACS_SET_PERMISSION_RESPONSE));
     }
 
+    @SneakyThrows
     @Override
     public Response<String> sendScrData(String requestBody, String nhsdAsid, String nhsdIdentity, String nhsdSessionUrid) {
         Header[] headers = {
             new BasicHeader(CONTENT_LOCATION, ""),
-            new BasicHeader(RETRY_AFTER, "300")
+            new BasicHeader(RETRY_AFTER, "100")
         };
+        sleep(200);
         return new Response(ACCEPTED.value(), headers, null);
     }
 
     @Override
+    @SneakyThrows
     public ProcessingResult getScrProcessingResult(String contentLocation, long initialWaitTime, String nhsdAsid,
                                                    String nhsdIdentity, String nhsdSessionUrid) {
+        sleep(100);
         String responseBody = getResourceAsString(UPLOAD_SCR_POLLING_RESPONSE);
         return ProcessingResult.parseProcessingResult(responseBody);
     }
@@ -48,12 +53,14 @@ public class SandboxSpineClient implements SpineClientContract {
     @SneakyThrows
     @Override
     public Response<Document> sendGetScrId(String requestBody, String nhsdAsid) {
+        sleep(200);
         return new Response(OK.value(), null, getResourceAsXmlDocument(EVENT_LIST_QUERY_RESPONSE));
     }
 
     @SneakyThrows
     @Override
     public Response<Document> sendGetScr(String requestBody, String nhsdAsid) {
+        sleep(200);
         return new Response(OK.value(), null, getResourceAsXmlDocument(EVENT_QUERY_RESPONSE));
     }
 
