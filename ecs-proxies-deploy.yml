@@ -3,7 +3,7 @@ docker_service_memory: 4096
 docker_service_autoscaling_prod:
     service_metric: ECSServiceAverageCPUUtilization
     target_value: 50
-docker_service_autoscaling: "{{ docker_service_autoscaling_prod if APIGEE_ENVIRONMENT in ('internal-dev', 'ref', 'prod') else dict() }}"
+docker_service_autoscaling: "{{ docker_service_autoscaling_prod if APIGEE_ENVIRONMENT in ('ref', 'prod') else dict() }}"
 docker_service:
   - name: scr-api
     expose: true

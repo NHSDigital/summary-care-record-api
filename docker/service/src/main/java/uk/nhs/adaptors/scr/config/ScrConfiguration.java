@@ -16,4 +16,5 @@ public class ScrConfiguration {
     private Boolean sandboxMode;
     private String baseUrl;
     private String serviceBasePath;
+    private long sandboxDelay;
 }
