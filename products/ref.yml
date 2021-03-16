@@ -5,7 +5,7 @@ attributes:
     - name: access
       value: public
     - name: ratelimit
-      value: 40ps
-quota: 2400
+      value: 150ps
+quota: 9000
 quotaInterval: 1
 quotaTimeUnit: minute
