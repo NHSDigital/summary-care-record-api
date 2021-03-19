@@ -124,6 +124,18 @@ servers:
 paths:
   /Bundle:
     post:
+      description: |
+        ## Overview
+        Use this endpoint to upload the details of patient's Summary Care Record.
+
+        ## Sandbox test scenarios
+        You can test the following scenarios in our sandbox environment:
+        
+        | Scenario                          | Request                                           | Response                                                                                                                              |
+        | ----------------------------------| ------------------------------------------------- | -------------------- |
+        | Happy path                        | `Patient.identifier.value`=`9995000180`           | HTTP Status 201      |
+        | No patient's consent to store SCR | `Patient.identifier.value`=`9693042298`           | HTTP Status 403      |
+      
       summary: Upload patient's Summary Care Record
       operationId: upload-scr
       parameters:
@@ -178,9 +190,10 @@ paths:
         ## Sandbox test scenarios
         You can test the following scenarios in our sandbox environment:
 
-        | Scenario                         | Request                                           | Response                                                                                                                              |
-        | -------------------------------- | ------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
-        | Happy path                       | `composition.identifier`=`FA60BE64-1F34-11EB-A2A8-000C29A364EB$composition.subject:Patient.identifier=https://fhir.nhs.uk/Id/nhs-number|9995000180`                | HTTP Status 200      |
+        | Scenario                         | Request                                                                                                                                                            | Response                          |
+        | -------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------- |
+        | Happy path                       | `composition.identifier`=`FA60BE64-1F34-11EB-A2A8-000C29A364EB$composition.subject:Patient.identifier=https://fhir.nhs.uk/Id/nhs-number|9995000180`                | HTTP Status 200 - Full Bundle     |
+        | No results                       | `composition.identifier`=`81CC2DA0-8882-11EB-B538-0800200C9A66$composition.subject:Patient.identifier=https://fhir.nhs.uk/Id/nhs-number|9693042298`                | HTTP Status 200 - Empty Bundle    |
         
       summary: Get patient's Summary Care Record
       operationId: get-scr
@@ -228,6 +241,15 @@ paths:
         Use this endpoint to retrieve UUID of patient's latest record. This UUID can be then used to retrieve the Summary Care Record details.
 
         To get the information you must provide patient's NHS number.
+
+        ## Sandbox test scenarios
+        You can test the following scenarios in our sandbox environment:
+        
+        | Scenario                          | Request                                                                                                                   | Response                           |
+        | ----------------------------------| ------------------------------------------------------------------------------------------------------------------------- | ---------------------------------- |
+        | Happy path                        | `patient=https://fhir.nhs.uk/Id/nhs-number|9995000180&_sort=date&type=http://snomed.info/sct|196981000000101&_count=1`    | HTTP Status 200 - Full Bundle      |
+        | Empty result                      | `patient=https://fhir.nhs.uk/Id/nhs-number|9693042298&_sort=date&type=http://snomed.info/sct|196981000000101&_count=1`    | HTTP Status 200 - Empty Bundle     |
+        
       parameters:
         - $ref: '#/components/parameters/BearerAuthorization'
         - $ref: '#/components/parameters/CorrelationID'
@@ -286,9 +308,10 @@ paths:
         ## Sandbox test scenarios
         You can test the following scenarios in our sandbox environment:
 
-        | Scenario                         | Request                                           | Response             |
-        | -------------------------------- | ------------------------------------------------- | -------------------- |
-        | Happy path                       | `NHSD-Session-URID`=`555254240100`                | HTTP Status 201      |
+        | Scenario                         | Request                                                                      | Response             |
+        | -------------------------------- | ---------------------------------------------------------------------------- | -------------------- |
+        | Happy path                       | `NHSD-Session-URID`=`555254240100`; `nhsNumber`=`9995000180`                 | HTTP Status 201      |
+        | Patient not found                | `NHSD-Session-URID`=`555254240100`; `nhsNumber`=`9693042298`                 | HTTP Status 400      |
         
       parameters:
         - $ref: '#/components/parameters/BearerAuthorization'
@@ -327,6 +350,14 @@ paths:
       description: |
         ## Overview
         Use this endpoint to record TMS Event Service (TES) Alerts centrally.
+
+        ## Sandbox test scenarios
+        You can test the following scenarios in our sandbox environment:
+
+        | Scenario                         | Request                                  | Response             |
+        | -------------------------------- | ---------------------------------------- | -------------------- |
+        | Happy path                       | `nhsNumber`=`9995000180`                 | HTTP Status 201      |
+        
       parameters:
         - $ref: '#/components/parameters/BearerAuthorization'
         - $ref: '#/components/parameters/CorrelationID'
