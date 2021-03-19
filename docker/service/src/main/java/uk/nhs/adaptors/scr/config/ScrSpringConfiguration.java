@@ -13,6 +13,7 @@ import uk.nhs.adaptors.scr.clients.spine.SpineClientContract;
 import uk.nhs.adaptors.scr.clients.spine.SpineHttpClient;
 import uk.nhs.adaptors.scr.clients.spine.SpineStringResponseHandler;
 import uk.nhs.adaptors.scr.clients.spine.SpineXmlResponseHandler;
+import uk.nhs.adaptors.scr.utils.XmlUtils;
 
 @Configuration
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -25,11 +26,12 @@ public class ScrSpringConfiguration {
     private final SpineHttpClient spineHttpClient;
     private final SpineConfiguration spineConfiguration;
     private final IdentityServiceConfiguration identityServiceConfiguration;
+    private final XmlUtils xmlUtils;
 
     @Bean
     public SpineClientContract spineClient() {
         if (scrConfiguration.getSandboxMode()) {
-            return new SandboxSpineClient(scrConfiguration);
+            return new SandboxSpineClient(scrConfiguration, xmlUtils);
         } else {
             return new SpineClient(spineConfiguration, spineHttpClient, stringResponseHandler, xmlResponseHandler);
         }
