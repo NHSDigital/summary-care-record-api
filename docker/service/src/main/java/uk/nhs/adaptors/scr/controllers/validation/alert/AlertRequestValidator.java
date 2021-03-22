@@ -72,6 +72,14 @@ public class AlertRequestValidator implements ConstraintValidator<AlertRequest, 
 
         if (agent.getRole().isEmpty()) {
             throw new FhirValidationException("Expecting at least one 'role' for 'agent' entry with system " + PERSON_SYSTEM);
+        } else {
+            agent.getRole().stream()
+                .forEach(role -> {
+                    if (isEmpty(role.getText()) && role.getCodingFirstRep().isEmpty()) {
+                        throw new FhirValidationException("Expecting at least one non empty 'role' for 'agent' entry with system "
+                            + PERSON_SYSTEM);
+                    }
+                });
         }
     }
 
