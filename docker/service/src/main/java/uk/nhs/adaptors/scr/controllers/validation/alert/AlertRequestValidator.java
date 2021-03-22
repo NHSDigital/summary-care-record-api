@@ -97,6 +97,12 @@ public class AlertRequestValidator implements ConstraintValidator<AlertRequest, 
                 Identifier id = it.getWho().getIdentifier();
                 return fhirSystem.equals(id.getSystem()) && id.hasValue();
             })
+            .peek(it -> {
+                if (!it.hasRequestor() || it.getRequestor()) {
+                    throw new FhirValidationException(String.format("Missing or unsupported 'requestor' value for 'agent' with "
+                        + "'who.identifier.system' '%s'", fhirSystem));
+                }
+            })
             .reduce((x, y) -> {
                 throw new FhirValidationException(String.format("Expecting exactly one 'agent' entry with 'who.identifier.system' '%s' "
                     + "and non-empty 'value'", fhirSystem));
