@@ -54,7 +54,8 @@ public class OperationOutcomeExceptionHandler extends ResponseEntityExceptionHan
         "/Bundle", List.of(GET, POST),
         "/DocumentReference", List.of(GET),
         "/$setPermission", List.of(POST),
-        "/healthcheck", List.of(GET)
+        "/healthcheck", List.of(GET),
+        "/AuditEvent", List.of(POST)
     );
 
     @Autowired
