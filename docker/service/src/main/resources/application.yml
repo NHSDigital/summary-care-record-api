@@ -41,10 +41,6 @@ spine:
   psisQueriesEndpoint: ${SCR_SPINE_PSIS_ENDPOINT:/sync-service}
   scrResultRepeatTimeout: ${SCR_SPINE_RESULT_REPEAT_TIMEOUT:50000} # 50sec - how much time to wait for all repeated Spine GET retries
   scrResultTimeout: ${SCR_SPINE_RESULT_TIMEOUT:60000} # 60sec - how much time to wait for this API entire SCR POST (Spine POST + polling Spine GET)
-  clientKey: ${SCR_SPINE_CLIENT_KEY:}
-  clientCert: ${SCR_SPINE_CLIENT_CERT:}
-  rootCA: ${SCR_SPINE_ROOT_CA_CERT:}
-  subCA: ${SCR_SPINE_SUB_CA_CERT:}
   connectionPool:
     maxTotalConnections: 100
     defaultKeepAliveTime: 20000

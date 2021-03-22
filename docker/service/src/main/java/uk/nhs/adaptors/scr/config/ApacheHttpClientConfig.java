@@ -1,9 +1,7 @@
 package uk.nhs.adaptors.scr.config;
 
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HeaderElement;
 import org.apache.http.HeaderElementIterator;
 import org.apache.http.HeaderIterator;
@@ -26,16 +24,8 @@ import org.springframework.scheduling.TaskScheduler;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
-import uk.nhs.adaptors.scr.exceptions.ScrBaseException;
 
-import javax.net.ssl.SSLContext;
-import java.security.KeyStore;
-import java.util.ArrayList;
-import java.util.UUID;
-
-import static com.heroku.sdk.EnvKeyStore.createFromPEMStrings;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
-import static org.apache.http.conn.ssl.TrustAllStrategy.INSTANCE;
 import static org.apache.http.protocol.HTTP.CONN_KEEP_ALIVE;
 
 @Configuration
@@ -63,7 +53,7 @@ public class ApacheHttpClientConfig {
     private Registry<ConnectionSocketFactory> getConnectionSocketFactoryRegistry() {
         RegistryBuilder<ConnectionSocketFactory> builder = RegistryBuilder.create();
         if (spineConfiguration.isTlsEnabled()) {
-            builder.register("https", new SSLConnectionSocketFactory(buildSSLContext(spineConfiguration)));
+            builder.register("https", new SSLConnectionSocketFactory(SSLContexts.createSystemDefault()));
         } else {
             builder.register("http", PlainConnectionSocketFactory.getSocketFactory());
         }
@@ -129,35 +119,4 @@ public class ApacheHttpClientConfig {
         return httpClientBuilder.build();
     }
 
-    @SneakyThrows
-    private SSLContext buildSSLContext(SpineConfiguration spineConfiguration) {
-        var invalidSslValues = new ArrayList<String>();
-        if (StringUtils.isBlank(spineConfiguration.getClientKey())) {
-            invalidSslValues.add("private key");
-        }
-        if (StringUtils.isBlank(spineConfiguration.getClientCert())) {
-            invalidSslValues.add("cert");
-        }
-        if (StringUtils.isBlank(spineConfiguration.getSubCA() + spineConfiguration.getRootCA())) {
-            invalidSslValues.add("cacert");
-        }
-        if (!invalidSslValues.isEmpty()) {
-            throw new ScrBaseException(String.format("Spine SSL %s %s not set",
-                String.join(", ", invalidSslValues),
-                invalidSslValues.size() == 1 ? "is" : "are"));
-        }
-
-        var randomPassword = UUID.randomUUID().toString();
-        KeyStore ks = createFromPEMStrings(
-            spineConfiguration.getClientKey(),
-            spineConfiguration.getClientCert(),
-            randomPassword).keyStore();
-        KeyStore ts = createFromPEMStrings(
-            spineConfiguration.getSubCA() + spineConfiguration.getRootCA(),
-            randomPassword).keyStore();
-        return SSLContexts.custom()
-            .loadKeyMaterial(ks, randomPassword.toCharArray())
-            .loadTrustMaterial(ts, INSTANCE)
-            .build();
-    }
 }
