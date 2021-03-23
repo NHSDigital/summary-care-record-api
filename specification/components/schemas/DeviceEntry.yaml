@@ -68,8 +68,6 @@
             value:
               type: string
               example: "1.0.0"
-          required:
-            - value
         owner:
           description: Organization responsible for device
           type: object
@@ -85,8 +83,6 @@
               text:
                 type: string
                 example: Additional information
-            required:
-              - text
       required:
         - resourceType
         - id
