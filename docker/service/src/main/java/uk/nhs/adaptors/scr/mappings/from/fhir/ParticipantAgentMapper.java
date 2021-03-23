@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.r4.model.Bundle;
 import org.hl7.fhir.r4.model.CodeableConcept;
+import org.hl7.fhir.r4.model.Coding;
 import org.hl7.fhir.r4.model.ContactPoint;
 import org.hl7.fhir.r4.model.Encounter.EncounterParticipantComponent;
 import org.hl7.fhir.r4.model.Practitioner;
@@ -26,6 +27,9 @@ import uk.nhs.adaptors.scr.models.xml.PersonSDS;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static org.apache.commons.lang3.StringUtils.isNotEmpty;
+import static org.hl7.fhir.r4.model.Device.DeviceNameType.MANUFACTURERNAME;
+import static org.hl7.fhir.r4.model.Device.DeviceNameType.OTHER;
 import static uk.nhs.adaptors.scr.utils.DateUtil.formatDateToHl7;
 import static uk.nhs.adaptors.scr.utils.FhirHelper.getDomainResourceList;
 import static uk.nhs.adaptors.scr.utils.FhirHelper.getResourceByReference;
@@ -103,24 +107,36 @@ public class ParticipantAgentMapper {
             var agentDevice1 = new Device("agentDevice");
             agentDevice1.setIdRoot("1.2.826.0.1285.0.2.0.107");
             agentDevice1.setIdExtension(device.getIdentifierFirstRep().getValue());
-            agentDevice1.setCodeCode(device.getType().getCodingFirstRep().getCode());
-            agentDevice1.setCodeDisplayName(device.getType().getCodingFirstRep().getDisplay());
+            setDeviceCoding(device, agentDevice1);
             device.getDeviceName().stream()
-                .filter(deviceName -> deviceName.getType() == org.hl7.fhir.r4.model.Device.DeviceNameType.OTHER)
+                .filter(deviceName -> deviceName.getType() == OTHER)
                 .findFirst()
                 .map(org.hl7.fhir.r4.model.Device.DeviceDeviceNameComponent::getName)
                 .ifPresent(agentDevice1::setName);
             device.getDeviceName().stream()
-                .filter(deviceName -> deviceName.getType() == org.hl7.fhir.r4.model.Device.DeviceNameType.MANUFACTURERNAME)
+                .filter(deviceName -> deviceName.getType() == MANUFACTURERNAME)
                 .findFirst()
                 .map(org.hl7.fhir.r4.model.Device.DeviceDeviceNameComponent::getName)
                 .ifPresent(agentDevice1::setManufacturerModelName);
             agentDevice1.setDescription(device.getNoteFirstRep().getText());
+            agentDevice1.setSoftwareName(device.getVersionFirstRep().getValue());
 
             agentDevice.setDevice(agentDevice1);
         }
 
         author.setAgentDevice(agentDevice);
+    }
+
+    private static void setDeviceCoding(org.hl7.fhir.r4.model.Device fhirDevice, Device agentDevice1) {
+        CodeableConcept type = fhirDevice.getType();
+        Coding coding = type.getCodingFirstRep();
+        if (!type.isEmpty() && isNotEmpty(coding.getCode()) && isNotEmpty(coding.getDisplay())) {
+            agentDevice1.setCodeCode(coding.getCode());
+            agentDevice1.setCodeDisplayName(coding.getDisplay());
+        } else {
+            throw new FhirValidationException("Missing mandatory elements: Device.type");
+        }
+
     }
 
     public static Participant.Informant mapInformant(Bundle bundle, EncounterParticipantComponent encounterParticipant) {

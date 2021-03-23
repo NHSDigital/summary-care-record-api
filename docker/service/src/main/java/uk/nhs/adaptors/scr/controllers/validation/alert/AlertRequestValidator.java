@@ -72,6 +72,14 @@ public class AlertRequestValidator implements ConstraintValidator<AlertRequest, 
 
         if (agent.getRole().isEmpty()) {
             throw new FhirValidationException("Expecting at least one 'role' for 'agent' entry with system " + PERSON_SYSTEM);
+        } else {
+            agent.getRole().stream()
+                .forEach(role -> {
+                    if (isEmpty(role.getText()) && role.getCodingFirstRep().isEmpty()) {
+                        throw new FhirValidationException("Expecting at least one non empty 'role' for 'agent' entry with system "
+                            + PERSON_SYSTEM);
+                    }
+                });
         }
     }
 
@@ -88,6 +96,12 @@ public class AlertRequestValidator implements ConstraintValidator<AlertRequest, 
             .filter(it -> {
                 Identifier id = it.getWho().getIdentifier();
                 return fhirSystem.equals(id.getSystem()) && id.hasValue();
+            })
+            .peek(it -> {
+                if (!it.hasRequestor() || it.getRequestor()) {
+                    throw new FhirValidationException(String.format("Missing or unsupported 'requestor' value for 'agent' with "
+                        + "'who.identifier.system' '%s'", fhirSystem));
+                }
             })
             .reduce((x, y) -> {
                 throw new FhirValidationException(String.format("Expecting exactly one 'agent' entry with 'who.identifier.system' '%s' "

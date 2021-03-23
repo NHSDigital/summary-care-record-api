@@ -14,6 +14,8 @@ import uk.nhs.adaptors.scr.models.AcsPermission;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
+import static org.springframework.util.StringUtils.isEmpty;
+
 @Component
 @Slf4j
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -49,12 +51,13 @@ public class AcsRequestValidator implements ConstraintValidator<AcsRequest, Stri
     private static void checkNhsNumber(Parameters.ParametersParameterComponent parameter) {
         parameter.getPart().stream()
             .filter(p -> NHS_NUMBER_PART_NAME.equals(p.getName()))
+            .filter(p -> !isEmpty(p.getValue()))
             .reduce((x, y) -> {
-                throw new FhirValidationException(String.format("Exactly 1 Parameter.Part named '%s' expected", NHS_NUMBER_PART_NAME));
+                throw new FhirValidationException(String.format("Exactly 1 Parameter.Part named '%s' with not empty value expected",
+                    NHS_NUMBER_PART_NAME));
             })
             .orElseThrow(() -> new FhirValidationException(String.format(
-                "Parameter.Part named '%s' not found", NHS_NUMBER_PART_NAME))
-        );
+                "Parameter.Part named '%s' with not empty value not found", NHS_NUMBER_PART_NAME)));
     }
 
     private static void checkPermission(Parameters.ParametersParameterComponent parameter) {
