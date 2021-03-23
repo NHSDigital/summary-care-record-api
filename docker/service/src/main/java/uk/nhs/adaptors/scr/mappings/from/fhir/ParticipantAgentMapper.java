@@ -41,6 +41,7 @@ public class ParticipantAgentMapper {
 
     private static final String MODE_CODE_URL = "https://fhir.nhs.uk/StructureDefinition/Extension-SCR-ModeCode";
     private static final String SDS_DEVICE_SYSTEM = "https://fhir.nhs.uk/Id/SDSDevice";
+    private static final String RELATIONSHIP_TYPE_SYSTEM = "https://fhir.nhs.uk/STU3/ValueSet/PersonRelationshipType-1";
 
     public static Participant.Author mapAuthor(Bundle bundle, EncounterParticipantComponent encounterParticipant) {
         var author = new Participant.Author();
@@ -160,14 +161,28 @@ public class ParticipantAgentMapper {
                     String.format("Bundle is missing RelatedPerson %s that is linked to Encounter",
                         encounterParticipant.getIndividual().getReference())));
             var participantNonAgentRole = new NonAgentRole("participantNonAgentRole");
-            participantNonAgentRole.setCodeCode(relatedPerson.getRelationshipFirstRep().getCodingFirstRep().getCode());
-            participantNonAgentRole.setCodeDisplayName(relatedPerson.getRelationshipFirstRep().getCodingFirstRep().getDisplay());
+            setRelationship(relatedPerson, participantNonAgentRole);
             setRelatedPersonName(relatedPerson, participantNonAgentRole);
             informant.setParticipantNonAgentRole(participantNonAgentRole);
         } else {
             throw new FhirValidationException(String.format("Invalid Encounter participant type %s", participantType));
         }
         return informant;
+    }
+
+    private static void setRelationship(RelatedPerson relatedPerson, NonAgentRole participantNonAgentRole) {
+        Coding relationshipCoding = relatedPerson.getRelationshipFirstRep().getCodingFirstRep();
+        if (!RELATIONSHIP_TYPE_SYSTEM.equals(relationshipCoding.getSystem())) {
+            throw new FhirValidationException("Unsupported RelatedPerson.relationship.coding.system: " + relationshipCoding.getSystem());
+        }
+        if (!relationshipCoding.hasCode()) {
+            throw new FhirValidationException("Missing RelatedPerson.relationship.coding.code element");
+        }
+        if (!relationshipCoding.hasDisplay()) {
+            throw new FhirValidationException("Missing RelatedPerson.relationship.coding.display element");
+        }
+        participantNonAgentRole.setCodeCode(relationshipCoding.getCode());
+        participantNonAgentRole.setCodeDisplayName(relationshipCoding.getDisplay());
     }
 
     private static void setRelatedPersonName(RelatedPerson relatedPerson, NonAgentRole participantNonAgentRole) {
