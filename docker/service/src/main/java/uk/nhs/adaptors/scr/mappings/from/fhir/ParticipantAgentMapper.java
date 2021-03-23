@@ -38,6 +38,7 @@ import static uk.nhs.adaptors.scr.utils.FhirHelper.getResourceByReference;
 public class ParticipantAgentMapper {
 
     private static final String MODE_CODE_URL = "https://fhir.nhs.uk/StructureDefinition/Extension-SCR-ModeCode";
+    private static final String SDS_DEVICE_SYSTEM = "https://fhir.nhs.uk/Id/SDSDevice";
 
     public static Participant.Author mapAuthor(Bundle bundle, EncounterParticipantComponent encounterParticipant) {
         var author = new Participant.Author();
@@ -98,10 +99,14 @@ public class ParticipantAgentMapper {
             agentDevice.setOrganizationSDS(representedOrganizationSDS);
         }
 
-        if (StringUtils.isNotBlank(device.getIdentifierFirstRep().getSystem())) {
+        if (SDS_DEVICE_SYSTEM.equals(device.getIdentifierFirstRep().getSystem())) {
             var agentDeviceSDS = new DeviceSDS("agentDeviceSDS");
             agentDeviceSDS.setIdRoot("1.2.826.0.1285.0.2.0.107");
-            agentDeviceSDS.setIdExtension(device.getIdentifierFirstRep().getValue());
+            if (device.getIdentifierFirstRep().hasValue()) {
+                agentDeviceSDS.setIdExtension(device.getIdentifierFirstRep().getValue());
+            } else {
+                throw new FhirValidationException("Device.identifier.value is missing");
+            }
             agentDevice.setDeviceSDS(agentDeviceSDS);
         } else {
             var agentDevice1 = new Device("agentDevice");
