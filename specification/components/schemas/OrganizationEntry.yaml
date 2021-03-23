@@ -13,6 +13,7 @@
           type: string
           example: FD3F2E98-511F-4A3E-AD84-127DAEC1645E
         identifier:
+          description: Organization identifier. Mandatory for SDS organizations.
           type: array
           items:
             type: object
@@ -26,9 +27,6 @@
               value:
                 type: string
                 example: RR8
-            required:
-              - system
-              - value
           minItems: 1
           maxItems: 1
         type:
