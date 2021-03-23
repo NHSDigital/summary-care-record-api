@@ -38,9 +38,6 @@
               type:
                 type: string
                 example: manufacturer-name
-            required:
-              - name
-              - type
         type:
           description: The kind or type of device. Field is mandatory when device is NOT a SDS Device.
           type: object
