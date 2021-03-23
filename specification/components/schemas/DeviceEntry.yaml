@@ -82,4 +82,3 @@
                 example: Additional information
       required:
         - resourceType
-        - id
