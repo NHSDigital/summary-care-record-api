@@ -34,16 +34,20 @@ public class ObservationMapper {
         observation -> "163141000000104".equals(observation.getCategoryFirstRep().getCodingFirstRep().getCode());
 
     public static void mapObservations(GpSummary gpSummary, Bundle bundle) {
-        checkCategory(bundle);
+        validate(bundle);
         gpSummary.getClinicalObservationsAndFindings()
             .addAll(mapClinicalObservationsAndFindings(bundle));
         gpSummary.getInvestigationResults()
             .addAll(mapInvestigationResults(bundle));
     }
 
-    private static void checkCategory(Bundle bundle) {
+    private static void validate(Bundle bundle) {
         getDomainResourceList(bundle, Observation.class).stream()
             .forEach(it -> {
+                if (!it.getIdentifierFirstRep().hasValue()) {
+                    throw new FhirValidationException("Observation.identifier.value is missing");
+                }
+
                 Coding coding = it.getCategoryFirstRep().getCodingFirstRep();
                 if (!coding.getSystem().equals(SNOMED_SYSTEM)) {
                     throw new FhirValidationException("Invalid Observation.category.coding.system: " + coding.getSystem());
@@ -90,7 +94,6 @@ public class ObservationMapper {
             throw new FhirValidationException("Observation.effective must be of type DateTimeType or Period");
         }
 
-        LOGGER.debug("Looking up Encounter for Condition.id={}", observation.getIdElement().getIdPart());
         var encounterReference = observation.getEncounter().getReference();
         if (StringUtils.isNotBlank(encounterReference)) {
             var encounter = getResourceByReference(bundle, encounterReference, Encounter.class)
