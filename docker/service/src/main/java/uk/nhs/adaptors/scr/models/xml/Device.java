@@ -14,6 +14,7 @@ public class Device {
     private String codeDisplayName;
     private String name;
     private String manufacturerModelName;
+    private String softwareName;
     private String description;
 
     public Device(String tag) {

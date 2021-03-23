@@ -26,6 +26,8 @@ import uk.nhs.adaptors.scr.models.xml.PersonSDS;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static org.hl7.fhir.r4.model.Device.DeviceNameType.MANUFACTURERNAME;
+import static org.hl7.fhir.r4.model.Device.DeviceNameType.OTHER;
 import static uk.nhs.adaptors.scr.utils.DateUtil.formatDateToHl7;
 import static uk.nhs.adaptors.scr.utils.FhirHelper.getDomainResourceList;
 import static uk.nhs.adaptors.scr.utils.FhirHelper.getResourceByReference;
@@ -106,16 +108,17 @@ public class ParticipantAgentMapper {
             agentDevice1.setCodeCode(device.getType().getCodingFirstRep().getCode());
             agentDevice1.setCodeDisplayName(device.getType().getCodingFirstRep().getDisplay());
             device.getDeviceName().stream()
-                .filter(deviceName -> deviceName.getType() == org.hl7.fhir.r4.model.Device.DeviceNameType.OTHER)
+                .filter(deviceName -> deviceName.getType() == OTHER)
                 .findFirst()
                 .map(org.hl7.fhir.r4.model.Device.DeviceDeviceNameComponent::getName)
                 .ifPresent(agentDevice1::setName);
             device.getDeviceName().stream()
-                .filter(deviceName -> deviceName.getType() == org.hl7.fhir.r4.model.Device.DeviceNameType.MANUFACTURERNAME)
+                .filter(deviceName -> deviceName.getType() == MANUFACTURERNAME)
                 .findFirst()
                 .map(org.hl7.fhir.r4.model.Device.DeviceDeviceNameComponent::getName)
                 .ifPresent(agentDevice1::setManufacturerModelName);
             agentDevice1.setDescription(device.getNoteFirstRep().getText());
+            agentDevice1.setSoftwareName(device.getVersionFirstRep().getValue());
 
             agentDevice.setDevice(agentDevice1);
         }

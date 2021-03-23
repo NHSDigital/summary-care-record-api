@@ -1,13 +1,16 @@
 <{{tag}} classCode="DEV" determinerCode="INSTANCE">
-    <id root="{{idRoot}}" extension="{{idExtension}}"/>
-    <code code="{{codeCode}}" displayName="{{codeDisplayName}}" codeSystem="ABC"/>
-    {{#name}}
+<id root="{{idRoot}}" extension="{{idExtension}}"/>
+<code code="{{codeCode}}" displayName="{{codeDisplayName}}" codeSystem="ABC"/>
+{{#name}}
     <name>{{name}}</name>
-    {{/name}}
-    {{#description}}
+{{/name}}
+{{#description}}
     <desc>{{description}}</desc>
-    {{/description}}
-    {{#manufacturerModelName}}
+{{/description}}
+{{#manufacturerModelName}}
     <manufacturerModelName>{{manufacturerModelName}}</manufacturerModelName>
-    {{/manufacturerModelName}}
+{{/manufacturerModelName}}
+{{#softwareName}}
+    <softwareName>{{softwareName}}</softwareName>
+{{/softwareName}}
 </{{tag}}>
