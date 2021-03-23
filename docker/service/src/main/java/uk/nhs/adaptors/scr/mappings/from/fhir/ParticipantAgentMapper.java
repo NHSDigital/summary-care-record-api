@@ -7,6 +7,7 @@ import org.hl7.fhir.r4.model.CodeableConcept;
 import org.hl7.fhir.r4.model.Coding;
 import org.hl7.fhir.r4.model.ContactPoint;
 import org.hl7.fhir.r4.model.Encounter.EncounterParticipantComponent;
+import org.hl7.fhir.r4.model.HumanName;
 import org.hl7.fhir.r4.model.Practitioner;
 import org.hl7.fhir.r4.model.PractitionerRole;
 import org.hl7.fhir.r4.model.Reference;
@@ -26,6 +27,7 @@ import uk.nhs.adaptors.scr.models.xml.PersonSDS;
 
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 import static org.hl7.fhir.r4.model.Device.DeviceNameType.MANUFACTURERNAME;
@@ -160,12 +162,26 @@ public class ParticipantAgentMapper {
             var participantNonAgentRole = new NonAgentRole("participantNonAgentRole");
             participantNonAgentRole.setCodeCode(relatedPerson.getRelationshipFirstRep().getCodingFirstRep().getCode());
             participantNonAgentRole.setCodeDisplayName(relatedPerson.getRelationshipFirstRep().getCodingFirstRep().getDisplay());
-            participantNonAgentRole.setName(relatedPerson.getNameFirstRep().getText());
+            setRelatedPersonName(relatedPerson, participantNonAgentRole);
             informant.setParticipantNonAgentRole(participantNonAgentRole);
         } else {
             throw new FhirValidationException(String.format("Invalid Encounter participant type %s", participantType));
         }
         return informant;
+    }
+
+    private static void setRelatedPersonName(RelatedPerson relatedPerson, NonAgentRole participantNonAgentRole) {
+        HumanName nameFirstRep = relatedPerson.getNameFirstRep();
+        if (nameFirstRep.hasText()) {
+            participantNonAgentRole.setName(nameFirstRep.getText());
+        } else if (nameFirstRep.hasFamily() || nameFirstRep.hasGiven()) {
+            String name = Stream.of(nameFirstRep.getPrefixAsSingleString(), nameFirstRep.getGivenAsSingleString(), nameFirstRep.getFamily())
+                .filter(it -> isNotEmpty(it))
+                .collect(Collectors.joining(" "));
+            participantNonAgentRole.setName(name);
+        } else {
+            throw new FhirValidationException("Missing RelatedPerson.name element");
+        }
     }
 
     public static Participant.Performer mapPerformer(Bundle bundle, EncounterParticipantComponent encounterParticipant) {
