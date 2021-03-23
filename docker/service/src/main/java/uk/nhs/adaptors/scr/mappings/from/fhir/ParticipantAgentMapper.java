@@ -8,6 +8,7 @@ import org.hl7.fhir.r4.model.Coding;
 import org.hl7.fhir.r4.model.ContactPoint;
 import org.hl7.fhir.r4.model.Encounter.EncounterParticipantComponent;
 import org.hl7.fhir.r4.model.HumanName;
+import org.hl7.fhir.r4.model.Identifier;
 import org.hl7.fhir.r4.model.Practitioner;
 import org.hl7.fhir.r4.model.PractitionerRole;
 import org.hl7.fhir.r4.model.Reference;
@@ -42,6 +43,7 @@ public class ParticipantAgentMapper {
     private static final String MODE_CODE_URL = "https://fhir.nhs.uk/StructureDefinition/Extension-SCR-ModeCode";
     private static final String SDS_DEVICE_SYSTEM = "https://fhir.nhs.uk/Id/SDSDevice";
     private static final String RELATIONSHIP_TYPE_SYSTEM = "https://fhir.nhs.uk/STU3/ValueSet/PersonRelationshipType-1";
+    private static final String ORG_SDS_SYSTEM = "https://fhir.nhs.uk/Id/ods-organization-code";
 
     public static Participant.Author mapAuthor(Bundle bundle, EncounterParticipantComponent encounterParticipant) {
         var author = new Participant.Author();
@@ -95,9 +97,13 @@ public class ParticipantAgentMapper {
 
             agentDevice.setOrganization(representedOrganization);
         } else {
+            Identifier identifier = organization.getIdentifierFirstRep();
+            if (ORG_SDS_SYSTEM.equals(identifier.getSystem()) && !identifier.hasValue()) {
+                throw new FhirValidationException("Organization.identifier.value element is missing");
+            }
             var representedOrganizationSDS = new OrganizationSDS("representedOrganizationSDS");
             representedOrganizationSDS.setIdRoot("1.2.826.0.1285.0.1.10");
-            representedOrganizationSDS.setIdExtension(organization.getIdentifierFirstRep().getValue());
+            representedOrganizationSDS.setIdExtension(identifier.getValue());
 
             agentDevice.setOrganizationSDS(representedOrganizationSDS);
         }
@@ -256,21 +262,26 @@ public class ParticipantAgentMapper {
             person.setName(practitioner.getNameFirstRep().getText());
             agentPerson.setAgentPerson(person);
 
+            Identifier identifier = organization.getIdentifierFirstRep();
             if (organization.getTypeFirstRep().getCodingFirstRep().getCode() != null) {
                 var representedOrganization = new Organization("representedOrganization");
-                representedOrganization.setIdRoot(organization.getIdentifierFirstRep().getSystem());
-                representedOrganization.setIdExtension(organization.getIdentifierFirstRep().getValue());
+                representedOrganization.setIdRoot(identifier.getSystem());
+                representedOrganization.setIdExtension(identifier.getValue());
                 representedOrganization.setCodeCode(organization.getTypeFirstRep().getCodingFirstRep().getCode());
                 representedOrganization.setName(organization.getName());
                 agentPerson.setRepresentedOrganization(representedOrganization);
             } else if (organization.hasIdentifier()) {
                 var representedOrganizationSDS = new OrganizationSDS("representedOrganizationSDS");
-                if ("https://fhir.nhs.uk/Id/ods-organization-code".equals(organization.getIdentifierFirstRep().getSystem())) {
+                if (ORG_SDS_SYSTEM.equals(identifier.getSystem())) {
+                    if (!identifier.hasValue()) {
+                        throw new FhirValidationException("Organization.identifier.value element is missing");
+                    }
                     representedOrganizationSDS.setIdRoot("1.2.826.0.1285.0.1.10");
                 } else {
                     representedOrganizationSDS.setIdRoot("1.2.826.0.1285.0.2.0.109");
                 }
-                representedOrganizationSDS.setIdExtension(organization.getIdentifierFirstRep().getValue());
+
+                representedOrganizationSDS.setIdExtension(identifier.getValue());
                 representedOrganizationSDS.setName(organization.getName());
                 agentPerson.setRepresentedOrganizationSDS(representedOrganizationSDS);
             }
