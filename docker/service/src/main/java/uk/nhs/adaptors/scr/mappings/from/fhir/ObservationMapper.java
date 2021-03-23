@@ -3,6 +3,7 @@ package uk.nhs.adaptors.scr.mappings.from.fhir;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.r4.model.Bundle;
+import org.hl7.fhir.r4.model.Coding;
 import org.hl7.fhir.r4.model.DateTimeType;
 import org.hl7.fhir.r4.model.Encounter;
 import org.hl7.fhir.r4.model.Observation;
@@ -19,6 +20,7 @@ import java.util.stream.Collectors;
 import static uk.nhs.adaptors.scr.mappings.from.fhir.ParticipantAgentMapper.mapAuthor1;
 import static uk.nhs.adaptors.scr.mappings.from.fhir.ParticipantAgentMapper.mapInformant;
 import static uk.nhs.adaptors.scr.mappings.from.fhir.ParticipantAgentMapper.mapPerformer;
+import static uk.nhs.adaptors.scr.mappings.from.hl7.XmlToFhirMapper.SNOMED_SYSTEM;
 import static uk.nhs.adaptors.scr.utils.DateUtil.formatDateToHl7;
 import static uk.nhs.adaptors.scr.utils.FhirHelper.getDomainResourceList;
 import static uk.nhs.adaptors.scr.utils.FhirHelper.getResourceByReference;
@@ -32,10 +34,29 @@ public class ObservationMapper {
         observation -> "163141000000104".equals(observation.getCategoryFirstRep().getCodingFirstRep().getCode());
 
     public static void mapObservations(GpSummary gpSummary, Bundle bundle) {
+        validate(bundle);
         gpSummary.getClinicalObservationsAndFindings()
             .addAll(mapClinicalObservationsAndFindings(bundle));
         gpSummary.getInvestigationResults()
             .addAll(mapInvestigationResults(bundle));
+    }
+
+    private static void validate(Bundle bundle) {
+        getDomainResourceList(bundle, Observation.class).stream()
+            .forEach(it -> {
+                if (!it.getIdentifierFirstRep().hasValue()) {
+                    throw new FhirValidationException("Observation.identifier.value is missing");
+                }
+
+                Coding coding = it.getCategoryFirstRep().getCodingFirstRep();
+                if (!coding.getSystem().equals(SNOMED_SYSTEM)) {
+                    throw new FhirValidationException("Invalid Observation.category.coding.system: " + coding.getSystem());
+                }
+
+                if (!coding.hasCode()) {
+                    throw new FhirValidationException("Observation.category.coding.code is missing");
+                }
+            });
     }
 
     private static List<Finding> mapClinicalObservationsAndFindings(Bundle bundle) {
@@ -73,7 +94,6 @@ public class ObservationMapper {
             throw new FhirValidationException("Observation.effective must be of type DateTimeType or Period");
         }
 
-        LOGGER.debug("Looking up Encounter for Condition.id={}", observation.getIdElement().getIdPart());
         var encounterReference = observation.getEncounter().getReference();
         if (StringUtils.isNotBlank(encounterReference)) {
             var encounter = getResourceByReference(bundle, encounterReference, Encounter.class)

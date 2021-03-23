@@ -60,7 +60,6 @@
                 required:
                   - system
                   - code
-                  - display
             required:
               - coding
           minItems: 1
