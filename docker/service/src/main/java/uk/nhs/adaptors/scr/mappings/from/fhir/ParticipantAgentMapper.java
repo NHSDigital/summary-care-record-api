@@ -47,6 +47,9 @@ public class ParticipantAgentMapper {
 
     public static Participant.Author mapAuthor(Bundle bundle, EncounterParticipantComponent encounterParticipant) {
         var author = new Participant.Author();
+        if (!encounterParticipant.getPeriod().hasStart()) {
+            throw new FhirValidationException("Encounter.participant.period.start element is missing");
+        }
         author.setTime(formatDateToHl7(encounterParticipant.getPeriod().getStartElement()));
         setParticipantAgents(bundle, encounterParticipant.getIndividual(), author);
         return author;
