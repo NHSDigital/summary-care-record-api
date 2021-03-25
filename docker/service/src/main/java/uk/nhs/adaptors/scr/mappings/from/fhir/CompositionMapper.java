@@ -1,6 +1,7 @@
 package uk.nhs.adaptors.scr.mappings.from.fhir;
 
 import org.hl7.fhir.r4.model.Bundle;
+import org.hl7.fhir.r4.model.Coding;
 import org.hl7.fhir.r4.model.Composition;
 import uk.nhs.adaptors.scr.exceptions.FhirMappingException;
 import uk.nhs.adaptors.scr.exceptions.FhirValidationException;
@@ -12,19 +13,40 @@ import static org.hl7.fhir.r4.model.Composition.DocumentRelationshipType.REPLACE
 import static uk.nhs.adaptors.scr.mappings.from.hl7.HtmlParser.createNewDocument;
 import static uk.nhs.adaptors.scr.mappings.from.hl7.HtmlParser.removeEmptyNodes;
 import static uk.nhs.adaptors.scr.mappings.from.hl7.HtmlParser.serialize;
+import static uk.nhs.adaptors.scr.mappings.from.hl7.XmlToFhirMapper.SNOMED_SYSTEM;
 import static uk.nhs.adaptors.scr.utils.DateUtil.formatDateToHl7;
 import static uk.nhs.adaptors.scr.utils.DocumentBuilderUtil.parseDocument;
 import static uk.nhs.adaptors.scr.utils.FhirHelper.getDomainResource;
 import static uk.nhs.adaptors.scr.utils.FhirHelper.randomUUID;
 
 public class CompositionMapper {
+
+    private static final String CARE_PROFESSIONAL_DOC_CODE = "163171000000105";
+    private static final String CARE_PROFESSIONAL_DOC_DISPLAY = "Care Professional Documentation";
+
     public static void mapComposition(GpSummary gpSummary, Bundle bundle) throws FhirMappingException {
         var composition = getDomainResource(bundle, Composition.class);
-
+        validateCategory(composition);
         setCompositionRelatesToId(gpSummary, composition);
         setCompositionId(gpSummary, composition);
         setCompositionDate(gpSummary, composition);
         setPresentation(gpSummary, composition);
+    }
+
+    private static void validateCategory(Composition composition) {
+        if (!composition.hasCategory()) {
+            throw new FhirValidationException("Composition.category element is missing");
+        }
+        Coding category = composition.getCategoryFirstRep().getCodingFirstRep();
+        if (!SNOMED_SYSTEM.equals(category.getSystem())) {
+            throw new FhirValidationException("Composition.category.coding.system not supported: " + category.getSystem());
+        }
+        if (!CARE_PROFESSIONAL_DOC_CODE.equals(category.getCode())) {
+            throw new FhirValidationException("Composition.category.coding.code not supported: " + category.getCode());
+        }
+        if (!CARE_PROFESSIONAL_DOC_DISPLAY.equals(category.getDisplay())) {
+            throw new FhirValidationException("Composition.category.coding.display not supported: " + category.getDisplay());
+        }
     }
 
     private static void setCompositionRelatesToId(GpSummary gpSummary, Composition composition) throws FhirMappingException {
