@@ -8,7 +8,6 @@ import uk.nhs.adaptors.scr.exceptions.FhirValidationException;
 import uk.nhs.adaptors.scr.models.GpSummary;
 import uk.nhs.adaptors.scr.models.xml.Presentation;
 
-import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static org.hl7.fhir.r4.model.Composition.CompositionStatus.FINAL;
 import static org.hl7.fhir.r4.model.Composition.DocumentRelationshipType.REPLACES;
 import static uk.nhs.adaptors.scr.mappings.from.hl7.HtmlParser.createNewDocument;
@@ -26,6 +25,7 @@ public class CompositionMapper {
     private static final String GP_SUMMARY_TYPE_CODE = "196981000000101";
     private static final String CARE_PROFESSIONAL_DOC_DISPLAY = "Care Professional Documentation";
     private static final String GP_SUMMARY_TYPE_DISPLAY = "General Practice Summary";
+    private static final String IDENTIFIER_SYSTEM = "https://tools.ietf.org/html/rfc4122";
 
     public static void mapComposition(GpSummary gpSummary, Bundle bundle) throws FhirMappingException {
         var composition = getDomainResource(bundle, Composition.class);
@@ -91,15 +91,15 @@ public class CompositionMapper {
     }
 
     private static void setCompositionId(GpSummary gpSummary, Composition composition) throws FhirMappingException {
-        String value = EMPTY;
-
-        if (composition.hasIdentifier()) {
+        if (composition.hasIdentifier() && IDENTIFIER_SYSTEM.equals(composition.getIdentifier().getSystem())) {
             if (composition.getIdentifier().hasValue()) {
-                value = composition.getIdentifier().getValue().toUpperCase();
+                gpSummary.setCompositionId(composition.getIdentifier().getValue().toUpperCase());
+            } else {
+                throw new FhirValidationException("Missing Composition.identifier.value element");
             }
+        } else {
+            throw new FhirValidationException("Missing Composition.identifier for system: " + IDENTIFIER_SYSTEM);
         }
-
-        gpSummary.setCompositionId(value);
     }
 
     private static void setCompositionDate(GpSummary gpSummary, Composition composition) throws FhirMappingException {
