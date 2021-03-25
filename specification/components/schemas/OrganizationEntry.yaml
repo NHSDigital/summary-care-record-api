@@ -80,4 +80,3 @@
                 example: "ENGLAND"
       required:
         - resourceType
-        - id

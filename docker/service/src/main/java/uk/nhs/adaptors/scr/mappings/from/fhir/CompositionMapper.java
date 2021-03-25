@@ -1,48 +1,105 @@
 package uk.nhs.adaptors.scr.mappings.from.fhir;
 
-import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.r4.model.Bundle;
+import org.hl7.fhir.r4.model.Coding;
 import org.hl7.fhir.r4.model.Composition;
 import uk.nhs.adaptors.scr.exceptions.FhirMappingException;
+import uk.nhs.adaptors.scr.exceptions.FhirValidationException;
 import uk.nhs.adaptors.scr.models.GpSummary;
 import uk.nhs.adaptors.scr.models.xml.Presentation;
 
-import static org.apache.commons.lang3.StringUtils.EMPTY;
+import static org.hl7.fhir.r4.model.Composition.CompositionStatus.FINAL;
+import static org.hl7.fhir.r4.model.Composition.DocumentRelationshipType.REPLACES;
 import static uk.nhs.adaptors.scr.mappings.from.hl7.HtmlParser.createNewDocument;
 import static uk.nhs.adaptors.scr.mappings.from.hl7.HtmlParser.removeEmptyNodes;
 import static uk.nhs.adaptors.scr.mappings.from.hl7.HtmlParser.serialize;
+import static uk.nhs.adaptors.scr.mappings.from.hl7.XmlToFhirMapper.SNOMED_SYSTEM;
 import static uk.nhs.adaptors.scr.utils.DateUtil.formatDateToHl7;
 import static uk.nhs.adaptors.scr.utils.DocumentBuilderUtil.parseDocument;
 import static uk.nhs.adaptors.scr.utils.FhirHelper.getDomainResource;
 import static uk.nhs.adaptors.scr.utils.FhirHelper.randomUUID;
 
 public class CompositionMapper {
+
+    private static final String CARE_PROFESSIONAL_DOC_CODE = "163171000000105";
+    private static final String GP_SUMMARY_TYPE_CODE = "196981000000101";
+    private static final String CARE_PROFESSIONAL_DOC_DISPLAY = "Care Professional Documentation";
+    private static final String GP_SUMMARY_TYPE_DISPLAY = "General Practice Summary";
+    private static final String IDENTIFIER_SYSTEM = "https://tools.ietf.org/html/rfc4122";
+
     public static void mapComposition(GpSummary gpSummary, Bundle bundle) throws FhirMappingException {
         var composition = getDomainResource(bundle, Composition.class);
-
+        validateCategory(composition);
+        validateType(composition);
+        validateStatus(composition);
         setCompositionRelatesToId(gpSummary, composition);
         setCompositionId(gpSummary, composition);
         setCompositionDate(gpSummary, composition);
         setPresentation(gpSummary, composition);
     }
 
+    private static void validateStatus(Composition composition) {
+        if (!FINAL.equals(composition.getStatus())) {
+            throw new FhirValidationException("Invalid composition.status: " + composition.getStatus());
+        }
+    }
+
+    private static void validateType(Composition composition) {
+        if (!composition.hasType()) {
+            throw new FhirValidationException("Composition.type element is missing");
+        }
+        Coding type = composition.getType().getCodingFirstRep();
+        if (!SNOMED_SYSTEM.equals(type.getSystem())) {
+            throw new FhirValidationException("Composition.type.coding.system not supported: " + type.getSystem());
+        }
+        if (!GP_SUMMARY_TYPE_CODE.equals(type.getCode())) {
+            throw new FhirValidationException("Composition.type.coding.code not supported: " + type.getCode());
+        }
+        if (!GP_SUMMARY_TYPE_DISPLAY.equals(type.getDisplay())) {
+            throw new FhirValidationException("Composition.type.coding.display not supported: " + type.getDisplay());
+        }
+    }
+
+    private static void validateCategory(Composition composition) {
+        if (!composition.hasCategory()) {
+            throw new FhirValidationException("Composition.category element is missing");
+        }
+        Coding category = composition.getCategoryFirstRep().getCodingFirstRep();
+        if (!SNOMED_SYSTEM.equals(category.getSystem())) {
+            throw new FhirValidationException("Composition.category.coding.system not supported: " + category.getSystem());
+        }
+        if (!CARE_PROFESSIONAL_DOC_CODE.equals(category.getCode())) {
+            throw new FhirValidationException("Composition.category.coding.code not supported: " + category.getCode());
+        }
+        if (!CARE_PROFESSIONAL_DOC_DISPLAY.equals(category.getDisplay())) {
+            throw new FhirValidationException("Composition.category.coding.display not supported: " + category.getDisplay());
+        }
+    }
+
     private static void setCompositionRelatesToId(GpSummary gpSummary, Composition composition) throws FhirMappingException {
-        var id = composition.getRelatesToFirstRep().getTargetIdentifier().getValue();
-        if (StringUtils.isNotBlank(id)) {
-            gpSummary.setCompositionRelatesToId(id.toUpperCase());
+        if (composition.hasRelatesTo()) {
+            var relatesTo = composition.getRelatesToFirstRep();
+            if (!REPLACES.equals(relatesTo.getCode())) {
+                throw new FhirValidationException("Unsupported Composition.relatesTo.code element: " + relatesTo.getCode());
+            }
+            if (relatesTo.getTargetIdentifier().hasValue()) {
+                gpSummary.setCompositionRelatesToId(relatesTo.getTargetIdentifier().getValue());
+            } else {
+                throw new FhirValidationException("Composition.relatesTo.targetIdentifier.value element is missing");
+            }
         }
     }
 
     private static void setCompositionId(GpSummary gpSummary, Composition composition) throws FhirMappingException {
-        String value = EMPTY;
-
-        if (composition.hasIdentifier()) {
+        if (composition.hasIdentifier() && IDENTIFIER_SYSTEM.equals(composition.getIdentifier().getSystem())) {
             if (composition.getIdentifier().hasValue()) {
-                value = composition.getIdentifier().getValue().toUpperCase();
+                gpSummary.setCompositionId(composition.getIdentifier().getValue().toUpperCase());
+            } else {
+                throw new FhirValidationException("Missing Composition.identifier.value element");
             }
+        } else {
+            throw new FhirValidationException("Missing Composition.identifier for system: " + IDENTIFIER_SYSTEM);
         }
-
-        gpSummary.setCompositionId(value);
     }
 
     private static void setCompositionDate(GpSummary gpSummary, Composition composition) throws FhirMappingException {

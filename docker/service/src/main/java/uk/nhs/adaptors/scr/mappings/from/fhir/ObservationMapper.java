@@ -27,7 +27,7 @@ import static uk.nhs.adaptors.scr.utils.FhirHelper.getResourceByReference;
 
 @Slf4j
 public class ObservationMapper {
-
+    private static final String PARTICIPATION_TYPE_SYSTEM = "http://terminology.hl7.org/CodeSystem/v3-ParticipationType";
     private static final Predicate<Observation> IS_CLINICAL_OBSERVATION_AND_FINDING =
         observation -> "163131000000108".equals(observation.getCategoryFirstRep().getCodingFirstRep().getCode());
     private static final Predicate<Observation> IS_INVESTIGATION_RESULT =
@@ -102,7 +102,11 @@ public class ObservationMapper {
                         observation.getEncounter().getReference(), observation.getId())));
 
             for (var encounterParticipant : encounter.getParticipant()) {
-                var code = encounterParticipant.getTypeFirstRep().getCodingFirstRep().getCode();
+                Coding coding = encounterParticipant.getTypeFirstRep().getCodingFirstRep();
+                if (!PARTICIPATION_TYPE_SYSTEM.equals(coding.getSystem())) {
+                    throw new FhirValidationException("Unsupported encounter participant system: " + coding.getSystem());
+                }
+                var code = coding.getCode();
                 if ("AUT".equals(code)) {
                     var author = mapAuthor1(bundle, encounterParticipant);
                     finding.setAuthor(author);

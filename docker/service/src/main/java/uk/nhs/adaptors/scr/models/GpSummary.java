@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.hl7.fhir.r4.model.Bundle;
 import org.springframework.stereotype.Component;
 import uk.nhs.adaptors.scr.exceptions.FhirMappingException;
+import uk.nhs.adaptors.scr.exceptions.FhirValidationException;
 import uk.nhs.adaptors.scr.mappings.from.fhir.AuthorMapper;
 import uk.nhs.adaptors.scr.mappings.from.fhir.CompositionMapper;
 import uk.nhs.adaptors.scr.mappings.from.fhir.ConditionMapper;
@@ -29,6 +30,7 @@ import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.stream.Stream;
 
+import static org.hl7.fhir.r4.model.Bundle.BundleType.DOCUMENT;
 import static uk.nhs.adaptors.scr.utils.FhirHelper.UUID_IDENTIFIER_SYSTEM;
 
 @Getter
@@ -62,6 +64,8 @@ public class GpSummary {
     private List<PersonalPreference> personalPreferences = new ArrayList<>();
 
     public static GpSummary fromBundle(Bundle bundle, String nhsdAsid) throws FhirMappingException {
+        validateType(bundle);
+
         GpSummary gpSummary = new GpSummary();
         gpSummary.setNhsdAsidFrom(nhsdAsid);
 
@@ -76,6 +80,12 @@ public class GpSummary {
             .forEach(mapper -> mapper.accept(gpSummary, bundle));
 
         return gpSummary;
+    }
+
+    private static void validateType(Bundle bundle) {
+        if (!DOCUMENT.equals(bundle.getType())) {
+            throw new FhirValidationException("Unsupported Bundle.type: " + bundle.getType());
+        }
     }
 
     private static void gpSummarySetHeaderId(GpSummary gpSummary, Bundle bundle) {

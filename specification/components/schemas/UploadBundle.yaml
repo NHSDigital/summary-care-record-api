@@ -30,7 +30,6 @@ properties:
         - $ref: DeviceEntry.yaml
 required:
   - resourceType
-  - id
   - identifier
   - type
   - timestamp

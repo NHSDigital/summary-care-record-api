@@ -14,20 +14,21 @@
           example: F4D5093D-351E-4C6E-819E-DCCBC4B9A7FD
         identifier:
           type: array
+          description: There should be one identifier if user is a SDS USer
           items:
             type: object
             properties:
               system:
+                description: "Should be fixed to https://fhir.nhs.uk/Id/sds-user-id when user is a SDS user"
                 type: string
                 default: "https://fhir.nhs.uk/Id/sds-user-id"
               value:
                 type: string
+                description: Filed mandatory when user is a SDS User
                 example: "676789689789"
             required:
               - system
               - value
-          minItems: 1
-          maxItems: 1
         name:
           type: array
           items:
