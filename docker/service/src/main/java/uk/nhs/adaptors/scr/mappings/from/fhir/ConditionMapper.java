@@ -4,6 +4,7 @@ import io.micrometer.core.instrument.util.StringUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.hl7.fhir.r4.model.Bundle;
 import org.hl7.fhir.r4.model.CodeableConcept;
+import org.hl7.fhir.r4.model.Coding;
 import org.hl7.fhir.r4.model.Condition;
 import org.hl7.fhir.r4.model.Encounter;
 import org.hl7.fhir.r4.model.Period;
@@ -22,6 +23,8 @@ import static uk.nhs.adaptors.scr.utils.FhirHelper.getResourceByReference;
 
 @Slf4j
 public class ConditionMapper {
+
+    private static final String PARTICIPATION_TYPE_SYSTEM = "http://terminology.hl7.org/CodeSystem/v3-ParticipationType";
 
     public static void mapConditions(GpSummary gpSummary, Bundle bundle) {
         getDomainResourceList(bundle, Condition.class).stream()
@@ -58,7 +61,11 @@ public class ConditionMapper {
                         condition.getEncounter().getReference(), condition.getId())));
 
             for (var encounterParticipant : encounter.getParticipant()) {
-                var code = encounterParticipant.getTypeFirstRep().getCodingFirstRep().getCode();
+                Coding coding = encounterParticipant.getTypeFirstRep().getCodingFirstRep();
+                if (!PARTICIPATION_TYPE_SYSTEM.equals(coding.getSystem())) {
+                    throw new FhirValidationException("Unsupported encounter participant system: " + coding.getSystem());
+                }
+                var code = coding.getCode();
                 if ("AUT".equals(code)) {
                     var author = mapAuthor(bundle, encounterParticipant);
                     diagnosis.setAuthor(author);

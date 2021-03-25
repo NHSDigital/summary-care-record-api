@@ -47,6 +47,7 @@
                             default: http://terminology.hl7.org/CodeSystem/v3-ParticipationType
                           code: 
                             type: string
+                            enum: [AUT, PRF, INF]
                             example: AUT
                           display:
                             type: string
@@ -54,7 +55,6 @@
                         required:
                           - system
                           - code
-                          - display
                       minItems: 1
                       maxItems: 1
                 minItems: 1
