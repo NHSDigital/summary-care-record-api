@@ -44,6 +44,7 @@ public class ParticipantAgentMapper {
     private static final String SDS_DEVICE_SYSTEM = "https://fhir.nhs.uk/Id/SDSDevice";
     private static final String RELATIONSHIP_TYPE_SYSTEM = "https://fhir.nhs.uk/STU3/ValueSet/PersonRelationshipType-1";
     private static final String ORG_SDS_SYSTEM = "https://fhir.nhs.uk/Id/ods-organization-code";
+    private static final String USER_SDS_SYSTEM = "https://fhir.nhs.uk/Id/sds-user-id";
 
     public static Participant.Author mapAuthor(Bundle bundle, EncounterParticipantComponent encounterParticipant) {
         var author = new Participant.Author();
@@ -233,11 +234,18 @@ public class ParticipantAgentMapper {
                     practitionerRole.getPractitioner().getReference(), practitionerRole.getId())));
 
         if ("http://fhir.nhs.net/Id/sds-role-profile-id".equals(practitionerRole.getIdentifierFirstRep().getSystem())) {
+            Identifier practitionerIdentifier = practitioner.getIdentifierFirstRep();
+            if (!USER_SDS_SYSTEM.equals(practitionerIdentifier.getSystem())) {
+                throw new FhirValidationException("Invalid practitioner identifier system: " + practitionerIdentifier.getSystem());
+            }
+            if (!practitionerIdentifier.hasValue()) {
+                throw new FhirValidationException("Missing practitioner identifier value");
+            }
             var agentPersonSDS = new AgentPersonSDS();
             agentPersonSDS.setIdExtension(practitionerRole.getIdentifierFirstRep().getValue());
 
             var personSDS = new PersonSDS("agentPersonSDS");
-            personSDS.setIdExtension(practitioner.getIdentifierFirstRep().getValue());
+            personSDS.setIdExtension(practitionerIdentifier.getValue());
             personSDS.setName(practitioner.getNameFirstRep().getText());
             agentPersonSDS.setAgentPersonSDS(personSDS);
 
