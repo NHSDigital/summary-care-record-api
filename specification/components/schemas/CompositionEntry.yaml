@@ -80,10 +80,6 @@
                   value:
                     type: string
                     example: D18B57ED-992E-45A2-A6AF-55200D20F48E
-                required:
-                - value
-            required:
-              - targetIdentifier
         section:
           type: array
           items:

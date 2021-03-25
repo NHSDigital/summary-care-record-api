@@ -1,13 +1,14 @@
 package uk.nhs.adaptors.scr.mappings.from.fhir;
 
-import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.r4.model.Bundle;
 import org.hl7.fhir.r4.model.Composition;
 import uk.nhs.adaptors.scr.exceptions.FhirMappingException;
+import uk.nhs.adaptors.scr.exceptions.FhirValidationException;
 import uk.nhs.adaptors.scr.models.GpSummary;
 import uk.nhs.adaptors.scr.models.xml.Presentation;
 
 import static org.apache.commons.lang3.StringUtils.EMPTY;
+import static org.hl7.fhir.r4.model.Composition.DocumentRelationshipType.REPLACES;
 import static uk.nhs.adaptors.scr.mappings.from.hl7.HtmlParser.createNewDocument;
 import static uk.nhs.adaptors.scr.mappings.from.hl7.HtmlParser.removeEmptyNodes;
 import static uk.nhs.adaptors.scr.mappings.from.hl7.HtmlParser.serialize;
@@ -27,9 +28,16 @@ public class CompositionMapper {
     }
 
     private static void setCompositionRelatesToId(GpSummary gpSummary, Composition composition) throws FhirMappingException {
-        var id = composition.getRelatesToFirstRep().getTargetIdentifier().getValue();
-        if (StringUtils.isNotBlank(id)) {
-            gpSummary.setCompositionRelatesToId(id.toUpperCase());
+        if (composition.hasRelatesTo()) {
+            var relatesTo = composition.getRelatesToFirstRep();
+            if (!REPLACES.equals(relatesTo.getCode())) {
+                throw new FhirValidationException("Unsupported Composition.relatesTo.code element: " + relatesTo.getCode());
+            }
+            if (relatesTo.getTargetIdentifier().hasValue()) {
+                gpSummary.setCompositionRelatesToId(relatesTo.getTargetIdentifier().getValue());
+            } else {
+                throw new FhirValidationException("Composition.relatesTo.targetIdentifier.value element is missing");
+            }
         }
     }
 
