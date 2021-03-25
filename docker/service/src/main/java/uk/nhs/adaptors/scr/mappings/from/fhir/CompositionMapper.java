@@ -22,15 +22,34 @@ import static uk.nhs.adaptors.scr.utils.FhirHelper.randomUUID;
 public class CompositionMapper {
 
     private static final String CARE_PROFESSIONAL_DOC_CODE = "163171000000105";
+    private static final String GP_SUMMARY_TYPE_CODE = "196981000000101";
     private static final String CARE_PROFESSIONAL_DOC_DISPLAY = "Care Professional Documentation";
+    private static final String GP_SUMMARY_TYPE_DISPLAY = "General Practice Summary";
 
     public static void mapComposition(GpSummary gpSummary, Bundle bundle) throws FhirMappingException {
         var composition = getDomainResource(bundle, Composition.class);
         validateCategory(composition);
+        validateType(composition);
         setCompositionRelatesToId(gpSummary, composition);
         setCompositionId(gpSummary, composition);
         setCompositionDate(gpSummary, composition);
         setPresentation(gpSummary, composition);
+    }
+
+    private static void validateType(Composition composition) {
+        if (!composition.hasType()) {
+            throw new FhirValidationException("Composition.type element is missing");
+        }
+        Coding type = composition.getType().getCodingFirstRep();
+        if (!SNOMED_SYSTEM.equals(type.getSystem())) {
+            throw new FhirValidationException("Composition.type.coding.system not supported: " + type.getSystem());
+        }
+        if (!GP_SUMMARY_TYPE_CODE.equals(type.getCode())) {
+            throw new FhirValidationException("Composition.type.coding.code not supported: " + type.getCode());
+        }
+        if (!GP_SUMMARY_TYPE_DISPLAY.equals(type.getDisplay())) {
+            throw new FhirValidationException("Composition.type.coding.display not supported: " + type.getDisplay());
+        }
     }
 
     private static void validateCategory(Composition composition) {
