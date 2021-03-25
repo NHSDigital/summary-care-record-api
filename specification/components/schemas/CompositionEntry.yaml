@@ -86,7 +86,6 @@
             $ref: compositionSection.yaml
       required:
         - resourceType
-        - id
         - meta
         - identifier
         - status
