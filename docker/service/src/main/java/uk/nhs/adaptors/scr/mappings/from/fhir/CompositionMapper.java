@@ -9,6 +9,7 @@ import uk.nhs.adaptors.scr.models.GpSummary;
 import uk.nhs.adaptors.scr.models.xml.Presentation;
 
 import static org.apache.commons.lang3.StringUtils.EMPTY;
+import static org.hl7.fhir.r4.model.Composition.CompositionStatus.FINAL;
 import static org.hl7.fhir.r4.model.Composition.DocumentRelationshipType.REPLACES;
 import static uk.nhs.adaptors.scr.mappings.from.hl7.HtmlParser.createNewDocument;
 import static uk.nhs.adaptors.scr.mappings.from.hl7.HtmlParser.removeEmptyNodes;
@@ -30,10 +31,17 @@ public class CompositionMapper {
         var composition = getDomainResource(bundle, Composition.class);
         validateCategory(composition);
         validateType(composition);
+        validateStatus(composition);
         setCompositionRelatesToId(gpSummary, composition);
         setCompositionId(gpSummary, composition);
         setCompositionDate(gpSummary, composition);
         setPresentation(gpSummary, composition);
+    }
+
+    private static void validateStatus(Composition composition) {
+        if (!FINAL.equals(composition.getStatus())) {
+            throw new FhirValidationException("Invalid composition.status: " + composition.getStatus());
+        }
     }
 
     private static void validateType(Composition composition) {
