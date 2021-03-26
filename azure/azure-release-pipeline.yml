@@ -36,7 +36,7 @@ extends:
     enable_monitoring: true
     enable_status_monitoring: true
     jinja_templates:
-      REQUIRE_ASID: false
+      REQUIRE_ASID: true
     apigee_deployments:
       - environment: internal-dev
         make_spec_visible: true
@@ -60,10 +60,10 @@ extends:
         depends_on:
           - internal_qa
           - internal_qa_sandbox
-      - environment: prod
+      - environment: int
         make_spec_visible: true
         depends_on:
           - internal_qa
           - internal_qa_sandbox
         jinja_templates:
-          REQUIRE_ASID: true
+          REQUIRE_ASID: false
