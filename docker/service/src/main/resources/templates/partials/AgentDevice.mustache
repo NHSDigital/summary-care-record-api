@@ -1,5 +1,7 @@
 <UKCT_MT120601UK02.AgentDevice classCode="AGNT">
-    <id root="{{idRoot}}"/>
+    {{#idRoot}}
+        <id root="{{idRoot}}"/>
+    {{/idRoot}}
     {{#device}}
         {{> Device.mustache }}
     {{/device}}
