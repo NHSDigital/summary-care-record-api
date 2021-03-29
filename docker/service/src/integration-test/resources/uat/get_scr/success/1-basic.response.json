@@ -533,7 +533,7 @@
             "coding": [
               {
                 "system": "https://fhir.nhs.uk/CodeSystem/HL7v3-SDSJobRoleName",
-                "code": "NR0050",
+                "code": "R0050",
                 "display": "Consultant"
               }
             ]
@@ -671,7 +671,7 @@
             "coding": [
               {
                 "system": "https://fhir.nhs.uk/CodeSystem/HL7v3-SDSJobRoleName",
-                "code": "NR0010",
+                "code": "R0010",
                 "display": "Medical Director"
               }
             ]
@@ -872,7 +872,7 @@
             "coding": [
               {
                 "system": "https://fhir.nhs.uk/CodeSystem/HL7v3-SDSJobRoleName",
-                "code": "NR0020",
+                "code": "R0020",
                 "display": "Clinical Director - Medical"
               }
             ]
@@ -1068,7 +1068,7 @@
             "coding": [
               {
                 "system": "https://fhir.nhs.uk/CodeSystem/HL7v3-SDSJobRoleName",
-                "code": "NR0080",
+                "code": "R0080",
                 "display": "Staff Grade"
               }
             ]
@@ -1130,7 +1130,7 @@
             "coding": [
               {
                 "system": "https://fhir.nhs.uk/CodeSystem/HL7v3-SDSJobRoleName",
-                "code": "NR0100",
+                "code": "R0100",
                 "display": "Clinical Assistant"
               }
             ]

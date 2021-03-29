@@ -424,7 +424,7 @@
                             <author typeCode="AUT" contextControlCode="OP">
                               <time value="20201118020000"/>
                               <UKCT_MT160018UK01.AgentPerson classCode="AGNT">
-                                <code code="NR0050" codeSystem="2.16.840.1.113883.2.1.3.2.4.17.124" displayName="Consultant"/>
+                                <code code="R0050" codeSystem="2.16.840.1.113883.2.1.3.2.4.17.124" displayName="Consultant"/>
                                 <addr use="WP">ORG ADDRESS</addr>
                                 <telecom use="WP" value="0177865579"/>
                                 <telecom use="WP" value="0189834144"/>
@@ -448,7 +448,7 @@
                             <author typeCode="AUT" contextControlCode="OP">
                               <time value="20201218020000"/>
                               <UKCT_MT160018UK01.AgentPerson classCode="AGNT">
-                                <code code="NR0010" codeSystem="2.16.840.1.113883.2.1.3.2.4.17.124" displayName="Medical Director"/>
+                                <code code="R0010" codeSystem="2.16.840.1.113883.2.1.3.2.4.17.124" displayName="Medical Director"/>
                                 <addr use="WP">ORG ADDRESS_2</addr>
                                 <telecom use="WP" value="0122865579"/>
                                 <telecom use="WP" value="0189664144"/>
@@ -486,7 +486,7 @@
                             <author typeCode="AUT" contextControlCode="OP">
                               <time value="20201218020000"/>
                               <UKCT_MT160018UK01.AgentPerson classCode="AGNT">
-                                <code code="NR0020" codeSystem="2.16.840.1.113883.2.1.3.2.4.17.124" displayName="Clinical Director - Medical"/>
+                                <code code="R0020" codeSystem="2.16.840.1.113883.2.1.3.2.4.17.124" displayName="Clinical Director - Medical"/>
                                 <addr use="WP">ORG ADDRESS_2</addr>
                                 <telecom use="WP" value="0122865579"/>
                                 <telecom use="WP" value="0189664144"/>
@@ -523,7 +523,7 @@
                             <author typeCode="AUT" contextControlCode="OP">
                               <time value="20201218020000"/>
                               <UKCT_MT160018UK01.AgentPerson classCode="AGNT">
-                                <code code="NR0080" codeSystem="2.16.840.1.113883.2.1.3.2.4.17.124" displayName="Staff Grade"/>
+                                <code code="R0080" codeSystem="2.16.840.1.113883.2.1.3.2.4.17.124" displayName="Staff Grade"/>
                                 <addr use="WP">ORG ADDRESS_4</addr>
                                 <telecom use="WP" value="0332865579"/>
                                 <agentPerson classCode="PSN" determinerCode="INSTANCE">
@@ -534,7 +534,7 @@
                             <informant typeCode="INF" contextControlCode="OP">
                               <time value="20160630123358"/>
                               <UKCT_MT160018UK01.AgentPerson classCode="AGNT">
-                                <code code="NR0100" codeSystem="2.16.840.1.113883.2.1.3.2.4.17.124" displayName="Clinical Assistant"/>
+                                <code code="R0100" codeSystem="2.16.840.1.113883.2.1.3.2.4.17.124" displayName="Clinical Assistant"/>
                                 <addr use="WP">ORG ADDRESS_4</addr>
                                 <telecom use="WP" value="573459834"/>
                                 <agentPerson classCode="PSN" determinerCode="INSTANCE">

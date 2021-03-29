@@ -68,7 +68,7 @@
                   <author typeCode="AUT" contextControlCode="OP">
                     <time value="20120315065138"/>
                     <UKCT_MT160018UK01.AgentPerson classCode="AGNT">
-                      <code code="NR0010" codeSystem="2.16.840.1.113883.2.1.3.2.4.17.124" displayName="Medical Director"/>
+                      <code code="R0010" codeSystem="2.16.840.1.113883.2.1.3.2.4.17.124" displayName="Medical Director"/>
                       <addr use="WP">1 The Place, Leeds, LS1 1PP</addr>
                       <agentPerson classCode="PSN" determinerCode="INSTANCE">
                         <name>
@@ -97,7 +97,7 @@
                   <author typeCode="AUT" contextControlCode="OP">
                     <time value="20120315065138"/>
                     <UKCT_MT160018UK01.AgentPerson classCode="AGNT">
-                      <code code="NR0010" codeSystem="2.16.840.1.113883.2.1.3.2.4.17.124" displayName="Medical Director"/>
+                      <code code="R0010" codeSystem="2.16.840.1.113883.2.1.3.2.4.17.124" displayName="Medical Director"/>
                       <addr use="WP">1 The Place, Leeds, LS1 1PP</addr>
                       <agentPerson classCode="PSN" determinerCode="INSTANCE">
                         <name>
