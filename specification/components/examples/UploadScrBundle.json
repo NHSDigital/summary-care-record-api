@@ -158,19 +158,19 @@
             },
             "entry": [
               {
-                "reference": "FCB84E15-02E5-495C-B334-D0685DCB0687"
+                "reference": "Condition/FCB84E15-02E5-495C-B334-D0685DCB0687"
               },
               {
-                "reference": "0F582D97-8F89-11EA-8B2D-B741F13EFC47"
+                "reference": "Condition/0F582D97-8F89-11EA-8B2D-B741F13EFC47"
               },
               {
-                "reference": "958E584C-25B8-4BD7-A71D-7625FDC1ACD6"
+                "reference": "Condition/958E584C-25B8-4BD7-A71D-7625FDC1ACD6"
               },
               {
-                "reference": "8CEB2867-551B-43D0-88B5-3278DA20A6B0"
+                "reference": "Condition/8CEB2867-551B-43D0-88B5-3278DA20A6B0"
               },
               {
-                "reference": "6ECDAE6D-32AB-421C-AA8F-0B1ABA454C70"
+                "reference": "Condition/6ECDAE6D-32AB-421C-AA8F-0B1ABA454C70"
               }
             ]
           },
@@ -231,13 +231,13 @@
             },
             "entry": [
               {
-                "reference": "F17999D2-FFE7-4CA4-8CE8-52CB45FF6F49"
+                "reference": "Observation/F17999D2-FFE7-4CA4-8CE8-52CB45FF6F49"
               },
               {
-                "reference": "EE608FAA-2433-4BAD-A0D5-4A10E45AB2B0"
+                "reference": "Observation/EE608FAA-2433-4BAD-A0D5-4A10E45AB2B0"
               },
               {
-                "reference": "0F582D97-8F89-11CA-8B2D-B741F13EFC47"
+                "reference": "Observation/0F582D97-8F89-11CA-8B2D-B741F13EFC47"
               }
             ]
           },
@@ -532,7 +532,7 @@
             "coding": [
               {
                 "system": "https://fhir.nhs.uk/CodeSystem/HL7v3-SDSJobRoleName",
-                "code": "NR0050",
+                "code": "R0050",
                 "display": "Consultant"
               }
             ]
@@ -670,7 +670,7 @@
             "coding": [
               {
                 "system": "https://fhir.nhs.uk/CodeSystem/HL7v3-SDSJobRoleName",
-                "code": "NR0010",
+                "code": "R0010",
                 "display": "Medical Director"
               }
             ]
@@ -871,7 +871,7 @@
             "coding": [
               {
                 "system": "https://fhir.nhs.uk/CodeSystem/HL7v3-SDSJobRoleName",
-                "code": "NR0020",
+                "code": "R0020",
                 "display": "Clinical Director - Medical"
               }
             ]
@@ -1067,7 +1067,7 @@
             "coding": [
               {
                 "system": "https://fhir.nhs.uk/CodeSystem/HL7v3-SDSJobRoleName",
-                "code": "NR0080",
+                "code": "R0080",
                 "display": "Staff Grade"
               }
             ]
@@ -1129,7 +1129,7 @@
             "coding": [
               {
                 "system": "https://fhir.nhs.uk/CodeSystem/HL7v3-SDSJobRoleName",
-                "code": "NR0100",
+                "code": "R0100",
                 "display": "Clinical Assistant"
               }
             ]

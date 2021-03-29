@@ -82,12 +82,9 @@ public class ParticipantAgentMapper {
             .reduce((a, b) -> {
                 throw new FhirValidationException(String.format("Bundle has more than 1 Device resource referencing %s",
                     organizationReference));
-            })
-            .orElseThrow(() -> new FhirValidationException(String.format("Bundle has no Device resource referencing %s",
-                organization)));
+            });
 
         var agentDevice = new AgentDevice();
-        agentDevice.setIdRoot(device.getIdentifierFirstRep().getValue());
 
         var code = organization.getTypeFirstRep().getCodingFirstRep().getCode();
         if (StringUtils.isNotBlank(code)) {
@@ -112,35 +109,38 @@ public class ParticipantAgentMapper {
             agentDevice.setOrganizationSDS(representedOrganizationSDS);
         }
 
-        if (SDS_DEVICE_SYSTEM.equals(device.getIdentifierFirstRep().getSystem())) {
-            var agentDeviceSDS = new DeviceSDS("agentDeviceSDS");
-            agentDeviceSDS.setIdRoot("1.2.826.0.1285.0.2.0.107");
-            if (device.getIdentifierFirstRep().hasValue()) {
-                agentDeviceSDS.setIdExtension(device.getIdentifierFirstRep().getValue());
+        device.ifPresent(it -> {
+            agentDevice.setIdRoot(it.getIdentifierFirstRep().getValue());
+            if (SDS_DEVICE_SYSTEM.equals(it.getIdentifierFirstRep().getSystem())) {
+                var agentDeviceSDS = new DeviceSDS("agentDeviceSDS");
+                agentDeviceSDS.setIdRoot("1.2.826.0.1285.0.2.0.107");
+                if (it.getIdentifierFirstRep().hasValue()) {
+                    agentDeviceSDS.setIdExtension(it.getIdentifierFirstRep().getValue());
+                } else {
+                    throw new FhirValidationException("Device.identifier.value is missing");
+                }
+                agentDevice.setDeviceSDS(agentDeviceSDS);
             } else {
-                throw new FhirValidationException("Device.identifier.value is missing");
-            }
-            agentDevice.setDeviceSDS(agentDeviceSDS);
-        } else {
-            var agentDevice1 = new Device("agentDevice");
-            agentDevice1.setIdRoot("1.2.826.0.1285.0.2.0.107");
-            agentDevice1.setIdExtension(device.getIdentifierFirstRep().getValue());
-            setDeviceCoding(device, agentDevice1);
-            device.getDeviceName().stream()
-                .filter(deviceName -> deviceName.getType() == OTHER)
-                .findFirst()
-                .map(org.hl7.fhir.r4.model.Device.DeviceDeviceNameComponent::getName)
-                .ifPresent(agentDevice1::setName);
-            device.getDeviceName().stream()
-                .filter(deviceName -> deviceName.getType() == MANUFACTURERNAME)
-                .findFirst()
-                .map(org.hl7.fhir.r4.model.Device.DeviceDeviceNameComponent::getName)
-                .ifPresent(agentDevice1::setManufacturerModelName);
-            agentDevice1.setDescription(device.getNoteFirstRep().getText());
-            agentDevice1.setSoftwareName(device.getVersionFirstRep().getValue());
+                var agentDevice1 = new Device("agentDevice");
+                agentDevice1.setIdRoot("1.2.826.0.1285.0.2.0.107");
+                agentDevice1.setIdExtension(it.getIdentifierFirstRep().getValue());
+                setDeviceCoding(it, agentDevice1);
+                it.getDeviceName().stream()
+                    .filter(deviceName -> deviceName.getType() == OTHER)
+                    .findFirst()
+                    .map(org.hl7.fhir.r4.model.Device.DeviceDeviceNameComponent::getName)
+                    .ifPresent(agentDevice1::setName);
+                it.getDeviceName().stream()
+                    .filter(deviceName -> deviceName.getType() == MANUFACTURERNAME)
+                    .findFirst()
+                    .map(org.hl7.fhir.r4.model.Device.DeviceDeviceNameComponent::getName)
+                    .ifPresent(agentDevice1::setManufacturerModelName);
+                agentDevice1.setDescription(it.getNoteFirstRep().getText());
+                agentDevice1.setSoftwareName(it.getVersionFirstRep().getValue());
 
-            agentDevice.setDevice(agentDevice1);
-        }
+                agentDevice.setDevice(agentDevice1);
+            }
+        });
 
         author.setAgentDevice(agentDevice);
     }

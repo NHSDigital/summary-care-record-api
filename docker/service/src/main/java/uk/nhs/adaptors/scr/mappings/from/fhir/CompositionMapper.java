@@ -124,7 +124,7 @@ public class CompositionMapper {
         for (Composition.SectionComponent section : composition.getSection()) {
             var h2Node = htmlDocument.createElement("h2");
             h2Node.setAttribute("id", section.getCode().getCodingFirstRep().getCode());
-            h2Node.setNodeValue(section.getTitle());
+            h2Node.appendChild(htmlDocument.createTextNode(section.getTitle()));
             bodyNode.appendChild(h2Node);
 
             var divDocument = parseDocument(section.getText().getDiv().getValueAsString());
