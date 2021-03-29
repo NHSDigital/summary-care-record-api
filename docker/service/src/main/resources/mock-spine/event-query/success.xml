@@ -94,13 +94,13 @@
                             <value mediaType="text/plain">
                               <html xmlns="xhtml:NPfIT:PresentationText">
                                 <body>
-                                  <h2 id="Title"/>
+                                  <h2 id="Title">General Practice Summary</h2>
                                   <h3 id="Disclaimer">Sourced from the patient's General Practice record. This summary may not include all the information pertinent to this patient.</h3>
                                   <p id="CreateTime">Summary Created: 14-May-2020 14:31</p>
                                   <p class="HighlightedStatement" id="RegistrationStartedStatement">At the time this record was created, this patient had recently registered with the GP Practice. GP Summary information may not be complete.</p>
                                   <p id="Author">Created by: SMITH, Sean (Mr)</p>
                                   <p id="Practice">EMISWebCR1 50004, Fulford Grange, Rawdon, Leeds, West Yorkshire, LS19 7BY.</p>
-                                  <h2 id="AllergiesHeader"/>
+                                  <h2 id="AllergiesHeader">Allergies and Adverse Reactions</h2>
                                   <table id="Allergies" summary="This table includes information about this patient's allergies and adverse reactions.">
                                     <thead>
                                       <tr>
@@ -121,7 +121,7 @@
                                       </tr>
                                     </tbody>
                                   </table>
-                                  <h2 id="AcuteMedsHeader"/>
+                                  <h2 id="AcuteMedsHeader">Acute Medications (For the 12 month period 14-May-2019 to 14-May-2020)</h2>
                                   <table id="AcuteMeds" summary="This table includes information about this patient's acute medications.">
                                     <thead>
                                       <tr>
@@ -142,7 +142,7 @@
                                       </tr>
                                     </tbody>
                                   </table>
-                                  <h2 id="RepeatMedsHeader"/>
+                                  <h2 id="RepeatMedsHeader">Current Repeat Medications</h2>
                                   <table id="RepeatMeds" summary="This table includes information about this patient's current repeat medications.">
                                     <thead>
                                       <tr>
@@ -163,7 +163,7 @@
                                       </tr>
                                     </tbody>
                                   </table>
-                                  <h2 id="DiscRepeatMedsHeader"/>
+                                  <h2 id="DiscRepeatMedsHeader">Discontinued Repeat Medications (For the 6 month period 14-Nov-2019 to 14-May-2020)</h2>
                                   <table id="DiscRepeatMeds" summary="This table includes information about this patient's discontinued repeat medications.">
                                     <thead>
                                       <tr>
@@ -180,7 +180,7 @@
                                       </tr>
                                     </tbody>
                                   </table>
-                                  <h2 id="RisksToPatientHeader"/>
+                                  <h2 id="RisksToPatientHeader">Risks to Patient</h2>
                                   <table id="RisksToPatient">
                                     <thead>
                                       <tr>
@@ -197,7 +197,7 @@
                                       </tr>
                                     </tbody>
                                   </table>
-                                  <h2 id="DiagnosesHeader"/>
+                                  <h2 id="DiagnosesHeader">Diagnoses</h2>
                                   <table id="Diagnoses">
                                     <thead>
                                       <tr>
@@ -214,7 +214,7 @@
                                       </tr>
                                     </tbody>
                                   </table>
-                                  <h2 id="ProblemsHeader"/>
+                                  <h2 id="ProblemsHeader">Problems and Issues</h2>
                                   <table id="Problems">
                                     <thead>
                                       <tr>
@@ -231,7 +231,7 @@
                                       </tr>
                                     </tbody>
                                   </table>
-                                  <h2 id="ObservationsHeader"/>
+                                  <h2 id="ObservationsHeader">Clinical Observations and Findings</h2>
                                   <table id="Observations">
                                     <thead>
                                       <tr>
@@ -248,7 +248,7 @@
                                       </tr>
                                     </tbody>
                                   </table>
-                                  <h2 id="TreatmentsHeader"/>
+                                  <h2 id="TreatmentsHeader">Treatments</h2>
                                   <table id="Treatments">
                                     <thead>
                                       <tr>
@@ -265,7 +265,7 @@
                                       </tr>
                                     </tbody>
                                   </table>
-                                  <h2 id="ResultsHeader"/>
+                                  <h2 id="ResultsHeader">Investigation Results</h2>
                                   <table id="Results">
                                     <thead>
                                       <tr>
@@ -282,7 +282,7 @@
                                       </tr>
                                     </tbody>
                                   </table>
-                                  <h2 id="EventsHeader"/>
+                                  <h2 id="EventsHeader">Care Events</h2>
                                   <table id="Events">
                                     <thead>
                                       <tr>
@@ -299,7 +299,7 @@
                                       </tr>
                                     </tbody>
                                   </table>
-                                  <h2 id="ProceduresHeader"/>
+                                  <h2 id="ProceduresHeader">Administrative Procedures</h2>
                                   <table id="Procedures">
                                     <thead>
                                       <tr>
@@ -316,7 +316,7 @@
                                       </tr>
                                     </tbody>
                                   </table>
-                                  <h2 id="AdviceHeader"/>
+                                  <h2 id="AdviceHeader">Provision of Advice and Information to Patients and Carers</h2>
                                   <table id="Advice">
                                     <thead>
                                       <tr>
@@ -333,7 +333,7 @@
                                       </tr>
                                     </tbody>
                                   </table>
-                                  <h2 id="PreferencesHeader"/>
+                                  <h2 id="PreferencesHeader">Personal Preferences</h2>
                                   <table id="Preferences">
                                     <thead>
                                       <tr>
