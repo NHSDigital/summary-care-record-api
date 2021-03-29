@@ -47,7 +47,6 @@ import static uk.nhs.adaptors.scr.utils.FhirJsonResultMatcher.fhirJson;
 public class GetScrUAT {
     private static final String EVENT_LIST_QUERY_HEADER = "urn:nhs:names:services:psisquery/QUPC_IN180000SM04";
     private static final String EVENT_QUERY_HEADER = "urn:nhs:names:services:psisquery/QUPC_IN190000UK04";
-    private static final String GET_SCR_ID_ENDPOINT = "/DocumentReference";
     private static final String GET_SCR_ENDPOINT = "/Bundle";
     private static final String COMPOSITION =
         "FA60BE64-1F34-11EB-A2A8-000C29A364EB$composition.subject:Patient.identifier=https://fhir.nhs.uk/Id/nhs-number|9995000180";
