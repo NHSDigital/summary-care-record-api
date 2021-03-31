@@ -34,19 +34,6 @@
           items:
             type: object
             properties:
-              family:
-                type: string
-                example: Smith
-              given:
-                type: array
-                items:
-                  type: string
-                  example: John
-              prefix:
-                type: array
-                items:
-                  type: string
-                  example: Mr.
               text: 
                 type: string
                 example: Mr. John Smith
