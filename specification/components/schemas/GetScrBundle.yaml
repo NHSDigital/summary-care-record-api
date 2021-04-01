@@ -34,6 +34,7 @@ properties:
         - $ref: PatientEntry.yaml
         - $ref: PractitionerEntry.yaml
         - $ref: PractitionerRoleEntry.yaml
+        - $ref: ConditionEntry.yaml
         - $ref: EncounterParticipantEntry.yaml
         - $ref: OrganizationEntry.yaml
         - $ref: RelatedPersonEntry.yaml
