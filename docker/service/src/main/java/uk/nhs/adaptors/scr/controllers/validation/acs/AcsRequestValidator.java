@@ -57,7 +57,7 @@ public class AcsRequestValidator implements ConstraintValidator<AcsRequest, Stri
                     NHS_NUMBER_PART_NAME));
             })
             .orElseThrow(() -> new FhirValidationException(String.format(
-                "Parameter.Part named '%s' with not empty value not found", NHS_NUMBER_PART_NAME)));
+                "Missing value for Parameter.Part '%s'", NHS_NUMBER_PART_NAME)));
     }
 
     private static void checkPermission(Parameters.ParametersParameterComponent parameter) {
