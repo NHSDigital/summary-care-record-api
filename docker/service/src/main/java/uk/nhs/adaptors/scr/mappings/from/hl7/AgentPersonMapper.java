@@ -115,7 +115,7 @@ public class AgentPersonMapper implements XmlToFhirMapper {
         org.setTelecom(mapContactPoints(agentPerson));
 
         xmlUtils.getOptionalValueByXPath(agentPerson, ADDRESS_XPATH)
-            .ifPresent(val -> org.addAddress(new Address().addLine(val)));
+            .ifPresent(val -> org.addAddress(new Address().setText(val)));
 
         return org;
     }
