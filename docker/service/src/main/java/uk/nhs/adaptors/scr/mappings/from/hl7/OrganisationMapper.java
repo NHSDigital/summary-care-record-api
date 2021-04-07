@@ -35,7 +35,7 @@ public class OrganisationMapper {
             .ifPresent(name -> org.setName(name.getTextContent()));
 
         xmlUtils.getOptionalNodeByXpath(organisation, ADDRESS_XPATH)
-            .ifPresent(node -> org.addAddress(new Address().addLine(node.getTextContent())));
+            .ifPresent(node -> org.addAddress(new Address().setText(node.getTextContent())));
 
         xmlUtils.getOptionalNodeByXpath(organisation, TELECOM_XPATH)
             .ifPresent(telecom -> org.addTelecom(telecomMapper.mapTelecom(telecom)));

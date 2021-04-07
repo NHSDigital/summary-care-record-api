@@ -27,8 +27,6 @@
               value:
                 type: string
                 example: RR8
-          minItems: 1
-          maxItems: 1
         type:
           type: array
           items:
@@ -61,22 +59,7 @@
           items:
             type: object
             properties:
-              line:
-                type: array
-                items:
-                  type: string
-                  example: "BECKETT STREET"
-              city:
+              text:
                 type: string
-                example: "LEEDS"
-              district:
-                type: string
-                example: "CITY OF LEEDS"
-              postalCode:
-                type: string
-                example: "LS9 7TF"
-              country:
-                type: string
-                example: "ENGLAND"
       required:
         - resourceType

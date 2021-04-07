@@ -93,7 +93,7 @@ public class ParticipantAgentMapper {
             representedOrganization.setCodeCode(code);
             representedOrganization.setName(organization.getName());
             representedOrganization.setTelecom(organization.getTelecomFirstRep().getValue());
-            representedOrganization.setAddress(organization.getAddressFirstRep().getLine().get(0).getValue());
+            representedOrganization.setAddress(organization.getAddressFirstRep().getText());
 
             agentDevice.setOrganization(representedOrganization);
         } else {
@@ -254,7 +254,7 @@ public class ParticipantAgentMapper {
             var agentPerson = new AgentPerson();
             agentPerson.setCodeCode(practitionerRole.getCodeFirstRep().getCodingFirstRep().getCode());
             agentPerson.setCodeDisplayName(practitionerRole.getCodeFirstRep().getCodingFirstRep().getDisplay());
-            agentPerson.setAddress(organization.getAddressFirstRep().getLine().get(0).getValue());
+            agentPerson.setAddress(organization.getAddressFirstRep().getText());
             agentPerson.setTelecom(organization.getTelecom().stream()
                     .map(telecom -> new AgentPerson.Telecom()
                             .setUse(AgentPerson.Telecom.mapUse(Optional
