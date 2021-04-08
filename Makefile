@@ -47,7 +47,7 @@ release: clean publish build-proxy
 	cp -r build/. dist
 
 	for env in internal-dev internal-qa; do \
-		cat ecs-proxies-deploy.yml | sed -e 's/{{ SPINE_ENV }}/veit07/g' -e 's/{{ SANDBOX_MODE_ENABLED }}/False/g' > dist/ecs-deploy-$$env.yml; \
+		cat ecs-proxies-deploy.yml | sed -e 's/{{ SPINE_ENV }}/test/g' -e 's/{{ SANDBOX_MODE_ENABLED }}/False/g' > dist/ecs-deploy-$$env.yml; \
 	done
 
 	cat ecs-proxies-deploy.yml | sed -e 's/{{ SPINE_ENV }}/int/g' -e 's/{{ SANDBOX_MODE_ENABLED }}/False/g' > dist/ecs-deploy-int.yml
