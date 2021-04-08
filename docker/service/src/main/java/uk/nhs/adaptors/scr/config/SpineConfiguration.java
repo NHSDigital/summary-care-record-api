@@ -21,6 +21,11 @@ public class SpineConfiguration {
     private String psisQueriesEndpoint;
     private String alertEndpoint;
 
+    private String clientKey;
+    private String clientCert;
+    private String rootCA;
+    private String subCA;
+
     private long scrResultRepeatTimeout;
     @NotNull
     private long scrResultTimeout;
