@@ -27,6 +27,7 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static java.lang.Long.parseLong;
@@ -55,7 +56,10 @@ public class UploadScrService {
         var spineRequest = bundleMapper.map(bundle, requestData.getNhsdAsid());
         checkPermission(bundle, requestData.getNhsdAsid(), requestData.getClientIp());
         var response = spineClient.sendScrData(spineRequest, requestData.getNhsdAsid(),
-            requestData.getNhsdIdentity(), requestData.getNhsdSessionUrid());
+                requestData.getNhsdIdentity(), requestData.getNhsdSessionUrid());
+
+        Arrays.stream(response.getHeaders())
+                .forEach(header -> LOGGER.debug("Spine response header: " + header.getName() + " " + header.getValue()));
 
         String contentLocation;
         long retryAfter;
@@ -63,11 +67,11 @@ public class UploadScrService {
             contentLocation = getHeader(response.getHeaders(), CONTENT_LOCATION);
             retryAfter = parseLong(getHeader(response.getHeaders(), RETRY_AFTER));
         } catch (Exception ex) {
-            throw new UnexpectedSpineResponseException("Unable to extract required headers", ex);
+            throw new UnexpectedSpineResponseException("Unable to extract required headers: " + ex.getMessage(), ex);
         }
 
         var processingResult = spineClient.getScrProcessingResult(contentLocation, retryAfter, requestData.getNhsdAsid(),
-            requestData.getNhsdIdentity(), requestData.getNhsdSessionUrid());
+                requestData.getNhsdIdentity(), requestData.getNhsdSessionUrid());
         validateProcessingResult(processingResult);
     }
 
@@ -103,14 +107,14 @@ public class UploadScrService {
         if (!acknowledgementTypeCode.equals("AA")) {
             var errors = getErrors(hl7Document);
             LOGGER.error("Non success spine processing result:\n{}\n{}",
-                processingResult.getSoapEnvelope(), processingResult.getHl7());
+                    processingResult.getSoapEnvelope(), processingResult.getHl7());
             throw new NonSuccessSpineProcessingResultException(errors);
         }
     }
 
     private List<String> getErrors(Document hl7Document) throws XPathExpressionException {
         var errorsXPath = XPathFactory.newInstance().newXPath()
-            .compile("/MCCI_IN010000UK13/ControlActEvent/reason/justifyingDetectedIssueEvent/code");
+                .compile("/MCCI_IN010000UK13/ControlActEvent/reason/justifyingDetectedIssueEvent/code");
 
         var acknowledgementNodes = (NodeList) errorsXPath.evaluate(hl7Document, XPathConstants.NODESET);
 
