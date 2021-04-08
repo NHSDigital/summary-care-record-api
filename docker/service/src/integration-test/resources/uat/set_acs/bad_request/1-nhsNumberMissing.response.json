@@ -5,7 +5,7 @@
       "severity": "error",
       "code": "value",
       "details": {
-        "text": "Parameter.Part named 'nhsNumber' with not empty value not found"
+        "text": "Missing value for Parameter.Part 'nhsNumber'"
       }
     }
   ]

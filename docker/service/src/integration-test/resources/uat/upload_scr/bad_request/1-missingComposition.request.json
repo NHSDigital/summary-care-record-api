@@ -67,14 +67,7 @@
         ],
         "address": [
           {
-            "line": [
-              "ST. JAMES'S UNIVERSITY HOSPITAL",
-              "BECKETT STREET"
-            ],
-            "city": "LEEDS",
-            "district": "CITY OF LEEDS",
-            "postalCode": "LS9 7TF",
-            "country": "ENGLAND"
+            "text": "LEEDS, LS9 7TF, ST. JAMES'S UNIVERSITY HOSPITAL, BECKETT STREET"
           }
         ]
       }

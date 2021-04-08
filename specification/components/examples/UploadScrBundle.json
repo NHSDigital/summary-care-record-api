@@ -557,9 +557,7 @@
         ],
         "address": [
           {
-            "line": [
-              "ORG ADDRESS"
-            ]
+            "text": "ORG ADDRESS"
           }
         ]
       }
@@ -705,9 +703,7 @@
         ],
         "address": [
           {
-            "line": [
-              "ORG ADDRESS_2"
-            ]
+            "text": "ORG ADDRESS_2"
           }
         ]
       }
@@ -903,9 +899,7 @@
         ],
         "address": [
           {
-            "line": [
-              "ORG ADDRESS_2"
-            ]
+            "text": "ORG ADDRESS_2"
           }
         ]
       }
@@ -1088,9 +1082,7 @@
         ],
         "address": [
           {
-            "line": [
-              "ORG ADDRESS_4"
-            ]
+            "text": "ORG ADDRESS_4"
           }
         ]
       }
@@ -1150,9 +1142,7 @@
         ],
         "address": [
           {
-            "line": [
-              "ORG ADDRESS_4"
-            ]
+            "text": "ORG ADDRESS_4"
           }
         ]
       }
@@ -1525,9 +1515,7 @@
         ],
         "address": [
           {
-            "line": [
-              "ADDRESS LINE 1"
-            ]
+            "text": "ADDRESS LINE 1"
           }
         ]
       }
