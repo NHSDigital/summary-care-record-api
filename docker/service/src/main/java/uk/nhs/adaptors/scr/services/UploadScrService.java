@@ -27,6 +27,7 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static java.lang.Long.parseLong;
@@ -59,6 +60,10 @@ public class UploadScrService {
 
         String contentLocation;
         long retryAfter;
+
+        Arrays.stream(response.getHeaders())
+                .forEach(header -> LOGGER.debug("Spine response header: " + header.getName() + " " + header.getValue()));
+
         try {
             contentLocation = getHeader(response.getHeaders(), CONTENT_LOCATION);
             retryAfter = parseLong(getHeader(response.getHeaders(), RETRY_AFTER));
