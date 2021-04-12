@@ -41,16 +41,20 @@
       <Step>
         <Name>KeyValueMapOperations.GetSecureVariables</Name>
       </Step>
-      <Step>
-        <Name>AssignMessage.PopulateAsidFromApp</Name>
-        <Condition>(app.asid IsNot null)</Condition>
-      </Step>
       {% if REQUIRE_ASID == 'True' %}
       <Step>
         <Name>RaiseFault.400BadRequest</Name>
         <Condition>(app.asid is null)</Condition>
       </Step>
+      {% else%}
+      <Step>
+        <Name>KeyValueMapOperations.GetDefaultAsid</Name>
+      </Step>
       {% endif %}
+      <Step>
+        <Name>AssignMessage.PopulateAsidFromApp</Name>
+        <Condition>(app.asid IsNot null)</Condition>
+      </Step>
       <Step>
         <Name>AssignMessage.AddAsidHeader</Name>
       </Step>
