@@ -16,11 +16,13 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import uk.nhs.adaptors.scr.WireMockInitializer;
 import uk.nhs.adaptors.scr.config.SpineConfiguration;
 import uk.nhs.adaptors.scr.consts.ScrHttpHeaders;
 import uk.nhs.adaptors.scr.consts.SpineHttpHeaders;
 import uk.nhs.adaptors.scr.uat.common.CustomArgumentsProvider.UploadScrBadRequest;
+import uk.nhs.adaptors.scr.uat.common.CustomArgumentsProvider.UploadScrCaseNotFound;
 import uk.nhs.adaptors.scr.uat.common.CustomArgumentsProvider.UploadScrNoConsent;
 import uk.nhs.adaptors.scr.uat.common.CustomArgumentsProvider.UploadScrSuccess;
 import uk.nhs.adaptors.scr.uat.common.TestData;
@@ -74,6 +76,9 @@ public class UploadScrUAT {
     @Value("classpath:uat/responses/event-list-query/noConsent.xml")
     private Resource eventListQueryNoConsentResponse;
 
+    @Value("classpath:uat/responses/event-list-query/notFound.xml")
+    private Resource eventListQueryNotFoundResponse;
+
     @Autowired
     private MockMvc mockMvc;
 
@@ -91,21 +96,9 @@ public class UploadScrUAT {
     @ParameterizedTest(name = "[{index}] - {0}")
     @ArgumentsSource(UploadScrSuccess.class)
     void testTranslatingFromFhirToHL7v3(TestData testData) throws Exception {
-        stubSpineUploadScrEndpoint();
-        stubSpinePollingEndpoint();
-        stubSpinePsisEndpoint(eventListQuerySuccessResponse);
+        stubSpine(eventListQuerySuccessResponse);
 
-        var mvcResult = mockMvc
-            .perform(post(FHIR_ENDPOINT)
-                .contentType(APPLICATION_FHIR_JSON_VALUE)
-                .header(ScrHttpHeaders.NHSD_ASID, NHSD_ASID)
-                .header(ScrHttpHeaders.CLIENT_IP, CLIENT_IP)
-                .header(ScrHttpHeaders.NHSD_IDENTITY, NHSD_IDENTITY)
-                .header(ScrHttpHeaders.NHSD_SESSION_URID, NHSD_SESSION_URID)
-                .content(testData.getFhirRequest()))
-            .andExpect(request().asyncStarted())
-            .andExpect(request().asyncResult(notNullValue()))
-            .andReturn();
+        MvcResult mvcResult = performRequest(testData);
 
         mockMvc.perform(asyncDispatch(mvcResult))
             .andExpect(status().isCreated());
@@ -114,11 +107,34 @@ public class UploadScrUAT {
     @ParameterizedTest(name = "[{index}] - {0}")
     @ArgumentsSource(UploadScrNoConsent.class)
     void testTranslatingFromFhirToHL7v3NoConsent(TestData testData) throws Exception {
+        stubSpine(eventListQueryNoConsentResponse);
+
+        MvcResult mvcResult = performRequest(testData);
+
+        mockMvc.perform(asyncDispatch(mvcResult))
+            .andExpect(status().isForbidden())
+            .andExpect(content().json(testData.getFhirResponse()));
+    }
+
+    @ParameterizedTest(name = "[{index}] - {0}")
+    @ArgumentsSource(UploadScrCaseNotFound.class)
+    void testTranslatingFromFhirToHL7v3CaseNotFound(TestData testData) throws Exception {
+        stubSpine(eventListQueryNotFoundResponse);
+
+        MvcResult mvcResult = performRequest(testData);
+
+        mockMvc.perform(asyncDispatch(mvcResult))
+            .andExpect(status().isCreated());
+    }
+
+    private void stubSpine(Resource eventListQueryNoConsentResponse) throws IOException {
         stubSpineUploadScrEndpoint();
         stubSpinePollingEndpoint();
         stubSpinePsisEndpoint(eventListQueryNoConsentResponse);
+    }
 
-        var mvcResult = mockMvc
+    private MvcResult performRequest(TestData testData) throws Exception {
+        return mockMvc
             .perform(post(FHIR_ENDPOINT)
                 .contentType(APPLICATION_FHIR_JSON_VALUE)
                 .header(ScrHttpHeaders.NHSD_ASID, NHSD_ASID)
@@ -129,26 +145,12 @@ public class UploadScrUAT {
             .andExpect(request().asyncStarted())
             .andExpect(request().asyncResult(notNullValue()))
             .andReturn();
-
-        mockMvc.perform(asyncDispatch(mvcResult))
-            .andExpect(status().isForbidden())
-            .andExpect(content().json(testData.getFhirResponse()));
     }
 
     @ParameterizedTest(name = "[{index}] - {0}")
     @ArgumentsSource(UploadScrBadRequest.class)
     void testTranslatingFromFhirToHL7v3InvalidRequest(TestData testData) throws Exception {
-        var mvcResult = mockMvc.perform(
-            post(FHIR_ENDPOINT)
-                .contentType(APPLICATION_FHIR_JSON_VALUE)
-                .header(ScrHttpHeaders.NHSD_ASID, NHSD_ASID)
-                .header(ScrHttpHeaders.CLIENT_IP, CLIENT_IP)
-                .header(ScrHttpHeaders.NHSD_IDENTITY, NHSD_IDENTITY)
-                .header(ScrHttpHeaders.NHSD_SESSION_URID, NHSD_SESSION_URID)
-                .content(testData.getFhirRequest()))
-            .andExpect(request().asyncStarted())
-            .andExpect(request().asyncResult(notNullValue()))
-            .andReturn();
+        MvcResult mvcResult = performRequest(testData);
 
         mockMvc.perform(asyncDispatch(mvcResult))
             .andExpect(status().isBadRequest())

@@ -95,7 +95,7 @@ public class GpSummaryMapper implements XmlToFhirMapper {
         var pertinentRootCreTypeCodeDisplayName =
                 xmlUtils.getValueByXPath(document, PERTINENT_ROOT_CRE_TYPE_CODE_DISPLAY_NAME_XPATH);
         var presentationTextValue =
-                xmlUtils.getOptionalNodeByXpath(document, PRESENTATION_TEXT_VALUE);
+                xmlUtils.detachOptionalNodeByXPath(document, PRESENTATION_TEXT_VALUE);
         var eventId = xmlUtils.getValueByXPath(document, EVENT_ID_XPATH);
 
         List<Resource> resources = new ArrayList<>();
@@ -181,14 +181,14 @@ public class GpSummaryMapper implements XmlToFhirMapper {
 
 
     private void addAuthor(Node document, List<Resource> resources, Composition composition) {
-        xmlUtils.getOptionalNodeByXpath(document, GP_SUMMARY_AUTHOR_AGENT_PERSON_SDS_XPATH)
+        xmlUtils.detachOptionalNodeByXPath(document, GP_SUMMARY_AUTHOR_AGENT_PERSON_SDS_XPATH)
                 .ifPresent(agentPersonSds -> {
                     List<? extends Resource> authorResources = agentPersonSdsMapper.map(agentPersonSds);
                     resources.addAll(authorResources);
                     composition.addAuthor(findPractitionerRole(authorResources));
                 });
 
-        xmlUtils.getOptionalNodeByXpath(document, GP_SUMMARY_AUTHOR_AGENT_PERSON_XPATH)
+        xmlUtils.detachOptionalNodeByXPath(document, GP_SUMMARY_AUTHOR_AGENT_PERSON_XPATH)
                 .ifPresent(agentPersonSds -> {
                     List<? extends Resource> authorResources = agentPersonMapper.map(agentPersonSds);
                     resources.addAll(authorResources);

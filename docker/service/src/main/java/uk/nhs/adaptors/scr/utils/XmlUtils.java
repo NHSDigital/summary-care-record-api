@@ -82,13 +82,19 @@ public class XmlUtils {
     }
 
     @SneakyThrows
+    public Optional<Node> detachOptionalNodeByXPath(Node root, String xpath) {
+        Optional<Node> node = getOptionalNodeByXpath(root, xpath);
+        node.ifPresent(it -> it.getParentNode().removeChild(it));
+
+        return node;
+    }
+
+    @SneakyThrows
     public Optional<Node> getOptionalNodeByXpath(Node root, String xpath) {
         var xPathExpression = xPathFactory.newXPath().compile(xpath);
         Optional<Node> node = Optional.ofNullable(xPathExpression.evaluate(root, NODE))
             .map(Node.class::cast)
             .filter(it -> it != null);
-
-        node.ifPresent(it -> it.getParentNode().removeChild(it));
 
         return node;
     }

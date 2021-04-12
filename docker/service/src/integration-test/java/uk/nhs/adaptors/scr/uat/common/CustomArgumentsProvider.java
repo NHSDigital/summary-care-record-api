@@ -74,6 +74,12 @@ public abstract class CustomArgumentsProvider implements ArgumentsProvider {
         }
     }
 
+    public static class UploadScrCaseNotFound extends CustomArgumentsProvider {
+        public UploadScrCaseNotFound() {
+            super("upload_scr", "not_found");
+        }
+    }
+
     public static class GetScrIdSuccess extends CustomArgumentsProvider {
         public GetScrIdSuccess() {
             super("get_scr_id", "success");
