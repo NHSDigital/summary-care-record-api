@@ -114,8 +114,8 @@ public class DiagnosisMapper implements XmlToFhirMapper {
     }
 
     private void mapEncounter(Node diagnosis, Condition condition, List<Resource> resources) {
-        Optional<Node> author = xmlUtils.getOptionalNodeByXpathAndDetach(diagnosis, DIAGNOSIS_AUTHOR_XPATH);
-        Optional<Node> informant = xmlUtils.getOptionalNodeByXpathAndDetach(diagnosis, DIAGNOSIS_INFORMANT_XPATH);
+        Optional<Node> author = xmlUtils.detachOptionalNodeByXPath(diagnosis, DIAGNOSIS_AUTHOR_XPATH);
+        Optional<Node> informant = xmlUtils.detachOptionalNodeByXPath(diagnosis, DIAGNOSIS_INFORMANT_XPATH);
         if (author.isPresent() || informant.isPresent()) {
             Encounter encounter = new Encounter();
             encounter.setStatus(FINISHED);

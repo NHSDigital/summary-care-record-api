@@ -82,7 +82,7 @@ public class XmlUtils {
     }
 
     @SneakyThrows
-    public Optional<Node> getOptionalNodeByXpathAndDetach(Node root, String xpath) {
+    public Optional<Node> detachOptionalNodeByXPath(Node root, String xpath) {
         Optional<Node> node = getOptionalNodeByXpath(root, xpath);
         node.ifPresent(it -> it.getParentNode().removeChild(it));
 

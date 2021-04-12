@@ -32,7 +32,7 @@ public class NonAgentRoleMapper {
                 .setDisplay(xmlUtils.getValueByXPath(nonAgentRole, NON_AGENT_ROLE_DISPLAY_XPATH))));
         relatedPerson.setId(randomUUID());
 
-        xmlUtils.getOptionalNodeByXpathAndDetach(nonAgentRole, NON_AGENT_PERSON_XPATH)
+        xmlUtils.detachOptionalNodeByXPath(nonAgentRole, NON_AGENT_PERSON_XPATH)
             .ifPresent(nonAgentPerson -> relatedPerson.addName(
                 new HumanName()
                     .setText(xmlUtils.getNodeText(nonAgentPerson, NON_AGENT_PERSON_NAME_XPATH))));
