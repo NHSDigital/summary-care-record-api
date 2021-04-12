@@ -29,16 +29,16 @@ public class ParticipantMapper implements XmlToFhirMapper {
     public List<? extends Resource> map(Node informant) {
         List<Resource> resources = new ArrayList<>();
 
-        xmlUtils.getOptionalNodeByXpath(informant, NON_AGENT_ROLE_XPATH)
+        xmlUtils.detachOptionalNodeByXPath(informant, NON_AGENT_ROLE_XPATH)
             .ifPresent(nonAgentRole -> resources.add(nonAgentRoleMapper.mapRelatedPerson(nonAgentRole)));
 
-        xmlUtils.getOptionalNodeByXpath(informant, AGENT_PERSON_SDS_XPATH)
+        xmlUtils.detachOptionalNodeByXPath(informant, AGENT_PERSON_SDS_XPATH)
             .ifPresent(agentPersonSds -> resources.addAll(agentPersonSdsMapper.map(agentPersonSds)));
 
-        xmlUtils.getOptionalNodeByXpath(informant, AGENT_PERSON_XPATH)
+        xmlUtils.detachOptionalNodeByXPath(informant, AGENT_PERSON_XPATH)
             .ifPresent(agentPerson -> resources.addAll(agentPersonMapper.map(agentPerson)));
 
-        xmlUtils.getOptionalNodeByXpath(informant, AGENT_DEVICE_XPATH)
+        xmlUtils.detachOptionalNodeByXPath(informant, AGENT_DEVICE_XPATH)
             .ifPresent(agentDevice -> resources.addAll(agentDeviceMapper.map(agentDevice)));
 
         return resources;

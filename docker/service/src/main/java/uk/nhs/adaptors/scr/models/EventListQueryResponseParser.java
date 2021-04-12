@@ -6,13 +6,12 @@ import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
-import org.w3c.dom.NodeList;
 import uk.nhs.adaptors.scr.utils.XmlUtils;
 
-import javax.xml.xpath.XPathExpression;
-import javax.xml.xpath.XPathFactory;
+import java.util.List;
 
-import static javax.xml.xpath.XPathConstants.NODESET;
+import static java.util.Arrays.asList;
+import static java.util.stream.Collectors.toList;
 import static uk.nhs.adaptors.scr.models.AcsPermission.ASK;
 import static uk.nhs.adaptors.scr.models.AcsPermission.NO;
 
@@ -27,34 +26,46 @@ public class EventListQueryResponseParser {
         "//accessControlAssertion[descendant::code[text()='Store'] and descendant::type[text()='SCR']]/permission";
     private static final String LATEST_SCR_ID_XPATH = "(//*[local-name()='event']/*[local-name()='eventID'])[1]";
     private static final String ERROR_REASON_CODE_XPATH = "//justifyingDetectedIssueEvent/code";
+    private static final String ERROR_REASON_CODE_CODE_XPATH = "./@code";
+    private static final List<String> CASE_NOT_FOUND_ERROR_CODES = asList("210", "30312");
+    private static final String SUCCESS_RESPONSE_WRAPPER_XPATH = "//QUPC_IN200000SM04";
 
     private final XmlUtils xmlUtils;
 
     @SneakyThrows
     public EventListQueryResponse parseXml(Document soapEnvelope) {
         EventListQueryResponse response = new EventListQueryResponse();
-        response.setViewPermission(getPermissionValue(soapEnvelope, VIEW_PERMISSION_XPATH));
-        response.setStorePermission(getPermissionValue(soapEnvelope, STORE_PERMISSION_XPATH));
-        response.setLatestScrId(xmlUtils.getNodeAttributeValue(soapEnvelope, LATEST_SCR_ID_XPATH, "root"));
+        if (isSuccessResponse(soapEnvelope) || isCaseNotFound(getErrors(soapEnvelope))) {
+            response.setViewPermission(getPermissionValue(soapEnvelope, VIEW_PERMISSION_XPATH));
+            response.setStorePermission(getPermissionValue(soapEnvelope, STORE_PERMISSION_XPATH));
+            response.setLatestScrId(xmlUtils.getNodeAttributeValue(soapEnvelope, LATEST_SCR_ID_XPATH, "root"));
+        } else {
+            response.setViewPermission(NO);
+            response.setStorePermission(NO);
+        }
 
         return response;
     }
 
     private AcsPermission getPermissionValue(Document soapEnvelope, String xPath) {
-        boolean isErrorSet = isErrorSet(soapEnvelope);
-        if (isErrorSet) {
-            return NO;
-        } else {
-            String nodeText = xmlUtils.getNodeText(soapEnvelope, xPath);
-            return nodeText != null ? AcsPermission.fromValue(nodeText) : ASK;
-        }
+        String nodeText = xmlUtils.getNodeText(soapEnvelope, xPath);
+        return nodeText != null ? AcsPermission.fromValue(nodeText) : ASK;
     }
 
     @SneakyThrows
-    private static boolean isErrorSet(Document document) {
-        XPathExpression xPathExpression = XPathFactory.newInstance().newXPath().compile(ERROR_REASON_CODE_XPATH);
-        NodeList nodeList = ((NodeList) xPathExpression.evaluate(document, NODESET));
+    private List<String> getErrors(Document document) {
+        return xmlUtils.getNodesByXPath(document, ERROR_REASON_CODE_XPATH)
+            .stream()
+            .map(it -> xmlUtils.getValueByXPath(it, ERROR_REASON_CODE_CODE_XPATH))
+            .sorted()
+            .collect(toList());
+    }
 
-        return nodeList.getLength() > 0;
+    private boolean isCaseNotFound(List<String> errors) {
+        return CASE_NOT_FOUND_ERROR_CODES.equals(errors);
+    }
+
+    private boolean isSuccessResponse(Document document) {
+        return xmlUtils.getOptionalNodeByXpath(document, SUCCESS_RESPONSE_WRAPPER_XPATH).isPresent();
     }
 }

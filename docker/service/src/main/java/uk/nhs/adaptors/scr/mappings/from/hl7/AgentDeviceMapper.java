@@ -52,8 +52,8 @@ public class AgentDeviceMapper implements XmlToFhirMapper {
 
     private Organization mapOrganization(Node agentDevice) {
         Organization org;
-        Optional<Node> orgNode = xmlUtils.getOptionalNodeByXpath(agentDevice, ORG_XPATH);
-        Optional<Node> orgSdsNode = xmlUtils.getOptionalNodeByXpath(agentDevice, ORG_SDS_XPATH);
+        Optional<Node> orgNode = xmlUtils.detachOptionalNodeByXPath(agentDevice, ORG_XPATH);
+        Optional<Node> orgSdsNode = xmlUtils.detachOptionalNodeByXPath(agentDevice, ORG_SDS_XPATH);
         if (orgNode.isPresent()) {
             org = organisationMapper.mapOrganization(orgNode.get());
         } else if (orgSdsNode.isPresent()) {
@@ -68,8 +68,8 @@ public class AgentDeviceMapper implements XmlToFhirMapper {
     private Device mapDevice(Node agentDevice) {
         Device device;
 
-        Optional<Node> deviceSds = xmlUtils.getOptionalNodeByXpath(agentDevice, AGENT_DEVICE_SDS_XPATH);
-        Optional<Node> deviceHl7 = xmlUtils.getOptionalNodeByXpath(agentDevice, AGENT_DEVICE_XPATH);
+        Optional<Node> deviceSds = xmlUtils.detachOptionalNodeByXPath(agentDevice, AGENT_DEVICE_SDS_XPATH);
+        Optional<Node> deviceHl7 = xmlUtils.detachOptionalNodeByXPath(agentDevice, AGENT_DEVICE_XPATH);
 
         if (deviceSds.isPresent()) {
             device = deviceSdsMapper.mapDeviceSds(deviceSds.get());

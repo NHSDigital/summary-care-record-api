@@ -48,6 +48,7 @@ import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 import static org.hl7.fhir.r4.model.Bundle.BundleType.SEARCHSET;
 import static org.hl7.fhir.r4.model.Bundle.SearchEntryMode.MATCH;
 import static org.hl7.fhir.r4.model.Enumerations.DocumentReferenceStatus.CURRENT;
+import static uk.nhs.adaptors.scr.mappings.from.hl7.HtmlParser.serialize;
 import static uk.nhs.adaptors.scr.models.AcsPermission.ASK;
 import static uk.nhs.adaptors.scr.models.AcsPermission.YES;
 import static uk.nhs.adaptors.scr.utils.FhirHelper.randomUUID;
@@ -91,6 +92,7 @@ public class GetScrService {
     @LogExecutionTime
     public Bundle getScrId(String nhsNumber, String nhsdAsid, String clientIp) {
         Document scrIdXml = getScrIdRawXml(nhsNumber, nhsdAsid, clientIp);
+        logXml("Received SCR ID XML: {}", scrIdXml);
 
         EventListQueryResponse response = eventListQueryResponseParser.parseXml(scrIdXml);
 
@@ -129,12 +131,12 @@ public class GetScrService {
     @LogExecutionTime
     public Bundle getScr(String nhsNumber, String compositionId, String nhsdAsid, String clientIp) {
         Document scrIdXml = getScrIdRawXml(nhsNumber, nhsdAsid, clientIp);
-        LOGGER.debug("Received SCR ID XML:\n{}", scrIdXml);
+        logXml("Received SCR ID XML: {}", scrIdXml);
         EventListQueryResponse response = eventListQueryResponseParser.parseXml(scrIdXml);
 
         if (isPermissionGiven(response) && StringUtils.equals(response.getLatestScrId(), compositionId)) {
             Document document = getScrRawXml(response.getLatestScrId(), nhsNumber, nhsdAsid, clientIp);
-            LOGGER.debug("Received SCR XML:\n{}", document);
+            logXml("Received SCR XML: {}", document);
 
             var bundle = interactionMapper.map(document);
             Patient patient = recordTargetMapper.mapPatient(document);
@@ -267,5 +269,11 @@ public class GetScrService {
 
     private String getScrUrl() {
         return String.format("%s/%s", scrConfiguration.getBaseUrl(), scrConfiguration.getServiceBasePath());
+    }
+
+    private void logXml(String message, Document document) {
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug(message, serialize(document));
+        }
     }
 }

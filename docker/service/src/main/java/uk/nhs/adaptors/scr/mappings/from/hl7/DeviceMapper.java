@@ -41,7 +41,7 @@ public class DeviceMapper {
                 .setValue(id)
             );
 
-        xmlUtils.getOptionalNodeByXpath(deviceHl7, CODE_ELEMENT_XPATH)
+        xmlUtils.detachOptionalNodeByXPath(deviceHl7, CODE_ELEMENT_XPATH)
             .ifPresent(code -> deviceFhir.setType(new CodeableConcept(
                     new Coding()
                         .setCode(xmlUtils.getValueByXPath(code, CODE_ATTRIBUTE_XPATH))
@@ -52,14 +52,14 @@ public class DeviceMapper {
         addName(deviceHl7, deviceFhir, NAME_XPATH, OTHER);
         addName(deviceHl7, deviceFhir, MANUFACTURER_MODE_NAME_XPATH, MANUFACTURERNAME);
 
-        xmlUtils.getOptionalNodeByXpath(deviceHl7, DESCRIPTION_XPATH)
+        xmlUtils.detachOptionalNodeByXPath(deviceHl7, DESCRIPTION_XPATH)
             .ifPresent(descNode -> deviceFhir.addNote(
                 new Annotation()
                     .setText(descNode.getTextContent())
                 )
             );
 
-        xmlUtils.getOptionalNodeByXpath(deviceHl7, SOFTWARE_NAME_XPATH)
+        xmlUtils.detachOptionalNodeByXPath(deviceHl7, SOFTWARE_NAME_XPATH)
             .ifPresent(software -> deviceFhir.addVersion(
                 new DeviceVersionComponent()
                     .setValue(software.getTextContent())
@@ -71,7 +71,7 @@ public class DeviceMapper {
     }
 
     private void addName(Node deviceHl7, Device deviceFhir, String xpath, DeviceNameType nameValue) {
-        xmlUtils.getOptionalNodeByXpath(deviceHl7, xpath)
+        xmlUtils.detachOptionalNodeByXPath(deviceHl7, xpath)
             .ifPresent(nameNode -> deviceFhir.addDeviceName(
                 new DeviceDeviceNameComponent()
                     .setType(nameValue)
