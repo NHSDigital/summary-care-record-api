@@ -38,7 +38,7 @@ extends:
     make_spec_visible: true
     deploy_review_sandbox: true
     jinja_templates:
-      REQUIRE_ASID: true
+      REQUIRE_ASID: false
     apigee_deployments:
       - environment: internal-dev
         make_spec_visible: true
