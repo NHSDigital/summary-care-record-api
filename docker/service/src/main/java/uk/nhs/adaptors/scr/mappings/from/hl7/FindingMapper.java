@@ -128,8 +128,8 @@ public class FindingMapper implements XmlToFhirMapper {
     }
 
     private void mapEncounter(Node finding, Observation observation, List<Resource> resources) {
-        Optional<Node> author = xmlUtils.getOptionalNodeByXpath(finding, FINDING_AUTHOR_XPATH);
-        Optional<Node> informant = xmlUtils.getOptionalNodeByXpath(finding, FINDING_INFORMANT_XPATH);
+        Optional<Node> author = xmlUtils.getOptionalNodeByXpathAndDetach(finding, FINDING_AUTHOR_XPATH);
+        Optional<Node> informant = xmlUtils.getOptionalNodeByXpathAndDetach(finding, FINDING_INFORMANT_XPATH);
         NodeList performerNodes = xmlUtils.getNodeListByXPath(finding, FINDING_PERFORMER_XPATH);
         if (author.isPresent() || informant.isPresent() || performerNodes.getLength() > 0) {
             Encounter encounter = new Encounter();

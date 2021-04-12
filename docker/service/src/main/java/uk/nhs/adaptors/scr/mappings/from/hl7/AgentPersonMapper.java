@@ -60,7 +60,7 @@ public class AgentPersonMapper implements XmlToFhirMapper {
     }
 
     private void mapPersonSds(Node agentPerson, PractitionerRole role, List<Resource> resources) {
-        xmlUtils.getOptionalNodeByXpath(agentPerson, PERSON_SDS_XPATH)
+        xmlUtils.getOptionalNodeByXpathAndDetach(agentPerson, PERSON_SDS_XPATH)
             .ifPresent(personSds -> {
                 var practitioner = personSdsMapper.mapPractitioner(personSds);
                 role.setPractitioner(new Reference(practitioner));
@@ -69,7 +69,7 @@ public class AgentPersonMapper implements XmlToFhirMapper {
     }
 
     private void mapPerson(Node agentPerson, PractitionerRole role, List<Resource> resources) {
-        xmlUtils.getOptionalNodeByXpath(agentPerson, PERSON_XPATH)
+        xmlUtils.getOptionalNodeByXpathAndDetach(agentPerson, PERSON_XPATH)
             .ifPresent(person -> {
                 var practitioner = new Practitioner();
                 practitioner.setId(randomUUID());
@@ -101,8 +101,8 @@ public class AgentPersonMapper implements XmlToFhirMapper {
 
     private Organization mapOrganization(Node agentPerson) {
         Organization org;
-        Optional<Node> orgNode = xmlUtils.getOptionalNodeByXpath(agentPerson, ORG_XPATH);
-        Optional<Node> orgSdsNode = xmlUtils.getOptionalNodeByXpath(agentPerson, ORG_SDS_XPATH);
+        Optional<Node> orgNode = xmlUtils.getOptionalNodeByXpathAndDetach(agentPerson, ORG_XPATH);
+        Optional<Node> orgSdsNode = xmlUtils.getOptionalNodeByXpathAndDetach(agentPerson, ORG_SDS_XPATH);
         if (orgNode.isPresent()) {
             org = organisationMapper.mapOrganization(orgNode.get());
         } else if (orgSdsNode.isPresent()) {

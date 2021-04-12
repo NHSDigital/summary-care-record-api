@@ -33,7 +33,7 @@ public class OrganisationSdsMapper {
         }
         org.addIdentifier(orgIdentifier);
 
-        xmlUtils.getOptionalNodeByXpath(organisationSds, ORG_NAME_XPATH)
+        xmlUtils.getOptionalNodeByXpathAndDetach(organisationSds, ORG_NAME_XPATH)
             .ifPresent(nameNode -> org.setName(nameNode.getTextContent()));
 
         return org;

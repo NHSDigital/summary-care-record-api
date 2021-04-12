@@ -31,13 +31,13 @@ public class OrganisationMapper {
             .ifPresent(it -> org.addType(
                 new CodeableConcept(new Coding()
                     .setCode(it))));
-        xmlUtils.getOptionalNodeByXpath(organisation, ORG_NAME_XPATH)
+        xmlUtils.getOptionalNodeByXpathAndDetach(organisation, ORG_NAME_XPATH)
             .ifPresent(name -> org.setName(name.getTextContent()));
 
-        xmlUtils.getOptionalNodeByXpath(organisation, ADDRESS_XPATH)
+        xmlUtils.getOptionalNodeByXpathAndDetach(organisation, ADDRESS_XPATH)
             .ifPresent(node -> org.addAddress(new Address().setText(node.getTextContent())));
 
-        xmlUtils.getOptionalNodeByXpath(organisation, TELECOM_XPATH)
+        xmlUtils.getOptionalNodeByXpathAndDetach(organisation, TELECOM_XPATH)
             .ifPresent(telecom -> org.addTelecom(telecomMapper.mapTelecom(telecom)));
 
         return org;
