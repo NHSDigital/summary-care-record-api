@@ -38,7 +38,7 @@ public class ConditionMapper {
         diagnosis.setIdRoot(condition.getIdentifierFirstRep().getValue());
         diagnosis.setCodeCode(condition.getCode().getCodingFirstRep().getCode());
         diagnosis.setCodeDisplayName(condition.getCode().getCodingFirstRep().getDisplay());
-        diagnosis.setStatusCodeCode(mapStatus(condition.getClinicalStatus()));
+        diagnosis.setStatusCodeCode(mapStatus(condition));
         if (condition.hasOnsetDateTimeType()) {
             diagnosis.setEffectiveTimeLow(formatDateToHl7(condition.getOnsetDateTimeType()));
         }
@@ -81,7 +81,8 @@ public class ConditionMapper {
         return diagnosis;
     }
 
-    private static String mapStatus(CodeableConcept status) {
+    private static String mapStatus(Condition condition) {
+        CodeableConcept status = getStatus(condition);
         switch (status.getCodingFirstRep().getCode()) {
             case "confirmed":
                 return "completed";
@@ -90,6 +91,16 @@ public class ConditionMapper {
                 return "active";
             default:
                 return "nullified";
+        }
+    }
+
+    private static CodeableConcept getStatus(Condition condition) {
+        if (condition.hasClinicalStatus()) {
+            return condition.getClinicalStatus();
+        } else if (condition.hasVerificationStatus()) {
+            return condition.getVerificationStatus();
+        } else {
+            throw new FhirValidationException("Condition should have either clinicalStatus or verificationStatus");
         }
     }
 }

@@ -44,7 +44,7 @@
                   properties:
                     system:
                       type: string
-                      example: "http://terminology.hl7.org/CodeSystem/condition-clinical"
+                      default: "http://terminology.hl7.org/CodeSystem/condition-clinical"
                     code:
                       type: string
                       example: active
@@ -56,7 +56,32 @@
                     - code
                 minItems: 1
                 maxItems: 1
-          minItems: 1
+          maxItems: 1
+        verificationStatus:
+          type: array
+          items:
+            type: object
+            properties:
+              coding:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    system:
+                      type: string
+                      default: "http://hl7.org/fhir/ValueSet/condition-ver-status"
+                    code:
+                      type: string
+                      example: confirmed
+                    display:
+                      type: string
+                      example: Confirmed
+                  required:
+                    - system
+                    - code
+                minItems: 1
+                maxItems: 1
+          maxItems: 1
         category:
           type: array
           items:
