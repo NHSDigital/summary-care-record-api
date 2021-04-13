@@ -39,6 +39,7 @@ import static uk.nhs.adaptors.scr.consts.SpineHttpHeaders.NHSD_REQUEST_ID;
 import static uk.nhs.adaptors.scr.consts.SpineHttpHeaders.NHSD_SESSION_URID;
 import static uk.nhs.adaptors.scr.consts.SpineHttpHeaders.SOAP_ACTION;
 import static uk.nhs.adaptors.scr.controllers.FhirMediaTypes.APPLICATION_FHIR_JSON_VALUE;
+import static uk.nhs.adaptors.scr.mappings.from.hl7.HtmlParser.serialize;
 
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Slf4j
@@ -93,7 +94,7 @@ public class SpineClient implements SpineClientContract {
         var statusCode = response.getStatusCode();
 
         if (statusCode != ACCEPTED.value()) {
-            LOGGER.error("Unexpected spine SCR POST response: {}", response);
+            LOGGER.error("Unexpected spine SCR POST response: {} {}", statusCode, response.getBody());
             throw new UnexpectedSpineResponseException("Unexpected spine 'send data' response " + statusCode);
         }
         return response;
@@ -152,7 +153,7 @@ public class SpineClient implements SpineClientContract {
                 LOGGER.info("{} received. NextRetry in {}ms", statusCode, nextRetryAfter);
                 throw new NoSpineResultException(nextRetryAfter);
             } else {
-                LOGGER.error("Unexpected spine polling response:\n{}", result);
+                LOGGER.error("Unexpected spine polling response: {} {}", statusCode, result.getBody());
                 throw new UnexpectedSpineResponseException("Unexpected spine polling response " + statusCode);
             }
         });
@@ -173,7 +174,7 @@ public class SpineClient implements SpineClientContract {
         var statusCode = response.getStatusCode();
 
         if (statusCode != OK.value()) {
-            LOGGER.error("Unexpected spine GET SCR ID response: {}", response);
+            LOGGER.error("Unexpected spine GET SCR ID response: {} {}", statusCode, serialize(response.getBody()));
             throw new UnexpectedSpineResponseException("Unexpected spine send response " + statusCode);
         }
         return response;
@@ -211,7 +212,7 @@ public class SpineClient implements SpineClientContract {
         var statusCode = response.getStatusCode();
 
         if (statusCode != OK.value()) {
-            LOGGER.error("Unexpected spine GET SCR response: {}", response);
+            LOGGER.error("Unexpected spine GET SCR response: {} {}", statusCode, serialize(response.getBody()));
             throw new UnexpectedSpineResponseException("Unexpected spine send response " + statusCode);
         }
         return response;
