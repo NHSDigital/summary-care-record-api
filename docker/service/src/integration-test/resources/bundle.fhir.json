@@ -595,11 +595,11 @@
             "value": "8CEB2867-551B-43D0-88B5-3278DA20A6B0"
           }
         ],
-        "clinicalStatus": {
+        "verificationStatus": {
           "coding": [
             {
-              "system": "http://hl7.org/fhir/ValueSet/condition-clinical",
-              "code": "active"
+              "system": "http://hl7.org/fhir/ValueSet/condition-ver-status",
+              "code": "confirmed"
             }
           ]
         },
