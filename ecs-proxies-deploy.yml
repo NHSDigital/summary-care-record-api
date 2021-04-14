@@ -9,7 +9,7 @@ docker_service:
     expose: true
     environment:
       - name: SCR_LOGGING_LEVEL
-        value: "{{ 'DEBUG' if APIGEE_ENVIRONMENT == 'internal-dev' else 'INFO' }}"
+        value: "{{ 'DEBUG' if APIGEE_ENVIRONMENT in ('internal-dev', 'int') else 'INFO' }}"
       - name: SCR_SANDBOX_MODE
         value: "{{ SANDBOX_MODE_ENABLED }}"
       - name: TLS_ENABLED
