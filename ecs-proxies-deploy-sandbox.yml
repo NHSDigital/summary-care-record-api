@@ -10,10 +10,11 @@ docker_service:
           value: "True"
         - name: TLS_ENABLED
           value: "False"
-        - name: HOST_URL
-          value: "{{ APIGEE_HOSTNAME }}"
         - name: SERVICE_BASE_PATH
           value: "{{ SERVICE_BASE_PATH }}"
+      secrets:
+        - name: APIGEE_HOST
+          valueFrom: "/{{ account }}/platform-common/egress/hosts/apigee-{{ APIGEE_ENVIRONMENT }}"
       health_check:
           matcher: "200"
           path: "/healthcheck"

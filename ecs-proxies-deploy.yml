@@ -14,13 +14,13 @@ docker_service:
         value: "{{ SANDBOX_MODE_ENABLED }}"
       - name: TLS_ENABLED
         value: "True"
-      - name: HOST_URL
-        value: "{{ APIGEE_HOSTNAME }}"
       - name: SERVICE_BASE_PATH
         value: "{{ SERVICE_BASE_PATH }}"
       - name: IDENTITY_SERVICE_URI
         value: "{{ '/oauth2-no-smartcard/userinfo' if APIGEE_ENVIRONMENT == 'int' else '/oauth2/userinfo' }}"
     secrets:
+      - name: APIGEE_HOST
+        valueFrom: "/{{ account }}/platform-common/egress/hosts/apigee-{{ APIGEE_ENVIRONMENT }}"
       - name: SCR_SPINE_URL
         valueFrom: '/{{ account }}/platform-common/egress/hosts/spine-clinicals-{{ SPINE_ENV }}'
       - name: SCR_PARTY_ID_TO

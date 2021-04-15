@@ -30,7 +30,7 @@ scr:
   partyIdTo: ${SCR_PARTY_ID_TO}
   nhsdAsidTo: ${SCR_NHSD_ASID_TO}
   serviceBasePath: ${SERVICE_BASE_PATH}
-  baseUrl: https://${HOST_URL}
+  baseUrl: https://${APIGEE_HOST}
 
 spine:
   tlsEnabled: ${TLS_ENABLED:True}
