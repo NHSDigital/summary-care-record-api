@@ -42,7 +42,7 @@ public class ScrSpringConfiguration {
         if (scrConfiguration.getSandboxMode()) {
             return new SandboxIdentityServiceClient();
         } else {
-            return new IdentityServiceClient(identityServiceConfiguration, scrConfiguration);
+            return new IdentityServiceClient(identityServiceConfiguration);
         }
     }
 }

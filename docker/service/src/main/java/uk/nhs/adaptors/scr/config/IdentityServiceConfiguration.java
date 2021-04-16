@@ -11,4 +11,5 @@ import org.springframework.stereotype.Component;
 @Setter
 public class IdentityServiceConfiguration {
     private String userInfoEndpoint;
+    private String baseUrl;
 }
