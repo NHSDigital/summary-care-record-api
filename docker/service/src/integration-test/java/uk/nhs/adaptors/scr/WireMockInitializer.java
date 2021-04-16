@@ -24,7 +24,7 @@ public class WireMockInitializer implements ApplicationContextInitializer<Config
 
         TestPropertyValues
             .of("spine.url:http://localhost:" + wireMockServer.port(),
-                "scr.baseUrl:http://localhost:" + wireMockServer.port())
+                "identity-service.baseUrl:http://localhost:" + wireMockServer.port())
             .applyTo(configurableApplicationContext);
     }
 }

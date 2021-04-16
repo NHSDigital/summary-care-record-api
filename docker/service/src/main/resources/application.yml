@@ -22,6 +22,7 @@ management:
 
 identity-service:
   userInfoEndpoint: ${IDENTITY_SERVICE_URI:/oauth2/userinfo}
+  baseUrl: https://${APIGEE_HOST}
 
 scr:
   sandboxMode: ${SCR_SANDBOX_MODE:False}

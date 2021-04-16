@@ -107,8 +107,7 @@ public class GetScrIdUAT {
             .queryParam("_sort", SORT_PARAM)
             .queryParam("_count", COUNT_PARAM))
             .andExpect(status().isOk())
-            .andExpect(fhirJson(String.format(testData.getFhirResponse(), wireMockServer.baseUrl(), wireMockServer.baseUrl()),
-                IGNORED_JSON_PATHS));
+            .andExpect(fhirJson(testData.getFhirResponse(), IGNORED_JSON_PATHS));
     }
 
     private void stubSpinePsisEndpoint(Resource response) throws IOException {

@@ -28,6 +28,7 @@ scr:
 
 identity-service:
     userInfoEndpoint: /oauth2/userinfo
+    baseUrl: https://${APIGEE_HOST:internal-dev.api.service.nhs.uk}
 
 spine:
     useSsl: false
