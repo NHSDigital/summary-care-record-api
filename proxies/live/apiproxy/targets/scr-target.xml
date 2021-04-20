@@ -50,12 +50,13 @@
       {% endif %}
 
       <!-- If an asid is sent by the user -->
-      {% if app.asid IsNot null %}
+      {% if app.asid %}
       <!-- Populate the ASID var from the app -->
       <Step>
         <Name>AssignMessage.PopulateAsidFromApp</Name>
       </Step>
-      {% else %}
+      {% endif %}
+      {% if not app.asid %}
       <Step>
         <!-- Populate the ASID var with the default ASID -->
         <Name>KeyValueMapOperations.GetDefaultAsid</Name>
