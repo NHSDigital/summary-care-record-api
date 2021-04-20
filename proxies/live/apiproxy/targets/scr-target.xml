@@ -55,7 +55,7 @@
       <Step>
         <Name>AssignMessage.PopulateAsidFromApp</Name>
       </Step>
-      {% else%}
+      {% else %}
       <Step>
         <!-- Populate the ASID var with the default ASID -->
         <Name>KeyValueMapOperations.GetDefaultAsid</Name>
