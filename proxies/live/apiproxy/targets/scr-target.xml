@@ -49,19 +49,16 @@
       </Step>
       {% endif %}
 
-      <!-- If an asid is sent by the user -->
-      {% if app.asid %}
       <!-- Populate the ASID var from the app -->
       <Step>
         <Name>AssignMessage.PopulateAsidFromApp</Name>
+        <Condition>(app.asid isNot null)</Condition>
       </Step>
-      {% endif %}
-      {% if not app.asid %}
       <Step>
         <!-- Populate the ASID var with the default ASID -->
         <Name>KeyValueMapOperations.GetDefaultAsid</Name>
+        <Condition>(app.asid is null)</Condition>
       </Step>
-      {% endif %}
       <Step>
         <!-- Add the ASID var as a header -->
         <Name>AssignMessage.AddAsidHeader</Name>
