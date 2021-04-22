@@ -25,6 +25,7 @@ import uk.nhs.adaptors.scr.exceptions.UnexpectedSpineResponseException;
 import uk.nhs.adaptors.scr.logging.LogExecutionTime;
 import uk.nhs.adaptors.scr.models.ProcessingResult;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
 import static org.springframework.http.HttpHeaders.RETRY_AFTER;
 import static org.springframework.http.HttpStatus.ACCEPTED;
@@ -66,7 +67,7 @@ public class SpineClient implements SpineClientContract {
         var request = new HttpPost(url);
         setSoapHeaders(request, SET_PERMISSION_SOAP_ACTION, TEXT_XML_VALUE);
         request.setHeader(NHSD_ASID, nhsdAsid);
-        request.setEntity(new StringEntity(requestBody));
+        request.setEntity(new StringEntity(requestBody, UTF_8));
 
         var response = spineHttpClient.sendRequest(request, xmlResponseHandler);
         var statusCode = response.getStatusCode();
@@ -88,7 +89,7 @@ public class SpineClient implements SpineClientContract {
 
         var request = new HttpPost(url);
         setUploadScrHeaders(request, nhsdAsid, nhsdIdentity, nhsdSessionUrid);
-        request.setEntity(new StringEntity(requestBody));
+        request.setEntity(new StringEntity(requestBody, UTF_8));
 
         var response = spineHttpClient.sendRequest(request, stringResponseHandler);
         var statusCode = response.getStatusCode();
@@ -168,7 +169,7 @@ public class SpineClient implements SpineClientContract {
         var request = new HttpPost(spineConfiguration.getUrl() + spineConfiguration.getPsisQueriesEndpoint());
         setSoapHeaders(request, GET_SCR_ID_SOAP_ACTION, TEXT_XML_VALUE);
 
-        request.setEntity(new StringEntity(requestBody));
+        request.setEntity(new StringEntity(requestBody, UTF_8));
 
         var response = spineHttpClient.sendRequest(request, xmlResponseHandler);
         var statusCode = response.getStatusCode();
@@ -189,7 +190,7 @@ public class SpineClient implements SpineClientContract {
         var request = new HttpPost(spineConfiguration.getUrl() + spineConfiguration.getAlertEndpoint());
         request.addHeader(CONTENT_TYPE, APPLICATION_FHIR_JSON_VALUE);
         setCommonHeaders(request, nhsdAsid, nhsdIdentity, nhsdSessionUrid);
-        request.setEntity(new StringEntity(requestBody));
+        request.setEntity(new StringEntity(requestBody, UTF_8));
 
         return spineHttpClient.sendRequest(request, stringResponseHandler);
     }
@@ -206,7 +207,7 @@ public class SpineClient implements SpineClientContract {
         request.addHeader(CONTENT_TYPE, TEXT_XML_VALUE);
         request.addHeader(NHSD_ASID, nhsdAsid);
 
-        request.setEntity(new StringEntity(requestBody));
+        request.setEntity(new StringEntity(requestBody, UTF_8));
 
         var response = spineHttpClient.sendRequest(request, xmlResponseHandler);
         var statusCode = response.getStatusCode();
