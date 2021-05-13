@@ -63,12 +63,12 @@ info:
 
     The end user must be:
     - a healthcare professional
-    - strongly authenticated, using either an NHS smartcard or a modern alternative available via [NHS Identity](https://digital.nhs.uk/services/nhs-identity)
+    - strongly authenticated, using either an NHS smartcard or a modern alternative available via [NHS Care Identity Service 2 (NHS CIS2)](https://digital.nhs.uk/services/nhs-identity)
 
     The API uses OAuth 2.0 to authorise the calling system. It supports the following security patterns:
 
-    - [user-restricted RESTful API - using NHS Identity - combined authentication and authorisation](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation/user-restricted-restful-apis-nhs-identity-combined-authentication-and-authorisation)
-    - [user-restricted RESTful API - using NHS Identity - separate authentication and authorisation](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation/user-restricted-restful-apis-nhs-identity-separate-authentication-and-authorisation)
+    - [user-restricted RESTful API - using NHS CIS2 - combined authentication and authorisation](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation/user-restricted-restful-apis-nhs-cis2-combined-authentication-and-authorisation)
+    - [user-restricted RESTful API - using NHS CIS2 - separate authentication and authorisation](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation/user-restricted-restful-apis-nhs-cis2-separate-authentication-and-authorisation)
 
     For more details, see [user-restricted APIs](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation#user-restricted-apis).
 
