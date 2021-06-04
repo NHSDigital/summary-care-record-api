@@ -24,7 +24,7 @@ info:
     * set consent to share information
     * send Alert to record TMS Event Service (TES) Alerts centrally
 
-    ## Legal Use
+    ## Who can use this API
     This API can only be used where there is a legal basis to do so. Make sure you have a valid use case before you go too far with your development. You must do this before you can go live (see ‘Onboarding’ below).
 
     ## Related APIs
