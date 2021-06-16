@@ -438,7 +438,7 @@ components:
 
         For more details, see [determine the user’s role](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation/user-restricted-restful-apis-nhs-identity-combined-authentication-and-authorisation#step-6-determine-the-user-s-role).
         
-        This field is optional.
+        This field is optional. 
 
       required: true
       schema:
