@@ -63,7 +63,7 @@ info:
 
     The end user must be:
     - a healthcare professional
-    - strongly authenticated, using either an NHS smartcard or a modern alternative available via [NHS Care Identity Service 2 (NHS CIS2)](https://digital.nhs.uk/services/nhs-identity)
+    - strongly authenticated, using either an NHS smartcard or a [modern alternative](https://digital.nhs.uk/services/nhs-care-identity-service-2/ways-to-authenticate-with-nhs-cis2) available via [NHS Care Identity Service 2 (NHS CIS2)](https://digital.nhs.uk/services/nhs-identity)
 
     The API uses OAuth 2.0 to authorise the calling system. It supports the following security patterns:
 
