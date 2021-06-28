@@ -26,7 +26,6 @@
       </Step>
       <Step>
         <Name>FlowCallout.UserRoleService</Name>
-        <!--<Condition>(access-mode Equals "user-restricted")</Condition> is Shared flow always consumed? --> 
     </Step>
       <Step>
         <Name>Quota</Name>
