@@ -440,7 +440,7 @@ components:
         
         This field is optional. 
 
-      required: true
+      required: false
       schema:
         type: string
         pattern: '^[0-9]+$'
