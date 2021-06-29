@@ -1,15 +1,4 @@
 <TargetEndpoint name="apim">
-  <FaultRules>
-    <FaultRule name="invalid_nhsd_session_urid">
-      <Condition>((request.header.NHSD-Session-URID is null) or (not request.header.NHSD-Session-URID ~~ ".+"))</Condition>
-      <Step>
-        <Name>AssignMessage.MissingUserRoleIDHeader</Name>
-      </Step>
-      <Step>
-        <Name>AssignMessage.AddCors</Name>
-      </Step>
-    </FaultRule>
-  </FaultRules>
   <PreFlow>
     <Request>
       <Step>

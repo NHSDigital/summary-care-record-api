@@ -5,16 +5,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check ticket name conforms to requirements
-        run: echo ${{ github.event.pull_request.head.ref }} | grep -i -E -q "((apm|niad)-[0-9]+)|(dependabot\/)"
+        run: echo ${{ github.event.pull_request.head.ref }} | grep -i -E -q "((apm|niad|amb)-[0-9]+)|(dependabot\/)"
 
       - name: Grab ticket name
-        if: contains(github.event.pull_request.head.ref, 'apm-') || contains(github.event.pull_request.head.ref, 'APM-') || contains(github.event.pull_request.head.ref, 'niad-') || contains(github.event.pull_request.head.ref, 'NIAD-')
-        run: echo ::set-env name=TICKET_NAME::$(echo ${{ github.event.pull_request.head.ref }} | tr '[:lower:]' '[:upper:]' | grep -i -o '^\(APM\|NIAD\)-[0-9]\+')
+        if: contains(github.event.pull_request.head.ref, 'apm-') || contains(github.event.pull_request.head.ref, 'APM-') || contains(github.event.pull_request.head.ref, 'niad-') || contains(github.event.pull_request.head.ref, 'NIAD-') || contains(github.event.pull_request.head.ref, 'amb-') || contains(github.event.pull_request.head.ref, 'AMB-')
+        run: echo ::set-env name=TICKET_NAME::$(echo ${{ github.event.pull_request.head.ref }} | tr '[:lower:]' '[:upper:]' | grep -i -o '^\(APM\|NIAD\|AMB\)-[0-9]\+')
         env:
           ACTIONS_ALLOW_UNSECURE_COMMANDS: true
 
       - name: Comment on PR
-        if: contains(github.event.pull_request.head.ref, 'apm-') || contains(github.event.pull_request.head.ref, 'APM-') || contains(github.event.pull_request.head.ref, 'niad-') || contains(github.event.pull_request.head.ref, 'NIAD-')
+        if: contains(github.event.pull_request.head.ref, 'apm-') || contains(github.event.pull_request.head.ref, 'APM-') || contains(github.event.pull_request.head.ref, 'niad-') || contains(github.event.pull_request.head.ref, 'NIAD-') || contains(github.event.pull_request.head.ref, 'amb-') || contains(github.event.pull_request.head.ref, 'AMB-')
         uses: unsplash/comment-on-pr@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

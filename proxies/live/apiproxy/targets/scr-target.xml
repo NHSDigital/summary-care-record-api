@@ -9,12 +9,15 @@
       </Step>
       <Condition>oauthV2.OauthV2.VerifyAccessToken.failed</Condition>
     </FaultRule>
-    <FaultRule name="invalid_nhsd_session_urid">
-      <Condition>(grant_type is "authorization_code") and ((request.header.NHSD-Session-URID is null) or (not request.header.NHSD-Session-URID ~~ ".+"))</Condition>
+    <FaultRule name="user_role_shared_flow_error">
+      <Condition>(sharedFlow.userRoleError is "true")</Condition>
       <Step>
-        <Name>AssignMessage.MissingUserRoleIDHeader</Name>
+          <Name>AssignMessage.Errors.UserRoleSharedFlow</Name>
       </Step>
-    </FaultRule>
+      <Step>
+          <Name>AssignMessage.CatchallErrorMessage</Name>
+      </Step>
+  </FaultRule>
   </FaultRules>
   <PreFlow>
     <Request>
@@ -22,10 +25,8 @@
         <Name>OauthV2.VerifyAccessToken</Name>
       </Step>
       <Step>
-        <!-- Header NHSD-Session-URID must be present and not empty for 'authorization_code'-->
-        <Name>RaiseFault.400BadRequest</Name>
-        <Condition>(grant_type is "authorization_code") and ((request.header.NHSD-Session-URID is null) or (not request.header.NHSD-Session-URID ~~ ".+"))</Condition>
-      </Step>
+        <Name>FlowCallout.UserRoleService</Name>
+    </Step>
       <Step>
         <Name>Quota</Name>
       </Step>
