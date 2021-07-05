@@ -438,6 +438,8 @@ components:
 
         If you are using User-restricted RESTful APIs - NHS login combined authentication and authorisation, See [determin the user's role](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation/user-restricted-restful-apis-nhs-cis2-combined-authentication-and-authorisation#step-7-determine-the-user-s-role) guidance.
         If you are using User-restricted RESTful APIs - NHS login separate authentication and authorisation, See [determin the user's role](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation/user-restricted-restful-apis-nhs-cis2-separate-authentication-and-authorisation#step-9-determine-the-user-s-role) guidance.
+        
+        This field is optional.
 
       required: false
       schema:
