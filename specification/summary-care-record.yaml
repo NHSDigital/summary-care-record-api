@@ -22,7 +22,7 @@ info:
     * create a patient's Summary Care Record
     * retrieve a patient's Summary Care Record
     * set consent to share information
-    * send Alert to record TMS Event Service (TES) Alerts centrally
+    * raise information governance alerts in certain circumstances when viewing a patient's Summary Care Record
 
     ## Who can use this API
     This API can only be used where there is a legal basis to do so. Make sure you have a valid use case before you go too far with your development. You must do this before you can go live (see ‘Onboarding’ below).
@@ -34,7 +34,7 @@ info:
     ## API status and roadmap
     This API is initially for use by new market entrant GP IT developers with other use cases to follow later.
     
-    This API is in [beta](https://digital.nhs.uk/developer/guides-and-documentation/reference-guide#api-status), meaning:
+    This API is in [alpha](https://digital.nhs.uk/developer/guides-and-documentation/reference-guide#api-status), meaning:
     - the API is available in our sandbox and integration test environments
     - the API is not yet available for production use
     - we might make breaking changes, but only if we cannot avoid it, and we'll give advance notice
