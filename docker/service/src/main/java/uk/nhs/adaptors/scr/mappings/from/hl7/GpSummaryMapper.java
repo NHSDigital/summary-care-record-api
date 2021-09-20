@@ -9,6 +9,7 @@ import org.hl7.fhir.r4.model.DateTimeType;
 import org.hl7.fhir.r4.model.Identifier;
 import org.hl7.fhir.r4.model.InstantType;
 import org.hl7.fhir.r4.model.Meta;
+import org.hl7.fhir.r4.model.Organization;
 import org.hl7.fhir.r4.model.PractitionerRole;
 import org.hl7.fhir.r4.model.Reference;
 import org.hl7.fhir.r4.model.Resource;
@@ -41,6 +42,8 @@ public class GpSummaryMapper implements XmlToFhirMapper {
     private static final String GP_SUMMARY_AUTHOR_TIME_XPATH = BASE_XPATH + "/author/time/@value";
     private static final String GP_SUMMARY_AUTHOR_AGENT_PERSON_SDS_XPATH = BASE_XPATH + "/author/UKCT_MT160018UK01.AgentPersonSDS";
     private static final String GP_SUMMARY_AUTHOR_AGENT_PERSON_XPATH = BASE_XPATH + "/author/UKCT_MT160018UK01.AgentPerson";
+    private static final String GP_SUMMARY_AUTHOR_AGENT_ORG_SDS_XPATH = BASE_XPATH + "/author/UKCT_MT160017UK01.AgentOrgSDS";
+    private static final String GP_SUMMARY_AUTHOR_AGENT_ORG_XPATH = BASE_XPATH + "/author/UKCT_MT160017UK01.AgentOrg";
     private static final Map<String, String> CODED_ENTRY_RESOURCE_MAP = Map.of("Clinical Observations and Findings", "Observation",
             "Investigation Results", "Observation", "Diagnoses", "Condition");
 
@@ -71,6 +74,8 @@ public class GpSummaryMapper implements XmlToFhirMapper {
 
     private final AgentPersonSdsMapper agentPersonSdsMapper;
     private final AgentPersonMapper agentPersonMapper;
+    private final OrganisationSdsMapper organisationSdsMapper;
+    private final OrganisationMapper organisationMapper;
     private final HtmlParser htmlParser;
     private final XmlUtils xmlUtils;
 
@@ -179,8 +184,12 @@ public class GpSummaryMapper implements XmlToFhirMapper {
         map.get(key).add(value);
     }
 
-
     private void addAuthor(Node document, List<Resource> resources, Composition composition) {
+        addAuthorPerson(document, resources, composition);
+        addAuthorOrganisation(document, resources, composition);
+    }
+
+    private void addAuthorPerson(Node document, List<Resource> resources, Composition composition) {
         xmlUtils.detachOptionalNodeByXPath(document, GP_SUMMARY_AUTHOR_AGENT_PERSON_SDS_XPATH)
                 .ifPresent(agentPersonSds -> {
                     List<? extends Resource> authorResources = agentPersonSdsMapper.map(agentPersonSds);
@@ -196,6 +205,21 @@ public class GpSummaryMapper implements XmlToFhirMapper {
                 });
     }
 
+    private void addAuthorOrganisation(Node document, List<Resource> resources, Composition composition) {
+        xmlUtils.detachOptionalNodeByXPath(document, GP_SUMMARY_AUTHOR_AGENT_ORG_SDS_XPATH)
+            .ifPresent(agentOrganisationSds -> {
+                Organization organisation = organisationSdsMapper.mapOrganizationSds(agentOrganisationSds);
+                resources.add(organisation);
+                composition.addAuthor(new Reference(organisation));
+            });
+
+        xmlUtils.detachOptionalNodeByXPath(document, GP_SUMMARY_AUTHOR_AGENT_ORG_XPATH)
+            .ifPresent(agentOrganisation -> {
+                Organization organisation = organisationMapper.mapOrganization(agentOrganisation);
+                resources.add(organisation);
+                composition.addAuthor(new Reference(organisation));
+            });
+    }
 
     private Reference findPractitionerRole(List<? extends Resource> authorResources) {
         return authorResources
