@@ -98,6 +98,12 @@ public abstract class CustomArgumentsProvider implements ArgumentsProvider {
         }
     }
 
+    public static class GetScrInitialUploadSuccess extends CustomArgumentsProvider {
+        public GetScrInitialUploadSuccess() {
+            super("get_scr", "init_upload_success");
+        }
+    }
+
     public static class GetScrNoConsent extends CustomArgumentsProvider {
         public GetScrNoConsent() {
             super("get_scr", "no_consent");
