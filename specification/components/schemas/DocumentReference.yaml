@@ -63,7 +63,7 @@
                     type: string
                     default: "https://fhir.nhs.uk/CodeSystem/SCR-ACSPermission"
                   code:
-                    description: "The following values are allowed: Yes, No, Ask"
+                    description: "The following values are allowed: Yes, No, Ask" // todo czy tu zmienic?
                     type: string
                     example: Ask
                 required:
