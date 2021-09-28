@@ -31,7 +31,7 @@
             "coding": [
               {
                 "system": "https://fhir.nhs.uk/CodeSystem/SCR-ACSPermission",
-                "code": "Yes"
+                "code": "Ask"
               }
             ]
           }

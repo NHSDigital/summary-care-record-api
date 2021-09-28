@@ -184,6 +184,12 @@ paths:
                     code: forbidden
                     details:
                       text: Invalid access token
+        "429":
+          description: You have exceeded your application's [rate limit](https://digital.nhs.uk/developer/guides-and-documentation/reference-guide#rate-limits).
+            content:
+              application/fhir+json:
+                schema:
+                  $ref: components/schemas/OperationOutcome.yaml
         "403":
           description: There's no patient's consent to store SCR
           content:
@@ -197,6 +203,29 @@ paths:
                     code: forbidden
                     details:
                       text: There's no patient's consent to store SCR
+        "503":
+          description: |
+            The request timed out during processing. This does not imply the request has failed or been rejected. Error code: `SERVICE_UNAVAILABLE`.
+            Re-send the request after the time specified in the `Retry-After` header using the same `X-Request-ID` value.
+          headers:
+            Retry-After:
+              $ref: components/schemas/RetryAfter.yaml
+          content:
+            application/fhir+json:
+              schema:
+                $ref: '#/components/schemas/OperationOutcome'
+              example:
+                resourceType: OperationOutcome
+                issue:
+                  - severity: error
+                    code: timeout
+                    details:
+                      coding:
+                        - system: 'https://fhir.nhs.uk/R4/CodeSystem/Spine-ErrorOrWarningCode'
+                          version: '1'
+                          code: SERVICE_UNAVAILABLE
+                          display: Service unavailable
+                    diagnostics: "The downstream domain processing has not completed within the configured timeout period. Using the same 'X-Request-ID' header, retry your request after the time specified by the 'Retry-After' response header."
     get:
       description: |
         ## Overview
