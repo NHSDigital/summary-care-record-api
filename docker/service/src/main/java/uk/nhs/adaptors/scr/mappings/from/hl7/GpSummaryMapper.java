@@ -1,22 +1,8 @@
 package uk.nhs.adaptors.scr.mappings.from.hl7;
 
-import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
-import org.hl7.fhir.r4.model.CodeableConcept;
-import org.hl7.fhir.r4.model.Coding;
-import org.hl7.fhir.r4.model.Composition;
-import org.hl7.fhir.r4.model.DateTimeType;
-import org.hl7.fhir.r4.model.Identifier;
-import org.hl7.fhir.r4.model.InstantType;
-import org.hl7.fhir.r4.model.Meta;
-import org.hl7.fhir.r4.model.Organization;
-import org.hl7.fhir.r4.model.PractitionerRole;
-import org.hl7.fhir.r4.model.Reference;
-import org.hl7.fhir.r4.model.Resource;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-import org.w3c.dom.Node;
-import uk.nhs.adaptors.scr.utils.XmlUtils;
+import static org.hl7.fhir.r4.model.Composition.DocumentRelationshipType.REPLACES;
+
+import static uk.nhs.adaptors.scr.mappings.from.hl7.XmlToFhirMapper.parseDate;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -24,8 +10,23 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.hl7.fhir.r4.model.Composition.DocumentRelationshipType.REPLACES;
-import static uk.nhs.adaptors.scr.mappings.from.hl7.XmlToFhirMapper.parseDate;
+import org.hl7.fhir.r4.model.CodeableConcept;
+import org.hl7.fhir.r4.model.Coding;
+import org.hl7.fhir.r4.model.Composition;
+import org.hl7.fhir.r4.model.DateTimeType;
+import org.hl7.fhir.r4.model.Identifier;
+import org.hl7.fhir.r4.model.InstantType;
+import org.hl7.fhir.r4.model.Meta;
+import org.hl7.fhir.r4.model.PractitionerRole;
+import org.hl7.fhir.r4.model.Reference;
+import org.hl7.fhir.r4.model.Resource;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.w3c.dom.Node;
+
+import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
+import uk.nhs.adaptors.scr.utils.XmlUtils;
 
 @Component
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -44,7 +45,7 @@ public class GpSummaryMapper implements XmlToFhirMapper {
     private static final String GP_SUMMARY_AUTHOR_AGENT_PERSON_XPATH = BASE_XPATH + "/author/UKCT_MT160018UK01.AgentPerson";
     private static final String GP_SUMMARY_AUTHOR_AGENT_ORG_SDS_XPATH =
             BASE_XPATH + "/author/UKCT_MT160017UK01.AgentOrgSDS/agentOrganizationSDS";
-    private static final String GP_SUMMARY_AUTHOR_AGENT_ORG_XPATH = BASE_XPATH + "/author/UKCT_MT160017UK01.AgentOrg/agentOrganization";
+    private static final String GP_SUMMARY_AUTHOR_AGENT_ORG_XPATH = BASE_XPATH + "/author/UKCT_MT160017UK01.AgentOrg";
     private static final Map<String, String> CODED_ENTRY_RESOURCE_MAP = Map.of("Clinical Observations and Findings", "Observation",
             "Investigation Results", "Observation", "Diagnoses", "Condition");
 
@@ -75,8 +76,8 @@ public class GpSummaryMapper implements XmlToFhirMapper {
 
     private final AgentPersonSdsMapper agentPersonSdsMapper;
     private final AgentPersonMapper agentPersonMapper;
-    private final OrganisationSdsMapper organisationSdsMapper;
-    private final OrganisationMapper organisationMapper;
+    private final AgentOrganisationSdsMapper agentOrganisationSdsMapper;
+    private final AgentOrganisationMapper agentOrganisationMapper;
     private final HtmlParser htmlParser;
     private final XmlUtils xmlUtils;
 
@@ -209,16 +210,16 @@ public class GpSummaryMapper implements XmlToFhirMapper {
     private void addAuthorOrganisation(Node document, List<Resource> resources, Composition composition) {
         xmlUtils.detachOptionalNodeByXPath(document, GP_SUMMARY_AUTHOR_AGENT_ORG_SDS_XPATH)
             .ifPresent(agentOrganisationSds -> {
-                Organization organisation = organisationSdsMapper.mapOrganizationSds(agentOrganisationSds);
-                resources.add(organisation);
-                composition.addAuthor(new Reference(organisation));
+                List<? extends Resource> organisationResources = agentOrganisationSdsMapper.map(agentOrganisationSds);
+                resources.addAll(organisationResources);
+                composition.addAuthor(findPractitionerRole(organisationResources));
             });
 
         xmlUtils.detachOptionalNodeByXPath(document, GP_SUMMARY_AUTHOR_AGENT_ORG_XPATH)
             .ifPresent(agentOrganisation -> {
-                Organization organisation = organisationMapper.mapOrganization(agentOrganisation);
-                resources.add(organisation);
-                composition.addAuthor(new Reference(organisation));
+                List<? extends Resource> organisationResources = agentOrganisationMapper.map(agentOrganisation);
+                resources.addAll(organisationResources);
+                composition.addAuthor(findPractitionerRole(organisationResources));
             });
     }
 
