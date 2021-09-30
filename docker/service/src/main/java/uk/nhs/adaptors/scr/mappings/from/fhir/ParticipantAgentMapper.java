@@ -307,7 +307,7 @@ public class ParticipantAgentMapper {
                     individual.getReference(), individual.getId())));
         Identifier identifier = organization.getIdentifierFirstRep();
 
-        var representedOrganizationSDS = new OrganizationSDS("representedOrganizationSDS");
+        var representedOrganizationSDS = new OrganizationSDS("agentOrganizationSDS");
         if (ORG_SDS_SYSTEM.equals(identifier.getSystem())) {
             if (!identifier.hasValue()) {
                 throw new FhirValidationException("Organization.identifier.value element is missing");
