@@ -1,13 +1,13 @@
 {
   "resourceType": "Bundle",
-  "id": "D2AB0827-183A-4F62-90EB-C43D77334ED9",
+  "id": "BCD394C5-ADFE-4863-8DF7-54D7C0254565",
   "identifier": {
     "system": "https://tools.ietf.org/html/rfc4122",
     "value": "821533D3-3E0F-11EB-8111-F40343488B16"
   },
   "type": "searchset",
   "timestamp": "2020-12-14T13:23:10+00:00",
-  "total": 4,
+  "total": 3,
   "entry": [
     {
       "fullUrl": "http://localhost:60492/summary-care-record/FHIR/R4/Composition/BF4180FD-C403-4EF7-A4AB-E07303AF5477",
@@ -43,12 +43,12 @@
           }
         ],
         "subject": {
-          "reference": "Patient/1F58F511-D896-443A-ACEF-F57D2F6A1573"
+          "reference": "Patient/D3613CB0-B376-4A1B-9ED9-69D36B31D0C9"
         },
         "date": "2007-03-14T01:00+00:00",
         "author": [
           {
-            "reference": "PractitionerRole/628EA3FA-370C-41D4-AF85-2F9DB0D60E9E"
+            "reference": "Organization/F8C6C221-6FB5-4265-8D4B-B182A5181088"
           }
         ],
         "section": [
@@ -84,26 +84,10 @@
       }
     },
     {
-      "fullUrl": "http://localhost:60492/summary-care-record/FHIR/R4/PractitionerRole/628EA3FA-370C-41D4-AF85-2F9DB0D60E9E",
-      "resource": {
-        "resourceType": "PractitionerRole",
-        "id": "628EA3FA-370C-41D4-AF85-2F9DB0D60E9E",
-        "identifier": [
-          {
-            "system": "http://fhir.nhs.net/Id/sds-role-profile-id",
-            "value": "M85011"
-          }
-        ],
-        "organization": {
-          "reference": "Organization/48CCDD9C-8CE8-4999-9EE9-7900A0D5DA94"
-        }
-      }
-    },
-    {
-      "fullUrl": "http://localhost:60492/summary-care-record/FHIR/R4/Organization/48CCDD9C-8CE8-4999-9EE9-7900A0D5DA94",
+      "fullUrl": "http://localhost:60492/summary-care-record/FHIR/R4/Organization/F8C6C221-6FB5-4265-8D4B-B182A5181088",
       "resource": {
         "resourceType": "Organization",
-        "id": "48CCDD9C-8CE8-4999-9EE9-7900A0D5DA94",
+        "id": "F8C6C221-6FB5-4265-8D4B-B182A5181088",
         "identifier": [
           {
             "system": "https://fhir.nhs.uk/Id/ods-organization-code",
@@ -114,10 +98,10 @@
       }
     },
     {
-      "fullUrl": "http://localhost:60492/summary-care-record/FHIR/R4/Patient/1F58F511-D896-443A-ACEF-F57D2F6A1573",
+      "fullUrl": "http://localhost:60492/summary-care-record/FHIR/R4/Patient/D3613CB0-B376-4A1B-9ED9-69D36B31D0C9",
       "resource": {
         "resourceType": "Patient",
-        "id": "1F58F511-D896-443A-ACEF-F57D2F6A1573",
+        "id": "D3613CB0-B376-4A1B-9ED9-69D36B31D0C9",
         "identifier": [
           {
             "system": "https://fhir.nhs.uk/Id/nhs-number",

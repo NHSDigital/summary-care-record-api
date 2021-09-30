@@ -17,6 +17,7 @@ import org.hl7.fhir.r4.model.DateTimeType;
 import org.hl7.fhir.r4.model.Identifier;
 import org.hl7.fhir.r4.model.InstantType;
 import org.hl7.fhir.r4.model.Meta;
+import org.hl7.fhir.r4.model.Organization;
 import org.hl7.fhir.r4.model.PractitionerRole;
 import org.hl7.fhir.r4.model.Reference;
 import org.hl7.fhir.r4.model.Resource;
@@ -76,7 +77,7 @@ public class GpSummaryMapper implements XmlToFhirMapper {
 
     private final AgentPersonSdsMapper agentPersonSdsMapper;
     private final AgentPersonMapper agentPersonMapper;
-    private final AgentOrganisationSdsMapper agentOrganisationSdsMapper;
+    private final OrganisationSdsMapper organisationSdsMapper;
     private final AgentOrganisationMapper agentOrganisationMapper;
     private final HtmlParser htmlParser;
     private final XmlUtils xmlUtils;
@@ -210,9 +211,9 @@ public class GpSummaryMapper implements XmlToFhirMapper {
     private void addAuthorOrganisation(Node document, List<Resource> resources, Composition composition) {
         xmlUtils.detachOptionalNodeByXPath(document, GP_SUMMARY_AUTHOR_AGENT_ORG_SDS_XPATH)
             .ifPresent(agentOrganisationSds -> {
-                List<? extends Resource> organisationResources = agentOrganisationSdsMapper.map(agentOrganisationSds);
-                resources.addAll(organisationResources);
-                composition.addAuthor(findPractitionerRole(organisationResources));
+                Organization organisation = organisationSdsMapper.mapOrganizationSds(agentOrganisationSds);
+                resources.add(organisation);
+                composition.addAuthor(new Reference(organisation));
             });
 
         xmlUtils.detachOptionalNodeByXPath(document, GP_SUMMARY_AUTHOR_AGENT_ORG_XPATH)
