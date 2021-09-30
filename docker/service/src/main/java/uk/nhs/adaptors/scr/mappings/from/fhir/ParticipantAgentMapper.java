@@ -299,7 +299,11 @@ public class ParticipantAgentMapper {
         }
     }
 
-    public static void setParticipantAgentOrganisation(org.hl7.fhir.r4.model.Organization organization, Participant participant) {
+    public static void setParticipantAgentOrganisation(Bundle bundle, Reference individual, Participant participant) {
+        var organization = getResourceByReference(bundle, individual.getReference(), org.hl7.fhir.r4.model.Organization.class)
+            .orElseThrow(() -> new FhirValidationException(
+                String.format("Bundle is missing Organization %s that is linked to Author %s",
+                    individual.getReference(), individual.getId())));
         Identifier identifier = organization.getIdentifierFirstRep();
 
         var representedOrganizationSDS = new OrganizationSDS("representedOrganizationSDS");
