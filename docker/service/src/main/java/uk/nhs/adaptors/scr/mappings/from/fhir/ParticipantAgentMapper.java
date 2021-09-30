@@ -15,6 +15,7 @@ import org.hl7.fhir.r4.model.Reference;
 import org.hl7.fhir.r4.model.RelatedPerson;
 import uk.nhs.adaptors.scr.exceptions.FhirValidationException;
 import uk.nhs.adaptors.scr.models.xml.AgentDevice;
+import uk.nhs.adaptors.scr.models.xml.AgentOrgSDS;
 import uk.nhs.adaptors.scr.models.xml.AgentPerson;
 import uk.nhs.adaptors.scr.models.xml.AgentPersonSDS;
 import uk.nhs.adaptors.scr.models.xml.Device;
@@ -319,8 +320,8 @@ public class ParticipantAgentMapper {
         representedOrganizationSDS.setIdExtension(identifier.getValue());
         representedOrganizationSDS.setName(organization.getName());
 
-        var agentPerson = new AgentPerson();
-        agentPerson.setRepresentedOrganizationSDS(representedOrganizationSDS);
-        participant.setAgentPerson(agentPerson);
+        var agentOrgSDS = new AgentOrgSDS();
+        agentOrgSDS.setAgentOrganizationSDS(representedOrganizationSDS);
+        participant.setAgentOrgSDS(agentOrgSDS);
     }
 }
