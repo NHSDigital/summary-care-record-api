@@ -1,4 +1,6 @@
-description: Who and/or what authored the composition
+description: "Who and/or what authored the composition.
+  Note: PractitionerRole reference is required in Summary Care Record upload case.
+  Also, PractitionerRole should reference Practitioner resource."
 type: object
 properties:
   reference:
