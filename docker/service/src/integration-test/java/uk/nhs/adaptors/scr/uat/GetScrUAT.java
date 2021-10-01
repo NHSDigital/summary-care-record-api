@@ -40,6 +40,7 @@ import uk.nhs.adaptors.scr.WireMockInitializer;
 import uk.nhs.adaptors.scr.config.SpineConfiguration;
 import uk.nhs.adaptors.scr.consts.ScrHttpHeaders;
 import uk.nhs.adaptors.scr.uat.common.CustomArgumentsProvider.GetScrInitialUploadSuccess;
+import uk.nhs.adaptors.scr.uat.common.CustomArgumentsProvider.GetScrInitialUploadOrgSDSSuccess;
 import uk.nhs.adaptors.scr.uat.common.CustomArgumentsProvider.GetScrNoConsent;
 import uk.nhs.adaptors.scr.uat.common.CustomArgumentsProvider.GetScrSuccess;
 import uk.nhs.adaptors.scr.uat.common.TestData;
@@ -84,6 +85,9 @@ public class GetScrUAT {
     @Value("classpath:uat/responses/event-query/initial-upload-success.xml")
     private Resource eventQueryInitialUploadSuccessResponse;
 
+    @Value("classpath:uat/responses/event-query/initial-upload-org-sds-success.xml")
+    private Resource eventQueryInitialUploadOrgSDSSuccessResponse;
+
     @Autowired
     private MockMvc mockMvc;
 
@@ -111,6 +115,15 @@ public class GetScrUAT {
     void testGetScrSuccess(TestData testData) throws Exception {
         stubSpinePsisEventListEndpoint(eventListQuerySuccessResponse);
         stubSpinePsisEventQueryEndpoint(eventQuerySuccessResponse);
+
+        performRequestAndAssert(testData);
+    }
+
+    @ParameterizedTest(name = "[{index}] - {0}")
+    @ArgumentsSource(GetScrInitialUploadOrgSDSSuccess.class)
+    void testGetScrInitialUploadOrgSDSSuccess(TestData testData) throws Exception {
+        stubSpinePsisEventListEndpoint(eventListQuerySuccessResponse);
+        stubSpinePsisEventQueryEndpoint(eventQueryInitialUploadOrgSDSSuccessResponse);
 
         performRequestAndAssert(testData);
     }

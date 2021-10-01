@@ -1,13 +1,13 @@
 {
   "resourceType": "Bundle",
-  "id": "9E58C9A0-00F5-4975-A5FB-356141CA0BB4",
+  "id": "BCD394C5-ADFE-4863-8DF7-54D7C0254565",
   "identifier": {
     "system": "https://tools.ietf.org/html/rfc4122",
     "value": "821533D3-3E0F-11EB-8111-F40343488B16"
   },
   "type": "searchset",
   "timestamp": "2020-12-14T13:23:10+00:00",
-  "total": 4,
+  "total": 3,
   "entry": [
     {
       "fullUrl": "http://localhost:60492/summary-care-record/FHIR/R4/Composition/BF4180FD-C403-4EF7-A4AB-E07303AF5477",
@@ -43,12 +43,12 @@
           }
         ],
         "subject": {
-          "reference": "Patient/5228D9FD-39A0-4758-99A0-E1B597BF3CCD"
+          "reference": "Patient/D3613CB0-B376-4A1B-9ED9-69D36B31D0C9"
         },
         "date": "2007-03-14T01:00+00:00",
         "author": [
           {
-            "reference": "PractitionerRole/5324A689-3664-4B77-A5A0-A76E2F3222BF"
+            "reference": "Organization/F8C6C221-6FB5-4265-8D4B-B182A5181088"
           }
         ],
         "section": [
@@ -84,62 +84,24 @@
       }
     },
     {
-      "fullUrl": "http://localhost:60492/summary-care-record/FHIR/R4/PractitionerRole/5324A689-3664-4B77-A5A0-A76E2F3222BF",
-      "resource": {
-        "resourceType": "PractitionerRole",
-        "id": "5324A689-3664-4B77-A5A0-A76E2F3222BF",
-        "organization": {
-          "reference": "Organization/6D66CA77-A4C2-4C14-9026-311486590CCE"
-        },
-        "code": [
-          {
-            "coding": [
-              {
-                "system": "https://fhir.nhs.uk/CodeSystem/HL7v3-SDSJobRoleName",
-                "code": "R0050",
-                "display": "Consultant"
-              }
-            ]
-          }
-        ]
-      }
-    },
-    {
-      "fullUrl": "http://localhost:60492/summary-care-record/FHIR/R4/Organization/6D66CA77-A4C2-4C14-9026-311486590CCE",
+      "fullUrl": "http://localhost:60492/summary-care-record/FHIR/R4/Organization/F8C6C221-6FB5-4265-8D4B-B182A5181088",
       "resource": {
         "resourceType": "Organization",
-        "id": "6D66CA77-A4C2-4C14-9026-311486590CCE",
-        "type": [
+        "id": "F8C6C221-6FB5-4265-8D4B-B182A5181088",
+        "identifier": [
           {
-            "coding": [
-              {
-                "code": "021"
-              }
-            ]
+            "system": "https://fhir.nhs.uk/Id/ods-organization-code",
+            "value": "M85011"
           }
         ],
-        "name": "The Bridge Street Practice",
-        "telecom": [
-          {
-            "system": "other",
-            "value": "0177865533"
-          }
-        ],
-        "address": [
-          {
-            "text": "Bridge street"
-          },
-          {
-            "text": "Sesame Street"
-          }
-        ]
+        "name": "The Bridge Street Practice"
       }
     },
     {
-      "fullUrl": "http://localhost:60492/summary-care-record/FHIR/R4/Patient/5228D9FD-39A0-4758-99A0-E1B597BF3CCD",
+      "fullUrl": "http://localhost:60492/summary-care-record/FHIR/R4/Patient/D3613CB0-B376-4A1B-9ED9-69D36B31D0C9",
       "resource": {
         "resourceType": "Patient",
-        "id": "5228D9FD-39A0-4758-99A0-E1B597BF3CCD",
+        "id": "D3613CB0-B376-4A1B-9ED9-69D36B31D0C9",
         "identifier": [
           {
             "system": "https://fhir.nhs.uk/Id/nhs-number",

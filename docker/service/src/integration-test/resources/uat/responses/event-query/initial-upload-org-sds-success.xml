@@ -79,16 +79,12 @@
                                         <effectiveTime value="200703150100"/>
                                         <author typeCode="AUT" contextControlCode="OP">
                                             <time value="200703140100"/>
-                                            <UKCT_MT160017UK01.AgentOrg classCode="AGNT">
-                                                <code code="R0050" codeSystem="2.16.840.1.113883.2.1.3.2.4.17.125" displayName="Consultant"/>
-                                                <addr use="AD">Sesame Street</addr>
-                                                <telecom use="TEL" value="0177865533"/>
-                                                <agentOrganization determinerCode="INSTANCE" classCode="ORG">
-                                                    <addr use="AD">Bridge street</addr>
-                                                    <code code="021"/>
+                                            <UKCT_MT160017UK01.AgentOrgSDS classCode="AGNT">
+                                                <agentOrganizationSDS determinerCode="INSTANCE" classCode="ORG">
+                                                    <id root="1.2.826.0.1285.0.1.10" extension="M85011"/>
                                                     <name>The Bridge Street Practice</name>
-                                                </agentOrganization>
-                                            </UKCT_MT160017UK01.AgentOrg>
+                                                </agentOrganizationSDS>
+                                            </UKCT_MT160017UK01.AgentOrgSDS>
                                         </author>
                                         <excerptFrom typeCode="XCRPT" contextConductionInd="true" inversionInd="false" negationInd="false">
                                             <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAT_RM-NPfITUK10.excerptFrom"/>

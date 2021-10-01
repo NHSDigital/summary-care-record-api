@@ -21,6 +21,7 @@ public class DateUtil {
                 case DAY:
                     sdfOutput = new SimpleDateFormat(DATE_PATTERN);
                     return sdfOutput.format(date.getValue());
+                case MINUTE:
                 case SECOND:
                     return LocalDateTime.ofInstant(date.toCalendar().toInstant(), ZoneId.of("Europe/London"))
                         .format(DateTimeFormatter.ofPattern(DATE_TIME_PATTERN));
