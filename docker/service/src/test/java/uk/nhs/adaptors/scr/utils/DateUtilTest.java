@@ -54,14 +54,6 @@ public class DateUtilTest {
             Arguments.of(
                 new InstantType("2021-09-25T01:00:00.000"),
                 "20210925010000"
-            ),
-            Arguments.of(
-                new InstantType("2021-09-25T01:00:00.000+00:00"),
-                "20210925030000"
-            ),
-            Arguments.of(
-                new InstantType("2021-09-25T01:00:00+01:00"),
-                "20210925020000"
             )
         );
     }
