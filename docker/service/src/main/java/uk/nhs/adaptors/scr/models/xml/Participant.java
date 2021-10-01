@@ -10,7 +10,6 @@ public abstract class Participant {
     private String time;
     private AgentPerson agentPerson;
     private AgentPersonSDS agentPersonSDS;
-    private AgentOrgSDS agentOrgSDS;
 
     @Getter
     @Setter
