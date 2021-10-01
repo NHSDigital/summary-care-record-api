@@ -168,7 +168,7 @@ public class ParticipantAgentMapper {
                     RelatedPerson.class)
                     .orElseThrow(() -> new FhirValidationException(
                             String.format("Bundle is missing RelatedPerson %s that is linked to Encounter",
-                                encounterParticipant.getIndividual().getReference())));
+                                    encounterParticipant.getIndividual().getReference())));
             var participantNonAgentRole = new NonAgentRole("participantNonAgentRole");
             setRelationship(relatedPerson, participantNonAgentRole);
             setRelatedPersonName(relatedPerson, participantNonAgentRole);
@@ -257,10 +257,10 @@ public class ParticipantAgentMapper {
             agentPerson.setAddress(organization.getAddressFirstRep().getText());
             agentPerson.setTelecom(organization.getTelecom().stream()
                     .map(telecom -> new AgentPerson.Telecom()
-                        .setUse(AgentPerson.Telecom.mapUse(Optional
-                                .ofNullable(telecom.getUse())
-                                .orElse(ContactPoint.ContactPointUse.WORK)))
-                        .setValue(telecom.getValue()))
+                            .setUse(AgentPerson.Telecom.mapUse(Optional
+                                    .ofNullable(telecom.getUse())
+                                    .orElse(ContactPoint.ContactPointUse.WORK)))
+                            .setValue(telecom.getValue()))
                     .collect(Collectors.toList()));
 
             var person = new Person("agentPerson");
