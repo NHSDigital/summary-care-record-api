@@ -129,7 +129,7 @@ paths:
         Use this endpoint to upload the details of patient's Summary Care Record.
 
         To execute the upload you must provide patient's NHS number and SCR UUID.
-        UUID can be obtained using GET /DocumentReference endpoint
+        Before executing the request, latest UUID must be be obtained using GET /DocumentReference endpoint
         and set inside the request body as `relatesTo[0].targetIdentifier.value` property.
 
         ## Sandbox test scenarios
@@ -147,6 +147,7 @@ paths:
         - $ref: '#/components/parameters/CorrelationID'
         - $ref: '#/components/parameters/RequestID'
         - $ref: '#/components/parameters/RoleID'
+        - Content-Type = 'application/fhir+json'
       requestBody:
         required: true
         content:
@@ -159,18 +160,31 @@ paths:
         "201":
           description: SCR successfully uploaded
         "400":
-          description: Bad request
+          description: Bad request - error in business logic on the client's side
           content:
             application/fhir+json:
               schema:
                 $ref: components/schemas/OperationOutcome.yaml
-              example:
-                resourceType: OperationOutcome
-                issue:
-                  - severity: error
-                    code: invalid
-                    details:
-                      text: NHS number missing
+              examples:
+                nhsMissing:
+                  resourceType: OperationOutcome
+                  issue:
+                    - severity: error
+                      code: invalid
+                      details:
+                        text: NHS number missing
+                subjectPatientMissing:
+                  resourceType: OperationOutcome
+                  issue:
+                    - severity: error
+                      details:
+                        text: Composition.subject reference is missing or invalid
+                invalidBundleType:
+                  resourceType: OperationOutcome
+                  issue:
+                    - severity: error
+                      details:
+                        text: "Unsupported Bundle.type: SEARCHSET"
         "401":
           description: Unauthorized
           content:
@@ -184,12 +198,6 @@ paths:
                     code: forbidden
                     details:
                       text: Invalid access token
-        "429":
-          description: You have exceeded your application's [rate limit](https://digital.nhs.uk/developer/guides-and-documentation/reference-guide#rate-limits).
-            content:
-              application/fhir+json:
-                schema:
-                  $ref: components/schemas/OperationOutcome.yaml
         "403":
           description: There's no patient's consent to store SCR
           content:
@@ -203,6 +211,25 @@ paths:
                     code: forbidden
                     details:
                       text: There's no patient's consent to store SCR
+        "415":
+          description: Unsupported Media Type, Content-Type header is invalid or missing
+          content:
+            application/fhir+json:
+              schema:
+                $ref: components/schemas/OperationOutcome.yaml
+              example:
+                resourceType: OperationOutcome
+                issue:
+                  - severity: error
+                    code: not-supported
+                    details:
+                      text: Content type 'text/plain' not supported
+        "429":
+          description: You have exceeded your application's [rate limit](https://digital.nhs.uk/developer/guides-and-documentation/reference-guide#rate-limits).
+            content:
+              application/fhir+json:
+                schema:
+                  $ref: components/schemas/OperationOutcome.yaml
         "503":
           description: |
             The request timed out during processing. This does not imply the request has failed or been rejected. Error code: `SERVICE_UNAVAILABLE`.
@@ -232,6 +259,8 @@ paths:
         Use this endpoint to retrieve the details of patient's Summary Care Record.
 
         To get the information you must provide patient's NHS number and SCR UUID. UUID can be obtained using GET /DocumentReference endpoint.
+
+        If there's no patient's consent to share SCR the endpoint will return an empty bundle.
 
         ## Sandbox test scenarios
         You can test the following scenarios in our sandbox environment:
@@ -297,11 +326,13 @@ paths:
       operationId: get-scr-id
       description: |
         ## Overview
-        Use this endpoint to retrieve UUID of patient's latest record and check patient's ACS (`securityLabel.coding[0].code`).
+        Use this endpoint to retrieve UUID of patient's latest record.
         The UUID is required to retrieve the Summary Care Record details using GET /Bundle endpoint
         and to upload the details of patient's Summary Care Record using POST /Bundle endpoint.
 
         To get the information you must provide patient's NHS number.
+
+        If there is no patient's consent to share SCR the endpoint will return an empty bundle.
 
         ## Sandbox test scenarios
         You can test the following scenarios in our sandbox environment:
@@ -357,6 +388,18 @@ paths:
                 $ref: components/schemas/DocumentReferenceBundle.yaml
               example:
                 $ref: components/examples/DocumentReferenceBundle.json
+        "400":
+          description: Bad Request
+          content:
+            application/fhir+json:
+              schema:
+                $ref: components/schemas/OperationOutcome.yaml
+              example:
+                resourceType: OperationOutcome
+                issue:
+                  - severity: error
+                    details:
+                      text: Required String parameter 'patient' is not present
         "401":
           description: Unauthorized
           content:
@@ -392,6 +435,7 @@ paths:
         - $ref: '#/components/parameters/CorrelationID'
         - $ref: '#/components/parameters/RequestID'
         - $ref: '#/components/parameters/RoleID'
+        - Content-Type = 'application/fhir+json'
       requestBody:
         required: true
         content:
@@ -429,6 +473,19 @@ paths:
                     code: forbidden
                     details:
                       text: Invalid access token
+        "415":
+          description: Unsupported Media Type, Content-Type header is invalid or missing
+          content:
+            application/fhir+json:
+              schema:
+                $ref: components/schemas/OperationOutcome.yaml
+              example:
+                resourceType: OperationOutcome
+                issue:
+                  - severity: error
+                    code: not-supported
+                    details:
+                      text: Content type 'text/plain' not supported
 
   /AuditEvent:
     post:
@@ -450,6 +507,7 @@ paths:
         - $ref: '#/components/parameters/CorrelationID'
         - $ref: '#/components/parameters/RequestID'
         - $ref: '#/components/parameters/RoleID'
+        - Content-Type = 'application/fhir+json'
       requestBody:
         required: true
         content:
@@ -487,6 +545,19 @@ paths:
                     code: forbidden
                     details:
                       text: Invalid access token
+        "415":
+          description: Unsupported Media Type, Content-Type header is invalid or missing
+          content:
+            application/fhir+json:
+              schema:
+                $ref: components/schemas/OperationOutcome.yaml
+              example:
+                resourceType: OperationOutcome
+                issue:
+                  - severity: error
+                    code: not-supported
+                    details:
+                      text: Content type 'text/plain' not supported
 
 components:
   parameters:
