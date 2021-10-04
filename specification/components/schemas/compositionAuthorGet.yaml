@@ -1,4 +1,4 @@
-description: Who and/or what authored the composition
+description: "Who and/or what authored the composition."
 type: object
 properties:
   reference:
@@ -6,6 +6,6 @@ properties:
     example: "PractitionerRole/33661E10-AA36-491A-AFFE-5C10C0BF9304"
   display:
     type: string
-    example: "Dr Steve Jones"
+    example: "Dr Mark Spencer"
 required:
   - reference

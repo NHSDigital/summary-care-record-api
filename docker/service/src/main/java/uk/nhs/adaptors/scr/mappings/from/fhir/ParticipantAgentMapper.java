@@ -221,6 +221,10 @@ public class ParticipantAgentMapper {
                         String.format("Bundle is missing PractitionerRole %s that is linked to Encounter", individual.getReference())));
 
         LOGGER.debug("Looking up Practitioner for PractitionerRole.id={}", practitionerRole.getIdElement().getIdPart());
+        if (practitionerRole.getPractitioner().isEmpty()) {
+            throw new FhirValidationException(
+                String.format("PractitionerRole %s is missing Practitioner reference", practitionerRole.getId()));
+        }
         var practitioner = getResourceByReference(bundle, practitionerRole.getPractitioner().getReference(),
                 Practitioner.class)
                 .orElseThrow(() -> new FhirValidationException(
