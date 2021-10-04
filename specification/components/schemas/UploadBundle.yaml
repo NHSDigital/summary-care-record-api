@@ -19,7 +19,7 @@ properties:
     type: array
     items:
       anyOf:
-        - $ref: CompositionEntry.yaml
+        - $ref: CompositionEntryUpload.yaml
         - $ref: PatientEntry.yaml
         - $ref: PractitionerEntry.yaml
         - $ref: PractitionerRoleEntry.yaml

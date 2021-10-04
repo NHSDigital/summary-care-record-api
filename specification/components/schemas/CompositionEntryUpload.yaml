@@ -60,7 +60,7 @@
         author:
           type: array
           items:
-            $ref: compositionAuthor.yaml
+            $ref: compositionAuthorUpload.yaml
           minItems: 1
         title:
           description: Human Readable name/title

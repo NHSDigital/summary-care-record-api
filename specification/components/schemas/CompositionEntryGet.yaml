@@ -1,0 +1,96 @@
+  type: object
+  properties:
+    fullUrl:
+      type: string
+      example: "https://api.service.nhs.uk/summary-care-record/FHIR/R4/Composition/25FCE159-C82D-482B-8EA9-86DEF2C3929B"
+    resource:
+      type: object
+      properties:
+        resourceType:
+          type: string
+          default: Composition
+        id:
+          type: string
+          example: "25FCE159-C82D-482B-8EA9-86DEF2C3929B"
+        meta:
+          type: object
+          properties:
+            lastUpdated:
+              type: string
+              example: "2020-11-17T01:00:00+00:00"
+          required:
+            - lastUpdated
+        identifier:
+          $ref: compositionIdentifier.yaml
+        status:
+          type: string
+          default: "final"
+        type:
+          $ref: compositionType.yaml
+        category:
+          type: array
+          items:
+            type: object
+            properties:
+              coding:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    system:
+                      type: string
+                      default: "http://snomed.info/sct"
+                    code:
+                      type: string
+                      default: "163171000000105"
+                    display:
+                      type: string
+                      default: Care Professional Documentation
+                  required:
+                    - system
+                    - code
+                    - display
+            required:
+              - coding
+        subject:
+          $ref: compositionSubject.yaml
+        date:
+          type: string
+          example: '2007-03-15T01:00:00Z'
+        author:
+          type: array
+          items:
+            $ref: compositionAuthorGet.yaml
+          minItems: 1
+        title:
+          description: Human Readable name/title
+          type: string
+          example: 'General Practice Summary'
+        relatesTo:
+          type: array
+          items:
+            type: object
+            properties:
+              code: 
+                type: string
+                example: replaces
+              targetIdentifier:
+                type: object
+                properties:
+                  value:
+                    type: string
+                    example: D18B57ED-992E-45A2-A6AF-55200D20F48E
+        section:
+          type: array
+          items:
+            $ref: compositionSection.yaml
+      required:
+        - resourceType
+        - meta
+        - identifier
+        - status
+        - type
+        - category
+        - subject
+        - date
+        - title

@@ -1,0 +1,152 @@
+{
+  "resourceType": "Bundle",
+  "id": "9E58C9A0-00F5-4975-A5FB-356141CA0BB4",
+  "identifier": {
+    "system": "https://tools.ietf.org/html/rfc4122",
+    "value": "821533D3-3E0F-11EB-8111-F40343488B16"
+  },
+  "type": "searchset",
+  "timestamp": "2020-12-14T13:23:10+00:00",
+  "total": 4,
+  "entry": [
+    {
+      "fullUrl": "http://localhost:60492/summary-care-record/FHIR/R4/Composition/BF4180FD-C403-4EF7-A4AB-E07303AF5477",
+      "resource": {
+        "resourceType": "Composition",
+        "id": "BF4180FD-C403-4EF7-A4AB-E07303AF5477",
+        "meta": {
+          "lastUpdated": "2007-03-15T01:00+00:00"
+        },
+        "identifier": {
+          "system": "https://tools.ietf.org/html/rfc4122",
+          "value": "E9E8A879-B585-4A2B-9724-478BA4A97AA5"
+        },
+        "status": "final",
+        "type": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "196971000000103",
+              "display": "General Practice Initial Summary"
+            }
+          ]
+        },
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://snomed.info/sct",
+                "code": "163171000000105",
+                "display": "Care Professional Documentation"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/5228D9FD-39A0-4758-99A0-E1B597BF3CCD"
+        },
+        "date": "2007-03-14T01:00+00:00",
+        "author": [
+          {
+            "reference": "PractitionerRole/5324A689-3664-4B77-A5A0-A76E2F3222BF"
+          }
+        ],
+        "section": [
+          {
+            "title": "General Practice Initial Summary",
+            "text": {
+              "status": "generated",
+              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h3>Sourced from the patient's General Practice record. This information has not been verified by the practice prior to sending. This summary may not include all the information pertinent to this patient.</h3><h3>Time of summary creation 01.00 15-Mar-2007</h3><h3>Author The Bridge Street Practice, Bridge Street, Bridge Town, Bridgeshire, BT1 1BT, England</h3></div>"
+            }
+          },
+          {
+            "title": "Allergies and Adverse Reactions",
+            "text": {
+              "status": "generated",
+              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><table><thead><tr><td>Date</td><td>Description</td></tr></thead><tbody><tr><td>14-Nov-06</td><td>Allergy to Drug - Penicillin</td></tr></tbody></table></div>"
+            }
+          },
+          {
+            "title": "Repeat Medication",
+            "text": {
+              "status": "generated",
+              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><table><thead><tr><th>Date first prescribed</th><th>Medication Item</th><th>Dosage instructions</th></tr></thead><tbody><tr><td>02-Mar-06</td><td>1%% Hydrocortisone cream</td><td>use on affected areas twice a day</td></tr><tr><td>12-Jan-05</td><td>atenolol 50mg tablets</td><td>take one daily</td></tr><tr><td>30-Apr-04</td><td>lisinopril 10mg</td><td>take one daily</td></tr><tr><td>23-Jun-02</td><td>lansoprazole 5mg tablets</td><td>take one daily</td></tr><tr><td>04-Feb-01</td><td>Beclomethasone 200microgram metered dose inhaler</td><td>2 two puffs twice daily</td></tr></tbody></table></div>"
+            }
+          },
+          {
+            "title": "Acute Medication",
+            "text": {
+              "status": "generated",
+              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><table><thead><tr><th>Date prescribed</th><th>Medication Item</th><th>Dosage instructions</th><th>Quantity or duration</th></tr></thead><tbody><tr><td>06-Mar-07</td><td>erthyromycin 500mg tablets</td><td>take one four times daily</td><td>7 days</td></tr><tr><td>06-Mar-07</td><td>Paracetamol 500mg tablets</td><td>one or two tablet four times daily as required</td><td>100 tablets</td></tr><tr><td>14-Feb-07</td><td>diazepam 2mg tablets</td><td>take one as required maximum 3 a day</td><td>24 tablets</td></tr><tr><td>13-Feb-07</td><td>fluoextine 20mg tablets</td><td>take one tablet daliy</td><td>56 tablets</td></tr><tr><td>16-Nov-06</td><td>erythromycin 500mg tablets</td><td>one four times daily</td><td>7 days</td></tr><tr><td>12-Nov-06</td><td>Amoxycillin 500mg tablets</td><td>one four times daily</td><td>7 days</td></tr><tr><td>12-Jan-07</td><td>fluoxetine 20mg tablets</td><td>take one daily</td><td>28 tablets</td></tr><tr><td>12-Jan-07</td><td>diazepam 2mg tablets</td><td>take one as required maximum 3 a day</td><td>24 tablets</td></tr><tr><td>01-Dec-06</td><td>Paracetamol 500mg tablets</td><td>one or two tablet four times daily as required</td><td>100 tablets</td></tr><tr><td>01-Dec-06</td><td>Codeine 30mg tablets</td><td>one or two tablet four times daily as required</td><td>100 tablets</td></tr></tbody></table><h3>Date of sending this summary 15-Mar-2007</h3></div>"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "http://localhost:60492/summary-care-record/FHIR/R4/PractitionerRole/5324A689-3664-4B77-A5A0-A76E2F3222BF",
+      "resource": {
+        "resourceType": "PractitionerRole",
+        "id": "5324A689-3664-4B77-A5A0-A76E2F3222BF",
+        "organization": {
+          "reference": "Organization/6D66CA77-A4C2-4C14-9026-311486590CCE"
+        },
+        "code": [
+          {
+            "coding": [
+              {
+                "system": "https://fhir.nhs.uk/CodeSystem/HL7v3-SDSJobRoleName",
+                "code": "R0050",
+                "display": "Consultant"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "http://localhost:60492/summary-care-record/FHIR/R4/Organization/6D66CA77-A4C2-4C14-9026-311486590CCE",
+      "resource": {
+        "resourceType": "Organization",
+        "id": "6D66CA77-A4C2-4C14-9026-311486590CCE",
+        "type": [
+          {
+            "coding": [
+              {
+                "code": "021"
+              }
+            ]
+          }
+        ],
+        "name": "The Bridge Street Practice",
+        "telecom": [
+          {
+            "system": "other",
+            "value": "0177865533"
+          }
+        ],
+        "address": [
+          {
+            "text": "Bridge street"
+          },
+          {
+            "text": "Sesame Street"
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "http://localhost:60492/summary-care-record/FHIR/R4/Patient/5228D9FD-39A0-4758-99A0-E1B597BF3CCD",
+      "resource": {
+        "resourceType": "Patient",
+        "id": "5228D9FD-39A0-4758-99A0-E1B597BF3CCD",
+        "identifier": [
+          {
+            "system": "https://fhir.nhs.uk/Id/nhs-number",
+            "value": "9900004948"
+          }
+        ]
+      }
+    }
+  ]
+}

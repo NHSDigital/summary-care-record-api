@@ -1,8 +1,23 @@
 package uk.nhs.adaptors.scr.uat;
 
-import com.github.tomakehurst.wiremock.WireMockServer;
-import com.github.tomakehurst.wiremock.client.WireMock;
-import lombok.extern.slf4j.Slf4j;
+import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.nio.file.Files.readString;
+
+import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
+import static org.springframework.http.HttpStatus.OK;
+import static org.springframework.http.MediaType.TEXT_XML_VALUE;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
+import static com.github.tomakehurst.wiremock.client.WireMock.equalTo;
+
+import static uk.nhs.adaptors.scr.consts.SpineHttpHeaders.SOAP_ACTION;
+import static uk.nhs.adaptors.scr.controllers.FhirMediaTypes.APPLICATION_FHIR_JSON_VALUE;
+import static uk.nhs.adaptors.scr.utils.FhirJsonResultMatcher.fhirJson;
+
+import java.io.IOException;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -16,27 +31,19 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
+
+import com.github.tomakehurst.wiremock.WireMockServer;
+import com.github.tomakehurst.wiremock.client.WireMock;
+
+import lombok.extern.slf4j.Slf4j;
 import uk.nhs.adaptors.scr.WireMockInitializer;
 import uk.nhs.adaptors.scr.config.SpineConfiguration;
 import uk.nhs.adaptors.scr.consts.ScrHttpHeaders;
+import uk.nhs.adaptors.scr.uat.common.CustomArgumentsProvider.GetScrInitialUploadSuccess;
+import uk.nhs.adaptors.scr.uat.common.CustomArgumentsProvider.GetScrInitialUploadOrgSDSSuccess;
 import uk.nhs.adaptors.scr.uat.common.CustomArgumentsProvider.GetScrNoConsent;
 import uk.nhs.adaptors.scr.uat.common.CustomArgumentsProvider.GetScrSuccess;
 import uk.nhs.adaptors.scr.uat.common.TestData;
-
-import java.io.IOException;
-
-import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
-import static com.github.tomakehurst.wiremock.client.WireMock.equalTo;
-import static java.nio.charset.StandardCharsets.UTF_8;
-import static java.nio.file.Files.readString;
-import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
-import static org.springframework.http.HttpStatus.OK;
-import static org.springframework.http.MediaType.TEXT_XML_VALUE;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static uk.nhs.adaptors.scr.consts.SpineHttpHeaders.SOAP_ACTION;
-import static uk.nhs.adaptors.scr.controllers.FhirMediaTypes.APPLICATION_FHIR_JSON_VALUE;
-import static uk.nhs.adaptors.scr.utils.FhirJsonResultMatcher.fhirJson;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -75,6 +82,12 @@ public class GetScrUAT {
     @Value("classpath:uat/responses/event-query/success.xml")
     private Resource eventQuerySuccessResponse;
 
+    @Value("classpath:uat/responses/event-query/initial-upload-success.xml")
+    private Resource eventQueryInitialUploadSuccessResponse;
+
+    @Value("classpath:uat/responses/event-query/initial-upload-org-sds-success.xml")
+    private Resource eventQueryInitialUploadOrgSDSSuccessResponse;
+
     @Autowired
     private MockMvc mockMvc;
 
@@ -102,6 +115,24 @@ public class GetScrUAT {
     void testGetScrSuccess(TestData testData) throws Exception {
         stubSpinePsisEventListEndpoint(eventListQuerySuccessResponse);
         stubSpinePsisEventQueryEndpoint(eventQuerySuccessResponse);
+
+        performRequestAndAssert(testData);
+    }
+
+    @ParameterizedTest(name = "[{index}] - {0}")
+    @ArgumentsSource(GetScrInitialUploadOrgSDSSuccess.class)
+    void testGetScrInitialUploadOrgSDSSuccess(TestData testData) throws Exception {
+        stubSpinePsisEventListEndpoint(eventListQuerySuccessResponse);
+        stubSpinePsisEventQueryEndpoint(eventQueryInitialUploadOrgSDSSuccessResponse);
+
+        performRequestAndAssert(testData);
+    }
+
+    @ParameterizedTest(name = "[{index}] - {0}")
+    @ArgumentsSource(GetScrInitialUploadSuccess.class)
+    void testGetScrInitialUploadSuccess(TestData testData) throws Exception {
+        stubSpinePsisEventListEndpoint(eventListQuerySuccessResponse);
+        stubSpinePsisEventQueryEndpoint(eventQueryInitialUploadSuccessResponse);
 
         performRequestAndAssert(testData);
     }
