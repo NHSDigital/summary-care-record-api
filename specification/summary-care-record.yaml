@@ -149,7 +149,7 @@ paths:
         - $ref: '#/components/parameters/CorrelationID'
         - $ref: '#/components/parameters/RequestID'
         - $ref: '#/components/parameters/RoleID'
-        - Content-Type = 'application/fhir+json'
+        - $ref: '#/components/parameters/ContentType'
       requestBody:
         required: true
         content:
@@ -169,24 +169,27 @@ paths:
                 $ref: components/schemas/OperationOutcome.yaml
               examples:
                 nhsMissing:
-                  resourceType: OperationOutcome
-                  issue:
-                    - severity: error
-                      code: invalid
-                      details:
-                        text: NHS number missing
+                  value:
+                    resourceType: OperationOutcome
+                    issue:
+                      - severity: error
+                        code: invalid
+                        details:
+                          text: NHS number missing
                 subjectPatientMissing:
-                  resourceType: OperationOutcome
-                  issue:
-                    - severity: error
-                      details:
-                        text: Composition.subject reference is missing or invalid
+                  value:
+                    resourceType: OperationOutcome
+                    issue:
+                      - severity: error
+                        details:
+                          text: Composition.subject reference is missing or invalid
                 invalidBundleType:
-                  resourceType: OperationOutcome
-                  issue:
-                    - severity: error
-                      details:
-                        text: "Unsupported Bundle.type: SEARCHSET"
+                  value:
+                    resourceType: OperationOutcome
+                    issue:
+                      - severity: error
+                        details:
+                          text: "Unsupported Bundle.type: SEARCHSET"
         "401":
           description: Unauthorized
           content:
@@ -228,10 +231,10 @@ paths:
                       text: Content type 'text/plain' not supported
         "429":
           description: You have exceeded your application's rate limit
-            content:
-              application/fhir+json:
-                schema:
-                  $ref: components/schemas/OperationOutcome.yaml
+          content:
+            application/fhir+json:
+              schema:
+                $ref: components/schemas/OperationOutcome.yaml
         "503":
           description: |
             The request timed out during processing. This does not imply the request has failed or been rejected. Error code: `SERVICE_UNAVAILABLE`.
@@ -242,7 +245,7 @@ paths:
           content:
             application/fhir+json:
               schema:
-                $ref: '#/components/schemas/OperationOutcome'
+                $ref: components/schemas/OperationOutcome.yaml
               example:
                 resourceType: OperationOutcome
                 issue:
@@ -437,7 +440,7 @@ paths:
         - $ref: '#/components/parameters/CorrelationID'
         - $ref: '#/components/parameters/RequestID'
         - $ref: '#/components/parameters/RoleID'
-        - Content-Type = 'application/fhir+json'
+        - $ref: '#/components/parameters/ContentType'
       requestBody:
         required: true
         content:
@@ -509,7 +512,7 @@ paths:
         - $ref: '#/components/parameters/CorrelationID'
         - $ref: '#/components/parameters/RequestID'
         - $ref: '#/components/parameters/RoleID'
-        - Content-Type = 'application/fhir+json'
+        - $ref: '#/components/parameters/ContentType'
       requestBody:
         required: true
         content:
@@ -619,3 +622,12 @@ components:
         type: string
         pattern: '^[0-9]+$'
         example: '555021935107'
+    ContentType:
+      in: header
+      name: Content-Type
+      description: |
+        Used to indicate what type of data is actually sent
+      required: true
+      schema:
+        type: string
+        example: 'application/fhir+json'
