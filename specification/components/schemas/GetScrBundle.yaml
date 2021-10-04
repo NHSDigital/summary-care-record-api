@@ -30,7 +30,7 @@ properties:
     type: array
     items:
       anyOf:
-        - $ref: CompositionEntry.yaml
+        - $ref: CompositionEntryGet.yaml
         - $ref: PatientEntry.yaml
         - $ref: PractitionerEntry.yaml
         - $ref: PractitionerRoleEntry.yaml

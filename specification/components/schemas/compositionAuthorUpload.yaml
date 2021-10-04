@@ -1,6 +1,4 @@
-description: "Who and/or what authored the composition.
-  Note: PractitionerRole reference is required in Summary Care Record upload case.
-  Also, PractitionerRole should reference Practitioner resource."
+description: "Who and/or what authored the composition. This field should reference PractitionerRole resource containing a link to Practitioner"
 type: object
 properties:
   reference:
