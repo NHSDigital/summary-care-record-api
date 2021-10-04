@@ -235,13 +235,10 @@ paths:
             application/fhir+json:
               schema:
                 $ref: components/schemas/OperationOutcome.yaml
-        "503":
+        "504":
           description: |
-            The request timed out during processing. This does not imply the request has failed or been rejected. Error code: `SERVICE_UNAVAILABLE`.
-            Re-send the request after the time specified in the `Retry-After` header using the same `X-Request-ID` value.
-          headers:
-            Retry-After:
-              $ref: components/schemas/RetryAfter.yaml
+            The request timed out during processing. This does not imply the request has failed or been rejected.
+            Re-send the request using the same `X-Request-ID` value.
           content:
             application/fhir+json:
               schema:
@@ -250,14 +247,9 @@ paths:
                 resourceType: OperationOutcome
                 issue:
                   - severity: error
-                    code: timeout
+                    code: transient
                     details:
-                      coding:
-                        - system: 'https://fhir.nhs.uk/R4/CodeSystem/Spine-ErrorOrWarningCode'
-                          version: '1'
-                          code: SERVICE_UNAVAILABLE
-                          display: Service unavailable
-                    diagnostics: "The downstream domain processing has not completed within the configured timeout period. Using the same 'X-Request-ID' header, retry your request after the time specified by the 'Retry-After' response header."
+                      text: Request processing timed out. Spine POST + polling GET has timed out
     get:
       description: |
         ## Overview
