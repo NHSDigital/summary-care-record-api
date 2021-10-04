@@ -227,7 +227,7 @@ paths:
                     details:
                       text: Content type 'text/plain' not supported
         "429":
-          description: You have exceeded your application's [rate limit](https://digital.nhs.uk/developer/guides-and-documentation/reference-guide#rate-limits).
+          description: You have exceeded your application's rate limit
             content:
               application/fhir+json:
                 schema:
