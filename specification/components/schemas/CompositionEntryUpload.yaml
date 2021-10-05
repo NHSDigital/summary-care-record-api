@@ -75,6 +75,7 @@
                 type: string
                 example: replaces
               targetIdentifier:
+                description: SCR UUID. Must be set in case of an update, can be obtained using GET /DocumentReference endpoint.
                 type: object
                 properties:
                   value:
