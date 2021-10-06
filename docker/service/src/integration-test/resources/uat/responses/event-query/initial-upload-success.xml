@@ -1,0 +1,272 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<SOAP-ENV:Envelope
+        xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+                   xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing"
+                   xmlns="urn:hl7-org:v3"
+        xmlns:psis="urn:npfit:psisqr">
+    <SOAP-ENV:Header>
+        <wsa:MessageID>uuid:821533D3-3E0F-11EB-8111-F40343488B16</wsa:MessageID>
+        <wsa:Action>urn:nhs:names:services:psisquery/QUPC_IN210000UK04</wsa:Action>
+        <wsa:To/>
+        <wsa:From>
+            <wsa:Address>https://msg.intspineservices.nhs.uk/sync-service</wsa:Address>
+        </wsa:From>
+        <communicationFunctionRcv typeCode="RCV">
+            <device classCode="DEV" determinerCode="INSTANCE">
+                <id root="1.2.826.0.1285.0.2.0.107" extension="200000001162"/>
+            </device>
+        </communicationFunctionRcv>
+        <communicationFunctionSnd typeCode="SND">
+            <device classCode="DEV" determinerCode="INSTANCE">
+                <id root="1.2.826.0.1285.0.2.0.107" extension="655159266510"/>
+            </device>
+        </communicationFunctionSnd>
+        <wsa:RelatesTo>uuid:FD778600-4677-41F4-BE62-18E021E0D234</wsa:RelatesTo>
+    </SOAP-ENV:Header>
+    <SOAP-ENV:Body>
+        <eventQueryResponse>
+            <QUPC_IN210000UK04>
+                <id root="821533D3-3E0F-11EB-8111-F40343488B16"/>
+                <creationTime value="20201214132310"/>
+                <versionCode code="V3NPfIT4.2.00"/>
+                <interactionId root="2.16.840.1.113883.2.1.3.2.4.12" extension="QUPC_IN210000UK04"/>
+                <processingCode code="P"/>
+                <processingModeCode code="T"/>
+                <acceptAckCode code="NE"/>
+                <acknowledgement typeCode="AA">
+                    <messageRef>
+                        <id root="FD778600-4677-41F4-BE62-18E021E0D234"/>
+                    </messageRef>
+                </acknowledgement>
+                <communicationFunctionRcv typeCode="RCV">
+                    <device classCode="DEV" determinerCode="INSTANCE">
+                        <id root="1.2.826.0.1285.0.2.0.107" extension="200000001162"/>
+                    </device>
+                </communicationFunctionRcv>
+                <communicationFunctionSnd typeCode="SND">
+                    <device classCode="DEV" determinerCode="INSTANCE">
+                        <id root="1.2.826.0.1285.0.2.0.107" extension="655159266510"/>
+                    </device>
+                </communicationFunctionSnd>
+                <ControlActEvent classCode="CACT" moodCode="EVN">
+                    <author1 typeCode="AUT">
+                        <AgentSystemSDS classCode="AGNT">
+                            <agentSystemSDS classCode="DEV" determinerCode="INSTANCE">
+                                <id root="1.2.826.0.1285.0.2.0.107" extension="655159266510"/>
+                            </agentSystemSDS>
+                        </AgentSystemSDS>
+                    </author1>
+                    <subject typeCode="SUBJ">
+                        <psis:queryResponseEvent
+                                xmlns:other="urn:some:other:namespace">
+                            <psis:recordTarget>
+                                <psis:patient>
+                                    <psis:id extension="9995000180" root="2.16.840.1.113883.2.1.4.1"/>
+                                </psis:patient>
+                            </psis:recordTarget>
+                            <psis:event>
+                                <psis:eventID root="BF4180FD-C403-4EF7-A4AB-E07303AF5477"/>
+                                <psis:payloadID extension="REPC_MT150007UK05" root="2.16.840.1.113883.2.1.3.2.4.12"/>
+                                <psis:persistenceDate value="20201125123012"/>
+                                <psis:eventStatus code="1" codeSystem="2.16.840.1.113883.2.1.3.2.4.17.59" displayName="Normal"/>
+                                <psis:eventType code="196981000000101" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="General Practice Summary"/>
+                                <psis:hl7Data>
+
+                                    <GPSummary classCode="COMPOSITION" moodCode="EVN">
+                                        <id root="E9E8A879-B585-4A2B-9724-478BA4A97AA5"/>
+                                        <code codeSystem="2.16.840.1.113883.2.1.3.2.4.15" code="196971000000103" displayName="General Practice Initial Summary"/>
+                                        <statusCode code="active"/>
+                                        <effectiveTime value="200703150100"/>
+                                        <author typeCode="AUT" contextControlCode="OP">
+                                            <time value="200703140100"/>
+                                            <UKCT_MT160017UK01.AgentOrg classCode="AGNT">
+                                                <code code="R0050" codeSystem="2.16.840.1.113883.2.1.3.2.4.17.125" displayName="Consultant"/>
+                                                <addr use="AD">Sesame Street</addr>
+                                                <telecom use="TEL" value="0177865533"/>
+                                                <agentOrganization determinerCode="INSTANCE" classCode="ORG">
+                                                    <addr use="AD">Bridge street</addr>
+                                                    <code code="021"/>
+                                                    <name>The Bridge Street Practice</name>
+                                                </agentOrganization>
+                                            </UKCT_MT160017UK01.AgentOrg>
+                                        </author>
+                                        <excerptFrom typeCode="XCRPT" contextConductionInd="true" inversionInd="false" negationInd="false">
+                                            <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAT_RM-NPfITUK10.excerptFrom"/>
+                                            <seperatableInd value="false"/>
+                                            <UKCT_MT144051UK01.CareProfessionalDocumentationCRE classCode="CATEGORY" moodCode="EVN">
+                                                <code codeSystem="2.16.840.1.113883.2.1.3.2.4.15" code="163171000000105" displayName="Care Professional Documentation"/>
+                                                <component typeCode="COMP" inversionInd="false" negationInd="false">
+                                                    <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.component"/>
+                                                    <seperatableInd value="false"/>
+                                                    <presentationText classCode="OBS" moodCode="EVN">
+                                                        <value>
+                                                            <html xmlns="xhtml:NPfIT:PresentationText">
+                                                                <head/>
+                                                                <body>
+                                                                    <h2>General Practice Initial Summary</h2>
+                                                                    <h3>Sourced from the patient's General Practice record. This information has not been verified by the practice prior to sending. This summary may not include all the information pertinent to this patient.</h3>
+                                                                    <h3>Time of summary creation 01.00 15-Mar-2007</h3>
+                                                                    <h3>Author The Bridge Street Practice, Bridge Street, Bridge Town, Bridgeshire, BT1 1BT, England</h3>
+                                                                    <h2>Allergies and Adverse Reactions</h2>
+                                                                    <table>
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <td>Date</td>
+                                                                                <td>Description</td>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            <tr>
+                                                                                <td>14-Nov-06</td>
+                                                                                <td>Allergy to Drug - Penicillin</td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                    <h2>Repeat Medication</h2>
+                                                                    <table>
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th>Date first prescribed</th>
+                                                                                <th>Medication Item</th>
+                                                                                <th>Dosage instructions</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            <tr>
+                                                                                <td>02-Mar-06</td>
+                                                                                <td>1% Hydrocortisone cream</td>
+                                                                                <td>use on affected areas twice a day</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td>12-Jan-05</td>
+                                                                                <td>atenolol 50mg tablets</td>
+                                                                                <td>take one daily</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td>30-Apr-04</td>
+                                                                                <td>lisinopril 10mg</td>
+                                                                                <td>take one daily</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td>23-Jun-02</td>
+                                                                                <td>lansoprazole 5mg tablets</td>
+                                                                                <td>take one daily</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td>04-Feb-01</td>
+                                                                                <td>Beclomethasone 200microgram metered dose inhaler</td>
+                                                                                <td>2 two puffs twice daily</td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                    <h2>Acute Medication</h2>
+                                                                    <table>
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th>Date prescribed</th>
+                                                                                <th>Medication Item</th>
+                                                                                <th>Dosage instructions</th>
+                                                                                <th>Quantity or duration</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            <tr>
+                                                                                <td>06-Mar-07</td>
+                                                                                <td>erthyromycin 500mg tablets</td>
+                                                                                <td>take one four times daily</td>
+                                                                                <td>7 days</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td>06-Mar-07</td>
+                                                                                <td>Paracetamol 500mg tablets</td>
+                                                                                <td>one or two tablet four times daily as required</td>
+                                                                                <td>100 tablets</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td>14-Feb-07</td>
+                                                                                <td>diazepam 2mg tablets</td>
+                                                                                <td>take one as required maximum 3 a day</td>
+                                                                                <td>24 tablets</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td>13-Feb-07</td>
+                                                                                <td>fluoextine 20mg tablets</td>
+                                                                                <td>take one tablet daliy</td>
+                                                                                <td>56 tablets</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td>16-Nov-06</td>
+                                                                                <td>erythromycin 500mg tablets</td>
+                                                                                <td>one four times daily</td>
+                                                                                <td>7 days</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td>12-Nov-06</td>
+                                                                                <td>Amoxycillin 500mg tablets</td>
+                                                                                <td>one four times daily</td>
+                                                                                <td>7 days</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td>12-Jan-07</td>
+                                                                                <td>fluoxetine 20mg tablets</td>
+                                                                                <td>take one daily</td>
+                                                                                <td>28 tablets</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td>12-Jan-07</td>
+                                                                                <td>diazepam 2mg tablets</td>
+                                                                                <td>take one as required maximum 3 a day</td>
+                                                                                <td>24 tablets</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td>01-Dec-06</td>
+                                                                                <td>Paracetamol 500mg tablets</td>
+                                                                                <td>one or two tablet four times daily as required</td>
+                                                                                <td>100 tablets</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td>01-Dec-06</td>
+                                                                                <td>Codeine 30mg tablets</td>
+                                                                                <td>one or two tablet four times daily as required</td>
+                                                                                <td>100 tablets</td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                    <h3>Date of sending this summary 15-Mar-2007</h3>
+                                                                </body>
+                                                            </html>
+                                                        </value>
+                                                        <id root="97D32686-39FA-441D-9663-44E84DEA8F74"/>
+                                                        <code codeSystem="2.16.840.1.113883.2.1.3.2.4.17.126" code="PresentationText" displayName="Presentation Text"/>
+                                                        <statusCode code="completed"/>
+                                                        <effectiveTime value="200703150100"/>
+                                                    </presentationText>
+                                                </component>
+                                            </UKCT_MT144051UK01.CareProfessionalDocumentationCRE>
+                                        </excerptFrom>
+                                        <pertinentInformation1 typeCode="PERT" contextConductionInd="true" inversionInd="false" negationInd="false">
+                                            <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.pertinentInformation1"/>
+                                            <seperatableInd value="true"/>
+                                            <pertinentRootCREType classCode="CATEGORY" moodCode="EVN">
+                                                <code codeSystem="2.16.840.1.113883.2.1.3.2.4.15" code="163171000000105" displayName="Care Professional Documentation"/>
+                                            </pertinentRootCREType>
+                                        </pertinentInformation1>
+                                        <recordTarget typeCode="RCT">
+                                            <patient classCode="PAT">
+                                                <id root="2.16.840.1.113883.2.1.4.1" extension="9900004948"/>
+                                            </patient>
+                                        </recordTarget>
+                                    </GPSummary>
+
+                                </psis:hl7Data>
+                            </psis:event>
+                        </psis:queryResponseEvent>
+                    </subject>
+                    <queryAck type="QueryAck">
+                        <queryResponseCode code="OK"/>
+                    </queryAck>
+                </ControlActEvent>
+            </QUPC_IN210000UK04>
+        </eventQueryResponse>
+    </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>

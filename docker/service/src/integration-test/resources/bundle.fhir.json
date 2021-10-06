@@ -44,7 +44,7 @@
         "subject": {
           "reference": "Patient/FE15DA5B-2A62-4C19-9362-5E5289A5C216"
         },
-        "date": "2020-11-17T01:00:00+01:00",
+        "date": "2020-11-17T01:00+01:00",
         "author": [
           {
             "reference": "PractitionerRole/5BE5CA06-961A-48BC-B2E8-867193DBDC65"

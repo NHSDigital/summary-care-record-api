@@ -9,7 +9,8 @@
         resourceType:
           type: string
           default: "PractitionerRole"
-          description: "Note: Either identifier with http://fhir.nhs.net/Id/sds-role-profile-id system is required or code with https://fhir.nhs.uk/CodeSystem/HL7v3-SDSJobRoleName"
+          description: "Note: Either identifier with http://fhir.nhs.net/Id/sds-role-profile-id system is required or code with https://fhir.nhs.uk/CodeSystem/HL7v3-SDSJobRoleName.
+            If PractitionerRole is referenced in Composition.Author resource in Summary Care Record upload case, PractitionerRole should reference Practitioner resource."
         id:
           type: string
           example: FE7B9F77-3BC9-4D99-84DC-292D0762183C
