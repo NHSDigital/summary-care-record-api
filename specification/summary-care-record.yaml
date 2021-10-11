@@ -213,7 +213,7 @@ paths:
                   - severity: error
                     code: forbidden
                     details:
-                      text: There's no patient's consent to store SCR
+                      text: Forbidden update with error - there's no patient's consent to store SCR
         "415":
           description: Unsupported Media Type, Content-Type header is invalid or missing
           content:
@@ -233,6 +233,29 @@ paths:
             application/fhir+json:
               schema:
                 $ref: components/schemas/OperationOutcome.yaml
+        "500":
+          description: Internal Server Error
+          content:
+            application/fhir+json:
+              schema:
+                $ref: components/schemas/OperationOutcome.yaml
+              examples:
+                errorSeverity:
+                  value:
+                    resourceType: OperationOutcome
+                    issue:
+                      - severity: error
+                        code: exception
+                        details:
+                          text: Unexpected exception while sending Spine request
+                fatalSeverity:
+                  value:
+                    resourceType: OperationOutcome
+                    issue:
+                      - severity: fatal
+                        code: exception
+                        details:
+                          text: Unexpected spine polling response
         "504":
           description: |
             The request timed out during processing. This does not imply the request has failed or been rejected.
@@ -481,6 +504,20 @@ paths:
                     code: not-supported
                     details:
                       text: Content type 'text/plain' not supported
+        "500":
+          description: Internal Server Error
+          content:
+            application/fhir+json:
+              schema:
+                $ref: components/schemas/OperationOutcome.yaml
+              example:
+                resourceType: OperationOutcome
+                issue:
+                  - description: Missing value from application.yml
+                    severity: error
+                    code: exception
+                    details:
+                      text: Not enough variable values available to expand 'xyz'
 
   /AuditEvent:
     post:
@@ -553,6 +590,30 @@ paths:
                     code: not-supported
                     details:
                       text: Content type 'text/plain' not supported
+        "500":
+          description: Internal Server Error
+          content:
+            application/fhir+json:
+              schema:
+                $ref: components/schemas/OperationOutcome.yaml
+              examples:
+                missingValue:
+                  value:
+                    resourceType: OperationOutcome
+                    issue:
+                      - description: Missing value from application.yml
+                        severity: error
+                        code: exception
+                        details:
+                          text: "Illegal character in authority at index 8: xyz"
+                internalServerError:
+                  value:
+                    resourceType: OperationOutcome
+                    issue:
+                      - severity: error
+                        code: exception
+                        details:
+                          text: Unexpected exception while sending Spine request       
 
 components:
   parameters:
