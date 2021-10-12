@@ -337,6 +337,20 @@ paths:
                     code: forbidden
                     details:
                       text: Invalid access token
+        "500":
+          description: Internal Server Error
+          content:
+            application/fhir+json:
+              schema:
+                $ref: components/schemas/OperationOutcome.yaml
+              example:
+                resourceType: OperationOutcome
+                issue:
+                  - description: Missing value from application.yml
+                    severity: error
+                    code: exception
+                    details:
+                      text: "Illegal character in authority at index 8: xyz"
                       
   /DocumentReference:
     get:
@@ -431,6 +445,20 @@ paths:
                     code: forbidden
                     details:
                       text: Invalid access token
+        "500":
+          description: Internal Server Error
+          content:
+            application/fhir+json:
+              schema:
+                $ref: components/schemas/OperationOutcome.yaml
+              example:
+                resourceType: OperationOutcome
+                issue:
+                  - description: Missing value from application.yml
+                    severity: error
+                    code: exception
+                    details:
+                      text: "Illegal character in authority at index 8: xyz"
 
   /$setPermission:
     post:
