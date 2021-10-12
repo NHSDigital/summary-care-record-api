@@ -239,23 +239,13 @@ paths:
             application/fhir+json:
               schema:
                 $ref: components/schemas/OperationOutcome.yaml
-              examples:
-                errorSeverity:
-                  value:
-                    resourceType: OperationOutcome
-                    issue:
-                      - severity: error
-                        code: exception
-                        details:
-                          text: Unexpected exception while sending Spine request
-                fatalSeverity:
-                  value:
-                    resourceType: OperationOutcome
-                    issue:
-                      - severity: fatal
-                        code: exception
-                        details:
-                          text: Unexpected spine polling response
+              example:
+                resourceType: OperationOutcome
+                issue:
+                  - severity: error
+                  code: exception
+                  details:
+                    text: "An unknown error occurred processing this request. Contact us for assistance diagnosing this issue: https://digital.nhs.uk/developer/help-and-support."
         "504":
           description: |
             The request timed out during processing. This does not imply the request has failed or been rejected.
@@ -346,11 +336,10 @@ paths:
               example:
                 resourceType: OperationOutcome
                 issue:
-                  - description: Missing value from application.yml
-                    severity: error
-                    code: exception
-                    details:
-                      text: "Illegal character in authority at index 8: xyz"
+                  - severity: error
+                  code: exception
+                  details:
+                    text: "An unknown error occurred processing this request. Contact us for assistance diagnosing this issue: https://digital.nhs.uk/developer/help-and-support."
                       
   /DocumentReference:
     get:
@@ -454,11 +443,10 @@ paths:
               example:
                 resourceType: OperationOutcome
                 issue:
-                  - description: Missing value from application.yml
-                    severity: error
-                    code: exception
-                    details:
-                      text: "Illegal character in authority at index 8: xyz"
+                  - severity: error
+                  code: exception
+                  details:
+                    text: "An unknown error occurred processing this request. Contact us for assistance diagnosing this issue: https://digital.nhs.uk/developer/help-and-support."
 
   /$setPermission:
     post:
@@ -541,11 +529,10 @@ paths:
               example:
                 resourceType: OperationOutcome
                 issue:
-                  - description: Missing value from application.yml
-                    severity: error
-                    code: exception
-                    details:
-                      text: Not enough variable values available to expand 'xyz'
+                  - severity: error
+                  code: exception
+                  details:
+                    text: "An unknown error occurred processing this request. Contact us for assistance diagnosing this issue: https://digital.nhs.uk/developer/help-and-support."
 
   /AuditEvent:
     post:
@@ -624,25 +611,13 @@ paths:
             application/fhir+json:
               schema:
                 $ref: components/schemas/OperationOutcome.yaml
-              examples:
-                missingValue:
-                  value:
-                    resourceType: OperationOutcome
-                    issue:
-                      - description: Missing value from application.yml
-                        severity: error
-                        code: exception
-                        details:
-                          text: "Illegal character in authority at index 8: xyz"
-                internalServerError:
-                  value:
-                    resourceType: OperationOutcome
-                    issue:
-                      - severity: error
-                        code: exception
-                        details:
-                          text: Unexpected exception while sending Spine request       
-
+              example:
+                resourceType: OperationOutcome
+                issue:
+                  - severity: error
+                  code: exception
+                  details:
+                    text: "An unknown error occurred processing this request. Contact us for assistance diagnosing this issue: https://digital.nhs.uk/developer/help-and-support."
 components:
   parameters:
     BearerAuthorization:
