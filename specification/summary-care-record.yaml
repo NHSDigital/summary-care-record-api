@@ -238,14 +238,19 @@ paths:
           content:
             application/fhir+json:
               schema:
-                $ref: components/schemas/OperationOutcome.yaml
+                $ref: components/schemas/OperationErrorOutcome.yaml
               example:
                 resourceType: OperationOutcome
                 issue:
                   - severity: error
-                    code: exception
+                    code: unknown
                     details:
-                      text: "An unknown error occurred processing this request. Contact us for assistance diagnosing this issue: https://digital.nhs.uk/developer/help-and-support."
+                      coding:
+                        system: "https://fhir.nhs.uk/CodeSystem/Spine-ErrorOrWarningCode"
+                        version: 1
+                        code: UNKNOWN_ERROR
+                        display: Unknown Error
+                    diagnostics: "An unknown error occurred processing this request. Contact us for assistance diagnosing this issue: https://digital.nhs.uk/developer/help-and-support."
         "504":
           description: |
             The request timed out during processing. This does not imply the request has failed or been rejected.
@@ -332,15 +337,19 @@ paths:
           content:
             application/fhir+json:
               schema:
-                $ref: components/schemas/OperationOutcome.yaml
+                $ref: components/schemas/OperationErrorOutcome.yaml
               example:
                 resourceType: OperationOutcome
                 issue:
                   - severity: error
-                    code: exception
+                    code: unknown
                     details:
-                      text: "An unknown error occurred processing this request. Contact us for assistance diagnosing this issue: https://digital.nhs.uk/developer/help-and-support."
-                      
+                      coding:
+                        system: "https://fhir.nhs.uk/CodeSystem/Spine-ErrorOrWarningCode"
+                        version: 1
+                        code: UNKNOWN_ERROR
+                        display: Unknown Error
+                    diagnostics: "An unknown error occurred processing this request. Contact us for assistance diagnosing this issue: https://digital.nhs.uk/developer/help-and-support."
   /DocumentReference:
     get:
       summary: Get patient's latest Summary Care Record identifier
@@ -439,14 +448,19 @@ paths:
           content:
             application/fhir+json:
               schema:
-                $ref: components/schemas/OperationOutcome.yaml
+                $ref: components/schemas/OperationErrorOutcome.yaml
               example:
                 resourceType: OperationOutcome
                 issue:
                   - severity: error
-                    code: exception
+                    code: unknown
                     details:
-                      text: "An unknown error occurred processing this request. Contact us for assistance diagnosing this issue: https://digital.nhs.uk/developer/help-and-support."
+                      coding:
+                        system: "https://fhir.nhs.uk/CodeSystem/Spine-ErrorOrWarningCode"
+                        version: 1
+                        code: UNKNOWN_ERROR
+                        display: Unknown Error
+                    diagnostics: "An unknown error occurred processing this request. Contact us for assistance diagnosing this issue: https://digital.nhs.uk/developer/help-and-support."
 
   /$setPermission:
     post:
@@ -525,14 +539,19 @@ paths:
           content:
             application/fhir+json:
               schema:
-                $ref: components/schemas/OperationOutcome.yaml
+                $ref: components/schemas/OperationErrorOutcome.yaml
               example:
                 resourceType: OperationOutcome
                 issue:
                   - severity: error
-                    code: exception
+                    code: unknown
                     details:
-                      text: "An unknown error occurred processing this request. Contact us for assistance diagnosing this issue: https://digital.nhs.uk/developer/help-and-support."
+                      coding:
+                        system: "https://fhir.nhs.uk/CodeSystem/Spine-ErrorOrWarningCode"
+                        version: 1
+                        code: UNKNOWN_ERROR
+                        display: Unknown Error
+                    diagnostics: "An unknown error occurred processing this request. Contact us for assistance diagnosing this issue: https://digital.nhs.uk/developer/help-and-support."
 
   /AuditEvent:
     post:
@@ -610,14 +629,19 @@ paths:
           content:
             application/fhir+json:
               schema:
-                $ref: components/schemas/OperationOutcome.yaml
+                $ref: components/schemas/OperationErrorOutcome.yaml
               example:
                 resourceType: OperationOutcome
                 issue:
                   - severity: error
-                    code: exception
+                    code: unknown
                     details:
-                      text: "An unknown error occurred processing this request. Contact us for assistance diagnosing this issue: https://digital.nhs.uk/developer/help-and-support."
+                      coding:
+                        system: "https://fhir.nhs.uk/CodeSystem/Spine-ErrorOrWarningCode"
+                        version: 1
+                        code: UNKNOWN_ERROR
+                        display: Unknown Error
+                    diagnostics: "An unknown error occurred processing this request. Contact us for assistance diagnosing this issue: https://digital.nhs.uk/developer/help-and-support."
 components:
   parameters:
     BearerAuthorization:
