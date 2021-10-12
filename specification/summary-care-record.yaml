@@ -243,9 +243,9 @@ paths:
                 resourceType: OperationOutcome
                 issue:
                   - severity: error
-                  code: exception
-                  details:
-                    text: "An unknown error occurred processing this request. Contact us for assistance diagnosing this issue: https://digital.nhs.uk/developer/help-and-support."
+                    code: exception
+                    details:
+                      text: "An unknown error occurred processing this request. Contact us for assistance diagnosing this issue: https://digital.nhs.uk/developer/help-and-support."
         "504":
           description: |
             The request timed out during processing. This does not imply the request has failed or been rejected.
@@ -337,9 +337,9 @@ paths:
                 resourceType: OperationOutcome
                 issue:
                   - severity: error
-                  code: exception
-                  details:
-                    text: "An unknown error occurred processing this request. Contact us for assistance diagnosing this issue: https://digital.nhs.uk/developer/help-and-support."
+                    code: exception
+                    details:
+                      text: "An unknown error occurred processing this request. Contact us for assistance diagnosing this issue: https://digital.nhs.uk/developer/help-and-support."
                       
   /DocumentReference:
     get:
@@ -444,9 +444,9 @@ paths:
                 resourceType: OperationOutcome
                 issue:
                   - severity: error
-                  code: exception
-                  details:
-                    text: "An unknown error occurred processing this request. Contact us for assistance diagnosing this issue: https://digital.nhs.uk/developer/help-and-support."
+                    code: exception
+                    details:
+                      text: "An unknown error occurred processing this request. Contact us for assistance diagnosing this issue: https://digital.nhs.uk/developer/help-and-support."
 
   /$setPermission:
     post:
@@ -530,9 +530,9 @@ paths:
                 resourceType: OperationOutcome
                 issue:
                   - severity: error
-                  code: exception
-                  details:
-                    text: "An unknown error occurred processing this request. Contact us for assistance diagnosing this issue: https://digital.nhs.uk/developer/help-and-support."
+                    code: exception
+                    details:
+                      text: "An unknown error occurred processing this request. Contact us for assistance diagnosing this issue: https://digital.nhs.uk/developer/help-and-support."
 
   /AuditEvent:
     post:
@@ -615,9 +615,9 @@ paths:
                 resourceType: OperationOutcome
                 issue:
                   - severity: error
-                  code: exception
-                  details:
-                    text: "An unknown error occurred processing this request. Contact us for assistance diagnosing this issue: https://digital.nhs.uk/developer/help-and-support."
+                    code: exception
+                    details:
+                      text: "An unknown error occurred processing this request. Contact us for assistance diagnosing this issue: https://digital.nhs.uk/developer/help-and-support."
 components:
   parameters:
     BearerAuthorization:
