@@ -34,10 +34,10 @@
                   properties:
                     system:
                       type: string
-                      default: "https://fhir.nhs.uk/CodeSystem/Spine-ErrorOrWarningCode",
+                      default: "https://fhir.nhs.uk/CodeSystem/Spine-ErrorOrWarningCode"
                     version:
                       type: string
-                      default: 1
+                      default: "1"
                     code:
                       type: string
                       example: UNKNOWN_ERROR
