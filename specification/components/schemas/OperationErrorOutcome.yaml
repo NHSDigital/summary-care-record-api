@@ -1,0 +1,49 @@
+  type: object
+  description: Operation error outcome
+  properties:
+    resourceType:
+      type: string
+      description: FHIR Resource Type.
+      default: OperationOutcome
+    issue:
+      type: array
+      description: List of issues that have occurred.
+      minItems: 1
+      items:
+        type: object
+        required:
+          - severity
+          - code
+        properties:
+          severity:
+            type: string
+            enum: [ error ]
+            description: Severity of the error.
+            example: error
+          code:
+            type: string
+            description: error code.
+            example: unknown
+          details:
+            type: object
+            properties:
+              coding:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    system:
+                      type: string
+                      default: "https://fhir.nhs.uk/CodeSystem/Spine-ErrorOrWarningCode"
+                    version:
+                      type: string
+                      default: "1"
+                    code:
+                      type: string
+                      example: UNKNOWN_ERROR
+                    display:
+                      type: string
+                      example: Unknown Error
+          diagnostics:
+            type: string
+            example: "An unknown error occurred processing this request. Contact us for assistance diagnosing this issue: https://digital.nhs.uk/developer/help-and-support. (Message ID: {messageid})"
