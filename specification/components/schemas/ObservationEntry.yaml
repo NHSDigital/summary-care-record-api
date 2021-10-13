@@ -67,9 +67,7 @@
         code:
           description: |
             Following SNOMED CT concept IDs are supported [(see more)](https://digital.nhs.uk/services/summary-care-records-scr/coronavirus-covid-19-message-in-scr):
-            | SNOMED CT Concept ID         | Preferred term                                                                                                |
-            | -----------------------------|---------------------------------------------------------------------------------------------------------------|
-            | 1240581000000104             | SARS-CoV-2 (severe acute respiratory syndrome coronavirus 2) RNA (ribonucleic acid) detection result positive |
+            * 1240581000000104 SARS-CoV-2 (severe acute respiratory syndrome coronavirus 2) RNA (ribonucleic acid) detection result positive
           type: object
           properties:
             coding:
