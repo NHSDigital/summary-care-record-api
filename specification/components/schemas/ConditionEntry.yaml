@@ -110,12 +110,10 @@
         code:
           description: |
             Following SNOMED CT concept IDs are supported [(see more)](https://digital.nhs.uk/services/summary-care-records-scr/coronavirus-covid-19-message-in-scr):
-            | SNOMED CT Concept ID         | Preferred term                                       |
-            | -----------------------------|------------------------------------------------------|
-            | 1240751000000100             | COVID-19                                             |
-            | 1240761000000102             | COVID-19 confirmed by laboratory test                |
-            | 1300731000000106             | COVID-19 confirmed using clinical diagnostic criteria|
-            | 1300721000000109             | Suspected COVID-19                                   |
+            * 1240751000000100 COVID-19
+            * 1240761000000102 COVID-19 confirmed by laboratory test
+            * 1300731000000106 COVID-19 confirmed using clinical diagnostic criteria
+            * 1300721000000109 Suspected COVID-19
           type: object
           properties:
             coding:
