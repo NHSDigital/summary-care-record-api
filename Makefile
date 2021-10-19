@@ -65,7 +65,11 @@ release: clean publish build-proxy
 		cp ecs-proxies-deploy-sandbox.yml dist/ecs-deploy-$$env.yml; \
 	done
 
+dist: release
+
+test: smoketest
+
 pytest-guards: guard-SERVICE_BASE_PATH guard-APIGEE_ENVIRONMENT guard-SOURCE_COMMIT_ID guard-STATUS_ENDPOINT_API_KEY
 
-test: pytest-guards
+smoketest: pytest-guards
 	poetry run python -m pytest -v --junitxml=smoketest-report.xml -s -m smoketest
