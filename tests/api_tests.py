@@ -1,7 +1,5 @@
 from typing import List
-from time import time, sleep
 import pytest
-import os
 from aiohttp import ClientResponse
 from api_test_utils import env
 from api_test_utils import poll_until
