@@ -28,7 +28,7 @@ def test_output_test_config(api_test_config: APITestSessionConfig):
 
 @pytest.mark.smoketest
 @pytest.mark.asyncio
-async def test_wait_for_ping(api_client: APISessionClient, api_test_config: APITestSessionConfig):
+async def test_wait_for_get_scr_id(api_client: APISessionClient, api_test_config: APITestSessionConfig):
     async def apigee_deployed(resp: ClientResponse):
         if resp.status != 200:
             return False
@@ -37,7 +37,10 @@ async def test_wait_for_ping(api_client: APISessionClient, api_test_config: APIT
         return body.get("commitId") == api_test_config.commit_id
 
     await poll_until(
-        make_request=lambda: api_client.get("_ping"), until=apigee_deployed, timeout=30
+        make_request=lambda: api_client.get(
+            "DocumentReference?patient=https://fhir.nhs.uk/Id/nhs-number"
+            "|9995000180&_sort=date&type=http://snomed.info/sct|196981000000101&_count=1"),
+        until=apigee_deployed, timeout=30g
     )
 
 
