@@ -14,9 +14,6 @@ steps:
     displayName: cache pytest dependencies
 
   - bash: |
-      echo $(Pipeline.Workspace)/s/$(SERVICE_NAME)/$(SERVICE_ARTIFACT_NAME)
-      pwd
-      ls
       make install-python
     workingDirectory: $(Pipeline.Workspace)/s/$(SERVICE_NAME)/$(SERVICE_ARTIFACT_NAME)
     condition: ne(variables['CacheRestored-Pytest'], 'true')
