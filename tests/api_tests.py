@@ -40,7 +40,7 @@ async def test_wait_for_get_scr_id(api_client: APISessionClient, api_test_config
         make_request=lambda: api_client.get(
             "DocumentReference?patient=https://fhir.nhs.uk/Id/nhs-number"
             "|9995000180&_sort=date&type=http://snomed.info/sct|196981000000101&_count=1"),
-        until=apigee_deployed, timeout=30g
+        until=apigee_deployed, timeout=30
     )
 
 
