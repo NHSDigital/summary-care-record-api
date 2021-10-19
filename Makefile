@@ -42,6 +42,8 @@ format:
 build-proxy:
 	scripts/build_proxy.sh
 
+_dist_include="pytest.ini poetry.lock poetry.toml pyproject.toml Makefile build/. tests"
+
 release: clean publish build-proxy
 	mkdir -p dist
 	cp -r build/. dist
@@ -57,5 +59,7 @@ release: clean publish build-proxy
 		cp ecs-proxies-deploy-sandbox.yml dist/ecs-deploy-$$env.yml; \
 	done
 
-test:
-	echo "TODO: add tests"
+pytest-guards: guard-SERVICE_BASE_PATH guard-APIGEE_ENVIRONMENT guard-SOURCE_COMMIT_ID guard-STATUS_ENDPOINT_API_KEY
+
+test: pytest-guards
+	poetry run python -m pytest -v --junitxml=smoketest-report.xml -s -m smoketest
