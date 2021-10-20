@@ -39,10 +39,9 @@ def test_output_test_config(api_test_config: APITestSessionConfig):
 @pytest.mark.smoketest
 @pytest.mark.asyncio
 async def test_wait_for_get_scr_id(api_client: APISessionClient):
-    oauth = OauthHelper(ENV['client_id'], ENV['client_secret'], ENV['redirect_uri'])
-    print("client id " + ENV['client_id'])
-    print("redirect uri " + ENV['redirect_uri'])
-    token = oauth.get_token_response(grant_type="authorization_code")
+    oauth = OauthHelper(client_id=ENV['client_id'], client_secret=ENV['client_secret'],
+                        redirect_uri=ENV['redirect_uri'])
+    token = await oauth.get_token_response(grant_type="authorization_code")
 
     async def scr_id_returned(resp: ClientResponse):
         if resp.status != 200:
@@ -55,7 +54,7 @@ async def test_wait_for_get_scr_id(api_client: APISessionClient):
         make_request=lambda: api_client.get(
             "DocumentReference?patient=https://fhir.nhs.uk/Id/nhs-number"
             "|9995000180&_sort=date&type=http://snomed.info/sct|196981000000101&_count=1",
-            headers={"Authorization": "Bearer " + token}),
+            headers={"Authorization": "Bearer " + token["body"]}),
         until=scr_id_returned, timeout=30
     )
 
