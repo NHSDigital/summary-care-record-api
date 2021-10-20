@@ -19,7 +19,8 @@ ENV = EnvVarWrapper(
         'client_secret': 'CLIENT_SECRET',
         'redirect_uri': 'REDIRECT_URI',
         'oauth_proxy': 'OAUTH_PROXY',
-        'oauth_base_uri': 'OAUTH_BASE_URI'
+        'oauth_base_uri': 'OAUTH_BASE_URI',
+        'apigee_product': 'APIGEE_PRODUCT'
     }
 )
 
@@ -39,13 +40,13 @@ def _dict_path(raw, path: List[str]):
 
 
 def get_product_names(suffixes) -> List[str]:
-    return [f'{get_env("APIGEE_PRODUCT")}{suffix}' for suffix in suffixes]
+    return [f'{ENV['apigee_product']}{suffix}' for suffix in suffixes]
 
 
 async def get_authorised_headers():
     custom_attributes = {
-        "jwks-resource-url": "https://raw.githubusercontent.com/NHSDigital/identity-service-jwks/main/jwks/internal-dev/"
-            +"9baed6f4-1361-4a8e-8531-1f8426e3aba8.json",
+        "jwks-resource-url": "https://raw.githubusercontent.com/NHSDigital/identity-service-jwks/main/jwks/"
+                             + "internal-dev/9baed6f4-1361-4a8e-8531-1f8426e3aba8.json",
         "nhs-login-allowed-proofing-level": "P9"
     }
 
