@@ -5,6 +5,7 @@ from api_test_utils import env
 from api_test_utils import poll_until
 from api_test_utils.api_session_client import APISessionClient
 from api_test_utils.api_test_session_config import APITestSessionConfig
+from api_test_utils.oauth_helper import OauthHelper
 
 
 def _dict_path(raw, path: List[str]):
@@ -26,22 +27,25 @@ def test_output_test_config(api_test_config: APITestSessionConfig):
     print(api_test_config)
 
 
-# @pytest.mark.smoketest
-# @pytest.mark.asyncio
-# async def test_wait_for_get_scr_id(api_client: APISessionClient, api_test_config: APITestSessionConfig):
-#     async def apigee_deployed(resp: ClientResponse):
-#         if resp.status != 200:
-#             return False
-#
-#         body = await resp.json()
-#         return body.get("commitId") == api_test_config.commit_id
-#
-#     await poll_until(
-#         make_request=lambda: api_client.get(
-#             "DocumentReference?patient=https://fhir.nhs.uk/Id/nhs-number"
-#             "|9995000180&_sort=date&type=http://snomed.info/sct|196981000000101&_count=1"),
-#         until=apigee_deployed, timeout=30
-#     )
+@pytest.mark.smoketest
+@pytest.mark.asyncio
+async def test_wait_for_get_scr_id(api_client: APISessionClient, oauth_helper: OauthHelper):
+    token = await oauth_helper.get_authenticated_with_simulated_auth
+
+    async def scr_id_returned(resp: ClientResponse):
+        if resp.status != 200:
+            return False
+
+        body = await resp.json()
+        return body.get("resourceType") == "Bundle"
+
+    await poll_until(
+        make_request=lambda: api_client.get(
+            "DocumentReference?patient=https://fhir.nhs.uk/Id/nhs-number"
+            "|9995000180&_sort=date&type=http://snomed.info/sct|196981000000101&_count=1",
+            headers={"Authorization": "Bearer " + token}),
+        until=scr_id_returned, timeout=30
+    )
 
 
 @pytest.mark.smoketest
