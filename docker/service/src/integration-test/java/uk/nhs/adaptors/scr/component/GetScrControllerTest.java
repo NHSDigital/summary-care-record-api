@@ -160,7 +160,8 @@ public class GetScrControllerTest {
             .extract()
             .asString();
 
-        verifyOperationOutcome(response, VALUE, ERROR, "Required String parameter 'patient' is not present");
+        verifyOperationOutcome(response, VALUE, ERROR,
+                "Required request parameter 'patient' for method parameter type String is not present");
     }
 
     private void verifyOperationOutcome(String responseBody, IssueType code, IssueSeverity severity, String details) {
