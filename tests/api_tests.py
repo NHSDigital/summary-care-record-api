@@ -57,6 +57,7 @@ async def get_authorised_headers():
     token = response["body"]
     return {"Authorization": f'Bearer {token["access_token"]}'}
 
+
 @pytest.mark.smoketest
 def test_output_test_config(api_test_config: APITestSessionConfig):
     print(api_test_config)
