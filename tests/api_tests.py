@@ -1,10 +1,12 @@
 from typing import List
 from time import time
 from uuid import uuid4
+import asyncio
 import pytest
 from aiohttp import ClientResponse
 from api_test_utils import env
 from api_test_utils import poll_until
+from api_test_utils.apigee_api_apps import ApigeeApiDeveloperApps
 from api_test_utils.api_session_client import APISessionClient
 from api_test_utils.api_test_session_config import APITestSessionConfig
 from api_test_utils.oauth_helper import OauthHelper
@@ -35,17 +37,36 @@ def _dict_path(raw, path: List[str]):
     return _dict_path(res, path[1:])
 
 
+def get_product_names(suffixes) -> List[str]:
+    return [f'{get_env("APIGEE_PRODUCT")}{suffix}' for suffix in suffixes]
+
+
 async def get_authorised_headers():
-    client_id = ENV['client_id']
-    oauth = OauthHelper(client_id=client_id, client_secret=ENV['client_secret'], redirect_uri=ENV['redirect_uri'])
+    custom_attributes = {
+        "jwks-resource-url": "https://raw.githubusercontent.com/NHSDigital/identity-service-jwks/main/jwks/internal-dev/9baed6f4-1361-4a8e-8531-1f8426e3aba8.json",
+        "nhs-login-allowed-proofing-level": "P9")
+    }
+
+    api_products = get_product_names(["-user-restricted"])
+
+    app = ApigeeApiDeveloperApps()
+
+    loop = asyncio.new_event_loop()
+    loop.run_until_complete(
+        app.setup_app(
+            api_products=api_products,
+            custom_attributes=custom_attributes,
+        )
+    )
+    oauth = OauthHelper(client_id=app.client_id, client_secret=app.client_secret, redirect_uri=app.callback_url)
     token_url = f"{ENV['oauth_base_uri']}/{ENV['oauth_proxy']}/token"
 
     jwt = oauth.create_jwt(
         **{
             "kid": "test-1",
             "claims": {
-                "sub": client_id,
-                "iss": client_id,
+                "sub": app.client_id,
+                "iss": app.client_id,
                 "jti": str(uuid4()),
                 "aud": token_url,
                 "exp": int(time()) + 60,
@@ -55,6 +76,7 @@ async def get_authorised_headers():
 
     response = await oauth.get_token_response(grant_type="client_credentials", _jwt=jwt)
     token = response["body"]
+    app.destroy_app()
     return {"Authorization": f'Bearer {token["access_token"]}'}
 
 
