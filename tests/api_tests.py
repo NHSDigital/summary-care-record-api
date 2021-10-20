@@ -12,6 +12,7 @@ from api_test_utils.api_test_session_config import APITestSessionConfig
 from api_test_utils.oauth_helper import OauthHelper
 from environment import EnvVarWrapper
 
+
 ENV = EnvVarWrapper(
     **{
         'client_id': 'CLIENT_ID',
@@ -43,8 +44,9 @@ def get_product_names(suffixes) -> List[str]:
 
 async def get_authorised_headers():
     custom_attributes = {
-        "jwks-resource-url": "https://raw.githubusercontent.com/NHSDigital/identity-service-jwks/main/jwks/internal-dev/9baed6f4-1361-4a8e-8531-1f8426e3aba8.json",
-        "nhs-login-allowed-proofing-level": "P9")
+        "jwks-resource-url": "https://raw.githubusercontent.com/NHSDigital/identity-service-jwks/main/jwks/internal-dev/"
+            +"9baed6f4-1361-4a8e-8531-1f8426e3aba8.json",
+        "nhs-login-allowed-proofing-level": "P9"
     }
 
     api_products = get_product_names(["-user-restricted"])
