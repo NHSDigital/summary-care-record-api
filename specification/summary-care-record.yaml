@@ -429,7 +429,7 @@ paths:
                 issue:
                   - severity: error
                     details:
-                      text: Required String parameter 'patient' is not present
+                      text: Required request parameter 'patient' for method parameter type String is not present
         "401":
           description: Unauthorized
           content:
