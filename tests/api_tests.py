@@ -16,6 +16,7 @@ ENV = EnvVarWrapper(
     }
 )
 
+
 def _dict_path(raw, path: List[str]):
     if not raw:
         return raw
