@@ -6,7 +6,15 @@ from api_test_utils import poll_until
 from api_test_utils.api_session_client import APISessionClient
 from api_test_utils.api_test_session_config import APITestSessionConfig
 from api_test_utils.oauth_helper import OauthHelper
+from environment import EnvVarWrapper
 
+ENV = EnvVarWrapper(
+    **{
+        'client_id': 'CLIENT_ID',
+        'client_secret': 'CLIENT_SECRET',
+        'redirect_uri': 'REDIRECT_URI'
+    }
+)
 
 def _dict_path(raw, path: List[str]):
     if not raw:
@@ -29,8 +37,11 @@ def test_output_test_config(api_test_config: APITestSessionConfig):
 
 @pytest.mark.smoketest
 @pytest.mark.asyncio
-async def test_wait_for_get_scr_id(api_client: APISessionClient, oauth_helper: OauthHelper):
-    token = await oauth_helper.get_authenticated_with_simulated_auth
+async def test_wait_for_get_scr_id(api_client: APISessionClient):
+    oauth = OauthHelper(ENV['client_id'], ENV['client_secret'], ENV['redirect_uri'])
+    print("client id " + ENV['client_id'])
+    print("redirect uri " + ENV['redirect_uri'])
+    token = oauth.get_token_response(grant_type="authorization_code")
 
     async def scr_id_returned(resp: ClientResponse):
         if resp.status != 200:

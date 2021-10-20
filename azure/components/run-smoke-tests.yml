@@ -1,4 +1,13 @@
 steps:
+  - template: "azure/components/aws-assume-role.yml@common"
+    parameters:
+      role: "auto-ops"
+      profile: "apm_ptl"
+  - template: "azure/components/get-aws-secrets-and-ssm-params.yml@common"
+    parameters:
+      config_ids:
+        - /ptl/azure-devops/env-internal-dev/test-app/internal-testing-internal-dev/CLIENT_ID
+        - /ptl/azure-devops/env-internal-dev/test-app/internal-testing-internal-dev/CLIENT_SECRET
   - bash: |
       export RELEASE_RELEASEID=$(Build.BuildId)
       export SOURCE_COMMIT_ID=$(Build.SourceVersion)
@@ -9,6 +18,9 @@ steps:
       export OAUTH_PROXY="oauth2"
       export OAUTH_BASE_URI="https://$(ENVIRONMENT).api.service.nhs.uk"
       export APIGEE_API_TOKEN="$(secret.AccessToken)"
+      export REDIRECT_URI="https://nhsd-apim-testing-$(ENVIRONMENT).herokuapp.com/callback"
+      export CLIENT_ID="$(CLIENT_ID)"
+      export CLIENT_SECRET="$(CLIENT_SECRET)"
       make smoketest
     workingDirectory: $(Pipeline.Workspace)/s/$(SERVICE_NAME)/$(SERVICE_ARTIFACT_NAME)
     displayName: Run smoketests
