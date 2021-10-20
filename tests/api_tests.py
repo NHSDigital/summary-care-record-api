@@ -40,7 +40,7 @@ def _dict_path(raw, path: List[str]):
 
 
 def get_product_names(suffixes) -> List[str]:
-    return [f'{ENV['apigee_product']}{suffix}' for suffix in suffixes]
+    return [f"{ENV['apigee_product']}{suffix}" for suffix in suffixes]
 
 
 async def get_authorised_headers():
