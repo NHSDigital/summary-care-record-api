@@ -42,13 +42,10 @@ extends:
     apigee_deployments:
       - environment: internal-dev
         make_spec_visible: true
+        secret_file_ids:
+          - ptl/app-credentials/jwt_testing/non-prod/JWT_TESTING_PRIVATE_KEY
+          - ptl/app-credentials/jwt_testing/non-prod/ID_TOKEN_NHS_LOGIN_PRIVATE_KEY
         post_deploy:
-          - template: ./templates/run-tests.yml
-            parameters:
-              smoke_tests: true
+          - template: ./templates/run-e2e-tests.yml
       - environment: internal-dev-sandbox
         proxy_path: sandbox
-        post_deploy:
-          - template: ./templates/run-tests.yml
-            parameters:
-              smoke_tests: true

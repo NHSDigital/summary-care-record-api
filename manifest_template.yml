@@ -60,8 +60,8 @@ apigee:
           - identity-service-int-no-smartcard
 {% endif %}
         scopes:
-          - 'urn:nhsd:apim:app:level3:summary-care-record'
-          - 'urn:nhsd:apim:user-nhs-id:aal3:summary-care-record'
+          - 'urn:nhsd:apim:user-nhs-login:P9:summary-care-record'
+          - 'urn:nhsd:apim:user-nhs-login:P5:summary-care-record'
         quota: {{ ENV.quota | default('300') }}
         quotaInterval: '1'
         quotaTimeUnit: minute
