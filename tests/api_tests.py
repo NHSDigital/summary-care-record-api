@@ -43,6 +43,7 @@ def get_product_names(suffixes) -> List[str]:
     return [f"{ENV['apigee_product']}{suffix}" for suffix in suffixes]
 
 
+@pytest.mark.asyncio
 async def get_authorised_headers(app: ApigeeApiDeveloperApps):
     custom_attributes = {
         "jwks-resource-url": "https://raw.githubusercontent.com/NHSDigital/identity-service-jwks/main/jwks/"
@@ -85,7 +86,7 @@ def test_output_test_config(api_test_config: APITestSessionConfig):
 
 
 @pytest.mark.smoketest
-# @pytest.mark.asyncio
+@pytest.mark.asyncio
 async def test_wait_for_get_scr_id(api_client: APISessionClient):
     app = ApigeeApiDeveloperApps()
     headers = await get_authorised_headers(app)
