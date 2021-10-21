@@ -39,10 +39,6 @@ def _dict_path(raw, path: List[str]):
     return _dict_path(res, path[1:])
 
 
-def get_product_names(suffixes) -> List[str]:
-    return [f"{ENV['apigee_product']}{suffix}" for suffix in suffixes]
-
-
 @pytest.mark.asyncio
 async def get_authorised_headers(app: ApigeeApiDeveloperApps):
     custom_attributes = {
@@ -50,7 +46,7 @@ async def get_authorised_headers(app: ApigeeApiDeveloperApps):
                              + "internal-dev/9baed6f4-1361-4a8e-8531-1f8426e3aba8.json",
         "nhs-login-allowed-proofing-level": "P9"
     }
-    api_products = get_product_names(["-user-restricted"])
+    api_products = [ENV['apigee_product']]
 
     loop = asyncio.new_event_loop()
     loop.run_until_complete(
