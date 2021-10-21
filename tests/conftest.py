@@ -27,16 +27,16 @@ def api_test_config() -> APITestSessionConfig:
     return APITestSessionConfig()
 
 
-@pytest.fixture(scope="session")
-def test_app():
-    """Setup & Teardown an app-restricted app for this api"""
-    app = ApigeeApiDeveloperApps()
-    loop = asyncio.new_event_loop()
-    loop.run_until_complete(
-        app.setup_app(
-            api_products=[get_env("APIGEE_PRODUCT")],
-        )
-    )
-    yield app
-    loop.run_until_complete(app.destroy_app())
+# @pytest.fixture(scope="session")
+# def test_app():
+#     """Setup & Teardown an app-restricted app for this api"""
+#     app = ApigeeApiDeveloperApps()
+#     loop = asyncio.new_event_loop()
+#     loop.run_until_complete(
+#         app.setup_app(
+#             api_products=[get_env("APIGEE_PRODUCT")],
+#         )
+#     )
+#     yield app
+#     loop.run_until_complete(app.destroy_app())
 
