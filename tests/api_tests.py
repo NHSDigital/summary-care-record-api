@@ -43,16 +43,13 @@ def get_product_names(suffixes) -> List[str]:
     return [f"{ENV['apigee_product']}{suffix}" for suffix in suffixes]
 
 
-async def get_authorised_headers():
+async def get_authorised_headers(app: ApigeeApiDeveloperApps):
     custom_attributes = {
         "jwks-resource-url": "https://raw.githubusercontent.com/NHSDigital/identity-service-jwks/main/jwks/"
                              + "internal-dev/9baed6f4-1361-4a8e-8531-1f8426e3aba8.json",
         "nhs-login-allowed-proofing-level": "P9"
     }
-
     api_products = get_product_names(["-user-restricted"])
-
-    app = ApigeeApiDeveloperApps()
 
     loop = asyncio.new_event_loop()
     loop.run_until_complete(
@@ -79,7 +76,6 @@ async def get_authorised_headers():
 
     response = await oauth.get_token_response(grant_type="client_credentials", _jwt=jwt)
     token = response["body"]
-    app.destroy_app()
     return {"Authorization": f'Bearer {token["access_token"]}'}
 
 
@@ -89,9 +85,10 @@ def test_output_test_config(api_test_config: APITestSessionConfig):
 
 
 @pytest.mark.smoketest
-@pytest.mark.asyncio
+# @pytest.mark.asyncio
 async def test_wait_for_get_scr_id(api_client: APISessionClient):
-    headers = await get_authorised_headers()
+    app = ApigeeApiDeveloperApps()
+    headers = await get_authorised_headers(app)
 
     async def scr_id_returned(resp: ClientResponse):
         if resp.status != 200:
@@ -107,6 +104,7 @@ async def test_wait_for_get_scr_id(api_client: APISessionClient):
             headers=headers),
         until=scr_id_returned, timeout=30
     )
+    app.destroy_app()
 
 
 @pytest.mark.smoketest
