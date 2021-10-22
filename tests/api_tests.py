@@ -1,5 +1,5 @@
 import pytest
-from api_test_utils.api_session_client import APISessionClient
+import requests
 
 
 def _base_valid_uri(nhs_number) -> str:
@@ -8,12 +8,10 @@ def _base_valid_uri(nhs_number) -> str:
 
 
 @pytest.mark.smoketest
-@pytest.mark.asyncio
-async def test_retrieve_patient(headers_with_token, api_client: APISessionClient):
-    async with api_client.get(
-                _base_valid_uri("9999999990"),
-                headers=headers_with_token,
-                allow_retries=True
-    ) as resp:
-        assert resp.status == 200, "get scr id failed"
-        assert resp.json()["resourceType"] == "Bundle"
+def test_retrieve_patient(headers_with_token):
+    response = requests.get(
+        _base_valid_uri("9999999990"), headers=headers_with_token
+    )
+
+    assert response.status == 200, "get scr id failed"
+    assert response.json()["resourceType"] == "Bundle"
