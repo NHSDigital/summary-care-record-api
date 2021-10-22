@@ -24,6 +24,11 @@ def get_env(variable_name: str) -> str:
         raise RuntimeError(f"Variable is not set, Check {variable_name}.")
 
 
+@pytest.fixture(scope="session")
+def api_test_config() -> APITestSessionConfig:
+    return APITestSessionConfig()
+
+
 # @pytest.yield_fixture(scope='function')
 # @pytest.mark.asyncio
 # async def test_product():
@@ -60,7 +65,7 @@ def get_env(variable_name: str) -> str:
 
 @pytest.fixture()
 @pytest.mark.asyncio
-async def test_app_and_product(self):
+async def test_app_and_product():
     apigee_product = ApigeeApiProducts()
     await apigee_product.create_new_product()
     await test_product.update_scopes(['urn:nshd:apim:app:jwks', "test_scope:USER",
