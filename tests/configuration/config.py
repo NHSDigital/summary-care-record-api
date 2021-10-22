@@ -4,12 +4,10 @@ from ..utils.environment import EnvVarWrapper
 ENV = EnvVarWrapper(
     **{
         "environment": "APIGEE_ENVIRONMENT",
-        "pds_base_path": "PDS_BASE_PATH",
         'client_id': 'CLIENT_ID',
         'client_secret': 'CLIENT_SECRET',
         'redirect_uri': 'REDIRECT_URI',
         'authenticate_url': 'AUTHENTICATE_URL',
-        'test_patient_id': 'TEST_PATIENT_ID',
     }
 )
 
@@ -25,8 +23,6 @@ SIM_AUTH_URL = f"{BASE_URL}/{IDENTITY_SERVICE}/simulated_auth"
 AUTHENTICATE_URL = ENV["authenticate_url"]
 CALLBACK_URL = f"{BASE_URL}/{IDENTITY_SERVICE}/callback"
 
-# PDS
-PDS_BASE_PATH = ENV["pds_base_path"]
 
 SPINE_HOSTNAME = (
     # This value is the url returned in the patients response payload which reflects a spine environment.
@@ -47,5 +43,3 @@ ENDPOINTS = {
     "callback": CALLBACK_URL,
     "sim_auth": SIM_AUTH_URL,
 }
-
-TEST_PATIENT_ID = ENV["test_patient_id"]
