@@ -1,17 +1,11 @@
 from typing import List
-from time import time
-from uuid import uuid4
-import asyncio
 import pytest
 from tests import conftest
 from aiohttp import ClientResponse
 from api_test_utils import env
 from api_test_utils import poll_until
-from api_test_utils.apigee_api_apps import ApigeeApiDeveloperApps
 from api_test_utils.api_session_client import APISessionClient
 from api_test_utils.api_test_session_config import APITestSessionConfig
-from api_test_utils.oauth_helper import OauthHelper
-from environment import EnvVarWrapper
 
 
 def _dict_path(raw, path: List[str]):
@@ -108,7 +102,7 @@ async def test_token_exchange_happy_path(test_app_and_product, api_client: APISe
                 allow_retries=True
     ) as resp:
         assert resp.status == 200, 'get scr id failed'
-        body = await resp.json()
+#         body = await resp.json()
 
 
 # @pytest.mark.smoketest
