@@ -1,4 +1,5 @@
 import pytest
+from api_test_utils.api_session_client import APISessionClient
 
 
 def _base_valid_uri(nhs_number) -> str:
@@ -8,7 +9,7 @@ def _base_valid_uri(nhs_number) -> str:
 
 @pytest.mark.smoke_test
 @pytest.mark.asyncio
-def test_retrieve_patient(headers_with_token):
+def test_retrieve_patient(headers_with_token, api_client: APISessionClient):
     async with api_client.get(
                 _base_valid_uri("9999999990"),
                 headers=headers_with_token,
