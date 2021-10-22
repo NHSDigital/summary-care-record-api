@@ -5,7 +5,7 @@ import random
 
 
 @pytest.fixture()
-def headers_with_token(get_token, request):
+def headers_with_token(get_token):
     """Assign required headers with the Authorization header"""
     token = get_token
     headers = {"X-Request-ID": str(uuid.uuid1()),
@@ -13,7 +13,7 @@ def headers_with_token(get_token, request):
                "NHSD-Session-URID": "555254242102",
                "Authorization": f'Bearer {token}'
                }
-    setattr(request.cls, 'headers', headers)
+    return headers
 
 
 @pytest.fixture()
