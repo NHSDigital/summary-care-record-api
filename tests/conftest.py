@@ -128,7 +128,7 @@ def nhs_login_subject_token(test_app: ApigeeApiDeveloperApps) -> str:
         signing_key=contents,
     )
 
-    return subject_token
+    return id_token_jwt
 
 
 @pytest.mark.asyncio
