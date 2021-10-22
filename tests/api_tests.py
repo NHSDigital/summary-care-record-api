@@ -7,7 +7,7 @@ def _base_valid_uri(nhs_number) -> str:
     + "http://snomed.info/sct|196981000000101&_count=1"
 
 
-@pytest.mark.smoke_test
+@pytest.mark.smoketest
 @pytest.mark.asyncio
 async def test_retrieve_patient(headers_with_token, api_client: APISessionClient):
     async with api_client.get(
