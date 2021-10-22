@@ -66,7 +66,7 @@ def _dict_path(raw, path: List[str]):
 
 def _base_valid_uri(nhs_number) -> str:
     return f"DocumentReference?patient=https://fhir.nhs.uk/Id/nhs-number|{nhs_number}&_sort=date&type="
-        + "http://snomed.info/sct|196981000000101&_count=1"
+    + "http://snomed.info/sct|196981000000101&_count=1"
 
 
 # @pytest.mark.smoketest
