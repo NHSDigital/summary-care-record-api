@@ -68,7 +68,7 @@ def api_test_config() -> APITestSessionConfig:
 async def test_app_and_product():
     apigee_product = ApigeeApiProducts()
     await apigee_product.create_new_product()
-    await test_product.update_scopes(['urn:nshd:apim:app:jwks', "test_scope:USER",
+    await apigee_product.update_scopes(['urn:nshd:apim:app:jwks', "test_scope:USER",
                                       f"urn:nhsd:apim:app:level3:{get_env('APIGEE_PRODUCT')}"])
 
     apigee_app = ApigeeApiDeveloperApps()
