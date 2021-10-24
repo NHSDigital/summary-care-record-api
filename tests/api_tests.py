@@ -1,4 +1,6 @@
+import json
 import pytest
+from pytest_check import check
 import requests
 from .configuration import config
 import re
@@ -18,5 +20,7 @@ def test_get_scr_id(headers_with_token):
         headers=headers_with_token
     )
 
-    assert response.status == 200, "get scr id failed"
-    assert response.json()["resourceType"] == "Bundle"
+    assert response.status_code == 200, "get scr id failed"
+    response_body = json.loads(response.text)
+    with check:
+        assert response_body["resourceType"] == "Bundle"
