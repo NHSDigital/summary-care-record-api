@@ -8,6 +8,7 @@ ENV = EnvVarWrapper(
         'client_secret': 'CLIENT_SECRET',
         'redirect_uri': 'REDIRECT_URI',
         'authenticate_url': 'AUTHENTICATE_URL',
+        'service_base_path': 'SERVICE_BASE_PATH',
     }
 )
 
@@ -43,3 +44,5 @@ ENDPOINTS = {
     "callback": CALLBACK_URL,
     "sim_auth": SIM_AUTH_URL,
 }
+
+SERVICE_BASE_PATH = ENV["service_base_path"]
