@@ -10,7 +10,6 @@ def headers():
     return get_headers_with_token() if config.ENVIRONMENT == "internal-dev" else get_headers()
 
 
-# @pytest.fixture()
 def get_headers_with_token():
     """Assign required headers with the Authorization header"""
     token = get_token()
@@ -22,7 +21,6 @@ def get_headers_with_token():
     return headers
 
 
-# @pytest.fixture()
 def get_headers():
     """Assign required headers without the Authorization header"""
     headers = {"X-Request-ID": str(uuid.uuid1()),
@@ -32,7 +30,6 @@ def get_headers():
     return headers
 
 
-# @pytest.fixture()
 def get_token():
     """Get an access token"""
     oauth_endpoints = CheckOauth()
