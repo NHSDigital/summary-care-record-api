@@ -9,6 +9,7 @@ from .configuration import config
 def headers():
     return get_headers_with_token() if config.ENVIRONMENT == "internal-dev" else get_headers()
 
+
 # @pytest.fixture()
 def get_headers_with_token(get_token):
     """Assign required headers with the Authorization header"""
