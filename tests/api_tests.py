@@ -27,7 +27,7 @@ def test_set_permission(headers):
     headers["Content-Type"] = "application/fhir+json"
     response = requests.post(
         f"{_base_valid_uri()}/$setPermission",
-        data={read_body_from_file("set_permission.json")},
+        json=read_body_from_file("set_permission.json"),
         headers=headers
     )
 

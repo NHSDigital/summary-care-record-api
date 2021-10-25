@@ -40,21 +40,41 @@ extends:
     apigee_deployments:
       - environment: internal-dev
         make_spec_visible: true
+        post_deploy:
+          - template: ./templates/run-tests.yml
+            parameters:
+              smoke_tests: true
       - environment: internal-qa
         make_spec_visible: true
+        post_deploy:
+          - template: ./templates/run-tests.yml
+            parameters:
+              smoke_tests: true
       - environment: internal-qa-sandbox
         make_spec_visible: true
         proxy_path: sandbox
+        post_deploy:
+          - template: ./templates/run-tests.yml
+            parameters:
+              smoke_tests: true
       - environment: sandbox
         proxy_path: sandbox
         depends_on:
           - internal_qa
           - internal_qa_sandbox
+        post_deploy:
+          - template: ./templates/run-tests.yml
+            parameters:
+              smoke_tests: true
       - environment: ref
         make_spec_visible: true
         depends_on:
           - internal_qa
           - internal_qa_sandbox
+        post_deploy:
+          - template: ./templates/run-tests.yml
+            parameters:
+              smoke_tests: true
       - environment: int
         make_spec_visible: true
         depends_on:
@@ -62,3 +82,7 @@ extends:
           - internal_qa_sandbox
         jinja_templates:
           REQUIRE_ASID: false
+        post_deploy:
+          - template: ./templates/run-tests.yml
+            parameters:
+              smoke_tests: true
