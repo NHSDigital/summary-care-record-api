@@ -4,6 +4,10 @@ from pytest_check import check
 import requests
 from .configuration import config
 import re
+import os
+
+
+TEST_DATA_BASE_PATH = os.path.join(os.path.dirname(__file__), './test_data/')
 
 
 def _base_valid_uri() -> str:
@@ -14,11 +18,12 @@ def _base_valid_uri() -> str:
 
 
 def read_body_from_file(file_name):
-    file = open(file_name, "r")
-    body = json.load(file)
-    file.close()
-
-    return body
+    with open(os.path.join(TEST_DATA_BASE_PATH, file_name)) as json_file:
+        return json.load(json_file)
+#     file = open(file_name, "r")
+#     body = json.load(file)
+#     file.close()
+#     return body
 
 
 @pytest.mark.smoketest
