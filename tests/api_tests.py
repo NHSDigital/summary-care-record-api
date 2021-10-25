@@ -14,7 +14,7 @@ def _base_valid_uri() -> str:
 
 
 def read_body_from_file(file_name):
-    file = open(f".resources/{file_name}", "r")
+    file = open(file_name, "r")
     body = json.load(file)
     file.close()
 
