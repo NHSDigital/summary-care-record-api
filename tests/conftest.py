@@ -2,10 +2,15 @@ import pytest
 from .utils.check_oauth import CheckOauth
 import uuid
 import random
+from .configuration import config
 
 
 @pytest.fixture()
-def headers_with_token(get_token):
+def headers():
+    return get_headers_with_token() if config.ENVIRONMENT == "internal-dev" else get_headers()
+
+# @pytest.fixture()
+def get_headers_with_token(get_token):
     """Assign required headers with the Authorization header"""
     token = get_token
     headers = {"X-Request-ID": str(uuid.uuid1()),
@@ -16,8 +21,8 @@ def headers_with_token(get_token):
     return headers
 
 
-@pytest.fixture()
-def headers():
+# @pytest.fixture()
+def get_headers():
     """Assign required headers without the Authorization header"""
     headers = {"X-Request-ID": str(uuid.uuid1()),
                "X-Correlation-ID": str(uuid.uuid1()),
