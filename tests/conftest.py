@@ -11,9 +11,9 @@ def headers():
 
 
 # @pytest.fixture()
-def get_headers_with_token(get_token):
+def get_headers_with_token():
     """Assign required headers with the Authorization header"""
-    token = get_token
+    token = get_token()
     headers = {"X-Request-ID": str(uuid.uuid1()),
                "X-Correlation-ID": str(uuid.uuid1()),
                "NHSD-Session-URID": "555254242102",
@@ -32,7 +32,7 @@ def get_headers():
     return headers
 
 
-@pytest.fixture()
+# @pytest.fixture()
 def get_token():
     """Get an access token"""
     oauth_endpoints = CheckOauth()
