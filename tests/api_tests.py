@@ -71,7 +71,7 @@ def test_update_bundle(headers):
     headers["Content-Type"] = "application/fhir+json"
     response = requests.post(
         f"{_base_valid_uri()}/Bundle",
-        data={read_body_from_file("post_bundle.json")},
+        json=read_body_from_file("post_bundle.json"),
         headers=headers
     )
 
@@ -83,7 +83,7 @@ def test_audit_event(headers):
     headers["Content-Type"] = "application/fhir+json"
     response = requests.post(
         f"{_base_valid_uri()}/AuditEvent",
-        data={read_body_from_file("audit_event.json")},
+        json=read_body_from_file("audit_event.json"),
         headers=headers
     )
 
