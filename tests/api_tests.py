@@ -20,6 +20,7 @@ def read_body_from_file(file_name):
 
     return body
 
+
 @pytest.mark.smoketest
 def test_set_permission(headers):
     headers["Content-Type"] = "application/fhir+json"
