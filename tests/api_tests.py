@@ -20,10 +20,6 @@ def _base_valid_uri() -> str:
 def read_body_from_file(file_name):
     with open(os.path.join(TEST_DATA_BASE_PATH, file_name)) as json_file:
         return json.load(json_file)
-#     file = open(file_name, "r")
-#     body = json.load(file)
-#     file.close()
-#     return body
 
 
 @pytest.mark.smoketest
@@ -31,7 +27,7 @@ def test_set_permission(headers):
     headers["Content-Type"] = "application/fhir+json"
     response = requests.post(
         f"{_base_valid_uri()}/$setPermission",
-        data=read_body_from_file("set_permission.json"),
+        data={read_body_from_file("set_permission.json")},
         headers=headers
     )
 
@@ -75,7 +71,7 @@ def test_update_bundle(headers):
     headers["Content-Type"] = "application/fhir+json"
     response = requests.post(
         f"{_base_valid_uri()}/Bundle",
-        data=read_body_from_file("post_bundle.json"),
+        data={read_body_from_file("post_bundle.json")},
         headers=headers
     )
 
@@ -87,7 +83,7 @@ def test_audit_event(headers):
     headers["Content-Type"] = "application/fhir+json"
     response = requests.post(
         f"{_base_valid_uri()}/AuditEvent",
-        data=read_body_from_file("audit_event.json"),
+        data={read_body_from_file("audit_event.json")},
         headers=headers
     )
 
