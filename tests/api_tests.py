@@ -14,7 +14,7 @@ def _base_valid_uri() -> str:
 
 
 def read_body_from_file(file_name):
-    file = open(f"resources/{file_name}", "r")
+    file = open(f".resources/{file_name}", "r")
     body = json.load(file)
     file.close()
 
@@ -46,7 +46,7 @@ def test_get_scr_id(headers):
     with check:
         assert response_body["resourceType"] == "Bundle"
         assert response_body["entry"][0]["resource"]["resourceType"] == "DocumentReference"
-        assert response_body["entry"][0]["resource"]["content"]["attachment"]["url"] is not None
+        assert response_body["entry"][0]["resource"]["content"][0]["attachment"]["url"] is not None
 
 
 @pytest.mark.smoketest
