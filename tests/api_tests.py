@@ -46,8 +46,10 @@ def test_get_scr_id(headers):
     response_body = json.loads(response.text)
     with check:
         assert response_body["resourceType"] == "Bundle"
-        assert response_body["entry"][0]["resource"]["resourceType"] == "DocumentReference"
-        assert response_body["entry"][0]["resource"]["content"][0]["attachment"]["url"] is not None
+        if (response_body["total"] > 0) {
+            assert response_body["entry"][0]["resource"]["resourceType"] == "DocumentReference"
+            assert response_body["entry"][0]["resource"]["content"][0]["attachment"]["url"] is not None
+        }
 
 
 @pytest.mark.smoketest
@@ -62,8 +64,10 @@ def test_get_bundle(headers):
     response_body = json.loads(response.text)
     with check:
         assert response_body["resourceType"] == "Bundle"
-        assert response_body["entry"][0]["resource"]["resourceType"] == "Composition"
-        assert response_body["entry"][0]["resource"]["section"] is not None
+        if (response_body["total"] > 0) {
+            assert response_body["entry"][0]["resource"]["resourceType"] == "Composition"
+            assert response_body["entry"][0]["resource"]["section"] is not None
+        }
 
 
 @pytest.mark.smoketest
