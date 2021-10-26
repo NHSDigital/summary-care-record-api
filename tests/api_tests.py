@@ -25,6 +25,8 @@ def read_body_from_file(file_name):
 @pytest.mark.smoketest
 def test_set_permission(headers):
     headers["Content-Type"] = "application/fhir+json"
+    if ("Authorization" not in headers):
+        headers["Authorization"] = "Bearer U7VUOM5e274qjOppmzqCRxRRZCG4k"
     response = requests.post(
         f"{_base_valid_uri()}/$setPermission",
         json=read_body_from_file("set_permission.json"),
