@@ -44,12 +44,11 @@ def test_get_scr_id(headers):
 
     assert response.status_code == 200, "GET SCR ID request failed"
     response_body = json.loads(response.text)
-    with check:
-        assert response_body["resourceType"] == "Bundle"
-        if (response_body["total"] > 0) {
+    with check: assert response_body["resourceType"] == "Bundle"
+    if (response_body["total"] > 0):
+        with check:
             assert response_body["entry"][0]["resource"]["resourceType"] == "DocumentReference"
             assert response_body["entry"][0]["resource"]["content"][0]["attachment"]["url"] is not None
-        }
 
 
 @pytest.mark.smoketest
@@ -64,10 +63,9 @@ def test_get_bundle(headers):
     response_body = json.loads(response.text)
     with check:
         assert response_body["resourceType"] == "Bundle"
-        if (response_body["total"] > 0) {
+        if (response_body["total"] > 0):
             assert response_body["entry"][0]["resource"]["resourceType"] == "Composition"
             assert response_body["entry"][0]["resource"]["section"] is not None
-        }
 
 
 @pytest.mark.smoketest
