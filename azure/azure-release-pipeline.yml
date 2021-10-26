@@ -71,10 +71,6 @@ extends:
         depends_on:
           - internal_qa
           - internal_qa_sandbox
-        post_deploy:
-          - template: ./templates/run-tests.yml
-            parameters:
-              smoke_tests: true
       - environment: int
         make_spec_visible: true
         depends_on:
@@ -83,6 +79,6 @@ extends:
         jinja_templates:
           REQUIRE_ASID: false
         post_deploy:
-          - template: ./templates/run-tests.yml
+          - template: ./templates/run-tests-int.yml
             parameters:
               smoke_tests: true

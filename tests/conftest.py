@@ -7,7 +7,7 @@ from .configuration import config
 
 @pytest.fixture()
 def headers():
-    return get_headers_with_token() if config.ENVIRONMENT == "internal-dev" else get_headers()
+    return get_headers() if "sandbox" in config.ENVIRONMENT else get_headers_with_token()
 
 
 def get_headers_with_token():
