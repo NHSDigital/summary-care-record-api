@@ -30,8 +30,8 @@ steps:
           - ptl/app-credentials/jwt_testing/non-prod/JWT_TESTING_PRIVATE_KEY
           - ptl/app-credentials/jwt_testing/non-prod/ID_TOKEN_NHS_LOGIN_PRIVATE_KEY
         config_ids:
-          - /ptl/azure-devops/env-internal-dev/test-app/internal-testing-internal-dev/CLIENT_ID
-          - /ptl/azure-devops/env-internal-dev/test-app/internal-testing-internal-dev/CLIENT_SECRET
+          - /ptl/azure-devops/env-int/test-app/internal-testing-int/CLIENT_ID_INT
+          - /ptl/azure-devops/env-int/test-app/internal-testing-int/CLIENT_SECRET_INT
     - bash: |
         export RELEASE_RELEASEID=$(Build.BuildId)
         export SOURCE_COMMIT_ID=$(Build.SourceVersion)
