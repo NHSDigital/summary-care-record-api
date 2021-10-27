@@ -42,12 +42,12 @@ steps:
         export OAUTH_PROXY="oauth2"
         export OAUTH_BASE_URI="https://$(ENVIRONMENT).api.service.nhs.uk"
         export APIGEE_API_TOKEN="$(secret.AccessToken)"
-        export REDIRECT_URI="https://nhsd-apim-testing-internal-dev.herokuapp.com/callback"
+        export REDIRECT_URI="https://nhsd-apim-testing-$(ENVIRONMENT).herokuapp.com/callback"
         export CLIENT_ID="$(CLIENT_ID_INT)"
         export CLIENT_SECRET="$(CLIENT_SECRET_INT)"
         export JWT_PRIVATE_KEY_ABSOLUTE_PATH="$(Pipeline.Workspace)/secrets/$(JWT_TESTING_PRIVATE_KEY)"
         export ID_TOKEN_NHS_LOGIN_PRIVATE_KEY_ABSOLUTE_PATH="$(Pipeline.Workspace)/secrets/$(ID_TOKEN_NHS_LOGIN_PRIVATE_KEY)"
-        export AUTHENTICATE_URL="https://nhsd-apim-testing-internal-dev.herokuapp.com/"
+        export AUTHENTICATE_URL="https://nhsd-apim-testing-$(ENVIRONMENT).herokuapp.com/"
         make smoketest
       workingDirectory: $(Pipeline.Workspace)/s/$(SERVICE_NAME)/$(SERVICE_ARTIFACT_NAME)
       displayName: Run smoketests
