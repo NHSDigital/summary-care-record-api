@@ -5,6 +5,7 @@ import requests
 from .configuration import config
 import re
 import os
+import uuid
 
 
 TEST_DATA_BASE_PATH = os.path.join(os.path.dirname(__file__), './test_data/')
