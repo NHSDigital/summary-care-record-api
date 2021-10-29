@@ -5,7 +5,7 @@
       "severity": "error",
       "code": "value",
       "details": {
-        "text": "Setting permissions failed due to following errors: Code: 400, Display: Invalid Request;Code: 35160, Display: [PSIS-35160] - Invalid input message. Mandatory field NHS Number is missing or incorrect"
+        "text": "Code: 400, Display: Invalid Request;Code: 35160, Display: [PSIS-35160] - Invalid input message. Mandatory field NHS Number is missing or incorrect"
       }
     }
   ]

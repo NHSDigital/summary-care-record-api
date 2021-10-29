@@ -1,6 +1,10 @@
 {
-  "resourceType": "Bundle",
-  "id": "55f8ba57-761a-406e-b61d-423027830fef",
-  "type": "searchset",
-  "total": 0
+  "resourceType": "OperationOutcome",
+  "issue": [ {
+    "severity": "error",
+    "code": "forbidden",
+    "details": {
+      "text": "Code: 420, Display: Business condition related to access control  which prevents the action being performed by PSIS;Code: 30418, Display: [PSIS-30418] - ACF does not permit access to resource"
+    }
+  } ]
 }

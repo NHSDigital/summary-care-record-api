@@ -36,6 +36,11 @@ public class XmlUtils {
     }
 
     @SneakyThrows
+    public String getNodeAttributeValue(Node node, String attributeName) {
+        return node.getAttributes().getNamedItem(attributeName).getNodeValue();
+    }
+
+    @SneakyThrows
     public String getValueByXPath(Node node, String xpath) {
         return getOptionalValueByXPath(node, xpath)
             .orElseThrow(() -> new FhirMappingException(String.format("Unable to find %s in Spine response", xpath)));

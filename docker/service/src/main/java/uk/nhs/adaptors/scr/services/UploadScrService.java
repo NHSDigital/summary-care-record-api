@@ -12,13 +12,10 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import uk.nhs.adaptors.scr.clients.spine.SpineClientContract;
 import uk.nhs.adaptors.scr.components.FhirParser;
-import uk.nhs.adaptors.scr.exceptions.ForbiddenException;
 import uk.nhs.adaptors.scr.exceptions.NonSuccessSpineProcessingResultException;
 import uk.nhs.adaptors.scr.exceptions.UnexpectedSpineResponseException;
 import uk.nhs.adaptors.scr.logging.LogExecutionTime;
 import uk.nhs.adaptors.scr.mappings.from.fhir.BundleMapper;
-import uk.nhs.adaptors.scr.models.EventListQueryResponse;
-import uk.nhs.adaptors.scr.models.EventListQueryResponseParser;
 import uk.nhs.adaptors.scr.models.ProcessingResult;
 import uk.nhs.adaptors.scr.models.RequestData;
 import uk.nhs.adaptors.scr.utils.FhirHelper;
@@ -30,12 +27,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static java.lang.Long.parseLong;
-import static java.util.Arrays.asList;
 import static org.springframework.http.HttpHeaders.CONTENT_LOCATION;
 import static org.springframework.http.HttpHeaders.RETRY_AFTER;
 import static uk.nhs.adaptors.scr.clients.spine.SpineHttpClient.getHeader;
-import static uk.nhs.adaptors.scr.models.AcsPermission.ASK;
-import static uk.nhs.adaptors.scr.models.AcsPermission.YES;
 import static uk.nhs.adaptors.scr.utils.DocumentBuilderUtil.parseDocument;
 
 @Component
@@ -46,8 +40,9 @@ public class UploadScrService {
     private final FhirParser fhirParser;
     private final SpineClientContract spineClient;
     private final GetScrService getScrService;
-    private final EventListQueryResponseParser eventListQueryResponseParser;
     private final BundleMapper bundleMapper;
+    private final SpineResponseParser spineResponseParser;
+    private final SpineDetectedIssuesHandler spineDetectedIssuesHandler;
 
     @LogExecutionTime
     public void uploadScr(RequestData requestData) {
@@ -75,10 +70,8 @@ public class UploadScrService {
         LOGGER.info("Checking permission to store SCR");
         String nhsNumber = getNhsNumber(bundle);
         Document scrIdXml = getScrService.getScrIdRawXml(nhsNumber, nhsdAsid, clientIp);
-        EventListQueryResponse eventListQueryResponse = eventListQueryResponseParser.parseXml(scrIdXml);
-        if (!asList(YES, ASK).contains(eventListQueryResponse.getStorePermission())) {
-            throw new ForbiddenException("Forbidden update with error - there's no patient's consent to store SCR");
-        }
+        var detectedIssues = spineResponseParser.getDetectedIssues(scrIdXml);
+        spineDetectedIssuesHandler.handleDetectedIssues(detectedIssues);
     }
 
     private String getNhsNumber(Bundle bundle) {
