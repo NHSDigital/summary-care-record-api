@@ -60,6 +60,7 @@ public class UploadScrUAT {
     private static final String FHIR_ENDPOINT = "/Bundle";
     private static final String SCR_SPINE_CONTENT_ENDPOINT = "/content";
     private static final int INITIAL_WAIT_TIME = 1;
+    //some comment - to be deleted
     private static final String NHSD_ASID = "123";
     private static final String NHSD_IDENTITY = randomUUID().toString();
     private static final String NHSD_SESSION_URID = "43543673484";
