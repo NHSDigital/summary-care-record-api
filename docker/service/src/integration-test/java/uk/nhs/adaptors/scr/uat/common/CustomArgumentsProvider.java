@@ -92,6 +92,12 @@ public abstract class CustomArgumentsProvider implements ArgumentsProvider {
         }
     }
 
+    public static class GetScrIdNotFound extends CustomArgumentsProvider {
+        public GetScrIdNotFound() {
+            super("get_scr_id", "no_results");
+        }
+    }
+
     public static class GetScrSuccess extends CustomArgumentsProvider {
         public GetScrSuccess() {
             super("get_scr", "success");
@@ -113,6 +119,12 @@ public abstract class CustomArgumentsProvider implements ArgumentsProvider {
     public static class GetScrNoConsent extends CustomArgumentsProvider {
         public GetScrNoConsent() {
             super("get_scr", "no_consent");
+        }
+    }
+
+    public static class GetScrNotFound extends CustomArgumentsProvider {
+        public GetScrNotFound() {
+            super("get_scr", "no_results");
         }
     }
 

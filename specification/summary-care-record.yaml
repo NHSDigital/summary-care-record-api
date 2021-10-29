@@ -213,7 +213,7 @@ paths:
                   - severity: error
                     code: forbidden
                     details:
-                      text: Forbidden update with error - there's no patient's consent to store SCR
+                      text: "Code: 420, Display: Business condition related to access control  which prevents the action being performed by PSIS;Code: 30418, Display: [PSIS-30418] - ACF does not permit access to resource"
         "415":
           description: Unsupported Media Type, Content-Type header is invalid or missing
           content:
@@ -273,8 +273,6 @@ paths:
 
         To get the information you must provide patient's NHS number and SCR UUID. UUID can be obtained using GET /DocumentReference endpoint.
 
-        If there's no patient's consent to share SCR the endpoint will return an empty bundle.
-
         ## Sandbox test scenarios
         You can test the following scenarios in our sandbox environment:
 
@@ -332,6 +330,19 @@ paths:
                     code: forbidden
                     details:
                       text: Invalid access token
+        "403":
+          description: There's no patient's consent to view SCR
+          content:
+            application/fhir+json:
+              schema:
+                $ref: components/schemas/OperationOutcome.yaml
+              example:
+                resourceType: OperationOutcome
+                issue:
+                  - severity: error
+                    code: forbidden
+                    details:
+                      text: "Code: 420, Display: Business condition related to access control  which prevents the action being performed by PSIS;Code: 30418, Display: [PSIS-30418] - ACF does not permit access to resource"
         "500":
           description: Internal Server Error
           content:
@@ -361,8 +372,6 @@ paths:
         and to update the details of patient's Summary Care Record using POST /Bundle endpoint.
 
         To get the information you must provide patient's NHS number.
-
-        If there is no patient's consent to share SCR the endpoint will return an empty bundle.
 
         ## Sandbox test scenarios
         You can test the following scenarios in our sandbox environment:
@@ -443,6 +452,20 @@ paths:
                     code: forbidden
                     details:
                       text: Invalid access token
+        "403":
+          description: There's no patient's consent to view SCR
+          content:
+            application/fhir+json:
+              schema:
+                $ref: components/schemas/OperationOutcome.yaml
+              example:
+                resourceType: OperationOutcome
+                issue:
+                  - severity: error
+                    code: forbidden
+                    details:
+                      text: "Code: 420, Display: Business condition related to access control  which prevents the action being performed by PSIS;Code: 30418, Display: [PSIS-30418] - ACF does not permit access to resource"
+
         "500":
           description: Internal Server Error
           content:

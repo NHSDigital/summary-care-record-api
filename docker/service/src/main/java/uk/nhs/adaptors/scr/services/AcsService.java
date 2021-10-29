@@ -20,14 +20,12 @@ import uk.nhs.adaptors.scr.config.SpineConfiguration;
 import uk.nhs.adaptors.scr.exceptions.BadRequestException;
 import uk.nhs.adaptors.scr.models.AcsParams;
 import uk.nhs.adaptors.scr.models.AcsPermission;
-import uk.nhs.adaptors.scr.models.AcsResponse;
 import uk.nhs.adaptors.scr.models.RequestData;
 
 import java.time.format.DateTimeFormatter;
 
 import static java.time.OffsetDateTime.now;
 import static java.time.ZoneOffset.UTC;
-import static java.util.stream.Collectors.joining;
 import static uk.nhs.adaptors.scr.config.ConversationIdFilter.CORRELATION_ID_MDC_KEY;
 import static uk.nhs.adaptors.scr.utils.TemplateUtils.fillTemplate;
 import static uk.nhs.adaptors.scr.utils.TemplateUtils.loadTemplate;
@@ -47,6 +45,8 @@ public class AcsService {
     private final SpineConfiguration spineConfiguration;
     private final FhirParser fhirParser;
     private final IdentityServiceContract identityService;
+    private final SpineResponseParser spineResponseParser;
+    private final SpineDetectedIssuesHandler spineDetectedIssuesHandler;
 
     private static final Mustache SET_RESOURCE_PERMISSIONS_TEMPLATE =
         loadTemplate("SET_RESOURCE_PERMISSIONS_INUK01.mustache");
@@ -58,18 +58,7 @@ public class AcsService {
         String acsRequest = prepareAcsRequest(parameter, requestData, getUserRoleCode(userInfo, requestData.getNhsdSessionUrid()),
             userInfo.getId());
         Response<Document> response = spineClient.sendAcsData(acsRequest, requestData.getNhsdAsid());
-        AcsResponse acsResponse = AcsResponse.parseXml(response.getBody());
-        if (!acsResponse.isSuccessful()) {
-            handleUnsuccessfulOperation(acsResponse);
-        }
-    }
-
-    private void handleUnsuccessfulOperation(AcsResponse acsResponse) {
-        String errorReason = acsResponse.getErrorReasons().stream()
-            .map(it -> String.format("Code: %s, Display: %s", it.getCode(), it.getDisplay()))
-            .collect(joining(";"));
-
-        throw new BadRequestException("Setting permissions failed due to following errors: " + errorReason);
+        spineDetectedIssuesHandler.handleDetectedIssues(spineResponseParser.getDetectedIssues(response.getBody()));
     }
 
     private String getUserRoleCode(UserInfo userInfo, String nhsdSessionUrid) {

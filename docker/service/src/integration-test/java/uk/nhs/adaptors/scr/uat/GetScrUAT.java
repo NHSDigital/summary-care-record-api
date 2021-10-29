@@ -1,23 +1,8 @@
 package uk.nhs.adaptors.scr.uat;
 
-import static java.nio.charset.StandardCharsets.UTF_8;
-import static java.nio.file.Files.readString;
-
-import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
-import static org.springframework.http.HttpStatus.OK;
-import static org.springframework.http.MediaType.TEXT_XML_VALUE;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
-import static com.github.tomakehurst.wiremock.client.WireMock.equalTo;
-
-import static uk.nhs.adaptors.scr.consts.SpineHttpHeaders.SOAP_ACTION;
-import static uk.nhs.adaptors.scr.controllers.FhirMediaTypes.APPLICATION_FHIR_JSON_VALUE;
-import static uk.nhs.adaptors.scr.utils.FhirJsonResultMatcher.fhirJson;
-
-import java.io.IOException;
-
+import com.github.tomakehurst.wiremock.WireMockServer;
+import com.github.tomakehurst.wiremock.client.WireMock;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -27,23 +12,36 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.Resource;
+import org.springframework.http.HttpStatus;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
-
-import com.github.tomakehurst.wiremock.WireMockServer;
-import com.github.tomakehurst.wiremock.client.WireMock;
-
-import lombok.extern.slf4j.Slf4j;
 import uk.nhs.adaptors.scr.WireMockInitializer;
 import uk.nhs.adaptors.scr.config.SpineConfiguration;
 import uk.nhs.adaptors.scr.consts.ScrHttpHeaders;
-import uk.nhs.adaptors.scr.uat.common.CustomArgumentsProvider.GetScrInitialUploadSuccess;
 import uk.nhs.adaptors.scr.uat.common.CustomArgumentsProvider.GetScrInitialUploadOrgSDSSuccess;
+import uk.nhs.adaptors.scr.uat.common.CustomArgumentsProvider.GetScrInitialUploadSuccess;
 import uk.nhs.adaptors.scr.uat.common.CustomArgumentsProvider.GetScrNoConsent;
+import uk.nhs.adaptors.scr.uat.common.CustomArgumentsProvider.GetScrNotFound;
 import uk.nhs.adaptors.scr.uat.common.CustomArgumentsProvider.GetScrSuccess;
 import uk.nhs.adaptors.scr.uat.common.TestData;
+
+import java.io.IOException;
+
+import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
+import static com.github.tomakehurst.wiremock.client.WireMock.equalTo;
+import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.nio.file.Files.readString;
+import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
+import static org.springframework.http.HttpStatus.FORBIDDEN;
+import static org.springframework.http.HttpStatus.OK;
+import static org.springframework.http.MediaType.TEXT_XML_VALUE;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static uk.nhs.adaptors.scr.consts.SpineHttpHeaders.SOAP_ACTION;
+import static uk.nhs.adaptors.scr.controllers.FhirMediaTypes.APPLICATION_FHIR_JSON_VALUE;
+import static uk.nhs.adaptors.scr.utils.FhirJsonResultMatcher.fhirJson;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -79,6 +77,9 @@ public class GetScrUAT {
     @Value("classpath:uat/responses/event-list-query/noConsent.xml")
     private Resource eventListQueryNoConsentResponse;
 
+    @Value("classpath:uat/responses/event-list-query/notFound.xml")
+    private Resource eventListQueryNotFoundResponse;
+
     @Value("classpath:uat/responses/event-query/success.xml")
     private Resource eventQuerySuccessResponse;
 
@@ -107,7 +108,15 @@ public class GetScrUAT {
     void testGetScrNoConsent(TestData testData) throws Exception {
         stubSpinePsisEventListEndpoint(eventListQueryNoConsentResponse);
 
-        performRequestAndAssert(testData);
+        performRequestAndAssert(testData, FORBIDDEN);
+    }
+
+    @ParameterizedTest(name = "[{index}] - {0}")
+    @ArgumentsSource(GetScrNotFound.class)
+    void testGetScrNotFound(TestData testData) throws Exception {
+        stubSpinePsisEventListEndpoint(eventListQueryNotFoundResponse);
+
+        performRequestAndAssert(testData, OK);
     }
 
     @ParameterizedTest(name = "[{index}] - {0}")
@@ -116,7 +125,7 @@ public class GetScrUAT {
         stubSpinePsisEventListEndpoint(eventListQuerySuccessResponse);
         stubSpinePsisEventQueryEndpoint(eventQuerySuccessResponse);
 
-        performRequestAndAssert(testData);
+        performRequestAndAssert(testData, OK);
     }
 
     @ParameterizedTest(name = "[{index}] - {0}")
@@ -125,7 +134,7 @@ public class GetScrUAT {
         stubSpinePsisEventListEndpoint(eventListQuerySuccessResponse);
         stubSpinePsisEventQueryEndpoint(eventQueryInitialUploadOrgSDSSuccessResponse);
 
-        performRequestAndAssert(testData);
+        performRequestAndAssert(testData, OK);
     }
 
     @ParameterizedTest(name = "[{index}] - {0}")
@@ -134,16 +143,16 @@ public class GetScrUAT {
         stubSpinePsisEventListEndpoint(eventListQuerySuccessResponse);
         stubSpinePsisEventQueryEndpoint(eventQueryInitialUploadSuccessResponse);
 
-        performRequestAndAssert(testData);
+        performRequestAndAssert(testData, OK);
     }
 
-    private void performRequestAndAssert(TestData testData) throws Exception {
+    private void performRequestAndAssert(TestData testData, HttpStatus expectedHttpStatus) throws Exception {
         mockMvc.perform(get(GET_SCR_ENDPOINT)
             .contentType(APPLICATION_FHIR_JSON_VALUE)
             .header(ScrHttpHeaders.NHSD_ASID, NHSD_ASID)
             .header(ScrHttpHeaders.CLIENT_IP, CLIENT_IP)
             .queryParam("composition.identifier", COMPOSITION))
-            .andExpect(status().isOk())
+            .andExpect(status().is(expectedHttpStatus.value()))
             .andExpect(fhirJson(String.format(testData.getFhirResponse(),
                 wireMockServer.baseUrl(),
                 wireMockServer.baseUrl()),
