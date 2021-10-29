@@ -19,7 +19,7 @@ speedups = ["aiodns", "brotlipy", "cchardet"]
 
 [[package]]
 name = "api-test-utils"
-version = "1.1.2a0"
+version = "1.1.11a0"
 description = ""
 category = "dev"
 optional = false
@@ -34,7 +34,7 @@ pytest-asyncio = ">=0.14.0,<0.15.0"
 
 [package.source]
 type = "url"
-url = "https://github.com/NHSDigital/apim-test-utils/releases/download/v1.1.2-alpha/api_test_utils-1.1.2a0-py3-none-any.whl"
+url = "https://github.com/NHSDigital/apim-test-utils/releases/download/v1.1.11-alpha/api_test_utils-1.1.11a0-py3-none-any.whl"
 [[package]]
 name = "appdirs"
 version = "1.4.4"
@@ -575,7 +575,7 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "dc8f327b37bb2361d8c2e4b586ea776f0e2f73828c4d61507849024124879438"
+content-hash = "8441e274c6f1091b06b97226ed857ade78bdfa8622ec5c3667bd3e1853c7f3af"
 
 [metadata.files]
 aiohttp = [
