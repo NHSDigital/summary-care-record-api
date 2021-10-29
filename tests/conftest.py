@@ -13,8 +13,8 @@ def headers():
 def get_headers_with_token():
     """Assign required headers with the Authorization header"""
     token = get_token()
-    headers = {"X-Request-ID": str(uuid.uuid1()),
-               "X-Correlation-ID": str(uuid.uuid1()),
+    headers = {"X-Request-ID": str(uuid.uuid4()),
+               "X-Correlation-ID": str(uuid.uuid4()),
                "NHSD-Session-URID": "555254242102",
                "Authorization": f'Bearer {token}'
                }
@@ -23,8 +23,8 @@ def get_headers_with_token():
 
 def get_headers():
     """Assign required headers without the Authorization header"""
-    headers = {"X-Request-ID": str(uuid.uuid1()),
-               "X-Correlation-ID": str(uuid.uuid1()),
+    headers = {"X-Request-ID": str(uuid.uuid4()),
+               "X-Correlation-ID": str(uuid.uuid4()),
                "NHSD-Session-URID": "555254242102"
                }
     return headers
