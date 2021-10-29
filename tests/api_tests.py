@@ -77,8 +77,8 @@ def test_get_bundle(headers):
 def test_update_bundle(headers):
     headers["Content-Type"] = "application/fhir+json"
     body_from_file = read_body_from_file("post_bundle.json")
-    body_as_string = json.dumps(body_from_file)
-        .replace("{{COMPOSITION_ID}}", str(uuid.uuid4()))
+    body_as_string = json.dumps(body_from_file) \
+        .replace("{{COMPOSITION_ID}}", str(uuid.uuid4())) \
         .replace("{{BUNDLE_IDENTIFIER_VALUE}}", str(uuid.uuid4()))
 
     response = requests.post(
