@@ -128,6 +128,10 @@ paths:
         ## Overview
         Use this endpoint to upload the details of patient's Summary Care Record.
 
+        To execute the upload you must provide patient's NHS number.
+        In case of an update, before executing the request, latest UUID must be obtained using GET /DocumentReference endpoint
+        and set inside the request body.
+
         ## Sandbox test scenarios
         You can test the following scenarios in our sandbox environment:
         
@@ -143,6 +147,7 @@ paths:
         - $ref: '#/components/parameters/CorrelationID'
         - $ref: '#/components/parameters/RequestID'
         - $ref: '#/components/parameters/RoleID'
+        - $ref: '#/components/parameters/ContentType'
       requestBody:
         required: true
         content:
@@ -155,7 +160,36 @@ paths:
         "201":
           description: SCR successfully uploaded
         "400":
-          description: Bad request
+          description: Bad request - error in business logic on the client's side
+          content:
+            application/fhir+json:
+              schema:
+                $ref: components/schemas/OperationOutcome.yaml
+              examples:
+                nhsMissing:
+                  value:
+                    resourceType: OperationOutcome
+                    issue:
+                      - severity: error
+                        code: invalid
+                        details:
+                          text: NHS number missing
+                subjectPatientMissing:
+                  value:
+                    resourceType: OperationOutcome
+                    issue:
+                      - severity: error
+                        details:
+                          text: Composition.subject reference is missing or invalid
+                invalidBundleType:
+                  value:
+                    resourceType: OperationOutcome
+                    issue:
+                      - severity: error
+                        details:
+                          text: "Unsupported Bundle.type: SEARCHSET"
+        "401":
+          description: Unauthorized
           content:
             application/fhir+json:
               schema:
@@ -164,9 +198,9 @@ paths:
                 resourceType: OperationOutcome
                 issue:
                   - severity: error
-                    code: invalid
+                    code: forbidden
                     details:
-                      text: NHS number missing
+                      text: Invalid access token
         "403":
           description: There's no patient's consent to store SCR
           content:
@@ -179,13 +213,67 @@ paths:
                   - severity: error
                     code: forbidden
                     details:
-                      text: There's no patient's consent to store SCR
+                      text: Forbidden update with error - there's no patient's consent to store SCR
+        "415":
+          description: Unsupported Media Type, Content-Type header is invalid or missing
+          content:
+            application/fhir+json:
+              schema:
+                $ref: components/schemas/OperationOutcome.yaml
+              example:
+                resourceType: OperationOutcome
+                issue:
+                  - severity: error
+                    code: not-supported
+                    details:
+                      text: Content type 'text/plain' not supported
+        "429":
+          description: You have exceeded your application's rate limit
+          content:
+            application/fhir+json:
+              schema:
+                $ref: components/schemas/OperationOutcome.yaml
+        "500":
+          description: Internal Server Error
+          content:
+            application/fhir+json:
+              schema:
+                $ref: components/schemas/OperationErrorOutcome.yaml
+              example:
+                resourceType: OperationOutcome
+                issue:
+                  - severity: error
+                    code: unknown
+                    details:
+                      coding:
+                        system: "https://fhir.nhs.uk/CodeSystem/Spine-ErrorOrWarningCode"
+                        version: 1
+                        code: UNKNOWN_ERROR
+                        display: Unknown Error
+                    diagnostics: "An unknown error occurred processing this request. Contact us for assistance diagnosing this issue: https://digital.nhs.uk/developer/help-and-support."
+        "504":
+          description: |
+            The request timed out during processing. This does not imply the request has failed or been rejected.
+            Re-send the request using the same `X-Request-ID` value.
+          content:
+            application/fhir+json:
+              schema:
+                $ref: components/schemas/OperationOutcome.yaml
+              example:
+                resourceType: OperationOutcome
+                issue:
+                  - severity: error
+                    code: transient
+                    details:
+                      text: Request processing timed out. Spine POST + polling GET has timed out
     get:
       description: |
         ## Overview
         Use this endpoint to retrieve the details of patient's Summary Care Record.
 
         To get the information you must provide patient's NHS number and SCR UUID. UUID can be obtained using GET /DocumentReference endpoint.
+
+        If there's no patient's consent to share SCR the endpoint will return an empty bundle.
 
         ## Sandbox test scenarios
         You can test the following scenarios in our sandbox environment:
@@ -219,28 +307,62 @@ paths:
               example:
                 $ref: components/examples/GetScrBundle.json
         "400":
-            description: Bad request
-            content:
-              application/fhir+json:
-                schema:
-                  $ref: components/schemas/OperationOutcome.yaml
-                example:
-                  resourceType: OperationOutcome
-                  issue:
-                    - severity: error
-                      code: invalid
-                      details:
-                        text: NHS number missing
-                      
+          description: Bad request
+          content:
+            application/fhir+json:
+              schema:
+                $ref: components/schemas/OperationOutcome.yaml
+              example:
+                resourceType: OperationOutcome
+                issue:
+                  - severity: error
+                    code: invalid
+                    details:
+                      text: NHS number missing
+        "401":
+          description: Unauthorized
+          content:
+            application/fhir+json:
+              schema:
+                $ref: components/schemas/OperationOutcome.yaml
+              example:
+                resourceType: OperationOutcome
+                issue:
+                  - severity: error
+                    code: forbidden
+                    details:
+                      text: Invalid access token
+        "500":
+          description: Internal Server Error
+          content:
+            application/fhir+json:
+              schema:
+                $ref: components/schemas/OperationErrorOutcome.yaml
+              example:
+                resourceType: OperationOutcome
+                issue:
+                  - severity: error
+                    code: unknown
+                    details:
+                      coding:
+                        system: "https://fhir.nhs.uk/CodeSystem/Spine-ErrorOrWarningCode"
+                        version: 1
+                        code: UNKNOWN_ERROR
+                        display: Unknown Error
+                    diagnostics: "An unknown error occurred processing this request. Contact us for assistance diagnosing this issue: https://digital.nhs.uk/developer/help-and-support."
   /DocumentReference:
     get:
       summary: Get patient's latest Summary Care Record identifier
       operationId: get-scr-id
       description: |
         ## Overview
-        Use this endpoint to retrieve UUID of patient's latest record. This UUID can be then used to retrieve the Summary Care Record details.
+        Use this endpoint to retrieve UUID of patient's latest record.
+        The UUID is required to retrieve the Summary Care Record details using GET /Bundle endpoint
+        and to update the details of patient's Summary Care Record using POST /Bundle endpoint.
 
         To get the information you must provide patient's NHS number.
+
+        If there is no patient's consent to share SCR the endpoint will return an empty bundle.
 
         ## Sandbox test scenarios
         You can test the following scenarios in our sandbox environment:
@@ -296,6 +418,49 @@ paths:
                 $ref: components/schemas/DocumentReferenceBundle.yaml
               example:
                 $ref: components/examples/DocumentReferenceBundle.json
+        "400":
+          description: Bad Request
+          content:
+            application/fhir+json:
+              schema:
+                $ref: components/schemas/OperationOutcome.yaml
+              example:
+                resourceType: OperationOutcome
+                issue:
+                  - severity: error
+                    details:
+                      text: Required request parameter 'patient' for method parameter type String is not present
+        "401":
+          description: Unauthorized
+          content:
+            application/fhir+json:
+              schema:
+                $ref: components/schemas/OperationOutcome.yaml
+              example:
+                resourceType: OperationOutcome
+                issue:
+                  - severity: error
+                    code: forbidden
+                    details:
+                      text: Invalid access token
+        "500":
+          description: Internal Server Error
+          content:
+            application/fhir+json:
+              schema:
+                $ref: components/schemas/OperationErrorOutcome.yaml
+              example:
+                resourceType: OperationOutcome
+                issue:
+                  - severity: error
+                    code: unknown
+                    details:
+                      coding:
+                        system: "https://fhir.nhs.uk/CodeSystem/Spine-ErrorOrWarningCode"
+                        version: 1
+                        code: UNKNOWN_ERROR
+                        display: Unknown Error
+                    diagnostics: "An unknown error occurred processing this request. Contact us for assistance diagnosing this issue: https://digital.nhs.uk/developer/help-and-support."
 
   /$setPermission:
     post:
@@ -318,6 +483,7 @@ paths:
         - $ref: '#/components/parameters/CorrelationID'
         - $ref: '#/components/parameters/RequestID'
         - $ref: '#/components/parameters/RoleID'
+        - $ref: '#/components/parameters/ContentType'
       requestBody:
         required: true
         content:
@@ -342,6 +508,50 @@ paths:
                     code: invalid
                     details:
                       text: Invalid value - xyz in field 'valueCoding.code'
+        "401":
+          description: Unauthorized
+          content:
+            application/fhir+json:
+              schema:
+                $ref: components/schemas/OperationOutcome.yaml
+              example:
+                resourceType: OperationOutcome
+                issue:
+                  - severity: error
+                    code: forbidden
+                    details:
+                      text: Invalid access token
+        "415":
+          description: Unsupported Media Type, Content-Type header is invalid or missing
+          content:
+            application/fhir+json:
+              schema:
+                $ref: components/schemas/OperationOutcome.yaml
+              example:
+                resourceType: OperationOutcome
+                issue:
+                  - severity: error
+                    code: not-supported
+                    details:
+                      text: Content type 'text/plain' not supported
+        "500":
+          description: Internal Server Error
+          content:
+            application/fhir+json:
+              schema:
+                $ref: components/schemas/OperationErrorOutcome.yaml
+              example:
+                resourceType: OperationOutcome
+                issue:
+                  - severity: error
+                    code: unknown
+                    details:
+                      coding:
+                        system: "https://fhir.nhs.uk/CodeSystem/Spine-ErrorOrWarningCode"
+                        version: 1
+                        code: UNKNOWN_ERROR
+                        display: Unknown Error
+                    diagnostics: "An unknown error occurred processing this request. Contact us for assistance diagnosing this issue: https://digital.nhs.uk/developer/help-and-support."
 
   /AuditEvent:
     post:
@@ -363,6 +573,7 @@ paths:
         - $ref: '#/components/parameters/CorrelationID'
         - $ref: '#/components/parameters/RequestID'
         - $ref: '#/components/parameters/RoleID'
+        - $ref: '#/components/parameters/ContentType'
       requestBody:
         required: true
         content:
@@ -387,7 +598,50 @@ paths:
                     code: invalid
                     details:
                       text: Invalid or missing value in field 'entity.what.identifier.value'
-
+        "401":
+          description: Unauthorized
+          content:
+            application/fhir+json:
+              schema:
+                $ref: components/schemas/OperationOutcome.yaml
+              example:
+                resourceType: OperationOutcome
+                issue:
+                  - severity: error
+                    code: forbidden
+                    details:
+                      text: Invalid access token
+        "415":
+          description: Unsupported Media Type, Content-Type header is invalid or missing
+          content:
+            application/fhir+json:
+              schema:
+                $ref: components/schemas/OperationOutcome.yaml
+              example:
+                resourceType: OperationOutcome
+                issue:
+                  - severity: error
+                    code: not-supported
+                    details:
+                      text: Content type 'text/plain' not supported
+        "500":
+          description: Internal Server Error
+          content:
+            application/fhir+json:
+              schema:
+                $ref: components/schemas/OperationErrorOutcome.yaml
+              example:
+                resourceType: OperationOutcome
+                issue:
+                  - severity: error
+                    code: unknown
+                    details:
+                      coding:
+                        system: "https://fhir.nhs.uk/CodeSystem/Spine-ErrorOrWarningCode"
+                        version: 1
+                        code: UNKNOWN_ERROR
+                        display: Unknown Error
+                    diagnostics: "An unknown error occurred processing this request. Contact us for assistance diagnosing this issue: https://digital.nhs.uk/developer/help-and-support."
 components:
   parameters:
     BearerAuthorization:
@@ -446,3 +700,12 @@ components:
         type: string
         pattern: '^[0-9]+$'
         example: '555021935107'
+    ContentType:
+      in: header
+      name: Content-Type
+      description: |
+        Used to indicate what type of data is actually sent
+      required: true
+      schema:
+        type: string
+        example: 'application/fhir+json'
