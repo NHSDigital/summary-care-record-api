@@ -9,16 +9,16 @@
   "timestamp": "2020-12-14T13:23:10+00:00",
   "entry": [
     {
-      "fullUrl": "https://int.api.service.nhs.uk/summary-care-record/FHIR/R4/Composition/BF4180FD-C403-4EF7-A4AB-E07303AF5477",
+      "fullUrl": "https://int.api.service.nhs.uk/summary-care-record/FHIR/R4/Composition/{{COMPOSITION_ID}}",
       "resource": {
         "resourceType": "Composition",
-        "id": "BF4180FD-C403-4EF7-A4AB-E07303AF5477",
+        "id": "{{COMPOSITION_ID}}",
         "meta": {
           "lastUpdated": "2020-11-17T01:00:00"
         },
         "identifier": {
           "system": "https://tools.ietf.org/html/rfc4122",
-          "value": "BF4180FD-C403-4EF7-A4AB-E07303AF5477"
+          "value": "{{COMPOSITION_ID}}"
         },
         "status": "final",
         "type": {

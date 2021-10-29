@@ -75,9 +75,12 @@ def test_get_bundle(headers):
 @pytest.mark.smoketest
 def test_update_bundle(headers):
     headers["Content-Type"] = "application/fhir+json"
+    body_from_file = read_body_from_file("post_bundle.json")
+    body_as_string = json.dumps(body_from_file).replace("{{COMPOSITION_ID}}", str(uuid.uuid1()))
+
     response = requests.post(
         f"{_base_valid_uri()}/Bundle",
-        json=read_body_from_file("post_bundle.json"),
+        json=json.loads(body_as_string),
         headers=headers
     )
 
