@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.Resource;
+import org.springframework.http.HttpStatus;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -20,6 +21,7 @@ import uk.nhs.adaptors.scr.WireMockInitializer;
 import uk.nhs.adaptors.scr.config.SpineConfiguration;
 import uk.nhs.adaptors.scr.consts.ScrHttpHeaders;
 import uk.nhs.adaptors.scr.uat.common.CustomArgumentsProvider.GetScrIdNoConsent;
+import uk.nhs.adaptors.scr.uat.common.CustomArgumentsProvider.GetScrIdNotFound;
 import uk.nhs.adaptors.scr.uat.common.CustomArgumentsProvider.GetScrIdSuccess;
 import uk.nhs.adaptors.scr.uat.common.TestData;
 
@@ -30,6 +32,7 @@ import static com.github.tomakehurst.wiremock.client.WireMock.equalTo;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.nio.file.Files.readString;
 import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
+import static org.springframework.http.HttpStatus.FORBIDDEN;
 import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.http.MediaType.TEXT_XML_VALUE;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -67,6 +70,9 @@ public class GetScrIdUAT {
     @Value("classpath:uat/responses/event-list-query/noConsent.xml")
     private Resource eventListQueryNoConsentResponse;
 
+    @Value("classpath:uat/responses/event-list-query/notFound.xml")
+    private Resource eventListQueryNotFoundResponse;
+
     @Autowired
     private MockMvc mockMvc;
 
@@ -86,7 +92,15 @@ public class GetScrIdUAT {
     void testRetrieveLatestScrId(TestData testData) throws Exception {
         stubSpinePsisEndpoint(eventListQuerySuccessResponse);
 
-        performRequestAndAssert(testData);
+        performRequestAndAssert(testData, OK);
+    }
+
+    @ParameterizedTest(name = "[{index}] - {0}")
+    @ArgumentsSource(GetScrIdNotFound.class)
+    void testRetrieveLatestScrIdNoResults(TestData testData) throws Exception {
+        stubSpinePsisEndpoint(eventListQueryNotFoundResponse);
+
+        performRequestAndAssert(testData, OK);
     }
 
     @ParameterizedTest(name = "[{index}] - {0}")
@@ -94,10 +108,10 @@ public class GetScrIdUAT {
     void testRetrieveLatestScrIdNoConsent(TestData testData) throws Exception {
         stubSpinePsisEndpoint(eventListQueryNoConsentResponse);
 
-        performRequestAndAssert(testData);
+        performRequestAndAssert(testData, FORBIDDEN);
     }
 
-    private void performRequestAndAssert(TestData testData) throws Exception {
+    private void performRequestAndAssert(TestData testData, HttpStatus expectedHttpStatus) throws Exception {
         mockMvc.perform(get(GET_SCR_ID_ENDPOINT)
             .contentType(APPLICATION_FHIR_JSON_VALUE)
             .header(ScrHttpHeaders.NHSD_ASID, NHSD_ASID)
@@ -106,7 +120,7 @@ public class GetScrIdUAT {
             .queryParam("type", TYPE_PARAM)
             .queryParam("_sort", SORT_PARAM)
             .queryParam("_count", COUNT_PARAM))
-            .andExpect(status().isOk())
+            .andExpect(status().is(expectedHttpStatus.value()))
             .andExpect(fhirJson(testData.getFhirResponse(), IGNORED_JSON_PATHS));
     }
 

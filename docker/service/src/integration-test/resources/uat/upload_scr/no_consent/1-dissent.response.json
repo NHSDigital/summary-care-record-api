@@ -5,7 +5,7 @@
       "severity": "error",
       "code": "forbidden",
       "details": {
-        "text": "Forbidden update with error - there's no patient's consent to store SCR"
+        "text": "Code: 420, Display: Business condition related to access control  which prevents the action being performed by PSIS;Code: 30418, Display: [PSIS-30418] - ACF does not permit access to resource"
       }
     }
   ]
