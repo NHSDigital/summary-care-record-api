@@ -23,18 +23,49 @@ def read_body_from_file(file_name):
         return json.load(json_file)
 
 
-@pytest.mark.smoketest
-def test_set_permission(headers):
+def send_set_permission_request(headers, permission_code: str):
     headers["Content-Type"] = "application/fhir+json"
     if ("Authorization" not in headers):
         headers["Authorization"] = "Bearer U7VUOM5e274qjOppmzqCRxRRZCG4k"
+
+    body_from_file = read_body_from_file("set_permission.json")
+    body_as_string = json.dumps(body_from_file) \
+        .replace("{{PERMISSION_CODE}}", permission_code)
+
     response = requests.post(
         f"{_base_valid_uri()}/$setPermission",
-        json=read_body_from_file("set_permission.json"),
+        json=json.loads(body_as_string),
         headers=headers
     )
 
     assert response.status_code == 201, "POST $setPermission request failed"
+
+
+@pytest.mark.smoketest
+def test_set_permission_no(headers):
+    send_set_permission_request(headers, "No")
+
+
+@pytest.mark.smoketest
+def test_update_bundle_without_permissions(headers):
+    headers["Content-Type"] = "application/fhir+json"
+    body_from_file = read_body_from_file("post_bundle.json")
+    body_as_string = json.dumps(body_from_file) \
+        .replace("{{COMPOSITION_ID}}", str(uuid.uuid4())) \
+        .replace("{{BUNDLE_IDENTIFIER_VALUE}}", str(uuid.uuid4()))
+
+    response = requests.post(
+        f"{_base_valid_uri()}/Bundle",
+        json=json.loads(body_as_string),
+        headers=headers
+    )
+
+    assert response.status_code == 403, "POST SCR failed"
+
+
+@pytest.mark.smoketest
+def test_set_permission_yes(headers):
+    send_set_permission_request(headers, "Yes")
 
 
 @pytest.mark.smoketest
@@ -71,23 +102,6 @@ def test_get_bundle(headers):
         with check:
             assert response_body["entry"][0]["resource"]["resourceType"] == "Composition"
             assert response_body["entry"][0]["resource"]["section"] is not None
-
-
-@pytest.mark.smoketest
-def test_update_bundle(headers):
-    headers["Content-Type"] = "application/fhir+json"
-    body_from_file = read_body_from_file("post_bundle.json")
-    body_as_string = json.dumps(body_from_file) \
-        .replace("{{COMPOSITION_ID}}", str(uuid.uuid4())) \
-        .replace("{{BUNDLE_IDENTIFIER_VALUE}}", str(uuid.uuid4()))
-
-    response = requests.post(
-        f"{_base_valid_uri()}/Bundle",
-        json=json.loads(body_as_string),
-        headers=headers
-    )
-
-    assert response.status_code == 201, "POST SCR failed"
 
 
 @pytest.mark.smoketest
