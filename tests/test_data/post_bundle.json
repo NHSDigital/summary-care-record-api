@@ -1616,7 +1616,7 @@
         "identifier": [
           {
             "system": "https://fhir.nhs.uk/Id/nhs-number",
-            "value": "9995000180"
+            "value": "{{PATIENT_NHS_NUMBER}}"
           }
         ]
       }

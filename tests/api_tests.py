@@ -49,10 +49,12 @@ def test_set_permission_no(headers):
 @pytest.mark.smoketest
 def test_update_bundle_without_permissions(headers):
     headers["Content-Type"] = "application/fhir+json"
+    patient_nhs = "9995333333" if "sandbox" in config.ENVIRONMENT else "9995000180"
     body_from_file = read_body_from_file("post_bundle.json")
     body_as_string = json.dumps(body_from_file) \
         .replace("{{COMPOSITION_ID}}", str(uuid.uuid4())) \
-        .replace("{{BUNDLE_IDENTIFIER_VALUE}}", str(uuid.uuid4()))
+        .replace("{{BUNDLE_IDENTIFIER_VALUE}}", str(uuid.uuid4())) \
+        .replace("{{PATIENT_NHS_NUMBER}}", patient_nhs)
 
     response = requests.post(
         f"{_base_valid_uri()}/Bundle",
