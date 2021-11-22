@@ -53,7 +53,7 @@ info:
         - data items that are country-specific and thus not included in the FHIR global base resources are usually wrapped in an `extension` object
 
     ## Network Access
-    This API is available on the internet and, indirectly, on the [Health and Social Care Network (HSCN)](https://digital.nhs.uk/services/health-and-social-care-network). To use this API with NHS [smartcards](https://digital.nhs.uk/services/registration-authorities-and-smartcards) (see below) you do need an HSCN connection, although internet-facing alternatives are available.
+    This API is available on the internet and, indirectly, on the [Health and Social Care Network (HSCN)](https://digital.nhs.uk/services/health-and-social-care-network). To use this API with [NHS smartcards](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation/nhs-smartcards-for-developers) (see below) you do need an HSCN connection, although internet-facing alternatives are available.
 
     For more details see [Network access for APIs](https://digital.nhs.uk/developer/guides-and-documentation/network-access-for-apis).
 
@@ -63,7 +63,7 @@ info:
 
     The end user must be:
     - a healthcare professional
-    - strongly authenticated, using either an NHS [smartcard](https://digital.nhs.uk/services/registration-authorities-and-smartcards) or a [modern alternative](https://digital.nhs.uk/services/nhs-care-identity-service-2/ways-to-authenticate-with-nhs-cis2) available via [NHS Care Identity Service 2 (NHS CIS2)](https://digital.nhs.uk/services/nhs-identity)
+    - strongly authenticated, using either an [NHS smartcard or a modern alternative](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation/nhs-smartcards-for-developers) available via [NHS Care Identity Service 2 (NHS CIS2)](https://digital.nhs.uk/services/nhs-identity)
 
     The API uses OAuth 2.0 to authorise the calling system. It supports the following security patterns:
 
@@ -95,7 +95,7 @@ info:
 
     * is for formal integration testing
     * is stateful, so persists updates
-    * includes authorisation, with [smartcard](https://digital.nhs.uk/services/registration-authorities-and-smartcards) and non-smartcard options
+    * includes authorisation, with [smartcard](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation/nhs-smartcards-for-developers) and non-smartcard options
 
     For more details see [integration testing with our RESTful APIs](https://digital.nhs.uk/developer/guides-and-documentation/testing#integration-testing-with-our-restful-apis).   
 
