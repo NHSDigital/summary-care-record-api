@@ -39,7 +39,7 @@
         "content": [
           {
             "attachment": {
-              "url": "https://api.service.nhs.uk/summary-care-record/Bundle?composition.identifier=FA60BE64-1F34-11EB-A2A8-000C29A364EB$composition.subject:Patient.identifier=https://fhir.nhs.uk/Id/nhs-number|9995000180"
+              "url": "https://api.service.nhs.uk/summary-care-record/Bundle?composition.identifier=FA60BE64-1F34-11EB-A2A8-000C29A364EB$composition.subject:Patient.identifier=https://fhir.nhs.uk/Id/nhs-number|9000000009"
             }
           }
         ],
@@ -69,7 +69,7 @@
         "identifier": [
           {
             "system": "https://fhir.nhs.uk/Id/nhs-number",
-            "value": "9995000180"
+            "value": "9000000009"
           }
         ]
       }

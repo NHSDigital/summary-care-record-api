@@ -24,7 +24,7 @@
               value:
                 description: NHS number
                 type: string
-                example: "9990001234"
+                example: "9000000009"
             required:
               - system
               - value
