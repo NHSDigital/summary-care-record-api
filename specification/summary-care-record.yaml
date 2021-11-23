@@ -137,7 +137,7 @@ paths:
         
         | Scenario                          | Request                                           | Response                                                                                                                              |
         | ----------------------------------| ------------------------------------------------- | -------------------- |
-        | Happy path                        | `Patient.identifier.value`=`9995000180`           | HTTP Status 201      |
+        | Happy path                        | `Patient.identifier.value`=`9000000009`           | HTTP Status 201      |
         | No patient's consent to store SCR | `Patient.identifier.value`=`9693042298`           | HTTP Status 403      |
       
       summary: Upload patient's Summary Care Record
@@ -278,7 +278,7 @@ paths:
 
         | Scenario                         | Request                                                                                                         | Response                          |
         | -------------------------------- | ----------------------------------------------------------------------------------------------------------------|---------------------------------- |
-        | Happy path                       | `composition.identifier`=`FA60BE64-1F34-11EB-A2A8-000C29A364EB` `Patient.identifier`=`9995000180`               | HTTP Status 200 - Full Bundle     |
+        | Happy path                       | `composition.identifier`=`FA60BE64-1F34-11EB-A2A8-000C29A364EB` `Patient.identifier`=`9000000009`               | HTTP Status 200 - Full Bundle     |
         | No results                       | `composition.identifier`=`81CC2DA0-8882-11EB-B538-0800200C9A66` `Patient.identifier`=`9693042298`               | HTTP Status 200 - Empty Bundle    |
         
       summary: Get patient's Summary Care Record
@@ -289,8 +289,8 @@ paths:
         - $ref: '#/components/parameters/RequestID'
         - in: query
           name: composition.identifier
-          description: The patient's NHS number. Must be preceded with FHIR identifier (eg."composition.subject:Patient.identifier=https://fhir.nhs.uk/Id/nhs-number|9995000180")
-          example: FA60BE64-1F34-11EB-A2A8-000C29A364EB$composition.subject:Patient.identifier=https://fhir.nhs.uk/Id/nhs-number|9995000180
+          description: The patient's NHS number. Must be preceded with FHIR identifier (eg."composition.subject:Patient.identifier=https://fhir.nhs.uk/Id/nhs-number|9000000009")
+          example: FA60BE64-1F34-11EB-A2A8-000C29A364EB$composition.subject:Patient.identifier=https://fhir.nhs.uk/Id/nhs-number|9000000009
           required: true
           schema:
             type: string
@@ -378,7 +378,7 @@ paths:
         
         | Scenario                          | Request                           | Response                           |
         | ----------------------------------| --------------------------------- | ---------------------------------- |
-        | Happy path                        | `nhs-number=9995000180`           | HTTP Status 200 - Full Bundle      |
+        | Happy path                        | `nhs-number=9000000009`           | HTTP Status 200 - Full Bundle      |
         | Empty result                      | `nhs-number=9693042298`           | HTTP Status 200 - Empty Bundle     |
         
       parameters:
@@ -388,9 +388,9 @@ paths:
         - $ref: '#/components/parameters/RoleID'
         - in: query
           name: patient
-          description: The patient's NHS number. Must be preceded with FHIR identifier (eg."patient=https://fhir.nhs.uk/Id/nhs-number|9995000180")
+          description: The patient's NHS number. Must be preceded with FHIR identifier (eg."patient=https://fhir.nhs.uk/Id/nhs-number|9000000009")
           required: true
-          example: https://fhir.nhs.uk/Id/nhs-number|9995000180
+          example: https://fhir.nhs.uk/Id/nhs-number|9000000009
           schema:
             type: string
             
@@ -498,7 +498,7 @@ paths:
 
         | Scenario                         | Request                                                                      | Response             |
         | -------------------------------- | ---------------------------------------------------------------------------- | -------------------- |
-        | Happy path                       | `NHSD-Session-URID`=`555254240100`; `nhsNumber`=`9995000180`                 | HTTP Status 201      |
+        | Happy path                       | `NHSD-Session-URID`=`555254240100`; `nhsNumber`=`9000000009`                 | HTTP Status 201      |
         | Patient not found                | `NHSD-Session-URID`=`555254240100`; `nhsNumber`=`9693042298`                 | HTTP Status 400      |
         
       parameters:
@@ -589,7 +589,7 @@ paths:
 
         | Scenario                         | Request                                  | Response             |
         | -------------------------------- | ---------------------------------------- | -------------------- |
-        | Happy path                       | `nhsNumber`=`9995000180`                 | HTTP Status 201      |
+        | Happy path                       | `nhsNumber`=`9000000009`                 | HTTP Status 201      |
         
       parameters:
         - $ref: '#/components/parameters/BearerAuthorization'
