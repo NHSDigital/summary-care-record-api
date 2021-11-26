@@ -58,7 +58,7 @@ info:
     For more details see [Network access for APIs](https://digital.nhs.uk/developer/guides-and-documentation/network-access-for-apis).
 
 
-    ## Authorisation
+    ## Security and authorisation
     This API is [user-restricted](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation#user-restricted-apis), meaning an end user must be present and authenticated to use it.
 
     The end user must be:
