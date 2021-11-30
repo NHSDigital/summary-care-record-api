@@ -98,7 +98,7 @@ public class GetScrService {
         Bundle bundle = buildBundle();
         if (StringUtils.isNotEmpty(response.getLatestScrId())) {
             bundle.setTotal(1);
-
+            LOGGER.debug("to be removed!!!");
             Patient patient = buildPatientResource(nhsNumber);
             DocumentReference documentReference = buildDocumentReference(nhsNumber, response, patient);
 
