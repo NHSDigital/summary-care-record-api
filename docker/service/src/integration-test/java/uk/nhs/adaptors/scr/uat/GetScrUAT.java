@@ -53,8 +53,8 @@ public class GetScrUAT {
     private static final String EVENT_LIST_QUERY_HEADER = "urn:nhs:names:services:psisquery/QUPC_IN180000SM04";
     private static final String EVENT_QUERY_HEADER = "urn:nhs:names:services:psisquery/QUPC_IN190000UK04";
     private static final String GET_SCR_ENDPOINT = "/Bundle";
-    private static final String COMPOSITION_IDENTIFIER = "FA60BE64-1F34-11EB-A2A8-000C29A364EB";
-    private static final String PATIENT_ID = "https://fhir.nhs.uk/Id/nhs-number|9995000180";
+    private static final String COMPOSITION =
+        "FA60BE64-1F34-11EB-A2A8-000C29A364EB$composition.subject:Patient.identifier=https://fhir.nhs.uk/Id/nhs-number|9995000180";
     private static final String NHSD_ASID = "7695489345";
     private static final String CLIENT_IP = "192.168.0.24";
     private static final String[] IGNORED_JSON_PATHS = new String[]{
@@ -151,8 +151,7 @@ public class GetScrUAT {
             .contentType(APPLICATION_FHIR_JSON_VALUE)
             .header(ScrHttpHeaders.NHSD_ASID, NHSD_ASID)
             .header(ScrHttpHeaders.CLIENT_IP, CLIENT_IP)
-            .queryParam("composition.identifier", COMPOSITION_IDENTIFIER)
-            .queryParam("composition.subject:Patient.identifier", PATIENT_ID))
+            .queryParam("composition.identifier", COMPOSITION))
             .andExpect(status().is(expectedHttpStatus.value()))
             .andExpect(fhirJson(String.format(testData.getFhirResponse(),
                 wireMockServer.baseUrl(),

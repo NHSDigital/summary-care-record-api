@@ -67,7 +67,7 @@ public class GetScrService {
     private static final String GP_SUMMARY_SNOMED_CODE = "196981000000101";
     private static final String GP_SUMMARY_DISPLAY = " General Practice Summary";
     private static final String ATTACHMENT_URL = "%s/Bundle?composition.identifier=%s"
-            + "&composition.subject:Patient.identifier=https://fhir.nhs.uk/Id/nhs-number|%s";
+            + "$composition.subject:Patient.identifier=https://fhir.nhs.uk/Id/nhs-number|%s";
 
     private static final CodeableConcept GP_SUMMARY_SNOMED = new CodeableConcept(new Coding()
             .setSystem(SNOMED_SYSTEM)
