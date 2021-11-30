@@ -82,7 +82,7 @@
                 properties:
                   url:
                     type: string
-                    example: "https://api.service.nhs.uk/summary-care-record/FHIR/R4/Bundle?composition.identifier=C058D90F-E526-4A27-A46E-E86229096AAC$composition.subject:Patient.identifier=https://fhir.nhs.uk/Id/nhs-number|9990001234"
+                    example: "https://api.service.nhs.uk/summary-care-record/FHIR/R4/Bundle?composition.identifier=C058D90F-E526-4A27-A46E-E86229096AAC&composition.subject:Patient.identifier=https://fhir.nhs.uk/Id/nhs-number|9990001234"
                 required:
                   - url
             required:
