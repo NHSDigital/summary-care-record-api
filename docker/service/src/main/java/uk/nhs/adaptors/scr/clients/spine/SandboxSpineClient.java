@@ -34,7 +34,7 @@ public class SandboxSpineClient implements SpineClientContract {
     private static final String SET_ACS_NHS_NUMBER_XPATH =
         "//*[local-name() = 'resourceContext' and @root = '2.16.840.1.113883.2.1.4.1']/@extension";
 
-    private static final String EXISTING_NHS_NUMBER = "9995000180";
+    private static final String EXISTING_NHS_NUMBER = "9000000009";
 
     @Value("classpath:mock-spine/event-list-query/success.xml")
     private Resource getScrIdSuccess;

@@ -55,7 +55,7 @@
             <psis:queryResponseEventList xmlns:soap="http://www.w3.org/2001/12/soap-envelope" xmlns:nasp="http://spine.nhs.uk/spine-servicev1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:other="urn:some:other:namespace">
               <psis:recordTarget>
                 <psis:patient>
-                  <psis:id root="2.16.840.1.113883.2.1.4.1" extension="9995000180"/>
+                  <psis:id root="2.16.840.1.113883.2.1.4.1" extension="9000000009"/>
                 </psis:patient>
               </psis:recordTarget>
               <psis:event>
@@ -117,12 +117,12 @@
                 </psis:author>
               </psis:event>
               <permissions>
-                <resourceContext extension="9995000180" root="2.16.840.1.113883.2.1.4.1"/>
+                <resourceContext extension="9000000009" root="2.16.840.1.113883.2.1.4.1"/>
                 <accessControlAssertion>
                   <permission>Yes</permission>
                   <resource>
                     <type>SCR</type>
-                    <Id>9995000180</Id>
+                    <Id>9000000009</Id>
                   </resource>
                   <function>
                     <context>Consent</context>
@@ -139,7 +139,7 @@
                   <permission>Yes</permission>
                   <resource>
                     <type>SCR</type>
-                    <Id>9995000180</Id>
+                    <Id>9000000009</Id>
                   </resource>
                   <function>
                     <context>Consent</context>
