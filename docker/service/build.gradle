@@ -1,10 +1,10 @@
 plugins {
     id 'java'
-    id 'org.springframework.boot' version '2.5.5'
+    id 'org.springframework.boot' version '2.5.7'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
-    id "io.freefair.lombok" version "5.1.0"
+    id "io.freefair.lombok" version "6.2.0"
     id "checkstyle"
-    id "com.github.spotbugs" version "4.5.0"
+    id "com.github.spotbugs" version "4.7.10"
 }
 
 apply plugin: 'java'
@@ -13,7 +13,6 @@ apply plugin: 'checkstyle'
 apply plugin: "com.github.spotbugs"
 
 group = 'uk.nhs.digital.nhsconnect'
-sourceCompatibility = '11'
 
 repositories {
     mavenCentral()
@@ -36,7 +35,7 @@ dependencies {
     implementation 'org.apache.httpcomponents:httpclient:4.5.13'
     implementation 'org.apache.commons:commons-text:1.9'
 
-    implementation 'ch.qos.logback:logback-classic:1.2.6'
+    implementation 'ch.qos.logback:logback-classic:1.2.7'
     implementation 'ch.qos.logback.contrib:logback-json-classic:0.1.5'
     implementation 'ch.qos.logback.contrib:logback-jackson:0.1.5'
 
