@@ -269,9 +269,11 @@ paths:
     get:
       description: |
         ## Overview
-        Use this endpoint to retrieve the details of patient's Summary Care Record.
+        Use this endpoint to retrieve the details of a patient's most recent Summary Care Record.
 
-        To get the information you must provide patient's NHS number and SCR UUID. UUID can be obtained using GET /DocumentReference endpoint.
+        You must specify the NHS number and the UUID of the latest Summary Care Record of this patient. This UUID should be obtained using the GET /DocumentReference endpoint.
+
+        If you specify an out-of-date UUID, this endpoint will return a Bundle with 0 entries.
 
         ## Sandbox test scenarios
         You can test the following scenarios in our sandbox environment:
