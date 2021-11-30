@@ -9,16 +9,13 @@ import static org.hl7.fhir.r4.model.OperationOutcome.IssueType.FORBIDDEN;
 
 public class ForbiddenException extends ScrBaseException implements OperationOutcomeError {
 
-    private final OperationOutcome operationOutcome;
-
     public ForbiddenException(String message) {
         super(message);
-        operationOutcome = buildOperationOutcome(message);
     }
 
     @Override
     public OperationOutcome getOperationOutcome() {
-        return operationOutcome;
+        return buildOperationOutcome(getMessage());
     }
 
     @Override

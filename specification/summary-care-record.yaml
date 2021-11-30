@@ -289,8 +289,15 @@ paths:
         - $ref: '#/components/parameters/RequestID'
         - in: query
           name: composition.identifier
+          description: Latest Patient's Summary Care Record identifier. Can be obtained using GET /DocumentReference endpoint.
+          example: FA60BE64-1F34-11EB-A2A8-000C29A364EB
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: composition.subject:Patient.identifier
           description: The patient's NHS number. Must be preceded with FHIR identifier (eg."composition.subject:Patient.identifier=https://fhir.nhs.uk/Id/nhs-number|9000000009")
-          example: FA60BE64-1F34-11EB-A2A8-000C29A364EB$composition.subject:Patient.identifier=https://fhir.nhs.uk/Id/nhs-number|9000000009
+          example: https://fhir.nhs.uk/Id/nhs-number|9000000009
           required: true
           schema:
             type: string
