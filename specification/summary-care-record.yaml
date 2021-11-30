@@ -138,7 +138,7 @@ paths:
         | Scenario                          | Request                                           | Response                                                                                                                              |
         | ----------------------------------| ------------------------------------------------- | -------------------- |
         | Happy path                        | `Patient.identifier.value`=`9000000009`           | HTTP Status 201      |
-        | No patient's consent to store SCR | `Patient.identifier.value`=`9000000033`           | HTTP Status 403      |
+        | No patient's consent to store SCR | `Patient.identifier.value`=`9111231130`           | HTTP Status 403      |
       
       summary: Upload patient's Summary Care Record
       operationId: upload-scr
@@ -506,7 +506,7 @@ paths:
         | Scenario                         | Request                                                                      | Response             |
         | -------------------------------- | ---------------------------------------------------------------------------- | -------------------- |
         | Happy path                       | `NHSD-Session-URID`=`555254240100`; `nhsNumber`=`9000000009`                 | HTTP Status 201      |
-        | Patient not found                | `NHSD-Session-URID`=`555254240100`; `nhsNumber`=`9000000033`                 | HTTP Status 400      |
+        | Patient not found                | `NHSD-Session-URID`=`555254240100`; `nhsNumber`=`9111231130`                 | HTTP Status 400      |
         
       parameters:
         - $ref: '#/components/parameters/BearerAuthorization'
