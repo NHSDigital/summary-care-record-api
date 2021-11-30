@@ -14,10 +14,12 @@ import uk.nhs.adaptors.scr.controllers.validation.scr.PatientId;
 import uk.nhs.adaptors.scr.controllers.validation.scr.RecordCount;
 import uk.nhs.adaptors.scr.controllers.validation.scr.SortMethod;
 import uk.nhs.adaptors.scr.controllers.validation.scr.TypeCode;
+import uk.nhs.adaptors.scr.exceptions.FhirValidationException;
 import uk.nhs.adaptors.scr.logging.LogExecutionTime;
 import uk.nhs.adaptors.scr.services.GetScrService;
 
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 import static uk.nhs.adaptors.scr.consts.ScrHttpHeaders.CLIENT_IP;
 import static uk.nhs.adaptors.scr.consts.ScrHttpHeaders.NHSD_ASID;
@@ -63,13 +65,25 @@ public class GetScrController {
     public String getScr(
         @RequestHeader("Nhsd-Asid") @NotNull String nhsdAsid,
         @RequestHeader("client-ip") @NotNull String clientIp,
-        @RequestParam("composition.identifier") @NotNull String compositionId,
-        @RequestParam("composition.subject:Patient.identifier") @NotNull @PatientId String nhsNumber
-    ) {
+        @RequestParam("composition.identifier") @NotNull String composition) {
         LOGGER.info("Received GET SCR request");
 
-        var bundle = getScrService.getScr(extractNhsNumber(nhsNumber), compositionId, nhsdAsid, clientIp);
+        List<String> compositionValues = parseComposition(composition);
+        var bundle = getScrService.getScr(compositionValues.get(1), compositionValues.get(0), nhsdAsid, clientIp);
 
         return fhirParser.encodeToJson(bundle);
+    }
+
+    private static List<String> parseComposition(String composition) {
+        if (composition.contains("$")) {
+            String[] parts = composition.split("\\$");
+            if (parts.length == 2) {
+                if (parts[1].startsWith(COMPOSITION_PATIENT_ID_PREFIX)) {
+                    return List.of(parts[0], parts[1].replace(COMPOSITION_PATIENT_ID_PREFIX, ""));
+                }
+            }
+        }
+
+        throw new FhirValidationException(String.format("Invalid value in field 'composition.identifier' %s", composition));
     }
 }

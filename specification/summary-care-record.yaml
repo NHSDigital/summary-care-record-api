@@ -276,10 +276,10 @@ paths:
         ## Sandbox test scenarios
         You can test the following scenarios in our sandbox environment:
 
-        | Scenario                         | Request                                                                                                                             | Response                          |
-        | -------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------|---------------------------------- |
-        | Happy path                       | `composition.identifier`=`FA60BE64-1F34-11EB-A2A8-000C29A364EB` `composition.subject:Patient.identifier`=`9995000180`               | HTTP Status 200 - Full Bundle     |
-        | No results                       | `composition.identifier`=`81CC2DA0-8882-11EB-B538-0800200C9A66` `composition.subject:Patient.identifier`=`9693042298`               | HTTP Status 200 - Empty Bundle    |
+        | Scenario                         | Request                                                                                                         | Response                          |
+        | -------------------------------- | ----------------------------------------------------------------------------------------------------------------|---------------------------------- |
+        | Happy path                       | `composition.identifier`=`FA60BE64-1F34-11EB-A2A8-000C29A364EB` `Patient.identifier`=`9995000180`               | HTTP Status 200 - Full Bundle     |
+        | No results                       | `composition.identifier`=`81CC2DA0-8882-11EB-B538-0800200C9A66` `Patient.identifier`=`9693042298`               | HTTP Status 200 - Empty Bundle    |
         
       summary: Get patient's Summary Care Record
       operationId: get-scr
@@ -289,15 +289,8 @@ paths:
         - $ref: '#/components/parameters/RequestID'
         - in: query
           name: composition.identifier
-          description: Latest Patient's Summary Care Record identifier. Can be obtained using GET /DocumentReference endpoint.
-          example: FA60BE64-1F34-11EB-A2A8-000C29A364EB
-          required: true
-          schema:
-            type: string
-        - in: query
-          name: composition.subject:Patient.identifier
           description: The patient's NHS number. Must be preceded with FHIR identifier (eg."composition.subject:Patient.identifier=https://fhir.nhs.uk/Id/nhs-number|9995000180")
-          example: https://fhir.nhs.uk/Id/nhs-number|9995000180
+          example: FA60BE64-1F34-11EB-A2A8-000C29A364EB$composition.subject:Patient.identifier=https://fhir.nhs.uk/Id/nhs-number|9995000180
           required: true
           schema:
             type: string
