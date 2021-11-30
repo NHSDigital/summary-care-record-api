@@ -92,7 +92,7 @@ def test_get_scr_id(headers):
 def test_get_bundle(headers):
     response = requests.get(
         f"{_base_valid_uri()}/Bundle?composition.identifier=29B2BAEB-E2E7-4B08-B30E-55C0F90CABDF"
-        + "&composition.subject:Patient.identifier=https://fhir.nhs.uk/Id/nhs-number|9000000009",
+        + "&composition.subject:Patient.identifier=https://fhir.nhs.uk/Id/nhs-number|9995000180",
         headers=headers
     )
 
