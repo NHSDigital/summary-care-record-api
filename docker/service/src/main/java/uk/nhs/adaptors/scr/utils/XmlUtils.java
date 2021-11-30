@@ -1,9 +1,7 @@
 package uk.nhs.adaptors.scr.utils;
 
-import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -21,14 +19,11 @@ import static javax.xml.xpath.XPathConstants.NODESET;
 import static javax.xml.xpath.XPathConstants.STRING;
 
 @Component
-@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class XmlUtils {
-
-    private final XPathFactory xPathFactory;
 
     @SneakyThrows
     public String getNodeAttributeValue(Node node, String xpath, String attributeName) {
-        XPathExpression xPathExpression = xPathFactory.newXPath().compile(xpath);
+        XPathExpression xPathExpression = XPathFactory.newInstance().newXPath().compile(xpath);
         NodeList nodeList = ((NodeList) xPathExpression.evaluate(node, NODESET));
 
         return nodeList.getLength() > 0
@@ -48,7 +43,7 @@ public class XmlUtils {
 
     @SneakyThrows
     public Optional<String> getOptionalValueByXPath(Node node, String xpath) {
-        var xPathExpression = xPathFactory.newXPath().compile(xpath);
+        var xPathExpression = XPathFactory.newInstance().newXPath().compile(xpath);
         return Optional.ofNullable(xPathExpression.evaluate(node, STRING))
             .map(String.class::cast)
             .filter(StringUtils::isNotBlank);
@@ -66,7 +61,7 @@ public class XmlUtils {
 
     @SneakyThrows
     public NodeList getNodeListByXPath(Node node, String xpath) {
-        var xPathExpression = xPathFactory.newXPath().compile(xpath);
+        var xPathExpression = XPathFactory.newInstance().newXPath().compile(xpath);
         return (NodeList) xPathExpression.evaluate(node, XPathConstants.NODESET);
     }
 
@@ -79,7 +74,7 @@ public class XmlUtils {
 
     @SneakyThrows
     public Node getNodeByXpath(Node root, String xpath) {
-        var xPathExpression = xPathFactory.newXPath().compile(xpath);
+        var xPathExpression = XPathFactory.newInstance().newXPath().compile(xpath);
         var node = (Node) xPathExpression.evaluate(root, XPathConstants.NODE);
         node.getParentNode().removeChild(node);
 
@@ -96,7 +91,7 @@ public class XmlUtils {
 
     @SneakyThrows
     public Optional<Node> getOptionalNodeByXpath(Node root, String xpath) {
-        var xPathExpression = xPathFactory.newXPath().compile(xpath);
+        var xPathExpression = XPathFactory.newInstance().newXPath().compile(xpath);
         Optional<Node> node = Optional.ofNullable(xPathExpression.evaluate(root, NODE))
             .map(Node.class::cast)
             .filter(it -> it != null);
@@ -106,7 +101,7 @@ public class XmlUtils {
 
     @SneakyThrows
     public String getNodeText(Node node, String xpath) {
-        XPathExpression xPathExpression = xPathFactory.newXPath().compile(xpath);
+        XPathExpression xPathExpression = XPathFactory.newInstance().newXPath().compile(xpath);
         NodeList nodeList = ((NodeList) xPathExpression.evaluate(node, NODESET));
 
         return nodeList.getLength() > 0 ? nodeList.item(0).getTextContent() : null;

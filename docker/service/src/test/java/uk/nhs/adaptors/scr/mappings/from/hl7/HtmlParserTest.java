@@ -11,7 +11,6 @@ import uk.nhs.adaptors.scr.utils.XmlUtils;
 import uk.nhs.utils.HtmlParserArgumentsProvider;
 
 import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.xpath.XPathFactory;
 import java.io.StringReader;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -20,7 +19,7 @@ import static uk.nhs.utils.Utils.readResourceFile;
 class HtmlParserTest {
 
     private FhirParser fhirParser = new FhirParser();
-    private HtmlParser htmlParser = new HtmlParser(new XmlUtils(XPathFactory.newInstance()));
+    private HtmlParser htmlParser = new HtmlParser(new XmlUtils());
 
     @ParameterizedTest(name = "[{index}] - {0}.html/json")
     @ArgumentsSource(HtmlParserArgumentsProvider.class)
