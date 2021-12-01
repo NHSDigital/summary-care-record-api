@@ -10,26 +10,30 @@ import static org.springframework.http.HttpStatus.BAD_REQUEST;
 
 public class BadRequestException extends ScrBaseException implements OperationOutcomeError {
 
+    private final OperationOutcome operationOutcome;
+
     public BadRequestException(String message) {
         super(message);
+        operationOutcome = buildOperationOutcome(message);
     }
 
     public BadRequestException(String message, Throwable cause) {
         super(message, cause);
+        operationOutcome = buildOperationOutcome(message);
     }
 
     private static OperationOutcome buildOperationOutcome(String message) {
         var operationOutcome = new OperationOutcome();
         operationOutcome.addIssue()
-                .setCode(VALUE)
-                .setSeverity(ERROR)
-                .setDetails(new CodeableConcept().setText(message));
+            .setCode(VALUE)
+            .setSeverity(ERROR)
+            .setDetails(new CodeableConcept().setText(message));
         return operationOutcome;
     }
 
     @Override
     public final OperationOutcome getOperationOutcome() {
-        return buildOperationOutcome(getMessage());
+        return operationOutcome;
     }
 
     @Override
