@@ -118,7 +118,7 @@ def test_audit_event(headers):
     body_from_file = read_body_from_file("audit_event.json")
     body_as_string = json.dumps(body_from_file) \
         .replace("{{PATIENT_NHS_NUMBER}}", patient_nhs)
-    
+
     response = requests.post(
         f"{_base_valid_uri()}/AuditEvent",
         json=json.loads(body_as_string),
