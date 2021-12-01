@@ -7,8 +7,8 @@ import re
 import os
 import uuid
 
-
-TEST_DATA_BASE_PATH = os.path.join(os.path.dirname(__file__), './test_data/')
+sandbox_prefix = "sandbox_" if "sandbox" in config.ENVIRONMENT else ""
+TEST_DATA_BASE_PATH = os.path.join(os.path.dirname(__file__), f'./{sandbox_prefix}test_data/')
 
 
 def _base_valid_uri() -> str:
@@ -90,9 +90,11 @@ def test_get_scr_id(headers):
 
 @pytest.mark.smoketest
 def test_get_bundle(headers):
+    patient_nhs = "9000000009" if "sandbox" in config.ENVIRONMENT else "9995000180"
+
     response = requests.get(
         f"{_base_valid_uri()}/Bundle?composition.identifier=29B2BAEB-E2E7-4B08-B30E-55C0F90CABDF"
-        + "&composition.subject:Patient.identifier=https://fhir.nhs.uk/Id/nhs-number|9995000180",
+        + f"&composition.subject:Patient.identifier=https://fhir.nhs.uk/Id/nhs-number|{patient_nhs}",
         headers=headers
     )
 

@@ -1,0 +1,21 @@
+{
+  "resourceType": "Parameters",
+  "parameter":  [
+    {
+      "name": "setPermissions",
+      "part":  [
+        {
+          "name": "nhsNumber",
+          "valueString": "9000000009"
+        },
+        {
+          "name": "permissionCode",
+          "valueCoding": {
+            "system": "https://fhir.nhs.uk/CodeSystem/SCR-ACSPermission",
+            "code": "{{PERMISSION_CODE}}"
+          }
+        }
+      ]
+    }
+  ]
+}
