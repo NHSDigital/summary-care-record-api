@@ -6,7 +6,7 @@
       "part":  [
         {
           "name": "nhsNumber",
-          "valueString": "9995000180"
+          "valueString": "{{PATIENT_NHS_NUMBER}}"
         },
         {
           "name": "permissionCode",
