@@ -56,7 +56,7 @@
             <psis:queryResponseEvent xmlns:nasp="http://spine.nhs.uk/spine-servicev1.0" xmlns:other="urn:some:other:namespace" xmlns:soap="http://www.w3.org/2001/12/soap-envelope" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
               <psis:recordTarget>
                 <psis:patient>
-                  <psis:id extension="9995000180" root="2.16.840.1.113883.2.1.4.1" />
+                  <psis:id extension="9000000009" root="2.16.840.1.113883.2.1.4.1" />
                 </psis:patient>
               </psis:recordTarget>
               <psis:event>

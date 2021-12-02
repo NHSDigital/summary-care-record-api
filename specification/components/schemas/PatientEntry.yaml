@@ -61,7 +61,7 @@
                 default: "https://fhir.nhs.uk/Id/nhs-number"
               value:
                 type: string
-                example: "9900004948"
+                example: "9000000009"
             required:
               - extension
               - system
