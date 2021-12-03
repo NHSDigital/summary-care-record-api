@@ -4,15 +4,26 @@ info:
   title: Summary Care Record API
   description: |
     
-    <div class="emphasis-box emphasis-box-emphasis navigationMarker-sub" aria-label="Highlighted Information">
-        <div class="emphasis-box__image">
-                <img src="https://digital.nhs.uk/svg-magic/binaries/content/gallery/website/icons/universal/information.svg?colour=005eb8" alt="" width="100" height="100">
-        </div>
-    <div class="emphasis-box__content">
-            <div data-uipath="website.contentblock.emphasis.content"><p>This API is initially for use by new market entrant GP IT developers with other use cases to follow later.</p></div>
-    </div>
-    </div>
+    <div class="nhsd-m-emphasis-box nhsd-m-emphasis-box--emphasis nhsd-!t-margin-bottom-6" aria-label="Highlighted Information">
+        <div class="nhsd-a-box nhsd-a-box--border-blue">
 
+                <div class="nhsd-m-emphasis-box__image-box">
+                    <figure class="nhsd-a-image">
+                        <picture class="nhsd-a-image__picture">
+                                <img src="//nhs-prod.global.ssl.fastly.net/svg-magic/binaries/content/gallery/icons/info.svg?colour=231f20" alt="" style="object-fit:fill">
+                        </picture>
+                    </figure>
+                </div>
+
+            <div class="nhsd-m-emphasis-box__content-box">
+
+
+                    <div data-uipath="website.contentblock.emphasis.content" class="nhsd-t-word-break"><p class="nhsd-t-body">This API is initially for use by new market entrant GP IT developers with other use cases to follow later.</p></div>
+                
+            </div>
+        </div>
+    </div>
+    
     ## Overview
     Use this API to access a patient's [Summary Care Record (SCR)](https://digital.nhs.uk/services/summary-care-records-scr) - an electronic record of important patient information, created from GP medical records. SCRs can be seen and used by authorised staff in other areas of the health and care system involved in the patient's direct care.
 
