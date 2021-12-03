@@ -48,9 +48,10 @@ public class SpineClient implements SpineClientContract {
 
     private static final String UPLOAD_SCR_SOAP_ACTION = "urn:nhs:names:services:psis/REPC_IN150016SM05";
     private static final String UPLOAD_SCR_CONTENT_TYPE =
-        "multipart/related; boundary=\"--=_MIME-Boundary\"; type=\"text/xml\"; start=\"<ebXMLHeader@spine.nhs.uk>\"";
-    private static final String GET_SCR_ID_SOAP_ACTION = "urn:nhs:names:services:psisquery/QUPC_IN180000SM04";
+            "multipart/related; boundary=\"--=_MIME-Boundary\"; type=\"text/xml\"; start=\"<ebXMLHeader@spine.nhs.uk>\"";
+    private static final String PSIS_EVENT_LIST_QUERY = "urn:nhs:names:services:psisquery/QUPC_IN180000SM04";
     private static final String SET_PERMISSION_SOAP_ACTION = "urn:nhs:names:services:lrs/SET_RESOURCE_PERMISSIONS_INUK01";
+    private static final String PSIS_EVENT_QUERY_SOAP_ACTION = "urn:nhs:names:services:psisquery/QUPC_IN190000UK04";
 
     private final SpineConfiguration spineConfiguration;
     private final SpineHttpClient spineHttpClient;
@@ -76,6 +77,7 @@ public class SpineClient implements SpineClientContract {
             LOGGER.error("Unexpected spine ACS set permission response: {}", response);
             throw new UnexpectedSpineResponseException("Unexpected spine 'send data' response " + statusCode);
         }
+        LOGGER.info("Received Spine {} interaction response: HTTP status {}", SET_PERMISSION_SOAP_ACTION, response.getStatusCode());
         return response;
     }
 
@@ -98,6 +100,7 @@ public class SpineClient implements SpineClientContract {
             LOGGER.error("Unexpected spine SCR POST response: {} {}", statusCode, response.getBody());
             throw new UnexpectedSpineResponseException("Unexpected spine 'send data' response " + statusCode);
         }
+        LOGGER.info("Received Spine {} interaction response: HTTP status {}", UPLOAD_SCR_SOAP_ACTION, response.getStatusCode());
         return response;
 
     }
@@ -167,7 +170,7 @@ public class SpineClient implements SpineClientContract {
         LOGGER.info("Sending GET SCR ID Spine request");
         LOGGER.debug("Body: {}", requestBody);
         var request = new HttpPost(spineConfiguration.getUrl() + spineConfiguration.getPsisQueriesEndpoint());
-        setSoapHeaders(request, GET_SCR_ID_SOAP_ACTION, TEXT_XML_VALUE);
+        setSoapHeaders(request, PSIS_EVENT_LIST_QUERY, TEXT_XML_VALUE);
 
         request.setEntity(new StringEntity(requestBody, UTF_8));
 
@@ -178,6 +181,7 @@ public class SpineClient implements SpineClientContract {
             LOGGER.error("Unexpected spine GET SCR ID response: {} {}", statusCode, serialize(response.getBody()));
             throw new UnexpectedSpineResponseException("Unexpected spine send response " + statusCode);
         }
+        LOGGER.info("Received Spine {} interaction response: HTTP status {}", PSIS_EVENT_LIST_QUERY, response.getStatusCode());
         return response;
     }
 
@@ -192,7 +196,10 @@ public class SpineClient implements SpineClientContract {
         setCommonHeaders(request, nhsdAsid, nhsdIdentity, nhsdSessionUrid);
         request.setEntity(new StringEntity(requestBody, UTF_8));
 
-        return spineHttpClient.sendRequest(request, stringResponseHandler);
+        Response<String> response = spineHttpClient.sendRequest(request, stringResponseHandler);
+        LOGGER.info("Received Spine {} FHIR operation response: HTTP status {}", spineConfiguration.getAlertEndpoint(),
+                response.getStatusCode());
+        return response;
     }
 
     @SneakyThrows
@@ -203,7 +210,7 @@ public class SpineClient implements SpineClientContract {
         var request = new HttpPost(uri);
         LOGGER.info("Sending GET SCR Spine request. URL: {}", uri);
         LOGGER.debug("Body: {}", requestBody);
-        request.addHeader(SOAP_ACTION, "urn:nhs:names:services:psisquery/QUPC_IN190000UK04");
+        request.addHeader(SOAP_ACTION, PSIS_EVENT_QUERY_SOAP_ACTION);
         request.addHeader(CONTENT_TYPE, TEXT_XML_VALUE);
         request.addHeader(NHSD_ASID, nhsdAsid);
 
@@ -216,6 +223,7 @@ public class SpineClient implements SpineClientContract {
             LOGGER.error("Unexpected spine GET SCR response: {} {}", statusCode, serialize(response.getBody()));
             throw new UnexpectedSpineResponseException("Unexpected spine send response " + statusCode);
         }
+        LOGGER.info("Received Spine {} interaction response: HTTP status {}", PSIS_EVENT_QUERY_SOAP_ACTION, response.getStatusCode());
         return response;
     }
 
