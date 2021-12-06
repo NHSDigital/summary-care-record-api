@@ -6,13 +6,14 @@ info:
     
     <div class="nhsd-m-emphasis-box nhsd-m-emphasis-box--emphasis nhsd-!t-margin-bottom-6" aria-label="Highlighted Information">
         <div class="nhsd-a-box nhsd-a-box--border-blue">
-                <div class="nhsd-m-emphasis-box__image-box">
-                    <figure class="nhsd-a-image">
-                        <picture class="nhsd-a-image__picture">
-                                <img src="//nhs-prod.global.ssl.fastly.net/svg-magic/binaries/content/gallery/icons/info.svg?colour=231f20" alt="" style="object-fit:fill">
-                        </picture>
-                    </figure>
-                </div>
+            <div class="nhsd-m-emphasis-box__image-box">
+                <figure class="nhsd-a-image">
+                    <picture class="nhsd-a-image__picture">
+                            <img src="//nhs-prod.global.ssl.fastly.net/svg-magic/binaries/content/gallery/icons/info.svg?colour=231f20" alt="" style="object-fit:fill">
+                    </picture>
+                </figure>
+            </div>
+                
             <div class="nhsd-m-emphasis-box__content-box">
                     <div data-uipath="website.contentblock.emphasis.content" class="nhsd-t-word-break"><p class="nhsd-t-body">This API is initially for use by new market entrant GP IT developers with other use cases to follow later.</p></div>            
             </div>
