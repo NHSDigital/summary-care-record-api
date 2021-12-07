@@ -126,3 +126,21 @@ def test_audit_event(headers):
     )
 
     assert response.status_code == 201, "POST Audit Event failed"
+
+
+@pytest.mark.smoketest
+def test_auth_token(headers):
+    headers["Authorization"] = "invalid_token"
+    headers["Content-Type"] = "application/fhir+json"
+    patient_nhs = "9000000009" if "sandbox" in config.ENVIRONMENT else "9995000180"
+    body_from_file = read_body_from_file("audit_event.json")
+    body_as_string = json.dumps(body_from_file) \
+        .replace("{{PATIENT_NHS_NUMBER}}", patient_nhs)
+
+    response = requests.post(
+        f"{_base_valid_uri()}/AuditEvent",
+        json=json.loads(body_as_string),
+        headers=headers
+    )
+    expected_http_status = 201 if "sandbox" in config.ENVIRONMENT else 401
+    assert response.status_code == expected_http_status, "auth token check failed"
