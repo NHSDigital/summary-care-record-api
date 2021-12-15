@@ -257,6 +257,19 @@ paths:
                         code: UNKNOWN_ERROR
                         display: Unknown Error
                     diagnostics: "An unknown error occurred processing this request. Contact us for assistance diagnosing this issue: https://digital.nhs.uk/developer/help-and-support."
+        "503":
+          description: Service unavailable
+          content:
+            application/fhir+json:
+              schema:
+                $ref: components/schemas/OperationOutcome.yaml
+              example:
+                resourceType: OperationOutcome
+                issue:
+                  - severity: error
+                    code: transient
+                    details:
+                      "text": "Code: 502, Display: Service Not Available"
         "504":
           description: |
             The request timed out during processing. This does not imply the request has failed or been rejected.
@@ -376,6 +389,19 @@ paths:
                         code: UNKNOWN_ERROR
                         display: Unknown Error
                     diagnostics: "An unknown error occurred processing this request. Contact us for assistance diagnosing this issue: https://digital.nhs.uk/developer/help-and-support."
+        "503":
+          description: Service unavailable
+          content:
+            application/fhir+json:
+              schema:
+                $ref: components/schemas/OperationOutcome.yaml
+              example:
+                resourceType: OperationOutcome
+                issue:
+                  - severity: error
+                    code: transient
+                    details:
+                      "text": "Code: 502, Display: Service Not Available"
   /DocumentReference:
     get:
       summary: Get patient's latest Summary Care Record identifier
@@ -499,7 +525,19 @@ paths:
                         code: UNKNOWN_ERROR
                         display: Unknown Error
                     diagnostics: "An unknown error occurred processing this request. Contact us for assistance diagnosing this issue: https://digital.nhs.uk/developer/help-and-support."
-
+        "503":
+          description: Service unavailable
+          content:
+            application/fhir+json:
+              schema:
+                $ref: components/schemas/OperationOutcome.yaml
+              example:
+                resourceType: OperationOutcome
+                issue:
+                  - severity: error
+                    code: transient
+                    details:
+                      "text": "Code: 502, Display: Service Not Available"
   /$setPermission:
     post:
       summary: Update patient's consent to share SCR
