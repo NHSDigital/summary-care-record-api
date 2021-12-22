@@ -194,6 +194,13 @@ paths:
                       - severity: error
                         details:
                           text: "Unsupported Bundle.type: SEARCHSET"
+                duplicateEvent:
+                  value:
+                    resourceType: OperationOutcome
+                    issue:
+                      - severity: error
+                        details:
+                          text: "[PSIS-30134] - Duplicate event with eventId FFFBB3CF-62F3-11EC-BCD6-024734D13536 and nhsNumber 9111231130."                        
         "401":
           description: Unauthorized
           content:
@@ -256,7 +263,7 @@ paths:
                         version: 1
                         code: UNKNOWN_ERROR
                         display: Unknown Error
-                    diagnostics: "An unknown error occurred processing this request. Contact us for assistance diagnosing this issue: https://digital.nhs.uk/developer/help-and-support."
+                    diagnostics: "An unknown error occurred processing this request. Contact us for assistance diagnosing this issue: https://digital.nhs.uk/developer/help-and-support. (Message ID: rrt-4161241190348351641-b-geu2-4210-928960-20)"
         "503":
           description: Service unavailable
           content:
