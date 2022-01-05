@@ -379,6 +379,12 @@ paths:
                     code: forbidden
                     details:
                       text: "Code: 420, Display: Business condition related to access control  which prevents the action being performed by PSIS;Code: 30418, Display: [PSIS-30418] - ACF does not permit access to resource"
+        "429":
+          description: You have exceeded your application's rate limit
+          content:
+            application/fhir+json:
+              schema:
+                $ref: components/schemas/OperationOutcome.yaml
         "500":
           description: Internal Server Error
           content:
@@ -419,8 +425,11 @@ paths:
         Use this endpoint to retrieve UUID of patient's latest record.
         The UUID is required to retrieve the Summary Care Record details using GET /Bundle endpoint
         and to update the details of patient's Summary Care Record using POST /Bundle endpoint.
+        
+        This endpoint also returns patient’s consent status in the securityLabel attribute of a successful API response.
 
         To get the information you must provide patient's NHS number.
+        When no NHS Number is supplied in the patient query parameter, 400 HTTP status will be returned.
 
         ## Sandbox test scenarios
         You can test the following scenarios in our sandbox environment:
@@ -515,6 +524,12 @@ paths:
                     details:
                       text: "Code: 420, Display: Business condition related to access control  which prevents the action being performed by PSIS;Code: 30418, Display: [PSIS-30418] - ACF does not permit access to resource"
 
+        "429":
+          description: You have exceeded your application's rate limit
+          content:
+            application/fhir+json:
+              schema:
+                $ref: components/schemas/OperationOutcome.yaml
         "500":
           description: Internal Server Error
           content:
@@ -618,6 +633,12 @@ paths:
                     code: not-supported
                     details:
                       text: Content type 'text/plain' not supported
+        "429":
+          description: You have exceeded your application's rate limit
+          content:
+            application/fhir+json:
+              schema:
+                $ref: components/schemas/OperationOutcome.yaml
         "500":
           description: Internal Server Error
           content:
@@ -708,6 +729,12 @@ paths:
                     code: not-supported
                     details:
                       text: Content type 'text/plain' not supported
+        "429":
+          description: You have exceeded your application's rate limit
+          content:
+            application/fhir+json:
+              schema:
+                $ref: components/schemas/OperationOutcome.yaml
         "500":
           description: Internal Server Error
           content:
@@ -774,10 +801,9 @@ components:
 
         The user role ID (URID) for the current session. Also known as a user role profile ID (URPID).
 
-        If you are using User-restricted RESTful APIs - NHS login combined authentication and authorisation, See [determin the user's role](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation/user-restricted-restful-apis-nhs-cis2-combined-authentication-and-authorisation#step-7-determine-the-user-s-role) guidance.
-        If you are using User-restricted RESTful APIs - NHS login separate authentication and authorisation, See [determin the user's role](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation/user-restricted-restful-apis-nhs-cis2-separate-authentication-and-authorisation#step-9-determine-the-user-s-role) guidance.
-        
-        This field is optional.
+        This header is optional.
+
+        In user-restricted access mode if you send this header it must be valid for the logged-in user. See [determin the user's role](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation/user-restricted-restful-apis-nhs-cis2-combined-authentication-and-authorisation#step-7-determine-the-user-s-role) for guidance.
 
       required: false
       schema:
