@@ -281,6 +281,7 @@ paths:
           description: |
             The request timed out during processing. This does not imply the request has failed or been rejected.
             Re-send the request using the same `X-Request-ID` value.
+            Where multiple retries are necessary, adopt an exponential back-off approach.
           content:
             application/fhir+json:
               schema:
