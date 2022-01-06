@@ -130,7 +130,7 @@ servers:
     description: Integration test environment.
 x-spec-publication:
   operation-order:
-    operations:
+  - operations:
     - method: GET
       path: /DocumentReference
     - method: GET
