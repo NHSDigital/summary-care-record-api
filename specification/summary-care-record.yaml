@@ -127,6 +127,19 @@ servers:
     description: Sandbox environment
   - url: 'https://int.api.service.nhs.uk/summary-care-record/FHIR/R4'
     description: Integration test environment.
+x-spec-publication:
+  operation-order:
+    operations:
+    - method: GET
+      path: /DocumentReference
+    - method: GET
+      path: /Bundle
+    - method: POST
+      path: /Bundle
+    - method: POST
+      path: /AuditEvent
+    - method: POST
+      path: /$setPermission
 paths:
   /Bundle:
     post:
