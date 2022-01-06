@@ -22,19 +22,20 @@ info:
     ## Overview
     Use this API to access or update a patient's [Summary Care Record (SCR)](https://digital.nhs.uk/services/summary-care-records-scr) - an electronic record of important patient information, created from GP medical records. SCRs can be seen and used by authorised staff in other areas of the health and care system involved in the patient's direct care.
 
-    Also use this API to update a patient's consent to share their SCR, and to raise a privacy alert where it is necessary to override patient dissent to share in certain circumstances.
+    Also use this API to update a patient's consent to share their SCR, and to raise a privacy alert where it is necessary to override patient's dissent to share in certain circumstances.
 
     You can:
-    * create a patient's Summary Care Record
+    * retrieve a patient's Summary Care Record identifier
     * retrieve a patient's Summary Care Record
-    * set consent to share information
+    * upload a patient's Summary Care Record
     * raise information governance alerts in certain circumstances when viewing a patient's Summary Care Record
-
+    * set consent to share patient's information
+    
     ## Who can use this API
     This API can only be used where there is a legal basis to do so. Make sure you have a valid use case before you go too far with your development. You must do this before you can go live (see ‘Onboarding’ below).
 
     ## Related APIs
-    To use this API, you will need the patient's NHS number, which can be retrieved by using the following API:
+    To use this API, you need the patient's NHS number, which can be retrieved by using the following API:
       - [Personal Demographics Service (FHIR) API](https://digital.nhs.uk/developer/api-catalogue/personal-demographics-service-fhir) - use this API to search for patients and retrieve their details.  This API can also be used to update their details in some cases. This is the latest version of the PDS API and is recommended for all new integrators.
 
     ## API status and roadmap
@@ -54,7 +55,7 @@ info:
 
     It also conforms to the [FHIR (R4)](https://www.hl7.org/fhir/) global standard for health care data exchange.
 
-    You don’t need to know much about FHIR to use this API - FHIR APIs are just RESTful APIs that follow specific rules. In particular:
+    You don not need to know much about FHIR to use this API - FHIR APIs are just RESTful APIs that follow specific rules. In particular:
         - array names are singular, for example `line` not `lines` for address lines
         - data items that are country-specific and thus not included in the FHIR global base resources are usually wrapped in an `extension` object
 
@@ -127,6 +128,19 @@ servers:
     description: Sandbox environment
   - url: 'https://int.api.service.nhs.uk/summary-care-record/FHIR/R4'
     description: Integration test environment.
+x-spec-publication:
+  operation-order:
+  - operations:
+    - method: GET
+      path: /DocumentReference
+    - method: GET
+      path: /Bundle
+    - method: POST
+      path: /Bundle
+    - method: POST
+      path: /AuditEvent
+    - method: POST
+      path: /$setPermission
 paths:
   /Bundle:
     post:
@@ -300,7 +314,7 @@ paths:
 
         You must specify the NHS number and the UUID of the latest Summary Care Record of this patient. This UUID should be obtained using the GET /DocumentReference endpoint.
 
-        If you specify an out-of-date UUID, this endpoint will return a Bundle with 0 entries.
+        If you specify an out-of-date UUID, this endpoint returns a Bundle with 0 entries.
 
         ## Sandbox test scenarios
         You can test the following scenarios in our sandbox environment:
@@ -429,7 +443,7 @@ paths:
         This endpoint also returns patient’s consent status in the securityLabel attribute of a successful API response.
 
         To get the information you must provide patient's NHS number.
-        When no NHS Number is supplied in the patient query parameter, 400 HTTP status will be returned.
+        When no NHS Number is supplied in the patient query parameter, 400 HTTP status is returned.
 
         ## Sandbox test scenarios
         You can test the following scenarios in our sandbox environment:
@@ -660,11 +674,11 @@ paths:
 
   /AuditEvent:
     post:
-      summary: Send TMS Event Service (TES) message
+      summary: Send a privacy alert message
       operationId: alert
       description: |
         ## Overview
-        Use this endpoint to record TMS Event Service (TES) Alerts centrally.
+        Use this endpoint to send a privacy alert where it is necessary to override patient's dissent to share their SCR in certain circumstances.
 
         ## Sandbox test scenarios
         You can test the following scenarios in our sandbox environment:
