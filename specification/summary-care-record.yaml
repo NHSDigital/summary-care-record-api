@@ -220,7 +220,7 @@ paths:
           content:
             application/fhir+json:
               schema:
-                $ref: components/schemas/OperationOutcome.yaml
+                $ref: components/schemas/OperationOutcomeUnauthorized.yaml
               example:
                 resourceType: OperationOutcome
                 issue:
@@ -233,7 +233,7 @@ paths:
           content:
             application/fhir+json:
               schema:
-                $ref: components/schemas/OperationOutcome.yaml
+                $ref: components/schemas/OperationOutcomeForbidden.yaml
               example:
                 resourceType: OperationOutcome
                 issue:
@@ -246,7 +246,7 @@ paths:
           content:
             application/fhir+json:
               schema:
-                $ref: components/schemas/OperationOutcome.yaml
+                $ref: components/schemas/OperationOutcomeUnsupportedMediaType.yaml
               example:
                 resourceType: OperationOutcome
                 issue:
@@ -259,13 +259,13 @@ paths:
           content:
             application/fhir+json:
               schema:
-                $ref: components/schemas/OperationOutcome.yaml
+                $ref: components/schemas/OperationOutcomeTooManyRequests.yaml
         "500":
           description: Internal Server Error
           content:
             application/fhir+json:
               schema:
-                $ref: components/schemas/OperationErrorOutcome.yaml
+                $ref: components/schemas/OperationOutcomeInternalServerError.yaml
               example:
                 resourceType: OperationOutcome
                 issue:
@@ -283,7 +283,7 @@ paths:
           content:
             application/fhir+json:
               schema:
-                $ref: components/schemas/OperationOutcome.yaml
+                $ref: components/schemas/OperationOutcomeServiceUnavailable.yaml
               example:
                 resourceType: OperationOutcome
                 issue:
@@ -294,12 +294,12 @@ paths:
         "504":
           description: |
             The request timed out during processing. This does not imply the request has failed or been rejected.
-            Re-send the request using the same `X-Request-ID` value.
+            Re-send the request using the same `X-Request-ID` value. Wait 5 seconds before the first retried request.
             Where multiple retries are necessary, adopt an exponential back-off approach.
           content:
             application/fhir+json:
               schema:
-                $ref: components/schemas/OperationOutcome.yaml
+                $ref: components/schemas/OperationOutcomeGatewayTimeout.yaml
               example:
                 resourceType: OperationOutcome
                 issue:
@@ -372,7 +372,7 @@ paths:
           content:
             application/fhir+json:
               schema:
-                $ref: components/schemas/OperationOutcome.yaml
+                $ref: components/schemas/OperationOutcomeUnauthorized.yaml
               example:
                 resourceType: OperationOutcome
                 issue:
@@ -385,7 +385,7 @@ paths:
           content:
             application/fhir+json:
               schema:
-                $ref: components/schemas/OperationOutcome.yaml
+                $ref: components/schemas/OperationOutcomeForbidden.yaml
               example:
                 resourceType: OperationOutcome
                 issue:
@@ -398,13 +398,13 @@ paths:
           content:
             application/fhir+json:
               schema:
-                $ref: components/schemas/OperationOutcome.yaml
+                $ref: components/schemas/OperationOutcomeTooManyRequests.yaml
         "500":
           description: Internal Server Error
           content:
             application/fhir+json:
               schema:
-                $ref: components/schemas/OperationErrorOutcome.yaml
+                $ref: components/schemas/OperationOutcomeInternalServerError.yaml
               example:
                 resourceType: OperationOutcome
                 issue:
@@ -422,7 +422,7 @@ paths:
           content:
             application/fhir+json:
               schema:
-                $ref: components/schemas/OperationOutcome.yaml
+                $ref: components/schemas/OperationOutcomeServiceUnavailable.yaml
               example:
                 resourceType: OperationOutcome
                 issue:
@@ -516,7 +516,7 @@ paths:
           content:
             application/fhir+json:
               schema:
-                $ref: components/schemas/OperationOutcome.yaml
+                $ref: components/schemas/OperationOutcomeUnauthorized.yaml
               example:
                 resourceType: OperationOutcome
                 issue:
@@ -529,7 +529,7 @@ paths:
           content:
             application/fhir+json:
               schema:
-                $ref: components/schemas/OperationOutcome.yaml
+                $ref: components/schemas/OperationOutcomeForbidden.yaml
               example:
                 resourceType: OperationOutcome
                 issue:
@@ -543,13 +543,13 @@ paths:
           content:
             application/fhir+json:
               schema:
-                $ref: components/schemas/OperationOutcome.yaml
+                $ref: components/schemas/OperationOutcomeTooManyRequests.yaml
         "500":
           description: Internal Server Error
           content:
             application/fhir+json:
               schema:
-                $ref: components/schemas/OperationErrorOutcome.yaml
+                $ref: components/schemas/OperationOutcomeInternalServerError.yaml
               example:
                 resourceType: OperationOutcome
                 issue:
@@ -567,7 +567,7 @@ paths:
           content:
             application/fhir+json:
               schema:
-                $ref: components/schemas/OperationOutcome.yaml
+                $ref: components/schemas/OperationOutcomeServiceUnavailable.yaml
               example:
                 resourceType: OperationOutcome
                 issue:
@@ -626,7 +626,7 @@ paths:
           content:
             application/fhir+json:
               schema:
-                $ref: components/schemas/OperationOutcome.yaml
+                $ref: components/schemas/OperationOutcomeUnauthorized.yaml
               example:
                 resourceType: OperationOutcome
                 issue:
@@ -639,7 +639,7 @@ paths:
           content:
             application/fhir+json:
               schema:
-                $ref: components/schemas/OperationOutcome.yaml
+                $ref: components/schemas/OperationOutcomeUnsupportedMediaType.yaml
               example:
                 resourceType: OperationOutcome
                 issue:
@@ -652,13 +652,13 @@ paths:
           content:
             application/fhir+json:
               schema:
-                $ref: components/schemas/OperationOutcome.yaml
+                $ref: components/schemas/OperationOutcomeTooManyRequests.yaml
         "500":
           description: Internal Server Error
           content:
             application/fhir+json:
               schema:
-                $ref: components/schemas/OperationErrorOutcome.yaml
+                $ref: components/schemas/OperationOutcomeInternalServerError.yaml
               example:
                 resourceType: OperationOutcome
                 issue:
@@ -722,7 +722,7 @@ paths:
           content:
             application/fhir+json:
               schema:
-                $ref: components/schemas/OperationOutcome.yaml
+                $ref: components/schemas/OperationOutcomeUnauthorized.yaml
               example:
                 resourceType: OperationOutcome
                 issue:
@@ -735,7 +735,7 @@ paths:
           content:
             application/fhir+json:
               schema:
-                $ref: components/schemas/OperationOutcome.yaml
+                $ref: components/schemas/OperationOutcomeUnsupportedMediaType.yaml
               example:
                 resourceType: OperationOutcome
                 issue:
@@ -748,13 +748,13 @@ paths:
           content:
             application/fhir+json:
               schema:
-                $ref: components/schemas/OperationOutcome.yaml
+                $ref: components/schemas/OperationOutcomeTooManyRequests.yaml
         "500":
           description: Internal Server Error
           content:
             application/fhir+json:
               schema:
-                $ref: components/schemas/OperationErrorOutcome.yaml
+                $ref: components/schemas/OperationOutcomeInternalServerError.yaml
               example:
                 resourceType: OperationOutcome
                 issue:
