@@ -200,7 +200,7 @@ paths:
                   - severity: error
                     code: invalid
                     details:
-                      text: NHS number missing
+                      text: "[PSIS-30134] - Duplicate event with eventId FFFBB3CF-62F3-11EC-BCD6-024734D13536 and nhsNumber 9111231130."
         "500":
           description: Internal Server Error
           content:
@@ -313,9 +313,9 @@ paths:
                 resourceType: OperationOutcome
                 issue:
                   - severity: error
-                    code: invalid
+                    code: forbidden
                     details:
-                      text: NHS number missing
+                      text: "Code: 420, Display: Business condition related to access control  which prevents the action being performed by PSIS;Code: 30418, Display: [PSIS-30418] - ACF does not permit access to resource"
         "500":
           description: Internal Server Error
           content:
@@ -434,9 +434,9 @@ paths:
                 resourceType: OperationOutcome
                 issue:
                   - severity: error
-                    code: invalid
+                    code: forbidden
                     details:
-                      text: NHS number missing
+                      text: Invalid access token
         "500":
           description: Internal Server Error
           content:
@@ -519,9 +519,9 @@ paths:
                 resourceType: OperationOutcome
                 issue:
                   - severity: error
-                    code: invalid
+                    code: not-supported
                     details:
-                      text: NHS number missing
+                      text: Content type 'text/plain' not supported
         "500":
           description: Internal Server Error
           content:
