@@ -179,87 +179,28 @@ paths:
       responses:
         "201":
           description: SCR successfully uploaded
-        "400":
-          description: Bad request - error in business logic on the client's side
+        "4XX":
+          description: |
+            An error occurred as follows:
+
+            | HTTP status | Issue severity | Issue code    | Description |
+            | ----------- | -------------- | ------------- | --------------------------------------------- |
+            | 400         | error	       | invalid       | Bad request, error in business logic on the client's side |
+            | 401         | error          | forbidden     | Unauthorized, access token missing, invalid or expired |
+            | 403         | error          | forbidden     | There's no patient's consent to store SCR |
+            | 415         | error          | not-supported | Unsupported Media Type, Content-Type header is invalid or missing |
+            | 429         | error          | -             | You have exceeded your application's [rate limit](https://digital.nhs.uk/developer/guides-and-documentation/reference-guide#rate-limits). |
           content:
             application/fhir+json:
               schema:
                 $ref: components/schemas/OperationOutcome.yaml
-              examples:
-                nhsMissing:
-                  value:
-                    resourceType: OperationOutcome
-                    issue:
-                      - severity: error
-                        code: invalid
-                        details:
-                          text: NHS number missing
-                subjectPatientMissing:
-                  value:
-                    resourceType: OperationOutcome
-                    issue:
-                      - severity: error
-                        details:
-                          text: Composition.subject reference is missing or invalid
-                invalidBundleType:
-                  value:
-                    resourceType: OperationOutcome
-                    issue:
-                      - severity: error
-                        details:
-                          text: "Unsupported Bundle.type: SEARCHSET"
-                duplicateEvent:
-                  value:
-                    resourceType: OperationOutcome
-                    issue:
-                      - severity: error
-                        details:
-                          text: "[PSIS-30134] - Duplicate event with eventId FFFBB3CF-62F3-11EC-BCD6-024734D13536 and nhsNumber 9111231130."                        
-        "401":
-          description: Unauthorized
-          content:
-            application/fhir+json:
-              schema:
-                $ref: components/schemas/OperationOutcomeUnauthorized.yaml
               example:
                 resourceType: OperationOutcome
                 issue:
                   - severity: error
-                    code: forbidden
+                    code: invalid
                     details:
-                      text: Invalid access token
-        "403":
-          description: There's no patient's consent to store SCR
-          content:
-            application/fhir+json:
-              schema:
-                $ref: components/schemas/OperationOutcomeForbidden.yaml
-              example:
-                resourceType: OperationOutcome
-                issue:
-                  - severity: error
-                    code: forbidden
-                    details:
-                      text: "Code: 420, Display: Business condition related to access control  which prevents the action being performed by PSIS;Code: 30418, Display: [PSIS-30418] - ACF does not permit access to resource"
-        "415":
-          description: Unsupported Media Type, Content-Type header is invalid or missing
-          content:
-            application/fhir+json:
-              schema:
-                $ref: components/schemas/OperationOutcomeUnsupportedMediaType.yaml
-              example:
-                resourceType: OperationOutcome
-                issue:
-                  - severity: error
-                    code: not-supported
-                    details:
-                      text: Content type 'text/plain' not supported
-        "429":
-          description: You have exceeded your application's rate limit
-          content:
-            application/fhir+json:
-              schema:
-                $ref: components/schemas/OperationOutcomeTooManyRequests.yaml
+                      text: NHS number missing
         "500":
           description: Internal Server Error
           content:
@@ -283,7 +224,7 @@ paths:
           content:
             application/fhir+json:
               schema:
-                $ref: components/schemas/OperationOutcomeServiceUnavailable.yaml
+                $ref: components/schemas/OperationOutcome.yaml
               example:
                 resourceType: OperationOutcome
                 issue:
@@ -299,7 +240,7 @@ paths:
           content:
             application/fhir+json:
               schema:
-                $ref: components/schemas/OperationOutcomeGatewayTimeout.yaml
+                $ref: components/schemas/OperationOutcome.yaml
               example:
                 resourceType: OperationOutcome
                 issue:
@@ -354,8 +295,16 @@ paths:
                 $ref: components/schemas/GetScrBundle.yaml
               example:
                 $ref: components/examples/GetScrBundle.json
-        "400":
-          description: Bad request
+        "4XX":
+          description: |
+            An error occurred as follows:
+
+            | HTTP status | Issue severity | Issue code    | Description |
+            | ----------- | -------------- | ------------- | --------------------------------------------- |
+            | 400         | error	       | invalid       | Bad request, error in business logic on the client's side |
+            | 401         | error          | forbidden     | Unauthorized, access token missing, invalid or expired |
+            | 403         | error          | forbidden     | There's no patient's consent to store SCR |
+            | 429         | error          | -             | You have exceeded your application's [rate limit](https://digital.nhs.uk/developer/guides-and-documentation/reference-guide#rate-limits). |
           content:
             application/fhir+json:
               schema:
@@ -367,38 +316,6 @@ paths:
                     code: invalid
                     details:
                       text: NHS number missing
-        "401":
-          description: Unauthorized
-          content:
-            application/fhir+json:
-              schema:
-                $ref: components/schemas/OperationOutcomeUnauthorized.yaml
-              example:
-                resourceType: OperationOutcome
-                issue:
-                  - severity: error
-                    code: forbidden
-                    details:
-                      text: Invalid access token
-        "403":
-          description: There's no patient's consent to view SCR
-          content:
-            application/fhir+json:
-              schema:
-                $ref: components/schemas/OperationOutcomeForbidden.yaml
-              example:
-                resourceType: OperationOutcome
-                issue:
-                  - severity: error
-                    code: forbidden
-                    details:
-                      text: "Code: 420, Display: Business condition related to access control  which prevents the action being performed by PSIS;Code: 30418, Display: [PSIS-30418] - ACF does not permit access to resource"
-        "429":
-          description: You have exceeded your application's rate limit
-          content:
-            application/fhir+json:
-              schema:
-                $ref: components/schemas/OperationOutcomeTooManyRequests.yaml
         "500":
           description: Internal Server Error
           content:
@@ -422,7 +339,7 @@ paths:
           content:
             application/fhir+json:
               schema:
-                $ref: components/schemas/OperationOutcomeServiceUnavailable.yaml
+                $ref: components/schemas/OperationOutcome.yaml
               example:
                 resourceType: OperationOutcome
                 issue:
@@ -499,8 +416,16 @@ paths:
                 $ref: components/schemas/DocumentReferenceBundle.yaml
               example:
                 $ref: components/examples/DocumentReferenceBundle.json
-        "400":
-          description: Bad Request
+        "4XX":
+          description: |
+            An error occurred as follows:
+
+            | HTTP status | Issue severity | Issue code    | Description |
+            | ----------- | -------------- | ------------- | --------------------------------------------- |
+            | 400         | error	       | invalid       | Bad request, error in business logic on the client's side |
+            | 401         | error          | forbidden     | Unauthorized, access token missing, invalid or expired |
+            | 403         | error          | forbidden     | There's no patient's consent to store SCR |
+            | 429         | error          | -             | You have exceeded your application's [rate limit](https://digital.nhs.uk/developer/guides-and-documentation/reference-guide#rate-limits). |
           content:
             application/fhir+json:
               schema:
@@ -509,41 +434,9 @@ paths:
                 resourceType: OperationOutcome
                 issue:
                   - severity: error
+                    code: invalid
                     details:
-                      text: Required request parameter 'patient' for method parameter type String is not present
-        "401":
-          description: Unauthorized
-          content:
-            application/fhir+json:
-              schema:
-                $ref: components/schemas/OperationOutcomeUnauthorized.yaml
-              example:
-                resourceType: OperationOutcome
-                issue:
-                  - severity: error
-                    code: forbidden
-                    details:
-                      text: Invalid access token
-        "403":
-          description: There's no patient's consent to view SCR
-          content:
-            application/fhir+json:
-              schema:
-                $ref: components/schemas/OperationOutcomeForbidden.yaml
-              example:
-                resourceType: OperationOutcome
-                issue:
-                  - severity: error
-                    code: forbidden
-                    details:
-                      text: "Code: 420, Display: Business condition related to access control  which prevents the action being performed by PSIS;Code: 30418, Display: [PSIS-30418] - ACF does not permit access to resource"
-
-        "429":
-          description: You have exceeded your application's rate limit
-          content:
-            application/fhir+json:
-              schema:
-                $ref: components/schemas/OperationOutcomeTooManyRequests.yaml
+                      text: NHS number missing
         "500":
           description: Internal Server Error
           content:
@@ -567,7 +460,7 @@ paths:
           content:
             application/fhir+json:
               schema:
-                $ref: components/schemas/OperationOutcomeServiceUnavailable.yaml
+                $ref: components/schemas/OperationOutcome.yaml
               example:
                 resourceType: OperationOutcome
                 issue:
@@ -608,8 +501,16 @@ paths:
       responses: 
         "201": 
           description: Permission successfully updated
-        "400":
-          description: Bad request
+        "4XX":
+          description: |
+            An error occurred as follows:
+
+            | HTTP status | Issue severity | Issue code    | Description |
+            | ----------- | -------------- | ------------- | --------------------------------------------- |
+            | 400         | error	       | invalid       | Bad request, error in business logic on the client's side |
+            | 401         | error          | forbidden     | Unauthorized, access token missing, invalid or expired |
+            | 415         | error          | not-supported | Unsupported Media Type, Content-Type header is invalid or missing |
+            | 429         | error          | -             | You have exceeded your application's [rate limit](https://digital.nhs.uk/developer/guides-and-documentation/reference-guide#rate-limits). |
           content:
             application/fhir+json:
               schema:
@@ -620,39 +521,7 @@ paths:
                   - severity: error
                     code: invalid
                     details:
-                      text: Invalid value - xyz in field 'valueCoding.code'
-        "401":
-          description: Unauthorized
-          content:
-            application/fhir+json:
-              schema:
-                $ref: components/schemas/OperationOutcomeUnauthorized.yaml
-              example:
-                resourceType: OperationOutcome
-                issue:
-                  - severity: error
-                    code: forbidden
-                    details:
-                      text: Invalid access token
-        "415":
-          description: Unsupported Media Type, Content-Type header is invalid or missing
-          content:
-            application/fhir+json:
-              schema:
-                $ref: components/schemas/OperationOutcomeUnsupportedMediaType.yaml
-              example:
-                resourceType: OperationOutcome
-                issue:
-                  - severity: error
-                    code: not-supported
-                    details:
-                      text: Content type 'text/plain' not supported
-        "429":
-          description: You have exceeded your application's rate limit
-          content:
-            application/fhir+json:
-              schema:
-                $ref: components/schemas/OperationOutcomeTooManyRequests.yaml
+                      text: NHS number missing
         "500":
           description: Internal Server Error
           content:
@@ -704,8 +573,16 @@ paths:
       responses:
         "201":
           description: Success response
-        "400":
-          description: Bad request
+        "4XX":
+          description: |
+            An error occurred as follows:
+
+            | HTTP status | Issue severity | Issue code    | Description |
+            | ----------- | -------------- | ------------- | --------------------------------------------- |
+            | 400         | error	       | invalid       | Bad request, error in business logic on the client's side |
+            | 401         | error          | forbidden     | Unauthorized, access token missing, invalid or expired |
+            | 415         | error          | not-supported | Unsupported Media Type, Content-Type header is invalid or missing |
+            | 429         | error          | -             | You have exceeded your application's [rate limit](https://digital.nhs.uk/developer/guides-and-documentation/reference-guide#rate-limits). |
           content:
             application/fhir+json:
               schema:
@@ -716,39 +593,7 @@ paths:
                   - severity: error
                     code: invalid
                     details:
-                      text: Invalid or missing value in field 'entity.what.identifier.value'
-        "401":
-          description: Unauthorized
-          content:
-            application/fhir+json:
-              schema:
-                $ref: components/schemas/OperationOutcomeUnauthorized.yaml
-              example:
-                resourceType: OperationOutcome
-                issue:
-                  - severity: error
-                    code: forbidden
-                    details:
-                      text: Invalid access token
-        "415":
-          description: Unsupported Media Type, Content-Type header is invalid or missing
-          content:
-            application/fhir+json:
-              schema:
-                $ref: components/schemas/OperationOutcomeUnsupportedMediaType.yaml
-              example:
-                resourceType: OperationOutcome
-                issue:
-                  - severity: error
-                    code: not-supported
-                    details:
-                      text: Content type 'text/plain' not supported
-        "429":
-          description: You have exceeded your application's rate limit
-          content:
-            application/fhir+json:
-              schema:
-                $ref: components/schemas/OperationOutcomeTooManyRequests.yaml
+                      text: NHS number missing
         "500":
           description: Internal Server Error
           content:

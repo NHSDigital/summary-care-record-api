@@ -30,4 +30,3 @@
               text:
                 type: string
                 description: detailed information
-                example: NHS number missing
