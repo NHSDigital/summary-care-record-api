@@ -34,6 +34,12 @@
             reference:
               type: string
               example: 'Practitioner/F4D5093D-351E-4C6E-819E-DCCBC4B9A7FD'
+        organization:
+          type: object
+          properties:
+            reference:
+              type: string
+              example: 'Organization/90588362-F342-423F-AB6F-B5E92B20C6B6'
         code:
           type: array
           items:
