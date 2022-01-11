@@ -21,7 +21,7 @@ management:
         include: info, health, metrics, mappings
 
 identity-service:
-  userInfoEndpoint: ${IDENTITY_SERVICE_URI:/oauth2/userinfo}
+  userInfoEndpoint: /oauth2-mock/userinfo
   baseUrl: https://${APIGEE_HOST}
 
 scr:
