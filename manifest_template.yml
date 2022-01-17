@@ -58,6 +58,10 @@ apigee:
           - identity-service-{{ ENV.name }}
 {% if ENV.name == 'int' %}
           - identity-service-int-no-smartcard
+          - identity-service-mock-{{ env.name }}
+{% endif %}
+{% if env.name == 'internal-dev' or env.name == 'internal-qa' %}
+          - identity-service-mock-{{ env.name }}
 {% endif %}
         scopes:
           - 'urn:nhsd:apim:app:level3:summary-care-record'
