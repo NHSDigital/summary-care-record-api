@@ -104,6 +104,8 @@ info:
     * is stateful, so persists updates
     * includes authorisation, with [smartcard](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation/nhs-smartcards-for-developers) and non-smartcard options
 
+    It also includes ready-to-use [summary care record test data](https://digital.nhs.uk/developer/api-catalogue/summary-care-record-fhir/summary-care-record-fhir-api-test-data).
+
     For more details see [integration testing with our RESTful APIs](https://digital.nhs.uk/developer/guides-and-documentation/testing#integration-testing-with-our-restful-apis).   
 
 
