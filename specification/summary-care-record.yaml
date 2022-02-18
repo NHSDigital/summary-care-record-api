@@ -22,14 +22,14 @@ info:
     ## Overview
     Use this API to access or update a patient's [Summary Care Record (SCR)](https://digital.nhs.uk/services/summary-care-records-scr) - an electronic record of important patient information, created from GP medical records. SCRs can be seen and used by authorised staff in other areas of the health and care system involved in the patient's direct care.
 
-    Also use this API to update a patient's consent to share their SCR, and to raise a privacy alert where it is necessary to override patient's dissent to share in certain circumstances.
+    Also use this API to update a patient's consent to share their SCR, and to raise a privacy alert where you have to override a patient's dissent to share their SCR in certain circumstances.
 
     You can:
-    * retrieve a patient's Summary Care Record identifier
-    * retrieve a patient's Summary Care Record
-    * upload a patient's Summary Care Record
-    * raise information governance alerts in certain circumstances when viewing a patient's Summary Care Record
-    * set consent to share patient's information
+    * get a patient's SCR identifier
+    * get a patient's SCR
+    * upload a patient's SCR
+    * send a privacy alert message, if you have to override a patient's dissent to view their SCR 
+    * update a patient's consent to share their SCR
     
     ## Who can use this API
     This API can only be used where there is a legal basis to do so. Make sure you have a valid use case before you go too far with your development. You must do this before you can go live (see ‘Onboarding’ below).
@@ -38,6 +38,8 @@ info:
     To use this API, you need the patient's NHS number, which can be retrieved by using the following API:
       - [Personal Demographics Service (FHIR) API](https://digital.nhs.uk/developer/api-catalogue/personal-demographics-service-fhir) - use this API to search for patients and retrieve their details.  This API can also be used to update their details in some cases. This is the latest version of the PDS API and is recommended for all new integrators.
 
+    This API has endpoints enabling you to get and set access permissions, the same as the [Access Control Service (ACS) HL7 V3 API](https://digital.nhs.uk/developer/api-catalogue/access-control-service/) which it partly replaces.
+    
     ## API status and roadmap
     This API is initially for use by new market entrant GP IT developers with other use cases to follow later.
     
@@ -103,6 +105,8 @@ info:
     * is for formal integration testing
     * is stateful, so persists updates
     * includes authorisation, with [smartcard](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation/nhs-smartcards-for-developers) and non-smartcard options
+
+    It also includes ready-to-use [summary care record test data](https://digital.nhs.uk/developer/api-catalogue/summary-care-record-fhir/summary-care-record-fhir-api-test-data).
 
     For more details see [integration testing with our RESTful APIs](https://digital.nhs.uk/developer/guides-and-documentation/testing#integration-testing-with-our-restful-apis).   
 

@@ -1,0 +1,232 @@
+{
+  "resourceType": "Bundle",
+  "id": "EF5D4B19-5A40-46FD-BF87-5FA2B54986C7",
+  "identifier": {
+    "system": "https://tools.ietf.org/html/rfc4122",
+    "value": "60925FD2-9C1C-11EB-A990-F40343488B15"
+  },
+  "type": "document",
+  "timestamp": "2021-04-13T05:52:06+00:00",
+  "entry": [
+    {
+      "fullUrl": "https://int.api.service.nhs.uk/summary-care-record/FHIR/R4/Composition/4AB02CD0-AE61-11E7-A4D0-11E81EF36166",
+      "resource": {
+        "resourceType": "Composition",
+        "id": "4AB02CD0-AE61-11E7-A4D0-11E81EF36166",
+        "meta": {
+          "lastUpdated": "2017-10-11T09:50+00:00"
+        },
+        "identifier": {
+          "system": "https://tools.ietf.org/html/rfc4122",
+          "value": "4AB02CD0-AE61-11E7-A4D0-11E81EF36166"
+        },
+        "status": "final",
+        "type": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "196981000000101",
+              "display": "General Practice Summary"
+            }
+          ]
+        },
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://snomed.info/sct",
+                "code": "163171000000105",
+                "display": "Care Professional Documentation"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/713A16B2-6E69-4669-8F2C-8977BD928A1F"
+        },
+        "date": "2017-10-11T09:50:54+00:00",
+        "author": [
+          {
+            "reference": "PractitionerRole/88AC9601-0ED4-4D1C-AF0E-9524628D12E6"
+          }
+        ],
+        "relatesTo": [
+          {
+            "code": "replaces",
+            "targetIdentifier": {
+              "value": "74706381-ADC3-11E7-8221-1534459FDFDB"
+            }
+          }
+        ],
+        "section": [
+          {
+            "title": "General Practice Summary",
+            "code": {
+              "coding": [
+                {
+                  "code": "Title"
+                }
+              ]
+            },
+            "text": {
+              "status": "generated",
+              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h3 id=\"Disclaimer\">Sourced from the patient's General Practice record. This summary may not include all the information pertinent to this patient.</h3><p id=\"CreateTime\">Summary created: 11 Oct 2017 09:50</p><p id=\"WithheldCREItemsHeaderStatement\" class=\"HighlightedStatement\">One or more entries have been deliberately withheld from this GP Summary.</p><p id=\"Author\">Created by: RADFORD, Michelle (Mrs)</p><p id=\"Practice\">DR DK NANDI'S PRACTICE, 342 Troy Road, Horsforth, Leeds LS18 5TN</p></div>"
+            }
+          },
+          {
+            "title": "Allergies and Adverse Reactions",
+            "code": {
+              "coding": [
+                {
+                  "code": "AllergiesHeader"
+                }
+              ]
+            },
+            "text": {
+              "status": "generated",
+              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><table summary=\"This table includes information about this patient's allergies and adverse reactions\" id=\"Allergies\"><thead><tr><th>Date</th><th>Description</th><th>Certainty</th><th>Severity</th><th>Supporting Information</th></tr></thead><tbody><tr class=\"oddRow\"><td>23 Feb 2017</td><td>Sensitivity to ACICLOVIR</td><td/><td/><td/></tr><tr class=\"evenRow\"><td>23 Feb 2017</td><td>Sensitivity to FAMCICLOVIR</td><td/><td/><td/></tr><tr class=\"oddRow\"><td>23 Feb 2017</td><td>Sensitivity to ISOFLURANE</td><td/><td/><td/></tr></tbody></table></div>"
+            }
+          },
+          {
+            "title": "Acute Medications (For the 12 month period 11 Oct 2016 to 11 Oct 2017)",
+            "code": {
+              "coding": [
+                {
+                  "code": "AcuteMedsHeader"
+                }
+              ]
+            },
+            "text": {
+              "status": "generated",
+              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><table summary=\"This table includes information about this patient's acute medications.\" id=\"AcuteMeds\"><thead><tr><th>Type</th><th>Date</th><th>Medication Item</th><th>Dosage Instructions</th><th>Quantity</th></tr></thead><tbody><tr class=\"oddRow\"><td>Acute Medication</td><td>Prescribed: 23 Feb 2017</td><td>Chorionic gonadotrophin 5,000unit powder and solvent for solution for injection ampoules</td><td>use as directed</td><td>1 ampoule</td></tr><tr class=\"oddRow\"><td colspan=\"2\"/><td>Supporting Information: {Batch Number} {Pack Size}</td><td colspan=\"2\"/></tr><tr class=\"evenRow\"><td>Acute Medication</td><td>Prescribed: 23 Feb 2017</td><td>Cyclopentolate 1% eye drops</td><td>one drop as directed</td><td>5 ml</td></tr></tbody></table></div>"
+            }
+          },
+          {
+            "title": "Current Repeat Medications",
+            "code": {
+              "coding": [
+                {
+                  "code": "RepeatMedsHeader"
+                }
+              ]
+            },
+            "text": {
+              "status": "generated",
+              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><table summary=\"This table includes information about this patient's current repeat medications.\" id=\"RepeatMeds\"><tbody><tr><td>No relevant information available for this category</td></tr></tbody></table></div>"
+            }
+          },
+          {
+            "title": "Discontinued Repeat Medications (For the 6 month period 11 Apr 2017 to 11 Oct 2017)",
+            "code": {
+              "coding": [
+                {
+                  "code": "DiscRepeatMedsHeader"
+                }
+              ]
+            },
+            "text": {
+              "status": "generated",
+              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><table summary=\"This table includes information about this patient's past repeat medications.\" id=\"DiscRepeatMeds\"><tbody><tr><td>No relevant information available for this category</td></tr></tbody></table></div>"
+            }
+          },
+          {
+            "title": "Personal Preferences",
+            "code": {
+              "coding": [
+                {
+                  "code": "PreferencesHeader"
+                }
+              ]
+            },
+            "text": {
+              "status": "generated",
+              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p id=\"WithheldCREItemsHeaderStatement\" class=\"HighlightedStatement\">One or more entries have been deliberately withheld from this GP Summary.</p><table id=\"Preferences\"><thead><tr><th>Date</th><th>Description</th><th>Value</th><th>Supporting Information</th></tr></thead><tbody><tr class=\"oddRow\"><td>10 Oct 2017</td><td>Preferred place of death: hospice</td><td/><td>test 3</td></tr><tr class=\"evenRow\"><td>23 Feb 2017</td><td>Express consent for core and additional SCR dataset upload</td><td/><td/></tr></tbody></table><p id=\"SendTime\">Summary Sent: 11 Oct 2017 09:50</p></div>"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "https://api.service.nhs.uk/summary-care-record/FHIR/R4/PractitionerRole/88AC9601-0ED4-4D1C-AF0E-9524628D12E6",
+      "resource": {
+        "resourceType": "PractitionerRole",
+        "id": "88AC9601-0ED4-4D1C-AF0E-9524628D12E6",
+        "practitioner": {
+          "reference": "Practitioner/4E7AFF7E-FD68-4C52-A8C5-89268F1FDE5D"
+        },
+        "organization": {
+          "reference": "Organization/CD7FAF21-0126-456E-B681-703571153CA3"
+        },
+        "code": [
+          {
+            "coding": [
+              {
+                "system": "https://fhir.nhs.uk/CodeSystem/HL7v3-SDSJobRoleName",
+                "code": "NR0050",
+                "display": "Consultant"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "https://api.service.nhs.uk/summary-care-record/FHIR/R4/Practitioner/4E7AFF7E-FD68-4C52-A8C5-89268F1FDE5D",
+      "resource": {
+        "resourceType": "Practitioner",
+        "id": "4E7AFF7E-FD68-4C52-A8C5-89268F1FDE5D",
+        "name": [
+          {
+            "text": "BLOGGS Fred"
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "https://api.service.nhs.uk/summary-care-record/FHIR/R4/Organization/CD7FAF21-0126-456E-B681-703571153CA3",
+      "resource": {
+        "resourceType": "Organization",
+        "id": "CD7FAF21-0126-456E-B681-703571153CA3",
+        "type": [
+          {
+            "coding": [
+              {
+                "code": "021"
+              }
+            ]
+          }
+        ],
+        "telecom": [
+          {
+            "system": "phone",
+            "value": "0177865579"
+          },
+          {
+            "system": "phone",
+            "value": "0189834144"
+          }
+        ],
+        "address": [
+          {
+            "line": [
+              "ORG ADDRESS"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "https://int.api.service.nhs.uk/summary-care-record/FHIR/R4/Patient/713A16B2-6E69-4669-8F2C-8977BD928A1F",
+      "resource": {
+        "resourceType": "Patient",
+        "id": "713A16B2-6E69-4669-8F2C-8977BD928A1F",
+        "identifier": [
+          {
+            "system": "https://fhir.nhs.uk/Id/nhs-number",
+            "value": "9995000180"
+          }
+        ]
+      }
+    }
+  ]
+}
