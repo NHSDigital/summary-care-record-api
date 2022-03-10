@@ -53,7 +53,7 @@ info:
     If you have any other queries, please [contact us](https://digital.nhs.uk/developer/help-and-support).
 
     ## Technology
-    This API is [RESTful](https://digital.nhs.uk/developer/guides-and-documentation/api-technologies-at-nhs-digital#basic-rest-apis). 
+    This API is [RESTful](/developer/guides-and-documentation/api-technologies-at-nhs-digital#basic-rest).
 
     It also conforms to the [FHIR (R4)](https://www.hl7.org/fhir/) global standard for health care data exchange.
 
