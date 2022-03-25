@@ -48,7 +48,7 @@ info:
     - the API is not yet available for production use
     - we might make breaking changes, but only if we cannot avoid it, and we'll give advance notice
 
-    To see our roadmap, or to suggest, comment or vote on features for this API, see our [interactive product backlog](https://nhs-digital-api-management.featureupvote.com/?order=popular&filter=all&tag=reasonable-adjustment-flag#controls).
+    To see our roadmap, or to suggest, comment or vote on features for this API, see our [interactive product backlog](https://nhs-digital-api-management.featureupvote.com/?order=popular&filter=all&tag=scr-fhir-api&deleted=0#controls).
 
     If you have any other queries, please [contact us](https://digital.nhs.uk/developer/help-and-support).
 
@@ -61,7 +61,7 @@ info:
         - array names are singular, for example `line` not `lines` for address lines
         - data items that are country-specific and thus not included in the FHIR global base resources are usually wrapped in an `extension` object
 
-    ## Network Access
+    ## Network access
     This API is available on the internet and, indirectly, on the [Health and Social Care Network (HSCN)](https://digital.nhs.uk/services/health-and-social-care-network). To use this API with [NHS smartcards](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation/nhs-smartcards-for-developers) (see below) you do need an HSCN connection, although internet-facing alternatives are available.
 
     For more details see [Network access for APIs](https://digital.nhs.uk/developer/guides-and-documentation/network-access-for-apis).
