@@ -303,7 +303,7 @@ public class ScrTest {
     }
 
     @Test
-    public void whenEndpointNotFoundThenExpect404() throws IOException {
+    public void whenEndpointNotFoundThenExpect404() {
         var responseBody = given()
             .port(port)
             .when()
