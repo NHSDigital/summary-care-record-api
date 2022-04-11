@@ -116,6 +116,12 @@ public abstract class CustomArgumentsProvider implements ArgumentsProvider {
         }
     }
 
+    public static class GetScrAgentPersonAuthorSuccess extends CustomArgumentsProvider {
+        public GetScrAgentPersonAuthorSuccess() {
+            super("get_scr", "agent_person_author_success");
+        }
+    }
+
     public static class GetScrNoConsent extends CustomArgumentsProvider {
         public GetScrNoConsent() {
             super("get_scr", "no_consent");
