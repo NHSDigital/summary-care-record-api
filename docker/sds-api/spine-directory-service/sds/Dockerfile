@@ -16,6 +16,6 @@ WORKDIR /usr/src/app/spine-directory-service/sds
 
 RUN pipenv install --deploy --ignore-pipfile
 
-EXPOSE 9000
+EXPOSE 9001
 
 ENTRYPOINT pipenv run start
