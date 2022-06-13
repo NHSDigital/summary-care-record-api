@@ -33,7 +33,7 @@ docker_service:
         matcher: "200"
         path: "/healthcheck"
   - name: sds-api
-    expose: true
+    expose: false
     environment:
       - name: SDS_LOG_LEVEL
         value: NOTSET
