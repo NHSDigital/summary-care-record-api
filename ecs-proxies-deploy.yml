@@ -7,6 +7,7 @@ docker_service_autoscaling: "{{ docker_service_autoscaling_prod if APIGEE_ENVIRO
 docker_service:
   - name: scr-api
     expose: true
+    port: 9000
     environment:
       - name: SCR_LOGGING_LEVEL
         value: "{{ 'DEBUG' if APIGEE_ENVIRONMENT in ('internal-dev', 'int') else 'INFO' }}"
