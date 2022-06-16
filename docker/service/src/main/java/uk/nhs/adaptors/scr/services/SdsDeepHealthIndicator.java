@@ -18,9 +18,9 @@ public class SdsDeepHealthIndicator implements HealthIndicator {
             ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
 
             if (response.getStatusCode() == HttpStatus.OK) {
-                return Health.up().build();
+                return Health.up().withDetail("Response", response).build();
             } else {
-                return Health.down().withDetail("Error", "Service is down").build();
+                return Health.down().withDetail("Response", response).build();
             }
         } catch (Exception e) {
             return Health.down().withDetail("Error", "Service Unavailable").build();
