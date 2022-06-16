@@ -13,12 +13,15 @@ spring:
     add-mappings: false
 
 management:
+  endpoint:
+    health:
+      show-details: "ALWAYS"
   endpoints:
     web:
       base-path: /
       path-mapping.health: healthcheck
       exposure:
-        include: info, health, metrics, mappings
+        include: "*"
 
 identity-service:
   userInfoEndpoint: ${IDENTITY_SERVICE_URI:/oauth2/userinfo}
