@@ -38,7 +38,7 @@ info:
     To use this API, you need the patient's NHS number, which can be retrieved by using the following API:
       - [Personal Demographics Service (FHIR) API](https://digital.nhs.uk/developer/api-catalogue/personal-demographics-service-fhir) - use this API to search for patients and retrieve their details.  This API can also be used to update their details in some cases. This is the latest version of the PDS API and is recommended for all new integrators.
 
-    This API has endpoints enabling you to get and set access permissions, the same as the [Access Control Service (ACS) HL7 V3 API](https://digital.nhs.uk/developer/api-catalogue/access-control-service/) which it partly replaces.
+    This API has endpoints enabling you to get and set access permissions, the same as the [Access Control Service (ACS) HL7 V3 API](https://digital.nhs.uk/developer/api-catalogue/access-control-service-hl7-v3) which it partly replaces.
     
     ## API status and roadmap
     This API is initially for use by new market entrant GP IT developers with other use cases to follow later.
