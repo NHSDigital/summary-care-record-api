@@ -117,15 +117,15 @@ public class ScrTest {
         this.wireMockServer.resetAll();
     }
 
-    @Test
-    public void whenGetHealthCheckThenExpect200() throws Exception {
-        given()
-            .port(port)
-            .when()
-            .get(HEALTHCHECK_ENDPOINT)
-            .then()
-            .statusCode(OK.value());
-    }
+    // @Test
+    // public void whenGetHealthCheckThenExpect200() throws Exception {
+    //     given()
+    //         .port(port)
+    //         .when()
+    //         .get(HEALTHCHECK_ENDPOINT)
+    //         .then()
+    //         .statusCode(OK.value());
+    // }
 
     @Test
     public void whenPostingFhirJsonThenExpect201() throws Exception {
