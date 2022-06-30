@@ -1,5 +1,7 @@
 from typing import Dict, List, Optional
 
+from py import code
+
 from request.base_handler import SERVICE_ID_FHIR_IDENTIFIER
 from request.mapper_urls import MapperUrls as Url
 from utilities import message_utilities
@@ -123,6 +125,16 @@ def build_device_resource(ldap_attributes: dict) -> Dict:
         }
 
     return device
+
+
+def build_practitioner_role_resource(ldap_attributes: dict) -> Dict:
+    practioner_role = {
+        "resourceType": "PractitionerRole",
+        "identifier": str(message_utilities.get_uuid()),
+        "code": list(ldap_attributes)[0]
+    }
+    
+    return practioner_role
 
 
 def _build_identifier_array(ldap_attributes: Dict):
