@@ -3,6 +3,7 @@ package uk.nhs.adaptors.scr.services;
 import com.github.mustachejava.Mustache;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.r4.model.Coding;
 import org.hl7.fhir.r4.model.Parameters;
 import org.hl7.fhir.r4.model.Parameters.ParametersParameterComponent;
@@ -22,6 +23,7 @@ import uk.nhs.adaptors.scr.models.AcsParams;
 import uk.nhs.adaptors.scr.models.AcsPermission;
 import uk.nhs.adaptors.scr.models.RequestData;
 
+import java.net.URISyntaxException;
 import java.time.format.DateTimeFormatter;
 
 import static java.time.OffsetDateTime.now;
@@ -43,6 +45,7 @@ public class AcsService {
     private final SpineClientContract spineClient;
     private final ScrConfiguration scrConfiguration;
     private final SpineConfiguration spineConfiguration;
+    private final SdsService sdsService;
     private final FhirParser fhirParser;
     private final IdentityServiceContract identityService;
     private final SpineResponseParser spineResponseParser;
@@ -62,12 +65,20 @@ public class AcsService {
     }
 
     private String getUserRoleCode(UserInfo userInfo, String nhsdSessionUrid) {
-        return userInfo.getRoles().stream()
+        var userRole = userInfo.getRoles().stream()
             .filter(role -> role.getPersonRoleId().equals(nhsdSessionUrid))
-            .findFirst()
-            .orElseThrow(() -> new BadRequestException(String.format("Unable to determine SDS Job Role Code for "
-                + "the given RoleID: %s", nhsdSessionUrid)))
-            .getRoleCode();
+            .findFirst();
+        if (userRole.isPresent() && StringUtils.isNotEmpty(userRole.get().getRoleCode())) {
+            return userRole.get().getRoleCode();
+        }
+
+        try {
+            return sdsService.getUserRoleCode(nhsdSessionUrid);
+        } catch (BadRequestException | URISyntaxException e) {
+
+            throw new BadRequestException(String.format("Unable to determine SDS Job Role Code for "
+                + "the given RoleID: %s", nhsdSessionUrid));
+        }
     }
 
     private String prepareAcsRequest(ParametersParameterComponent parameter, RequestData requestData, String sdsJobRoleCode,
