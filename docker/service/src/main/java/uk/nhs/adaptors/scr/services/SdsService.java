@@ -2,9 +2,7 @@ package uk.nhs.adaptors.scr.services;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.http.HttpRequest;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.client.utils.URIBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -12,7 +10,6 @@ import uk.nhs.adaptors.scr.clients.identity.sds.SdsClient;
 import uk.nhs.adaptors.scr.clients.sds.SdsJSONResponseHandler;
 import uk.nhs.adaptors.scr.config.SdsConfiguration;
 
-import java.net.URI;
 import java.net.URISyntaxException;
 
 @Component
@@ -27,14 +24,14 @@ public class SdsService {
     public String getUserRoleCode(String nhsdSessionUrid) throws URISyntaxException {
 
         var request = new HttpGet();
-        var URI = new URIBuilder(sdsConfiguration.getBaseUrl() + "/user/role_code")
+        var uri = new URIBuilder(sdsConfiguration.getBaseUrl() + "/user/role_code")
             .addParameter("UserRoleId", nhsdSessionUrid)
             .build();
 
-        request.setURI(URI);
+        request.setURI(uri);
 
         var response = sdsClient.sendRequest(request, sdsJSONResponseHandler);
 
-        return "50030:G0100:R0575";
+        return response.toString();
     }
 }

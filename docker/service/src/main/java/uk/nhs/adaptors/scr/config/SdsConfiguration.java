@@ -12,6 +12,6 @@ import org.springframework.stereotype.Component;
 @Setter
 public class SdsConfiguration {
 
-        private String baseUrl;
+    private String baseUrl;
 
 }

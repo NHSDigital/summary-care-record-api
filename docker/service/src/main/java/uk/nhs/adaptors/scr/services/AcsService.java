@@ -3,7 +3,7 @@ package uk.nhs.adaptors.scr.services;
 import com.github.mustachejava.Mustache;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
+//import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.r4.model.Coding;
 import org.hl7.fhir.r4.model.Parameters;
 import org.hl7.fhir.r4.model.Parameters.ParametersParameterComponent;
@@ -65,9 +65,9 @@ public class AcsService {
     }
 
     private String getUserRoleCode(UserInfo userInfo, String nhsdSessionUrid) {
-        var userRole = userInfo.getRoles().stream()
-            .filter(role -> role.getPersonRoleId().equals(nhsdSessionUrid))
-            .findFirst();
+//        var userRole = userInfo.getRoles().stream()
+//            .filter(role -> role.getPersonRoleId().equals(nhsdSessionUrid))
+//            .findFirst();
 //        if (userRole.isPresent() && StringUtils.isNotEmpty(userRole.get().getRoleCode())) {
 //            return userRole.get().getRoleCode();
 //        }
