@@ -44,15 +44,6 @@ public class SdsClient {
         }
     }
 
-
-    //    public static String getHeader(Header[] headers, String headerName) {
-    //        return Arrays.stream(headers)
-    //            .filter(header -> header.getName().equalsIgnoreCase(headerName))
-    //            .map(NameValuePair::getValue)
-    //            .findFirst()
-    //            .orElseThrow(() -> new ScrBaseException("Response missing " + headerName + " header"));
-    //    }
-
     @Builder
     @Getter
     @AllArgsConstructor

@@ -36,8 +36,8 @@ scr:
   serviceBasePath: ${SERVICE_BASE_PATH}
   baseUrl: https://${HOST_URL}
 
-  sds:
-      baseUrl: https://${SDS_URL}
+sds:
+  baseUrl: https://${SDS_URL}
 
 spine:
   tlsEnabled: ${TLS_ENABLED:True}
