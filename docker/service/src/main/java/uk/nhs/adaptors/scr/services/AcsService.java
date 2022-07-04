@@ -65,12 +65,12 @@ public class AcsService {
     }
 
     private String getUserRoleCode(UserInfo userInfo, String nhsdSessionUrid) {
-//        var userRole = userInfo.getRoles().stream()
-//            .filter(role -> role.getPersonRoleId().equals(nhsdSessionUrid))
-//            .findFirst();
-//        if (userRole.isPresent() && StringUtils.isNotEmpty(userRole.get().getRoleCode())) {
-//            return userRole.get().getRoleCode();
-//        }
+        var userRole = userInfo.getRoles().stream()
+            .filter(role -> role.getPersonRoleId().equals(nhsdSessionUrid))
+            .findFirst();
+        if (userRole.isPresent() && StringUtils.isNotEmpty(userRole.get().getRoleCode())) {
+            return userRole.get().getRoleCode();
+        }
 
         try {
             return sdsService.getUserRoleCode(nhsdSessionUrid);
