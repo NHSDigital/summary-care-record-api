@@ -30,8 +30,10 @@ public class SdsService {
 
         request.setURI(uri);
 
-        var response = sdsClient.sendRequest(request, sdsJSONResponseHandler);
+        return request.toString();
 
-        return response.toString();
+//        var response = sdsClient.sendRequest(request, sdsJSONResponseHandler);
+//
+//        return response.toString();
     }
 }
