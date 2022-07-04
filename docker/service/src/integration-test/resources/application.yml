@@ -26,6 +26,9 @@ scr:
   serviceBasePath: ${SERVICE_BASE_PATH:summary-care-record/FHIR/R4}
   baseUrl: https://${HOST_URL:internal-dev.api.service.nhs.uk}
 
+sds:
+  baseUrl: https://${SDS_URL}
+
 identity-service:
     userInfoEndpoint: /oauth2/userinfo
     baseUrl: https://${APIGEE_HOST:internal-dev.api.service.nhs.uk}
