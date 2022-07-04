@@ -53,11 +53,13 @@ info:
     If you have any other queries, please [contact us](https://digital.nhs.uk/developer/help-and-support).
 
     ## Technology
-    This API is [RESTful](/developer/guides-and-documentation/api-technologies-at-nhs-digital#basic-rest).
+    This API is [RESTful](https://digital.nhs.uk/developer/guides-and-documentation/our-api-technologies#basic-rest).
 
-    It also conforms to the [FHIR (R4)](https://www.hl7.org/fhir/) global standard for health care data exchange.
+    It conforms to the [FHIR](https://digital.nhs.uk/developer/guides-and-documentation/our-api-technologies#fhir) global standard for health care data exchange, specifically to [FHIR R4 (v4.0.1)](https://hl7.org/fhir/r4/), except that it does not support the [capabilities](http://hl7.org/fhir/R4/http.html#capabilities) interaction.
 
-    You don not need to know much about FHIR to use this API - FHIR APIs are just RESTful APIs that follow specific rules. In particular:
+    It includes some country-specific FHIR extensions, which are built against [FHIR UK Core](https://digital.nhs.uk/services/fhir-uk-core), specifically [UK.core.r4 1.0.0](https://simplifier.net/packages/uk.core.r4/1.0.0).
+
+    You do not need to know much about FHIR to use this API - FHIR APIs are just RESTful APIs that follow specific rules. In particular:
         - array names are singular, for example `line` not `lines` for address lines
         - data items that are country-specific and thus not included in the FHIR global base resources are usually wrapped in an `extension` object
 
