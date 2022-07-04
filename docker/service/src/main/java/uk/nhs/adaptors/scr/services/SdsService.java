@@ -28,9 +28,11 @@ public class SdsService {
             .addParameter("UserRoleId", nhsdSessionUrid)
             .build();
 
-        request.setURI(uri);
+        return uri.toString();
 
-        return request.toString();
+//        request.setURI(uri);
+
+//        return request.toString();
 
 //        var response = sdsClient.sendRequest(request, sdsJSONResponseHandler);
 //
