@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import uk.nhs.adaptors.scr.clients.identity.sds.SdsClient;
 import uk.nhs.adaptors.scr.components.FhirParser;
 import uk.nhs.adaptors.scr.controllers.validation.scr.PatientId;
 import uk.nhs.adaptors.scr.controllers.validation.scr.RecordCount;
@@ -16,11 +17,13 @@ import uk.nhs.adaptors.scr.controllers.validation.scr.SortMethod;
 import uk.nhs.adaptors.scr.controllers.validation.scr.TypeCode;
 import uk.nhs.adaptors.scr.logging.LogExecutionTime;
 import uk.nhs.adaptors.scr.services.GetScrService;
+import uk.nhs.adaptors.scr.services.SdsService;
 
 import javax.validation.constraints.NotNull;
 
-import static uk.nhs.adaptors.scr.consts.ScrHttpHeaders.CLIENT_IP;
-import static uk.nhs.adaptors.scr.consts.ScrHttpHeaders.NHSD_ASID;
+import java.net.URISyntaxException;
+
+import static uk.nhs.adaptors.scr.consts.ScrHttpHeaders.*;
 import static uk.nhs.adaptors.scr.controllers.FhirMediaTypes.APPLICATION_FHIR_JSON_VALUE;
 
 @RestController
@@ -35,6 +38,7 @@ public class GetScrController {
 
     private final FhirParser fhirParser;
     private final GetScrService getScrService;
+    private final SdsService sdsService;
 
     @GetMapping(path = "/DocumentReference",
         produces = {APPLICATION_FHIR_JSON_VALUE})
@@ -71,5 +75,18 @@ public class GetScrController {
         var bundle = getScrService.getScr(extractNhsNumber(nhsNumber), compositionId, nhsdAsid, clientIp);
 
         return fhirParser.encodeToJson(bundle);
+    }
+
+    @GetMapping(path = "/RoleCheck",
+        produces = {APPLICATION_FHIR_JSON_VALUE})
+    @LogExecutionTime
+    public String getRole(
+        @RequestHeader(NHSD_SESSION_URID) @NotNull String nhsdSessionUrid
+    ) throws URISyntaxException {
+        LOGGER.info("Received GET SCR request");
+
+        var role = sdsService.getUserRoleCode(nhsdSessionUrid);
+
+        return role;
     }
 }
