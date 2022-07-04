@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import uk.nhs.adaptors.scr.clients.identity.sds.SdsClient;
 import uk.nhs.adaptors.scr.components.FhirParser;
 import uk.nhs.adaptors.scr.controllers.validation.scr.PatientId;
 import uk.nhs.adaptors.scr.controllers.validation.scr.RecordCount;
@@ -23,7 +22,9 @@ import javax.validation.constraints.NotNull;
 
 import java.net.URISyntaxException;
 
-import static uk.nhs.adaptors.scr.consts.ScrHttpHeaders.*;
+import static uk.nhs.adaptors.scr.consts.ScrHttpHeaders.CLIENT_IP;
+import static uk.nhs.adaptors.scr.consts.ScrHttpHeaders.NHSD_ASID;
+import static uk.nhs.adaptors.scr.consts.ScrHttpHeaders.NHSD_SESSION_URID;
 import static uk.nhs.adaptors.scr.controllers.FhirMediaTypes.APPLICATION_FHIR_JSON_VALUE;
 
 @RestController
