@@ -23,7 +23,7 @@ public class SdsService {
 
     public String getUserRoleCode(String nhsdSessionUrid) throws URISyntaxException {
 
-        var request = new HttpGet();
+//        var request = new HttpGet();
         return "success" + nhsdSessionUrid;
 
 //        var uri = new URIBuilder(sdsConfiguration.getBaseUrl() + "/PractitionerRole")
