@@ -83,14 +83,11 @@ info:
 
     For more details, see [user-restricted APIs](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation#user-restricted-apis).
 
-
     ## Environments and testing
     | Purpose                                | Base URL                                            |
     | ---------------------------------------|-----------------------------------------------------|
     | Sandbox                                | `https://sandbox.api.service.nhs.uk/summary-care-record/FHIR/R4`|
     | Integration test                       | `https://int.api.service.nhs.uk/summary-care-record/FHIR/R4`    |
-
-
 
     ### Sandbox testing
     Our [sandbox environment](https://digital.nhs.uk/developer/guides-and-documentation/testing#sandbox-testing):
@@ -112,9 +109,12 @@ info:
 
     For more details see [integration testing with our RESTful APIs](https://digital.nhs.uk/developer/guides-and-documentation/testing#integration-testing-with-our-restful-apis).   
 
-
     ## Onboarding
-    You need to get your software approved by us before it can go live with this API. We call this onboarding. The onboarding process can sometimes be quite long, so it’s worth planning well ahead.
+    You need to get your software approved by us before it can go live with this API. We call this onboarding.
+    The onboarding process can sometimes be quite long, so it’s worth planning well ahead.
+    
+    This API is in alpha, so it is not yet available in production and not yet available for onboarding.
+    You can, however, register your interest in the API using our [Summary Care Record new interest form](https://digital.nhs.uk/services/summary-care-records-scr/new-interest-form).
 
   license:
     name: MIT
