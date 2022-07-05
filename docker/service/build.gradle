@@ -2,7 +2,7 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '2.5.12'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
-    id "io.freefair.lombok" version "5.1.0"
+    id "io.freefair.lombok" version "6.5.0.2"
     id "checkstyle"
     id "com.github.spotbugs" version "4.5.0"
 }
@@ -17,10 +17,6 @@ sourceCompatibility = '11'
 
 repositories {
     mavenCentral()
-}
-
-lombok {
-    config['lombok.log.fieldName'] = 'LOGGER'
 }
 
 dependencies {

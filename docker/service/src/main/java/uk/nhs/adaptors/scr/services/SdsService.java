@@ -33,6 +33,6 @@ public class SdsService {
 
         var response = sdsClient.sendRequest(request, sdsJSONResponseHandler);
 
-        return response.toString();
+        return response.getBody();
     }
 }
