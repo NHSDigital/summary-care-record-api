@@ -2,8 +2,8 @@ package uk.nhs.adaptors.scr.services;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-//import org.apache.http.client.methods.HttpGet;
-//import org.apache.http.client.utils.URIBuilder;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.utils.URIBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import uk.nhs.adaptors.scr.clients.identity.sds.SdsClient;
@@ -23,19 +23,16 @@ public class SdsService {
 
     public String getUserRoleCode(String nhsdSessionUrid) throws URISyntaxException {
 
-//        var request = new HttpGet();
-        return "success" + nhsdSessionUrid + sdsConfiguration.getBaseUrl();
+        var request = new HttpGet();
 
-//        var uri = new URIBuilder(sdsConfiguration.getBaseUrl() + "/PractitionerRole")
-//            .addParameter("UserRoleId", nhsdSessionUrid)
-//            .build();
-//
-//        request.setURI(uri);
-//
-//        return request.toString();
+        var uri = new URIBuilder(sdsConfiguration.getBaseUrl() + "/PractitionerRole")
+            .addParameter("UserRoleId", nhsdSessionUrid)
+            .build();
 
-//        var response = sdsClient.sendRequest(request, sdsJSONResponseHandler);
-//
-//        return response.toString();
+        request.setURI(uri);
+
+        var response = sdsClient.sendRequest(request, sdsJSONResponseHandler);
+
+        return response.toString();
     }
 }
