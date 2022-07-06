@@ -37,7 +37,7 @@ docker_service:
         path: "/healthcheck"
   - name: sds-api
     expose: false
-    port: 9001
+    port: 9001:9000
     environment:
       - name: SDS_LOG_LEVEL
         value: NOTSET
