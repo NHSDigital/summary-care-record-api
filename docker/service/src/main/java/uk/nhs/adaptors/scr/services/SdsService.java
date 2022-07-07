@@ -33,17 +33,33 @@ public class SdsService {
 
         // request.setURI(uri);
 
+        // DEBUG
+        // todo: delete me :)
         RestTemplate restTemplate = new RestTemplate();
         String url = "http://localhost:9001/healthcheck";
         ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
 
         LOGGER.info(response.getBody());
+        // DEBUG
+
+        // DEBUG
+        // WebClient client = WebClient.create(url);
+        WebClient client = WebClient.create();
+
+        WebClient.ResponseSpec responseSpec = client.get()
+            .uri(url)
+            .retrieve();
+        String responseBody = responseSpec.bodyToMono(String.class).block();
+
+        LOGGER.info(responseBody);
+        // DEBUG
 
         url = "http://localhost:9001/PractitionerRole";
         response = restTemplate.getForEntity(url, String.class);
 
-        LOGGER.info(response.getBody());
+        // add parameter in form user-role-id=https://fhir.nhs.uk/Id/nhsJobRoleCode|<NHSDSessionURID>
 
+        LOGGER.info(response.getBody());
 
         //var response = sdsClient.sendRequest(request, sdsJSONResponseHandler);
 
