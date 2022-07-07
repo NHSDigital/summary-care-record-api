@@ -3,7 +3,7 @@ package uk.nhs.adaptors.scr.services;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 //import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.utils.URIBuilder;
+//import org.apache.http.client.utils.URIBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -32,10 +32,13 @@ public class SdsService {
 
         LOGGER.info(userRoleId + baseUrl);
 
-        var uri = new URIBuilder(baseUrl + "/PractitionerRole")
-            .setScheme("http")
-            .addParameter("user-role-id", userRoleId)
-            .build();
+//        var uri = new URIBuilder(baseUrl + "/PractitionerRole")
+//            .setScheme("http")
+//            .addParameter("user-role-id", userRoleId)
+//            .build();
+
+        var uri = "http://"
+            + baseUrl + "/PractitionerRole?user-role-id=https://fhir.nhs.uk/Id/nhsJobRoleCode|555021935107";
 
         WebClient.ResponseSpec responseSpec = client.get()
             .uri(uri)
