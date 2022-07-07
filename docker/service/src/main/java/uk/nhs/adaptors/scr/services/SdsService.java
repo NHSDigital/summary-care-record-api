@@ -33,6 +33,7 @@ public class SdsService {
         LOGGER.info(userRoleId + baseUrl);
 
         var uri = new URIBuilder(baseUrl + "/PractitionerRole")
+            .setScheme("http")
             .addParameter("user-role-id", userRoleId)
             .build();
 
