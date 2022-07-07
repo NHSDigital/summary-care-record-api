@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.client.WebClient;
 import uk.nhs.adaptors.scr.clients.identity.sds.SdsClient;
 import uk.nhs.adaptors.scr.clients.sds.SdsJSONResponseHandler;
 import uk.nhs.adaptors.scr.config.SdsConfiguration;
