@@ -27,6 +27,7 @@ public class SdsService {
 
         var uri = new URIBuilder(sdsConfiguration.getBaseUrl() + "/PractitionerRole")
             .addParameter("UserRoleId", nhsdSessionUrid)
+            .setScheme("http")
             .build();
 
         request.setURI(uri);

@@ -22,7 +22,7 @@ docker_service:
       - name: IDENTITY_SERVICE_URI
         value: "{{ '/oauth2-no-smartcard/userinfo' if APIGEE_ENVIRONMENT == 'int' else '/oauth2/userinfo' }}"
       - name: SDS_URL
-        value: ""
+        value: "host.docker.internal:9001"
     secrets:
       - name: APIGEE_HOST
         valueFrom: "/{{ account }}/platform-common/egress/hosts/apigee-{{ APIGEE_ENVIRONMENT }}"
@@ -37,7 +37,7 @@ docker_service:
         path: "/healthcheck"
   - name: sds-api
     expose: false
-    port: "9001:9000"
+    port: "9001"
     environment:
       - name: SDS_LOG_LEVEL
         value: NOTSET
