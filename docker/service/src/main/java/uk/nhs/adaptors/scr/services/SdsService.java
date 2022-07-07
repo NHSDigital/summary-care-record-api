@@ -3,7 +3,7 @@ package uk.nhs.adaptors.scr.services;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 //import org.apache.http.client.methods.HttpGet;
-//import org.apache.http.client.utils.URIBuilder;
+import org.apache.http.client.utils.URIBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -18,40 +18,28 @@ import java.net.URISyntaxException;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class SdsService {
 
+    private static final String USER_ROLE_ID_FHIR_IDENTIFIER = "https://fhir.nhs.uk/Id/nhsJobRoleCode";
     private final SdsConfiguration sdsConfiguration;
     private final SdsClient sdsClient;
     private final SdsJSONResponseHandler sdsJSONResponseHandler;
 
     public String getUserRoleCode(String nhsdSessionUrid) throws URISyntaxException {
 
-        // var request = new HttpGet();
-
-        // var uri = new URIBuilder(sdsConfiguration.getBaseUrl() + "/PractitionerRole")
-        //     .addParameter("UserRoleId", nhsdSessionUrid)
-        //     .build();
-
-        // request.setURI(uri);
-
         var baseUrl = sdsConfiguration.getBaseUrl();
-
-        // DEBUG
-        // todo: delete me :)
         WebClient client = WebClient.create();
 
+        var userRoleId = USER_ROLE_ID_FHIR_IDENTIFIER + "|" + nhsdSessionUrid;
+
+        LOGGER.info(userRoleId + baseUrl);
+
+        var uri = new URIBuilder(baseUrl + "/PractitionerRole")
+            .addParameter("user-role-id", userRoleId)
+            .build();
+
         WebClient.ResponseSpec responseSpec = client.get()
-            .uri(baseUrl + "/healthcheck")
+            .uri(uri)
             .retrieve();
         String responseBody = responseSpec.bodyToMono(String.class).block();
-
-        LOGGER.info(responseBody);
-        // DEBUG
-
-        var url = baseUrl + "/PractitionerRole?user-role-id=https://fhir.nhs.uk/Id/nhsJobRoleCode|555021935107";
-
-        responseSpec = client.get()
-            .uri(url)
-            .retrieve();
-        responseBody = responseSpec.bodyToMono(String.class).block();
 
         // add parameter in form user-role-id=https://fhir.nhs.uk/Id/nhsJobRoleCode|<NHSDSessionURID>
 
