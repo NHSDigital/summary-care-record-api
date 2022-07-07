@@ -46,11 +46,11 @@ public class SdsService {
 //            .addParameter("user-role-id", userRoleId)
 //            .build();
 
-        var uri = "http://"
+        var url = "http://"
             + baseUrl + "/PractitionerRole?user-role-id=https://fhir.nhs.uk/Id/nhsJobRoleCode|555021935107";
 
         WebClient.ResponseSpec responseSpec = client.get()
-            .uri(uri)
+            .uri(url)
             .retrieve();
         String responseBody = responseSpec.bodyToMono(String.class).block();
 
