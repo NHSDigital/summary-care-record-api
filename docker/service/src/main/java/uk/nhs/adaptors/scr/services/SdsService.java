@@ -25,7 +25,7 @@ public class SdsService {
 
     public String getUserRoleCode(String nhsdSessionUrid) throws URISyntaxException {
 
-        var baseUrl = "host.docker.internal:9001"; //sdsConfiguration.getBaseUrl();
+        var baseUrl = "localhost:9001"; //"host.docker.internal:9001"; //sdsConfiguration.getBaseUrl();
         WebClient client = WebClient.create();
 
         WebClient client2 = WebClient.create();
