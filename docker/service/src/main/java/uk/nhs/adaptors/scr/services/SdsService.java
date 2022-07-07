@@ -28,6 +28,15 @@ public class SdsService {
         var baseUrl = "host.docker.internal:9001"; //sdsConfiguration.getBaseUrl();
         WebClient client = WebClient.create();
 
+        WebClient client2 = WebClient.create();
+        var uri = "http://"
+            + baseUrl + "/healthcheck";
+
+        WebClient.ResponseSpec responseSpec2 = client2.get()
+            .uri(uri)
+            .retrieve();
+        String responseBody2 = responseSpec2.bodyToMono(String.class).block();
+
         var userRoleId = USER_ROLE_ID_FHIR_IDENTIFIER + "|" + nhsdSessionUrid;
 
         LOGGER.info(userRoleId + baseUrl);
