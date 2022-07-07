@@ -1,7 +1,4 @@
 from typing import Dict, List, Optional
-
-from py import code
-
 from request.base_handler import SERVICE_ID_FHIR_IDENTIFIER
 from request.mapper_urls import MapperUrls as Url
 from utilities import message_utilities
