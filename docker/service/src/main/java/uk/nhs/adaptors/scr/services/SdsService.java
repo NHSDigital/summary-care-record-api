@@ -5,9 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 //import org.apache.http.client.methods.HttpGet;
 //import org.apache.http.client.utils.URIBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.reactive.function.client.WebClient;
 import uk.nhs.adaptors.scr.clients.identity.sds.SdsClient;
 import uk.nhs.adaptors.scr.clients.sds.SdsJSONResponseHandler;
@@ -34,24 +32,26 @@ public class SdsService {
 
         // request.setURI(uri);
 
+        var baseUrl = sdsConfiguration.getBaseUrl();
+
         // DEBUG
         // todo: delete me :)
         WebClient client = WebClient.create();
 
         WebClient.ResponseSpec responseSpec = client.get()
-            .uri(url)
+            .uri(baseUrl + "/healthcheck")
             .retrieve();
         String responseBody = responseSpec.bodyToMono(String.class).block();
 
         LOGGER.info(responseBody);
         // DEBUG
 
-        url = "http://localhost:9001/PractitionerRole?user-role-id=https://fhir.nhs.uk/Id/nhsJobRoleCode|555021935107";
+        var url = baseUrl + "/PractitionerRole?user-role-id=https://fhir.nhs.uk/Id/nhsJobRoleCode|555021935107";
 
-        WebClient.ResponseSpec responseSpec = client.get()
+        responseSpec = client.get()
             .uri(url)
             .retrieve();
-        String responseBody = responseSpec.bodyToMono(String.class).block();
+        responseBody = responseSpec.bodyToMono(String.class).block();
 
         // add parameter in form user-role-id=https://fhir.nhs.uk/Id/nhsJobRoleCode|<NHSDSessionURID>
 
@@ -59,6 +59,6 @@ public class SdsService {
 
         //var response = sdsClient.sendRequest(request, sdsJSONResponseHandler);
 
-        return response.getBody();
+        return responseBody;
     }
 }
