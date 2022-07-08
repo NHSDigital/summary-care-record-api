@@ -42,20 +42,15 @@ public class SdsService {
 
         LOGGER.info(userRoleId + baseUrl);
 
-//        var uri = new URIBuilder(baseUrl + "/PractitionerRole")
-//            .setScheme("http")
-//            .addParameter("user-role-id", userRoleId)
-//            .build();
-
-        var url = "http://"
-            + baseUrl + "/PractitionerRole?user-role-id=https://fhir.nhs.uk/Id/nhsJobRoleCode|555021935107";
+       var uri = new URIBuilder(baseUrl + "/PractitionerRole")
+           .setScheme("http")
+           .addParameter("user-role-id", userRoleId)
+           .build();
 
         WebClient.ResponseSpec responseSpec = client.get()
             .uri(url)
             .retrieve();
         String responseBody = responseSpec.bodyToMono(String.class).block();
-
-        // add parameter in form user-role-id=https://fhir.nhs.uk/Id/nhsJobRoleCode|<NHSDSessionURID>
 
         LOGGER.info(responseBody);
 
