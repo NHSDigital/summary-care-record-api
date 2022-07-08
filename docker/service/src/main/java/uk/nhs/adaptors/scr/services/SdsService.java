@@ -2,11 +2,10 @@ package uk.nhs.adaptors.scr.services;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-//import org.apache.http.client.methods.HttpGet;
-//import org.apache.http.client.utils.URIBuilder;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.utils.URIBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.web.reactive.function.client.WebClient;
 import uk.nhs.adaptors.scr.clients.identity.sds.SdsClient;
 import uk.nhs.adaptors.scr.clients.sds.SdsJSONResponseHandler;
 import uk.nhs.adaptors.scr.config.SdsConfiguration;
@@ -25,37 +24,18 @@ public class SdsService {
 
     public String getUserRoleCode(String nhsdSessionUrid) throws URISyntaxException {
 
-        var baseUrl = "localhost:9001"; //"host.docker.internal:9001"; //sdsConfiguration.getBaseUrl();
-        WebClient client = WebClient.create();
-
-        WebClient client2 = WebClient.create();
-        var uri = "http://" + baseUrl + "/healthcheck";
-
-        WebClient.ResponseSpec responseSpec2 = client2.get()
-            .uri(uri)
-            .retrieve();
-        String responseBody2 = responseSpec2.bodyToMono(String.class).block();
-
-        LOGGER.info(responseBody2);
+        var baseUrl = sdsConfiguration.getBaseUrl();
 
         var userRoleId = USER_ROLE_ID_FHIR_IDENTIFIER + "|" + nhsdSessionUrid;
-
-        LOGGER.info(userRoleId + baseUrl);
 
        var uri = new URIBuilder(baseUrl + "/PractitionerRole")
            .setScheme("http")
            .addParameter("user-role-id", userRoleId)
            .build();
+        var request = new HttpGet(uri);
 
-        WebClient.ResponseSpec responseSpec = client.get()
-            .uri(url)
-            .retrieve();
-        String responseBody = responseSpec.bodyToMono(String.class).block();
+        var response = sdsClient.sendRequest(request, sdsJSONResponseHandler);
 
-        LOGGER.info(responseBody);
-
-        //var response = sdsClient.sendRequest(request, sdsJSONResponseHandler);
-
-        return responseBody;
+        return response.getBody();
     }
 }
