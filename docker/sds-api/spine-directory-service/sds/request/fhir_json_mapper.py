@@ -123,14 +123,13 @@ def build_device_resource(ldap_attributes: dict) -> Dict:
 
     return device
 
-
 def build_practitioner_role_resource(ldap_attributes: dict) -> Dict:
     practioner_role = {
         "resourceType": "PractitionerRole",
-        "identifier": str(message_utilities.get_uuid()),
-        "code": list(ldap_attributes)[0]
+        "id": str(message_utilities.get_uuid()),
+        "code": ldap_attributes.get("nhsJobRoleCode")
     }
-    
+
     return practioner_role
 
 
