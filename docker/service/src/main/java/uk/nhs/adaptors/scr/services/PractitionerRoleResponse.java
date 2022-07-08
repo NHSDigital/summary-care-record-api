@@ -3,7 +3,6 @@ package uk.nhs.adaptors.scr.services;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
@@ -11,24 +10,24 @@ import java.util.List;
 @Getter
 @AllArgsConstructor
 public class PractitionerRoleResponse {
-    String ResourceType;
-    String Id;
-    List<RoleEntry> entry;
+    private String resourceType;
+    private String id;
+    private List<RoleEntry> entry;
 }
 
 @Builder
 @Getter
 @AllArgsConstructor
 class RoleEntry {
-    String FullUrl;
-    RoleResource Resource;
+    private String fullUrl;
+    private RoleResource resource;
 }
 
 @Builder
 @Getter
 @AllArgsConstructor
 class RoleResource {
-    String ResourceType;
-    String Id;
-    List<String> Code;
+    private String resourceType;
+    private String id;
+    private List<String> code;
 }
