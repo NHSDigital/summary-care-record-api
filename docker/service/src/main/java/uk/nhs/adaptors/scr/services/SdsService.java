@@ -28,10 +28,10 @@ public class SdsService {
 
         var userRoleId = USER_ROLE_ID_FHIR_IDENTIFIER + "|" + nhsdSessionUrid;
 
-       var uri = new URIBuilder(baseUrl + "/PractitionerRole")
-           .setScheme("http")
-           .addParameter("user-role-id", userRoleId)
-           .build();
+        var uri = new URIBuilder(baseUrl + "/PractitionerRole")
+            .setScheme("http")
+            .addParameter("user-role-id", userRoleId)
+            .build();
         var request = new HttpGet(uri);
 
         var response = sdsClient.sendRequest(request, sdsJSONResponseHandler);
