@@ -2,10 +2,11 @@ package uk.nhs.adaptors.scr.services;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.utils.URIBuilder;
+import org.hl7.fhir.r4.model.PractitionerRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.reactive.function.client.WebClient;
 import uk.nhs.adaptors.scr.clients.identity.sds.SdsClient;
 import uk.nhs.adaptors.scr.clients.sds.SdsJSONResponseHandler;
 import uk.nhs.adaptors.scr.config.SdsConfiguration;
@@ -32,10 +33,18 @@ public class SdsService {
             .setScheme("http")
             .addParameter("user-role-id", userRoleId)
             .build();
-        var request = new HttpGet(uri);
 
-        var response = sdsClient.sendRequest(request, sdsJSONResponseHandler);
+        WebClient client = WebClient.create();
+        WebClient.ResponseSpec responseSpec = client.get()
+            .uri(uri)
+            .retrieve();
 
-        return response.getBody();
+        PractitionerRoleResponse response = responseSpec.bodyToMono(PractitionerRoleResponse.class).block();
+
+        var entry = response.getEntry().get(0);
+        var resource = entry.getResource();
+        var roleCodes = resource.getCode();
+
+        return roleCodes.get(0);
     }
 }
