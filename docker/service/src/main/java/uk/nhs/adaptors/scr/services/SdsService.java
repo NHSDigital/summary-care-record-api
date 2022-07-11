@@ -39,12 +39,9 @@ public class SdsService {
             .uri(uri)
             .retrieve();
 
-        LOGGER.info(responseSpec.bodyToMono(String.class).block());
-
         PractitionerRoleResponse response = responseSpec.bodyToMono(PractitionerRoleResponse.class).block();
 
         if (response == null || response.getEntry().isEmpty()) {
-            LOGGER.info("response was empty");
             return "";
         }
 
@@ -53,11 +50,9 @@ public class SdsService {
         var roleCodes = resource.getCode();
 
         if (roleCodes.isEmpty()) {
-            LOGGER.info("role codes was empty");
             return "";
         }
 
-        LOGGER.info("roleCode: " + roleCodes.get(0));
         return roleCodes.get(0);
     }
 }
