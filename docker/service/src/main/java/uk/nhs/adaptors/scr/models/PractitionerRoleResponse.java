@@ -3,6 +3,7 @@ package uk.nhs.adaptors.scr.services;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import uk.nhs.adaptors.scr.models.RoleEntry;
 
 import java.util.List;
 
@@ -15,19 +16,3 @@ public class PractitionerRoleResponse {
     private List<RoleEntry> entry;
 }
 
-@Builder
-@Getter
-@AllArgsConstructor
-class RoleEntry {
-    private String fullUrl;
-    private RoleResource resource;
-}
-
-@Builder
-@Getter
-@AllArgsConstructor
-class RoleResource {
-    private String resourceType;
-    private String id;
-    private List<String> code;
-}
