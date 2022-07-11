@@ -3,7 +3,6 @@ package uk.nhs.adaptors.scr.models;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import uk.nhs.adaptors.scr.models.RoleEntry;
 
 import java.util.List;
 
