@@ -31,6 +31,9 @@ MHS_ATTRIBUTES = [
 AS_ATTRIBUTES = [
     'uniqueIdentifier', 'nhsIdCode', 'nhsAsClient', 'nhsMhsPartyKey', 'nhsAsSvcIA', 'nhsMhsManufacturerOrg'
 ]
+PR_ATTRIBUTES = [
+    'uniqueIdentifier', 'nhsJobRoleCode'
+]
 
 
 def _validate_mhs_request_params(ods_code, interaction_id, party_key):
@@ -117,14 +120,30 @@ class SDSClient(object):
             raise SDSException("user_role must be provided")
 
         query_parts = [
-            ("ou", "People"), 
-            ("o","nhs"),
             ("uniqueIdentifier", user_role_id), 
             ("objectClass", "nhsOrgPersonRole")
         ]
 
-        result = await self._get_ldap_data(query_parts, AS_ATTRIBUTES)
+        result = await self._get_ldap_data_people(query_parts, PR_ATTRIBUTES)
         return result
+
+
+    async def _get_ldap_data_people(self, query_parts: List[Tuple[str, Optional[str]]], attributes: List[str]) -> List:
+        search_filter = self._build_search_filter(query_parts)
+
+        self.connection.bind()
+        message_id = self.connection.search(search_base="ou=people,o=nhs",
+                                            search_filter=search_filter,
+                                            attributes=attributes)
+        logger.info("Received LDAP query {message_id} - for query: {search_filter}",
+                    fparams={"message_id": message_id, "search_filter": search_filter})
+
+        response = await self._get_query_result(message_id)
+        logger.info("Found LDAP details for {message_id}", fparams={"message_id": message_id})
+        logger.info(response)
+
+        attributes_result = [single_result['attributes'] for single_result in response]
+        return attributes_result
 
 
     async def _get_ldap_data(self, query_parts: List[Tuple[str, Optional[str]]], attributes: List[str]) -> List:
@@ -142,6 +161,7 @@ class SDSClient(object):
 
         attributes_result = [single_result['attributes'] for single_result in response]
         return attributes_result
+
 
     async def _get_query_result(self, message_id: int) -> List:
         loop = asyncio.get_event_loop()
