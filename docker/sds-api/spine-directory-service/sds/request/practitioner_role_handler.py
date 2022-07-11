@@ -41,7 +41,8 @@ class PractitionerRoleHandler(BaseHandler, ErrorHandler):
 
         bundle = build_bundle_resource(practitioner_roles, base_url, full_url)
 
-        self.write(json.dumps(bundle, indent=2, sort_keys=False))
+        # debug debug
+        self.write(json.dumps(ldap_result, indent=2, sort_keys=False))
         self.set_header(HttpHeaders.CONTENT_TYPE, accept_type)
         self.set_header(HttpHeaders.X_CORRELATION_ID, mdc.correlation_id.get())
 
