@@ -9,6 +9,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import uk.nhs.adaptors.scr.clients.identity.sds.SdsClient;
 import uk.nhs.adaptors.scr.clients.sds.SdsJSONResponseHandler;
 import uk.nhs.adaptors.scr.config.SdsConfiguration;
+import uk.nhs.adaptors.scr.models.PractitionerRoleResponse;
 
 import java.net.URISyntaxException;
 
@@ -38,9 +39,12 @@ public class SdsService {
             .uri(uri)
             .retrieve();
 
-        PractitionerRoleResponse response = responseSpec.bodyToMono(uk.nhs.adaptors.scr.services.PractitionerRoleResponse.class).block();
+        LOGGER.info(responseSpec.bodyToMono(String.class).block());
+
+        PractitionerRoleResponse response = responseSpec.bodyToMono(PractitionerRoleResponse.class).block();
 
         if (response == null || response.getEntry().isEmpty()) {
+            LOGGER.info("response was empty");
             return "";
         }
 
@@ -49,9 +53,11 @@ public class SdsService {
         var roleCodes = resource.getCode();
 
         if (roleCodes.isEmpty()) {
+            LOGGER.info("role codes was empty");
             return "";
         }
 
+        LOGGER.info("roleCode: " + roleCodes.get(0));
         return roleCodes.get(0);
     }
 }

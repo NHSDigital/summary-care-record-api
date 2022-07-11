@@ -1,4 +1,4 @@
-package uk.nhs.adaptors.scr.services;
+package uk.nhs.adaptors.scr.models;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
