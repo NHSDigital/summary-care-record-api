@@ -38,11 +38,19 @@ public class SdsService {
             .uri(uri)
             .retrieve();
 
-        PractitionerRoleResponse response = responseSpec.bodyToMono(PractitionerRoleResponse.class).block();
+        PractitionerRoleResponse response = responseSpec.bodyToMono(uk.nhs.adaptors.scr.services.PractitionerRoleResponse.class).block();
+
+        if (response == null || response.getEntry().isEmpty()) {
+            return "";
+        }
 
         var entry = response.getEntry().get(0);
         var resource = entry.getResource();
         var roleCodes = resource.getCode();
+
+        if (roleCodes.isEmpty()) {
+            return "";
+        }
 
         return roleCodes.get(0);
     }
