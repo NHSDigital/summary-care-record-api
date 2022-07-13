@@ -10,8 +10,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 //import org.springframework.http.HttpStatus;
-import uk.nhs.adaptors.scr.clients.identity.sds.SdsClient;
-import uk.nhs.adaptors.scr.clients.sds.SdsJSONResponseHandler;
 import uk.nhs.adaptors.scr.config.SdsConfiguration;
 //import java.net.URISyntaxException;
 //import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -36,11 +34,6 @@ class SdsServiceTest {
 
     @Mock
     private SdsConfiguration sdsConfiguration;
-
-    @Mock
-    private SdsClient sdsClient;
-    @Mock
-    private SdsJSONResponseHandler stringResponseHandler;
 
     @InjectMocks
     private SdsService sdsService;

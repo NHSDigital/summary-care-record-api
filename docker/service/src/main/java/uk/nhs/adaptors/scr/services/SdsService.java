@@ -4,11 +4,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.client.utils.URIBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
-import uk.nhs.adaptors.scr.clients.identity.sds.SdsClient;
-import uk.nhs.adaptors.scr.clients.sds.SdsJSONResponseHandler;
 import uk.nhs.adaptors.scr.config.SdsConfiguration;
+import uk.nhs.adaptors.scr.exceptions.BadRequestException;
+import uk.nhs.adaptors.scr.exceptions.UnexpectedSdsResponseException;
 import uk.nhs.adaptors.scr.models.PractitionerRoleResponse;
 
 import java.net.URISyntaxException;
@@ -20,8 +21,6 @@ public class SdsService {
 
     private static final String USER_ROLE_ID_FHIR_IDENTIFIER = "https://fhir.nhs.uk/Id/nhsJobRoleCode";
     private final SdsConfiguration sdsConfiguration;
-    private final SdsClient sdsClient;
-    private final SdsJSONResponseHandler sdsJSONResponseHandler;
 
     public String getUserRoleCode(String nhsdSessionUrid) throws URISyntaxException {
 
@@ -37,7 +36,11 @@ public class SdsService {
         WebClient client = WebClient.create();
         WebClient.ResponseSpec responseSpec = client.get()
             .uri(uri)
-            .retrieve();
+            .retrieve()
+            .onStatus(HttpStatus.INTERNAL_SERVER_ERROR::equals,
+                response -> response.bodyToMono(String.class).map(UnexpectedSdsResponseException::new))
+            .onStatus(HttpStatus.BAD_REQUEST::equals,
+                response -> response.bodyToMono(String.class).map(BadRequestException::new));
 
         PractitionerRoleResponse response = responseSpec.bodyToMono(PractitionerRoleResponse.class).block();
 

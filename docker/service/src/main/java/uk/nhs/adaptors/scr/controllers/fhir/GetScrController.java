@@ -88,6 +88,8 @@ public class GetScrController {
 
         var role = sdsService.getUserRoleCode(nhsdSessionUrid);
 
+        // if empty return 400
+
         return role;
     }
 }

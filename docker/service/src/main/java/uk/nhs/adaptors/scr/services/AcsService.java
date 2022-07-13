@@ -75,7 +75,6 @@ public class AcsService {
         try {
             return sdsService.getUserRoleCode(nhsdSessionUrid);
         } catch (BadRequestException | URISyntaxException e) {
-
             throw new BadRequestException(String.format("Unable to determine SDS Job Role Code for "
                 + "the given RoleID: %s", nhsdSessionUrid));
         }
