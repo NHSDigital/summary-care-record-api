@@ -2,6 +2,7 @@ package uk.nhs.adaptors.scr.controllers.fhir;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.r4.model.Bundle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -14,6 +15,7 @@ import uk.nhs.adaptors.scr.controllers.validation.scr.PatientId;
 import uk.nhs.adaptors.scr.controllers.validation.scr.RecordCount;
 import uk.nhs.adaptors.scr.controllers.validation.scr.SortMethod;
 import uk.nhs.adaptors.scr.controllers.validation.scr.TypeCode;
+import uk.nhs.adaptors.scr.exceptions.BadRequestException;
 import uk.nhs.adaptors.scr.logging.LogExecutionTime;
 import uk.nhs.adaptors.scr.services.GetScrService;
 import uk.nhs.adaptors.scr.services.SdsService;
@@ -88,8 +90,10 @@ public class GetScrController {
 
         var role = sdsService.getUserRoleCode(nhsdSessionUrid);
 
-        // if empty return 400
-
+        if (StringUtils.isAllEmpty(role)) {
+            throw new BadRequestException(String.format("Unable to determine SDS Job Role Code for "
+                + "the given RoleID: %s", nhsdSessionUrid));
+        }
         return role;
     }
 }
