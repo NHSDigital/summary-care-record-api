@@ -26,7 +26,7 @@ class PractitionerRoleHandler(BaseHandler, ErrorHandler):
 
         accept_type = get_valid_accept_type(self.request.headers)
 
-        user_role_id = self.get_required_query_param(USER_ROLE_ID_QUERY_PARAMETER_NAME, USER_ROLE_ID_FHIR_IDENTIFIER)
+        user_role_id = self.get_required_query_param_as_digit(USER_ROLE_ID_QUERY_PARAMETER_NAME, USER_ROLE_ID_FHIR_IDENTIFIER)
 
         logger.info("Looking up practitioner role information for {user_role_id}",
                     fparams={"user_role_id": user_role_id})
@@ -57,8 +57,4 @@ class PractitionerRoleHandler(BaseHandler, ErrorHandler):
                 if query_param == USER_ROLE_ID_QUERY_PARAMETER_NAME \
                     and not query_param_value.startswith(f"{USER_ROLE_ID_FHIR_IDENTIFIER}|"):
                     self._raise_invalid_query_param_error(USER_ROLE_ID_QUERY_PARAMETER_NAME, USER_ROLE_ID_FHIR_IDENTIFIER)
-                if query_param == USER_ROLE_ID_QUERY_PARAMETER_NAME \
-                    and query_param_value.startswith(f"{USER_ROLE_ID_FHIR_IDENTIFIER}|"):
-                    query_val = query_param_value.replace(f"{USER_ROLE_ID_FHIR_IDENTIFIER}|", "")
-                    if not query_val.isdigit():
-                        self._raise_invalid_query_param_value_error(USER_ROLE_ID_QUERY_PARAMETER_NAME, USER_ROLE_ID_FHIR_IDENTIFIER, "a digit")
+
