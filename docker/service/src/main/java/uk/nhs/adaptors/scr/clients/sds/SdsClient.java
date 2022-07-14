@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
+import uk.nhs.adaptors.scr.components.FhirParser;
 import uk.nhs.adaptors.scr.exceptions.BadRequestException;
 import uk.nhs.adaptors.scr.exceptions.UnexpectedSdsResponseException;
 
@@ -16,6 +17,7 @@ import java.net.URI;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Slf4j
 public class SdsClient {
+    private FhirParser fhirParser = new FhirParser();
     public Bundle sendGet(URI uri) {
 
         WebClient client = WebClient.create();
@@ -27,6 +29,8 @@ public class SdsClient {
             .onStatus(HttpStatus.BAD_REQUEST::equals,
                 response -> response.bodyToMono(String.class).map(BadRequestException::new));
 
-        return responseSpec.bodyToMono(Bundle.class).block();
+        var strResponse = responseSpec.bodyToMono(String.class).block();
+
+        return fhirParser.parseResource(strResponse, Bundle.class);
     }
 }
