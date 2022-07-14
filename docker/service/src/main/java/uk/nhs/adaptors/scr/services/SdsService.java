@@ -3,14 +3,12 @@ package uk.nhs.adaptors.scr.services;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.client.utils.URIBuilder;
+import org.hl7.fhir.r4.model.Bundle;
+import org.hl7.fhir.r4.model.PractitionerRole;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
-import org.springframework.web.reactive.function.client.WebClient;
+import uk.nhs.adaptors.scr.clients.sds.SdsClient;
 import uk.nhs.adaptors.scr.config.SdsConfiguration;
-import uk.nhs.adaptors.scr.exceptions.BadRequestException;
-import uk.nhs.adaptors.scr.exceptions.UnexpectedSdsResponseException;
-import uk.nhs.adaptors.scr.models.PractitionerRoleResponse;
 
 import java.net.URISyntaxException;
 
@@ -21,6 +19,7 @@ public class SdsService {
 
     private static final String USER_ROLE_ID_FHIR_IDENTIFIER = "https://fhir.nhs.uk/Id/nhsJobRoleCode";
     private final SdsConfiguration sdsConfiguration;
+    private final SdsClient sdsClient;
 
     public String getUserRoleCode(String nhsdSessionUrid) throws URISyntaxException {
 
@@ -33,29 +32,35 @@ public class SdsService {
             .addParameter("user-role-id", userRoleId)
             .build();
 
-        WebClient client = WebClient.create();
-        WebClient.ResponseSpec responseSpec = client.get()
-            .uri(uri)
-            .retrieve()
-            .onStatus(HttpStatus.INTERNAL_SERVER_ERROR::equals,
-                response -> response.bodyToMono(String.class).map(UnexpectedSdsResponseException::new))
-            .onStatus(HttpStatus.BAD_REQUEST::equals,
-                response -> response.bodyToMono(String.class).map(BadRequestException::new));
+        var response = sdsClient.sendGet(uri);
 
-        PractitionerRoleResponse response = responseSpec.bodyToMono(PractitionerRoleResponse.class).block();
+        return getCodeFromBundle(response);
+    }
 
-        if (response == null || response.getEntry().isEmpty()) {
+    private String getCodeFromBundle(Bundle bundle) {
+
+        if (bundle == null || !bundle.hasEntry()) {
             return "";
         }
 
-        var entry = response.getEntry().get(0);
-        var resource = entry.getResource();
-        var roleCodes = resource.getCode();
+        var entry = bundle.getEntryFirstRep();
 
-        if (roleCodes.isEmpty()) {
+        if (!entry.hasResource()) {
             return "";
         }
 
-        return roleCodes.get(0);
+        var resource = (PractitionerRole) entry.getResource();
+
+        if (!resource.hasCode()) {
+            return "";
+        }
+
+        var roleCode = resource.getCodeFirstRep();
+
+        if (!roleCode.hasCoding()) {
+            return "";
+        }
+
+        return roleCode.getCodingFirstRep().getCode();
     }
 }
