@@ -19,8 +19,8 @@ import org.springframework.test.web.servlet.ResultActions;
 import uk.nhs.adaptors.scr.WireMockInitializer;
 import uk.nhs.adaptors.scr.consts.ScrHttpHeaders;
 import uk.nhs.adaptors.scr.uat.common.CustomArgumentsProvider.SetAcsBadRequest;
-//import uk.nhs.adaptors.scr.uat.common.CustomArgumentsProvider.SetAcsSpineError;
-//import uk.nhs.adaptors.scr.uat.common.CustomArgumentsProvider.SetAcsSuccess;
+import uk.nhs.adaptors.scr.uat.common.CustomArgumentsProvider.SetAcsSpineError;
+import uk.nhs.adaptors.scr.uat.common.CustomArgumentsProvider.SetAcsSuccess;
 import uk.nhs.adaptors.scr.uat.common.TestData;
 
 import java.io.IOException;
@@ -71,26 +71,26 @@ public class SetAcsUAT {
     @Autowired
     private WireMockServer wireMockServer;
 
-//    @ParameterizedTest(name = "[{index}] - {0}")
-//    @ArgumentsSource(SetAcsSuccess.class)
-//    public void testSetAcsPermission(TestData testData) throws Exception {
-//        stubSpineAcsEndpoint(acsSuccessResponse);
-//        stubIdentityService(userInfoResponse);
-//
-//        performRequest(testData.getFhirRequest())
-//            .andExpect(status().isCreated());
-//    }
-//
-//    @ParameterizedTest(name = "[{index}] - {0}")
-//    @ArgumentsSource(SetAcsSpineError.class)
-//    public void testSetAcsPermissionSpineError(TestData testData) throws Exception {
-//        stubSpineAcsEndpoint(acsErrorResponse);
-//        stubIdentityService(userInfoResponse);
-//
-//        performRequest(testData.getFhirRequest())
-//            .andExpect(status().isBadRequest())
-//            .andExpect(content().json(testData.getFhirResponse()));
-//    }
+    @ParameterizedTest(name = "[{index}] - {0}")
+    @ArgumentsSource(SetAcsSuccess.class)
+    public void testSetAcsPermission(TestData testData) throws Exception {
+        stubSpineAcsEndpoint(acsSuccessResponse);
+        stubIdentityService(userInfoResponse);
+
+        performRequest(testData.getFhirRequest())
+            .andExpect(status().isCreated());
+    }
+
+    @ParameterizedTest(name = "[{index}] - {0}")
+    @ArgumentsSource(SetAcsSpineError.class)
+    public void testSetAcsPermissionSpineError(TestData testData) throws Exception {
+        stubSpineAcsEndpoint(acsErrorResponse);
+        stubIdentityService(userInfoResponse);
+
+        performRequest(testData.getFhirRequest())
+            .andExpect(status().isBadRequest())
+            .andExpect(content().json(testData.getFhirResponse()));
+    }
 
     @ParameterizedTest(name = "[{index}] - {0}")
     @ArgumentsSource(SetAcsBadRequest.class)

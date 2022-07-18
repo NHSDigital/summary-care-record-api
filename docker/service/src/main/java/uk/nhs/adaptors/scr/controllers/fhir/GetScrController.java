@@ -2,7 +2,6 @@ package uk.nhs.adaptors.scr.controllers.fhir;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.r4.model.Bundle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -15,19 +14,19 @@ import uk.nhs.adaptors.scr.controllers.validation.scr.PatientId;
 import uk.nhs.adaptors.scr.controllers.validation.scr.RecordCount;
 import uk.nhs.adaptors.scr.controllers.validation.scr.SortMethod;
 import uk.nhs.adaptors.scr.controllers.validation.scr.TypeCode;
-import uk.nhs.adaptors.scr.exceptions.BadRequestException;
 import uk.nhs.adaptors.scr.logging.LogExecutionTime;
 import uk.nhs.adaptors.scr.services.GetScrService;
 import uk.nhs.adaptors.scr.services.SdsService;
+//import org.apache.commons.lang3.StringUtils;
+//import uk.nhs.adaptors.scr.exceptions.BadRequestException;
+//import java.net.URISyntaxException;
 
 import javax.validation.constraints.NotNull;
 
-import java.net.URISyntaxException;
-
 import static uk.nhs.adaptors.scr.consts.ScrHttpHeaders.CLIENT_IP;
 import static uk.nhs.adaptors.scr.consts.ScrHttpHeaders.NHSD_ASID;
-import static uk.nhs.adaptors.scr.consts.ScrHttpHeaders.NHSD_SESSION_URID;
 import static uk.nhs.adaptors.scr.controllers.FhirMediaTypes.APPLICATION_FHIR_JSON_VALUE;
+//import static uk.nhs.adaptors.scr.consts.ScrHttpHeaders.NHSD_SESSION_URID;
 
 @RestController
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -80,20 +79,25 @@ public class GetScrController {
         return fhirParser.encodeToJson(bundle);
     }
 
-    @GetMapping(path = "/RoleCheck",
-        produces = {APPLICATION_FHIR_JSON_VALUE})
-    @LogExecutionTime
-    public String getRole(
-        @RequestHeader(NHSD_SESSION_URID) @NotNull String nhsdSessionUrid
-    ) throws URISyntaxException {
-        LOGGER.info("Received GET SCR request");
-
-        var role = sdsService.getUserRoleCode(nhsdSessionUrid);
-
-        if (StringUtils.isAllEmpty(role)) {
-            throw new BadRequestException(String.format("Unable to determine SDS Job Role Code for "
-                + "the given RoleID: %s", nhsdSessionUrid));
-        }
-        return role;
-    }
+    /*
+    * The following method is commented out as it should not be exposed in a production environment
+    * However, it is incredibly useful for testing the set-up with SDS to retrieve the user role code.
+    * To use (for test purposes), uncomment and uncomment relevant imports.
+    * */
+//    @GetMapping(path = "/RoleCheck",
+//        produces = {APPLICATION_FHIR_JSON_VALUE})
+//    @LogExecutionTime
+//    public String getRole(
+//        @RequestHeader(NHSD_SESSION_URID) @NotNull String nhsdSessionUrid
+//    ) throws URISyntaxException {
+//        LOGGER.info("Received GET SCR request");
+//
+//        var role = sdsService.getUserRoleCode(nhsdSessionUrid);
+//
+//        if (StringUtils.isAllEmpty(role)) {
+//            throw new BadRequestException(String.format("Unable to determine SDS Job Role Code for "
+//                + "the given RoleID: %s", nhsdSessionUrid));
+//        }
+//        return role;
+//    }
 }
