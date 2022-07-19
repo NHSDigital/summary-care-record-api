@@ -2,7 +2,7 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '2.5.12'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
-    id "io.freefair.lombok" version "5.1.0"
+    id "io.freefair.lombok" version "6.5.0.2"
     id "checkstyle"
     id "com.github.spotbugs" version "4.5.0"
 }
@@ -19,10 +19,6 @@ repositories {
     mavenCentral()
 }
 
-lombok {
-    config['lombok.log.fieldName'] = 'LOGGER'
-}
-
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'org.springframework.boot:spring-boot-starter-web'
@@ -35,6 +31,7 @@ dependencies {
     implementation 'com.github.spullara.mustache.java:compiler:0.9.10'
     implementation 'org.apache.httpcomponents:httpclient:4.5.13'
     implementation 'org.apache.commons:commons-text:1.9'
+    implementation 'org.springframework.boot:spring-boot-starter-webflux:2.7.1'
 
     implementation 'ch.qos.logback:logback-classic:1.2.6'
     implementation 'ch.qos.logback.contrib:logback-json-classic:0.1.5'
