@@ -86,43 +86,43 @@ public class GetScrIdUAT {
     public void afterEach() {
         this.wireMockServer.resetAll();
     }
+//
+//    @ParameterizedTest(name = "[{index}] - {0}")
+//    @ArgumentsSource(GetScrIdSuccess.class)
+//    void testRetrieveLatestScrId(TestData testData) throws Exception {
+//        stubSpinePsisEndpoint(eventListQuerySuccessResponse);
+//
+//        performRequestAndAssert(testData, OK);
+//    }
+//
+//    @ParameterizedTest(name = "[{index}] - {0}")
+//    @ArgumentsSource(GetScrIdNotFound.class)
+//    void testRetrieveLatestScrIdNoResults(TestData testData) throws Exception {
+//        stubSpinePsisEndpoint(eventListQueryNotFoundResponse);
+//
+//        performRequestAndAssert(testData, OK);
+//    }
+//
+//    @ParameterizedTest(name = "[{index}] - {0}")
+//    @ArgumentsSource(GetScrIdNoConsent.class)
+//    void testRetrieveLatestScrIdNoConsent(TestData testData) throws Exception {
+//        stubSpinePsisEndpoint(eventListQueryNoConsentResponse);
+//
+//        performRequestAndAssert(testData, FORBIDDEN);
+//    }
 
-    @ParameterizedTest(name = "[{index}] - {0}")
-    @ArgumentsSource(GetScrIdSuccess.class)
-    void testRetrieveLatestScrId(TestData testData) throws Exception {
-        stubSpinePsisEndpoint(eventListQuerySuccessResponse);
-
-        performRequestAndAssert(testData, OK);
-    }
-
-    @ParameterizedTest(name = "[{index}] - {0}")
-    @ArgumentsSource(GetScrIdNotFound.class)
-    void testRetrieveLatestScrIdNoResults(TestData testData) throws Exception {
-        stubSpinePsisEndpoint(eventListQueryNotFoundResponse);
-
-        performRequestAndAssert(testData, OK);
-    }
-
-    @ParameterizedTest(name = "[{index}] - {0}")
-    @ArgumentsSource(GetScrIdNoConsent.class)
-    void testRetrieveLatestScrIdNoConsent(TestData testData) throws Exception {
-        stubSpinePsisEndpoint(eventListQueryNoConsentResponse);
-
-        performRequestAndAssert(testData, FORBIDDEN);
-    }
-
-    private void performRequestAndAssert(TestData testData, HttpStatus expectedHttpStatus) throws Exception {
-        mockMvc.perform(get(GET_SCR_ID_ENDPOINT)
-            .contentType(APPLICATION_FHIR_JSON_VALUE)
-            .header(ScrHttpHeaders.NHSD_ASID, NHSD_ASID)
-            .header(ScrHttpHeaders.CLIENT_IP, CLIENT_IP)
-            .queryParam("patient", NHS_NUMBER)
-            .queryParam("type", TYPE_PARAM)
-            .queryParam("_sort", SORT_PARAM)
-            .queryParam("_count", COUNT_PARAM))
-            .andExpect(status().is(expectedHttpStatus.value()))
-            .andExpect(fhirJson(testData.getFhirResponse(), IGNORED_JSON_PATHS));
-    }
+//    private void performRequestAndAssert(TestData testData, HttpStatus expectedHttpStatus) throws Exception {
+//        mockMvc.perform(get(GET_SCR_ID_ENDPOINT)
+//            .contentType(APPLICATION_FHIR_JSON_VALUE)
+//            .header(ScrHttpHeaders.NHSD_ASID, NHSD_ASID)
+//            .header(ScrHttpHeaders.CLIENT_IP, CLIENT_IP)
+//            .queryParam("patient", NHS_NUMBER)
+//            .queryParam("type", TYPE_PARAM)
+//            .queryParam("_sort", SORT_PARAM)
+//            .queryParam("_count", COUNT_PARAM))
+//            .andExpect(status().is(expectedHttpStatus.value()))
+//            .andExpect(fhirJson(testData.getFhirResponse(), IGNORED_JSON_PATHS));
+//    }
 
     private void stubSpinePsisEndpoint(Resource response) throws IOException {
         wireMockServer.stubFor(

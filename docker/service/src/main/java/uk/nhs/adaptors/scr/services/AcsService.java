@@ -58,13 +58,14 @@ public class AcsService {
         Parameters parameters = fhirParser.parseResource(requestData.getBody(), Parameters.class);
         ParametersParameterComponent parameter = getSetPermissionParameter(parameters);
         UserInfo userInfo = identityService.getUserInfo(requestData.getAuthorization());
-        String acsRequest = prepareAcsRequest(parameter, requestData, getUserRoleCode(userInfo, requestData.getNhsdSessionUrid()),
+        String acsRequest = prepareAcsRequest(parameter, requestData, getUserRoleCode(userInfo, requestData),
             userInfo.getId());
         Response<Document> response = spineClient.sendAcsData(acsRequest, requestData.getNhsdAsid());
         spineDetectedIssuesHandler.handleDetectedIssues(spineResponseParser.getDetectedIssues(response.getBody()));
     }
 
-    private String getUserRoleCode(UserInfo userInfo, String nhsdSessionUrid) {
+    private String getUserRoleCode(UserInfo userInfo, RequestData requestData) {
+        String nhsdSessionUrid = requestData.getNhsdSessionUrid();
         var userRole = userInfo.getRoles().stream()
             .filter(role -> role.getPersonRoleId().equals(nhsdSessionUrid))
             .findFirst();
@@ -73,7 +74,7 @@ public class AcsService {
         }
 
         try {
-            return sdsService.getUserRoleCode(nhsdSessionUrid);
+            return sdsService.getUserRoleCode(nhsdSessionUrid, requestData.getNhsdAsid(), requestData.getNhsdIdentity());
         } catch (BadRequestException | URISyntaxException e) {
             throw new BadRequestException(String.format("Unable to determine SDS Job Role Code for "
                 + "the given RoleID: %s", nhsdSessionUrid));

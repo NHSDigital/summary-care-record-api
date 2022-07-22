@@ -21,7 +21,7 @@ public class SdsService {
     private final SdsConfiguration sdsConfiguration;
     private final SdsClient sdsClient;
 
-    public String getUserRoleCode(String nhsdSessionUrid) throws URISyntaxException {
+    public String getUserRoleCode(String nhsdSessionUrid, String nhsdAsid, String nhsdIdentity) throws URISyntaxException {
 
         var baseUrl = sdsConfiguration.getBaseUrl();
 
@@ -32,7 +32,7 @@ public class SdsService {
             .addParameter("user-role-id", userRoleId)
             .build();
 
-        var response = sdsClient.sendGet(uri);
+        var response = sdsClient.sendGet(uri, nhsdAsid, nhsdIdentity, nhsdSessionUrid);
 
         return getCodeFromBundle(response);
     }
