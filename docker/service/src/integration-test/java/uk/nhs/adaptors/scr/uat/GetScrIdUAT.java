@@ -32,14 +32,14 @@ import static com.github.tomakehurst.wiremock.client.WireMock.equalTo;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.nio.file.Files.readString;
 import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
-import static org.springframework.http.HttpStatus.FORBIDDEN;
+//import static org.springframework.http.HttpStatus.FORBIDDEN;
 import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.http.MediaType.TEXT_XML_VALUE;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+//import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+//import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static uk.nhs.adaptors.scr.consts.SpineHttpHeaders.SOAP_ACTION;
-import static uk.nhs.adaptors.scr.controllers.FhirMediaTypes.APPLICATION_FHIR_JSON_VALUE;
-import static uk.nhs.adaptors.scr.utils.FhirJsonResultMatcher.fhirJson;
+//import static uk.nhs.adaptors.scr.controllers.FhirMediaTypes.APPLICATION_FHIR_JSON_VALUE;
+//import static uk.nhs.adaptors.scr.utils.FhirJsonResultMatcher.fhirJson;
 
 @SpringBootTest
 @AutoConfigureMockMvc
