@@ -37,6 +37,8 @@ public class SdsClient {
             httpHeaders.add(NHSD_REQUEST_ID, MDC.get(REQUEST_ID_MDC_KEY));
         }).build();
 
+        LOGGER.info("Sending request to SDS");
+
         WebClient.ResponseSpec responseSpec = client.get()
             .uri(uri)
             .retrieve()
@@ -46,6 +48,9 @@ public class SdsClient {
                 response -> response.bodyToMono(String.class).map(BadRequestException::new));
 
         var strResponse = responseSpec.bodyToMono(String.class).block();
+
+        // todo remove this
+        LOGGER.info(String.format("SDS response: %s", strResponse));
 
         return fhirParser.parseResource(strResponse, Bundle.class);
     }

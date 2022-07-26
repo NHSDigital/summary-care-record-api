@@ -34,30 +34,36 @@ public class SdsService {
 
         var response = sdsClient.sendGet(uri, nhsdAsid, nhsdIdentity, nhsdSessionUrid);
 
+        LOGGER.info(String.format("%s", response.getEntry()));
+
         return getCodeFromBundle(response);
     }
 
     private String getCodeFromBundle(Bundle bundle) {
 
         if (bundle == null || !bundle.hasEntry()) {
+            LOGGER.info("Bundle is null, no code");
             return "";
         }
 
         var entry = bundle.getEntryFirstRep();
 
         if (!entry.hasResource()) {
+            LOGGER.info("Entry is null, no code");
             return "";
         }
 
         var resource = (PractitionerRole) entry.getResource();
 
         if (!resource.hasCode()) {
+            LOGGER.info("Resource is null, no code");
             return "";
         }
 
         var roleCode = resource.getCodeFirstRep();
 
         if (!roleCode.hasCoding()) {
+            LOGGER.info("Role Code is null, no code");
             return "";
         }
 
