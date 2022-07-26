@@ -41,6 +41,10 @@ public class AcsController {
                               @RequestHeader(NHSD_SESSION_URID) @NotNull String nhsdSessionUrid,
                               @RequestHeader(AUTHORIZATION) @NotNull String authorization) {
         LOGGER.info("Received ACS Set Permission request");
+
+        // todo remove debug logging
+        LOGGER.info(String.format("URID: %s", nhsdSessionUrid));
+
         RequestData requestData = new RequestData().setBody(parameters)
             .setClientIp(clientIp)
             .setNhsdAsid(nhsdAsid)
