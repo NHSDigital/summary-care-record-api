@@ -70,7 +70,7 @@ public class AcsService {
             .filter(role -> role.getPersonRoleId().equals(nhsdSessionUrid))
             .findFirst();
         if (userRole.isPresent() && StringUtils.isNotEmpty(userRole.get().getRoleCode())) {
-             return userRole.get().getRoleCode();
+            return userRole.get().getRoleCode();
         }
 
         try {
