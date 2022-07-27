@@ -3,7 +3,7 @@ package uk.nhs.adaptors.scr.services;
 import com.github.mustachejava.Mustache;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-//import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.r4.model.Coding;
 import org.hl7.fhir.r4.model.Parameters;
 import org.hl7.fhir.r4.model.Parameters.ParametersParameterComponent;
@@ -66,15 +66,14 @@ public class AcsService {
 
     private String getUserRoleCode(UserInfo userInfo, RequestData requestData) {
         String nhsdSessionUrid = requestData.getNhsdSessionUrid();
-//        var userRole = userInfo.getRoles().stream()
-//            .filter(role -> role.getPersonRoleId().equals(nhsdSessionUrid))
-//            .findFirst();
-//        if (userRole.isPresent() && StringUtils.isNotEmpty(userRole.get().getRoleCode())) {
-//             return userRole.get().getRoleCode();
-//        }
+        var userRole = userInfo.getRoles().stream()
+            .filter(role -> role.getPersonRoleId().equals(nhsdSessionUrid))
+            .findFirst();
+        if (userRole.isPresent() && StringUtils.isNotEmpty(userRole.get().getRoleCode())) {
+             return userRole.get().getRoleCode();
+        }
 
         try {
-            nhsdSessionUrid = "555265434108";
             return sdsService.getUserRoleCode(nhsdSessionUrid, requestData.getNhsdAsid(), requestData.getNhsdIdentity());
         } catch (BadRequestException | URISyntaxException e) {
             throw new BadRequestException(String.format("Unable to determine SDS Job Role Code for "
