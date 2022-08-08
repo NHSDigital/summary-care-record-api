@@ -24,14 +24,14 @@ scr:
   partyIdTo: ${SCR_PARTY_ID_TO:YEA-0000806}
   nhsdAsidTo: ${SCR_NHSD_ASID_TO:655159266510}
   serviceBasePath: ${SERVICE_BASE_PATH:summary-care-record/FHIR/R4}
-  baseUrl: https://${HOST_URL:internal-dev.api.service.nhs.uk}
+  baseUrl: https://${HOST_URL:int.api.service.nhs.uk}
 
 sds:
   baseUrl: https://${SDS_URL}
 
 identity-service:
     userInfoEndpoint: /oauth2/userinfo
-    baseUrl: https://${APIGEE_HOST:internal-dev.api.service.nhs.uk}
+    baseUrl: https://${APIGEE_HOST:int.api.service.nhs.uk}
 
 spine:
     useSsl: false
