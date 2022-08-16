@@ -2,7 +2,10 @@ package uk.nhs.adaptors.scr.services;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.hl7.fhir.r4.model.*;
+import org.hl7.fhir.r4.model.AuditEvent;
+import org.hl7.fhir.r4.model.Coding;
+import org.hl7.fhir.r4.model.Identifier;
+import org.hl7.fhir.r4.model.OperationOutcome;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
@@ -23,8 +26,7 @@ public class AlertService {
     public void sendAlert(String body, String nhsdAsid, String nhsdIdentity, String nhsdSessionUrid) {
         AuditEvent auditEvent = fhirParser.parseResource(body, AuditEvent.class);
 
-        if (!auditEvent.getSource().getObserver().getIdentifier().hasValue())
-        {
+        if (!auditEvent.getSource().getObserver().getIdentifier().hasValue()) {
             var identifier = new Identifier();
             identifier.setSystem(NHS_ASID_SYSTEM);
             identifier.setValue(nhsdAsid);
