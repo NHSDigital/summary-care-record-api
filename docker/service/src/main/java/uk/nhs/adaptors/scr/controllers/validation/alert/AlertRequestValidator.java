@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.hl7.fhir.r4.model.AuditEvent;
 import org.hl7.fhir.r4.model.AuditEvent.AuditEventAgentComponent;
 import org.hl7.fhir.r4.model.AuditEvent.AuditEventEntityComponent;
-import org.hl7.fhir.r4.model.AuditEvent.AuditEventSourceComponent;
 import org.hl7.fhir.r4.model.Coding;
 import org.hl7.fhir.r4.model.Extension;
 import org.hl7.fhir.r4.model.Identifier;
@@ -30,7 +29,6 @@ public class AlertRequestValidator implements ConstraintValidator<AlertRequest, 
     private static final String TYPE_SYSTEM = "http://terminology.hl7.org/CodeSystem/iso-21089-lifecycle";
     private static final String SUBTYPE_SYSTEM = "https://fhir.nhs.uk/CodeSystem/SCR-AlertReason";
     private static final List<String> SUBTYPE_CODES = asList("0", "1", "2", "3", "4", "5");
-    private static final String SOURCE_ID_SYSTEM = "https://fhir.nhs.uk/Id/nhsSpineASID";
     private static final String PATIENT_SYSTEM = "https://fhir.nhs.uk/Id/nhs-number";
     private static final String ORGANIZATION_SYSTEM = "https://fhir.nhs.uk/Id/ods-organization-code";
     private static final String PERSON_SYSTEM = "https://fhir.nhs.uk/Id/sds-user-id";
@@ -50,7 +48,6 @@ public class AlertRequestValidator implements ConstraintValidator<AlertRequest, 
             checkType(auditEvent.getType());
             checkSubtype(auditEvent.getSubtype());
             checkRecorded(auditEvent.getRecorded());
-            checkSource(auditEvent.getSource());
             checkEntity(auditEvent.getEntity());
             checkPatient(auditEvent.getAgent());
             checkOrganization(auditEvent.getAgent());
@@ -120,21 +117,6 @@ public class AlertRequestValidator implements ConstraintValidator<AlertRequest, 
         AuditEventEntityComponent entity = entities.get(0);
         if (!entity.getWhat().getIdentifier().hasValue()) {
             throw new FhirValidationException("Invalid or missing value in field 'entity.what.identifier.value'");
-        }
-    }
-
-    private void checkSource(AuditEventSourceComponent source) {
-        if (!source.isEmpty()) {
-            Identifier id = source.getObserver().getIdentifier();
-            if (!SOURCE_ID_SYSTEM.equals(id.getSystem())) {
-                throw new FhirValidationException("Invalid value in field 'source.observer.identifier.system'. Supported value: "
-                    + SOURCE_ID_SYSTEM);
-            }
-            if (!id.hasValue()) {
-                throw new FhirValidationException("Invalid or missing value in field 'source.observer.identifier.value'");
-            }
-        } else {
-            throw new FhirValidationException("'source' element is missing");
         }
     }
 
