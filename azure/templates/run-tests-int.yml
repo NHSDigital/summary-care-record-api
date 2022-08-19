@@ -29,7 +29,7 @@ steps:
         secret_file_ids:
           - ptl/app-credentials/jwt_testing/non-prod/JWT_TESTING_PRIVATE_KEY
           - ptl/app-credentials/jwt_testing/non-prod/ID_TOKEN_NHS_LOGIN_PRIVATE_KEY
-          - /ptl/azure-devops/summary-care-record/int/CLIENT_SECRET_INT
+          - ptl/azure-devops/summary-care-record/int/CLIENT_SECRET_INT
         config_ids:
           - /ptl/azure-devops/summary-care-record/int/CLIENT_ID_INT
     - bash: |
