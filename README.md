@@ -8,6 +8,8 @@ This is a RESTful HL7® FHIR® API specification for the *Template API*.
 * `sandbox/` This NodeJS application implements a mock implementation of the service. Use it as a back-end service to the interactive documentation to illustrate interactions and concepts. It is not intended to provide an exhaustive/faithful environment suitable for full development and testing.
 * `scripts/` Utilities helpful to developers of this specification.
 * `proxies/` Live (connecting to another service) and sandbox (using the sandbox container) Apigee API Proxy definitions.
+* `docker/` Contains another [README](/docker/README.md) with more specific developer documentation for the Summary Care Record. The docker configuration and project source is also located here.
+* `azure/` Contains the build pipelines for build, PR, and release.
 
 Consumers of the API will find developer documentation on the [NHS Digital Developer Hub](https://developer.digital.nhs.uk/).
 
@@ -111,6 +113,8 @@ Redeploy the API Proxy and hosted Sandbox service.
 * `APIGEE_BASE_PATH` - The proxy's base path (must be unique)
 
 :bulb: Specify your own API Proxy (with base path) for use during development.
+
+This is also possible by committing to the repo and opening a pull request.
 
 #### Platform setup
 
