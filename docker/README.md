@@ -1,5 +1,5 @@
 # integration-adaptor-scr
-National Integration Adaptors - Summary Care Record
+National Integration Adaptors - Summary Care Record. This README covers the set up and local gradle testing of SCR. For descriptions of the endpoints themselves, see the `/specification` directory at the root of the repository.
 
 ## Requirements:
 1. JDK 14
@@ -60,3 +60,9 @@ All API operations defined in `http://wiremock.org/docs/api/` are available to u
 By default Spine Mock Service will run on `http://mock-spine-service:8081` (add `127.0.0.1 mock-spine-service` to your local `/etc/hosts` fille) and have predefined stubs in place 
 
 For convenience, predefined Spine stubs are available. Check `./docker/docker/spine-mock/stubs/mappings/` or `http://mock-spine-service:8081/__admin`
+
+## SDS
+`sds-api` houses the docker-compose files for the SDS API and the source code for that, pulled from `https://github.com/NHSDigital/spine-directory-service-api`. This has been pulled in temporarily to allow the practitioner role to be found during authorisation. 
+:warning: Once the relevant changes are in SDS then this should be removed from this repo and updated in the relevant way.
+
+
