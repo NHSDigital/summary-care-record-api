@@ -51,7 +51,7 @@ def test_healthcheck(headers):
     )
 
     assert response.status_code == 200, "GET healthcheck request failed"
-    assert response.json().get("status") == "pass", "Heathcheck response: " + str(response.json())
+    assert response.json().get("status") == "UP", "Heathcheck response: " + str(response.json())
 
 
 @pytest.mark.smoketest
