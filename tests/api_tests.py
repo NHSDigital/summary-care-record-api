@@ -44,6 +44,17 @@ def send_set_permission_request(headers, permission_code: str):
 
 
 @pytest.mark.smoketest
+def test_healthcheck(headers):
+    response = requests.get(
+        f"{_base_valid_uri()}/healthcheck",
+        headers=headers
+    )
+
+    assert response.status_code == 200, "GET healthcheck request failed"
+    assert response.get("status") == "pass", "Heathcheck response: " + str(response)
+
+
+@pytest.mark.smoketest
 def test_set_permission_no(headers):
     send_set_permission_request(headers, "No")
 
