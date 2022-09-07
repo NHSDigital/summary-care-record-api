@@ -27,9 +27,9 @@ APIGEE_ENVIRONMENTS:
 - display_name: Integration Testing
   make_spec_visible: true
   name: int
-- name: prod
+- display_name: Production
+  name: prod
   approval_type: manual
-  display_name_suffix: Production
   ratelimit: '15000pm'
   quota: '7800'
 ---
