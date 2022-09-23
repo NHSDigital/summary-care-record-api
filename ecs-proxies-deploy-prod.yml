@@ -1,0 +1,61 @@
+docker_service_cpu: 2048
+docker_service_memory: 4096
+docker_service_autoscaling_prod:
+    service_metric: ECSServiceAverageCPUUtilization
+    target_value: 50
+docker_service_autoscaling: "{{ docker_service_autoscaling_prod }}"
+docker_service:
+  - name: scr-api
+    expose: true
+    port: 9000
+    environment:
+      - name: SCR_LOGGING_LEVEL
+        value: "INFO"
+      - name: SCR_SANDBOX_MODE
+        value: "False"
+      - name: TLS_ENABLED
+        value: "True"
+      - name: HOST_URL
+        value: "{{ APIGEE_HOSTNAME }}"
+      - name: SERVICE_BASE_PATH
+        value: "{{ SERVICE_BASE_PATH }}"
+      - name: IDENTITY_SERVICE_URI
+        value: "/oauth2/userinfo"
+      - name: SDS_URL
+        value: "localhost:9001"
+        # SDS_URL is not at present routed to a environment variable
+        # To route it to anywhere other than local host minor code changes are required to move from http to https
+    secrets:
+      - name: APIGEE_HOST
+        valueFrom: "/{{ account }}/platform-common/egress/hosts/apigee-{{ APIGEE_ENVIRONMENT }}"
+      - name: SCR_SPINE_URL
+        valueFrom: '/{{ account }}/platform-common/egress/hosts/spine-clinicals-{{ SPINE_ENV }}'
+      - name: SCR_PARTY_ID_TO
+        valueFrom: "/{{ account }}/api-deployment/scr/env-int/party-id"
+      - name: SCR_NHSD_ASID_TO
+        valueFrom: "/{{ account }}/api-deployment/scr/env-int/asid-to"
+    health_check:
+        matcher: "200"
+        path: "/healthcheck"
+  - name: sds-api
+    expose: false
+    port: 9001
+    environment:
+      - name: SDS_LOG_LEVEL
+        value: "INFO"
+      - name: SDS_LDAP_SEARCH_BASE
+        value: ou=services,o=nhs
+      - name: SDS_LDAP_URL
+        value: ldap.national.ncrs.nhs.uk
+      - name: SDS_SPINE_CORE_ODS_CODE
+        value: "YES"
+    secrets:
+      - name: SDS_SECRET_CLIENT_KEY
+        valueFrom: "arn:aws:secretsmanager:eu-west-2:{{ PROD_ACCOUNT_ID }}:secret:prod/cis/ldap.national.ncrs.nhs.uk/key"
+      - name: SDS_SECRET_CLIENT_CERT
+        valueFrom: "arn:aws:secretsmanager:eu-west-2:{{ PROD_ACCOUNT_ID }}:secret:prod/cis/ldap.national.ncrs.nhs.uk/crt"
+      - name: SDS_SECRET_CA_CERTS
+        valueFrom: "arn:aws:secretsmanager:eu-west-2:{{ PROD_ACCOUNT_ID }}:secret:prod/ca-certs/nhsd-prod/root-ca/crt"
+    health_check:
+      matcher: "200"
+      path: "/healthcheck"
