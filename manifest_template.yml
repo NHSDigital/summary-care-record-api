@@ -31,7 +31,7 @@ APIGEE_ENVIRONMENTS:
   name: prod
   approval_type: manual
   ratelimit: '15000pm'
-  quota: '7800'
+  quota: '9000'
 ---
 meta:
   api:
