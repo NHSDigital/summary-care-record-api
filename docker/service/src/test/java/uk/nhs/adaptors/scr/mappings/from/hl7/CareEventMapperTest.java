@@ -1,21 +1,22 @@
 package uk.nhs.adaptors.scr.mappings.from.hl7;
 
 import lombok.SneakyThrows;
-import org.hl7.fhir.instance.model.api.IBaseResource;
-import org.hl7.fhir.r4.model.Composition;
+import org.hl7.fhir.r4.model.Encounter;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 import uk.nhs.adaptors.scr.components.FhirParser;
+
+import uk.nhs.adaptors.scr.mappings.from.hl7.common.CodedEntryMapper;
 import uk.nhs.adaptors.scr.mappings.from.hl7.common.UuidWrapper;
 import uk.nhs.adaptors.scr.utils.XmlUtils;
 import uk.nhs.utils.CareEventMapperArgumentsProvider;
-import uk.nhs.utils.HtmlParserArgumentsProvider;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.xpath.XPathFactory;
@@ -35,6 +36,12 @@ public class CareEventMapperTest {
     @Mock
     private UuidWrapper UUID;
 
+    @Spy
+    private CodedEntryMapper codedEntry = new CodedEntryMapper(new XmlUtils(XPathFactory.newInstance()));
+
+    @Spy
+    private XmlUtils xmlUtils = new XmlUtils(XPathFactory.newInstance());
+
     private FhirParser fhirParser = new FhirParser();
 
     @ParameterizedTest(name = "[{index}] - {0}.html/json")
@@ -51,6 +58,24 @@ public class CareEventMapperTest {
 
 //        assertThat(actualJson).isEqualTo(expectedJson);
         assertThat(result.get(0).getId()).isEqualTo("722e35ec-0f00-4b71-b1f9-2240623c6b41");
+    }
+
+    @ParameterizedTest(name = "[{index}] - {0}.html/json")
+    @ArgumentsSource(CareEventMapperArgumentsProvider.class)
+    public void When_MappingFromHl7_Expect_DateTimeFormatted(String fileName) {
+        var html = parseXml(readResourceFile(String.format("care_event/%s.html", fileName))).getDocumentElement();
+        var expectedJson = readResourceFile(String.format("care_event/%s.json", fileName));
+
+        when(UUID.RandomUUID()).thenReturn("722e35ec-0f00-4b71-b1f9-2240623c6b41");
+
+        var result = careEvent.map(html);
+
+        var actualJson = fhirParser.encodeToJson(result.get(0));
+
+        var resultEncounter = (Encounter) result.get(0);
+
+        assertThat(resultEncounter.getPeriod().getEndElement().toHumanDisplay()).isEqualTo("2020-08-05");
+
     }
 
     @SneakyThrows
