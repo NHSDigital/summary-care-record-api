@@ -31,6 +31,7 @@ public class CareEventMapper implements XmlToFhirMapper {
     private static final String PERTINENT_CODE_CODE_XPATH = "./code/@code";
     private static final String PERTINENT_CODE_DISPLAY_XPATH = "./code/@displayName";
     private static final String CARE_EVENT_BASE_PATH = "./component/UKCT_MT144037UK01.CareEvent";
+    private static final String UK_CORE_OBSERVATION_META = "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Encounter";
 
 
     @Override
@@ -57,6 +58,9 @@ public class CareEventMapper implements XmlToFhirMapper {
                     entry.getEffectiveTimeHigh().ifPresent(period::setStartElement);
                     careEvent.setPeriod(period);
                 }
+
+                careEvent.setMeta(new Meta().addProfile(UK_CORE_OBSERVATION_META));
+
                 resources.add(careEvent);
             }
         }

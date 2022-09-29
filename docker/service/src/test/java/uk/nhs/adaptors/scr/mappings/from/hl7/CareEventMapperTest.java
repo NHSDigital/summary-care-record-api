@@ -43,6 +43,7 @@ public class CareEventMapperTest {
     private XmlUtils xmlUtils = new XmlUtils(XPathFactory.newInstance());
 
     private FhirParser fhirParser = new FhirParser();
+    private static final String UK_CORE_OBSERVATION_META = "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Encounter";
 
     @ParameterizedTest(name = "[{index}] - {0}.html/json")
     @ArgumentsSource(CareEventMapperArgumentsProvider.class)
@@ -56,7 +57,6 @@ public class CareEventMapperTest {
 
         var actualJson = fhirParser.encodeToJson(result.get(0));
 
-//        assertThat(actualJson).isEqualTo(expectedJson);
         assertThat(result.get(0).getId()).isEqualTo("722e35ec-0f00-4b71-b1f9-2240623c6b41");
     }
 
@@ -77,6 +77,26 @@ public class CareEventMapperTest {
         assertThat(resultEncounter.getPeriod().getEndElement().toHumanDisplay()).isEqualTo("2020-08-05");
 
     }
+
+    @ParameterizedTest(name = "[{index}] - {0}.html/json")
+    @ArgumentsSource(CareEventMapperArgumentsProvider.class)
+    public void When_MappingFromHl7_Expect_MetaUrl(String fileName) {
+        var html = parseXml(readResourceFile(String.format("care_event/%s.html", fileName))).getDocumentElement();
+        var expectedJson = readResourceFile(String.format("care_event/%s.json", fileName));
+
+        when(UUID.RandomUUID()).thenReturn("722e35ec-0f00-4b71-b1f9-2240623c6b41");
+
+        var result = careEvent.map(html);
+
+        var actualJson = fhirParser.encodeToJson(result.get(0));
+
+        var resultEncounter = (Encounter) result.get(0);
+
+        assertThat(resultEncounter.getMeta().getProfile().get(0).getValue()).isEqualTo(UK_CORE_OBSERVATION_META);
+
+    }
+
+
 
     @SneakyThrows
     private static Document parseXml(String xml) {
