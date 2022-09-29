@@ -162,6 +162,24 @@ public class CareEventMapperTest {
 
     }
 
+    @ParameterizedTest(name = "[{index}] - {0}.html/json")
+    @ArgumentsSource(CareEventMapperArgumentsProvider.class)
+    public void When_MappingFromHl7_Expect_MatchJson(String fileName) {
+        var html = parseXml(readResourceFile(String.format("care_event/%s.html", fileName))).getDocumentElement();
+        var expectedJson = readResourceFile(String.format("care_event/%s.json", fileName));
+
+        when(UUID.RandomUUID()).thenReturn("722e35ec-0f00-4b71-b1f9-2240623c6b41");
+
+        var result = careEvent.map(html);
+
+        var actualJson = fhirParser.encodeToJson(result.get(0));
+
+        var resultEncounter = (Encounter) result.get(0);
+
+        assertThat(actualJson).isEqualTo(expectedJson);
+
+    }
+
     @SneakyThrows
     private static Document parseXml(String xml) {
         return DocumentBuilderFactory
