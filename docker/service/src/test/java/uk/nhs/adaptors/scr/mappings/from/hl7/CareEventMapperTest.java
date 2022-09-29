@@ -96,7 +96,71 @@ public class CareEventMapperTest {
 
     }
 
+    @ParameterizedTest(name = "[{index}] - {0}.html/json")
+    @ArgumentsSource(CareEventMapperArgumentsProvider.class)
+    public void When_MappingFromHl7_Expect_CodingMapped(String fileName) {
+        var html = parseXml(readResourceFile(String.format("care_event/%s.html", fileName))).getDocumentElement();
+        var expectedJson = readResourceFile(String.format("care_event/%s.json", fileName));
 
+        when(UUID.RandomUUID()).thenReturn("722e35ec-0f00-4b71-b1f9-2240623c6b41");
+
+        var result = careEvent.map(html);
+
+        var actualJson = fhirParser.encodeToJson(result.get(0));
+
+        var resultEncounter = (Encounter) result.get(0);
+
+        assertThat(resultEncounter.getReasonCode().get(0).getCoding().get(0).getCode())
+            .isEqualTo("1240631000000102");
+
+        assertThat(resultEncounter.getReasonCode().get(0).getCoding().get(0).getSystem())
+            .isEqualTo("http://snomed.info/sct");
+
+        assertThat(resultEncounter.getReasonCode().get(0).getCoding().get(0).getDisplay())
+            .isEqualTo("Did not attend SARS-CoV-2 (severe acute respiratory syndrome coronavirus 2) vaccination");
+
+    }
+
+    @ParameterizedTest(name = "[{index}] - {0}.html/json")
+    @ArgumentsSource(CareEventMapperArgumentsProvider.class)
+    public void When_MappingFromHl7_Expect_StatusFinished(String fileName) {
+        var html = parseXml(readResourceFile(String.format("care_event/%s.html", fileName))).getDocumentElement();
+        var expectedJson = readResourceFile(String.format("care_event/%s.json", fileName));
+
+        when(UUID.RandomUUID()).thenReturn("722e35ec-0f00-4b71-b1f9-2240623c6b41");
+
+        var result = careEvent.map(html);
+
+        var actualJson = fhirParser.encodeToJson(result.get(0));
+
+        var resultEncounter = (Encounter) result.get(0);
+
+        assertThat(resultEncounter.getStatus().toString()).isEqualTo("FINISHED");
+
+    }
+
+    @ParameterizedTest(name = "[{index}] - {0}.html/json")
+    @ArgumentsSource(CareEventMapperArgumentsProvider.class)
+    public void When_MappingFromHl7_Expect_ClassMapped(String fileName) {
+        var html = parseXml(readResourceFile(String.format("care_event/%s.html", fileName))).getDocumentElement();
+        var expectedJson = readResourceFile(String.format("care_event/%s.json", fileName));
+
+        when(UUID.RandomUUID()).thenReturn("722e35ec-0f00-4b71-b1f9-2240623c6b41");
+
+        var result = careEvent.map(html);
+
+        var actualJson = fhirParser.encodeToJson(result.get(0));
+
+        var resultEncounter = (Encounter) result.get(0);
+
+        assertThat(resultEncounter.getClass_().getCode()).isEqualTo("GENRL");
+
+        assertThat(resultEncounter.getClass_().getSystem())
+            .isEqualTo("http://terminology.hl7.org/CodeSystem/v3-ActCode");
+
+        assertThat(resultEncounter.getClass_().getDisplay()).isEqualTo("General");
+
+    }
 
     @SneakyThrows
     private static Document parseXml(String xml) {

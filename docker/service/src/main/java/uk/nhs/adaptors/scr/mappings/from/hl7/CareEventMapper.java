@@ -15,6 +15,7 @@ import uk.nhs.adaptors.scr.utils.XmlUtils;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.hl7.fhir.r4.model.Encounter.EncounterStatus.FINISHED;
 import static uk.nhs.adaptors.scr.utils.FhirHelper.randomUUID;
 
 @Slf4j
@@ -32,6 +33,8 @@ public class CareEventMapper implements XmlToFhirMapper {
     private static final String PERTINENT_CODE_DISPLAY_XPATH = "./code/@displayName";
     private static final String CARE_EVENT_BASE_PATH = "./component/UKCT_MT144037UK01.CareEvent";
     private static final String UK_CORE_OBSERVATION_META = "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Encounter";
+    private static final String ENCOUNTER_CLASS_SYSTEM = "http://terminology.hl7.org/CodeSystem/v3-ActCode";
+
 
 
     @Override
@@ -60,6 +63,18 @@ public class CareEventMapper implements XmlToFhirMapper {
                 }
 
                 careEvent.setMeta(new Meta().addProfile(UK_CORE_OBSERVATION_META));
+
+                careEvent.addReasonCode(new CodeableConcept().addCoding(new Coding()
+                    .setCode(entry.getCodeValue())
+                    .setSystem(SNOMED_SYSTEM)
+                    .setDisplay(entry.getCodeDisplay())));
+
+                careEvent.setStatus(FINISHED);
+
+                careEvent.setClass_(new Coding()
+                    .setCode("GENRL")
+                    .setSystem(ENCOUNTER_CLASS_SYSTEM)
+                    .setDisplay("General"));
 
                 resources.add(careEvent);
             }
