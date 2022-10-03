@@ -66,7 +66,7 @@ release: clean publish build-proxy
 	done
 
 	for env in prod; do \
-		cat ecs-proxies-deploy-prod.yml | sed -e 's/{{ SPINE_ENV }}/prod/g' > dist/ecs-deploy-prod.yml
+		cat ecs-proxies-deploy-prod.yml | sed -e 's/{{ SPINE_ENV }}/prod/g' > dist/ecs-deploy-prod.yml; \
 	done
 
 dist: release
