@@ -31,9 +31,9 @@ docker_service:
       - name: SCR_SPINE_URL
         valueFrom: '/{{ account }}/platform-common/egress/hosts/spine-clinicals-{{ SPINE_ENV }}'
       - name: SCR_PARTY_ID_TO
-        valueFrom: "/{{ account }}/api-deployment/scr/env-prod/party-id"
+        valueFrom: "/{{ account }}/api-deployment/scr/env-int/party-id"
       - name: SCR_NHSD_ASID_TO
-        valueFrom: "/{{ account }}/api-deployment/scr/env-prod/asid-to"
+        valueFrom: "/{{ account }}/api-deployment/scr/env-int/asid-to"
     health_check:
         matcher: "200"
         path: "/healthcheck"
