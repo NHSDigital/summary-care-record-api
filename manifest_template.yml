@@ -29,6 +29,7 @@ APIGEE_ENVIRONMENTS:
   name: int
 - display_name: Production
   name: prod
+  make_spec_visible: true
   approval_type: manual
   ratelimit: '15000pm'
   quota: '9000'
