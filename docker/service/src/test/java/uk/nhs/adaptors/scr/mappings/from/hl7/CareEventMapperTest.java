@@ -176,7 +176,7 @@ public class CareEventMapperTest {
 
         var resultEncounter = (Encounter) result.get(0);
 
-        assertThat(actualJson).isEqualTo(expectedJson);
+        assertThat(actualJson).isEqualTo(expectedJson.trim());
 
     }
 
