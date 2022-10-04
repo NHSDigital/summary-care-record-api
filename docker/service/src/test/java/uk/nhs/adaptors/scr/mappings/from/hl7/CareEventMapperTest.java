@@ -110,13 +110,13 @@ public class CareEventMapperTest {
 
         var resultEncounter = (Encounter) result.get(0);
 
-        assertThat(resultEncounter.getReasonCode().get(0).getCoding().get(0).getCode())
+        assertThat(resultEncounter.getType().get(0).getCoding().get(0).getCode())
             .isEqualTo("1240631000000102");
 
-        assertThat(resultEncounter.getReasonCode().get(0).getCoding().get(0).getSystem())
+        assertThat(resultEncounter.getType().get(0).getCoding().get(0).getSystem())
             .isEqualTo("http://snomed.info/sct");
 
-        assertThat(resultEncounter.getReasonCode().get(0).getCoding().get(0).getDisplay())
+        assertThat(resultEncounter.getType().get(0).getCoding().get(0).getDisplay())
             .isEqualTo("Did not attend SARS-CoV-2 (severe acute respiratory syndrome coronavirus 2) vaccination");
 
     }
