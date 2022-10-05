@@ -4,6 +4,6 @@ import java.util.UUID;
 
 public interface IUuidWrapper {
 
-    String RandomUUID();
+    String randomUuid();
 
 }

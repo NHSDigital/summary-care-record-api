@@ -34,7 +34,7 @@ public class CareEventMapperTest {
     private CareEventMapper careEvent;
 
     @Mock
-    private UuidWrapper UUID;
+    private UuidWrapper uuid;
 
     @Spy
     private CodedEntryMapper codedEntry = new CodedEntryMapper(new XmlUtils(XPathFactory.newInstance()));
@@ -51,7 +51,7 @@ public class CareEventMapperTest {
         var html = parseXml(readResourceFile(String.format("care_event/%s.html", fileName))).getDocumentElement();
         var expectedJson = readResourceFile(String.format("care_event/%s.json", fileName));
 
-        when(UUID.RandomUUID()).thenReturn("722e35ec-0f00-4b71-b1f9-2240623c6b41");
+        when(uuid.randomUuid()).thenReturn("722e35ec-0f00-4b71-b1f9-2240623c6b41");
 
         var result = careEvent.map(html);
 
@@ -66,7 +66,7 @@ public class CareEventMapperTest {
         var html = parseXml(readResourceFile(String.format("care_event/%s.html", fileName))).getDocumentElement();
         var expectedJson = readResourceFile(String.format("care_event/%s.json", fileName));
 
-        when(UUID.RandomUUID()).thenReturn("722e35ec-0f00-4b71-b1f9-2240623c6b41");
+        when(uuid.randomUuid()).thenReturn("722e35ec-0f00-4b71-b1f9-2240623c6b41");
 
         var result = careEvent.map(html);
 
@@ -84,7 +84,7 @@ public class CareEventMapperTest {
         var html = parseXml(readResourceFile(String.format("care_event/%s.html", fileName))).getDocumentElement();
         var expectedJson = readResourceFile(String.format("care_event/%s.json", fileName));
 
-        when(UUID.RandomUUID()).thenReturn("722e35ec-0f00-4b71-b1f9-2240623c6b41");
+        when(uuid.randomUuid()).thenReturn("722e35ec-0f00-4b71-b1f9-2240623c6b41");
 
         var result = careEvent.map(html);
 
@@ -102,7 +102,7 @@ public class CareEventMapperTest {
         var html = parseXml(readResourceFile(String.format("care_event/%s.html", fileName))).getDocumentElement();
         var expectedJson = readResourceFile(String.format("care_event/%s.json", fileName));
 
-        when(UUID.RandomUUID()).thenReturn("722e35ec-0f00-4b71-b1f9-2240623c6b41");
+        when(uuid.randomUuid()).thenReturn("722e35ec-0f00-4b71-b1f9-2240623c6b41");
 
         var result = careEvent.map(html);
 
@@ -127,7 +127,7 @@ public class CareEventMapperTest {
         var html = parseXml(readResourceFile(String.format("care_event/%s.html", fileName))).getDocumentElement();
         var expectedJson = readResourceFile(String.format("care_event/%s.json", fileName));
 
-        when(UUID.RandomUUID()).thenReturn("722e35ec-0f00-4b71-b1f9-2240623c6b41");
+        when(uuid.randomUuid()).thenReturn("722e35ec-0f00-4b71-b1f9-2240623c6b41");
 
         var result = careEvent.map(html);
 
@@ -145,7 +145,7 @@ public class CareEventMapperTest {
         var html = parseXml(readResourceFile(String.format("care_event/%s.html", fileName))).getDocumentElement();
         var expectedJson = readResourceFile(String.format("care_event/%s.json", fileName));
 
-        when(UUID.RandomUUID()).thenReturn("722e35ec-0f00-4b71-b1f9-2240623c6b41");
+        when(uuid.randomUuid()).thenReturn("722e35ec-0f00-4b71-b1f9-2240623c6b41");
 
         var result = careEvent.map(html);
 
@@ -168,7 +168,7 @@ public class CareEventMapperTest {
         var html = parseXml(readResourceFile(String.format("care_event/%s.html", fileName))).getDocumentElement();
         var expectedJson = readResourceFile(String.format("care_event/%s.json", fileName));
 
-        when(UUID.RandomUUID()).thenReturn("722e35ec-0f00-4b71-b1f9-2240623c6b41");
+        when(uuid.randomUuid()).thenReturn("722e35ec-0f00-4b71-b1f9-2240623c6b41");
 
         var result = careEvent.map(html);
 
