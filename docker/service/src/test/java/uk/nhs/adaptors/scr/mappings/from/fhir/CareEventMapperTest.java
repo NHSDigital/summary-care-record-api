@@ -100,8 +100,7 @@ public class CareEventMapperTest {
 
         var result = careEvent.mapCareEvent(encounter);
 
-
-        var REPC_RM150007UK05_TEMPLATE = TemplateUtils.loadTemplate("UKCT_MT144037UK01.CareEvent");
+        var REPC_RM150007UK05_TEMPLATE = TemplateUtils.loadPartialTemplate("CareEvents.mustache");
 
         var resultStr = TemplateUtils.fillTemplate(REPC_RM150007UK05_TEMPLATE, result);
         assertThat(resultStr).isEqualTo(expectedHtml);

@@ -9,9 +9,16 @@ import java.io.StringWriter;
 
 public class TemplateUtils {
     private static final String TEMPLATES_DIRECTORY = "templates";
+    private static final String PARTIAL_DIRECTORY = "templates/partials";
 
     public static Mustache loadTemplate(String templateName) {
         MustacheFactory mf = new DefaultMustacheFactory(TEMPLATES_DIRECTORY);
+        Mustache m = mf.compile(templateName);
+        return m;
+    }
+
+    public static Mustache loadPartialTemplate(String templateName) {
+        MustacheFactory mf = new DefaultMustacheFactory(PARTIAL_DIRECTORY);
         Mustache m = mf.compile(templateName);
         return m;
     }
