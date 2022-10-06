@@ -1,32 +1,25 @@
 package uk.nhs.adaptors.scr.mappings.from.fhir;
 
-import com.github.mustachejava.Mustache;
 import lombok.SneakyThrows;
-import org.hl7.fhir.r4.model.Bundle;
 import org.hl7.fhir.r4.model.Encounter;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 import uk.nhs.adaptors.scr.components.FhirParser;
-import uk.nhs.adaptors.scr.mappings.from.fhir.CareEventMapper;
-import uk.nhs.adaptors.scr.mappings.from.hl7.common.CodedEntryMapper;
-import uk.nhs.adaptors.scr.mappings.from.hl7.common.UuidWrapper;
+import uk.nhs.adaptors.scr.models.GpSummary;
+import uk.nhs.adaptors.scr.models.xml.CareEvent;
 import uk.nhs.adaptors.scr.utils.TemplateUtils;
-import uk.nhs.adaptors.scr.utils.XmlUtils;
 import uk.nhs.utils.CareEventMapperArgumentsProvider;
 
 import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.xpath.XPathFactory;
 import java.io.StringReader;
+import java.util.ArrayList;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.when;
 import static uk.nhs.utils.Utils.readResourceFile;
 
 @ExtendWith(MockitoExtension.class)
@@ -40,7 +33,6 @@ public class CareEventMapperTest {
     @ParameterizedTest(name = "[{index}] - {0}.html/json")
     @ArgumentsSource(CareEventMapperArgumentsProvider.class)
     public void When_MappingFromFHIR_Expect_RootId(String fileName) {
-        var expectedHtml = parseXml(readResourceFile(String.format("care_event/%s.html", fileName))).getDocumentElement();
         var json = readResourceFile(String.format("care_event/%s.json", fileName));
 
         var encounter = fhirParser.parseResource(json, Encounter.class);
@@ -53,7 +45,6 @@ public class CareEventMapperTest {
     @ParameterizedTest(name = "[{index}] - {0}.html/json")
     @ArgumentsSource(CareEventMapperArgumentsProvider.class)
     public void When_MappingFromFHIR_Expect_Code(String fileName) {
-        var expectedHtml = parseXml(readResourceFile(String.format("care_event/%s.html", fileName))).getDocumentElement();
         var json = readResourceFile(String.format("care_event/%s.json", fileName));
 
         var encounter = fhirParser.parseResource(json, Encounter.class);
@@ -67,7 +58,6 @@ public class CareEventMapperTest {
     @ParameterizedTest(name = "[{index}] - {0}.html/json")
     @ArgumentsSource(CareEventMapperArgumentsProvider.class)
     public void When_MappingFromFHIR_Expect_StatusCode(String fileName) {
-        var expectedHtml = parseXml(readResourceFile(String.format("care_event/%s.html", fileName))).getDocumentElement();
         var json = readResourceFile(String.format("care_event/%s.json", fileName));
 
         var encounter = fhirParser.parseResource(json, Encounter.class);
@@ -80,7 +70,6 @@ public class CareEventMapperTest {
     @ParameterizedTest(name = "[{index}] - {0}.html/json")
     @ArgumentsSource(CareEventMapperArgumentsProvider.class)
     public void When_MappingFromFHIR_Expect_EffectiveTimeLow(String fileName) {
-        var expectedHtml = parseXml(readResourceFile(String.format("care_event/%s.html", fileName))).getDocumentElement();
         var json = readResourceFile(String.format("care_event/%s.json", fileName));
 
         var encounter = fhirParser.parseResource(json, Encounter.class);
@@ -100,9 +89,14 @@ public class CareEventMapperTest {
 
         var result = careEvent.mapCareEvent(encounter);
 
-        var REPC_RM150007UK05_TEMPLATE = TemplateUtils.loadPartialTemplate("CareEvents.mustache");
+        var gpSummary = new GpSummary();
+        var careEvents = new ArrayList<CareEvent>();
+        careEvents.add(result);
+        gpSummary.setCareEvents(careEvents);
 
-        var resultStr = TemplateUtils.fillTemplate(REPC_RM150007UK05_TEMPLATE, result);
+        var CARE_EVENTS_TEMPLATE = TemplateUtils.loadPartialTemplate("CareEvents.mustache");
+
+        var resultStr = TemplateUtils.fillTemplate(CARE_EVENTS_TEMPLATE, gpSummary);
         assertThat(resultStr).isEqualTo(expectedHtml);
     }
 

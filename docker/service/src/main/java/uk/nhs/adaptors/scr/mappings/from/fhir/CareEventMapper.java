@@ -16,15 +16,18 @@ public class CareEventMapper {
     public static CareEvent mapCareEvent(Encounter encounter) {
         var careEvent = new CareEvent();
 
+        // ??? is this random or from json ??
         careEvent.setIdRoot("0F582D91-8F89-11EA-8B2D-B741F13EFC47");
+
+        // get the object out and then get code/display
         careEvent.setCodeCode(encounter.getType().get(0).getCoding().get(0).getCode());
         careEvent.setCodeDisplayName(encounter.getType().get(0).getCoding().get(0).getDisplay());
         careEvent.setStatusCodeCode("normal");
 
-        if(encounter.getPeriod().hasStart()) {
+        if (encounter.getPeriod().hasStart()) {
             careEvent.setEffectiveTimeHigh(formatDateToHl7(encounter.getPeriod().getStartElement()));
         }
-        if(encounter.getPeriod().hasEnd()) {
+        if (encounter.getPeriod().hasEnd()) {
             careEvent.setEffectiveTimeLow(formatDateToHl7(encounter.getPeriod().getEndElement()));
         }
 
