@@ -11,7 +11,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 import uk.nhs.adaptors.scr.components.FhirParser;
-import uk.nhs.adaptors.scr.mappings.from.hl7.common.UuidWrapper;
+import uk.nhs.adaptors.scr.mappings.from.common.UuidWrapper;
 import uk.nhs.adaptors.scr.models.GpSummary;
 import uk.nhs.adaptors.scr.models.xml.CareEvent;
 import uk.nhs.adaptors.scr.utils.TemplateUtils;
@@ -60,7 +60,8 @@ public class CareEventMapperTest {
         var result = careEvent.mapCareEvent(encounter);
 
         assertThat(result.getCodeCode()).isEqualTo("1240631000000102");
-        assertThat(result.getCodeDisplayName()).isEqualTo("Did not attend SARS-CoV-2 (severe acute respiratory syndrome coronavirus 2) vaccination");
+        assertThat(result.getCodeDisplayName())
+            .isEqualTo("Did not attend SARS-CoV-2 (severe acute respiratory syndrome coronavirus 2) vaccination");
     }
 
     @ParameterizedTest(name = "[{index}] - {0}.html/json")
@@ -104,9 +105,9 @@ public class CareEventMapperTest {
         careEvents.add(result);
         gpSummary.setCareEvents(careEvents);
 
-        var CARE_EVENTS_TEMPLATE = TemplateUtils.loadPartialTemplate("CareEvents.mustache");
+        var careEventsTemplate = TemplateUtils.loadPartialTemplate("CareEvents.mustache");
 
-        var resultStr = TemplateUtils.fillTemplate(CARE_EVENTS_TEMPLATE, gpSummary);
+        var resultStr = TemplateUtils.fillTemplate(careEventsTemplate, gpSummary);
         assertThat(resultStr).isEqualTo(expectedHtml);
     }
 

@@ -14,7 +14,7 @@ import org.xml.sax.InputSource;
 import uk.nhs.adaptors.scr.components.FhirParser;
 
 import uk.nhs.adaptors.scr.mappings.from.hl7.common.CodedEntryMapper;
-import uk.nhs.adaptors.scr.mappings.from.hl7.common.UuidWrapper;
+import uk.nhs.adaptors.scr.mappings.from.common.UuidWrapper;
 import uk.nhs.adaptors.scr.utils.XmlUtils;
 import uk.nhs.utils.CareEventMapperArgumentsProvider;
 

@@ -5,7 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.hl7.fhir.r4.model.Encounter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import uk.nhs.adaptors.scr.mappings.from.hl7.common.UuidWrapper;
+import uk.nhs.adaptors.scr.mappings.from.common.UuidWrapper;
 import uk.nhs.adaptors.scr.models.xml.CareEvent;
 
 import static uk.nhs.adaptors.scr.utils.DateUtil.formatDateToHl7;
