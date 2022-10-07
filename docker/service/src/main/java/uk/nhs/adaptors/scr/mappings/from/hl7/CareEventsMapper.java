@@ -25,7 +25,7 @@ import static org.hl7.fhir.r4.model.Encounter.EncounterStatus.FINISHED;
 @Slf4j
 @Component
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
-public class CareEventMapper implements XmlToFhirMapper {
+public class CareEventsMapper implements XmlToFhirMapper {
 
     private final UuidWrapper uuid;
     private final CodedEntryMapper codedEntryMapper;

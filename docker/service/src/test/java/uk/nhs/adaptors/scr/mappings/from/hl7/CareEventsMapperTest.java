@@ -28,10 +28,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static uk.nhs.utils.Utils.readResourceFile;
 
 @ExtendWith(MockitoExtension.class)
-public class CareEventMapperTest {
+public class CareEventsMapperTest {
 
     @InjectMocks
-    private CareEventMapper careEvent;
+    private CareEventsMapper careEvent;
 
     @Mock
     private UuidWrapper uuid;
