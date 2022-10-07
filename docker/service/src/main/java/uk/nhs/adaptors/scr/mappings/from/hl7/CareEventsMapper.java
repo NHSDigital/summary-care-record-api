@@ -48,13 +48,13 @@ public class CareEventsMapper implements XmlToFhirMapper {
             NodeList careEventNodes = xmlUtils.getNodeListByXPath(pertinentCREType, CARE_EVENT_BASE_PATH);
             for (int j = 0; j < careEventNodes.getLength(); j++) {
                 Node node = xmlUtils.getNodeAndDetachFromParent(careEventNodes, j);
-                mapObservation(resources, node);
+                mapEncounter(resources, node);
             }
         }
         return resources;
     }
 
-    private void mapObservation(List<Resource> resources, Node node) {
+    private void mapEncounter(List<Resource> resources, Node node) {
         CodedEntry entry = codedEntryMapper.getCommonCodedEntryValues(node);
         var careEvent = new Encounter();
         careEvent.setId(uuid.randomUuid());

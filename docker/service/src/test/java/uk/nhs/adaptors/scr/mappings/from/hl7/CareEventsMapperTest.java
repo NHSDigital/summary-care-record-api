@@ -10,21 +10,25 @@ import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import org.xml.sax.InputSource;
-import uk.nhs.adaptors.scr.components.FhirParser;
-
-import uk.nhs.adaptors.scr.mappings.from.hl7.common.CodedEntryMapper;
-import uk.nhs.adaptors.scr.mappings.from.common.UuidWrapper;
-import uk.nhs.adaptors.scr.utils.XmlUtils;
-import uk.nhs.utils.CareEventMapperArgumentsProvider;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.xpath.XPathFactory;
 import java.io.StringReader;
 
-import static org.mockito.Mockito.when;
+import uk.nhs.adaptors.scr.mappings.from.hl7.common.CodedEntryMapper;
+import uk.nhs.adaptors.scr.mappings.from.common.UuidWrapper;
+import uk.nhs.adaptors.scr.utils.XmlUtils;
+import uk.nhs.utils.CareEventMapperArgumentsProvider;
+import uk.nhs.adaptors.scr.components.FhirParser;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.times;
+
 import static uk.nhs.utils.Utils.readResourceFile;
 
 @ExtendWith(MockitoExtension.class)
@@ -44,7 +48,7 @@ public class CareEventsMapperTest {
 
     private FhirParser fhirParser = new FhirParser();
     private static final String UK_CORE_OBSERVATION_META = "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Encounter";
-
+// getNodeListByXPath
     @ParameterizedTest(name = "[{index}] - {0}.html/json")
     @ArgumentsSource(CareEventMapperArgumentsProvider.class)
     public void When_MappingFromHl7_Expect_RandomUUID(String fileName) {
@@ -55,6 +59,31 @@ public class CareEventsMapperTest {
         var result = careEvent.map(html);
 
         assertThat(result.get(0).getId()).isEqualTo("722e35ec-0f00-4b71-b1f9-2240623c6b41");
+    }
+
+    @ParameterizedTest(name = "[{index}] - {0}.html/json")
+    @ArgumentsSource(CareEventMapperArgumentsProvider.class)
+    public void When_MappingFromHl7_Expect_XmlUtilsHit(String fileName) {
+        var html = parseXml(readResourceFile(String.format("care_event/%s.html", fileName))).getDocumentElement();
+
+        when(uuid.randomUuid()).thenReturn("722e35ec-0f00-4b71-b1f9-2240623c6b41");
+
+        careEvent.map(html);
+
+        verify(xmlUtils, times(1))
+            .getNodeListByXPath(html, "/pertinentInformation2/pertinentCREType[.//UKCT_MT144037UK01.CareEvent]");
+    }
+
+    @ParameterizedTest(name = "[{index}] - {0}.html/json")
+    @ArgumentsSource(CareEventMapperArgumentsProvider.class)
+    public void When_MappingFromHl7_Expect_CodedEntryHit(String fileName) {
+        var html = parseXml(readResourceFile(String.format("care_event/%s.html", fileName))).getDocumentElement();
+
+        when(uuid.randomUuid()).thenReturn("722e35ec-0f00-4b71-b1f9-2240623c6b41");
+
+        careEvent.map(html);
+
+        verify(codedEntry, times(1)).getCommonCodedEntryValues(any(Element.class));
     }
 
     @ParameterizedTest(name = "[{index}] - {0}.html/json")
