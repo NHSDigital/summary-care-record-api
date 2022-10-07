@@ -1,6 +1,5 @@
 package uk.nhs.adaptors.scr.mappings.from.fhir;
 
-import lombok.SneakyThrows;
 import org.hl7.fhir.r4.model.Encounter;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -8,8 +7,6 @@ import org.junit.jupiter.params.provider.ArgumentsSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.w3c.dom.Document;
-import org.xml.sax.InputSource;
 import uk.nhs.adaptors.scr.components.FhirParser;
 import uk.nhs.adaptors.scr.mappings.from.common.UuidWrapper;
 import uk.nhs.adaptors.scr.models.GpSummary;
@@ -17,8 +14,6 @@ import uk.nhs.adaptors.scr.models.xml.CareEvent;
 import uk.nhs.adaptors.scr.utils.TemplateUtils;
 import uk.nhs.utils.CareEventMapperArgumentsProvider;
 
-import javax.xml.parsers.DocumentBuilderFactory;
-import java.io.StringReader;
 import java.util.ArrayList;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -109,14 +104,6 @@ public class CareEventMapperTest {
 
         var resultStr = TemplateUtils.fillTemplate(careEventsTemplate, gpSummary);
         assertThat(resultStr).isEqualTo(expectedHtml);
-    }
-
-    @SneakyThrows
-    private static Document parseXml(String xml) {
-        return DocumentBuilderFactory
-            .newInstance()
-            .newDocumentBuilder()
-            .parse(new InputSource(new StringReader(xml)));
     }
 
 }

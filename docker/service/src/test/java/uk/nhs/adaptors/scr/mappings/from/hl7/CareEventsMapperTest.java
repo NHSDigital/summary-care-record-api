@@ -49,13 +49,10 @@ public class CareEventsMapperTest {
     @ArgumentsSource(CareEventMapperArgumentsProvider.class)
     public void When_MappingFromHl7_Expect_RandomUUID(String fileName) {
         var html = parseXml(readResourceFile(String.format("care_event/%s.html", fileName))).getDocumentElement();
-        var expectedJson = readResourceFile(String.format("care_event/%s.json", fileName));
 
         when(uuid.randomUuid()).thenReturn("722e35ec-0f00-4b71-b1f9-2240623c6b41");
 
         var result = careEvent.map(html);
-
-        var actualJson = fhirParser.encodeToJson(result.get(0));
 
         assertThat(result.get(0).getId()).isEqualTo("722e35ec-0f00-4b71-b1f9-2240623c6b41");
     }
@@ -64,13 +61,10 @@ public class CareEventsMapperTest {
     @ArgumentsSource(CareEventMapperArgumentsProvider.class)
     public void When_MappingFromHl7_Expect_DateTimeFormatted(String fileName) {
         var html = parseXml(readResourceFile(String.format("care_event/%s.html", fileName))).getDocumentElement();
-        var expectedJson = readResourceFile(String.format("care_event/%s.json", fileName));
 
         when(uuid.randomUuid()).thenReturn("722e35ec-0f00-4b71-b1f9-2240623c6b41");
 
         var result = careEvent.map(html);
-
-        var actualJson = fhirParser.encodeToJson(result.get(0));
 
         var resultEncounter = (Encounter) result.get(0);
 
@@ -82,13 +76,10 @@ public class CareEventsMapperTest {
     @ArgumentsSource(CareEventMapperArgumentsProvider.class)
     public void When_MappingFromHl7_Expect_MetaUrl(String fileName) {
         var html = parseXml(readResourceFile(String.format("care_event/%s.html", fileName))).getDocumentElement();
-        var expectedJson = readResourceFile(String.format("care_event/%s.json", fileName));
 
         when(uuid.randomUuid()).thenReturn("722e35ec-0f00-4b71-b1f9-2240623c6b41");
 
         var result = careEvent.map(html);
-
-        var actualJson = fhirParser.encodeToJson(result.get(0));
 
         var resultEncounter = (Encounter) result.get(0);
 
@@ -100,23 +91,21 @@ public class CareEventsMapperTest {
     @ArgumentsSource(CareEventMapperArgumentsProvider.class)
     public void When_MappingFromHl7_Expect_CodingMapped(String fileName) {
         var html = parseXml(readResourceFile(String.format("care_event/%s.html", fileName))).getDocumentElement();
-        var expectedJson = readResourceFile(String.format("care_event/%s.json", fileName));
 
         when(uuid.randomUuid()).thenReturn("722e35ec-0f00-4b71-b1f9-2240623c6b41");
 
         var result = careEvent.map(html);
 
-        var actualJson = fhirParser.encodeToJson(result.get(0));
-
         var resultEncounter = (Encounter) result.get(0);
+        var codignFirstRep = resultEncounter.getTypeFirstRep().getCodingFirstRep();
 
-        assertThat(resultEncounter.getType().get(0).getCoding().get(0).getCode())
+        assertThat(codignFirstRep.getCode())
             .isEqualTo("1240631000000102");
 
-        assertThat(resultEncounter.getType().get(0).getCoding().get(0).getSystem())
+        assertThat(codignFirstRep.getSystem())
             .isEqualTo("http://snomed.info/sct");
 
-        assertThat(resultEncounter.getType().get(0).getCoding().get(0).getDisplay())
+        assertThat(codignFirstRep.getDisplay())
             .isEqualTo("Did not attend SARS-CoV-2 (severe acute respiratory syndrome coronavirus 2) vaccination");
 
     }
@@ -125,13 +114,10 @@ public class CareEventsMapperTest {
     @ArgumentsSource(CareEventMapperArgumentsProvider.class)
     public void When_MappingFromHl7_Expect_StatusFinished(String fileName) {
         var html = parseXml(readResourceFile(String.format("care_event/%s.html", fileName))).getDocumentElement();
-        var expectedJson = readResourceFile(String.format("care_event/%s.json", fileName));
 
         when(uuid.randomUuid()).thenReturn("722e35ec-0f00-4b71-b1f9-2240623c6b41");
 
         var result = careEvent.map(html);
-
-        var actualJson = fhirParser.encodeToJson(result.get(0));
 
         var resultEncounter = (Encounter) result.get(0);
 
@@ -143,13 +129,10 @@ public class CareEventsMapperTest {
     @ArgumentsSource(CareEventMapperArgumentsProvider.class)
     public void When_MappingFromHl7_Expect_ClassMapped(String fileName) {
         var html = parseXml(readResourceFile(String.format("care_event/%s.html", fileName))).getDocumentElement();
-        var expectedJson = readResourceFile(String.format("care_event/%s.json", fileName));
 
         when(uuid.randomUuid()).thenReturn("722e35ec-0f00-4b71-b1f9-2240623c6b41");
 
         var result = careEvent.map(html);
-
-        var actualJson = fhirParser.encodeToJson(result.get(0));
 
         var resultEncounter = (Encounter) result.get(0);
 
@@ -174,10 +157,7 @@ public class CareEventsMapperTest {
 
         var actualJson = fhirParser.encodeToJson(result.get(0));
 
-        var resultEncounter = (Encounter) result.get(0);
-
         assertThat(actualJson).isEqualTo(expectedJson.trim());
-
     }
 
     @SneakyThrows
