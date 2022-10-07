@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.hl7.fhir.r4.model.Encounter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import uk.nhs.adaptors.scr.mappings.from.hl7.common.UuidWrapper;
 import uk.nhs.adaptors.scr.models.xml.CareEvent;
 
 import static uk.nhs.adaptors.scr.utils.DateUtil.formatDateToHl7;
@@ -13,15 +14,18 @@ import static uk.nhs.adaptors.scr.utils.DateUtil.formatDateToHl7;
 @Component
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class CareEventMapper {
-    public static CareEvent mapCareEvent(Encounter encounter) {
+
+    private final UuidWrapper uuid;
+
+    public CareEvent mapCareEvent(Encounter encounter) {
         var careEvent = new CareEvent();
 
-        // ??? is this random or from json ??
-        careEvent.setIdRoot("0F582D91-8F89-11EA-8B2D-B741F13EFC47");
+        careEvent.setIdRoot(uuid.randomUuid());
 
-        // get the object out and then get code/display
-        careEvent.setCodeCode(encounter.getType().get(0).getCoding().get(0).getCode());
-        careEvent.setCodeDisplayName(encounter.getType().get(0).getCoding().get(0).getDisplay());
+        var codingFirstRep = encounter.getTypeFirstRep().getCodingFirstRep();
+
+        careEvent.setCodeCode(codingFirstRep.getCode());
+        careEvent.setCodeDisplayName(codingFirstRep.getDisplay());
         careEvent.setStatusCodeCode("normal");
 
         if (encounter.getPeriod().hasStart()) {
