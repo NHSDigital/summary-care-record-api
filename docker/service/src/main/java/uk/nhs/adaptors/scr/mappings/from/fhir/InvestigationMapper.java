@@ -8,6 +8,8 @@ import org.springframework.stereotype.Component;
 import uk.nhs.adaptors.scr.mappings.from.common.UuidWrapper;
 import uk.nhs.adaptors.scr.models.xml.Investigation;
 
+import static uk.nhs.adaptors.scr.utils.DateUtil.formatDateToHl7;
+
 @Slf4j
 @Component
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -20,18 +22,12 @@ public class InvestigationMapper {
 
         investigation.setIdRoot(uuid.randomUuid());
 
-//        var codingFirstRep = procedure.getTypeFirstRep().getCodingFirstRep();
-//
-//        investigation.setCodeCode(codingFirstRep.getCode());
-//        investigation.setCodeDisplayName(codingFirstRep.getDisplay());
-//        investigation.setStatusCodeCode("normal");
-//
-//        if (procedure.getPeriod().hasStart()) {
-//            investigation.setEffectiveTimeHigh(formatDateToHl7(procedure.getPeriod().getStartElement()));
-//        }
-//        if (procedure.getPeriod().hasEnd()) {
-//            investigation.setEffectiveTimeLow(formatDateToHl7(procedure.getPeriod().getEndElement()));
-//        }
+        var codingFirstRep = procedure.getCode().getCodingFirstRep();
+        investigation.setCodeCode(codingFirstRep.getCode());
+        investigation.setCodeDisplayName(codingFirstRep.getDisplay());
+        investigation.setStatusCodeCode("normal");
+
+        investigation.setEffectiveTimeLow(formatDateToHl7(procedure.getPerformedDateTimeType()));
 
         return investigation;
     }
