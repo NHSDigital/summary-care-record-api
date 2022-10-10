@@ -1,0 +1,23 @@
+{
+  "resourceType": "Encounter",
+  "id": "722e35ec-0f00-4b71-b1f9-2240623c6b41",
+  "meta": {
+    "profile": [ "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Encounter" ]
+  },
+  "status": "finished",
+  "class": {
+    "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+    "code": "GENRL",
+    "display": "General"
+  },
+  "type": [ {
+    "coding": [ {
+      "system": "http://snomed.info/sct",
+      "code": "1240631000000102",
+      "display": "Did not attend SARS-CoV-2 (severe acute respiratory syndrome coronavirus 2) vaccination"
+    } ]
+  } ],
+  "period": {
+    "end": "2020-08-05"
+  }
+}
