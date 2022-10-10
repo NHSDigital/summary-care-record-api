@@ -2,13 +2,13 @@
   "resourceType": "Procedure",
   "id": "3fcf3797-8b3d-4d4f-a59a-b43b7615e51d5",
   "meta": {
-    "profile":  "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Procedure"
+    "profile": [ "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Procedure" ]
   },
   "status": "completed",
   "code": {
     "coding": [ {
-      "code": "1240461000000109",
       "system": "http://snomed.info/sct",
+      "code": "1240461000000109",
       "display": "Measurement of severe acute respiratory syndrome coronavirus 2 antibody (procedure)"
     } ]
   },
