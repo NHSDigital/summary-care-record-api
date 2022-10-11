@@ -125,15 +125,15 @@ public class InvestigationsTest {
         var result = investigationsMapper.map(html).get(0);
 
         var resultProcedure = (Procedure) result;
-        var codignFirstRep = resultProcedure.getCode().getCodingFirstRep();
+        var codingFirstRep = resultProcedure.getCode().getCodingFirstRep();
 
-        assertThat(codignFirstRep.getCode())
+        assertThat(codingFirstRep.getCode())
             .isEqualTo("1240461000000109");
 
-        assertThat(codignFirstRep.getSystem())
+        assertThat(codingFirstRep.getSystem())
             .isEqualTo("http://snomed.info/sct");
 
-        assertThat(codignFirstRep.getDisplay())
+        assertThat(codingFirstRep.getDisplay())
             .isEqualTo("Measurement of severe acute respiratory syndrome coronavirus 2 antibody (procedure)");
 
     }

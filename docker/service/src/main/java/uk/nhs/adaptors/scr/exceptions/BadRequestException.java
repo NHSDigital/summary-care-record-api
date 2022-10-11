@@ -33,7 +33,7 @@ public class BadRequestException extends ScrBaseException implements OperationOu
 
     @Override
     public final OperationOutcome getOperationOutcome() {
-        return operationOutcome;
+        return operationOutcome.copy();
     }
 
     @Override
