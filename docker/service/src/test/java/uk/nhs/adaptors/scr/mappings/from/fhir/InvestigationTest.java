@@ -10,7 +10,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import uk.nhs.adaptors.scr.components.FhirParser;
 import uk.nhs.adaptors.scr.mappings.from.common.UuidWrapper;
 import uk.nhs.adaptors.scr.models.GpSummary;
-import uk.nhs.adaptors.scr.models.xml.CareEvent;
 import uk.nhs.adaptors.scr.models.xml.Investigation;
 import uk.nhs.adaptors.scr.utils.TemplateUtils;
 import uk.nhs.utils.InvestigationMapperArgumentsProvider;
