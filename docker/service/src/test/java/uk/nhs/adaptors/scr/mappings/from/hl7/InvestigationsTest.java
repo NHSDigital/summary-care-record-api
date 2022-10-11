@@ -67,7 +67,7 @@ public class InvestigationsTest {
 
         when(uuid.randomUuid()).thenReturn("3fcf3797-8b3d-4d4f-a59a-b43b7615e51d5");
 
-        investigationsMapper.map(html).get(0);
+        investigationsMapper.map(html);
 
         verify(xmlUtils, times(1))
             .getNodeListByXPath(html, "/pertinentInformation2/pertinentCREType[.//UKCT_MT144045UK01.Investigation]");
@@ -110,7 +110,7 @@ public class InvestigationsTest {
 
         when(uuid.randomUuid()).thenReturn("3fcf3797-8b3d-4d4f-a59a-b43b7615e51d5");
 
-        investigationsMapper.map(html).get(0);
+        investigationsMapper.map(html);
 
         verify(codedEntry, times(1)).getCommonCodedEntryValues(any(Element.class));
     }
