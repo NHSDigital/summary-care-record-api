@@ -1,7 +1,6 @@
 package uk.nhs.adaptors.scr.mappings.from.fhir;
 
 import org.hl7.fhir.r4.model.Condition;
-import org.hl7.fhir.r4.model.Encounter;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
