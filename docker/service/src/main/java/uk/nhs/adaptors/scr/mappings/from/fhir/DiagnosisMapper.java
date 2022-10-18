@@ -23,6 +23,8 @@ public class DiagnosisMapper {
         var codingFirstRep = condition.getCode().getCodingFirstRep();
 
         diagnosis.setCodeCode(codingFirstRep.getCode());
+        diagnosis.setCodeDisplayName(codingFirstRep.getDisplay());
+        diagnosis.setEffectiveTimeLow("20200805");
 
         return diagnosis;
     }

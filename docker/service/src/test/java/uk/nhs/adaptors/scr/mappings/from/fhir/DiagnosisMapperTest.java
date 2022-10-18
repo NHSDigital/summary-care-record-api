@@ -40,5 +40,35 @@ public class DiagnosisMapperTest {
         assertThat(result.getIdRoot()).isEqualTo("AF0AAF00-797C-11EA-B378-F1A7EC384595");
     }
 
+    @ParameterizedTest(name = "[{index}] - {0}.html/json")
+    @ArgumentsSource(DiagnosisMapperArgumentsProvider.class)
+    public void When_MappingFromFHIR_Expect_Code(String fileName) {
+        var json = readResourceFile(String.format("diagnosis/%s.json", fileName));
+
+        when(uuid.randomUuid()).thenReturn("AF0AAF00-797C-11EA-B378-F1A7EC384595");
+
+        var condition = fhirParser.parseResource(json, Condition.class);
+
+        var result = diagnosisMapper.mapDiagnosis(condition);
+
+        assertThat(result.getCodeCode()).isEqualTo("1300721000000109");
+        assertThat(result.getCodeDisplayName())
+            .isEqualTo("COVID-19 confirmed by laboratory test");
+    }
+
+    @ParameterizedTest(name = "[{index}] - {0}.html/json")
+    @ArgumentsSource(DiagnosisMapperArgumentsProvider.class)
+    public void When_MappingFromFHIR_Expect_EffectiveTimeLow(String fileName) {
+        var json = readResourceFile(String.format("diagnosis/%s.json", fileName));
+
+        when(uuid.randomUuid()).thenReturn("AF0AAF00-797C-11EA-B378-F1A7EC384595");
+
+        var condition = fhirParser.parseResource(json, Condition.class);
+
+        var result = diagnosisMapper.mapDiagnosis(condition);
+
+        assertThat(result.getEffectiveTimeLow()).isEqualTo("20200805");
+    }
+
 
 }
