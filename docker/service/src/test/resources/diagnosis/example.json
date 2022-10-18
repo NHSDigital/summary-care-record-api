@@ -1,27 +1,25 @@
 {
   "resourceType" : "Condition",
   "id": "bdb64d63-9c06-44fd-b2c1-324c580c6142",
-  "fullUrl": "urn:uuid:bdb64d63-9c06-44fd-b2c1-324c580c6142",
   "meta": {
-    "profile":  "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Observation"
+    "profile": [ "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Observation" ]
   },
-  "identifier": {
+  "identifier": [ {
     "value": "AF0AAF00-797C-11EA-B378-F1A7EC384595"
-  },
-  "status": "finished",
-  "clinicalStatus": {
-    "coding": {
+  } ],
+  "clinicalStatus": [ {
+    "coding": [ {
       "code": "active",
       "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
-      "display": "Active",
-    }
-  },
-  "code": {
-    "coding": {
+      "display": "Active"
+    } ]
+  } ],
+  "code": [ {
+    "coding": [ {
     "code": "1300721000000109",
     "system": "http://snomed.info/sct",
     "display": "COVID-19 confirmed by laboratory test"
-  }
-},
+  } ]
+} ],
 "onsetDateTime": "2020-08-05"
 }
