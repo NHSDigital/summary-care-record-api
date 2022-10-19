@@ -8,6 +8,8 @@ import org.springframework.stereotype.Component;
 import uk.nhs.adaptors.scr.mappings.from.common.UuidWrapper;
 import uk.nhs.adaptors.scr.models.xml.Diagnosis;
 
+import static uk.nhs.adaptors.scr.utils.DateUtil.formatDateToHl7;
+
 @Slf4j
 @Component
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -15,7 +17,7 @@ public class DiagnosisMapper {
 
     private final UuidWrapper uuid;
 
-    public Diagnosis mapDiagnosis (Condition condition) {
+    public Diagnosis mapDiagnosis(Condition condition) {
         var diagnosis = new Diagnosis();
 
         diagnosis.setIdRoot(uuid.randomUuid());
@@ -24,7 +26,10 @@ public class DiagnosisMapper {
 
         diagnosis.setCodeCode(codingFirstRep.getCode());
         diagnosis.setCodeDisplayName(codingFirstRep.getDisplay());
-        diagnosis.setEffectiveTimeLow("20200805");
+
+        if (condition.hasOnsetDateTimeType()) {
+            diagnosis.setEffectiveTimeLow(formatDateToHl7(condition.getOnsetDateTimeType()));
+        }
 
         return diagnosis;
     }
