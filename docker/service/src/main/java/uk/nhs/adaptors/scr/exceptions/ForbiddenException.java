@@ -18,7 +18,7 @@ public class ForbiddenException extends ScrBaseException implements OperationOut
 
     @Override
     public OperationOutcome getOperationOutcome() {
-        return operationOutcome;
+        return operationOutcome.copy();
     }
 
     @Override
