@@ -2,19 +2,8 @@ package uk.nhs.adaptors.scr.mappings.from.hl7;
 
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
-import org.hl7.fhir.r4.model.Annotation;
-import org.hl7.fhir.r4.model.CodeableConcept;
-import org.hl7.fhir.r4.model.Coding;
-import org.hl7.fhir.r4.model.Condition;
-import org.hl7.fhir.r4.model.DateTimeType;
-import org.hl7.fhir.r4.model.Encounter;
+import org.hl7.fhir.r4.model.*;
 import org.hl7.fhir.r4.model.Encounter.EncounterParticipantComponent;
-import org.hl7.fhir.r4.model.Observation;
-import org.hl7.fhir.r4.model.Period;
-import org.hl7.fhir.r4.model.PractitionerRole;
-import org.hl7.fhir.r4.model.Reference;
-import org.hl7.fhir.r4.model.RelatedPerson;
-import org.hl7.fhir.r4.model.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Node;
@@ -35,7 +24,7 @@ import static uk.nhs.adaptors.scr.utils.FhirHelper.randomUUID;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class DiagnosisMapper implements XmlToFhirMapper {
 
-    private static final String GP_SUMMARY_XPATH = "//QUPC_IN210000UK04/ControlActEvent/subject//GPSummary";
+    private static final String GP_SUMMARY_XPATH = ""; //"//QUPC_IN210000UK04/ControlActEvent/subject//GPSummary";
     private static final String PERTINENT_CRET_BASE_PATH =
         GP_SUMMARY_XPATH + "/pertinentInformation2/pertinentCREType[.//UKCT_MT144042UK01.Diagnosis]";
 
@@ -52,6 +41,7 @@ public class DiagnosisMapper implements XmlToFhirMapper {
     private static final String ENCOUNTER_PARTICIPATION_CODE_SYSTEM = "http://terminology.hl7.org/CodeSystem/v3-ParticipationType";
     private static final List<String> COVID_19_ENTRIES = List.of("1240751000000100", "1300721000000109", "1300731000000106",
         "1240761000000102");
+    private static final String UK_CORE_OBSERVATION_META = "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Observation";
 
     private final ParticipantMapper participantMapper;
     private final CodedEntryMapper codedEntryMapper;
@@ -75,8 +65,13 @@ public class DiagnosisMapper implements XmlToFhirMapper {
 
                     var condition = new Condition();
                     condition.setId(entry.getId());
+                    condition.setMeta(new Meta().addProfile(UK_CORE_OBSERVATION_META));
                     condition.addIdentifier()
                         .setValue(entry.getId());
+//                    condition.setClinicalStatus(new CodeableConcept().addCoding(new Coding()
+//                        .setCode("active")
+//                        .setSystem("http://hl7.org/fhir/ValueSet/condition-clinical")
+//                        .setDisplay("Active")));
                     condition.setCode(new CodeableConcept().addCoding(new Coding()
                         .setCode(entry.getCodeValue())
                         .setSystem(SNOMED_SYSTEM)
