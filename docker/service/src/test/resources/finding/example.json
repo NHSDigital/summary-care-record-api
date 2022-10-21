@@ -17,7 +17,7 @@
   } ],
   "code": {
     "coding": [ {
-      "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+      "system": "http://snomed.info/sct",
       "code": "1240601000000108",
       "display": "High priority for severe acute respiratory syndrome coronavirus 2 vaccination (finding)"
     } ]

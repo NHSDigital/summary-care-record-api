@@ -38,7 +38,7 @@ import static uk.nhs.adaptors.scr.utils.FhirHelper.randomUUID;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class FindingsMapper implements XmlToFhirMapper {
 
-    private static final String GP_SUMMARY_XPATH = ""; // s "//QUPC_IN210000UK04/ControlActEvent/subject//GPSummary";
+    private static final String GP_SUMMARY_XPATH = "//QUPC_IN210000UK04/ControlActEvent/subject//GPSummary";
     private static final String PERTINENT_CRET_BASE_PATH =
         GP_SUMMARY_XPATH + "/pertinentInformation2/pertinentCREType[.//UKCT_MT144043UK02.Finding]";
     private static final String PERTINENT_CODE_CODE_XPATH = "./code/@code";

@@ -78,7 +78,7 @@ public class FindingMapperTest {
     @ParameterizedTest(name = "[{index}] - {0}.html/json")
     @ArgumentsSource(FindingMapperArgumentsProvider.class)
     public void When_MappingFromFHIR_Expect_MatchingHtml(String fileName) {
-        var expectedHtml = readResourceFile(String.format("finding/%s.html", fileName));
+        var expectedHtml = readResourceFile(String.format("finding/expected/expected.html", fileName));
         var json = readResourceFile(String.format("finding/%s.json", fileName));
 
         var observation = fhirParser.parseResource(json, Observation.class);

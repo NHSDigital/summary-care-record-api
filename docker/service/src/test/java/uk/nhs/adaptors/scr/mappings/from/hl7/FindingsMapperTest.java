@@ -28,7 +28,9 @@ import static uk.nhs.utils.Utils.readResourceFile;
 
 @ExtendWith(MockitoExtension.class)
 public class FindingsMapperTest {
-
+    private static final String GP_SUMMARY_XPATH = "//QUPC_IN210000UK04/ControlActEvent/subject//GPSummary";
+    private static final String PERTINENT_CRET_BASE_PATH =
+        GP_SUMMARY_XPATH + "/pertinentInformation2/pertinentCREType[.//UKCT_MT144043UK02.Finding]";
     @InjectMocks
     private FindingsMapper finding;
 
@@ -59,7 +61,7 @@ public class FindingsMapperTest {
         finding.map(html);
 
         verify(xmlUtils, times(1))
-            .getNodeListByXPath(html, "/pertinentInformation2/pertinentCREType[.//UKCT_MT144043UK02.Finding]");
+            .getNodeListByXPath(html, PERTINENT_CRET_BASE_PATH);
     }
 
     @ParameterizedTest(name = "[{index}] - {0}.html/json")
@@ -110,7 +112,7 @@ public class FindingsMapperTest {
             .isEqualTo("1240601000000108");
 
         assertThat(codingFirstRep.getSystem())
-            .isEqualTo("http://terminology.hl7.org/CodeSystem/v3-ActCode");
+            .isEqualTo("http://snomed.info/sct");
 
         assertThat(codingFirstRep.getDisplay())
             .isEqualTo("High priority for severe acute respiratory syndrome coronavirus 2 vaccination (finding)");
