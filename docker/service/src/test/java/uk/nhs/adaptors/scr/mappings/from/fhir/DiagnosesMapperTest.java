@@ -21,10 +21,10 @@ import static org.mockito.Mockito.when;
 import static uk.nhs.utils.Utils.readResourceFile;
 
 @ExtendWith(MockitoExtension.class)
-public class DiagnosisMapperTest {
+public class DiagnosesMapperTest {
 
     @InjectMocks
-    private DiagnosisMapper diagnosisMapper;
+    private DiagnosesMapper diagnosesMapper;
 
     @Mock
     private UuidWrapper uuid;
@@ -40,7 +40,7 @@ public class DiagnosisMapperTest {
 
         var condition = fhirParser.parseResource(json, Condition.class);
 
-        var result = diagnosisMapper.mapDiagnosis(condition);
+        var result = diagnosesMapper.mapDiagnosis(condition);
 
         assertThat(result.getIdRoot()).isEqualTo("AF0AAF00-797C-11EA-B378-F1A7EC384595");
     }
@@ -54,7 +54,7 @@ public class DiagnosisMapperTest {
 
         var condition = fhirParser.parseResource(json, Condition.class);
 
-        var result = diagnosisMapper.mapDiagnosis(condition);
+        var result = diagnosesMapper.mapDiagnosis(condition);
 
         assertThat(result.getCodeCode()).isEqualTo("1300721000000109");
         assertThat(result.getCodeDisplayName())
@@ -70,7 +70,7 @@ public class DiagnosisMapperTest {
 
         var condition = fhirParser.parseResource(json, Condition.class);
 
-        var result = diagnosisMapper.mapDiagnosis(condition);
+        var result = diagnosesMapper.mapDiagnosis(condition);
 
         assertThat(result.getEffectiveTimeLow()).isEqualTo("20200805");
     }
@@ -85,7 +85,7 @@ public class DiagnosisMapperTest {
 
         var condition = fhirParser.parseResource(json, Condition.class);
 
-        var result = diagnosisMapper.mapDiagnosis(condition);
+        var result = diagnosesMapper.mapDiagnosis(condition);
 
         var gpSummary = new GpSummary();
         var conditions = new ArrayList<Diagnosis>();

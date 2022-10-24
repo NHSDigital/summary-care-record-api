@@ -13,7 +13,7 @@ import static uk.nhs.adaptors.scr.utils.DateUtil.formatDateToHl7;
 @Slf4j
 @Component
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
-public class DiagnosisMapper {
+public class DiagnosesMapper {
 
     private final UuidWrapper uuid;
 

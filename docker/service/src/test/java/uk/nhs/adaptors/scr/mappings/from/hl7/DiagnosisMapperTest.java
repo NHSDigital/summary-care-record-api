@@ -30,7 +30,7 @@ import static org.mockito.Mockito.verify;
 import static uk.nhs.utils.Utils.readResourceFile;
 
 @ExtendWith(MockitoExtension.class)
-public class DiagnosesMapperTest {
+public class DiagnosisMapperTest {
 
     @InjectMocks
     private DiagnosisMapper diagnosisMapper;
