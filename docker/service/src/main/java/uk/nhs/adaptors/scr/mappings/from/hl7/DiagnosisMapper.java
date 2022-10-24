@@ -10,7 +10,6 @@ import org.hl7.fhir.r4.model.Condition;
 import org.hl7.fhir.r4.model.DateTimeType;
 import org.hl7.fhir.r4.model.Encounter;
 import org.hl7.fhir.r4.model.Encounter.EncounterParticipantComponent;
-import org.hl7.fhir.r4.model.Meta;
 import org.hl7.fhir.r4.model.Observation;
 import org.hl7.fhir.r4.model.Period;
 import org.hl7.fhir.r4.model.PractitionerRole;
@@ -54,7 +53,6 @@ public class DiagnosisMapper implements XmlToFhirMapper {
     private static final String ENCOUNTER_PARTICIPATION_CODE_SYSTEM = "http://terminology.hl7.org/CodeSystem/v3-ParticipationType";
     private static final List<String> COVID_19_ENTRIES = List.of("1240751000000100", "1300721000000109", "1300731000000106",
         "1240761000000102");
-    private static final String UK_CORE_OBSERVATION_META = "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Observation";
 
     private final ParticipantMapper participantMapper;
     private final CodedEntryMapper codedEntryMapper;
@@ -78,7 +76,6 @@ public class DiagnosisMapper implements XmlToFhirMapper {
 
                     var condition = new Condition();
                     condition.setId(entry.getId());
-                    condition.setMeta(new Meta().addProfile(UK_CORE_OBSERVATION_META));
                     condition.addIdentifier()
                         .setValue(entry.getId());
                     condition.setCode(new CodeableConcept().addCoding(new Coding()

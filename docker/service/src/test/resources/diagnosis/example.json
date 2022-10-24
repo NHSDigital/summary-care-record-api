@@ -1,9 +1,6 @@
 {
   "resourceType": "Condition",
   "id": "AF0AAF00-797C-11EA-B378-F1A7EC384595",
-  "meta": {
-    "profile": [ "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Observation" ]
-  },
   "identifier": [ {
     "value": "AF0AAF00-797C-11EA-B378-F1A7EC384595"
   } ],

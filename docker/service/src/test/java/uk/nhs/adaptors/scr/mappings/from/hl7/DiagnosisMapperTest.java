@@ -95,18 +95,6 @@ public class DiagnosisMapperTest {
 
     @ParameterizedTest(name = "[{index}] - {0}.html/json")
     @ArgumentsSource(DiagnosisMapperArgumentsProvider.class)
-    public void When_MappingFromHl7_Expect_MetaUrl(String fileName) {
-        var html = parseXml(readResourceFile(String.format("diagnosis/%s.html", fileName))).getDocumentElement();
-
-        var result = diagnosisMapper.map(html);
-
-        var resultCondition = (Condition) result.get(0);
-
-        assertThat(resultCondition.getMeta().getProfile().get(0).getValue()).isEqualTo(UK_CORE_OBSERVATION_META);
-    }
-
-    @ParameterizedTest(name = "[{index}] - {0}.html/json")
-    @ArgumentsSource(DiagnosisMapperArgumentsProvider.class)
     public void When_MappingFromHl7_Expect_CodingMapped(String fileName) {
         var html = parseXml(readResourceFile(String.format("diagnosis/%s.html", fileName))).getDocumentElement();
 
