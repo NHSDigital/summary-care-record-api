@@ -78,7 +78,7 @@ public class DiagnosisMapperTest {
     @ParameterizedTest(name = "[{index}] - {0}.html/json")
     @ArgumentsSource(DiagnosisMapperArgumentsProvider.class)
     public void When_MappingFromFHIR_Expect_MatchingHtml(String fileName) {
-        var expectedHtml = readResourceFile(String.format("diagnosis/%s.html", fileName));
+        var expectedHtml = readResourceFile(("diagnosis/expected/expected.html"));
         var json = readResourceFile(String.format("diagnosis/%s.json", fileName));
 
         when(uuid.randomUuid()).thenReturn("AF0AAF00-797C-11EA-B378-F1A7EC384595");

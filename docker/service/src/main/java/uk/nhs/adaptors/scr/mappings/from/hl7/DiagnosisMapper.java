@@ -2,6 +2,7 @@ package uk.nhs.adaptors.scr.mappings.from.hl7;
 
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
+import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.r4.model.*;
 import org.hl7.fhir.r4.model.Encounter.EncounterParticipantComponent;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +25,7 @@ import static uk.nhs.adaptors.scr.utils.FhirHelper.randomUUID;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class DiagnosisMapper implements XmlToFhirMapper {
 
-    private static final String GP_SUMMARY_XPATH = ""; //"//QUPC_IN210000UK04/ControlActEvent/subject//GPSummary";
+    private static final String GP_SUMMARY_XPATH = "//QUPC_IN210000UK04/ControlActEvent/subject//GPSummary";
     private static final String PERTINENT_CRET_BASE_PATH =
         GP_SUMMARY_XPATH + "/pertinentInformation2/pertinentCREType[.//UKCT_MT144042UK01.Diagnosis]";
 
@@ -68,10 +69,6 @@ public class DiagnosisMapper implements XmlToFhirMapper {
                     condition.setMeta(new Meta().addProfile(UK_CORE_OBSERVATION_META));
                     condition.addIdentifier()
                         .setValue(entry.getId());
-//                    condition.setClinicalStatus(new CodeableConcept().addCoding(new Coding()
-//                        .setCode("active")
-//                        .setSystem("http://hl7.org/fhir/ValueSet/condition-clinical")
-//                        .setDisplay("Active")));
                     condition.setCode(new CodeableConcept().addCoding(new Coding()
                         .setCode(entry.getCodeValue())
                         .setSystem(SNOMED_SYSTEM)
@@ -177,12 +174,14 @@ public class DiagnosisMapper implements XmlToFhirMapper {
     private static void setClinicalStatus(Condition condition, String value) {
         condition.setClinicalStatus(new CodeableConcept().addCoding(new Coding()
             .setSystem("http://hl7.org/fhir/ValueSet/condition-clinical")
-            .setCode(value)));
+            .setCode(value)
+            .setDisplay(StringUtils.capitalize(value))));
     }
 
     private static void setVerificationStatus(Condition condition, String value) {
         condition.setVerificationStatus(new CodeableConcept().addCoding(new Coding()
             .setSystem("http://hl7.org/fhir/ValueSet/condition-ver-status")
-            .setCode(value)));
+            .setCode(value)
+            .setDisplay(StringUtils.capitalize(value))));
     }
 }

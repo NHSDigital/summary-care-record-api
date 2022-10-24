@@ -1,25 +1,32 @@
 {
-  "resourceType" : "Condition",
-  "id": "bdb64d63-9c06-44fd-b2c1-324c580c6142",
+  "resourceType": "Condition",
+  "id": "AF0AAF00-797C-11EA-B378-F1A7EC384595",
   "meta": {
     "profile": [ "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Observation" ]
   },
   "identifier": [ {
     "value": "AF0AAF00-797C-11EA-B378-F1A7EC384595"
   } ],
-  "clinicalStatus": [ {
+  "clinicalStatus": {
     "coding": [ {
+      "system": "http://hl7.org/fhir/ValueSet/condition-clinical",
       "code": "active",
-      "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
       "display": "Active"
     } ]
-  } ],
-  "code": [ {
+  },
+  "category": [ {
     "coding": [ {
-    "code": "1300721000000109",
-    "system": "http://snomed.info/sct",
-    "display": "COVID-19 confirmed by laboratory test"
-  } ]
-} ],
-"onsetDateTime": "2020-08-05"
+      "system": "http://snomed.info/sct",
+      "code": "163001000000103",
+      "display": "Diagnoses"
+    } ]
+  } ],
+  "code": {
+    "coding": [ {
+      "system": "http://snomed.info/sct",
+      "code": "1300721000000109",
+      "display": "COVID-19 confirmed by laboratory test"
+    } ]
+  },
+  "onsetDateTime": "2020-08-05"
 }

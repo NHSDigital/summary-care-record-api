@@ -47,6 +47,7 @@ public class DiagnosesMapperTest {
     private FhirParser fhirParser = new FhirParser();
 
     private static final String UK_CORE_OBSERVATION_META = "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Observation";
+    private static final String GP_SUMMARY_XPATH = "//QUPC_IN210000UK04/ControlActEvent/subject//GPSummary/pertinentInformation2/pertinentCREType[.//UKCT_MT144042UK01.Diagnosis]";
 
     @ParameterizedTest(name = "[{index}] - {0}.html/json")
     @ArgumentsSource(DiagnosisMapperArgumentsProvider.class)
@@ -66,7 +67,7 @@ public class DiagnosesMapperTest {
         diagnosisMapper.map(html);
 
         verify(xmlUtils, times(1))
-            .getNodeListByXPath(html, "/pertinentInformation2/pertinentCREType[.//UKCT_MT144042UK01.Diagnosis]");
+            .getNodeListByXPath(html, GP_SUMMARY_XPATH);
     }
 
     @ParameterizedTest(name = "[{index}] - {0}.html/json")
@@ -135,7 +136,7 @@ public class DiagnosesMapperTest {
         assertThat(resultCondition.getClinicalStatus().getCodingFirstRep().getCode()).isEqualTo("active");
 
         assertThat(resultCondition.getClinicalStatus().getCodingFirstRep().getSystem())
-            .isEqualTo("http://terminology.hl7.org/CodeSystem/condition-clinical");
+            .isEqualTo("http://hl7.org/fhir/ValueSet/condition-clinical");
         // this is not working due to it not being mapped + url is different in map class
 
         assertThat(resultCondition.getClinicalStatus().getCodingFirstRep().getDisplay()).isEqualTo("Active");
