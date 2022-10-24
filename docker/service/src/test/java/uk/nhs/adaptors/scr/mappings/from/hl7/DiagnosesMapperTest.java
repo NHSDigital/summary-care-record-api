@@ -2,7 +2,6 @@ package uk.nhs.adaptors.scr.mappings.from.hl7;
 
 import lombok.SneakyThrows;
 import org.hl7.fhir.r4.model.Condition;
-import org.hl7.fhir.r4.model.Encounter;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
@@ -17,7 +16,6 @@ import uk.nhs.adaptors.scr.components.FhirParser;
 import uk.nhs.adaptors.scr.mappings.from.common.UuidWrapper;
 import uk.nhs.adaptors.scr.mappings.from.hl7.common.CodedEntryMapper;
 import uk.nhs.adaptors.scr.utils.XmlUtils;
-import uk.nhs.utils.CareEventMapperArgumentsProvider;
 import uk.nhs.utils.DiagnosisMapperArgumentsProvider;
 
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -26,7 +24,9 @@ import javax.xml.xpath.XPathFactory;
 import java.io.StringReader;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static uk.nhs.utils.Utils.readResourceFile;
 
 @ExtendWith(MockitoExtension.class)
@@ -47,7 +47,8 @@ public class DiagnosesMapperTest {
     private FhirParser fhirParser = new FhirParser();
 
     private static final String UK_CORE_OBSERVATION_META = "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Observation";
-    private static final String GP_SUMMARY_XPATH = "//QUPC_IN210000UK04/ControlActEvent/subject//GPSummary/pertinentInformation2/pertinentCREType[.//UKCT_MT144042UK01.Diagnosis]";
+    private static final String GP_SUMMARY_XPATH = "//QUPC_IN210000UK04/ControlActEvent/subject//"
+        + "GPSummary/pertinentInformation2/pertinentCREType[.//UKCT_MT144042UK01.Diagnosis]";
 
     @ParameterizedTest(name = "[{index}] - {0}.html/json")
     @ArgumentsSource(DiagnosisMapperArgumentsProvider.class)
