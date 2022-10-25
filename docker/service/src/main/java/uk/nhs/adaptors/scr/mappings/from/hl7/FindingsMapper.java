@@ -36,7 +36,7 @@ import static uk.nhs.adaptors.scr.utils.FhirHelper.randomUUID;
 
 @Component
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
-public class FindingMapper implements XmlToFhirMapper {
+public class FindingsMapper implements XmlToFhirMapper {
 
     private static final String GP_SUMMARY_XPATH = "//QUPC_IN210000UK04/ControlActEvent/subject//GPSummary";
     private static final String PERTINENT_CRET_BASE_PATH =
@@ -56,6 +56,7 @@ public class FindingMapper implements XmlToFhirMapper {
     private static final String UK_CORE_OBSERVATION_META = "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Observation";
     private static final String EFFECTIVE_TIME_CENTRE_XPATH = "./effectiveTime/centre/@value";
     private static final String SARS_COV_2_CODE = "1240581000000104";
+    private static final String HIGH_PRIORITY_SARS = "1240601000000108";
 
     private final ParticipantMapper participantMapper;
     private final CodedEntryMapper codedEntryMapper;
@@ -80,7 +81,7 @@ public class FindingMapper implements XmlToFhirMapper {
 
     private void mapObservation(ArrayList<Resource> resources, String creTypeCode, String creTypeDisplay, Node node) {
         CodedEntry entry = codedEntryMapper.getCommonCodedEntryValues(node);
-        if (SARS_COV_2_CODE.equals(entry.getCodeValue())) {
+        if (SARS_COV_2_CODE.equals(entry.getCodeValue()) || HIGH_PRIORITY_SARS.equals(entry.getCodeValue())) {
             var effectiveTimeCentre =
                 xmlUtils.getOptionalValueByXPath(node, EFFECTIVE_TIME_CENTRE_XPATH).map(it -> parseDate(it, DateTimeType.class));
 
