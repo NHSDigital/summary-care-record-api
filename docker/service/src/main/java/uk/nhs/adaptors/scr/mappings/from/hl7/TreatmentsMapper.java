@@ -35,9 +35,9 @@ public class TreatmentsMapper implements XmlToFhirMapper {
         NodeList pertinentNodes = xmlUtils.getNodeListByXPath(document, PERTINENT_CRET_BASE_PATH);
         for (int i = 0; i < pertinentNodes.getLength(); i++) {
             Node pertinentCREType = xmlUtils.getNodeAndDetachFromParent(pertinentNodes, i);
-            NodeList investigationNodes = xmlUtils.getNodeListByXPath(pertinentCREType, TREATMENTS_BASE_PATH);
-            for (int j = 0; j < investigationNodes.getLength(); j++) {
-                Node node = xmlUtils.getNodeAndDetachFromParent(investigationNodes, j);
+            NodeList treatmentNodes = xmlUtils.getNodeListByXPath(pertinentCREType, TREATMENTS_BASE_PATH);
+            for (int j = 0; j < treatmentNodes.getLength(); j++) {
+                Node node = xmlUtils.getNodeAndDetachFromParent(treatmentNodes, j);
                 mapProcedure(resources, node);
             }
         }
