@@ -1,12 +1,12 @@
 {{^diagnoses.empty}}
-    <pertinentInformation2 typeCode="PERT" inversionInd="false" contextConductionInd="true" negationInd="false">
-        <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.pertinentInformation1"/>
-        <seperatableInd value="true"/>
-        <pertinentCREType classCode="CATEGORY" moodCode="EVN">
-            <code code="163001000000103" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Diagnoses"/>
-            {{#diagnoses}}
-                {{> Diagnosis.mustache }}
-            {{/diagnoses}}
-        </pertinentCREType>
-    </pertinentInformation2>
+<pertinentInformation2 typeCode="PERT" inversionInd="false" contextConductionInd="true" negationInd="false">
+    <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.pertinentInformation1"/>
+    <seperatableInd value="true"/>
+    <pertinentCREType classCode="CATEGORY" moodCode="EVN">
+        <code code="163001000000103" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Diagnoses"/>
+        {{#diagnoses}}
+        {{> Diagnosis.mustache }}
+        {{/diagnoses}}
+    </pertinentCREType>
+</pertinentInformation2>
 {{/diagnoses.empty}}
