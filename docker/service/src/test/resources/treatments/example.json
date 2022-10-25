@@ -1,0 +1,16 @@
+{
+  "resourceType": "Procedure",
+  "id": "870bfee5-67e6-4611-8b62-e4609e2f3105",
+  "meta": {
+    "profile": [ "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Procedure" ]
+  },
+  "status": "completed",
+  "code": {
+    "coding": [ {
+      "system": "http://snomed.info/sct",
+      "code": "1240491000000103",
+      "display": "Severe acute respiratory syndrome coronavirus 2 vaccination (procedure)"
+    } ]
+  },
+  "performedDateTime": "2020-08-05"
+}
