@@ -6,7 +6,6 @@ import org.hl7.fhir.r4.model.Procedure;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import uk.nhs.adaptors.scr.mappings.from.common.UuidWrapper;
-import uk.nhs.adaptors.scr.models.xml.Investigation;
 import uk.nhs.adaptors.scr.models.xml.Treatment;
 
 import static uk.nhs.adaptors.scr.utils.DateUtil.formatDateToHl7;

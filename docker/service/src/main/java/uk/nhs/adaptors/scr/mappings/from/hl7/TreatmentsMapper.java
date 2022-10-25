@@ -2,7 +2,11 @@ package uk.nhs.adaptors.scr.mappings.from.hl7;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.hl7.fhir.r4.model.*;
+import org.hl7.fhir.r4.model.CodeableConcept;
+import org.hl7.fhir.r4.model.Coding;
+import org.hl7.fhir.r4.model.Meta;
+import org.hl7.fhir.r4.model.Procedure;
+import org.hl7.fhir.r4.model.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Node;

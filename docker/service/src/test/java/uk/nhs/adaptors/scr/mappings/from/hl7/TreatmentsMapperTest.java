@@ -16,7 +16,6 @@ import uk.nhs.adaptors.scr.components.FhirParser;
 import uk.nhs.adaptors.scr.mappings.from.common.UuidWrapper;
 import uk.nhs.adaptors.scr.mappings.from.hl7.common.CodedEntryMapper;
 import uk.nhs.adaptors.scr.utils.XmlUtils;
-import uk.nhs.utils.InvestigationMapperArgumentsProvider;
 import uk.nhs.utils.TreatmentsMapperArgumentsProvider;
 
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -25,7 +24,10 @@ import javax.xml.xpath.XPathFactory;
 import java.io.StringReader;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import static uk.nhs.utils.Utils.readResourceFile;
 
 @ExtendWith(MockitoExtension.class)
@@ -65,7 +67,7 @@ public class TreatmentsMapperTest {
 
         when(uuid.randomUuid()).thenReturn("870bfee5-67e6-4611-8b62-e4609e2f3105");
 
-        var result = treatmentsMapper.map(html).get(0);
+        treatmentsMapper.map(html);
 
         verify(xmlUtils, times(1))
             .getNodeListByXPath(html, "/pertinentInformation2/pertinentCREType[.//UKCT_MT144055UK01.Treatment]");
@@ -108,7 +110,7 @@ public class TreatmentsMapperTest {
 
         when(uuid.randomUuid()).thenReturn("870bfee5-67e6-4611-8b62-e4609e2f3105");
 
-        var result = treatmentsMapper.map(html).get(0);
+        treatmentsMapper.map(html);
 
         verify(codedEntry, times(1)).getCommonCodedEntryValues(any(Element.class));
     }
