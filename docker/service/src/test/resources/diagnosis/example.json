@@ -1,0 +1,29 @@
+{
+  "resourceType": "Condition",
+  "id": "AF0AAF00-797C-11EA-B378-F1A7EC384595",
+  "identifier": [ {
+    "value": "AF0AAF00-797C-11EA-B378-F1A7EC384595"
+  } ],
+  "clinicalStatus": {
+    "coding": [ {
+      "system": "http://hl7.org/fhir/ValueSet/condition-clinical",
+      "code": "active",
+      "display": "Active"
+    } ]
+  },
+  "category": [ {
+    "coding": [ {
+      "system": "http://snomed.info/sct",
+      "code": "163001000000103",
+      "display": "Diagnoses"
+    } ]
+  } ],
+  "code": {
+    "coding": [ {
+      "system": "http://snomed.info/sct",
+      "code": "1300721000000109",
+      "display": "COVID-19 confirmed by laboratory test"
+    } ]
+  },
+  "onsetDateTime": "2020-08-05"
+}

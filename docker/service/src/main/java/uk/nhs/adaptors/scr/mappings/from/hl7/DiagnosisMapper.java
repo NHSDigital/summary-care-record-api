@@ -2,6 +2,7 @@ package uk.nhs.adaptors.scr.mappings.from.hl7;
 
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
+import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.r4.model.Annotation;
 import org.hl7.fhir.r4.model.CodeableConcept;
 import org.hl7.fhir.r4.model.Coding;
@@ -182,12 +183,14 @@ public class DiagnosisMapper implements XmlToFhirMapper {
     private static void setClinicalStatus(Condition condition, String value) {
         condition.setClinicalStatus(new CodeableConcept().addCoding(new Coding()
             .setSystem("http://hl7.org/fhir/ValueSet/condition-clinical")
-            .setCode(value)));
+            .setCode(value)
+            .setDisplay(StringUtils.capitalize(value))));
     }
 
     private static void setVerificationStatus(Condition condition, String value) {
         condition.setVerificationStatus(new CodeableConcept().addCoding(new Coding()
             .setSystem("http://hl7.org/fhir/ValueSet/condition-ver-status")
-            .setCode(value)));
+            .setCode(value)
+            .setDisplay(StringUtils.capitalize(value))));
     }
 }

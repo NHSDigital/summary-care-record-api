@@ -349,7 +349,8 @@
           "coding": [
             {
               "system": "http://hl7.org/fhir/ValueSet/condition-clinical",
-              "code": "active"
+              "code": "active",
+              "display": "Active"
             }
           ]
         },
@@ -461,7 +462,8 @@
           "coding": [
             {
               "system": "http://hl7.org/fhir/ValueSet/condition-clinical",
-              "code": "active"
+              "code": "active",
+              "display": "Active"
             }
           ]
         },
@@ -611,7 +613,8 @@
           "coding": [
             {
               "system": "http://hl7.org/fhir/ValueSet/condition-clinical",
-              "code": "active"
+              "code": "active",
+              "display": "Active"
             }
           ]
         },
@@ -810,7 +813,8 @@
           "coding": [
             {
               "system": "http://hl7.org/fhir/ValueSet/condition-clinical",
-              "code": "active"
+              "code": "active",
+              "display": "Active"
             }
           ]
         },
@@ -998,7 +1002,8 @@
           "coding": [
             {
               "system": "http://hl7.org/fhir/ValueSet/condition-clinical",
-              "code": "active"
+              "code": "active",
+              "display": "Active"
             }
           ]
         },
