@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
 import uk.nhs.adaptors.scr.clients.identity.IdentityServiceContract;
-import uk.nhs.adaptors.scr.clients.identity.UserInfo;
 import uk.nhs.adaptors.scr.clients.spine.SpineClientContract;
 import uk.nhs.adaptors.scr.clients.spine.SpineHttpClient.Response;
 import uk.nhs.adaptors.scr.components.FhirParser;
@@ -57,27 +56,37 @@ public class AcsService {
     public void setPermission(RequestData requestData) {
         Parameters parameters = fhirParser.parseResource(requestData.getBody(), Parameters.class);
         ParametersParameterComponent parameter = getSetPermissionParameter(parameters);
-        UserInfo userInfo = identityService.getUserInfo(requestData.getAuthorization());
-        String acsRequest = prepareAcsRequest(parameter, requestData, getUserRoleCode(userInfo, requestData.getNhsdSessionUrid()),
-            userInfo.getId());
+
+        var roleCode = getUserRoleCode(requestData.getNhsdSessionUrid(), requestData.getAuthorization());
+        String acsRequest = prepareAcsRequest(parameter, requestData, roleCode, requestData.getNhsdIdentity());
         Response<Document> response = spineClient.sendAcsData(acsRequest, requestData.getNhsdAsid());
         spineDetectedIssuesHandler.handleDetectedIssues(spineResponseParser.getDetectedIssues(response.getBody()));
     }
 
-    private String getUserRoleCode(UserInfo userInfo, String nhsdSessionUrid) {
-        var userRole = userInfo.getRoles().stream()
-            .filter(role -> role.getPersonRoleId().equals(nhsdSessionUrid))
-            .findFirst();
-        if (userRole.isPresent() && StringUtils.isNotEmpty(userRole.get().getRoleCode())) {
-            return userRole.get().getRoleCode();
-        }
-
+    private String getUserRoleCode(String nhsdSessionUrid, String authorisation) {
         try {
-            return sdsService.getUserRoleCode(nhsdSessionUrid);
+            var roleCode = sdsService.getUserRoleCode(nhsdSessionUrid);
+
+            if (StringUtils.isNotEmpty(roleCode)) {
+                return roleCode;
+            }
+
+            var userInfo = identityService.getUserInfo(authorisation);
+
+            var userRole = userInfo.getRoles().stream()
+                .filter(role -> role.getPersonRoleId().equals(nhsdSessionUrid))
+                .findFirst();
+            if (userRole.isPresent() && StringUtils.isNotEmpty(userRole.get().getRoleCode())) {
+                return userRole.get().getRoleCode();
+            }
+
         } catch (BadRequestException | URISyntaxException e) {
             throw new BadRequestException(String.format("Unable to determine SDS Job Role Code for "
                 + "the given RoleID: %s", nhsdSessionUrid));
         }
+
+        throw new BadRequestException(String.format("Unable to determine the Job Role Code for "
+            + "the given RoleID: %s", nhsdSessionUrid));
     }
 
     private String prepareAcsRequest(ParametersParameterComponent parameter, RequestData requestData, String sdsJobRoleCode,
