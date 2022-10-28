@@ -65,24 +65,27 @@ public class AcsService {
     }
 
     private String getUserRoleCode(String nhsdSessionUrid, String authorisation) {
-        var roleCode = "";
-        UserInfo userInfo = identityService.getUserInfo(authorisation);
+        try {
+            UserInfo userInfo = identityService.getUserInfo(authorisation);
 
-        var userRole = userInfo.getRoles().stream()
-            .filter(role -> role.getPersonRoleId().equals(nhsdSessionUrid))
-            .findFirst();
-        if (userRole.isPresent() && StringUtils.isNotEmpty(userRole.get().getRoleCode())) {
-            roleCode = userRole.get().getRoleCode();
+            var userRole = userInfo.getRoles().stream()
+                .filter(role -> role.getPersonRoleId().equals(nhsdSessionUrid))
+                .findFirst();
+            if (userRole.isPresent() && StringUtils.isNotEmpty(userRole.get().getRoleCode())) {
+                return userRole.get().getRoleCode();
+            }
+        } catch (BadRequestException e) {
+            LOGGER.info(String.format("Unable to determine Job Role Code for "
+                + "the given RoleID via the Identity Service: %s", nhsdSessionUrid));
+
         }
 
         try {
-            var roleCode2 = sdsService.getUserRoleCode(nhsdSessionUrid);
-            LOGGER.info("role code 2", roleCode2);
+            return sdsService.getUserRoleCode(nhsdSessionUrid);
         } catch (BadRequestException | URISyntaxException e) {
             throw new BadRequestException(String.format("Unable to determine SDS Job Role Code for "
                 + "the given RoleID: %s", nhsdSessionUrid));
         }
-        return roleCode;
     }
 
     private String prepareAcsRequest(ParametersParameterComponent parameter, RequestData requestData, String sdsJobRoleCode,
