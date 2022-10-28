@@ -57,14 +57,16 @@ public class AcsService {
     public void setPermission(RequestData requestData) {
         Parameters parameters = fhirParser.parseResource(requestData.getBody(), Parameters.class);
         ParametersParameterComponent parameter = getSetPermissionParameter(parameters);
-        UserInfo userInfo = identityService.getUserInfo(requestData.getAuthorization());
-        String acsRequest = prepareAcsRequest(parameter, requestData, getUserRoleCode(userInfo, requestData.getNhsdSessionUrid()),
-            userInfo.getId());
+        String acsRequest = prepareAcsRequest(parameter, requestData,
+            getUserRoleCode(requestData.getNhsdSessionUrid(), requestData.getAuthorization()),
+            requestData.getNhsdIdentity());
         Response<Document> response = spineClient.sendAcsData(acsRequest, requestData.getNhsdAsid());
         spineDetectedIssuesHandler.handleDetectedIssues(spineResponseParser.getDetectedIssues(response.getBody()));
     }
 
-    private String getUserRoleCode(UserInfo userInfo, String nhsdSessionUrid) {
+    private String getUserRoleCode(String nhsdSessionUrid, String authorisation) {
+        UserInfo userInfo = identityService.getUserInfo(authorisation);
+
         var userRole = userInfo.getRoles().stream()
             .filter(role -> role.getPersonRoleId().equals(nhsdSessionUrid))
             .findFirst();
