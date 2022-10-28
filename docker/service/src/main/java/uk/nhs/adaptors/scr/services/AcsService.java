@@ -68,6 +68,7 @@ public class AcsService {
             var roleCode = sdsService.getUserRoleCode(nhsdSessionUrid);
 
             if (StringUtils.isNotEmpty(roleCode)) {
+                LOGGER.info("Utilising roleCode from SDS: {}", roleCode);
                 return roleCode;
             }
 
