@@ -1,0 +1,34 @@
+{
+  "resourceType": "Bundle",
+  "id": "EFAB935D-860A-4C02-8B7F-CC3728FE81FD",
+  "type": "searchset",
+  "total": 1,
+  "link": [
+    {
+      "relation": "self",
+      "url": "http://internal-dev.apis.ptl.api.platform.nhs.uk/PractitionerRole?user-role-id=https://fhir.nhs.uk/Id/nhsJobRoleCode|555021935107"
+    }
+  ],
+  "entry": [
+    {
+      "fullUrl": "http://internal-dev.apis.ptl.api.platform.nhs.uk/PractitionerRole/5DBB84D7-0E52-43C9-84FB-B9DC9A6AEA0D",
+      "resource": {
+        "resourceType": "PractitionerRole",
+        "id": "5DBB84D7-0E52-43C9-84FB-B9DC9A6AEA0D",
+        "code": [
+          {
+            "coding":  [
+              {
+                "system": "https://fhir.nhs.uk/CodeSystem/NHSDigital-SDS-JobRoleCode",
+                "code": "S0030:G0100:R0570"
+              }
+            ]
+          }
+        ]
+      },
+      "search": {
+        "mode": "match"
+      }
+    }
+  ]
+}
