@@ -61,6 +61,9 @@ def test_set_permission_no(headers):
 
 @pytest.mark.smoketest
 def test_update_bundle_without_permissions(headers):
+    # we don't want permissions for this test
+    send_set_permission_request(headers, "No")
+
     headers["Content-Type"] = "application/fhir+json"
     patient_nhs = "9995333333" if "sandbox" in config.ENVIRONMENT else "9995000180"
     body_from_file = read_body_from_file("post_bundle.json")

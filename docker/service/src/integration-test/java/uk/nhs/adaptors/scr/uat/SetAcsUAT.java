@@ -57,6 +57,7 @@ public class SetAcsUAT {
     private static final String NHSD_ASID = "546375434";
     private static final String CLIENT_IP = "192.168.0.24";
     private static final String NHSD_SESSION_URID = "555254240100";
+    private static final String USER_ID_QUERY_PARAM = "user-role-id";
 
     @Value("classpath:uat/responses/acs/success.xml")
     private Resource acsSuccessResponse;
@@ -66,9 +67,6 @@ public class SetAcsUAT {
 
     @Value("classpath:uat/responses/sds/practitionerRole.json")
     private Resource practitionerRoleResponse;
-
-    @Value("classpath:uat/responses/sds/emptyPractitionerRole.json")
-    private Resource emptyPractitionerRoleResponse;
 
     @Value("classpath:uat/responses/identity-service/userInfo.json")
     private Resource userInfoResponse;
@@ -93,7 +91,6 @@ public class SetAcsUAT {
     @ArgumentsSource(SetAcsSuccess.class)
     public void testSetAcsPermissionViaUserInfo(TestData testData) throws Exception {
         stubSpineAcsEndpoint(acsSuccessResponse);
-        stubSdsService(emptyPractitionerRoleResponse);
         stubIdentityService(userInfoResponse);
 
         performRequest(testData.getFhirRequest())
@@ -145,7 +142,7 @@ public class SetAcsUAT {
     private void stubSdsService(Resource response) throws IOException {
         wireMockServer.stubFor(
             WireMock.get(WireMock.urlPathEqualTo(PRACTITIONER_ROLE_ENDPOINT))
-                .withQueryParam("user-role-id",
+                .withQueryParam(USER_ID_QUERY_PARAM,
                     containing(NHSD_SESSION_URID))
                 .willReturn(aResponse()
                     .withStatus(OK.value())
