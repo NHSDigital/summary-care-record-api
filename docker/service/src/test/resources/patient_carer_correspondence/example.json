@@ -1,0 +1,16 @@
+{
+  "resourceType": "communication",
+  "id": "3b3f207f-be82-4ffb-924e-9be0966f5c65",
+  "meta": {
+    "profile": [ "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Communication" ]
+  },
+  "status": "completed",
+  "topic": {
+    "coding": [ {
+      "code": "1240781000000106",
+      "system": "http://snomed.info/sct",
+      "display": "Severe acute respiratory syndrome coronavirus 2 vaccination invitation short message service text message sent (situation)"
+    } ]
+  },
+  "sent": "2020-08-05"
+}
