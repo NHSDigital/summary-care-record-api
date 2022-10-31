@@ -1,5 +1,5 @@
 {
-  "resourceType": "communication",
+  "resourceType": "Communication",
   "id": "3b3f207f-be82-4ffb-924e-9be0966f5c65",
   "meta": {
     "profile": [ "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Communication" ]
