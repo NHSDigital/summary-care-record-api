@@ -4,6 +4,7 @@ import com.github.mustachejava.Mustache;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.tuple.Pair;
 import org.hl7.fhir.r4.model.Coding;
 import org.hl7.fhir.r4.model.Parameters;
 import org.hl7.fhir.r4.model.Parameters.ParametersParameterComponent;
@@ -57,23 +58,35 @@ public class AcsService {
     public void setPermission(RequestData requestData) {
         Parameters parameters = fhirParser.parseResource(requestData.getBody(), Parameters.class);
         ParametersParameterComponent parameter = getSetPermissionParameter(parameters);
-        UserInfo userInfo = identityService.getUserInfo(requestData.getAuthorization());
-        String acsRequest = prepareAcsRequest(parameter, requestData, getUserRoleCode(userInfo, requestData.getNhsdSessionUrid()),
-            userInfo.getId());
+
+        var userInfoPair = getUserRoleCodeAndId(
+            requestData.getAuthorization(),
+            requestData.getNhsdSessionUrid(),
+            requestData.getNhsdIdentity());
+
+        String acsRequest = prepareAcsRequest(parameter, requestData, userInfoPair.getLeft(), userInfoPair.getRight());
         Response<Document> response = spineClient.sendAcsData(acsRequest, requestData.getNhsdAsid());
         spineDetectedIssuesHandler.handleDetectedIssues(spineResponseParser.getDetectedIssues(response.getBody()));
     }
 
-    private String getUserRoleCode(UserInfo userInfo, String nhsdSessionUrid) {
-        var userRole = userInfo.getRoles().stream()
-            .filter(role -> role.getPersonRoleId().equals(nhsdSessionUrid))
-            .findFirst();
-        if (userRole.isPresent() && StringUtils.isNotEmpty(userRole.get().getRoleCode())) {
-            return userRole.get().getRoleCode();
+    private Pair<String, String> getUserRoleCodeAndId(String authorisation, String nhsdSessionUrid, String nhsdIdentity) {
+        try {
+            UserInfo userInfo = identityService.getUserInfo(authorisation);
+
+            var userRole = userInfo.getRoles().stream()
+                .filter(role -> role.getPersonRoleId().equals(nhsdSessionUrid))
+                .findFirst();
+            if (userRole.isPresent() && StringUtils.isNotEmpty(userRole.get().getRoleCode())) {
+                return Pair.of(userRole.get().getRoleCode(), userInfo.getId());
+            }
+        } catch (BadRequestException e) {
+            LOGGER.info(String.format("Unable to determine Job Role Code for "
+                + "the given RoleID via the Identity Service: %s", nhsdSessionUrid));
+
         }
 
         try {
-            return sdsService.getUserRoleCode(nhsdSessionUrid);
+            return Pair.of(sdsService.getUserRoleCode(nhsdSessionUrid), nhsdIdentity);
         } catch (BadRequestException | URISyntaxException e) {
             throw new BadRequestException(String.format("Unable to determine SDS Job Role Code for "
                 + "the given RoleID: %s", nhsdSessionUrid));

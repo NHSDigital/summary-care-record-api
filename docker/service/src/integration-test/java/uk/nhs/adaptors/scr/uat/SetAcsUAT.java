@@ -25,8 +25,9 @@ import uk.nhs.adaptors.scr.uat.common.TestData;
 
 import java.io.IOException;
 
-import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
+import static com.github.tomakehurst.wiremock.client.WireMock.containing;
 import static com.github.tomakehurst.wiremock.client.WireMock.equalTo;
+import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.nio.file.Files.readString;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
@@ -51,16 +52,21 @@ public class SetAcsUAT {
     private static final String ACS_QUERY_HEADER = "urn:nhs:names:services:lrs/SET_RESOURCE_PERMISSIONS_INUK01";
     private static final String BEARER_TOKEN = "Bearer BvkLiUYgXoLD50aVuuq62swUG0ha";
     private static final String USER_INFO_ENDPOINT = "/oauth2/userinfo";
+    private static final String PRACTITIONER_ROLE_ENDPOINT = "/PractitionerRole";
     private static final String ACS_ENDPOINT = "/$setPermission";
     private static final String NHSD_ASID = "546375434";
     private static final String CLIENT_IP = "192.168.0.24";
     private static final String NHSD_SESSION_URID = "555254240100";
+    private static final String USER_ID_QUERY_PARAM = "user-role-id";
 
     @Value("classpath:uat/responses/acs/success.xml")
     private Resource acsSuccessResponse;
 
     @Value("classpath:uat/responses/acs/invalidNhsNumber.xml")
     private Resource acsErrorResponse;
+
+    @Value("classpath:uat/responses/sds/practitionerRole.json")
+    private Resource practitionerRoleResponse;
 
     @Value("classpath:uat/responses/identity-service/userInfo.json")
     private Resource userInfoResponse;
@@ -73,7 +79,17 @@ public class SetAcsUAT {
 
     @ParameterizedTest(name = "[{index}] - {0}")
     @ArgumentsSource(SetAcsSuccess.class)
-    public void testSetAcsPermission(TestData testData) throws Exception {
+    public void testSetAcsPermissionViaSds(TestData testData) throws Exception {
+        stubSpineAcsEndpoint(acsSuccessResponse);
+        stubSdsService(practitionerRoleResponse);
+
+        performRequest(testData.getFhirRequest())
+            .andExpect(status().isCreated());
+    }
+
+    @ParameterizedTest(name = "[{index}] - {0}")
+    @ArgumentsSource(SetAcsSuccess.class)
+    public void testSetAcsPermissionViaUserInfo(TestData testData) throws Exception {
         stubSpineAcsEndpoint(acsSuccessResponse);
         stubIdentityService(userInfoResponse);
 
@@ -120,6 +136,17 @@ public class SetAcsUAT {
                 .withHeader(CONTENT_TYPE, equalTo(TEXT_XML_VALUE))
                 .willReturn(aResponse()
                     .withStatus(OK.value())
+                    .withBody(readString(response.getFile().toPath(), UTF_8))));
+    }
+
+    private void stubSdsService(Resource response) throws IOException {
+        wireMockServer.stubFor(
+            WireMock.get(WireMock.urlPathEqualTo(PRACTITIONER_ROLE_ENDPOINT))
+                .withQueryParam(USER_ID_QUERY_PARAM,
+                    containing(NHSD_SESSION_URID))
+                .willReturn(aResponse()
+                    .withStatus(OK.value())
+                    .withHeader(CONTENT_TYPE, APPLICATION_JSON_VALUE)
                     .withBody(readString(response.getFile().toPath(), UTF_8))));
     }
 
