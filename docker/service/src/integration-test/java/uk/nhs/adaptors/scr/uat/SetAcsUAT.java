@@ -32,6 +32,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.nio.file.Files.readString;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.http.MediaType.TEXT_XML_VALUE;
@@ -81,6 +82,7 @@ public class SetAcsUAT {
     @ArgumentsSource(SetAcsSuccess.class)
     public void testSetAcsPermissionViaSds(TestData testData) throws Exception {
         stubSpineAcsEndpoint(acsSuccessResponse);
+        stubFailedIdentityService();
         stubSdsService(practitionerRoleResponse);
 
         performRequest(testData.getFhirRequest())
@@ -158,5 +160,14 @@ public class SetAcsUAT {
                     .withStatus(OK.value())
                     .withHeader(CONTENT_TYPE, APPLICATION_JSON_VALUE)
                     .withBody(readString(response.getFile().toPath(), UTF_8))));
+    }
+
+    private void stubFailedIdentityService() {
+        wireMockServer.stubFor(
+            WireMock.get(USER_INFO_ENDPOINT)
+                .withHeader(AUTHORIZATION, equalTo(BEARER_TOKEN))
+                .willReturn(aResponse()
+                    .withStatus(BAD_REQUEST.value())
+                    .withHeader(CONTENT_TYPE, APPLICATION_JSON_VALUE)));
     }
 }
