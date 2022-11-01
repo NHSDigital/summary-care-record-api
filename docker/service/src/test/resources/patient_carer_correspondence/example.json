@@ -7,10 +7,10 @@
   "status": "completed",
   "topic": {
     "coding": [ {
-      "code": "1240781000000106",
       "system": "http://snomed.info/sct",
+      "code": "1240781000000106",
       "display": "Severe acute respiratory syndrome coronavirus 2 vaccination invitation short message service text message sent (situation)"
     } ]
   },
-  "sent": "2020-08-05"
+  "sent": "2020-08-05T02:00:00+00:00"
 }

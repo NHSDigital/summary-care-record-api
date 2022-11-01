@@ -22,9 +22,10 @@ public class PatientAndCarersCorrespondenceMapper {
 
         patientCarerCorr.setIdRoot(uuid.randomUuid());
 
+        patientCarerCorr.setStatusCodeCode("normal");
+
         var codingFirstRep = communication.getTopic().getCodingFirstRep();
         patientCarerCorr.setCodeCode(codingFirstRep.getCode());
-        patientCarerCorr.setCodeCode(codingFirstRep.getSystem());
         patientCarerCorr.setCodeDisplayName(codingFirstRep.getDisplay());
 
         patientCarerCorr.setEffectiveTimeLow(formatDateToHl7(communication.getSentElement()));

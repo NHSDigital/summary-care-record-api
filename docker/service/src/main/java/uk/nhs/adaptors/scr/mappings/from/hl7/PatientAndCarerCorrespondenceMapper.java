@@ -59,8 +59,9 @@ public class PatientAndCarerCorrespondenceMapper implements XmlToFhirMapper {
             .setDisplay(entry.getCodeDisplay()));
         communication.setTopic(topicCoding);
 
-        entry.getEffectiveTimeLow().ifPresent(communication::setSentElement);
-
+        if (entry.getEffectiveTimeLow().isPresent()) {
+            communication.setSent(entry.getEffectiveTimeLow().get().getValue());
+        }
         resources.add(communication);
 
     }
