@@ -86,7 +86,7 @@ public class PatientAndCarersCorrespondenceMapperTest {
 
         var result = patientCarerCorrMapper.mapPatientCarerCorrespondence(communication);
 
-        assertThat(result.getEffectiveTimeLow()).isEqualTo("20200805020000");
+        assertThat(result.getEffectiveTimeLow()).isEqualTo("20200805");
     }
 
     @ParameterizedTest(name = "[{index}] - {0}.html/json")

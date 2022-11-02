@@ -1,5 +1,6 @@
 package uk.nhs.adaptors.scr.mappings.from.fhir;
 
+import ca.uhn.fhir.model.api.TemporalPrecisionEnum;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.hl7.fhir.r4.model.Communication;
@@ -28,7 +29,9 @@ public class PatientAndCarersCorrespondenceMapper {
         patientCarerCorr.setCodeCode(codingFirstRep.getCode());
         patientCarerCorr.setCodeDisplayName(codingFirstRep.getDisplay());
 
-        patientCarerCorr.setEffectiveTimeLow(formatDateToHl7(communication.getSentElement()));
+        var sentDate = communication.getSentElement();
+        sentDate.setPrecision(TemporalPrecisionEnum.DAY);
+        patientCarerCorr.setEffectiveTimeLow(formatDateToHl7(sentDate));
 
         return patientCarerCorr;
     }
