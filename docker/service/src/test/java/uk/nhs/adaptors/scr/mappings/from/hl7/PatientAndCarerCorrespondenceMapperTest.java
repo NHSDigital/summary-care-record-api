@@ -150,7 +150,7 @@ public class PatientAndCarerCorrespondenceMapperTest {
 
         var resultCommunication = (Communication) result;
 
-        assertThat(resultCommunication.getSentElement().toHumanDisplay()).isEqualTo("5 Aug 2020, 00:00:00");
+        assertThat(resultCommunication.getSentElement().toHumanDisplay()).contains("5 Aug 2020");
 
     }
 
