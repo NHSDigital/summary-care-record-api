@@ -2,7 +2,6 @@ package uk.nhs.adaptors.scr.mappings.from.hl7;
 
 import lombok.SneakyThrows;
 import org.hl7.fhir.r4.model.Communication;
-import org.hl7.fhir.r4.model.Procedure;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
@@ -17,7 +16,6 @@ import uk.nhs.adaptors.scr.components.FhirParser;
 import uk.nhs.adaptors.scr.mappings.from.common.UuidWrapper;
 import uk.nhs.adaptors.scr.mappings.from.hl7.common.CodedEntryMapper;
 import uk.nhs.adaptors.scr.utils.XmlUtils;
-import uk.nhs.utils.InvestigationMapperArgumentsProvider;
 import uk.nhs.utils.PatientCarerCorrMapperArgumentsProvider;
 
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -26,7 +24,10 @@ import javax.xml.xpath.XPathFactory;
 import java.io.StringReader;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import static uk.nhs.utils.Utils.readResourceFile;
 
 @ExtendWith(MockitoExtension.class)
@@ -133,7 +134,8 @@ public class PatientAndCarerCorrespondenceMapperTest {
             .isEqualTo("http://snomed.info/sct");
 
         assertThat(codingFirstRep.getDisplay())
-            .isEqualTo("Severe acute respiratory syndrome coronavirus 2 vaccination invitation short message service text message sent (situation)");
+            .isEqualTo("Severe acute respiratory syndrome coronavirus 2 vaccination invitation "
+                + "short message service text message sent (situation)");
 
     }
 

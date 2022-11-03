@@ -2,7 +2,11 @@ package uk.nhs.adaptors.scr.mappings.from.hl7;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.hl7.fhir.r4.model.*;
+import org.hl7.fhir.r4.model.CodeableConcept;
+import org.hl7.fhir.r4.model.Coding;
+import org.hl7.fhir.r4.model.Communication;
+import org.hl7.fhir.r4.model.Meta;
+import org.hl7.fhir.r4.model.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Node;
@@ -24,8 +28,9 @@ public class PatientAndCarerCorrespondenceMapper implements XmlToFhirMapper {
     private final CodedEntryMapper codedEntryMapper;
     private final XmlUtils xmlUtils;
 
-    private static final String PERTINENT_CRET_BASE_PATH = "/pertinentInformation2/pertinentCREType[.//UKCT_MT144035UK01.PatientCarerCorrespondence]";
-    private static final String PATIENT_CARER__BASE_PATH = "./component/UKCT_MT144035UK01.PatientCarerCorrespondence";
+    private static final String PERTINENT_CRET_BASE_PATH = "/pertinentInformation2/pertinentCREType"
+        + "[.//UKCT_MT144035UK01.PatientCarerCorrespondence]";
+    private static final String PATIENT_CARER_BASE_PATH = "./component/UKCT_MT144035UK01.PatientCarerCorrespondence";
     private static final String UK_CORE_PROCEDURE_META = "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Communication";
 
     @Override
@@ -35,7 +40,7 @@ public class PatientAndCarerCorrespondenceMapper implements XmlToFhirMapper {
         NodeList pertinentNodes = xmlUtils.getNodeListByXPath(document, PERTINENT_CRET_BASE_PATH);
         for (int i = 0; i < pertinentNodes.getLength(); i++) {
             Node pertinentCREType = xmlUtils.getNodeAndDetachFromParent(pertinentNodes, i);
-            NodeList treatmentNodes = xmlUtils.getNodeListByXPath(pertinentCREType, PATIENT_CARER__BASE_PATH);
+            NodeList treatmentNodes = xmlUtils.getNodeListByXPath(pertinentCREType, PATIENT_CARER_BASE_PATH);
             for (int j = 0; j < treatmentNodes.getLength(); j++) {
                 Node node = xmlUtils.getNodeAndDetachFromParent(treatmentNodes, j);
                 mapCommunication(resources, node);

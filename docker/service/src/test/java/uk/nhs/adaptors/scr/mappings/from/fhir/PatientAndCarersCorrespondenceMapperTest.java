@@ -1,7 +1,6 @@
 package uk.nhs.adaptors.scr.mappings.from.fhir;
 
 import org.hl7.fhir.r4.model.Communication;
-import org.hl7.fhir.r4.model.Procedure;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
@@ -12,10 +11,9 @@ import uk.nhs.adaptors.scr.components.FhirParser;
 import uk.nhs.adaptors.scr.mappings.from.common.UuidWrapper;
 import uk.nhs.adaptors.scr.models.GpSummary;
 import uk.nhs.adaptors.scr.models.xml.PatientCarerCorrespondence;
-import uk.nhs.adaptors.scr.models.xml.Treatment;
 import uk.nhs.adaptors.scr.utils.TemplateUtils;
 import uk.nhs.utils.PatientCarerCorrMapperArgumentsProvider;
-import uk.nhs.utils.TreatmentsMapperArgumentsProvider;
+
 
 import java.util.ArrayList;
 
@@ -62,7 +60,8 @@ public class PatientAndCarersCorrespondenceMapperTest {
 
         assertThat(result.getCodeCode()).isEqualTo("1240781000000106");
         assertThat(result.getCodeDisplayName())
-            .isEqualTo("Severe acute respiratory syndrome coronavirus 2 vaccination invitation short message service text message sent (situation)");
+            .isEqualTo("Severe acute respiratory syndrome coronavirus 2 vaccination invitation "
+                + "short message service text message sent (situation)");
     }
 
     @ParameterizedTest(name = "[{index}] - {0}.html/json")
