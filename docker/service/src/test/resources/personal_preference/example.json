@@ -7,8 +7,8 @@
   "status": "final",
   "code": {
     "coding": [ {
-      "code": "1240651000000109",
       "system": "http://snomed.info/sct",
+      "code": "1240651000000109",
       "display": "SARS-CoV-2 (severe acute respiratory syndrome coronavirus 2) vaccination declined"
     } ]
   },

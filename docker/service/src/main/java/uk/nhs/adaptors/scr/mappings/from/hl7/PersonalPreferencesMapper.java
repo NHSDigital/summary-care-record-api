@@ -2,7 +2,11 @@ package uk.nhs.adaptors.scr.mappings.from.hl7;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.hl7.fhir.r4.model.*;
+import org.hl7.fhir.r4.model.CodeableConcept;
+import org.hl7.fhir.r4.model.Coding;
+import org.hl7.fhir.r4.model.Meta;
+import org.hl7.fhir.r4.model.Observation;
+import org.hl7.fhir.r4.model.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Node;
@@ -24,7 +28,8 @@ public class PersonalPreferencesMapper implements XmlToFhirMapper {
     private final CodedEntryMapper codedEntryMapper;
     private final XmlUtils xmlUtils;
 
-    private static final String PERTINENT_CRET_BASE_PATH = "/pertinentInformation2/pertinentCREType[.//UKCT_MT144046UK01.PersonalPreference]";
+    private static final String PERTINENT_CRET_BASE_PATH = "/pertinentInformation2/pertinentCREType[."
+        + "//UKCT_MT144046UK01.PersonalPreference]";
     private static final String TREATMENTS_BASE_PATH = "./component/UKCT_MT144046UK01.PersonalPreference";
     private static final String UK_CORE_PROCEDURE_META = "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Observation";
 
@@ -54,8 +59,8 @@ public class PersonalPreferencesMapper implements XmlToFhirMapper {
         CodedEntry entry = codedEntryMapper.getCommonCodedEntryValues(node);
 
         var coding = new CodeableConcept().addCoding(new Coding()
-            .setCode(entry.getCodeValue())
             .setSystem(SNOMED_SYSTEM)
+            .setCode(entry.getCodeValue())
             .setDisplay(entry.getCodeDisplay()));
         observation.setCode(coding);
 
