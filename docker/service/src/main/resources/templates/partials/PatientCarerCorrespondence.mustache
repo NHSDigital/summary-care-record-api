@@ -1,0 +1,15 @@
+<component typeCode="COMP" contextConductionInd="true">
+            <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.component"/>
+            <seperatableInd value="false"/>
+            <UKCT_MT144035UK01.PatientCarerCorrespondence classCode="DOC" moodCode="EVN">
+                <id root="{{idRoot}}"/>
+                <code code="{{codeCode}}" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="{{codeDisplayName}}">
+                </code>
+                {{#statusCodeCode}}
+                <statusCode code="{{statusCodeCode}}"/>
+                {{/statusCodeCode}}
+                <effectiveTime>
+                    <low value="{{effectiveTimeLow}}"/>
+                </effectiveTime>
+            </UKCT_MT144035UK01.PatientCarerCorrespondence>
+        </component>
