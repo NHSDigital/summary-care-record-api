@@ -90,7 +90,7 @@ public class PersonalPreferencesMapperTest {
 
     @ParameterizedTest(name = "[{index}] - {0}.html/json")
     @ArgumentsSource(PersonalPreferencesMapperArgumentsProvider.class)
-    public void When_MappingFromHl7_Expect_StatusCompleted(String fileName) {
+    public void When_MappingFromHl7_Expect_StatusFinal(String fileName) {
         var html = parseXml(readResourceFile(String.format("personal_preference/%s.html", fileName))).getDocumentElement();
 
         when(uuid.randomUuid()).thenReturn("5a3ead29-446d-4ad8-8a2f-aa50a3d026bb");
