@@ -1,0 +1,16 @@
+{
+  "resourceType": "Observation",
+  "id": "5a3ead29-446d-4ad8-8a2f-aa50a3d026bb",
+  "meta": {
+    "profile": [ "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Observation" ]
+  },
+  "status": "final",
+  "code": {
+    "coding": [ {
+      "system": "http://snomed.info/sct",
+      "code": "1240651000000109",
+      "display": "SARS-CoV-2 (severe acute respiratory syndrome coronavirus 2) vaccination declined"
+    } ]
+  },
+  "effectiveDateTime": "2020-08-05"
+}
