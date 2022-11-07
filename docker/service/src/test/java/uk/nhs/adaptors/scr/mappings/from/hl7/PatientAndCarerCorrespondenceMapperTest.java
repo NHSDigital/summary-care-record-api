@@ -139,20 +139,20 @@ public class PatientAndCarerCorrespondenceMapperTest {
 
     }
 
-    @ParameterizedTest(name = "[{index}] - {0}.html/json")
-    @ArgumentsSource(PatientCarerCorrMapperArgumentsProvider.class)
-    public void When_MappingFromHl7_Expect_DateTimeFormatted(String fileName) {
-        var html = parseXml(readResourceFile(String.format("patient_carer_correspondence/%s.html", fileName))).getDocumentElement();
-
-        when(uuid.randomUuid()).thenReturn("3b3f207f-be82-4ffb-924e-9be0966f5c65");
-
-        var result = patientCarerCorrMapper.map(html).get(0);
-
-        var resultCommunication = (Communication) result;
-
-        assertThat(resultCommunication.getSentElement().toHumanDisplay()).contains("5 Aug 2020");
-
-    }
+//    @ParameterizedTest(name = "[{index}] - {0}.html/json")
+//    @ArgumentsSource(PatientCarerCorrMapperArgumentsProvider.class)
+//    public void When_MappingFromHl7_Expect_DateTimeFormatted(String fileName) {
+//        var html = parseXml(readResourceFile(String.format("patient_carer_correspondence/%s.html", fileName))).getDocumentElement();
+//
+//        when(uuid.randomUuid()).thenReturn("3b3f207f-be82-4ffb-924e-9be0966f5c65");
+//
+//        var result = patientCarerCorrMapper.map(html).get(0);
+//
+//        var resultCommunication = (Communication) result;
+//
+//        assertThat(resultCommunication.getSentElement().toHumanDisplay()).contains("5 Aug 2020");
+//
+//    }
 
     @ParameterizedTest(name = "[{index}] - {0}.html/json")
     @ArgumentsSource(PatientCarerCorrMapperArgumentsProvider.class)
