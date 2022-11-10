@@ -1,57 +1,48 @@
 package uk.nhs.adaptors.scr.mappings.from.fhir;
 
 import org.hl7.fhir.r4.model.Observation;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ArgumentsSource;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import uk.nhs.adaptors.scr.components.FhirParser;
-import uk.nhs.adaptors.scr.mappings.from.common.UuidWrapper;
 import uk.nhs.adaptors.scr.models.GpSummary;
 import uk.nhs.adaptors.scr.models.xml.PersonalPreference;
 import uk.nhs.adaptors.scr.utils.TemplateUtils;
-import uk.nhs.utils.PersonalPreferencesMapperArgumentsProvider;
 
 import java.util.ArrayList;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.when;
-import static uk.nhs.utils.Utils.readResourceFile;
 
 @ExtendWith(MockitoExtension.class)
-public class PersonalPreferenceMapperTest {
+public class PersonalPreferenceMapperTest extends BaseFhirMapperTest {
 
     @InjectMocks
     private PersonalPreferenceMapper personalPreferenceMapper;
 
-    @Mock
-    private UuidWrapper uuid;
+    private static final String ID = "0F5A9E73-8F89-11EA-8B2D-B741F13EFC47";
+    private static final String RESOURCE_DIRECTORY = "personal_preference";
+    private static final String STATUS_CODE = "completed";
+    private static final String FILE_NAME = "example";
 
-    private FhirParser fhirParser = new FhirParser();
+    @Test
+    public void When_MappingFromFHIR_Expect_RootId() {
+        var json = getJsonExample(RESOURCE_DIRECTORY, FILE_NAME);
 
-    @ParameterizedTest(name = "[{index}] - {0}.html/json")
-    @ArgumentsSource(PersonalPreferencesMapperArgumentsProvider.class)
-    public void When_MappingFromFHIR_Expect_RootId(String fileName) {
-        var json = readResourceFile(String.format("personal_preference/%s.json", fileName));
+        returnExpectedUuid(ID);
 
-        when(uuid.randomUuid()).thenReturn("0F5A9E73-8F89-11EA-8B2D-B741F13EFC47");
-
-        var observation = fhirParser.parseResource(json, Observation.class);
+        var observation = getFhirParser(json, Observation.class);
 
         var result = personalPreferenceMapper.mapPersonalPreference(observation);
 
-        assertThat(result.getIdRoot()).isEqualTo("0F5A9E73-8F89-11EA-8B2D-B741F13EFC47");
+        assertThat(result.getIdRoot()).isEqualTo(ID);
 
     }
 
-    @ParameterizedTest(name = "[{index}] - {0}.html/json")
-    @ArgumentsSource(PersonalPreferencesMapperArgumentsProvider.class)
-    public void When_MappingFromFHIR_Expect_Code(String fileName) {
-        var json = readResourceFile(String.format("personal_preference/%s.json", fileName));
+    @Test
+    public void When_MappingFromFHIR_Expect_Code() {
+        var json = getJsonExample(RESOURCE_DIRECTORY, FILE_NAME);
 
-        var observation = fhirParser.parseResource(json, Observation.class);
+        var observation = getFhirParser(json, Observation.class);
 
         var result = personalPreferenceMapper.mapPersonalPreference(observation);
 
@@ -60,24 +51,22 @@ public class PersonalPreferenceMapperTest {
             .isEqualTo("SARS-CoV-2 (severe acute respiratory syndrome coronavirus 2) vaccination declined");
     }
 
-    @ParameterizedTest(name = "[{index}] - {0}.html/json")
-    @ArgumentsSource(PersonalPreferencesMapperArgumentsProvider.class)
-    public void When_MappingFromFHIR_Expect_StatusCode(String fileName) {
-        var json = readResourceFile(String.format("personal_preference/%s.json", fileName));
+    @Test
+    public void When_MappingFromFHIR_Expect_StatusCode() {
+        var json = getJsonExample(RESOURCE_DIRECTORY, FILE_NAME);
 
-        var observation = fhirParser.parseResource(json, Observation.class);
+        var observation = getFhirParser(json, Observation.class);
 
         var result = personalPreferenceMapper.mapPersonalPreference(observation);
 
         assertThat(result.getStatusCodeCode()).isEqualTo("completed");
     }
 
-    @ParameterizedTest(name = "[{index}] - {0}.html/json")
-    @ArgumentsSource(PersonalPreferencesMapperArgumentsProvider.class)
-    public void When_MappingFromFHIR_Expect_EffectiveTimeLow(String fileName) {
-        var json = readResourceFile(String.format("personal_preference/%s.json", fileName));
+    @Test
+    public void When_MappingFromFHIR_Expect_EffectiveTimeLow() {
+        var json = getJsonExample(RESOURCE_DIRECTORY, FILE_NAME);
 
-        var observation = fhirParser.parseResource(json, Observation.class);
+        var observation = getFhirParser(json, Observation.class);
 
         var result = personalPreferenceMapper.mapPersonalPreference(observation);
 
@@ -85,15 +74,14 @@ public class PersonalPreferenceMapperTest {
 
     }
 
-    @ParameterizedTest(name = "[{index}] - {0}.html/json")
-    @ArgumentsSource(PersonalPreferencesMapperArgumentsProvider.class)
-    public void When_MappingFromFHIR_Expect_MatchingHtml(String fileName) {
-        var expectedHtml = readResourceFile(String.format("personal_preference/%s.html", fileName));
-        var json = readResourceFile(String.format("personal_preference/%s.json", fileName));
+    @Test
+    public void When_MappingFromFHIR_Expect_MatchingHtml() {
+        var expectedHtml = getExpectedHtml(RESOURCE_DIRECTORY, FILE_NAME);
+        var json = getJsonExample(RESOURCE_DIRECTORY, FILE_NAME);
 
-        when(uuid.randomUuid()).thenReturn("0F5A9E73-8F89-11EA-8B2D-B741F13EFC47");
+        returnExpectedUuid(ID);
 
-        var observation = fhirParser.parseResource(json, Observation.class);
+        var observation = getFhirParser(json, Observation.class);
 
         var result = personalPreferenceMapper.mapPersonalPreference(observation);
 
