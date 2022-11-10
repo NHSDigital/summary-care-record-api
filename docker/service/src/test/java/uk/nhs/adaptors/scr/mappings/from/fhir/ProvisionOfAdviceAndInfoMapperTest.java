@@ -1,15 +1,13 @@
 package uk.nhs.adaptors.scr.mappings.from.fhir;
 
 import org.hl7.fhir.r4.model.Communication;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ArgumentsSource;
 import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
 import uk.nhs.adaptors.scr.models.GpSummary;
 import uk.nhs.adaptors.scr.models.xml.ProvisionOfAdviceAndInformation;
 import uk.nhs.adaptors.scr.utils.TemplateUtils;
-import uk.nhs.utils.ProvisionOfAdviceInfoArgumentsProvider;
 
 import java.util.ArrayList;
 
@@ -23,11 +21,11 @@ public class ProvisionOfAdviceAndInfoMapperTest extends BaseFhirMapperTest {
     private static final String ID = "0F582D83-8F89-11EA-8B2D-B741F13EFC47";
     private static final String RESOURCE_DIRECTORY = "provision_of_advice_info";
     private static final String STATUS_CODE = "normal";
+    private static final String FILE_NAME = "example";
 
-    @ParameterizedTest(name = "[{index}] - {0}.html/json")
-    @ArgumentsSource(ProvisionOfAdviceInfoArgumentsProvider.class)
-    public void When_MappingFromFHIR_Expect_RootId(String fileName) {
-        var json = getJsonExample(RESOURCE_DIRECTORY, fileName);
+    @Test
+    public void When_MappingFromFHIR_Expect_RootId() {
+        var json = getJsonExample(RESOURCE_DIRECTORY, FILE_NAME);
 
         returnExpectedUuid(ID);
 
@@ -39,10 +37,9 @@ public class ProvisionOfAdviceAndInfoMapperTest extends BaseFhirMapperTest {
 
     }
 
-    @ParameterizedTest(name = "[{index}] - {0}.html/json")
-    @ArgumentsSource(ProvisionOfAdviceInfoArgumentsProvider.class)
-    public void When_MappingFromFHIR_Expect_Code(String fileName) {
-        var json = getJsonExample(RESOURCE_DIRECTORY, fileName);
+    @Test
+    public void When_MappingFromFHIR_Expect_Code() {
+        var json = getJsonExample(RESOURCE_DIRECTORY, FILE_NAME);
 
         var communication = getFhirParser(json, Communication.class);
 
@@ -53,10 +50,9 @@ public class ProvisionOfAdviceAndInfoMapperTest extends BaseFhirMapperTest {
             .isEqualTo("Educated about severe acute respiratory syndrome coronavirus 2 infection (situation)");
     }
 
-    @ParameterizedTest(name = "[{index}] - {0}.html/json")
-    @ArgumentsSource(ProvisionOfAdviceInfoArgumentsProvider.class)
-    public void When_MappingFromFHIR_Expect_StatusCode(String fileName) {
-        var json = getJsonExample(RESOURCE_DIRECTORY, fileName);
+    @Test
+    public void When_MappingFromFHIR_Expect_StatusCode() {
+        var json = getJsonExample(RESOURCE_DIRECTORY, FILE_NAME);
 
         var communication = getFhirParser(json, Communication.class);
 
@@ -65,10 +61,9 @@ public class ProvisionOfAdviceAndInfoMapperTest extends BaseFhirMapperTest {
         assertThat(result.getStatusCodeCode()).isEqualTo(STATUS_CODE);
     }
 
-    @ParameterizedTest(name = "[{index}] - {0}.html/json")
-    @ArgumentsSource(ProvisionOfAdviceInfoArgumentsProvider.class)
-    public void When_MappingFromFHIR_Expect_EffectiveTimeLow(String fileName) {
-        var json = getJsonExample(RESOURCE_DIRECTORY, fileName);
+    @Test
+    public void When_MappingFromFHIR_Expect_EffectiveTimeLow() {
+        var json = getJsonExample(RESOURCE_DIRECTORY, FILE_NAME);
 
         var communication = getFhirParser(json, Communication.class);
 
@@ -78,11 +73,10 @@ public class ProvisionOfAdviceAndInfoMapperTest extends BaseFhirMapperTest {
 
     }
 
-    @ParameterizedTest(name = "[{index}] - {0}.html/json")
-    @ArgumentsSource(ProvisionOfAdviceInfoArgumentsProvider.class)
-    public void When_MappingFromFHIR_Expect_MatchingHtml(String fileName) {
-        var expectedHtml = getExpectedHtml(RESOURCE_DIRECTORY, fileName);
-        var json = getJsonExample(RESOURCE_DIRECTORY, fileName);
+    @Test
+    public void When_MappingFromFHIR_Expect_MatchingHtml() {
+        var expectedHtml = getExpectedHtml(RESOURCE_DIRECTORY, FILE_NAME);
+        var json = getJsonExample(RESOURCE_DIRECTORY, FILE_NAME);
 
         returnExpectedUuid(ID);
 

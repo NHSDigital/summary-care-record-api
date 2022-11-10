@@ -35,9 +35,9 @@ public class TreatmentMapperTest {
     @ArgumentsSource(TreatmentsMapperArgumentsProvider.class)
     public void When_MappingFromFHIR_Expect_RootId(String fileName) {
         var json = readResourceFile(String.format("treatments/%s.json", fileName));
-        var procedure = fhirParser.parseResource(json, Procedure.class); //refactor
+        var procedure = fhirParser.parseResource(json, Procedure.class);
 
-        when(uuid.randomUuid()).thenReturn("0F5A9E72-8F89-11EA-8B2D-B741F13EFC47"); //refactor
+        when(uuid.randomUuid()).thenReturn("0F5A9E72-8F89-11EA-8B2D-B741F13EFC47");
 
         var result = treatmentMapper.mapTreatment(procedure);
 
