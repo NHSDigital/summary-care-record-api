@@ -53,7 +53,7 @@ public class TreatmentsMapperTest {
     public void When_MappingFromHl7_Expect_RandomUUID(String fileName) {
         var html = parseXml(readResourceFile(String.format("treatments/%s.html", fileName))).getDocumentElement();
 
-        when(uuid.randomUuid()).thenReturn("870bfee5-67e6-4611-8b62-e4609e2f3105");
+        when(uuid.randomUuid()).thenReturn("870bfee5-67e6-4611-8b62-e4609e2f3105"); //refactor
 
         var result = treatmentsMapper.map(html).get(0);
 
