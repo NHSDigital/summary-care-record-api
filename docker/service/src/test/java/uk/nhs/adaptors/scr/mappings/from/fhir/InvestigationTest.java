@@ -1,56 +1,47 @@
 package uk.nhs.adaptors.scr.mappings.from.fhir;
 
 import org.hl7.fhir.r4.model.Procedure;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ArgumentsSource;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import uk.nhs.adaptors.scr.components.FhirParser;
-import uk.nhs.adaptors.scr.mappings.from.common.UuidWrapper;
 import uk.nhs.adaptors.scr.models.GpSummary;
 import uk.nhs.adaptors.scr.models.xml.Investigation;
 import uk.nhs.adaptors.scr.utils.TemplateUtils;
-import uk.nhs.utils.InvestigationMapperArgumentsProvider;
 
 import java.util.ArrayList;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.when;
-import static uk.nhs.utils.Utils.readResourceFile;
 
 @ExtendWith(MockitoExtension.class)
-public class InvestigationTest {
+public class InvestigationTest extends BaseFhirMapperTest {
 
     @InjectMocks
     private InvestigationMapper investigation;
 
-    @Mock
-    private UuidWrapper uuid;
+    private static final String ID = "0F5A9E75-8F89-11EA-8B2D-B741F13EFC47";
+    private static final String RESOURCE_DIRECTORY = "investigation";
+    private static final String STATUS_CODE = "normal";
+    private static final String FILE_NAME = "example";
 
-    private FhirParser fhirParser = new FhirParser();
+    @Test
+    public void When_MappingFromFHIR_Expect_RootId() {
+        var json = getJsonExample(RESOURCE_DIRECTORY, FILE_NAME);
 
-    @ParameterizedTest(name = "[{index}] - {0}.html/json")
-    @ArgumentsSource(InvestigationMapperArgumentsProvider.class)
-    public void When_MappingFromFHIR_Expect_RootId(String fileName) {
-        var json = readResourceFile(String.format("investigation/%s.json", fileName));
+        returnExpectedUuid(ID);
 
-        when(uuid.randomUuid()).thenReturn("0F5A9E75-8F89-11EA-8B2D-B741F13EFC47");
-
-        var procedure = fhirParser.parseResource(json, Procedure.class);
+        var procedure = getFhirParser(json, Procedure.class);
 
         var result = investigation.mapInvestigation(procedure);
 
-        assertThat(result.getIdRoot()).isEqualTo("0F5A9E75-8F89-11EA-8B2D-B741F13EFC47");
+        assertThat(result.getIdRoot()).isEqualTo(ID);
     }
 
-    @ParameterizedTest(name = "[{index}] - {0}.html/json")
-    @ArgumentsSource(InvestigationMapperArgumentsProvider.class)
-    public void When_MappingFromFHIR_Expect_Code(String fileName) {
-        var json = readResourceFile(String.format("investigation/%s.json", fileName));
+    @Test
+    public void When_MappingFromFHIR_Expect_Code() {
+        var json = getJsonExample(RESOURCE_DIRECTORY, FILE_NAME);
 
-        var procedure = fhirParser.parseResource(json, Procedure.class);
+        var procedure = getFhirParser(json, Procedure.class);
 
         var result = investigation.mapInvestigation(procedure);
 
@@ -59,39 +50,36 @@ public class InvestigationTest {
             .isEqualTo("Measurement of severe acute respiratory syndrome coronavirus 2 antibody (procedure)");
     }
 
-    @ParameterizedTest(name = "[{index}] - {0}.html/json")
-    @ArgumentsSource(InvestigationMapperArgumentsProvider.class)
-    public void When_MappingFromFHIR_Expect_StatusCode(String fileName) {
-        var json = readResourceFile(String.format("investigation/%s.json", fileName));
+    @Test
+    public void When_MappingFromFHIR_Expect_StatusCode() {
+        var json = getJsonExample(RESOURCE_DIRECTORY, FILE_NAME);
 
-        var procedure = fhirParser.parseResource(json, Procedure.class);
+        var procedure = getFhirParser(json, Procedure.class);
 
         var result = investigation.mapInvestigation(procedure);
 
-        assertThat(result.getStatusCodeCode()).isEqualTo("normal");
+        assertThat(result.getStatusCodeCode()).isEqualTo(STATUS_CODE);
     }
 
-    @ParameterizedTest(name = "[{index}] - {0}.html/json")
-    @ArgumentsSource(InvestigationMapperArgumentsProvider.class)
-    public void When_MappingFromFHIR_Expect_EffectiveTimeLow(String fileName) {
-        var json = readResourceFile(String.format("investigation/%s.json", fileName));
+    @Test
+    public void When_MappingFromFHIR_Expect_EffectiveTimeLow() {
+        var json = getJsonExample(RESOURCE_DIRECTORY, FILE_NAME);
 
-        var procedure = fhirParser.parseResource(json, Procedure.class);
+        var procedure = getFhirParser(json, Procedure.class);
 
         var result = investigation.mapInvestigation(procedure);
 
         assertThat(result.getEffectiveTimeLow()).isEqualTo("20200805");
     }
 
-    @ParameterizedTest(name = "[{index}] - {0}.html/json")
-    @ArgumentsSource(InvestigationMapperArgumentsProvider.class)
-    public void When_MappingFromFHIR_Expect_MatchingHtml(String fileName) {
-        var expectedHtml = readResourceFile(String.format("investigation/%s.html", fileName));
-        var json = readResourceFile(String.format("investigation/%s.json", fileName));
+    @Test
+    public void When_MappingFromFHIR_Expect_MatchingHtml() {
+        var expectedHtml = getExpectedHtml(RESOURCE_DIRECTORY, FILE_NAME);
+        var json = getJsonExample(RESOURCE_DIRECTORY, FILE_NAME);
 
-        when(uuid.randomUuid()).thenReturn("0F5A9E75-8F89-11EA-8B2D-B741F13EFC47");
+        returnExpectedUuid(ID);
 
-        var procedure = fhirParser.parseResource(json, Procedure.class);
+        var procedure = getFhirParser(json, Procedure.class);
 
         var result = investigation.mapInvestigation(procedure);
 
