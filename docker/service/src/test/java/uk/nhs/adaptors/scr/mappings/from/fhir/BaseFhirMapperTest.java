@@ -38,6 +38,4 @@ public class BaseFhirMapperTest {
         return fhirParserResource;
     }
 
-
-
 }

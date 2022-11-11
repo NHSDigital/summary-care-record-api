@@ -26,11 +26,8 @@ public class TreatmentMapperTest extends BaseFhirMapperTest {
     @Test
     public void When_MappingFromFHIR_Expect_RootId() {
         var json = getJsonExample(RESOURCE_DIRECTORY, FILE_NAME);
-
         returnExpectedUuid(ID);
-
-        var procedure = getFhirParser(json, Procedure.class);
-
+        var procedure = getFhirParser(json, Procedure.class)
         var result = treatmentMapper.mapTreatment(procedure);
 
         assertThat(result.getIdRoot()).isEqualTo(ID);
