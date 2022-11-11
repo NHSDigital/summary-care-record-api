@@ -28,11 +28,9 @@ public class DiagnosesMapperTest extends BaseFhirMapperTest {
 
     @Test
     public void When_MappingFromFHIR_Expect_RootId() {
-        var json = getJsonExample(RESOURCE_DIRECTORY, FILE_NAME);
+        var condition = getFileAsObject(RESOURCE_DIRECTORY, FILE_NAME, Condition.class);
 
         returnExpectedUuid(ID);
-
-        var condition = getFhirParser(json, Condition.class);
 
         var result = diagnosesMapper.mapDiagnosis(condition);
 
@@ -41,11 +39,9 @@ public class DiagnosesMapperTest extends BaseFhirMapperTest {
 
     @Test
     public void When_MappingFromFHIR_Expect_Code() {
-        var json = getJsonExample(RESOURCE_DIRECTORY, FILE_NAME);
+        var condition = getFileAsObject(RESOURCE_DIRECTORY, FILE_NAME, Condition.class);
 
         returnExpectedUuid(ID);
-
-        var condition = getFhirParser(json, Condition.class);
 
         var result = diagnosesMapper.mapDiagnosis(condition);
 
@@ -56,11 +52,9 @@ public class DiagnosesMapperTest extends BaseFhirMapperTest {
 
     @Test
     public void When_MappingFromFHIR_Expect_EffectiveTimeLow() {
-        var json = getJsonExample(RESOURCE_DIRECTORY, FILE_NAME);
+        var condition = getFileAsObject(RESOURCE_DIRECTORY, FILE_NAME, Condition.class);
 
         returnExpectedUuid(ID);
-
-        var condition = getFhirParser(json, Condition.class);
 
         var result = diagnosesMapper.mapDiagnosis(condition);
 
@@ -70,11 +64,9 @@ public class DiagnosesMapperTest extends BaseFhirMapperTest {
     @Test
     public void When_MappingFromFHIR_Expect_MatchingHtml() {
         var expectedHtml = getExpectedHtml(RESOURCE_DIR_EXPECTED, FILE_NAME_EXPECTED);
-        var json = getJsonExample(RESOURCE_DIRECTORY, FILE_NAME);
+        var condition = getFileAsObject(RESOURCE_DIRECTORY, FILE_NAME, Condition.class);
 
         returnExpectedUuid(ID);
-
-        var condition = getFhirParser(json, Condition.class);
 
         var result = diagnosesMapper.mapDiagnosis(condition);
 

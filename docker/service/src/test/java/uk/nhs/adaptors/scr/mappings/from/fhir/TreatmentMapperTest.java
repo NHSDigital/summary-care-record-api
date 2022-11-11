@@ -25,20 +25,18 @@ public class TreatmentMapperTest extends BaseFhirMapperTest {
 
     @Test
     public void When_MappingFromFHIR_Expect_RootId() {
-        var json = getJsonExample(RESOURCE_DIRECTORY, FILE_NAME);
+        var procedure = getFileAsObject(RESOURCE_DIRECTORY, FILE_NAME, Procedure.class);
+
         returnExpectedUuid(ID);
-        var procedure = getFhirParser(json, Procedure.class)
+
         var result = treatmentMapper.mapTreatment(procedure);
 
         assertThat(result.getIdRoot()).isEqualTo(ID);
-
     }
 
     @Test
     public void When_MappingFromFHIR_Expect_Code() {
-        var json = getJsonExample(RESOURCE_DIRECTORY, FILE_NAME);
-
-        var procedure = getFhirParser(json, Procedure.class);
+        var procedure = getFileAsObject(RESOURCE_DIRECTORY, FILE_NAME, Procedure.class);
 
         var result = treatmentMapper.mapTreatment(procedure);
 
@@ -49,9 +47,7 @@ public class TreatmentMapperTest extends BaseFhirMapperTest {
 
     @Test
     public void When_MappingFromFHIR_Expect_StatusCode() {
-        var json = getJsonExample(RESOURCE_DIRECTORY, FILE_NAME);
-
-        var procedure = getFhirParser(json, Procedure.class);
+        var procedure = getFileAsObject(RESOURCE_DIRECTORY, FILE_NAME, Procedure.class);
 
         var result = treatmentMapper.mapTreatment(procedure);
 
@@ -60,9 +56,7 @@ public class TreatmentMapperTest extends BaseFhirMapperTest {
 
     @Test
     public void When_MappingFromFHIR_Expect_EffectiveTimeLow() {
-        var json = getJsonExample(RESOURCE_DIRECTORY, FILE_NAME);
-
-        var procedure = getFhirParser(json, Procedure.class);
+        var procedure = getFileAsObject(RESOURCE_DIRECTORY, FILE_NAME, Procedure.class);
 
         var result = treatmentMapper.mapTreatment(procedure);
 
@@ -73,11 +67,9 @@ public class TreatmentMapperTest extends BaseFhirMapperTest {
     @Test
     public void When_MappingFromFHIR_Expect_MatchingHtml() {
         var expectedHtml = getExpectedHtml(RESOURCE_DIRECTORY, FILE_NAME);
-        var json = getJsonExample(RESOURCE_DIRECTORY, FILE_NAME);
+        var procedure = getFileAsObject(RESOURCE_DIRECTORY, FILE_NAME, Procedure.class);
 
         returnExpectedUuid(ID);
-
-        var procedure = getFhirParser(json, Procedure.class);
 
         var result = treatmentMapper.mapTreatment(procedure);
 

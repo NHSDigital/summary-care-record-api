@@ -25,11 +25,9 @@ public class CareEventMapperTest extends BaseFhirMapperTest {
 
     @Test
     public void When_MappingFromFHIR_Expect_RootId() {
-        var json = getJsonExample(RESOURCE_DIRECTORY, FILE_NAME);
+        var encounter = getFileAsObject(RESOURCE_DIRECTORY, FILE_NAME, Encounter.class);
 
         returnExpectedUuid(ID);
-
-        var encounter = getFhirParser(json, Encounter.class);
 
         var result = careEvent.mapCareEvent(encounter);
 
@@ -38,9 +36,7 @@ public class CareEventMapperTest extends BaseFhirMapperTest {
 
     @Test
     public void When_MappingFromFHIR_Expect_Code() {
-        var json = getJsonExample(RESOURCE_DIRECTORY, FILE_NAME);
-
-        var encounter = getFhirParser(json, Encounter.class);
+        var encounter = getFileAsObject(RESOURCE_DIRECTORY, FILE_NAME, Encounter.class);
 
         var result = careEvent.mapCareEvent(encounter);
 
@@ -51,9 +47,7 @@ public class CareEventMapperTest extends BaseFhirMapperTest {
 
     @Test
     public void When_MappingFromFHIR_Expect_StatusCode() {
-        var json = getJsonExample(RESOURCE_DIRECTORY, FILE_NAME);
-
-        var encounter = getFhirParser(json, Encounter.class);
+        var encounter = getFileAsObject(RESOURCE_DIRECTORY, FILE_NAME, Encounter.class);
 
         var result = careEvent.mapCareEvent(encounter);
 
@@ -62,9 +56,7 @@ public class CareEventMapperTest extends BaseFhirMapperTest {
 
     @Test
     public void When_MappingFromFHIR_Expect_EffectiveTimeLow() {
-        var json = getJsonExample(RESOURCE_DIRECTORY, FILE_NAME);
-
-        var encounter = getFhirParser(json, Encounter.class);
+        var encounter = getFileAsObject(RESOURCE_DIRECTORY, FILE_NAME, Encounter.class);
 
         var result = careEvent.mapCareEvent(encounter);
 
@@ -74,11 +66,9 @@ public class CareEventMapperTest extends BaseFhirMapperTest {
     @Test
     public void When_MappingFromFHIR_Expect_MatchingHtml() {
         var expectedHtml = getExpectedHtml(RESOURCE_DIRECTORY, FILE_NAME);
-        var json = getJsonExample(RESOURCE_DIRECTORY, FILE_NAME);
+        var encounter = getFileAsObject(RESOURCE_DIRECTORY, FILE_NAME, Encounter.class);
 
         returnExpectedUuid(ID);
-
-        var encounter = getFhirParser(json, Encounter.class);
 
         var result = careEvent.mapCareEvent(encounter);
 

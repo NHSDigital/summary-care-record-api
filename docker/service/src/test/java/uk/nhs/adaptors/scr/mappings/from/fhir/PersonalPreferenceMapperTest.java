@@ -26,11 +26,9 @@ public class PersonalPreferenceMapperTest extends BaseFhirMapperTest {
 
     @Test
     public void When_MappingFromFHIR_Expect_RootId() {
-        var json = getJsonExample(RESOURCE_DIRECTORY, FILE_NAME);
+        var observation = getFileAsObject(RESOURCE_DIRECTORY, FILE_NAME, Observation.class);
 
         returnExpectedUuid(ID);
-
-        var observation = getFhirParser(json, Observation.class);
 
         var result = personalPreferenceMapper.mapPersonalPreference(observation);
 
@@ -40,9 +38,7 @@ public class PersonalPreferenceMapperTest extends BaseFhirMapperTest {
 
     @Test
     public void When_MappingFromFHIR_Expect_Code() {
-        var json = getJsonExample(RESOURCE_DIRECTORY, FILE_NAME);
-
-        var observation = getFhirParser(json, Observation.class);
+        var observation = getFileAsObject(RESOURCE_DIRECTORY, FILE_NAME, Observation.class);
 
         var result = personalPreferenceMapper.mapPersonalPreference(observation);
 
@@ -53,20 +49,16 @@ public class PersonalPreferenceMapperTest extends BaseFhirMapperTest {
 
     @Test
     public void When_MappingFromFHIR_Expect_StatusCode() {
-        var json = getJsonExample(RESOURCE_DIRECTORY, FILE_NAME);
-
-        var observation = getFhirParser(json, Observation.class);
+        var observation = getFileAsObject(RESOURCE_DIRECTORY, FILE_NAME, Observation.class);
 
         var result = personalPreferenceMapper.mapPersonalPreference(observation);
 
-        assertThat(result.getStatusCodeCode()).isEqualTo("completed");
+        assertThat(result.getStatusCodeCode()).isEqualTo(STATUS_CODE);
     }
 
     @Test
     public void When_MappingFromFHIR_Expect_EffectiveTimeLow() {
-        var json = getJsonExample(RESOURCE_DIRECTORY, FILE_NAME);
-
-        var observation = getFhirParser(json, Observation.class);
+        var observation = getFileAsObject(RESOURCE_DIRECTORY, FILE_NAME, Observation.class);
 
         var result = personalPreferenceMapper.mapPersonalPreference(observation);
 
@@ -77,11 +69,9 @@ public class PersonalPreferenceMapperTest extends BaseFhirMapperTest {
     @Test
     public void When_MappingFromFHIR_Expect_MatchingHtml() {
         var expectedHtml = getExpectedHtml(RESOURCE_DIRECTORY, FILE_NAME);
-        var json = getJsonExample(RESOURCE_DIRECTORY, FILE_NAME);
+        var observation = getFileAsObject(RESOURCE_DIRECTORY, FILE_NAME, Observation.class);
 
         returnExpectedUuid(ID);
-
-        var observation = getFhirParser(json, Observation.class);
 
         var result = personalPreferenceMapper.mapPersonalPreference(observation);
 
