@@ -1,45 +1,35 @@
 package uk.nhs.adaptors.scr.mappings.from.fhir;
 
 import org.hl7.fhir.r4.model.Communication;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ArgumentsSource;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import uk.nhs.adaptors.scr.components.FhirParser;
-import uk.nhs.adaptors.scr.mappings.from.common.UuidWrapper;
 import uk.nhs.adaptors.scr.models.GpSummary;
 import uk.nhs.adaptors.scr.models.xml.PatientCarerCorrespondence;
 import uk.nhs.adaptors.scr.utils.TemplateUtils;
-import uk.nhs.utils.PatientCarerCorrMapperArgumentsProvider;
 
 
 import java.util.ArrayList;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.when;
-import static uk.nhs.utils.Utils.readResourceFile;
 
 @ExtendWith(MockitoExtension.class)
-public class PatientAndCarersCorrespondenceMapperTest {
+public class PatientAndCarersCorrespondenceMapperTest extends BaseFhirMapperTest {
 
     @InjectMocks
     private PatientAndCarersCorrespondenceMapper patientCarerCorrMapper;
 
-    @Mock
-    private UuidWrapper uuid;
+    private static final String ID = "0F582D83-8F89-11EA-8B2D-B741F13EFC47";
+    private static final String RESOURCE_DIRECTORY = "patient_carer_correspondence";
+    private static final String STATUS_CODE = "normal";
+    private static final String FILE_NAME = "example";
 
-    private FhirParser fhirParser = new FhirParser();
+    @Test
+    public void When_MappingFromFHIR_Expect_RootId() {
+        var communication = getFileAsObject(RESOURCE_DIRECTORY, FILE_NAME, Communication.class);
 
-    @ParameterizedTest(name = "[{index}] - {0}.html/json")
-    @ArgumentsSource(PatientCarerCorrMapperArgumentsProvider.class)
-    public void When_MappingFromFHIR_Expect_RootId(String fileName) {
-        var json = readResourceFile(String.format("patient_carer_correspondence/%s.json", fileName));
-
-        when(uuid.randomUuid()).thenReturn("0F582D83-8F89-11EA-8B2D-B741F13EFC47");
-
-        var communication = fhirParser.parseResource(json, Communication.class);
+        returnExpectedUuid(ID);
 
         var result = patientCarerCorrMapper.mapPatientCarerCorrespondence(communication);
 
@@ -47,14 +37,11 @@ public class PatientAndCarersCorrespondenceMapperTest {
 
     }
 
-    @ParameterizedTest(name = "[{index}] - {0}.html/json")
-    @ArgumentsSource(PatientCarerCorrMapperArgumentsProvider.class)
-    public void When_MappingFromFHIR_Expect_Code(String fileName) {
-        var json = readResourceFile(String.format("patient_carer_correspondence/%s.json", fileName));
+    @Test
+    public void When_MappingFromFHIR_Expect_Code() {
+        var communication = getFileAsObject(RESOURCE_DIRECTORY, FILE_NAME, Communication.class);
 
-        when(uuid.randomUuid()).thenReturn("0F582D83-8F89-11EA-8B2D-B741F13EFC47");
-
-        var communication = fhirParser.parseResource(json, Communication.class);
+        returnExpectedUuid(ID);
 
         var result = patientCarerCorrMapper.mapPatientCarerCorrespondence(communication);
 
@@ -64,39 +51,30 @@ public class PatientAndCarersCorrespondenceMapperTest {
                 + "short message service text message sent (situation)");
     }
 
-    @ParameterizedTest(name = "[{index}] - {0}.html/json")
-    @ArgumentsSource(PatientCarerCorrMapperArgumentsProvider.class)
-    public void When_MappingFromFHIR_Expect_StatusCode(String fileName) {
-        var json = readResourceFile(String.format("patient_carer_correspondence/%s.json", fileName));
-
-        var communication = fhirParser.parseResource(json, Communication.class);
+    @Test
+    public void When_MappingFromFHIR_Expect_StatusCode() {
+        var communication = getFileAsObject(RESOURCE_DIRECTORY, FILE_NAME, Communication.class);
 
         var result = patientCarerCorrMapper.mapPatientCarerCorrespondence(communication);
 
-        assertThat(result.getStatusCodeCode()).isEqualTo("normal");
+        assertThat(result.getStatusCodeCode()).isEqualTo(STATUS_CODE);
     }
 
-    @ParameterizedTest(name = "[{index}] - {0}.html/json")
-    @ArgumentsSource(PatientCarerCorrMapperArgumentsProvider.class)
-    public void When_MappingFromFHIR_Expect_EffectiveTimeLow(String fileName) {
-        var json = readResourceFile(String.format("patient_carer_correspondence/%s.json", fileName));
-
-        var communication = fhirParser.parseResource(json, Communication.class);
+    @Test
+    public void When_MappingFromFHIR_Expect_EffectiveTimeLow() {
+        var communication = getFileAsObject(RESOURCE_DIRECTORY, FILE_NAME, Communication.class);
 
         var result = patientCarerCorrMapper.mapPatientCarerCorrespondence(communication);
 
         assertThat(result.getEffectiveTimeLow()).isEqualTo("20200805");
     }
 
-    @ParameterizedTest(name = "[{index}] - {0}.html/json")
-    @ArgumentsSource(PatientCarerCorrMapperArgumentsProvider.class)
-    public void When_MappingFromFHIR_Expect_MatchingHtml(String fileName) {
-        var expectedHtml = readResourceFile(String.format("patient_carer_correspondence/%s.html", fileName));
-        var json = readResourceFile(String.format("patient_carer_correspondence/%s.json", fileName));
+    @Test
+    public void When_MappingFromFHIR_Expect_MatchingHtml() {
+        var expectedHtml = getExpectedHtml(RESOURCE_DIRECTORY, FILE_NAME);
+        var communication = getFileAsObject(RESOURCE_DIRECTORY, FILE_NAME, Communication.class);
 
-        when(uuid.randomUuid()).thenReturn("0F582D83-8F89-11EA-8B2D-B741F13EFC47");
-
-        var communication = fhirParser.parseResource(json, Communication.class);
+        returnExpectedUuid(ID);
 
         var result = patientCarerCorrMapper.mapPatientCarerCorrespondence(communication);
 

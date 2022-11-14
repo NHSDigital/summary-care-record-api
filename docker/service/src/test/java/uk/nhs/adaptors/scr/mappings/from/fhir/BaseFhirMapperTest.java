@@ -23,18 +23,14 @@ public class BaseFhirMapperTest {
         return html;
     }
 
-    protected String getJsonExample(String resourceDirectory, String fileName) {
-        var jsonFile = readResourceFile(String.format(resourceDirectory + "/%s.json", fileName));
-        return jsonFile;
-    }
-
     protected String returnExpectedUuid(String expectedUuid) {
         when(uuid.randomUuid()).thenReturn(expectedUuid);
         return expectedUuid;
     }
 
-    protected <T extends IBaseResource> T getFhirParser(String json, Class<T> classType) {
-        var fhirParserResource = fhirParser.parseResource(json, classType);
+    protected <T extends IBaseResource> T getFileAsObject(String resourceDirectory, String fileName, Class<T> classType) {
+        var jsonFile = readResourceFile(String.format(resourceDirectory + "/%s.json", fileName));
+        var fhirParserResource = fhirParser.parseResource(jsonFile, classType);
         return fhirParserResource;
     }
 

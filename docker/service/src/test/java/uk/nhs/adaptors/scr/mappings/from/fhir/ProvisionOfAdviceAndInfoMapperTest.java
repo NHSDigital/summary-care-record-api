@@ -25,11 +25,9 @@ public class ProvisionOfAdviceAndInfoMapperTest extends BaseFhirMapperTest {
 
     @Test
     public void When_MappingFromFHIR_Expect_RootId() {
-        var json = getJsonExample(RESOURCE_DIRECTORY, FILE_NAME);
+        var communication = getFileAsObject(RESOURCE_DIRECTORY, FILE_NAME, Communication.class);
 
         returnExpectedUuid(ID);
-
-        var communication = getFhirParser(json, Communication.class);
 
         var result = provisionOfAdviceAndInfoMapper.mapProvisionOfAdviceInfo(communication);
 
@@ -39,9 +37,7 @@ public class ProvisionOfAdviceAndInfoMapperTest extends BaseFhirMapperTest {
 
     @Test
     public void When_MappingFromFHIR_Expect_Code() {
-        var json = getJsonExample(RESOURCE_DIRECTORY, FILE_NAME);
-
-        var communication = getFhirParser(json, Communication.class);
+        var communication = getFileAsObject(RESOURCE_DIRECTORY, FILE_NAME, Communication.class);
 
         var result = provisionOfAdviceAndInfoMapper.mapProvisionOfAdviceInfo(communication);
 
@@ -52,9 +48,7 @@ public class ProvisionOfAdviceAndInfoMapperTest extends BaseFhirMapperTest {
 
     @Test
     public void When_MappingFromFHIR_Expect_StatusCode() {
-        var json = getJsonExample(RESOURCE_DIRECTORY, FILE_NAME);
-
-        var communication = getFhirParser(json, Communication.class);
+        var communication = getFileAsObject(RESOURCE_DIRECTORY, FILE_NAME, Communication.class);
 
         var result = provisionOfAdviceAndInfoMapper.mapProvisionOfAdviceInfo(communication);
 
@@ -63,9 +57,7 @@ public class ProvisionOfAdviceAndInfoMapperTest extends BaseFhirMapperTest {
 
     @Test
     public void When_MappingFromFHIR_Expect_EffectiveTimeLow() {
-        var json = getJsonExample(RESOURCE_DIRECTORY, FILE_NAME);
-
-        var communication = getFhirParser(json, Communication.class);
+        var communication = getFileAsObject(RESOURCE_DIRECTORY, FILE_NAME, Communication.class);
 
         var result = provisionOfAdviceAndInfoMapper.mapProvisionOfAdviceInfo(communication);
 
@@ -76,11 +68,9 @@ public class ProvisionOfAdviceAndInfoMapperTest extends BaseFhirMapperTest {
     @Test
     public void When_MappingFromFHIR_Expect_MatchingHtml() {
         var expectedHtml = getExpectedHtml(RESOURCE_DIRECTORY, FILE_NAME);
-        var json = getJsonExample(RESOURCE_DIRECTORY, FILE_NAME);
+        var communication = getFileAsObject(RESOURCE_DIRECTORY, FILE_NAME, Communication.class);
 
         returnExpectedUuid(ID);
-
-        var communication = getFhirParser(json, Communication.class);
 
         var result = provisionOfAdviceAndInfoMapper.mapProvisionOfAdviceInfo(communication);
 
