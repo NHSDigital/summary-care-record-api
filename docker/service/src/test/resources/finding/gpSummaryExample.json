@@ -1,0 +1,49 @@
+{
+  "resourceType": "Bundle",
+  "id": "9F8E00D4-1A89-4474-A473-C2AEBA58DA57",
+  "identifier": {
+    "system": "https://tools.ietf.org/html/rfc4122",
+    "value": "821533D3-3E0F-11EB-8111-F40343488B16"
+  },
+  "type": "document",
+  "timestamp": "2020-12-14T13:23:10.000+01:00",
+  "entry": [ {
+    "fullUrl": "http://scr.nhs.uk/Observation/F17999D2-FFE7-4CA4-8CE8-52CB45FF6F49",
+    "resource": {
+      "resourceType": "Observation",
+      "id": "F17999D2-FFE7-4CA4-8CE8-52CB45FF6F49",
+      "meta": {
+        "profile": [
+          "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Observation"
+        ]
+      },
+      "identifier": [
+        {
+          "value": "19ABC6D1-8AF5-11EA-9FCE-AFDCAECF9DFB"
+        }
+      ],
+      "status": "final",
+      "category": [
+        {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "163141000000104",
+              "display": "Investigation Results"
+            }
+          ]
+        }
+      ],
+      "code": {
+        "coding": [
+          {
+            "system": "http://snomed.info/sct",
+            "code": "163131000000108",
+            "display": "SARS-CoV-2 (severe acute respiratory syndrome coronavirus 2) RNA (ribonucleic acid) detection result positive"
+          }
+        ]
+      },
+      "effectiveDateTime": "2020-08-05"
+    }
+  } ]
+}
