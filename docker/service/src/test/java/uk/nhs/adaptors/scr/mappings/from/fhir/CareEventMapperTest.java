@@ -1,56 +1,42 @@
 package uk.nhs.adaptors.scr.mappings.from.fhir;
 
 import org.hl7.fhir.r4.model.Encounter;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ArgumentsSource;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import uk.nhs.adaptors.scr.components.FhirParser;
-import uk.nhs.adaptors.scr.mappings.from.common.UuidWrapper;
 import uk.nhs.adaptors.scr.models.GpSummary;
 import uk.nhs.adaptors.scr.models.xml.CareEvent;
 import uk.nhs.adaptors.scr.utils.TemplateUtils;
-import uk.nhs.utils.CareEventMapperArgumentsProvider;
-
 import java.util.ArrayList;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.when;
-import static uk.nhs.utils.Utils.readResourceFile;
 
 @ExtendWith(MockitoExtension.class)
-public class CareEventMapperTest {
+public class CareEventMapperTest extends BaseFhirMapperTest {
 
     @InjectMocks
     private CareEventMapper careEvent;
 
-    @Mock
-    private UuidWrapper uuid;
+    private static final String ID = "0F582D91-8F89-11EA-8B2D-B741F13EFC47";
+    private static final String RESOURCE_DIRECTORY = "care_event";
+    private static final String STATUS_CODE = "normal";
+    private static final String FILE_NAME = "example";
 
-    private FhirParser fhirParser = new FhirParser();
+    @Test
+    public void When_MappingFromFHIR_Expect_RootId() {
+        var encounter = getFileAsObject(RESOURCE_DIRECTORY, FILE_NAME, Encounter.class);
 
-    @ParameterizedTest(name = "[{index}] - {0}.html/json")
-    @ArgumentsSource(CareEventMapperArgumentsProvider.class)
-    public void When_MappingFromFHIR_Expect_RootId(String fileName) {
-        var json = readResourceFile(String.format("care_event/%s.json", fileName));
-
-        when(uuid.randomUuid()).thenReturn("0F582D91-8F89-11EA-8B2D-B741F13EFC47");
-
-        var encounter = fhirParser.parseResource(json, Encounter.class);
+        returnExpectedUuid(ID);
 
         var result = careEvent.mapCareEvent(encounter);
 
-        assertThat(result.getIdRoot()).isEqualTo("0F582D91-8F89-11EA-8B2D-B741F13EFC47");
+        assertThat(result.getIdRoot()).isEqualTo(ID);
     }
 
-    @ParameterizedTest(name = "[{index}] - {0}.html/json")
-    @ArgumentsSource(CareEventMapperArgumentsProvider.class)
-    public void When_MappingFromFHIR_Expect_Code(String fileName) {
-        var json = readResourceFile(String.format("care_event/%s.json", fileName));
-
-        var encounter = fhirParser.parseResource(json, Encounter.class);
+    @Test
+    public void When_MappingFromFHIR_Expect_Code() {
+        var encounter = getFileAsObject(RESOURCE_DIRECTORY, FILE_NAME, Encounter.class);
 
         var result = careEvent.mapCareEvent(encounter);
 
@@ -59,39 +45,30 @@ public class CareEventMapperTest {
             .isEqualTo("Did not attend SARS-CoV-2 (severe acute respiratory syndrome coronavirus 2) vaccination");
     }
 
-    @ParameterizedTest(name = "[{index}] - {0}.html/json")
-    @ArgumentsSource(CareEventMapperArgumentsProvider.class)
-    public void When_MappingFromFHIR_Expect_StatusCode(String fileName) {
-        var json = readResourceFile(String.format("care_event/%s.json", fileName));
-
-        var encounter = fhirParser.parseResource(json, Encounter.class);
+    @Test
+    public void When_MappingFromFHIR_Expect_StatusCode() {
+        var encounter = getFileAsObject(RESOURCE_DIRECTORY, FILE_NAME, Encounter.class);
 
         var result = careEvent.mapCareEvent(encounter);
 
-        assertThat(result.getStatusCodeCode()).isEqualTo("normal");
+        assertThat(result.getStatusCodeCode()).isEqualTo(STATUS_CODE);
     }
 
-    @ParameterizedTest(name = "[{index}] - {0}.html/json")
-    @ArgumentsSource(CareEventMapperArgumentsProvider.class)
-    public void When_MappingFromFHIR_Expect_EffectiveTimeLow(String fileName) {
-        var json = readResourceFile(String.format("care_event/%s.json", fileName));
-
-        var encounter = fhirParser.parseResource(json, Encounter.class);
+    @Test
+    public void When_MappingFromFHIR_Expect_EffectiveTimeLow() {
+        var encounter = getFileAsObject(RESOURCE_DIRECTORY, FILE_NAME, Encounter.class);
 
         var result = careEvent.mapCareEvent(encounter);
 
         assertThat(result.getEffectiveTimeLow()).isEqualTo("20200805");
     }
 
-    @ParameterizedTest(name = "[{index}] - {0}.html/json")
-    @ArgumentsSource(CareEventMapperArgumentsProvider.class)
-    public void When_MappingFromFHIR_Expect_MatchingHtml(String fileName) {
-        var expectedHtml = readResourceFile(String.format("care_event/%s.html", fileName));
-        var json = readResourceFile(String.format("care_event/%s.json", fileName));
+    @Test
+    public void When_MappingFromFHIR_Expect_MatchingHtml() {
+        var expectedHtml = getExpectedHtml(RESOURCE_DIRECTORY, FILE_NAME);
+        var encounter = getFileAsObject(RESOURCE_DIRECTORY, FILE_NAME, Encounter.class);
 
-        when(uuid.randomUuid()).thenReturn("0F582D91-8F89-11EA-8B2D-B741F13EFC47");
-
-        var encounter = fhirParser.parseResource(json, Encounter.class);
+        returnExpectedUuid(ID);
 
         var result = careEvent.mapCareEvent(encounter);
 

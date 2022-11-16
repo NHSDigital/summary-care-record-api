@@ -1,26 +1,27 @@
 package uk.nhs.adaptors.scr.mappings.from.hl7;
 
-import org.hl7.fhir.r4.model.Procedure;
+import org.hl7.fhir.r4.model.Communication;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
-
 import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(MockitoExtension.class)
-public class InvestigationsTest extends BaseHL7MapperTest {
+public class PatientAndCarerCorrespondenceMapperTest extends BaseHL7MapperTest {
 
     @InjectMocks
-    private InvestigationsMapper investigationsMapper;
+    private PatientAndCarerCorrespondenceMapper patientCarerCorrMapper;
 
-    private static final String UK_CORE_PROCEDURE_META = "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Procedure";
-    private static final String RESOURCE_DIRECTORY = "investigation";
+
+    private static final String UK_CORE_PROCEDURE_META = "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Communication";
+    private static final String RESOURCE_DIRECTORY = "patient_carer_correspondence";
     private static final String PERTINENT_INFORMATION_BASE_PATH = "/pertinentInformation2/pertinentCREType["
-        + ".//UKCT_MT144045UK01.Investigation]";
+        + ".//UKCT_MT144035UK01.PatientCarerCorrespondence]";
     private static final String STATUS_CODE = "COMPLETED";
-    private static final String ID = "3fcf3797-8b3d-4d4f-a59a-b43b7615e51d5";
+    private static final String ID = "3b3f207f-be82-4ffb-924e-9be0966f5c65";
     private static final String FILE_NAME = "example";
+
 
     @Test
     public void When_MappingFromHl7_Expect_RandomUUID() {
@@ -28,7 +29,7 @@ public class InvestigationsTest extends BaseHL7MapperTest {
 
         returnExpectedUuid(ID);
 
-        var result = investigationsMapper.map(html).get(0);
+        var result = patientCarerCorrMapper.map(html).get(0);
 
         assertThat(result.getId()).isEqualTo(ID);
     }
@@ -39,7 +40,7 @@ public class InvestigationsTest extends BaseHL7MapperTest {
 
         returnExpectedUuid(ID);
 
-        investigationsMapper.map(html);
+        patientCarerCorrMapper.map(html);
 
         verifyXmlUtilsHits(html, PERTINENT_INFORMATION_BASE_PATH);
     }
@@ -50,25 +51,25 @@ public class InvestigationsTest extends BaseHL7MapperTest {
 
         returnExpectedUuid(ID);
 
-        var result = investigationsMapper.map(html).get(0);
+        var result = patientCarerCorrMapper.map(html).get(0);
 
-        var resultProcedure = (Procedure) result;
+        var resultCommunication = (Communication) result;
 
-        assertThat(resultProcedure.getMeta().getProfile().get(0).getValue()).isEqualTo(UK_CORE_PROCEDURE_META);
+        assertThat(resultCommunication.getMeta().getProfile().get(0).getValue()).isEqualTo(UK_CORE_PROCEDURE_META);
 
     }
 
     @Test
-    public void When_MappingFromHl7_Expect_StatusCompleted() {
+    public void When_MappingFromHl7_Expect_StatusCode() {
         var html = getHtmlExample(RESOURCE_DIRECTORY, FILE_NAME);
 
         returnExpectedUuid(ID);
 
-        var result = investigationsMapper.map(html).get(0);
+        var result = patientCarerCorrMapper.map(html).get(0);
 
-        var resultProcedure = (Procedure) result;
+        var resultCommunication = (Communication) result;
 
-        assertThat(resultProcedure.getStatus().toString()).isEqualTo(STATUS_CODE);
+        assertThat(resultCommunication.getStatus().toString()).isEqualTo(STATUS_CODE);
 
     }
 
@@ -78,7 +79,7 @@ public class InvestigationsTest extends BaseHL7MapperTest {
 
         returnExpectedUuid(ID);
 
-        investigationsMapper.map(html);
+        patientCarerCorrMapper.map(html);
 
         verifyCodedEntryHits();
     }
@@ -89,33 +90,20 @@ public class InvestigationsTest extends BaseHL7MapperTest {
 
         returnExpectedUuid(ID);
 
-        var result = investigationsMapper.map(html).get(0);
+        var result = patientCarerCorrMapper.map(html).get(0);
 
-        var resultProcedure = (Procedure) result;
-        var codingFirstRep = resultProcedure.getCode().getCodingFirstRep();
+        var resultCommunication = (Communication) result;
+        var codingFirstRep = resultCommunication.getTopic().getCodingFirstRep();
 
         assertThat(codingFirstRep.getCode())
-            .isEqualTo("1240461000000109");
+            .isEqualTo("1240781000000106");
 
         assertThat(codingFirstRep.getSystem())
             .isEqualTo("http://snomed.info/sct");
 
         assertThat(codingFirstRep.getDisplay())
-            .isEqualTo("Measurement of severe acute respiratory syndrome coronavirus 2 antibody (procedure)");
-
-    }
-
-    @Test
-    public void When_MappingFromHl7_Expect_DateTimeFormatted() {
-        var html = getHtmlExample(RESOURCE_DIRECTORY, FILE_NAME);
-
-        returnExpectedUuid(ID);
-
-        var result = investigationsMapper.map(html).get(0);
-
-        var resultProcedure = (Procedure) result;
-
-        assertThat(resultProcedure.getPerformedDateTimeType().toHumanDisplay()).isEqualTo("2020-08-05");
+            .isEqualTo("Severe acute respiratory syndrome coronavirus 2 vaccination invitation "
+                + "short message service text message sent (situation)");
 
     }
 
@@ -126,11 +114,10 @@ public class InvestigationsTest extends BaseHL7MapperTest {
 
         returnExpectedUuid(ID);
 
-        var result = investigationsMapper.map(html).get(0);
+        var result = patientCarerCorrMapper.map(html).get(0);
 
         var actualJson = encodeToJson(result);
 
         assertThat(actualJson).isEqualTo(expectedJson.trim());
     }
-
 }

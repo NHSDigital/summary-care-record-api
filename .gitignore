@@ -11,3 +11,4 @@ __pycache__/
 .envrc
 .idea/
 .venv/
+smoketest-report.xml

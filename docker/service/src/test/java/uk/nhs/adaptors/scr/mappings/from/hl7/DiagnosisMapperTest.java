@@ -1,90 +1,55 @@
 package uk.nhs.adaptors.scr.mappings.from.hl7;
 
-import lombok.SneakyThrows;
 import org.hl7.fhir.r4.model.Condition;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ArgumentsSource;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.xml.sax.InputSource;
-import uk.nhs.adaptors.scr.components.FhirParser;
-import uk.nhs.adaptors.scr.mappings.from.common.UuidWrapper;
-import uk.nhs.adaptors.scr.mappings.from.hl7.common.CodedEntryMapper;
-import uk.nhs.adaptors.scr.utils.XmlUtils;
-import uk.nhs.utils.DiagnosisMapperArgumentsProvider;
-
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.xpath.XPathFactory;
-
-import java.io.StringReader;
-
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.any;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static uk.nhs.utils.Utils.readResourceFile;
 
 @ExtendWith(MockitoExtension.class)
-public class DiagnosisMapperTest {
+public class DiagnosisMapperTest extends BaseHL7MapperTest {
 
     @InjectMocks
     private DiagnosisMapper diagnosisMapper;
 
-    @Mock
-    private UuidWrapper uuid;
-
-    @Spy
-    private CodedEntryMapper codedEntry = new CodedEntryMapper(new XmlUtils(XPathFactory.newInstance()));
-
-    @Spy
-    private XmlUtils xmlUtils = new XmlUtils(XPathFactory.newInstance());
-
-    private FhirParser fhirParser = new FhirParser();
-
-    private static final String UK_CORE_OBSERVATION_META = "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Observation";
-    private static final String GP_SUMMARY_XPATH = "//QUPC_IN210000UK04/ControlActEvent/subject//"
+    private static final String PERTINENT_INFORMATION_BASE_PATH = "//QUPC_IN210000UK04/ControlActEvent/subject//"
         + "GPSummary/pertinentInformation2/pertinentCREType[.//UKCT_MT144042UK01.Diagnosis]";
+    private static final String ID = "AF0AAF00-797C-11EA-B378-F1A7EC384595";
+    private static final String FILE_NAME = "example";
+    private static final String RESOURCE_DIRECTORY = "diagnosis";
 
-    @ParameterizedTest(name = "[{index}] - {0}.html/json")
-    @ArgumentsSource(DiagnosisMapperArgumentsProvider.class)
-    public void When_MappingFromHl7_Expect_GetId(String fileName) {
-        var html = parseXml(readResourceFile(String.format("diagnosis/%s.html", fileName))).getDocumentElement();
+
+    @Test
+    public void When_MappingFromHl7_Expect_GetId() {
+        var html = getHtmlExample(RESOURCE_DIRECTORY, FILE_NAME);
 
         var result = diagnosisMapper.map(html);
 
-        assertThat(result.get(0).getId()).isEqualTo("AF0AAF00-797C-11EA-B378-F1A7EC384595");
+        assertThat(result.get(0).getId()).isEqualTo(ID);
     }
 
-    @ParameterizedTest(name = "[{index}] - {0}.html/json")
-    @ArgumentsSource(DiagnosisMapperArgumentsProvider.class)
-    public void When_MappingFromHl7_Expect_XmlUtilsHit(String fileName) {
-        var html = parseXml(readResourceFile(String.format("diagnosis/%s.html", fileName))).getDocumentElement();
+    @Test
+    public void When_MappingFromHl7_Expect_XmlUtilsHit() {
+        var html = getHtmlExample(RESOURCE_DIRECTORY, FILE_NAME);
 
         diagnosisMapper.map(html);
 
-        verify(xmlUtils, times(1))
-            .getNodeListByXPath(html, GP_SUMMARY_XPATH);
+        verifyXmlUtilsHits(html, PERTINENT_INFORMATION_BASE_PATH);
     }
 
-    @ParameterizedTest(name = "[{index}] - {0}.html/json")
-    @ArgumentsSource(DiagnosisMapperArgumentsProvider.class)
-    public void When_MappingFromHl7_Expect_CodedEntryHit(String fileName) {
-        var html = parseXml(readResourceFile(String.format("diagnosis/%s.html", fileName))).getDocumentElement();
+    @Test
+    public void When_MappingFromHl7_Expect_CodedEntryHit() {
+        var html = getHtmlExample(RESOURCE_DIRECTORY, FILE_NAME);
 
         diagnosisMapper.map(html);
 
-        verify(codedEntry, times(1)).getCommonCodedEntryValues(any(Element.class));
+        verifyCodedEntryHits();
     }
 
-    @ParameterizedTest(name = "[{index}] - {0}.html/json")
-    @ArgumentsSource(DiagnosisMapperArgumentsProvider.class)
-    public void When_MappingFromHl7_Expect_DateTimeFormatted(String fileName) {
-        var html = parseXml(readResourceFile(String.format("diagnosis/%s.html", fileName))).getDocumentElement();
+    @Test
+    public void When_MappingFromHl7_Expect_DateTimeFormatted() {
+        var html = getHtmlExample(RESOURCE_DIRECTORY, FILE_NAME);
 
         var result = diagnosisMapper.map(html);
 
@@ -93,10 +58,9 @@ public class DiagnosisMapperTest {
         assertThat(resultCondition.getOnsetDateTimeType().toHumanDisplay()).isEqualTo("2020-08-05");
     }
 
-    @ParameterizedTest(name = "[{index}] - {0}.html/json")
-    @ArgumentsSource(DiagnosisMapperArgumentsProvider.class)
-    public void When_MappingFromHl7_Expect_CodingMapped(String fileName) {
-        var html = parseXml(readResourceFile(String.format("diagnosis/%s.html", fileName))).getDocumentElement();
+    @Test
+    public void When_MappingFromHl7_Expect_CodingMapped() {
+        var html = getHtmlExample(RESOURCE_DIRECTORY, FILE_NAME);
 
         var result = diagnosisMapper.map(html);
 
@@ -113,10 +77,9 @@ public class DiagnosisMapperTest {
             .isEqualTo("COVID-19 confirmed by laboratory test");
     }
 
-    @ParameterizedTest(name = "[{index}] - {0}.html/json")
-    @ArgumentsSource(DiagnosisMapperArgumentsProvider.class)
-    public void When_MappingFromHl7_Expect_ClinicalStatusMapped(String fileName) {
-        var html = parseXml(readResourceFile(String.format("diagnosis/%s.html", fileName))).getDocumentElement();
+    @Test
+    public void When_MappingFromHl7_Expect_ClinicalStatusMapped() {
+        var html = getHtmlExample(RESOURCE_DIRECTORY, FILE_NAME);
 
         var result = diagnosisMapper.map(html);
 
@@ -131,27 +94,16 @@ public class DiagnosisMapperTest {
         assertThat(resultCondition.getClinicalStatus().getCodingFirstRep().getDisplay()).isEqualTo("Active");
     }
 
-    @ParameterizedTest(name = "[{index}] - {0}.html/json")
-    @ArgumentsSource(DiagnosisMapperArgumentsProvider.class)
-    public void When_MappingFromHl7_Expect_MatchJson(String fileName) {
-        var html = parseXml(readResourceFile(String.format("diagnosis/%s.html", fileName))).getDocumentElement();
-        var expectedJson = readResourceFile(String.format("diagnosis/%s.json", fileName));
+    @Test
+    public void When_MappingFromHl7_Expect_MatchJson() {
+        var html = getHtmlExample(RESOURCE_DIRECTORY, FILE_NAME);
+        var expectedJson = getJsonExample(RESOURCE_DIRECTORY, FILE_NAME);
 
         var result = diagnosisMapper.map(html);
 
-        var actualJson = fhirParser.encodeToJson(result.get(0));
+        var actualJson = encodeToJson(result.get(0));
 
         assertThat(actualJson).isEqualTo(expectedJson.trim());
-    }
-
-
-
-    @SneakyThrows
-    private static Document parseXml(String xml) {
-        return DocumentBuilderFactory
-            .newInstance()
-            .newDocumentBuilder()
-            .parse(new InputSource(new StringReader(xml)));
     }
 
 }
