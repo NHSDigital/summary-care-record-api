@@ -1,84 +1,55 @@
 package uk.nhs.adaptors.scr.mappings.from.hl7;
 
-import lombok.SneakyThrows;
 import org.hl7.fhir.r4.model.Observation;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ArgumentsSource;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.xml.sax.InputSource;
-import uk.nhs.adaptors.scr.components.FhirParser;
-import uk.nhs.adaptors.scr.mappings.from.common.UuidWrapper;
-import uk.nhs.adaptors.scr.mappings.from.hl7.common.CodedEntryMapper;
-import uk.nhs.adaptors.scr.utils.XmlUtils;
-import uk.nhs.utils.PersonalPreferencesMapperArgumentsProvider;
-
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.xpath.XPathFactory;
-
-import java.io.StringReader;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-import static uk.nhs.utils.Utils.readResourceFile;
 
 @ExtendWith(MockitoExtension.class)
-public class PersonalPreferencesMapperTest {
+public class PersonalPreferencesMapperTest  extends BaseHL7MapperTest {
 
     @InjectMocks
     private PersonalPreferencesMapper personalPreferencesMapper;
 
-    @Mock
-    private UuidWrapper uuid;
-
-    @Spy
-    private CodedEntryMapper codedEntry = new CodedEntryMapper(new XmlUtils(XPathFactory.newInstance()));
-
-    @Spy
-    private XmlUtils xmlUtils = new XmlUtils(XPathFactory.newInstance());
-
-    private FhirParser fhirParser = new FhirParser();
     private static final String UK_CORE_PROCEDURE_META = "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Observation";
+    private static final String RESOURCE_DIRECTORY = "personal_preference";
+    private static final String FILE_NAME = "example";
+    private static final String ID = "5a3ead29-446d-4ad8-8a2f-aa50a3d026bb";
+    private static final String PERTINENT_INFORMATION_BASE_PATH = "/pertinentInformation2/pertinentCREType["
+        + ".//UKCT_MT144046UK01.PersonalPreference]";
+    private static final String STATUS_CODE = "FINAL";
 
-    @ParameterizedTest(name = "[{index}] - {0}.html/json")
-    @ArgumentsSource(PersonalPreferencesMapperArgumentsProvider.class)
-    public void When_MappingFromHl7_Expect_RandomUUID(String fileName) {
-        var html = parseXml(readResourceFile(String.format("personal_preference/%s.html", fileName))).getDocumentElement();
 
-        when(uuid.randomUuid()).thenReturn("5a3ead29-446d-4ad8-8a2f-aa50a3d026bb");
+    @Test
+    public void When_MappingFromHl7_Expect_RandomUUID() {
+        var html = getHtmlExample(RESOURCE_DIRECTORY, FILE_NAME);
+
+        returnExpectedUuid(ID);
 
         var result = personalPreferencesMapper.map(html).get(0);
 
         assertThat(result.getId()).isEqualTo("5a3ead29-446d-4ad8-8a2f-aa50a3d026bb");
     }
 
-    @ParameterizedTest(name = "[{index}] - {0}.html/json")
-    @ArgumentsSource(PersonalPreferencesMapperArgumentsProvider.class)
-    public void When_MappingFromHl7_Expect_XmlUtilsHit(String fileName) {
-        var html = parseXml(readResourceFile(String.format("personal_preference/%s.html", fileName))).getDocumentElement();
+    @Test
+    public void When_MappingFromHl7_Expect_XmlUtilsHit() {
+        var html = getHtmlExample(RESOURCE_DIRECTORY, FILE_NAME);
 
-        when(uuid.randomUuid()).thenReturn("5a3ead29-446d-4ad8-8a2f-aa50a3d026bb");
+        returnExpectedUuid(ID);
 
         personalPreferencesMapper.map(html);
 
-        verify(xmlUtils, times(1))
-            .getNodeListByXPath(html, "/pertinentInformation2/pertinentCREType[.//UKCT_MT144046UK01.PersonalPreference]");
+        verifyXmlUtilsHits(html, PERTINENT_INFORMATION_BASE_PATH);
     }
 
-    @ParameterizedTest(name = "[{index}] - {0}.html/json")
-    @ArgumentsSource(PersonalPreferencesMapperArgumentsProvider.class)
-    public void When_MappingFromHl7_Expect_MetaUrl(String fileName) {
-        var html = parseXml(readResourceFile(String.format("personal_preference/%s.html", fileName))).getDocumentElement();
+    @Test
+    public void When_MappingFromHl7_Expect_MetaUrl() {
+        var html = getHtmlExample(RESOURCE_DIRECTORY, FILE_NAME);
 
-        when(uuid.randomUuid()).thenReturn("5a3ead29-446d-4ad8-8a2f-aa50a3d026bb");
+        returnExpectedUuid(ID);
 
         var result = personalPreferencesMapper.map(html).get(0);
 
@@ -88,39 +59,36 @@ public class PersonalPreferencesMapperTest {
 
     }
 
-    @ParameterizedTest(name = "[{index}] - {0}.html/json")
-    @ArgumentsSource(PersonalPreferencesMapperArgumentsProvider.class)
-    public void When_MappingFromHl7_Expect_StatusFinal(String fileName) {
-        var html = parseXml(readResourceFile(String.format("personal_preference/%s.html", fileName))).getDocumentElement();
+    @Test
+    public void When_MappingFromHl7_Expect_StatusCode() {
+        var html = getHtmlExample(RESOURCE_DIRECTORY, FILE_NAME);
 
-        when(uuid.randomUuid()).thenReturn("5a3ead29-446d-4ad8-8a2f-aa50a3d026bb");
+        returnExpectedUuid(ID);
 
         var result = personalPreferencesMapper.map(html).get(0);
 
         var resultObservation = (Observation) result;
 
-        assertThat(resultObservation.getStatus().toString()).isEqualTo("FINAL");
+        assertThat(resultObservation.getStatus().toString()).isEqualTo(STATUS_CODE);
 
     }
 
-    @ParameterizedTest(name = "[{index}] - {0}.html/json")
-    @ArgumentsSource(PersonalPreferencesMapperArgumentsProvider.class)
-    public void When_MappingFromHl7_Expect_CodedEntryHit(String fileName) {
-        var html = parseXml(readResourceFile(String.format("personal_preference/%s.html", fileName))).getDocumentElement();
+    @Test
+    public void When_MappingFromHl7_Expect_CodedEntryHit() {
+        var html = getHtmlExample(RESOURCE_DIRECTORY, FILE_NAME);
 
-        when(uuid.randomUuid()).thenReturn("5a3ead29-446d-4ad8-8a2f-aa50a3d026bb");
+        returnExpectedUuid(ID);
 
         personalPreferencesMapper.map(html);
 
-        verify(codedEntry, times(1)).getCommonCodedEntryValues(any(Element.class));
+        verifyCodedEntryHits();
     }
 
-    @ParameterizedTest(name = "[{index}] - {0}.html/json")
-    @ArgumentsSource(PersonalPreferencesMapperArgumentsProvider.class)
-    public void When_MappingFromHl7_Expect_CodingMapped(String fileName) {
-        var html = parseXml(readResourceFile(String.format("personal_preference/%s.html", fileName))).getDocumentElement();
+    @Test
+    public void When_MappingFromHl7_Expect_CodingMapped() {
+        var html = getHtmlExample(RESOURCE_DIRECTORY, FILE_NAME);
 
-        when(uuid.randomUuid()).thenReturn("5a3ead29-446d-4ad8-8a2f-aa50a3d026bb");
+        returnExpectedUuid(ID);
 
         var result = personalPreferencesMapper.map(html).get(0);
 
@@ -138,12 +106,11 @@ public class PersonalPreferencesMapperTest {
 
     }
 
-    @ParameterizedTest(name = "[{index}] - {0}.html/json")
-    @ArgumentsSource(PersonalPreferencesMapperArgumentsProvider.class)
-    public void When_MappingFromHl7_Expect_DateTimeFormatted(String fileName) {
-        var html = parseXml(readResourceFile(String.format("personal_preference/%s.html", fileName))).getDocumentElement();
+    @Test
+    public void When_MappingFromHl7_Expect_DateTimeFormatted() {
+        var html = getHtmlExample(RESOURCE_DIRECTORY, FILE_NAME);
 
-        when(uuid.randomUuid()).thenReturn("5a3ead29-446d-4ad8-8a2f-aa50a3d026bb");
+        returnExpectedUuid(ID);
 
         var result = personalPreferencesMapper.map(html).get(0);
 
@@ -153,26 +120,17 @@ public class PersonalPreferencesMapperTest {
 
     }
 
-    @ParameterizedTest(name = "[{index}] - {0}.html/json")
-    @ArgumentsSource(PersonalPreferencesMapperArgumentsProvider.class)
-    public void When_MappingFromHl7_Expect_MatchJson(String fileName) {
-        var html = parseXml(readResourceFile(String.format("personal_preference/%s.html", fileName))).getDocumentElement();
-        var expectedJson = readResourceFile(String.format("personal_preference/%s.json", fileName));
+    @Test
+    public void When_MappingFromHl7_Expect_MatchJson() {
+        var html = getHtmlExample(RESOURCE_DIRECTORY, FILE_NAME);
+        var expectedJson = getJsonExample(RESOURCE_DIRECTORY, FILE_NAME);
 
-        when(uuid.randomUuid()).thenReturn("5a3ead29-446d-4ad8-8a2f-aa50a3d026bb");
+        returnExpectedUuid(ID);
 
         var result = personalPreferencesMapper.map(html).get(0);
 
-        var actualJson = fhirParser.encodeToJson(result);
+        var actualJson = encodeToJson(result);
 
         assertThat(actualJson).isEqualTo(expectedJson.trim());
-    }
-
-    @SneakyThrows
-    private static Document parseXml(String xml) {
-        return DocumentBuilderFactory
-            .newInstance()
-            .newDocumentBuilder()
-            .parse(new InputSource(new StringReader(xml)));
     }
 }

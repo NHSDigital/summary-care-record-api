@@ -1,97 +1,64 @@
 package uk.nhs.adaptors.scr.mappings.from.hl7;
 
-import lombok.SneakyThrows;
 import org.hl7.fhir.r4.model.Encounter;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ArgumentsSource;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.xml.sax.InputSource;
-
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.xpath.XPathFactory;
-import java.io.StringReader;
-
-import uk.nhs.adaptors.scr.mappings.from.hl7.common.CodedEntryMapper;
-import uk.nhs.adaptors.scr.mappings.from.common.UuidWrapper;
-import uk.nhs.adaptors.scr.utils.XmlUtils;
-import uk.nhs.utils.CareEventMapperArgumentsProvider;
-import uk.nhs.adaptors.scr.components.FhirParser;
-
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.any;
-import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.times;
-
-import static uk.nhs.utils.Utils.readResourceFile;
 
 @ExtendWith(MockitoExtension.class)
-public class CareEventsMapperTest {
+public class CareEventsMapperTest extends BaseHL7MapperTest {
 
     @InjectMocks
     private CareEventsMapper careEvent;
 
-    @Mock
-    private UuidWrapper uuid;
-
-    @Spy
-    private CodedEntryMapper codedEntry = new CodedEntryMapper(new XmlUtils(XPathFactory.newInstance()));
-
-    @Spy
-    private XmlUtils xmlUtils = new XmlUtils(XPathFactory.newInstance());
-
-    private FhirParser fhirParser = new FhirParser();
     private static final String UK_CORE_OBSERVATION_META = "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Encounter";
-// getNodeListByXPath
-    @ParameterizedTest(name = "[{index}] - {0}.html/json")
-    @ArgumentsSource(CareEventMapperArgumentsProvider.class)
-    public void When_MappingFromHl7_Expect_RandomUUID(String fileName) {
-        var html = parseXml(readResourceFile(String.format("care_event/%s.html", fileName))).getDocumentElement();
+    private static final String RESOURCE_DIRECTORY = "care_event";
+    private static final String PERTINENT_INFORMATION_BASE_PATH = "/pertinentInformation2/pertinentCREType["
+        + ".//UKCT_MT144037UK01.CareEvent]";
+    private static final String STATUS_CODE = "FINISHED";
+    private static final String ID = "722e35ec-0f00-4b71-b1f9-2240623c6b41";
+    private static final String FILE_NAME = "example";
 
-        when(uuid.randomUuid()).thenReturn("722e35ec-0f00-4b71-b1f9-2240623c6b41");
+    @Test
+    public void When_MappingFromHl7_Expect_RandomUUID() {
+        var html = getHtmlExample(RESOURCE_DIRECTORY, FILE_NAME);
+
+        returnExpectedUuid(ID);
 
         var result = careEvent.map(html);
 
         assertThat(result.get(0).getId()).isEqualTo("722e35ec-0f00-4b71-b1f9-2240623c6b41");
     }
 
-    @ParameterizedTest(name = "[{index}] - {0}.html/json")
-    @ArgumentsSource(CareEventMapperArgumentsProvider.class)
-    public void When_MappingFromHl7_Expect_XmlUtilsHit(String fileName) {
-        var html = parseXml(readResourceFile(String.format("care_event/%s.html", fileName))).getDocumentElement();
+    @Test
+    public void When_MappingFromHl7_Expect_XmlUtilsHit() {
+        var html = getHtmlExample(RESOURCE_DIRECTORY, FILE_NAME);
 
-        when(uuid.randomUuid()).thenReturn("722e35ec-0f00-4b71-b1f9-2240623c6b41");
-
-        careEvent.map(html);
-
-        verify(xmlUtils, times(1))
-            .getNodeListByXPath(html, "/pertinentInformation2/pertinentCREType[.//UKCT_MT144037UK01.CareEvent]");
-    }
-
-    @ParameterizedTest(name = "[{index}] - {0}.html/json")
-    @ArgumentsSource(CareEventMapperArgumentsProvider.class)
-    public void When_MappingFromHl7_Expect_CodedEntryHit(String fileName) {
-        var html = parseXml(readResourceFile(String.format("care_event/%s.html", fileName))).getDocumentElement();
-
-        when(uuid.randomUuid()).thenReturn("722e35ec-0f00-4b71-b1f9-2240623c6b41");
+        returnExpectedUuid(ID);
 
         careEvent.map(html);
 
-        verify(codedEntry, times(1)).getCommonCodedEntryValues(any(Element.class));
+        verifyXmlUtilsHits(html, PERTINENT_INFORMATION_BASE_PATH);
     }
 
-    @ParameterizedTest(name = "[{index}] - {0}.html/json")
-    @ArgumentsSource(CareEventMapperArgumentsProvider.class)
-    public void When_MappingFromHl7_Expect_DateTimeFormatted(String fileName) {
-        var html = parseXml(readResourceFile(String.format("care_event/%s.html", fileName))).getDocumentElement();
+    @Test
+    public void When_MappingFromHl7_Expect_CodedEntryHit() {
+        var html = getHtmlExample(RESOURCE_DIRECTORY, FILE_NAME);
 
-        when(uuid.randomUuid()).thenReturn("722e35ec-0f00-4b71-b1f9-2240623c6b41");
+        returnExpectedUuid(ID);
+
+        careEvent.map(html);
+
+        verifyCodedEntryHits();
+    }
+
+    @Test
+    public void When_MappingFromHl7_Expect_DateTimeFormatted() {
+        var html = getHtmlExample(RESOURCE_DIRECTORY, FILE_NAME);
+
+        returnExpectedUuid(ID);
 
         var result = careEvent.map(html);
 
@@ -101,12 +68,11 @@ public class CareEventsMapperTest {
 
     }
 
-    @ParameterizedTest(name = "[{index}] - {0}.html/json")
-    @ArgumentsSource(CareEventMapperArgumentsProvider.class)
-    public void When_MappingFromHl7_Expect_MetaUrl(String fileName) {
-        var html = parseXml(readResourceFile(String.format("care_event/%s.html", fileName))).getDocumentElement();
+    @Test
+    public void When_MappingFromHl7_Expect_MetaUrl() {
+        var html = getHtmlExample(RESOURCE_DIRECTORY, FILE_NAME);
 
-        when(uuid.randomUuid()).thenReturn("722e35ec-0f00-4b71-b1f9-2240623c6b41");
+        returnExpectedUuid(ID);
 
         var result = careEvent.map(html);
 
@@ -116,12 +82,11 @@ public class CareEventsMapperTest {
 
     }
 
-    @ParameterizedTest(name = "[{index}] - {0}.html/json")
-    @ArgumentsSource(CareEventMapperArgumentsProvider.class)
-    public void When_MappingFromHl7_Expect_CodingMapped(String fileName) {
-        var html = parseXml(readResourceFile(String.format("care_event/%s.html", fileName))).getDocumentElement();
+    @Test
+    public void When_MappingFromHl7_Expect_CodingMapped() {
+        var html = getHtmlExample(RESOURCE_DIRECTORY, FILE_NAME);
 
-        when(uuid.randomUuid()).thenReturn("722e35ec-0f00-4b71-b1f9-2240623c6b41");
+        returnExpectedUuid(ID);
 
         var result = careEvent.map(html);
 
@@ -139,27 +104,25 @@ public class CareEventsMapperTest {
 
     }
 
-    @ParameterizedTest(name = "[{index}] - {0}.html/json")
-    @ArgumentsSource(CareEventMapperArgumentsProvider.class)
-    public void When_MappingFromHl7_Expect_StatusFinished(String fileName) {
-        var html = parseXml(readResourceFile(String.format("care_event/%s.html", fileName))).getDocumentElement();
+    @Test
+    public void When_MappingFromHl7_Expect_StatusCode() {
+        var html = getHtmlExample(RESOURCE_DIRECTORY, FILE_NAME);
 
-        when(uuid.randomUuid()).thenReturn("722e35ec-0f00-4b71-b1f9-2240623c6b41");
+        returnExpectedUuid(ID);
 
         var result = careEvent.map(html);
 
         var resultEncounter = (Encounter) result.get(0);
 
-        assertThat(resultEncounter.getStatus().toString()).isEqualTo("FINISHED");
+        assertThat(resultEncounter.getStatus().toString()).isEqualTo(STATUS_CODE);
 
     }
 
-    @ParameterizedTest(name = "[{index}] - {0}.html/json")
-    @ArgumentsSource(CareEventMapperArgumentsProvider.class)
-    public void When_MappingFromHl7_Expect_ClassMapped(String fileName) {
-        var html = parseXml(readResourceFile(String.format("care_event/%s.html", fileName))).getDocumentElement();
+    @Test
+    public void When_MappingFromHl7_Expect_ClassMapped() {
+        var html = getHtmlExample(RESOURCE_DIRECTORY, FILE_NAME);
 
-        when(uuid.randomUuid()).thenReturn("722e35ec-0f00-4b71-b1f9-2240623c6b41");
+        returnExpectedUuid(ID);
 
         var result = careEvent.map(html);
 
@@ -174,27 +137,18 @@ public class CareEventsMapperTest {
 
     }
 
-    @ParameterizedTest(name = "[{index}] - {0}.html/json")
-    @ArgumentsSource(CareEventMapperArgumentsProvider.class)
-    public void When_MappingFromHl7_Expect_MatchJson(String fileName) {
-        var html = parseXml(readResourceFile(String.format("care_event/%s.html", fileName))).getDocumentElement();
-        var expectedJson = readResourceFile(String.format("care_event/%s.json", fileName));
+    @Test
+    public void When_MappingFromHl7_Expect_MatchJson() {
+        var html = getHtmlExample(RESOURCE_DIRECTORY, FILE_NAME);
+        var expectedJson = getJsonExample(RESOURCE_DIRECTORY, FILE_NAME);
 
-        when(uuid.randomUuid()).thenReturn("722e35ec-0f00-4b71-b1f9-2240623c6b41");
+        returnExpectedUuid(ID);
 
         var result = careEvent.map(html);
 
-        var actualJson = fhirParser.encodeToJson(result.get(0));
+        var actualJson = encodeToJson(result.get(0));
 
         assertThat(actualJson).isEqualTo(expectedJson.trim());
-    }
-
-    @SneakyThrows
-    private static Document parseXml(String xml) {
-        return DocumentBuilderFactory
-            .newInstance()
-            .newDocumentBuilder()
-            .parse(new InputSource(new StringReader(xml)));
     }
 
 }
