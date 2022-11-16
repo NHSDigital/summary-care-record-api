@@ -1,0 +1,16 @@
+{
+  "resourceType": "Communication",
+  "id": "8e8acd76-9a1c-44de-ac88-30254abdee4a",
+  "meta": {
+    "profile": [ "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Communication" ]
+  },
+  "status": "completed",
+  "topic": {
+    "coding": [ {
+      "system": "http://snomed.info/sct",
+      "code": "1240711000000104",
+      "display": "Educated about severe acute respiratory syndrome coronavirus 2 infection (situation)"
+    } ]
+  },
+  "sent": "2020-08-05"
+}

@@ -1,58 +1,47 @@
 package uk.nhs.adaptors.scr.mappings.from.fhir;
 
 import org.hl7.fhir.r4.model.Condition;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ArgumentsSource;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import uk.nhs.adaptors.scr.components.FhirParser;
-import uk.nhs.adaptors.scr.mappings.from.common.UuidWrapper;
 import uk.nhs.adaptors.scr.models.GpSummary;
 import uk.nhs.adaptors.scr.models.xml.Diagnosis;
 import uk.nhs.adaptors.scr.utils.TemplateUtils;
-import uk.nhs.utils.DiagnosisMapperArgumentsProvider;
 
 import java.util.ArrayList;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.when;
-import static uk.nhs.utils.Utils.readResourceFile;
 
 @ExtendWith(MockitoExtension.class)
-public class DiagnosesMapperTest {
+public class DiagnosesMapperTest extends BaseFhirMapperTest {
 
     @InjectMocks
     private DiagnosesMapper diagnosesMapper;
 
-    @Mock
-    private UuidWrapper uuid;
+    private static final String ID = "AF0AAF00-797C-11EA-B378-F1A7EC384595";
+    private static final String RESOURCE_DIRECTORY = "diagnosis";
+    private static final String RESOURCE_DIR_EXPECTED = "diagnosis/expected/";
+    private static final String FILE_NAME = "example";
+    private static final String FILE_NAME_EXPECTED = "expected";
 
-    private FhirParser fhirParser = new FhirParser();
 
-    @ParameterizedTest(name = "[{index}] - {0}.html/json")
-    @ArgumentsSource(DiagnosisMapperArgumentsProvider.class)
-    public void When_MappingFromFHIR_Expect_RootId(String fileName) {
-        var json = readResourceFile(String.format("diagnosis/%s.json", fileName));
+    @Test
+    public void When_MappingFromFHIR_Expect_RootId() {
+        var condition = getFileAsObject(RESOURCE_DIRECTORY, FILE_NAME, Condition.class);
 
-        when(uuid.randomUuid()).thenReturn("AF0AAF00-797C-11EA-B378-F1A7EC384595");
-
-        var condition = fhirParser.parseResource(json, Condition.class);
+        returnExpectedUuid(ID);
 
         var result = diagnosesMapper.mapDiagnosis(condition);
 
-        assertThat(result.getIdRoot()).isEqualTo("AF0AAF00-797C-11EA-B378-F1A7EC384595");
+        assertThat(result.getIdRoot()).isEqualTo(ID);
     }
 
-    @ParameterizedTest(name = "[{index}] - {0}.html/json")
-    @ArgumentsSource(DiagnosisMapperArgumentsProvider.class)
-    public void When_MappingFromFHIR_Expect_Code(String fileName) {
-        var json = readResourceFile(String.format("diagnosis/%s.json", fileName));
+    @Test
+    public void When_MappingFromFHIR_Expect_Code() {
+        var condition = getFileAsObject(RESOURCE_DIRECTORY, FILE_NAME, Condition.class);
 
-        when(uuid.randomUuid()).thenReturn("AF0AAF00-797C-11EA-B378-F1A7EC384595");
-
-        var condition = fhirParser.parseResource(json, Condition.class);
+        returnExpectedUuid(ID);
 
         var result = diagnosesMapper.mapDiagnosis(condition);
 
@@ -61,29 +50,23 @@ public class DiagnosesMapperTest {
             .isEqualTo("COVID-19 confirmed by laboratory test");
     }
 
-    @ParameterizedTest(name = "[{index}] - {0}.html/json")
-    @ArgumentsSource(DiagnosisMapperArgumentsProvider.class)
-    public void When_MappingFromFHIR_Expect_EffectiveTimeLow(String fileName) {
-        var json = readResourceFile(String.format("diagnosis/%s.json", fileName));
+    @Test
+    public void When_MappingFromFHIR_Expect_EffectiveTimeLow() {
+        var condition = getFileAsObject(RESOURCE_DIRECTORY, FILE_NAME, Condition.class);
 
-        when(uuid.randomUuid()).thenReturn("AF0AAF00-797C-11EA-B378-F1A7EC384595");
-
-        var condition = fhirParser.parseResource(json, Condition.class);
+        returnExpectedUuid(ID);
 
         var result = diagnosesMapper.mapDiagnosis(condition);
 
         assertThat(result.getEffectiveTimeLow()).isEqualTo("20200805");
     }
 
-    @ParameterizedTest(name = "[{index}] - {0}.html/json")
-    @ArgumentsSource(DiagnosisMapperArgumentsProvider.class)
-    public void When_MappingFromFHIR_Expect_MatchingHtml(String fileName) {
-        var expectedHtml = readResourceFile(("diagnosis/expected/expected.html"));
-        var json = readResourceFile(String.format("diagnosis/%s.json", fileName));
+    @Test
+    public void When_MappingFromFHIR_Expect_MatchingHtml() {
+        var expectedHtml = getExpectedHtml(RESOURCE_DIR_EXPECTED, FILE_NAME_EXPECTED);
+        var condition = getFileAsObject(RESOURCE_DIRECTORY, FILE_NAME, Condition.class);
 
-        when(uuid.randomUuid()).thenReturn("AF0AAF00-797C-11EA-B378-F1A7EC384595");
-
-        var condition = fhirParser.parseResource(json, Condition.class);
+        returnExpectedUuid(ID);
 
         var result = diagnosesMapper.mapDiagnosis(condition);
 

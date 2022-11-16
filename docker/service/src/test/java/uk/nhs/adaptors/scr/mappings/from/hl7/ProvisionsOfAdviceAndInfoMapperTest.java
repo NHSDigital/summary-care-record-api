@@ -1,6 +1,6 @@
 package uk.nhs.adaptors.scr.mappings.from.hl7;
 
-import org.hl7.fhir.r4.model.Observation;
+import org.hl7.fhir.r4.model.Communication;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -9,19 +9,18 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(MockitoExtension.class)
-public class PersonalPreferencesMapperTest  extends BaseHL7MapperTest {
+public class ProvisionsOfAdviceAndInfoMapperTest extends BaseHL7MapperTest {
 
     @InjectMocks
-    private PersonalPreferencesMapper personalPreferencesMapper;
+    private ProvisionsOfAdviceAndInfoMapper provisionsOfAdviceAndInfoMapper;
 
-    private static final String UK_CORE_PROCEDURE_META = "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Observation";
-    private static final String RESOURCE_DIRECTORY = "personal_preference";
-    private static final String FILE_NAME = "example";
-    private static final String ID = "5a3ead29-446d-4ad8-8a2f-aa50a3d026bb";
+    private static final String RESOURCE_DIRECTORY = "provision_of_advice_info";
+    private static final String UK_CORE_PROCEDURE_META = "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Communication";
     private static final String PERTINENT_INFORMATION_BASE_PATH = "/pertinentInformation2/pertinentCREType["
-        + ".//UKCT_MT144046UK01.PersonalPreference]";
-    private static final String STATUS_CODE = "FINAL";
-
+        + ".//UKCT_MT144049UK01.ProvisionOfAdviceAndInformation]";
+    private static final String STATUS_CODE = "COMPLETED";
+    private static final String ID = "8e8acd76-9a1c-44de-ac88-30254abdee4a";
+    private static final String FILE_NAME = "example";
 
     @Test
     public void When_MappingFromHl7_Expect_RandomUUID() {
@@ -29,9 +28,9 @@ public class PersonalPreferencesMapperTest  extends BaseHL7MapperTest {
 
         returnExpectedUuid(ID);
 
-        var result = personalPreferencesMapper.map(html).get(0);
+        var result = provisionsOfAdviceAndInfoMapper.map(html).get(0);
 
-        assertThat(result.getId()).isEqualTo("5a3ead29-446d-4ad8-8a2f-aa50a3d026bb");
+        assertThat(result.getId()).isEqualTo(ID);
     }
 
     @Test
@@ -40,7 +39,7 @@ public class PersonalPreferencesMapperTest  extends BaseHL7MapperTest {
 
         returnExpectedUuid(ID);
 
-        personalPreferencesMapper.map(html);
+        provisionsOfAdviceAndInfoMapper.map(html);
 
         verifyXmlUtilsHits(html, PERTINENT_INFORMATION_BASE_PATH);
     }
@@ -51,11 +50,11 @@ public class PersonalPreferencesMapperTest  extends BaseHL7MapperTest {
 
         returnExpectedUuid(ID);
 
-        var result = personalPreferencesMapper.map(html).get(0);
+        var result = provisionsOfAdviceAndInfoMapper.map(html).get(0);
 
-        var resultObservation = (Observation) result;
+        var resultCommunication = (Communication) result;
 
-        assertThat(resultObservation.getMeta().getProfile().get(0).getValue()).isEqualTo(UK_CORE_PROCEDURE_META);
+        assertThat(resultCommunication.getMeta().getProfile().get(0).getValue()).isEqualTo(UK_CORE_PROCEDURE_META);
 
     }
 
@@ -65,11 +64,11 @@ public class PersonalPreferencesMapperTest  extends BaseHL7MapperTest {
 
         returnExpectedUuid(ID);
 
-        var result = personalPreferencesMapper.map(html).get(0);
+        var result = provisionsOfAdviceAndInfoMapper.map(html).get(0);
 
-        var resultObservation = (Observation) result;
+        var resultCommunication = (Communication) result;
 
-        assertThat(resultObservation.getStatus().toString()).isEqualTo(STATUS_CODE);
+        assertThat(resultCommunication.getStatus().toString()).isEqualTo(STATUS_CODE);
 
     }
 
@@ -79,7 +78,7 @@ public class PersonalPreferencesMapperTest  extends BaseHL7MapperTest {
 
         returnExpectedUuid(ID);
 
-        personalPreferencesMapper.map(html);
+        provisionsOfAdviceAndInfoMapper.map(html);
 
         verifyCodedEntryHits();
     }
@@ -90,19 +89,19 @@ public class PersonalPreferencesMapperTest  extends BaseHL7MapperTest {
 
         returnExpectedUuid(ID);
 
-        var result = personalPreferencesMapper.map(html).get(0);
+        var result = provisionsOfAdviceAndInfoMapper.map(html).get(0);
 
-        var resultObservation = (Observation) result;
-        var codingFirstRep = resultObservation.getCode().getCodingFirstRep();
+        var resultCommunication = (Communication) result;
+        var codingFirstRep = resultCommunication.getTopic().getCodingFirstRep();
 
         assertThat(codingFirstRep.getCode())
-            .isEqualTo("1240651000000109");
+            .isEqualTo("1240711000000104");
 
         assertThat(codingFirstRep.getSystem())
             .isEqualTo("http://snomed.info/sct");
 
         assertThat(codingFirstRep.getDisplay())
-            .isEqualTo("SARS-CoV-2 (severe acute respiratory syndrome coronavirus 2) vaccination declined");
+            .isEqualTo("Educated about severe acute respiratory syndrome coronavirus 2 infection (situation)");
 
     }
 
@@ -112,11 +111,11 @@ public class PersonalPreferencesMapperTest  extends BaseHL7MapperTest {
 
         returnExpectedUuid(ID);
 
-        var result = personalPreferencesMapper.map(html).get(0);
+        var result = provisionsOfAdviceAndInfoMapper.map(html).get(0);
 
-        var resultObservation = (Observation) result;
+        var resultCommunication = (Communication) result;
 
-        assertThat(resultObservation.getEffectiveDateTimeType().toHumanDisplay()).isEqualTo("2020-08-05");
+        assertThat(resultCommunication.getSentElement().toHumanDisplay()).isEqualTo("2020-08-05");
 
     }
 
@@ -127,10 +126,11 @@ public class PersonalPreferencesMapperTest  extends BaseHL7MapperTest {
 
         returnExpectedUuid(ID);
 
-        var result = personalPreferencesMapper.map(html).get(0);
+        var result = provisionsOfAdviceAndInfoMapper.map(html).get(0);
 
         var actualJson = encodeToJson(result);
 
         assertThat(actualJson).isEqualTo(expectedJson.trim());
     }
+
 }
