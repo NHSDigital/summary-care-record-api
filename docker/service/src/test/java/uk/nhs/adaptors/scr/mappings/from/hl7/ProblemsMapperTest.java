@@ -25,30 +25,24 @@ import static org.mockito.Mockito.*;
 import static uk.nhs.utils.Utils.readResourceFile;
 
 @ExtendWith(MockitoExtension.class)
-public class ProblemsMapperTest {
+public class ProblemsMapperTest extends BaseHL7MapperTest {
 
     @InjectMocks
     private ProblemsMapper problemsMapper;
 
-    @Spy
-    private CodedEntryMapper codedEntry = new CodedEntryMapper(new XmlUtils(XPathFactory.newInstance()));
-
-    @Spy
-    private XmlUtils xmlUtils = new XmlUtils(XPathFactory.newInstance());
-
-    private FhirParser fhirParser = new FhirParser();
-
+    private final String RESOURCE_DIRECTORY = "problem";
+    private final String BASIC_FILE_NAME = "example-1";
     private static final String UK_CORE_OBSERVATION_META = "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Observation";
     private static final String GP_SUMMARY_XPATH = "//QUPC_IN210000UK04/ControlActEvent/subject//"
         + "GPSummary/pertinentInformation2/pertinentCREType[.//UKCT_MT144042UK01.Diagnosis]";
 
     @Test
-    public void When_MappingFromHl7_Expect_GetId(String fileName) {
-        var html = parseXml(readResourceFile(String.format("problem/%s.html", fileName))).getDocumentElement();
+    public void When_MappingFromHl7_Expect_GetId() {
+        var html = getHtmlExample(RESOURCE_DIRECTORY, BASIC_FILE_NAME);
 
         var result = problemsMapper.map(html);
 
-        assertThat(result.get(0).getId()).isEqualTo("AF0AAF00-797C-11EA-B378-F1A7EC384595");
+        assertThat(result.get(0).getId()).isEqualTo("BB890EB6-3152-4D08-9331-D48FE63198C1");
     }
 //
 //    public void When_MappingFromHl7_Expect_XmlUtilsHit(String fileName) {
@@ -112,25 +106,17 @@ public class ProblemsMapperTest {
 //        assertThat(resultCondition.getClinicalStatus().getCodingFirstRep().getDisplay()).isEqualTo("Active");
 //    }
 
-    @Test
-    public void When_MappingFromHl7_Expect_MatchJson() {
-        var fileName = "example-1";
-        var html = parseXml(readResourceFile(String.format("problem/%s.html", fileName))).getDocumentElement();
-        var expectedJson = readResourceFile(String.format("problem/%s.json", fileName));
-
-        var result = problemsMapper.map(html);
-
-        var actualJson = fhirParser.encodeToJson(result.get(0));
-
-        assertThat(actualJson).isEqualTo(expectedJson.trim());
-    }
-
-    @SneakyThrows
-    private static Document parseXml(String xml) {
-        return DocumentBuilderFactory
-            .newInstance()
-            .newDocumentBuilder()
-            .parse(new InputSource(new StringReader(xml)));
-    }
+//    @Test
+//    public void When_MappingFromHl7_Expect_MatchJson() {
+//        var fileName = "example-1";
+//        var html = parseXml(readResourceFile(String.format("problem/%s.html", fileName))).getDocumentElement();
+//        var expectedJson = readResourceFile(String.format("problem/%s.json", fileName));
+//
+//        var result = problemsMapper.map(html);
+//
+//        var actualJson = fhirParser.encodeToJson(result.get(0));
+//
+//        assertThat(actualJson).isEqualTo(expectedJson.trim());
+//    }
 
 }

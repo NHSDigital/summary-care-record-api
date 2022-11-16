@@ -5,6 +5,10 @@ import uk.nhs.adaptors.scr.models.xml.Problem;
 
 public class ProblemMapper {
     public Problem mapProblem(Condition condition) {
-        return new Problem();
+        var problem = new Problem();
+
+        problem.setIdRoot(condition.getId());
+
+        return problem;
     }
 }
