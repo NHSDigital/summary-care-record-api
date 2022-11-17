@@ -31,7 +31,7 @@ public class FindingMapperTest extends BaseFhirMapperTest {
 
         assertThat(result.get(0).getIdRoot()).isEqualTo("19ABC6D1-8AF5-11EA-9FCE-AFDCAECF9DFB");
     }
-
+//
 //    @ParameterizedTest(name = "[{index}] - {0}.html/json")
 //    @ArgumentsSource(FindingMapperArgumentsProvider.class)
 //    public void When_MappingFromFHIR_Expect_Code(String fileName) {
