@@ -6,7 +6,12 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
 import uk.nhs.adaptors.scr.components.FhirParser;
+import uk.nhs.adaptors.scr.models.GpSummary;
+import uk.nhs.adaptors.scr.models.xml.Problem;
+import uk.nhs.adaptors.scr.models.xml.Treatment;
 import uk.nhs.adaptors.scr.utils.TemplateUtils;
+
+import java.util.ArrayList;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static uk.nhs.utils.Utils.readResourceFile;
@@ -27,45 +32,6 @@ public class ProblemMapperTest extends BaseFhirMapperTest {
 
         assertThat(result.getIdRoot()).isEqualTo("BB890EB6-3152-4D08-9331-D48FE63198C1");
     }
-
-//    @ParameterizedTest(name = "[{index}] - {0}.html/json")
-//    @ArgumentsSource(InvestigationMapperArgumentsProvider.class)
-//    public void When_MappingFromFHIR_Expect_Code(String fileName) {
-//        var json = readResourceFile(String.format("problem/%s.json", fileName));
-//
-//        var procedure = fhirParser.parseResource(json, Procedure.class);
-//
-//        var result = problemMapper.mapProblem(procedure);
-//
-//        assertThat(result.getCodeCode()).isEqualTo("1240461000000109");
-//        assertThat(result.getCodeDisplayName())
-//            .isEqualTo("Measurement of severe acute respiratory syndrome coronavirus 2 antibody (procedure)");
-//    }
-//
-//    @ParameterizedTest(name = "[{index}] - {0}.html/json")
-//    @ArgumentsSource(InvestigationMapperArgumentsProvider.class)
-//    public void When_MappingFromFHIR_Expect_StatusCode(String fileName) {
-//        var json = readResourceFile(String.format("problem/%s.json", fileName));
-//
-//        var procedure = fhirParser.parseResource(json, Procedure.class);
-//
-//        var result = problemMapper.mapProblem(procedure);
-//
-//        assertThat(result.getStatusCodeCode()).isEqualTo("normal");
-//    }
-//
-//    @ParameterizedTest(name = "[{index}] - {0}.html/json")
-//    @ArgumentsSource(InvestigationMapperArgumentsProvider.class)
-//    public void When_MappingFromFHIR_Expect_EffectiveTimeLow(String fileName) {
-//        var json = readResourceFile(String.format("problem/%s.json", fileName));
-//
-//        var procedure = fhirParser.parseResource(json, Procedure.class);
-//
-//        var result = problemMapper.mapProblem(procedure);
-//
-//        assertThat(result.getEffectiveTimeLow()).isEqualTo("20200805");
-//    }
-
     @Test
     public void When_MappingFromFHIR_Expect_MatchingHtml() {
         var expectedHtml = getExpectedHtml(RESOURCE_DIRECTORY, BASIC_FILE_NAME);
@@ -73,9 +39,14 @@ public class ProblemMapperTest extends BaseFhirMapperTest {
 
         var result = problemMapper.mapProblem(condition);
 
-        var problemTemplate = TemplateUtils.loadPartialTemplate("Problem.mustache");
+        var problemTemplate = TemplateUtils.loadPartialTemplate("Problems.mustache");
 
-        var resultStr = TemplateUtils.fillTemplate(problemTemplate, result);
+        var gpSummary = new GpSummary();
+        var problems = new ArrayList<Problem>();
+        problems.add(result);
+        gpSummary.setProblems(problems);
+
+        var resultStr = TemplateUtils.fillTemplate(problemTemplate, gpSummary);
         assertThat(resultStr).isEqualTo(expectedHtml);
     }
 }

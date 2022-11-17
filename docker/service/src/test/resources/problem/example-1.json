@@ -1,4 +1,30 @@
 {
   "resourceType": "Condition",
-  "id": "BB890EB6-3152-4D08-9331-D48FE63198C1"
+  "id": "BB890EB6-3152-4D08-9331-D48FE63198C1",
+  "identifier": [
+    {
+      "value": "BB890EB6-3152-4D08-9331-D48FE63198C1"
+    }
+  ],
+  "category": [
+    {
+      "coding": [
+        {
+          "system": "http://snomed.info/sct",
+          "code": "162991000000102",
+          "display": "Problems and Issues"
+        }
+      ]
+    }
+  ],
+  "code": {
+    "coding": [
+      {
+        "system": "http://snomed.info/sct",
+        "code": "181301000000103",
+        "display": "Abstract problem node"
+      }
+    ]
+  },
+  "onsetDateTime": "2020-05-01"
 }
