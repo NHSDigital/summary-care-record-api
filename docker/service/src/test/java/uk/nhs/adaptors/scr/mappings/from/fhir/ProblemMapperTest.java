@@ -5,16 +5,13 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
-import uk.nhs.adaptors.scr.components.FhirParser;
 import uk.nhs.adaptors.scr.models.GpSummary;
 import uk.nhs.adaptors.scr.models.xml.Problem;
-import uk.nhs.adaptors.scr.models.xml.Treatment;
 import uk.nhs.adaptors.scr.utils.TemplateUtils;
 
 import java.util.ArrayList;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static uk.nhs.utils.Utils.readResourceFile;
 
 @ExtendWith(MockitoExtension.class)
 public class ProblemMapperTest extends BaseFhirMapperTest {
@@ -22,6 +19,7 @@ public class ProblemMapperTest extends BaseFhirMapperTest {
     @InjectMocks
     private ProblemMapper problemMapper;
 
+    private static final String ID = "BB890EB6-3152-4D08-9331-D48FE63198C1";
     private final String RESOURCE_DIRECTORY = "problem";
     private final String BASIC_FILE_NAME = "example-1";
     @Test
@@ -30,7 +28,42 @@ public class ProblemMapperTest extends BaseFhirMapperTest {
 
         var result = problemMapper.mapProblem(condition);
 
-        assertThat(result.getIdRoot()).isEqualTo("BB890EB6-3152-4D08-9331-D48FE63198C1");
+        assertThat(result.getIdRoot()).isEqualTo(ID);
+    }
+
+    @Test
+    public void When_MappingFromFHIR_Expect_Code() {
+        var condition = getFileAsObject(RESOURCE_DIRECTORY, BASIC_FILE_NAME, Condition.class);
+
+        returnExpectedUuid(ID);
+
+        var result = problemMapper.mapProblem(condition);
+
+        assertThat(result.getCodeCode()).isEqualTo("181301000000103");
+        assertThat(result.getCodeDisplayName())
+            .isEqualTo("Abstract problem node");
+    }
+
+    @Test
+    public void When_MappingFromFHIR_Expect_StatusCode() {
+        var condition = getFileAsObject(RESOURCE_DIRECTORY, BASIC_FILE_NAME, Condition.class);
+
+        returnExpectedUuid(ID);
+
+        var result = problemMapper.mapProblem(condition);
+
+        assertThat(result.getStatusCodeCode()).isEqualTo("active");
+    }
+
+    @Test
+    public void When_MappingFromFHIR_Expect_Diagnosis() {
+        var condition = getFileAsObject(RESOURCE_DIRECTORY, BASIC_FILE_NAME, Condition.class);
+
+        returnExpectedUuid(ID);
+
+        var result = problemMapper.mapProblem(condition);
+
+        assertThat(result.getDiagnosisId()).isEqualTo("D680F6BE-73B9-4E18-988B-1D55E1B6F2D5");
     }
     @Test
     public void When_MappingFromFHIR_Expect_MatchingHtml() {

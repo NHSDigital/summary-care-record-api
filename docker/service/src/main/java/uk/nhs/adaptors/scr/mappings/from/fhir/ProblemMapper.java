@@ -10,7 +10,7 @@ public class ProblemMapper {
     public Problem mapProblem(Condition condition) {
         var problem = new Problem();
 
-        problem.setIdRoot(condition.getId());
+        problem.setIdRoot(condition.getIdentifierFirstRep().getValue());
 
         var codingFirstRep = condition.getCode().getCodingFirstRep();
         problem.setCodeCode(codingFirstRep.getCode());

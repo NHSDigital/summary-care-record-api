@@ -1,28 +1,12 @@
 package uk.nhs.adaptors.scr.mappings.from.hl7;
 
-import lombok.SneakyThrows;
 import org.hl7.fhir.r4.model.Condition;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.xml.sax.InputSource;
-import uk.nhs.adaptors.scr.components.FhirParser;
-import uk.nhs.adaptors.scr.mappings.from.common.UuidWrapper;
-import uk.nhs.adaptors.scr.mappings.from.hl7.common.CodedEntryMapper;
-import uk.nhs.adaptors.scr.utils.XmlUtils;
-
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.xpath.XPathFactory;
-import java.io.StringReader;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.*;
-import static uk.nhs.utils.Utils.readResourceFile;
 
 @ExtendWith(MockitoExtension.class)
 public class ProblemsMapperTest extends BaseHL7MapperTest {
@@ -30,11 +14,11 @@ public class ProblemsMapperTest extends BaseHL7MapperTest {
     @InjectMocks
     private ProblemsMapper problemsMapper;
 
+    private static final String ID = "BB890EB6-3152-4D08-9331-D48FE63198C1";
     private final String RESOURCE_DIRECTORY = "problem";
     private final String BASIC_FILE_NAME = "example-1";
-    private static final String UK_CORE_OBSERVATION_META = "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Observation";
-    private static final String GP_SUMMARY_XPATH = "//QUPC_IN210000UK04/ControlActEvent/subject//"
-        + "GPSummary/pertinentInformation2/pertinentCREType[.//UKCT_MT144042UK01.Diagnosis]";
+    private static final String UK_CORE_CONDITION_META = "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Condition";
+    private static final String GP_SUMMARY_XPATH = "/pertinentInformation2/pertinentCREType[.//UKCT_MT144038UK02.Problem]";
 
     @Test
     public void When_MappingFromHl7_Expect_GetId() {
@@ -42,81 +26,125 @@ public class ProblemsMapperTest extends BaseHL7MapperTest {
 
         var result = problemsMapper.map(html);
 
-        assertThat(result.get(0).getId()).isEqualTo("BB890EB6-3152-4D08-9331-D48FE63198C1");
+        assertThat(result.get(0).getId()).isEqualTo(ID);
     }
-//
-//    public void When_MappingFromHl7_Expect_XmlUtilsHit(String fileName) {
-//        var html = parseXml(readResourceFile(String.format("problem/%s.html", fileName))).getDocumentElement();
-//
-//        problemsMapper.map(html);
-//
-//        verify(xmlUtils, times(1))
-//            .getNodeListByXPath(html, GP_SUMMARY_XPATH);
-//    }
-//
-//    public void When_MappingFromHl7_Expect_CodedEntryHit(String fileName) {
-//        var html = parseXml(readResourceFile(String.format("problem/%s.html", fileName))).getDocumentElement();
-//
-//        problemsMapper.map(html);
-//
-//        verify(codedEntry, times(1)).getCommonCodedEntryValues(any(Element.class));
-//    }
-//
-//    public void When_MappingFromHl7_Expect_DateTimeFormatted(String fileName) {
-//        var html = parseXml(readResourceFile(String.format("problem/%s.html", fileName))).getDocumentElement();
-//
-//        var result = problemsMapper.map(html);
-//
-//        var resultCondition = (Condition) result.get(0);
-//
-//        assertThat(resultCondition.getOnsetDateTimeType().toHumanDisplay()).isEqualTo("2020-08-05");
-//    }
-//
-//    public void When_MappingFromHl7_Expect_CodingMapped(String fileName) {
-//        var html = parseXml(readResourceFile(String.format("problem/%s.html", fileName))).getDocumentElement();
-//
-//        var result = problemsMapper.map(html);
-//
-//        var resultEncounter = (Condition) result.get(0);
-//        var codingFirstRep = resultEncounter.getCode().getCodingFirstRep();
-//
-//        assertThat(codingFirstRep.getCode())
-//            .isEqualTo("1300721000000109");
-//
-//        assertThat(codingFirstRep.getSystem())
-//            .isEqualTo("http://snomed.info/sct");
-//
-//        assertThat(codingFirstRep.getDisplay())
-//            .isEqualTo("COVID-19 confirmed by laboratory test");
-//    }
-//
-//    public void When_MappingFromHl7_Expect_ClinicalStatusMapped(String fileName) {
-//        var html = parseXml(readResourceFile(String.format("problem/%s.html", fileName))).getDocumentElement();
-//
-//        var result = problemsMapper.map(html);
-//
-//        var resultCondition = (Condition) result.get(0);
-//
-//        assertThat(resultCondition.getClinicalStatus().getCodingFirstRep().getCode()).isEqualTo("active");
-//
-//        assertThat(resultCondition.getClinicalStatus().getCodingFirstRep().getSystem())
-//            .isEqualTo("http://hl7.org/fhir/ValueSet/condition-clinical");
-//        // this is not working due to it not being mapped + url is different in map class
-//
-//        assertThat(resultCondition.getClinicalStatus().getCodingFirstRep().getDisplay()).isEqualTo("Active");
-//    }
 
-//    @Test
-//    public void When_MappingFromHl7_Expect_MatchJson() {
-//        var fileName = "example-1";
-//        var html = parseXml(readResourceFile(String.format("problem/%s.html", fileName))).getDocumentElement();
-//        var expectedJson = readResourceFile(String.format("problem/%s.json", fileName));
-//
-//        var result = problemsMapper.map(html);
-//
-//        var actualJson = fhirParser.encodeToJson(result.get(0));
-//
-//        assertThat(actualJson).isEqualTo(expectedJson.trim());
-//    }
+    @Test
+    public void When_MappingFromHl7_Expect_IdentifierMapped() {
+        var html = getHtmlExample(RESOURCE_DIRECTORY, BASIC_FILE_NAME);
+
+        var result = problemsMapper.map(html);
+
+        var resultCondition = (Condition) result.get(0);
+
+        assertThat(resultCondition.getIdentifierFirstRep().getValue())
+            .isEqualTo(ID);
+    }
+
+    @Test
+    public void When_MappingFromHl7_Expect_XmlUtilsHit() {
+        var html = getHtmlExample(RESOURCE_DIRECTORY, BASIC_FILE_NAME);
+
+        problemsMapper.map(html);
+
+        verifyXmlUtilsHits(html, GP_SUMMARY_XPATH);
+    }
+
+    @Test
+    public void When_MappingFromHl7_Expect_CodedEntryHit() {
+        var html = getHtmlExample(RESOURCE_DIRECTORY, BASIC_FILE_NAME);
+
+        problemsMapper.map(html);
+
+        verifyCodedEntryHits();
+    }
+
+    @Test
+    public void When_MappingFromHl7_Expect_Meta() {
+        var html = getHtmlExample(RESOURCE_DIRECTORY, BASIC_FILE_NAME);
+
+        var result = problemsMapper.map(html);
+
+        var resultCondition = (Condition) result.get(0);
+
+        assertThat(resultCondition.getMeta().getProfile().get(0).getValue()).isEqualTo(UK_CORE_CONDITION_META);
+    }
+
+    @Test
+    public void When_MappingFromHl7_Expect_DateTimeFormatted() {
+        var html = getHtmlExample(RESOURCE_DIRECTORY, BASIC_FILE_NAME);
+
+        var result = problemsMapper.map(html);
+
+        var resultCondition = (Condition) result.get(0);
+
+        assertThat(resultCondition.getOnsetDateTimeType().toHumanDisplay()).isEqualTo("2020-05-01");
+    }
+
+    @Test
+    public void When_MappingFromHl7_Expect_CategoryMapped() {
+        var html = getHtmlExample(RESOURCE_DIRECTORY, BASIC_FILE_NAME);
+
+        var result = problemsMapper.map(html);
+
+        var resultEncounter = (Condition) result.get(0);
+        var codingFirstRep = resultEncounter.getCategoryFirstRep().getCodingFirstRep();
+
+        assertThat(codingFirstRep.getCode())
+            .isEqualTo("162991000000102");
+
+        assertThat(codingFirstRep.getSystem())
+            .isEqualTo("http://snomed.info/sct");
+
+        assertThat(codingFirstRep.getDisplay())
+            .isEqualTo("Problems and Issues");
+    }
+
+    @Test
+    public void When_MappingFromHl7_Expect_CodingMapped() {
+        var html = getHtmlExample(RESOURCE_DIRECTORY, BASIC_FILE_NAME);
+
+        var result = problemsMapper.map(html);
+
+        var resultEncounter = (Condition) result.get(0);
+        var codingFirstRep = resultEncounter.getCode().getCodingFirstRep();
+
+        assertThat(codingFirstRep.getCode())
+            .isEqualTo("181301000000103");
+
+        assertThat(codingFirstRep.getSystem())
+            .isEqualTo("http://snomed.info/sct");
+
+        assertThat(codingFirstRep.getDisplay())
+            .isEqualTo("Abstract problem node");
+    }
+
+    @Test
+    public void When_MappingFromHl7_Expect_ClinicalStatusMapped() {
+        var html = getHtmlExample(RESOURCE_DIRECTORY, BASIC_FILE_NAME);
+
+        var result = problemsMapper.map(html);
+
+        var resultCondition = (Condition) result.get(0);
+
+        assertThat(resultCondition.getClinicalStatus().getCodingFirstRep().getCode()).isEqualTo("active");
+
+        assertThat(resultCondition.getClinicalStatus().getCodingFirstRep().getSystem())
+            .isEqualTo("http://hl7.org/fhir/ValueSet/condition-clinical");
+
+        assertThat(resultCondition.getClinicalStatus().getCodingFirstRep().getDisplay()).isEqualTo("Active");
+    }
+
+    @Test
+    public void When_MappingFromHl7_Expect_MatchJson() {
+        var html = getHtmlExample(RESOURCE_DIRECTORY, BASIC_FILE_NAME);
+        var expectedJson = getJsonExample(RESOURCE_DIRECTORY, BASIC_FILE_NAME);
+
+        var result = problemsMapper.map(html);
+
+        var actualJson = encodeToJson(result.get(0));
+
+        assertThat(actualJson).isEqualTo(expectedJson.trim());
+    }
 
 }

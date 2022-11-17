@@ -2,7 +2,12 @@ package uk.nhs.adaptors.scr.mappings.from.hl7;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.hl7.fhir.r4.model.*;
+import org.apache.commons.lang3.StringUtils;
+import org.hl7.fhir.r4.model.CodeableConcept;
+import org.hl7.fhir.r4.model.Coding;
+import org.hl7.fhir.r4.model.Condition;
+import org.hl7.fhir.r4.model.Meta;
+import org.hl7.fhir.r4.model.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Element;
@@ -15,7 +20,6 @@ import uk.nhs.adaptors.scr.utils.XmlUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.hl7.fhir.r4.model.Encounter.EncounterStatus.FINISHED;
 import static uk.nhs.adaptors.scr.mappings.from.hl7.XmlToFhirMapper.SNOMED_SYSTEM;
 
 @Slf4j
@@ -24,9 +28,9 @@ import static uk.nhs.adaptors.scr.mappings.from.hl7.XmlToFhirMapper.SNOMED_SYSTE
 public class ProblemsMapper {
     private final CodedEntryMapper codedEntryMapper;
     private final XmlUtils xmlUtils;
-
     private static final String PERTINENT_CRET_BASE_PATH = "/pertinentInformation2/pertinentCREType[.//UKCT_MT144038UK02.Problem]";
     private static final String PROBLEM_BASE_PATH = "./component/UKCT_MT144038UK02.Problem";
+    private static final String CLINICAL_SYSTEM = "http://hl7.org/fhir/ValueSet/condition-clinical";
     private static final String UK_CORE_CONDITION_META = "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Condition";
 
     private static final String PERTINENT_CODE_CODE_XPATH = "./code/@code";
@@ -56,16 +60,11 @@ public class ProblemsMapper {
 
         problem.setId(entry.getId());
 
-        if (entry.getEffectiveTimeLow().isPresent()) {
-            problem.setOnset(entry.getEffectiveTimeLow().get());
-        }
-
         problem.setMeta(new Meta().addProfile(UK_CORE_CONDITION_META));
 
-        problem.setCode(new CodeableConcept().addCoding(new Coding()
-            .setCode(entry.getCodeValue())
-            .setSystem(SNOMED_SYSTEM)
-            .setDisplay(entry.getCodeDisplay())));
+        problem.addIdentifier().setValue(entry.getId());
+
+        setClinicalStatus(problem, entry.getStatus());
 
         List<CodeableConcept> category = new ArrayList<>();
         category.add(new CodeableConcept().addCoding(new Coding()
@@ -74,6 +73,22 @@ public class ProblemsMapper {
             .setDisplay(creTypeDisplay)));
         problem.setCategory(category);
 
+        problem.setCode(new CodeableConcept().addCoding(new Coding()
+            .setCode(entry.getCodeValue())
+            .setSystem(SNOMED_SYSTEM)
+            .setDisplay(entry.getCodeDisplay())));
+
+        if (entry.getEffectiveTimeLow().isPresent()) {
+            problem.setOnset(entry.getEffectiveTimeLow().get());
+        }
+
         resources.add(problem);
+    }
+
+    private static void setClinicalStatus(Condition condition, String value) {
+        condition.setClinicalStatus(new CodeableConcept().addCoding(new Coding()
+            .setSystem(CLINICAL_SYSTEM)
+            .setCode(value)
+            .setDisplay(StringUtils.capitalize(value))));
     }
 }
