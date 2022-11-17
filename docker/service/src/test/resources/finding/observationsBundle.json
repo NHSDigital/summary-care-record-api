@@ -11,7 +11,7 @@
     "fullUrl": "http://scr.nhs.uk/Observation/F17999D2-FFE7-4CA4-8CE8-52CB45FF6F49",
     "resource": {
       "resourceType": "Observation",
-      "id": "F17999D2-FFE7-4CA4-8CE8-52CB45FF6F49",
+      "id": "19ABC6D1-8AF5-11EA-9FCE-AFDCAECF9DFB",
       "meta": {
         "profile": [
           "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Observation"
@@ -48,34 +48,45 @@
       }
     }
   },
-    {
-    "resourceType": "Observation",
-    "id": "19ABC6D1-8AF5-11EA-9FCE-AFDCAECF9DFB",
+  {
+    "fullUrl": "http://scr.nhs.uk/Observation/F17999D2-FFE7-4CA4-8CE8-52CB45FF6F49",
+    "resource": {
+      "resourceType": "Observation",
+      "id": "19ABC6D1-8AF5-11EA-9FCE-AFDCAECF9DFB",
       "meta": {
         "profile": [
           "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Observation"
         ]
       },
-    "identifier": [ {
-      "value": "19ABC6D1-8AF5-11EA-9FCE-AFDCAECF9DFB"
-    } ],
-    "status": "final",
-    "category": [ {
-      "coding": [ {
-        "system": "http://snomed.info/sct",
-        "code": "163131000000108",
-        "display": "Clinical Observations and Findings"
-      } ]
-    } ],
-    "code": {
-      "coding": [ {
-        "system": "http://snomed.info/sct",
-        "code": "1240601000000108",
-        "display": "High priority for severe acute respiratory syndrome coronavirus 2 vaccination (finding)"
-      } ]
-    },
-    "effectivePeriod": {
-      "start": "2020-08-05"
+      "identifier": [
+        {
+          "value": "19ABC6D1-8AF5-11EA-9FCE-AFDCAECF9DFB"
+        }
+      ],
+      "status": "final",
+      "category": [
+        {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "163131000000108",
+              "display": "Clinical Observations and Findings"
+            }
+          ]
+        }
+      ],
+      "code": {
+        "coding": [
+          {
+            "system": "http://snomed.info/sct",
+            "code": "1240601000000108",
+            "display": "High priority for severe acute respiratory syndrome coronavirus 2 vaccination (finding)"
+          }
+        ]
+      },
+      "effectivePeriod": {
+        "start": "2020-08-05"
+      }
     }
   } ]
 }
