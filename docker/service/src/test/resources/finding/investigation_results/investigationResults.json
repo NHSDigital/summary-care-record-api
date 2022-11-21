@@ -1,0 +1,28 @@
+{
+  "resourceType": "Observation",
+  "id": "19ABC6D1-8AF5-11EA-9FCE-AFDCAECF9DFB",
+  "meta": {
+    "profile": [ "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Observation" ]
+  },
+  "identifier": [ {
+    "value": "19ABC6D1-8AF5-11EA-9FCE-AFDCAECF9DFB"
+  } ],
+  "status": "final",
+  "category": [ {
+    "coding": [ {
+      "system": "http://snomed.info/sct",
+      "code": "163141000000104",
+      "display": "Investigation Results"
+    } ]
+  } ],
+  "code": {
+    "coding": [ {
+      "system": "http://snomed.info/sct",
+      "code": "163131000000108",
+      "display": "SARS-CoV-2 (severe acute respiratory syndrome coronavirus 2) RNA (ribonucleic acid) detection result positive"
+    } ]
+  },
+  "effectivePeriod": {
+    "start": "2020-08-05"
+  }
+}
