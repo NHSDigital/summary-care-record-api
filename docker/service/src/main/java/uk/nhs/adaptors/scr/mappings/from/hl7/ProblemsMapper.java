@@ -3,11 +3,7 @@ package uk.nhs.adaptors.scr.mappings.from.hl7;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.hl7.fhir.r4.model.CodeableConcept;
-import org.hl7.fhir.r4.model.Coding;
-import org.hl7.fhir.r4.model.Condition;
-import org.hl7.fhir.r4.model.Meta;
-import org.hl7.fhir.r4.model.Resource;
+import org.hl7.fhir.r4.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Element;
@@ -19,6 +15,7 @@ import uk.nhs.adaptors.scr.utils.XmlUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static uk.nhs.adaptors.scr.mappings.from.hl7.XmlToFhirMapper.SNOMED_SYSTEM;
 
@@ -26,10 +23,16 @@ import static uk.nhs.adaptors.scr.mappings.from.hl7.XmlToFhirMapper.SNOMED_SYSTE
 @Component
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class ProblemsMapper {
+    private static final String DIAGNOSIS_CODE = "163001000000103";
+    private static final String DIAGNOSIS_DISPLAY = "Diagnoses";
+    private static final String ALLERGY_CODE = "";
+    private static final String ALLERGY_DISPLAY = "";
     private final CodedEntryMapper codedEntryMapper;
     private final XmlUtils xmlUtils;
     private static final String PERTINENT_CRET_BASE_PATH = "/pertinentInformation2/pertinentCREType[.//UKCT_MT144038UK02.Problem]";
     private static final String PROBLEM_BASE_PATH = "./component/UKCT_MT144038UK02.Problem";
+    private static final String PROBLEM_ALLERGY_XPATH = "./pertinentInformation/AllergiesAndAdverseReactionsIdent";
+    private static final String PROBLEM_DIAGNOSIS_XPATH = "./pertinentInformation/Diagnosis";
     private static final String CLINICAL_SYSTEM = "http://hl7.org/fhir/ValueSet/condition-clinical";
     private static final String UK_CORE_CONDITION_META = "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Condition";
 
@@ -82,7 +85,51 @@ public class ProblemsMapper {
             problem.setOnset(entry.getEffectiveTimeLow().get());
         }
 
+        mapObservation(node, problem, resources);
+
         resources.add(problem);
+    }
+
+    private void mapObservation(Node problem, Condition condition, List<Resource> resources) {
+        Optional<Node> allergies = xmlUtils.detachOptionalNodeByXPath(problem, PROBLEM_ALLERGY_XPATH);
+        if (allergies.isPresent()) {
+            mapAllergies(allergies.get(), condition);
+        }
+
+        Optional<Node> diagnosis = xmlUtils.detachOptionalNodeByXPath(problem, PROBLEM_DIAGNOSIS_XPATH);
+        if (diagnosis.isPresent()) {
+            mapDiagnosis(diagnosis.get(), condition);
+        }
+    }
+
+    private void mapAllergies(Node node, Condition condition) {
+        CodedEntry entry = codedEntryMapper.getEssentialCodedEntryValues(node);
+
+        var observation = new Observation();
+        observation.setId(entry.getId());
+        observation.setCode(new CodeableConcept().addCoding(new Coding()
+            .setCode(ALLERGY_CODE)
+            .setSystem(SNOMED_SYSTEM)
+            .setDisplay(ALLERGY_DISPLAY)));
+
+        var stage = new Condition.ConditionStageComponent();
+        stage.addAssessment(new Reference(observation));
+        condition.addStage(stage);
+    }
+
+    private void mapDiagnosis(Node node, Condition condition) {
+        CodedEntry entry = codedEntryMapper.getEssentialCodedEntryValues(node);
+
+        var observation = new Observation();
+        observation.setId(entry.getId());
+        observation.setCode(new CodeableConcept().addCoding(new Coding()
+            .setCode(DIAGNOSIS_CODE)
+            .setSystem(SNOMED_SYSTEM)
+            .setDisplay(DIAGNOSIS_DISPLAY)));
+
+        var stage = new Condition.ConditionStageComponent();
+        stage.addAssessment(new Reference(observation));
+        condition.addStage(stage);
     }
 
     private static void setClinicalStatus(Condition condition, String value) {

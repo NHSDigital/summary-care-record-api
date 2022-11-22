@@ -22,8 +22,16 @@ public class ProblemMapper {
 
         problem.setEffectiveTimeLow(formatDateToHl7(condition.getOnsetDateTimeType()));
 
-        problem.setDiagnosisId("D680F6BE-73B9-4E18-988B-1D55E1B6F2D5");
+        if (condition.hasStage()) {
+            mapStages(condition, problem);
+        }
 
         return problem;
+    }
+
+    private void mapStages(Condition condition, Problem problem) {
+        var stage = condition.getStage();
+        var diagnosisId = "";
+        problem.setDiagnosisId(diagnosisId);
     }
 }
