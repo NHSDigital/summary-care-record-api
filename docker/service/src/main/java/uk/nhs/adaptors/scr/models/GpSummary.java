@@ -22,6 +22,7 @@ import uk.nhs.adaptors.scr.models.xml.PersonalPreference;
 import uk.nhs.adaptors.scr.models.xml.Presentation;
 import uk.nhs.adaptors.scr.models.xml.ProvisionOfAdviceAndInformation;
 import uk.nhs.adaptors.scr.models.xml.RiskToPatient;
+import uk.nhs.adaptors.scr.models.xml.SocialOrPersonalCircumstance;
 import uk.nhs.adaptors.scr.models.xml.Treatment;
 import uk.nhs.adaptors.scr.utils.DateUtil;
 
@@ -50,18 +51,19 @@ public class GpSummary {
     private String patientId;
     private Participant.Author author;
     private Presentation presentation;
+    private List<CareEvent> careEvents = new ArrayList<>();
     private List<Diagnosis> diagnoses = new ArrayList<>();
     private List<Finding> clinicalObservationsAndFindings = new ArrayList<>();
+    private List<Finding> investigationResults = new ArrayList<>();
     private List<Finding> medicationRecommendations = new ArrayList<>();
     private List<Finding> medicationRecords = new ArrayList<>();
-    private List<Finding> investigationResults = new ArrayList<>();
-    private List<RiskToPatient> risksToPatient = new ArrayList<>();
-    private List<CareEvent> careEvents = new ArrayList<>();
     private List<Investigation> investigations = new ArrayList<>();
-    private List<Treatment> treatments = new ArrayList<>();
-    private List<ProvisionOfAdviceAndInformation> provisionsOfAdviceAndInformationToPatientsAndCarers = new ArrayList<>();
     private List<PatientCarerCorrespondence> patientCarerCorrespondences = new ArrayList<>();
     private List<PersonalPreference> personalPreferences = new ArrayList<>();
+    private List<ProvisionOfAdviceAndInformation> provisionsOfAdviceAndInformationToPatientsAndCarers = new ArrayList<>();
+    private List<RiskToPatient> risksToPatient = new ArrayList<>();
+    private List<Treatment> treatments = new ArrayList<>();
+    private List<SocialOrPersonalCircumstance> socialOrPersonalCircumstances = new ArrayList<>();
 
     public static GpSummary fromBundle(Bundle bundle, String nhsdAsid) throws FhirMappingException {
         validateType(bundle);
