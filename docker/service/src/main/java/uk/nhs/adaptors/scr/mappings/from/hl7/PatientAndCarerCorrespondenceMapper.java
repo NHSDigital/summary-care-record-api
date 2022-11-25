@@ -27,7 +27,8 @@ public class PatientAndCarerCorrespondenceMapper implements XmlToFhirMapper {
     private final UuidWrapper uuid;
     private final CodedEntryMapper codedEntryMapper;
     private final XmlUtils xmlUtils;
-
+    private static final String PERTINENT_CODE_CODE_XPATH = "./code/@code";
+    private static final String PERTINENT_CODE_DISPLAY_XPATH = "./code/@displayName";
     private static final String PERTINENT_CRET_BASE_PATH = "/pertinentInformation2/pertinentCREType"
         + "[.//UKCT_MT144035UK01.PatientCarerCorrespondence]";
     private static final String PATIENT_CARER_BASE_PATH = "./component/UKCT_MT144035UK01.PatientCarerCorrespondence";
@@ -41,20 +42,27 @@ public class PatientAndCarerCorrespondenceMapper implements XmlToFhirMapper {
         for (int i = 0; i < pertinentNodes.getLength(); i++) {
             Node pertinentCREType = xmlUtils.getNodeAndDetachFromParent(pertinentNodes, i);
             NodeList treatmentNodes = xmlUtils.getNodeListByXPath(pertinentCREType, PATIENT_CARER_BASE_PATH);
+            // Get "category" code/display values.
+            var pertinentCRETypeCode = xmlUtils.getValueByXPath(pertinentCREType, PERTINENT_CODE_CODE_XPATH);
+            var pertinentCRETypeDisplay = xmlUtils.getValueByXPath(pertinentCREType, PERTINENT_CODE_DISPLAY_XPATH);
             for (int j = 0; j < treatmentNodes.getLength(); j++) {
                 Node node = xmlUtils.getNodeAndDetachFromParent(treatmentNodes, j);
-                mapCommunication(resources, node);
+                mapCommunication(resources, pertinentCRETypeCode, pertinentCRETypeDisplay, node);
             }
         }
         return resources;
     }
 
-    private void mapCommunication(List<Resource> resources, Node node) {
+    private void mapCommunication(List<Resource> resources, String pertinentCRETypeCode, String pertinentCRETypeDisplay,  Node node) {
         var communication = new Communication();
 
         communication.setId(uuid.randomUuid());
         communication.setMeta(new Meta().addProfile(UK_CORE_PROCEDURE_META));
         communication.setStatus(Communication.CommunicationStatus.COMPLETED);
+        communication.addCategory(new CodeableConcept(new Coding()
+            .setSystem(SNOMED_SYSTEM)
+            .setCode(pertinentCRETypeCode)
+            .setDisplay(pertinentCRETypeDisplay)));
 
         CodedEntry entry = codedEntryMapper.getCommonCodedEntryValues(node);
 

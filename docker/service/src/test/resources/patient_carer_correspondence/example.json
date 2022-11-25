@@ -5,6 +5,13 @@
     "profile": [ "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Communication" ]
   },
   "status": "completed",
+  "category": [ {
+    "coding": [ {
+      "system": "http://snomed.info/sct",
+      "code": "163181000000107",
+      "display": "Patient/carer correspondence"
+    } ]
+  } ],
   "topic": {
     "coding": [ {
       "system": "http://snomed.info/sct",
