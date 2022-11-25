@@ -13,6 +13,7 @@ import uk.nhs.adaptors.scr.mappings.from.fhir.ConditionMapper;
 import uk.nhs.adaptors.scr.mappings.from.fhir.ObservationMapper;
 import uk.nhs.adaptors.scr.mappings.from.fhir.PatientMapper;
 import uk.nhs.adaptors.scr.models.xml.CareEvent;
+import uk.nhs.adaptors.scr.models.xml.CareProfessionalDocumentation;
 import uk.nhs.adaptors.scr.models.xml.Diagnosis;
 import uk.nhs.adaptors.scr.models.xml.Finding;
 import uk.nhs.adaptors.scr.models.xml.Investigation;
@@ -50,18 +51,19 @@ public class GpSummary {
     private String patientId;
     private Participant.Author author;
     private Presentation presentation;
+    private List<CareEvent> careEvents = new ArrayList<>();
+    private List<CareProfessionalDocumentation> careProfessionalDocumentations = new ArrayList<>();
     private List<Diagnosis> diagnoses = new ArrayList<>();
     private List<Finding> clinicalObservationsAndFindings = new ArrayList<>();
+    private List<Finding> investigationResults = new ArrayList<>();
     private List<Finding> medicationRecommendations = new ArrayList<>();
     private List<Finding> medicationRecords = new ArrayList<>();
-    private List<Finding> investigationResults = new ArrayList<>();
-    private List<RiskToPatient> risksToPatient = new ArrayList<>();
-    private List<CareEvent> careEvents = new ArrayList<>();
     private List<Investigation> investigations = new ArrayList<>();
-    private List<Treatment> treatments = new ArrayList<>();
-    private List<ProvisionOfAdviceAndInformation> provisionsOfAdviceAndInformationToPatientsAndCarers = new ArrayList<>();
     private List<PatientCarerCorrespondence> patientCarerCorrespondences = new ArrayList<>();
     private List<PersonalPreference> personalPreferences = new ArrayList<>();
+    private List<ProvisionOfAdviceAndInformation> provisionsOfAdviceAndInformationToPatientsAndCarers = new ArrayList<>();
+    private List<RiskToPatient> risksToPatient = new ArrayList<>();
+    private List<Treatment> treatments = new ArrayList<>();
 
     public static GpSummary fromBundle(Bundle bundle, String nhsdAsid) throws FhirMappingException {
         validateType(bundle);
