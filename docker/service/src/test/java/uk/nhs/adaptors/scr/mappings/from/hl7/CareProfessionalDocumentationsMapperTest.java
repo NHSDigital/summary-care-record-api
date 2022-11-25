@@ -96,6 +96,23 @@ public class CareProfessionalDocumentationsMapperTest extends BaseHL7MapperTest 
         assertThat(codingFirstRep.getCode()).isEqualTo("308452008");
         assertThat(codingFirstRep.getSystem()).isEqualTo("http://snomed.info/sct");
         assertThat(codingFirstRep.getDisplay()).isEqualTo("Referral to speech and language therapist");
+        assertThat(castResult.getCategory().get(0).getCoding().get(0).getDisplay()).isEqualTo(CATEGORY_DISPLAY);
+    }
+
+    /**
+     * Testing presence and validity of category (<code></code> node).
+     */
+    @Test
+    public void When_MappingFromClinicalObservationsHL7_Expect_CategoryMapped() {
+        var html = getHtmlExample(RESOURCE_DIRECTORY, FILE_NAME);
+        var result = mapper.map(html);
+        var castResult = (Communication) result.get(0);
+        var codingFirstRep = castResult.getCategoryFirstRep().getCodingFirstRep();
+
+        assertThat(codingFirstRep.getCode()).isEqualTo("163171000000105");
+        assertThat(codingFirstRep.getSystem())
+            .isEqualTo("http://snomed.info/sct");
+        assertThat(codingFirstRep.getDisplay()).isEqualTo("Care Professional Documentation");
     }
 
     /**
@@ -109,7 +126,6 @@ public class CareProfessionalDocumentationsMapperTest extends BaseHL7MapperTest 
         var actualJson = encodeToJson(result);
 
         // Assert that the expected JSON matches the created JSON, removing whitespace.
-        assertThat(actualJson.replaceAll("\\s+",""))
-            .isEqualTo(expectedJson.trim().replaceAll("\\s+",""));
+        assertThat(actualJson).isEqualToIgnoringWhitespace(expectedJson);
     }
 }

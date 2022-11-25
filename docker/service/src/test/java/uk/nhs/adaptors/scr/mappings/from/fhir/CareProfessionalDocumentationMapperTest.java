@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
-import uk.nhs.adaptors.scr.components.FhirParser;
 import uk.nhs.adaptors.scr.models.GpSummary;
 import uk.nhs.adaptors.scr.models.xml.CareProfessionalDocumentation;
 import uk.nhs.adaptors.scr.utils.TemplateUtils;
@@ -21,7 +20,6 @@ public class CareProfessionalDocumentationMapperTest extends BaseFhirMapperTest 
 
     @InjectMocks
     private CareProfessionalDocumentationMapper mapper;
-    private FhirParser fhirParser = new FhirParser();
 
     /**
      * Testing the root id value.
@@ -85,7 +83,6 @@ public class CareProfessionalDocumentationMapperTest extends BaseFhirMapperTest 
         // Assert that the expected HLS from the mustache template matches the expected, removing whitespace.
         var template = TemplateUtils.loadPartialTemplate("CareProfessionalDocumentations.mustache");
         var resultStr = TemplateUtils.fillTemplate(template, gpSummary);
-        assertThat(resultStr.replaceAll("\\s+",""))
-            .isEqualTo(expectedHtml.replaceAll("\\s+",""));
+        assertThat(resultStr).isEqualToIgnoringWhitespace(expectedHtml);
     }
 }

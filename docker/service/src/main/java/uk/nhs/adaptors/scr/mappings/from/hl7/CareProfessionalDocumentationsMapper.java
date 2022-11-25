@@ -4,7 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.hl7.fhir.r4.model.*;
+import org.hl7.fhir.r4.model.CodeableConcept;
+import org.hl7.fhir.r4.model.Coding;
+import org.hl7.fhir.r4.model.Communication;
+import org.hl7.fhir.r4.model.Meta;
+import org.hl7.fhir.r4.model.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Node;
@@ -77,6 +81,10 @@ public class CareProfessionalDocumentationsMapper implements XmlToFhirMapper {
         communication.setMeta(new Meta().addProfile(UK_CORE_PROCEDURE_META));
         communication.addIdentifier().setValue(entry.getId());
         communication.setStatus(Communication.CommunicationStatus.COMPLETED);
+        communication.addCategory(new CodeableConcept(new Coding()
+            .setSystem(SNOMED_SYSTEM)
+            .setCode(pertinentCRETypeCode)
+            .setDisplay(pertinentCRETypeDisplay)));
 
         var topicCoding = new CodeableConcept().addCoding(new Coding()
             .setCode(entry.getCodeValue())
@@ -87,12 +95,9 @@ public class CareProfessionalDocumentationsMapper implements XmlToFhirMapper {
         // Get effective time, convert to datetimetype, pass this to
         // formatTimestampToFhir, to convert this to Fhir compatible string with timezone.
         if (entry.getEffectiveTime().isPresent()) {
-            var x = entry.getEffectiveTime().get().getValue();
-            var y = new DateTimeType(x);
-            var z = new DateTimeType(formatTimestampToFhir(y));
-            communication.setSentElement(z);
+            var sentElement = formatTimestampToFhir(entry.getEffectiveTime().get().getValue());
+            communication.setSentElement(sentElement);
         }
-
         resources.add(communication);
     }
 }
