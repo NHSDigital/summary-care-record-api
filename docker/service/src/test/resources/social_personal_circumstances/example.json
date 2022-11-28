@@ -1,0 +1,26 @@
+{
+  "resourceType": "Observation",
+  "id": "E619AE11-4417-11E9-9B19-B5A20573E36F",
+  "meta": {
+    "profile": [ "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Observation" ]
+  },
+  "identifier": [ {
+    "value": "E619AE11-4417-11E9-9B19-B5A20573E36F"
+  } ],
+  "status": "final",
+  "category": [ {
+    "coding": [ {
+      "system": "http://snomed.info/sct",
+      "code": "163021000000107",
+      "display": "Social or Personal Circumstances"
+    } ]
+  } ],
+  "code": {
+    "coding": [ {
+      "system": "http://snomed.info/sct",
+      "code": "970531000000100",
+      "display": "Main spoken language Cornish"
+    } ]
+  },
+  "effectiveDateTime": "2019-03-11T15:58:07+00:00"
+}

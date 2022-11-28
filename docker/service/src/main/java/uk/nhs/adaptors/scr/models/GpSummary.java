@@ -23,6 +23,7 @@ import uk.nhs.adaptors.scr.models.xml.PersonalPreference;
 import uk.nhs.adaptors.scr.models.xml.Presentation;
 import uk.nhs.adaptors.scr.models.xml.ProvisionOfAdviceAndInformation;
 import uk.nhs.adaptors.scr.models.xml.RiskToPatient;
+import uk.nhs.adaptors.scr.models.xml.SocialOrPersonalCircumstance;
 import uk.nhs.adaptors.scr.models.xml.Treatment;
 import uk.nhs.adaptors.scr.utils.DateUtil;
 
@@ -64,6 +65,7 @@ public class GpSummary {
     private List<ProvisionOfAdviceAndInformation> provisionsOfAdviceAndInformationToPatientsAndCarers = new ArrayList<>();
     private List<RiskToPatient> risksToPatient = new ArrayList<>();
     private List<Treatment> treatments = new ArrayList<>();
+    private List<SocialOrPersonalCircumstance> socialOrPersonalCircumstances = new ArrayList<>();
 
     public static GpSummary fromBundle(Bundle bundle, String nhsdAsid) throws FhirMappingException {
         validateType(bundle);
