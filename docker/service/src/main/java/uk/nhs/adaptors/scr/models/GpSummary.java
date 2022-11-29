@@ -13,6 +13,7 @@ import uk.nhs.adaptors.scr.mappings.from.fhir.ConditionMapper;
 import uk.nhs.adaptors.scr.mappings.from.fhir.ObservationMapper;
 import uk.nhs.adaptors.scr.mappings.from.fhir.PatientMapper;
 import uk.nhs.adaptors.scr.models.xml.CareEvent;
+import uk.nhs.adaptors.scr.models.xml.CareProfessionalDocumentation;
 import uk.nhs.adaptors.scr.models.xml.Diagnosis;
 import uk.nhs.adaptors.scr.models.xml.Finding;
 import uk.nhs.adaptors.scr.models.xml.Investigation;
@@ -52,6 +53,7 @@ public class GpSummary {
     private Participant.Author author;
     private Presentation presentation;
     private List<CareEvent> careEvents = new ArrayList<>();
+    private List<CareProfessionalDocumentation> careProfessionalDocumentations = new ArrayList<>();
     private List<Diagnosis> diagnoses = new ArrayList<>();
     private List<Finding> clinicalObservationsAndFindings = new ArrayList<>();
     private List<Finding> investigationResults = new ArrayList<>();
