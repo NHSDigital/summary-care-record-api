@@ -1,0 +1,26 @@
+{
+  "resourceType": "Observation",
+  "id": "10CE2F30-8AF5-11EA-9FCE-AFDCAECF9DFB",
+  "meta": {
+    "profile": [ "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Observation" ]
+  },
+  "identifier": [ {
+    "value": "10CE2F30-8AF5-11EA-9FCE-AFDCAECF9DFB"
+  } ],
+  "status": "final",
+  "category": [ {
+    "coding": [ {
+      "system": "http://snomed.info/sct",
+      "code": "163231000000100",
+      "display": "Risks to Patient"
+    } ]
+  } ],
+  "code": {
+    "coding": [ {
+      "system": "http://snomed.info/sct",
+      "code": "1240441000000108",
+      "display": "Close exposure to severe acute respiratory syndrome coronavirus 2 infection (event)"
+    } ]
+  },
+  "effectiveDateTime": "2020-08-05"
+}

@@ -11,4 +11,5 @@ public class RiskToPatient {
     private String codeDisplayName;
     private String statusCodeCode;
     private String effectiveTimeLow;
+    private String effectiveTimeHigh;
 }
