@@ -43,7 +43,7 @@ public class RisksToPatientMapperTest extends BaseHL7MapperTest {
         assertThat(result.getId()).isEqualTo(ID);
         assertThat(result.getMeta().getProfile().get(0).getValue()).isEqualTo(UK_CORE_PROCEDURE_META);
         assertThat(resultObservation.getStatus().toString()).isEqualTo(STATUS_CODE);
-        assertThat(resultObservation.getCategory().get(0).getCoding().get(0).getDisplay()).isEqualTo(CATEGORY_DISPLAY);
+        assertThat(resultObservation.getCategoryFirstRep().getCodingFirstRep().getDisplay()).isEqualTo(CATEGORY_DISPLAY);
     }
 
     /**

@@ -83,6 +83,6 @@ public class RiskToPatientMapperTest extends BaseFhirMapperTest {
         // Assert that the expected HLS from the mustache template matches the expected, removing whitespace.
         var template = TemplateUtils.loadPartialTemplate("RisksToPatient.mustache");
         var resultStr = TemplateUtils.fillTemplate(template, gpSummary);
-        assertThat(resultStr.replaceAll("\\s+", "")).isEqualTo(expectedHtml.replaceAll("\\s+", ""));
+        assertThat(resultStr).isEqualToIgnoringWhitespace(expectedHtml);
     }
 }
