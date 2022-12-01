@@ -1,13 +1,15 @@
 package uk.nhs.adaptors.scr.utils;
 
-import lombok.extern.slf4j.Slf4j;
-import org.hl7.fhir.r4.model.DateTimeType;
-import org.hl7.fhir.r4.model.InstantType;
-
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
+import java.util.Locale;
+import lombok.extern.slf4j.Slf4j;
+import org.hl7.fhir.r4.model.DateTimeType;
+import org.hl7.fhir.r4.model.InstantType;
+
 
 @Slf4j
 public class DateUtil {
@@ -35,5 +37,30 @@ public class DateUtil {
 
     public static String formatTimestampToHl7(InstantType timestamp) {
         return new SimpleDateFormat(DATE_TIME_PATTERN).format(timestamp.getValue());
+    }
+
+    /**
+     * Takes a datetime object and returns a date string with the correct timezone.
+     * E.g. 2018-06-21T16:11:51+01:00 is returned, showing a time in BST.
+     * Converts returned string to DateTimeType.
+     *
+     * @param datetime
+     * @return
+     */
+    public static DateTimeType formatTimestampToFhir(Date datetime) {
+        var dateconverted = new DateTimeType(datetime);
+        SimpleDateFormat sd1 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssZZZZZ");
+
+        // Generate string in the required format.
+        var converted = LocalDateTime.parse(
+                sd1.format(dateconverted.getValue()),
+                DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssZ", Locale.UK)
+            )
+            .atZone(
+                ZoneId.of("Europe/London")
+            )
+            .format(formatter);
+        return new DateTimeType(converted);
     }
 }

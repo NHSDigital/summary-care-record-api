@@ -14,5 +14,6 @@ public class CodedEntry {
     private String codeDisplay;
     private Optional<DateTimeType> effectiveTimeLow;
     private Optional<DateTimeType> effectiveTimeHigh;
+    private Optional<DateTimeType> effectiveTime;
     private String status;
 }
