@@ -104,7 +104,22 @@ public class PatientAndCarerCorrespondenceMapperTest extends BaseHL7MapperTest {
         assertThat(codingFirstRep.getDisplay())
             .isEqualTo("Severe acute respiratory syndrome coronavirus 2 vaccination invitation "
                 + "short message service text message sent (situation)");
+    }
 
+    /**
+     * Testing presence and validity of category (<code></code> node).
+     */
+    @Test
+    public void When_MappingFromClinicalObservationsHL7_Expect_CategoryMapped() {
+        var html = getHtmlExample(RESOURCE_DIRECTORY, FILE_NAME);
+        var result = patientCarerCorrMapper.map(html).get(0);
+        var castResult = (Communication) result;
+        var codingFirstRep = castResult.getCategoryFirstRep().getCodingFirstRep();
+
+        assertThat(codingFirstRep.getCode()).isEqualTo("163181000000107");
+        assertThat(codingFirstRep.getSystem())
+            .isEqualTo("http://snomed.info/sct");
+        assertThat(codingFirstRep.getDisplay()).isEqualTo("Patient/carer correspondence");
     }
 
     @Test

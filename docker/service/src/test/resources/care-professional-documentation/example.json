@@ -1,23 +1,26 @@
 {
   "resourceType": "Communication",
-  "id": "3b3f207f-be82-4ffb-924e-9be0966f5c65",
+  "id": "7D50E3C0-7565-11E8-AEC7-950876D8FD27",
   "meta": {
     "profile": [ "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Communication" ]
   },
+  "identifier": [ {
+    "value": "7D50E3C0-7565-11E8-AEC7-950876D8FD27"
+  } ],
   "status": "completed",
   "category": [ {
     "coding": [ {
       "system": "http://snomed.info/sct",
-      "code": "163181000000107",
-      "display": "Patient/carer correspondence"
+      "code": "163171000000105",
+      "display": "Care Professional Documentation"
     } ]
   } ],
   "topic": {
     "coding": [ {
       "system": "http://snomed.info/sct",
-      "code": "1240781000000106",
-      "display": "Severe acute respiratory syndrome coronavirus 2 vaccination invitation short message service text message sent (situation)"
+      "code": "308452008",
+      "display": "Referral to speech and language therapist"
     } ]
   },
-  "sent": "2020-08-05T00:00:00+00:00"
+  "sent": "2018-06-21T16:11:51+01:00"
 }

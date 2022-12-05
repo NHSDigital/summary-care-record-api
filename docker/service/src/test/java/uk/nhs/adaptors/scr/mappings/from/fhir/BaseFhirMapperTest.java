@@ -33,5 +33,4 @@ public class BaseFhirMapperTest {
         var fhirParserResource = fhirParser.parseResource(jsonFile, classType);
         return fhirParserResource;
     }
-
 }
