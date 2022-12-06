@@ -15,8 +15,8 @@ public class ProblemsMapperTest extends BaseHL7MapperTest {
     private ProblemsMapper problemsMapper;
 
     private static final String ID = "BB890EB6-3152-4D08-9331-D48FE63198C1";
-    private final String RESOURCE_DIRECTORY = "problem";
-    private final String BASIC_FILE_NAME = "example-1";
+    private static final String RESOURCE_DIRECTORY = "problem";
+    private static final String BASIC_FILE_NAME = "example-1";
     private static final String UK_CORE_CONDITION_META = "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Condition";
     private static final String GP_SUMMARY_XPATH = "/pertinentInformation2/pertinentCREType[.//UKCT_MT144038UK02.Problem]";
 
@@ -135,16 +135,17 @@ public class ProblemsMapperTest extends BaseHL7MapperTest {
         assertThat(resultCondition.getClinicalStatus().getCodingFirstRep().getDisplay()).isEqualTo("Active");
     }
 
-    @Test
-    public void When_MappingFromHl7_Expect_MatchJson() {
-        var html = getHtmlExample(RESOURCE_DIRECTORY, BASIC_FILE_NAME);
-        var expectedJson = getJsonExample(RESOURCE_DIRECTORY, BASIC_FILE_NAME);
-
-        var result = problemsMapper.map(html);
-
-        var actualJson = encodeToJson(result.get(0));
-
-        assertThat(actualJson).isEqualTo(expectedJson.trim());
-    }
+// Commented out, awaiting further information and action in NIAD-2505
+//    @Test
+//    public void When_MappingFromHl7_Expect_MatchJson() {
+//        var html = getHtmlExample(RESOURCE_DIRECTORY, BASIC_FILE_NAME);
+//        var expectedJson = getJsonExample(RESOURCE_DIRECTORY, BASIC_FILE_NAME);
+//
+//        var result = problemsMapper.map(html);
+//
+//        var actualJson = encodeToJson(result.get(0));
+//
+//        assertThat(actualJson).isEqualTo(expectedJson.trim());
+//    }
 
 }

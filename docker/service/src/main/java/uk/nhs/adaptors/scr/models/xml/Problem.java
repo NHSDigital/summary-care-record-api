@@ -16,6 +16,4 @@ public class Problem {
     private String findingId;
     private Participant.Author author;
     private Participant.Informant informant;
-
-    private String diagnosisId;
 }

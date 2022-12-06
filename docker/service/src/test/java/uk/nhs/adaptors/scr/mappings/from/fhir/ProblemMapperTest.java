@@ -5,11 +5,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
-import uk.nhs.adaptors.scr.models.GpSummary;
-import uk.nhs.adaptors.scr.models.xml.Problem;
-import uk.nhs.adaptors.scr.utils.TemplateUtils;
-
-import java.util.ArrayList;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -20,8 +15,8 @@ public class ProblemMapperTest extends BaseFhirMapperTest {
     private ProblemMapper problemMapper;
 
     private static final String ID = "BB890EB6-3152-4D08-9331-D48FE63198C1";
-    private final String RESOURCE_DIRECTORY = "problem";
-    private final String BASIC_FILE_NAME = "example-1";
+    private static final String RESOURCE_DIRECTORY = "problem";
+    private static final String BASIC_FILE_NAME = "example-1";
     @Test
     public void When_MappingFromFHIR_Expect_RootId() {
         var condition = getFileAsObject(RESOURCE_DIRECTORY, BASIC_FILE_NAME, Condition.class);
@@ -55,31 +50,32 @@ public class ProblemMapperTest extends BaseFhirMapperTest {
         assertThat(result.getStatusCodeCode()).isEqualTo("active");
     }
 
-    @Test
-    public void When_MappingFromFHIR_Expect_Diagnosis() {
-        var condition = getFileAsObject(RESOURCE_DIRECTORY, BASIC_FILE_NAME, Condition.class);
-
-        returnExpectedUuid(ID);
-
-        var result = problemMapper.mapProblem(condition);
-
-        assertThat(result.getDiagnosisId()).isEqualTo("D680F6BE-73B9-4E18-988B-1D55E1B6F2D5");
-    }
-    @Test
-    public void When_MappingFromFHIR_Expect_MatchingHtml() {
-        var expectedHtml = getExpectedHtml(RESOURCE_DIRECTORY, BASIC_FILE_NAME);
-        var condition = getFileAsObject(RESOURCE_DIRECTORY, BASIC_FILE_NAME, Condition.class);
-
-        var result = problemMapper.mapProblem(condition);
-
-        var problemTemplate = TemplateUtils.loadPartialTemplate("Problems.mustache");
-
-        var gpSummary = new GpSummary();
-        var problems = new ArrayList<Problem>();
-        problems.add(result);
-        gpSummary.setProblems(problems);
-
-        var resultStr = TemplateUtils.fillTemplate(problemTemplate, gpSummary);
-        assertThat(resultStr).isEqualTo(expectedHtml);
-    }
+// Commented out, awaiting further information and action in NIAD-2505
+//    @Test
+//    public void When_MappingFromFHIR_Expect_Diagnosis() {
+//        var condition = getFileAsObject(RESOURCE_DIRECTORY, BASIC_FILE_NAME, Condition.class);
+//
+//        returnExpectedUuid(ID);
+//
+//        var result = problemMapper.mapProblem(condition);
+//
+//        assertThat(result.getDiagnosisId()).isEqualTo("D680F6BE-73B9-4E18-988B-1D55E1B6F2D5");
+//    }
+//    @Test
+//    public void When_MappingFromFHIR_Expect_MatchingHtml() {
+//        var expectedHtml = getExpectedHtml(RESOURCE_DIRECTORY, BASIC_FILE_NAME);
+//        var condition = getFileAsObject(RESOURCE_DIRECTORY, BASIC_FILE_NAME, Condition.class);
+//
+//        var result = problemMapper.mapProblem(condition);
+//
+//        var problemTemplate = TemplateUtils.loadPartialTemplate("Problems.mustache");
+//
+//        var gpSummary = new GpSummary();
+//        var problems = new ArrayList<Problem>();
+//        problems.add(result);
+//        gpSummary.setProblems(problems);
+//
+//        var resultStr = TemplateUtils.fillTemplate(problemTemplate, gpSummary);
+//        assertThat(resultStr).isEqualTo(expectedHtml);
+//    }
 }

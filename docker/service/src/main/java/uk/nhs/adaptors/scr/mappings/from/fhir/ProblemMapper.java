@@ -1,7 +1,6 @@
 package uk.nhs.adaptors.scr.mappings.from.fhir;
 
 import org.hl7.fhir.r4.model.Condition;
-import uk.nhs.adaptors.scr.models.xml.Diagnosis;
 import uk.nhs.adaptors.scr.models.xml.Problem;
 
 import static uk.nhs.adaptors.scr.utils.DateUtil.formatDateToHl7;
@@ -22,16 +21,9 @@ public class ProblemMapper {
 
         problem.setEffectiveTimeLow(formatDateToHl7(condition.getOnsetDateTimeType()));
 
-        if (condition.hasStage()) {
-            mapStages(condition, problem);
-        }
+        // Commented out, awaiting further information and action in NIAD-2505
+        // set diagnosis reference?
 
         return problem;
-    }
-
-    private void mapStages(Condition condition, Problem problem) {
-        var stage = condition.getStage();
-        var diagnosisId = "";
-        problem.setDiagnosisId(diagnosisId);
     }
 }
