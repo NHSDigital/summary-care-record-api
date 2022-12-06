@@ -24,6 +24,7 @@ import uk.nhs.adaptors.scr.mappings.from.hl7.common.CodedEntryMapper;
 import uk.nhs.adaptors.scr.utils.XmlUtils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -57,6 +58,8 @@ public class FindingsMapper implements XmlToFhirMapper {
     private static final String EFFECTIVE_TIME_CENTRE_XPATH = "./effectiveTime/centre/@value";
     private static final String SARS_COV_2_CODE = "1240581000000104";
     private static final String HIGH_PRIORITY_SARS = "1240601000000108";
+    private static final String SARS_COV_2_SEVERE = "163131000000108";
+    private static final List<String> ACCEPTED_CODES = Arrays.asList(SARS_COV_2_CODE, HIGH_PRIORITY_SARS, SARS_COV_2_SEVERE);
 
     private final ParticipantMapper participantMapper;
     private final CodedEntryMapper codedEntryMapper;
@@ -81,7 +84,7 @@ public class FindingsMapper implements XmlToFhirMapper {
 
     private void mapObservation(ArrayList<Resource> resources, String creTypeCode, String creTypeDisplay, Node node) {
         CodedEntry entry = codedEntryMapper.getCommonCodedEntryValues(node);
-        if (SARS_COV_2_CODE.equals(entry.getCodeValue()) || HIGH_PRIORITY_SARS.equals(entry.getCodeValue())) {
+        if (ACCEPTED_CODES.contains(entry.getCodeValue())) {
             var effectiveTimeCentre =
                 xmlUtils.getOptionalValueByXPath(node, EFFECTIVE_TIME_CENTRE_XPATH).map(it -> parseDate(it, DateTimeType.class));
 
