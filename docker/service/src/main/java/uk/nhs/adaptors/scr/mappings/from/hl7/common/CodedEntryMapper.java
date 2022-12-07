@@ -44,4 +44,10 @@ public class CodedEntryMapper {
             .setEffectiveTime(effectiveTime)
             .setStatus(statusCode);
     }
+
+    public CodedEntry getEssentialCodedEntryValues(Node node) {
+        var id = xmlUtils.getValueByXPath(node, ID_XPATH);
+
+        return new CodedEntry().setId(id);
+    }
 }
