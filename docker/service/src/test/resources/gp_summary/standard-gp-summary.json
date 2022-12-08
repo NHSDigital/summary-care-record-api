@@ -5,7 +5,7 @@
     "system": "https://tools.ietf.org/html/rfc4122",
     "value": "821533D3-3E0F-11EB-8111-F40343488B16"
   },
-  "type": "searchset",
+  "type": "document",
   "timestamp": "2020-12-14T13:23:10+00:00",
   "total": 49,
   "entry": [ {
