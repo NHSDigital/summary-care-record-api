@@ -28,7 +28,6 @@ import uk.nhs.adaptors.scr.utils.XmlUtils;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class SocialOrPersonalCircumstancesMapper implements XmlToFhirMapper {
 
-    private final UuidWrapper uuid;
     private final CodedEntryMapper codedEntryMapper;
     private final XmlUtils xmlUtils;
     private static final String PERTINENT_CODE_CODE_XPATH = "./code/@code";
