@@ -1,6 +1,7 @@
 package uk.nhs.adaptors.scr.mappings.from.hl7;
 
 import lombok.SneakyThrows;
+import org.hl7.fhir.r4.model.Bundle;
 import org.hl7.fhir.r4.model.Resource;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -75,4 +76,15 @@ public class BaseHL7MapperTest {
         return actualJson;
     }
 
+    protected Bundle.BundleEntryComponent getBundleEntryComponent(Resource resource) {
+        return new Bundle.BundleEntryComponent()
+            .setFullUrl(getScrUrl() + "/" + resource.getResourceType() + "/" + resource.getId())
+            .setResource(resource);
+    }
+
+    private String getScrUrl() {
+        var baseUrl = "https://internal-dev.api.service.nhs.uk";
+        var basePath = "summary-care-record/FHIR/R4";
+        return String.format("%s/%s", baseUrl, basePath);
+    }
 }
