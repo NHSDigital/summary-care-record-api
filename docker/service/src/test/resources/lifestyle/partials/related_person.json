@@ -1,0 +1,20 @@
+{
+  "resourceType": "RelatedPerson",
+  "id": "B82DE087-1482-4ABC-A55B-F9B5D444E7A7",
+  "relationship": [
+    {
+      "coding": [
+        {
+          "system": "https://fhir.nhs.uk/STU3/ValueSet/PersonRelationshipType-13",
+          "code": "13",
+          "display": "Father"
+        }
+      ]
+    }
+  ],
+  "name": [
+    {
+      "text": "SMITH John Paul Mr Snr"
+    }
+  ]
+}

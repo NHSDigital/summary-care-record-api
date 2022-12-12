@@ -167,7 +167,6 @@ public class LifestylesMapper implements XmlToFhirMapper {
                 .setPeriod(new Period().setStartElement(time))
                 .addType(getParticipationType("AUT", "author"))
                 .setIndividual((it))));
-        var resourceCopy = resources.get(1);
     }
 
     private void mapInformant(List<Resource> resources, Encounter encounter, Node informant) {

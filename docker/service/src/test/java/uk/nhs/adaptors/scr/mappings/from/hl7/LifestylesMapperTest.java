@@ -1,16 +1,19 @@
 package uk.nhs.adaptors.scr.mappings.from.hl7;
 
-import org.hl7.fhir.r4.model.Bundle;
+import org.hl7.fhir.r4.model.*;
 import org.hl7.fhir.r4.model.Bundle.BundleEntryComponent;
-import org.hl7.fhir.r4.model.Observation;
-import org.hl7.fhir.r4.model.Resource;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.w3c.dom.Node;
+import wiremock.org.checkerframework.checker.units.qual.A;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.contains;
+import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
@@ -32,6 +35,7 @@ public class LifestylesMapperTest extends BaseHL7MapperTest {
 
     private static final String UK_CORE_PROCEDURE_META = "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Observation";
     private static final String RESOURCE_DIRECTORY = "lifestyle";
+    private static final String PARTIALS_RESOURCE_DIRECTORY = "lifestyle/partials";
     private static final String CATEGORY_DISPLAY = "Lifestyle";
     private static final String FILE_NAME = "example";
     private static final String ID = "5EDDDF8C-775A-4437-8990-41012DB32BD0";
@@ -121,10 +125,11 @@ public class LifestylesMapperTest extends BaseHL7MapperTest {
 //        var actualJson = encodeToJson(result);
 //        var expectedJson = getJsonExample(RESOURCE_DIRECTORY, FILE_NAME);
 
+        var informantResources = prepInformantResources();
 
-        when(participantMapper.map(any())).thenReturn(
-
-        );
+        var authorResources = prepAuthorResources();
+        doReturn(authorResources).doReturn(informantResources).when(participantMapper).map(any(Node.class));
+        //.thenReturn(informantResources)
 
         var html = getHtmlExample(RESOURCE_DIRECTORY, FILE_NAME);
         var expectedJson = getJsonExample(RESOURCE_DIRECTORY, FILE_NAME);
@@ -133,6 +138,28 @@ public class LifestylesMapperTest extends BaseHL7MapperTest {
         results.stream().map(resource -> getBundleEntryComponent(resource)).forEach(resultBundle::addEntry);
         var actualJson = encodeToJson(resultBundle);
         assertThat(actualJson).isEqualToIgnoringWhitespace(expectedJson);
+    }
+
+    private ArrayList<? extends Resource> prepInformantResources() {
+        var resources = new ArrayList<Resource>();
+
+        var relatedPerson = getFileAsObject(PARTIALS_RESOURCE_DIRECTORY, "related_person", RelatedPerson.class);
+
+        resources.add(relatedPerson);
+
+        return resources;
+    }
+
+    private ArrayList<? extends Resource> prepAuthorResources() {
+        var resources = new ArrayList<Resource>();
+
+        var practitioner = getFileAsObject(PARTIALS_RESOURCE_DIRECTORY, "practitioner", Practitioner.class);
+        var practitionerRole = getFileAsObject(PARTIALS_RESOURCE_DIRECTORY, "practitioner_role", PractitionerRole.class);
+
+        resources.add(practitioner);
+        resources.add(practitionerRole);
+
+        return resources;
     }
 
     private BundleEntryComponent getBundleEntryComponent(Resource resource) {
@@ -147,39 +174,3 @@ public class LifestylesMapperTest extends BaseHL7MapperTest {
         return String.format("%s/%s", baseUrl, basePath);
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
