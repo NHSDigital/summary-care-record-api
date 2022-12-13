@@ -33,7 +33,7 @@ import uk.nhs.adaptors.scr.utils.XmlUtils;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class GpSummaryMapper implements XmlToFhirMapper {
 
-    private static final String BASE_XPATH = "//GPSummary";//QUPC_IN210000UK04/ControlActEvent/subject//GPSummary";
+    private static final String BASE_XPATH = "//QUPC_IN210000UK04/ControlActEvent/subject//GPSummary";
     private static final String EVENT_ID_XPATH = "//QUPC_IN210000UK04/ControlActEvent/subject/queryResponseEvent/event/eventID/@root";
 
     private static final String GP_SUMMARY_ID_XPATH = BASE_XPATH + "/id/@root";
@@ -61,7 +61,7 @@ public class GpSummaryMapper implements XmlToFhirMapper {
     private static final String PRESENTATION_TEXT_VALUE =
             BASE_XPATH + "/excerptFrom/UKCT_MT144051UK01.CareProfessionalDocumentationCRE/component/presentationText/value/html";
 
-    private static final String GP_SUMMARY_XPATH ="";// "//QUPC_IN210000UK04/ControlActEvent/subject//GPSummary";
+    private static final String GP_SUMMARY_XPATH = "//QUPC_IN210000UK04/ControlActEvent/subject//GPSummary";
     private static final String PERTINENT_CRET_BASE_PATH =
             GP_SUMMARY_XPATH + "/pertinentInformation2/pertinentCREType[descendant::code[@displayName='Diagnoses' "
                     + "or @displayName='Investigation Results' "

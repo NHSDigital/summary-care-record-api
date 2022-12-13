@@ -1,6 +1,7 @@
 package uk.nhs.adaptors.scr.mappings.from.hl7;
 
 import lombok.SneakyThrows;
+import org.hl7.fhir.instance.model.api.IBaseResource;
 import org.hl7.fhir.r4.model.Bundle;
 import org.hl7.fhir.r4.model.Resource;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -30,12 +31,11 @@ public class BaseHL7MapperTest {
 
     @Mock
     private UuidWrapper uuid;
-
     @Spy
-    private CodedEntryMapper codedEntry = new CodedEntryMapper(new XmlUtils(XPathFactory.newInstance()));
-
+    XmlUtils xmlUtils = new XmlUtils(XPathFactory.newInstance());
     @Spy
-    private XmlUtils xmlUtils = new XmlUtils(XPathFactory.newInstance());
+    private CodedEntryMapper codedEntry = new CodedEntryMapper(xmlUtils);
+
 
     private FhirParser fhirParser = new FhirParser();
 
@@ -61,6 +61,12 @@ public class BaseHL7MapperTest {
     protected String getJsonExample(String resourceDirectory, String fileName) {
         var jsonFile = readResourceFile(String.format(resourceDirectory + "/%s.json", fileName));
         return jsonFile;
+    }
+
+    protected <T extends IBaseResource> T getFileAsObject(String resourceDirectory, String fileName, Class<T> classType) {
+        var jsonFile = readResourceFile(String.format(resourceDirectory + "/%s.json", fileName));
+        var fhirParserResource = fhirParser.parseResource(jsonFile, classType);
+        return fhirParserResource;
     }
 
     protected void verifyCodedEntryHits() {
