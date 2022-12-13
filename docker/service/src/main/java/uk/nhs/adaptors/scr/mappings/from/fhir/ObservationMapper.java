@@ -12,7 +12,9 @@ import org.hl7.fhir.r4.model.Period;
 import uk.nhs.adaptors.scr.exceptions.FhirValidationException;
 import uk.nhs.adaptors.scr.models.GpSummary;
 import uk.nhs.adaptors.scr.models.xml.Finding;
+import uk.nhs.adaptors.scr.models.xml.RiskToPatient;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -32,6 +34,8 @@ public class ObservationMapper {
         observation -> "163131000000108".equals(observation.getCategoryFirstRep().getCodingFirstRep().getCode());
     private static final Predicate<Observation> IS_INVESTIGATION_RESULT =
         observation -> "163141000000104".equals(observation.getCategoryFirstRep().getCodingFirstRep().getCode());
+    private static final Predicate<Observation> IS_RISK_TO_PATIENT =
+        observation -> "163231000000100".equals(observation.getCategoryFirstRep().getCodingFirstRep().getCode());
 
     public static void mapObservations(GpSummary gpSummary, Bundle bundle) {
         validate(bundle);
@@ -39,6 +43,8 @@ public class ObservationMapper {
             .addAll(mapClinicalObservationsAndFindings(bundle));
         gpSummary.getInvestigationResults()
             .addAll(mapInvestigationResults(bundle));
+        gpSummary.getRisksToPatient()
+            .addAll(mapRisksToPatient(bundle));
     }
 
     private static void validate(Bundle bundle) {
@@ -70,6 +76,14 @@ public class ObservationMapper {
         return getDomainResourceList(bundle, Observation.class).stream()
             .filter(IS_INVESTIGATION_RESULT)
             .map(observation -> mapFinding(observation, bundle))
+            .collect(Collectors.toList());
+    }
+
+    private static List<RiskToPatient> mapRisksToPatient(Bundle bundle) {
+        var riskToPatientMapper = new RiskToPatientMapper();
+        return getDomainResourceList(bundle, Observation.class).stream()
+            .filter(IS_RISK_TO_PATIENT)
+            .map(observation -> riskToPatientMapper.map(observation))
             .collect(Collectors.toList());
     }
 

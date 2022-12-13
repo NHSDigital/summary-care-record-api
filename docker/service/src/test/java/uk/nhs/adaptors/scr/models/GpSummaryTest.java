@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import uk.nhs.adaptors.scr.components.FhirParser;
+import uk.nhs.adaptors.scr.models.xml.RiskToPatient;
 import uk.nhs.adaptors.scr.models.xml.Treatment;
 import uk.nhs.adaptors.scr.utils.TemplateUtils;
 
@@ -51,7 +52,7 @@ public class GpSummaryTest {
     }
 
     @Test
-    public void When_MappingAdditionalInfoGpSummaryFromBundle_Expect_Treatments() {
+    public void When_MappingAdditionalInfoGpSummaryFromBundle_Expect_Treatment() {
 
         var jsonFile = readResourceFile(String.format(RESOURCE_DIRECTORY + "/%s.json", ADDITIONAL_INFO_FILE_NAME_1));
         var bundle = fhirParser.parseResource(jsonFile, Bundle.class);
@@ -60,8 +61,18 @@ public class GpSummaryTest {
         var result = GpSummary.fromBundle(bundle, NHSD_ASID);
 
         assertThat(result.getTreatments()).hasAtLeastOneElementOfType(Treatment.class);
-        
+    }
 
+    @Test
+    public void When_MappingAdditionalInfoGpSummaryFromBundle_Expect_RiskToPatient() {
+
+        var jsonFile = readResourceFile(String.format(RESOURCE_DIRECTORY + "/%s.json", ADDITIONAL_INFO_FILE_NAME_1));
+        var bundle = fhirParser.parseResource(jsonFile, Bundle.class);
+
+        // act
+        var result = GpSummary.fromBundle(bundle, NHSD_ASID);
+
+        assertThat(result.getRisksToPatient()).hasAtLeastOneElementOfType(RiskToPatient.class);
     }
 
     @Test
