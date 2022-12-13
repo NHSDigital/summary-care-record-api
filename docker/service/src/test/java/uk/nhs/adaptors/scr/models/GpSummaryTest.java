@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import uk.nhs.adaptors.scr.components.FhirParser;
+import uk.nhs.adaptors.scr.models.xml.Treatment;
 import uk.nhs.adaptors.scr.utils.TemplateUtils;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -47,6 +48,20 @@ public class GpSummaryTest {
 
         assertThat(result.getCompositionDate()).isEqualToIgnoringWhitespace("20200430171300");
         assertThat(result.getPresentation().getPresentationText()).isEqualToIgnoringWhitespace(expectedPresentationValue);
+    }
+
+    @Test
+    public void When_MappingAdditionalInfoGpSummaryFromBundle_Expect_Treatments() {
+
+        var jsonFile = readResourceFile(String.format(RESOURCE_DIRECTORY + "/%s.json", ADDITIONAL_INFO_FILE_NAME_1));
+        var bundle = fhirParser.parseResource(jsonFile, Bundle.class);
+
+        // act
+        var result = GpSummary.fromBundle(bundle, NHSD_ASID);
+
+        assertThat(result.getTreatments()).hasAtLeastOneElementOfType(Treatment.class);
+        
+
     }
 
     @Test
