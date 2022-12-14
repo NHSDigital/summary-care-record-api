@@ -2,21 +2,20 @@ package uk.nhs.adaptors.scr.mappings.from.fhir;
 
 import io.micrometer.core.instrument.util.StringUtils;
 import lombok.extern.slf4j.Slf4j;
-import org.hl7.fhir.r4.model.Bundle;
-import org.hl7.fhir.r4.model.CodeableConcept;
-import org.hl7.fhir.r4.model.Coding;
-import org.hl7.fhir.r4.model.Condition;
-import org.hl7.fhir.r4.model.Encounter;
-import org.hl7.fhir.r4.model.Period;
+import org.hl7.fhir.r4.model.*;
 import uk.nhs.adaptors.scr.exceptions.FhirMappingException;
 import uk.nhs.adaptors.scr.exceptions.FhirValidationException;
 import uk.nhs.adaptors.scr.models.GpSummary;
 import uk.nhs.adaptors.scr.models.xml.Diagnosis;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 import static uk.nhs.adaptors.scr.mappings.from.fhir.ParticipantAgentMapper.mapAuthor;
 import static uk.nhs.adaptors.scr.mappings.from.fhir.ParticipantAgentMapper.mapInformant;
+import static uk.nhs.adaptors.scr.mappings.from.hl7.XmlToFhirMapper.SNOMED_SYSTEM;
 import static uk.nhs.adaptors.scr.utils.DateUtil.formatDateToHl7;
 import static uk.nhs.adaptors.scr.utils.FhirHelper.getDomainResourceList;
 import static uk.nhs.adaptors.scr.utils.FhirHelper.getResourceByReference;
@@ -25,11 +24,51 @@ import static uk.nhs.adaptors.scr.utils.FhirHelper.getResourceByReference;
 public class ConditionMapper {
 
     private static final String PARTICIPATION_TYPE_SYSTEM = "http://terminology.hl7.org/CodeSystem/v3-ParticipationType";
+    private static final Predicate<Condition> IS_DIAGNOSES =
+        condition -> "163001000000103".equals(condition.getCategoryFirstRep().getCodingFirstRep().getCode());
+    private static final Predicate<Condition> IS_PROBLEM =
+        condition -> "162991000000102".equals(condition.getCategoryFirstRep().getCodingFirstRep().getCode());
 
     public static void mapConditions(GpSummary gpSummary, Bundle bundle) {
+        validate(bundle);
+
+        gpSummary.getDiagnoses()
+            .addAll(mapDiagnoses(bundle));
+
+        gpSummary.getProblems()
+            .addAll(mapProblems(bundle));
+    }
+
+    private static void validate(Bundle bundle) {
         getDomainResourceList(bundle, Condition.class).stream()
+            .forEach(it -> {
+                if (!it.getIdentifierFirstRep().hasValue()) {
+                    throw new FhirValidationException("Condition.identifier.value is missing");
+                }
+
+                Coding coding = it.getCategoryFirstRep().getCodingFirstRep();
+                if (!coding.getSystem().equals(SNOMED_SYSTEM)) {
+                    throw new FhirValidationException("Invalid Condition.category.coding.system: " + coding.getSystem());
+                }
+
+                if (!coding.hasCode()) {
+                    throw new FhirValidationException("Condition.category.coding.code is missing");
+                }
+            });
+    }
+
+    private static List<Diagnosis> mapDiagnoses(Bundle bundle) {
+        return getDomainResourceList(bundle, Condition.class).stream()
+            .filter(IS_DIAGNOSES)
             .map(condition -> mapDiagnosis(condition, bundle))
-            .forEach(diagnosis -> gpSummary.getDiagnoses().add(diagnosis));
+            .collect(Collectors.toList());
+    }
+
+    private static List<Problem> mapProblems(Bundle bundle) {
+        return getDomainResourceList(bundle, Condition.class).stream()
+            .filter(IS_PROBLEM)
+            .map(condition -> mapProblem(condition, bundle))
+            .collect(Collectors.toList());
     }
 
     private static Diagnosis mapDiagnosis(Condition condition, Bundle bundle) throws FhirMappingException {

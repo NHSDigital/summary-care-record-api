@@ -13,6 +13,7 @@ import uk.nhs.adaptors.scr.exceptions.FhirValidationException;
 import uk.nhs.adaptors.scr.models.GpSummary;
 import uk.nhs.adaptors.scr.models.xml.Finding;
 import uk.nhs.adaptors.scr.models.xml.RiskToPatient;
+import uk.nhs.adaptors.scr.models.xml.SocialOrPersonalCircumstance;
 
 import java.util.Collection;
 import java.util.List;
@@ -36,6 +37,8 @@ public class ObservationMapper {
         observation -> "163141000000104".equals(observation.getCategoryFirstRep().getCodingFirstRep().getCode());
     private static final Predicate<Observation> IS_RISK_TO_PATIENT =
         observation -> "163231000000100".equals(observation.getCategoryFirstRep().getCodingFirstRep().getCode());
+    private static final Predicate<Observation> IS_SOCIAL_OR_PERSONAL_CIRCUMSTANCES =
+        observation -> "163021000000107".equals(observation.getCategoryFirstRep().getCodingFirstRep().getCode());
 
     public static void mapObservations(GpSummary gpSummary, Bundle bundle) {
         validate(bundle);
@@ -45,6 +48,8 @@ public class ObservationMapper {
             .addAll(mapInvestigationResults(bundle));
         gpSummary.getRisksToPatient()
             .addAll(mapRisksToPatient(bundle));
+        gpSummary.getSocialOrPersonalCircumstances()
+            .addAll(mapSocialOrPersonalCircumstances(bundle));
     }
 
     private static void validate(Bundle bundle) {
@@ -80,10 +85,18 @@ public class ObservationMapper {
     }
 
     private static List<RiskToPatient> mapRisksToPatient(Bundle bundle) {
-        var riskToPatientMapper = new RiskToPatientMapper();
+        var mapper = new RiskToPatientMapper();
         return getDomainResourceList(bundle, Observation.class).stream()
             .filter(IS_RISK_TO_PATIENT)
-            .map(observation -> riskToPatientMapper.map(observation))
+            .map(observation -> mapper.map(observation))
+            .collect(Collectors.toList());
+    }
+
+    private static List<SocialOrPersonalCircumstance> mapSocialOrPersonalCircumstances(Bundle bundle) {
+        var mapper = new SocialOrPersonalCircumstanceMapper();
+        return getDomainResourceList(bundle, Observation.class).stream()
+            .filter(IS_SOCIAL_OR_PERSONAL_CIRCUMSTANCES)
+            .map(observation -> mapper.map(observation))
             .collect(Collectors.toList());
     }
 
