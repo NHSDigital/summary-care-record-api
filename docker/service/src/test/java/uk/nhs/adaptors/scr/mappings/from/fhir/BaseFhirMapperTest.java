@@ -7,7 +7,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import uk.nhs.adaptors.scr.components.FhirParser;
 import uk.nhs.adaptors.scr.mappings.from.common.UuidWrapper;
 
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.lenient;
 import static uk.nhs.utils.Utils.readResourceFile;
 
 @ExtendWith(MockitoExtension.class)
@@ -24,7 +24,7 @@ public class BaseFhirMapperTest {
     }
 
     protected String returnExpectedUuid(String expectedUuid) {
-        when(uuid.randomUuid()).thenReturn(expectedUuid);
+        lenient().when(uuid.randomUuid()).thenReturn(expectedUuid);
         return expectedUuid;
     }
 
