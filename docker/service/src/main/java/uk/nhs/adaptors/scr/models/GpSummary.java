@@ -7,7 +7,12 @@ import org.hl7.fhir.r4.model.Bundle;
 import org.springframework.stereotype.Component;
 import uk.nhs.adaptors.scr.exceptions.FhirMappingException;
 import uk.nhs.adaptors.scr.exceptions.FhirValidationException;
-import uk.nhs.adaptors.scr.mappings.from.fhir.*;
+import uk.nhs.adaptors.scr.mappings.from.fhir.AuthorMapper;
+import uk.nhs.adaptors.scr.mappings.from.fhir.CompositionMapper;
+import uk.nhs.adaptors.scr.mappings.from.fhir.ConditionMapper;
+import uk.nhs.adaptors.scr.mappings.from.fhir.ObservationMapper;
+import uk.nhs.adaptors.scr.mappings.from.fhir.PatientMapper;
+import uk.nhs.adaptors.scr.mappings.from.fhir.ProcedureMapper;
 import uk.nhs.adaptors.scr.models.xml.CareEvent;
 import uk.nhs.adaptors.scr.models.xml.CareProfessionalDocumentation;
 import uk.nhs.adaptors.scr.models.xml.Diagnosis;
@@ -71,16 +76,20 @@ public class GpSummary {
         GpSummary gpSummary = new GpSummary();
         gpSummary.setNhsdAsidFrom(nhsdAsid);
 
-        Stream.<BiConsumer<GpSummary, Bundle>>of(
-            GpSummary::gpSummarySetHeaderTimeStamp,
-            GpSummary::gpSummarySetHeaderId,
-            AuthorMapper::mapAuthor,
-            CompositionMapper::mapComposition,
-            ConditionMapper::mapConditions,
-            ObservationMapper::mapObservations,
-            PatientMapper::mapPatient,
-            ProcedureMapper::mapProcedures)
-            .forEach(mapper -> mapper.accept(gpSummary, bundle));
+        try {
+            Stream.<BiConsumer<GpSummary, Bundle>>of(
+                    GpSummary::gpSummarySetHeaderTimeStamp,
+                    GpSummary::gpSummarySetHeaderId,
+                    AuthorMapper::mapAuthor,
+                    CompositionMapper::mapComposition,
+                    ConditionMapper::mapConditions,
+                    ObservationMapper::mapObservations,
+                    PatientMapper::mapPatient,
+                    ProcedureMapper::mapProcedures)
+                .forEach(mapper -> mapper.accept(gpSummary, bundle));
+        } catch (Exception e) {
+            throw new FhirMappingException(e.getMessage(), e.getCause());
+        }
 
         return gpSummary;
     }

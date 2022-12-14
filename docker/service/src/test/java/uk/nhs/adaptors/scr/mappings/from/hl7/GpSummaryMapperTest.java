@@ -12,21 +12,25 @@ import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.w3c.dom.Node;
 import uk.nhs.adaptors.scr.components.FhirParser;
+import uk.nhs.adaptors.scr.utils.XmlUtils;
 
+import javax.xml.xpath.XPathFactory;
 import java.util.ArrayList;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
-public class GpSummaryMapperTest extends BaseHL7MapperTest{
+public class GpSummaryMapperTest extends BaseHL7MapperTest {
     @InjectMocks
     private GpSummaryMapper gpSummaryMapper;
     @Mock
     private AgentPersonMapper agentPersonMapper;
     @Spy
-    private HtmlParser htmlParser = new HtmlParser(xmlUtils);
+    private HtmlParser htmlParser = new HtmlParser(new XmlUtils(XPathFactory.newInstance()));
 
     private static final String HTML_RESOURCE_DIRECTORY = "gp_summary/from/hl7";
     private static final String PARTIALS_RESOURCE_DIRECTORY = "gp_summary/partials";

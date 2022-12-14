@@ -14,7 +14,9 @@ import java.util.stream.Collectors;
 import static uk.nhs.adaptors.scr.utils.FhirHelper.getDomainResourceList;
 
 public class ProcedureMapper {
-    private static final Predicate<Procedure> IS_TREATMENT = procedure -> "163071000000106".equals(procedure.getCategory().getCodingFirstRep().getCode());
+    private static final Predicate<Procedure> IS_TREATMENT =
+        procedure -> "163071000000106".equals(procedure.getCategory().getCodingFirstRep().getCode());
+
     public static void mapProcedures(GpSummary gpSummary, Bundle bundle) {
         validate(bundle);
         gpSummary.getTreatments()
@@ -32,8 +34,8 @@ public class ProcedureMapper {
     private static void validate(Bundle bundle) {
         getDomainResourceList(bundle, Procedure.class).stream()
             .forEach(it -> {
-                if (!it.getIdentifierFirstRep().hasValue()) {
-                    throw new FhirValidationException("Procedure.identifier.value is missing");
+                if (!it.hasId()) {
+                    throw new FhirValidationException("Procedure.id is missing");
                 }
                 if (!it.hasCode()) {
                     throw new FhirValidationException("Procedure.code is missing");

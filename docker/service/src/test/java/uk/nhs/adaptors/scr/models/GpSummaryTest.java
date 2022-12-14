@@ -5,8 +5,10 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import uk.nhs.adaptors.scr.components.FhirParser;
-import uk.nhs.adaptors.scr.models.xml.*;
-import uk.nhs.adaptors.scr.utils.TemplateUtils;
+import uk.nhs.adaptors.scr.models.xml.Diagnosis;
+import uk.nhs.adaptors.scr.models.xml.Finding;
+import uk.nhs.adaptors.scr.models.xml.RiskToPatient;
+import uk.nhs.adaptors.scr.models.xml.Treatment;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static uk.nhs.utils.Utils.readResourceFile;

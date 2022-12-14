@@ -32,7 +32,7 @@ public class BaseHL7MapperTest {
     @Mock
     private UuidWrapper uuid;
     @Spy
-    XmlUtils xmlUtils = new XmlUtils(XPathFactory.newInstance());
+    private XmlUtils xmlUtils = new XmlUtils(XPathFactory.newInstance());
     @Spy
     private CodedEntryMapper codedEntry = new CodedEntryMapper(xmlUtils);
 

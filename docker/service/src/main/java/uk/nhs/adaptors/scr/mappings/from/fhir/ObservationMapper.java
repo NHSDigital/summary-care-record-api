@@ -15,7 +15,6 @@ import uk.nhs.adaptors.scr.models.xml.Finding;
 import uk.nhs.adaptors.scr.models.xml.RiskToPatient;
 import uk.nhs.adaptors.scr.models.xml.SocialOrPersonalCircumstance;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
