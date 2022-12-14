@@ -7,6 +7,7 @@ import uk.nhs.adaptors.scr.exceptions.FhirMappingException;
 import uk.nhs.adaptors.scr.exceptions.FhirValidationException;
 import uk.nhs.adaptors.scr.models.GpSummary;
 import uk.nhs.adaptors.scr.models.xml.Diagnosis;
+import uk.nhs.adaptors.scr.models.xml.Problem;
 
 import java.util.List;
 import java.util.Optional;
@@ -65,9 +66,10 @@ public class ConditionMapper {
     }
 
     private static List<Problem> mapProblems(Bundle bundle) {
+        var mapper = new ProblemMapper();
         return getDomainResourceList(bundle, Condition.class).stream()
             .filter(IS_PROBLEM)
-            .map(condition -> mapProblem(condition, bundle))
+            .map(condition -> mapper.mapProblem(condition))
             .collect(Collectors.toList());
     }
 

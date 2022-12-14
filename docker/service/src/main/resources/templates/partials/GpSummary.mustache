@@ -36,9 +36,12 @@
         </pertinentRootCREType>
     </pertinentInformation1>
     {{> Diagnoses.mustache }}
+    {{> CareEvents.mustache }}
     {{> ClinicalObservationsAndFindings.mustache }}
     {{> InvestigationResults.mustache }}
-    {{> CareEvents.mustache }}
+    {{> Problems.mustache }}
+    {{> RisksToPatient.mustache }}
+    {{> SocialOrPersonalCircumstances.mustache }}
     {{> Treatments.mustache }}
     {{#patientId}}
         <recordTarget typeCode="RCT">
