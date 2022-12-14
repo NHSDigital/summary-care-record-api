@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import uk.nhs.adaptors.scr.mappings.from.common.UuidWrapper;
 import uk.nhs.adaptors.scr.mappings.from.hl7.common.CodedEntry;
 import uk.nhs.adaptors.scr.mappings.from.hl7.common.CodedEntryMapper;
 import uk.nhs.adaptors.scr.utils.XmlUtils;

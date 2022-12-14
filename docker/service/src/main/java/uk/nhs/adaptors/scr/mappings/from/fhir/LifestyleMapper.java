@@ -18,12 +18,12 @@ public class LifestyleMapper {
 
     public Lifestyle map(Observation observation) {
         var obj = new Lifestyle();
-        obj.setIdRoot(observation.getIdentifierFirstRep().getValue());
         var codingFirstRep = observation.getCode().getCodingFirstRep();
+        obj.setIdRoot(observation.getIdentifierFirstRep().getValue());
 
         obj.setCodeCode(codingFirstRep.getCode());
         obj.setCodeDisplayName(codingFirstRep.getDisplay());
-        obj.setStatusCodeCode("normal");
+        obj.setStatusCodeCode(observation.getStatusElement().getCode());
 
         if (observation.getEffective() instanceof DateTimeType) {
             obj.setEffectiveTimeLow(formatDateToHl7(observation.getEffectiveDateTimeType()));

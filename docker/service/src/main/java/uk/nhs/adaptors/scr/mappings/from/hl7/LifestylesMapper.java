@@ -21,13 +21,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import uk.nhs.adaptors.scr.mappings.from.common.UuidWrapper;
 import uk.nhs.adaptors.scr.mappings.from.hl7.common.CodedEntry;
 import uk.nhs.adaptors.scr.mappings.from.hl7.common.CodedEntryMapper;
 import uk.nhs.adaptors.scr.utils.XmlUtils;
 
 import static org.hl7.fhir.r4.model.Encounter.EncounterStatus.FINISHED;
 import static uk.nhs.adaptors.scr.mappings.from.hl7.XmlToFhirMapper.parseDate;
-import static uk.nhs.adaptors.scr.utils.FhirHelper.randomUUID;
 
 /**
  * Maps the SocialOrPersonalCircumstances HL7 XML to FHIR JSON.
@@ -37,6 +37,7 @@ import static uk.nhs.adaptors.scr.utils.FhirHelper.randomUUID;
 @Component
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class LifestylesMapper implements XmlToFhirMapper {
+    private final UuidWrapper uuid;
     private final ParticipantMapper participantMapper;
     private final CodedEntryMapper codedEntryMapper;
     private final XmlUtils xmlUtils;
@@ -147,7 +148,7 @@ public class LifestylesMapper implements XmlToFhirMapper {
                 .setCode("UNK")
                 .setSystem("http://terminology.hl7.org/CodeSystem/v3-NullFlavor")
                 .setDisplay("Unknown"));
-            encounter.setId(randomUUID());
+            encounter.setId(uuid.randomUuid());
             author.ifPresent(authorNode -> mapAuthor(resources, encounter, authorNode));
             informant.ifPresent(informantNode -> mapInformant(resources, encounter, informantNode));
             observation.setEncounter(new Reference(encounter));

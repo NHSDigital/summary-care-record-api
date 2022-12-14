@@ -9,6 +9,7 @@ public class Lifestyle {
     private String idRoot;
     private String codeCode;
     private String codeDisplayName;
+    private String originalText;
     private String statusCodeCode;
     private String effectiveTimeLow;
     private String effectiveTimeHigh;

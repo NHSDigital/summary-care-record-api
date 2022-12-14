@@ -7,7 +7,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
 import uk.nhs.adaptors.scr.models.GpSummary;
-import uk.nhs.adaptors.scr.models.xml.CareProfessionalDocumentation;
 import uk.nhs.adaptors.scr.models.xml.Lifestyle;
 import uk.nhs.adaptors.scr.utils.TemplateUtils;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -21,8 +20,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class LifestyleMapperTest extends BaseFhirMapperTest {
 
     private static final String RESOURCE_DIRECTORY = "lifestyle";
-    private static final String STATUS_CODE = "normal";
-    private static final String FILE_NAME = "example";
+    private static final String STATUS_CODE = "final";
+    private static final String FILE_NAME = "example3";
+    private static final String FILE_NAME_HL7 = "example3";
 
     @InjectMocks
     private LifestyleMapper mapper;
@@ -34,7 +34,7 @@ public class LifestyleMapperTest extends BaseFhirMapperTest {
     public void When_MappingFromFHIR_Expect_RootId() {
         var obj = getFileAsObject(RESOURCE_DIRECTORY, FILE_NAME, Observation.class);
         var result = mapper.map(obj);
-        assertThat(result.getIdRoot()).isEqualTo("7D50E3C0-7565-11E8-AEC7-950876D8FD27");
+        assertThat(result.getIdRoot()).isEqualTo("5EDDDF8C-775A-4437-8990-41012DB32BD0");
     }
 
     /**
@@ -45,8 +45,8 @@ public class LifestyleMapperTest extends BaseFhirMapperTest {
         var obj = getFileAsObject(RESOURCE_DIRECTORY, FILE_NAME, Observation.class);
         var result = mapper.map(obj);
 
-        assertThat(result.getCodeCode()).isEqualTo("308452008");
-        assertThat(result.getCodeDisplayName()).isEqualTo("Referral to speech and language therapist");
+        assertThat(result.getCodeCode()).isEqualTo("102906002");
+        assertThat(result.getCodeDisplayName()).isEqualTo("delinquent behaviour");
     }
 
     /**
@@ -68,7 +68,7 @@ public class LifestyleMapperTest extends BaseFhirMapperTest {
         var obj = getFileAsObject(RESOURCE_DIRECTORY, FILE_NAME, Observation.class);
         var result = mapper.map(obj);
 
-        assertThat(result.getEffectiveTimeLow()).isEqualTo("20180621161151");
+        assertThat(result.getEffectiveTimeLow()).isEqualTo("19900825");
     }
 
     /**
@@ -76,7 +76,7 @@ public class LifestyleMapperTest extends BaseFhirMapperTest {
      */
     @Test
     public void When_MappingFromFHIR_Expect_MatchingHtml() {
-        var expectedHtml = getExpectedHtml(RESOURCE_DIRECTORY, FILE_NAME);
+        var expectedHtml = getExpectedHtml(RESOURCE_DIRECTORY, FILE_NAME_HL7);
         var communication = getFileAsObject(RESOURCE_DIRECTORY, FILE_NAME, Observation.class);
 
         // Map using method in fromFIHR CareProfessionalDocumentationMapper::map().
