@@ -1,0 +1,15 @@
+{
+  "resourceType": "Practitioner",
+  "id": "369CDBE4-D19D-4948-A975-576597F56CB9",
+  "identifier": [
+    {
+      "system": "https://fhir.nhs.uk/Id/sds-user-id",
+      "value": "773251640040"
+    }
+  ],
+  "name": [
+    {
+      "text": "SMITH John"
+    }
+  ]
+}
