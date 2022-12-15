@@ -21,8 +21,8 @@ public class LifestyleMapperTest extends BaseFhirMapperTest {
 
     private static final String RESOURCE_DIRECTORY = "lifestyle";
     private static final String STATUS_CODE = "final";
-    private static final String FILE_NAME = "example3";
-    private static final String FILE_NAME_HL7 = "example3";
+    private static final String FILE_NAME = "without_author";
+    private static final String FILE_NAME_HL7 = "without_author";
 
     @InjectMocks
     private LifestyleMapper mapper;
