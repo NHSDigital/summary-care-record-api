@@ -1,0 +1,21 @@
+<component typeCode="COMP" contextConductionInd="true">
+            <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.component" />
+            <seperatableInd value="false" />
+            <UKCT_MT144038UK02.Problem classCode="CNOD" moodCode="EVN">
+                <id root="{{idRoot}}" />
+                <code code="{{codeCode}}" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="{{codeDisplayName}}" />
+                <statusCode code="{{statusCodeCode}}" />
+                <effectiveTime>
+                    <low value="{{effectiveTimeLow}}" />
+                </effectiveTime>
+                {{#diagnosisId}}
+                <pertinentInformation typeCode="PERT" inversionInd="false" negationInd="false">
+                    <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.sourceOf" />
+                    <seperatableInd value="false" />
+                    <Diagnosis classCode="OBS" moodCode="EVN">
+                        <id root="{{diagnosisId}}" />
+                    </Diagnosis>
+                </pertinentInformation>
+                {{/diagnosisId}}
+            </UKCT_MT144038UK02.Problem>
+        </component>

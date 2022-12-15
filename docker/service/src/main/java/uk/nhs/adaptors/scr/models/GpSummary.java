@@ -22,10 +22,11 @@ import uk.nhs.adaptors.scr.models.xml.Participant;
 import uk.nhs.adaptors.scr.models.xml.PatientCarerCorrespondence;
 import uk.nhs.adaptors.scr.models.xml.PersonalPreference;
 import uk.nhs.adaptors.scr.models.xml.Presentation;
+import uk.nhs.adaptors.scr.models.xml.Problem;
 import uk.nhs.adaptors.scr.models.xml.ProvisionOfAdviceAndInformation;
 import uk.nhs.adaptors.scr.models.xml.RiskToPatient;
-import uk.nhs.adaptors.scr.models.xml.SocialOrPersonalCircumstance;
 import uk.nhs.adaptors.scr.models.xml.Treatment;
+import uk.nhs.adaptors.scr.models.xml.SocialOrPersonalCircumstance;
 import uk.nhs.adaptors.scr.utils.DateUtil;
 
 import java.util.ArrayList;
@@ -64,6 +65,7 @@ public class GpSummary {
     private List<Investigation> investigations = new ArrayList<>();
     private List<PatientCarerCorrespondence> patientCarerCorrespondences = new ArrayList<>();
     private List<PersonalPreference> personalPreferences = new ArrayList<>();
+    private List<Problem> problems = new ArrayList<>();
     private List<ProvisionOfAdviceAndInformation> provisionsOfAdviceAndInformationToPatientsAndCarers = new ArrayList<>();
     private List<RiskToPatient> risksToPatient = new ArrayList<>();
     private List<Treatment> treatments = new ArrayList<>();
