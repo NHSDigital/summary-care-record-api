@@ -36,6 +36,7 @@ public class LifestylesMapperTest extends BaseHL7MapperTest {
     private static final String PARTIALS_RESOURCE_DIRECTORY = "lifestyle/partials";
     private static final String CATEGORY_DISPLAY = "Lifestyle";
     private static final String FILE_NAME = "example";
+    private static final String FILE_NAME_SECOND = "example2";
     private static final String ID = "5EDDDF8C-775A-4437-8990-41012DB32BD0";
     private static final String ID_ENCOUNTER = "5F748C32-4BE8-44C5-8E50-F640B2F4743E";
     private static final String INFORMATION_BASE_PATH = "/pertinentInformation2/pertinentCREType["
@@ -126,7 +127,7 @@ public class LifestylesMapperTest extends BaseHL7MapperTest {
         doReturn(authorResources).doReturn(informantResources).when(participantMapper).map(any(Node.class));
 
         var html = getHtmlExample(RESOURCE_DIRECTORY, FILE_NAME);
-        var expectedJson = getJsonExample(RESOURCE_DIRECTORY, FILE_NAME + "2");
+        var expectedJson = getJsonExample(RESOURCE_DIRECTORY, FILE_NAME_SECOND);
         var results = mapper.map(html);
         var resultBundle = new Bundle();
         results.stream().map(resource -> getBundleEntryComponent(resource)).forEach(resultBundle::addEntry);
