@@ -1,0 +1,41 @@
+{
+   "resourceType":"Observation",
+   "id":"5EDDDF8C-775A-4437-8990-41012DB32BD0",
+   "meta":{
+      "profile":[
+         "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Observation"
+      ]
+   },
+   "identifier":[
+      {
+         "value":"5EDDDF8C-775A-4437-8990-41012DB32BD0"
+      }
+   ],
+   "status":"final",
+   "category":[
+      {
+         "coding":[
+            {
+               "system":"http://snomed.info/sct",
+               "code":"163041000000100",
+               "display":"Lifestyle"
+            }
+         ]
+      }
+   ],
+   "code":{
+      "coding":[
+         {
+            "system":"http://snomed.info/sct",
+            "code":"102906002",
+            "display":"delinquent behaviour"
+         }
+      ]
+   },
+   "effectivePeriod":{
+      "start":"1990-08-25"
+   },
+   "encounter":{
+      "reference":"Encounter/080ed9f3-468e-4fe8-9a43-abdc8ef445e8"
+   }
+}
