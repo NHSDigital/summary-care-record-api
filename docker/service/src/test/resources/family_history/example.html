@@ -1,26 +1,43 @@
 <pertinentInformation2 typeCode="PERT" inversionInd="false" contextConductionInd="true" negationInd="false">
-    <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.pertinentInformation1" />
-    <seperatableInd value="true" />
+    <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.pertinentInformation1"/>
+    <seperatableInd value="true"/>
     <pertinentCREType classCode="CATEGORY" moodCode="EVN">
-        <code code="162991000000102" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Problems and Issues" />
+        <code code="163051000000102" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="FamilyHistory"/>
         <component typeCode="COMP" contextConductionInd="true">
-            <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.component" />
-            <seperatableInd value="false" />
-            <UKCT_MT144038UK02.Problem classCode="CNOD" moodCode="EVN">
-                <id root="BB890EB6-3152-4D08-9331-D48FE63198C1" />
-                <code code="181301000000103" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Abstract problem node" />
-                <statusCode code="active" />
-                <effectiveTime>
-                    <low value="20200501" />
-                </effectiveTime>
-                <pertinentInformation typeCode="PERT" inversionInd="false" negationInd="false">
-                    <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.sourceOf" />
-                    <seperatableInd value="false" />
-                    <Diagnosis classCode="OBS" moodCode="EVN">
-                        <id root="D680F6BE-73B9-4E18-988B-1D55E1B6F2D5" />
-                    </Diagnosis>
-                </pertinentInformation>
-            </UKCT_MT144038UK02.Problem>
+            <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.component"/>
+            <seperatableInd value="false"/>
+            <UKCT_MT144044UK01.FamilyHistory xmlns="urn:hl7-org:v3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:hl7-org:v3 CmetSchema.xsd" classCode="OBS" moodCode="EVN">
+                <id root="51089E5B-0840-4237-8D91-CFC0238E83B4"/>
+                <code codeSystem="2.16.840.1.113883.2.1.3.2.4.15" code="289916006" displayName="family history of kidney disease">
+                    <originalText>Family history of kidney disease</originalText>
+                    <qualifier>
+                        <name code="408732007" displayName="subject relationship context"/>
+                        <value code="394861005" displayName="great-uncle"/>
+                    </qualifier>
+                </code>
+                <statusCode code="active"/>
+                <effectiveTime nullFlavor="NI"/>
+                <author typeCode="AUT" contextControlCode="OP">
+                    <time value="200408031015"/>
+                    <UKCT_MT160018UK01.AgentPersonSDS classCode="AGNT">
+                        <id root="1.2.826.0.1285.0.2.0.67" extension="216581645483"/>
+                        <agentPersonSDS classCode="PSN" determinerCode="INSTANCE">
+                            <id root="1.2.826.0.1285.0.2.0.65" extension="747664812032"/>
+                            <name/>
+                        </agentPersonSDS>
+                    </UKCT_MT160018UK01.AgentPersonSDS>
+                </author>
+                <informant typeCode="INF" contextControlCode="OP">
+                    <time value="200408031015"/>
+                    <UKCT_MT160018UK01.AgentPersonSDS classCode="AGNT">
+                        <id root="1.2.826.0.1285.0.2.0.67" extension="216581645483"/>
+                        <agentPersonSDS classCode="PSN" determinerCode="INSTANCE">
+                            <id root="1.2.826.0.1285.0.2.0.65" extension="747664812032"/>
+                            <name/>
+                        </agentPersonSDS>
+                    </UKCT_MT160018UK01.AgentPersonSDS>
+                </informant>
+            </UKCT_MT144044UK01.FamilyHistory>
         </component>
     </pertinentCREType>
 </pertinentInformation2>
