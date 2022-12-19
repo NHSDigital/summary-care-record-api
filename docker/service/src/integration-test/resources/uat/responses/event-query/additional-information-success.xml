@@ -1,1369 +1,1420 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<REPC_IN150016UK05 xmlns="urn:hl7-org:v3" ITSVersion="XML_1.0">
-  <id root="19B11E00-8AF5-11EA-9FCE-AFDCAECF9DFB"/>
-  <creationTime value="20200430161309"/>
-  <versionCode code="V3NPfIT4.2.00"/>
-  <interactionId root="2.16.840.1.113883.2.1.3.2.4.12" extension="REPC_IN150016UK05"/>
-  <processingCode code="P"/>
-  <processingModeCode code="T"/>
-  <acceptAckCode code="NE"/>
-  <communicationFunctionRcv>
-    <device classCode="DEV" determinerCode="INSTANCE">
-      <id root="1.2.826.0.1285.0.2.0.107" extension="227319907548"/>
-    </device>
-  </communicationFunctionRcv>
-  <communicationFunctionSnd>
-    <device classCode="DEV" determinerCode="INSTANCE">
-      <id root="1.2.826.0.1285.0.2.0.107" extension="200000000166"/>
-    </device>
-  </communicationFunctionSnd>
-  <ControlActEvent classCode="CACT" moodCode="EVN">
-    <author typeCode="AUT">
-      <AgentPersonSDS classCode="AGNT">
-        <id root="1.2.826.0.1285.0.2.0.67" extension="173067658018"/>
-        <agentPersonSDS classCode="PSN" determinerCode="INSTANCE">
-          <id root="1.2.826.0.1285.0.2.0.65" extension="784578436584"/>
-        </agentPersonSDS>
-        <part typeCode="PART">
-          <partSDSRole classCode="ROL">
-            <id root="1.2.826.0.1285.0.2.1.104" extension="S0010:G0020:R0260"/>
-          </partSDSRole>
-        </part>
-      </AgentPersonSDS>
-    </author>
-    <author1 typeCode="AUT">
-      <AgentSystemSDS classCode="AGNT">
-        <agentSystemSDS classCode="DEV" determinerCode="INSTANCE">
-          <id root="1.2.826.0.1285.0.2.0.107" extension="200000000166"/>
-        </agentSystemSDS>
-      </AgentSystemSDS>
-    </author1>
-    <subject typeCode="SUBJ" contextConductionInd="false">
-      <GPSummary classCode="COMPOSITION" moodCode="EVN" xmlns="urn:hl7-org:v3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-        <id root="19B11E00-8AF5-11EA-9FCE-AFDCAECF9DFB"/>
-        <code code="196981000000101" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="General Practice Summary"/>
-        <statusCode code="active"/>
-        <effectiveTime value="202004301613"/>
-        <author typeCode="AUT" contextControlCode="OP">
-          <time value="20200430161309"/>
-          <UKCT_MT160018UK01.AgentPersonSDS classCode="AGNT">
-            <id root="1.2.826.0.1285.0.2.0.67" extension="173067658018"/>
-            <agentPersonSDS classCode="PSN" determinerCode="INSTANCE">
-              <id root="1.2.826.0.1285.0.2.0.65" extension="784578436584"/>
-              <name use="L">
-                <given>Mr</given>
-                <given>Bob</given>
-                <family>Wilson</family>
-              </name>
-            </agentPersonSDS>
-          </UKCT_MT160018UK01.AgentPersonSDS>
-        </author>
-        <hl7:excerptFrom xmlns:hl7="urn:hl7-org:v3" typeCode="XCRPT" contextConductionInd="true" inversionInd="false" negationInd="false">
-          <hl7:templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAT_RM-NPfITUK10.excerptFrom"/>
-          <hl7:seperatableInd value="false"/>
-          <hl7:UKCT_MT144051UK01.CareProfessionalDocumentationCRE classCode="CATEGORY" moodCode="EVN">
-            <hl7:code code="163171000000105" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Care Professional Documentation"/>
-            <hl7:component typeCode="COMP" inversionInd="false" negationInd="false">
-              <hl7:templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.component"/>
-              <hl7:seperatableInd value="false"/>
-              <hl7:presentationText classCode="OBS" moodCode="EVN">
-                <value mediaType="text/plain" xsi:type="ED.NPfIT.Text.XHTML">
-                  <html xmlns="xhtml:NPfIT:PresentationText">
-                    <body>
-                      <h2 id="Title">General Practice Summary</h2>
-                      <h3 id="Disclaimer">Sourced from the patient&apos;s General Practice record. This summary may not include all the information pertinent to this patient.</h3>
-                      <p id="CreateTime">Summary created: 30 Apr 2020 16:13</p>
-                      <p id="WithheldCREItemsHeaderStatement" class="HighlightedStatement">One or more entries have been deliberately withheld from this GP Summary.</p>
-                      <p id="Author">Created by: WILSON, Bob (Mr)</p>
-                      <p id="Practice">Spine Testing, The Practice, Woodvale Terrace, Horsforth, Leeds LS18 4JW</p>
-                      <h2 id="AllergiesHeader">Allergies and Adverse Reactions</h2>
-                      <table id="Allergies" summary="This table includes information about this patient&apos;s allergies and adverse reactions">
-                        <thead>
-                          <tr>
-                            <th>Date</th>
-                            <th>Description</th>
-                            <th>Certainty</th>
-                            <th>Severity</th>
-                            <th>Supporting Information</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr class="oddRow">
-                            <td>25 Mar 2020</td>
-                            <td>Astringent allergy</td>
-                            <td/>
-                            <td/>
-                            <td/>
-                          </tr>
-                        </tbody>
-                      </table>
-                      <h2 id="AcuteMedsHeader">Acute Medications (For the 12 month period 01 May 2019 to 30 Apr 2020)</h2>
-                      <table id="AcuteMeds" summary="This table includes information about this patient&apos;s acute medications.">
-                        <thead>
-                          <tr>
-                            <th>Type</th>
-                            <th>Date</th>
-                            <th>Medication Item</th>
-                            <th>Dosage Instructions</th>
-                            <th>Quantity</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr class="oddRow">
-                            <td>Acute Medication</td>
-                            <td>Prescribed: 29 Apr 2020</td>
-                            <td>Aspirin 300mg tablets</td>
-                            <td>take 1 or 2 3 times/day</td>
-                            <td>60 tablet</td>
-                          </tr>
-                          <tr class="evenRow">
-                            <td>Acute Medication</td>
-                            <td>Prescribed: 29 Apr 2020</td>
-                            <td>Cetirizine 10mg capsules</td>
-                            <td>take one daily</td>
-                            <td>28 capsule</td>
-                          </tr>
-                          <tr class="oddRow">
-                            <td>Acute Medication</td>
-                            <td>Prescribed: 29 Apr 2020</td>
-                            <td>Glyceryl trinitrate 400micrograms/dose pump sublingual spray</td>
-                            <td>one puff As needed</td>
-                            <td>150 dose</td>
-                          </tr>
-                          <tr class="evenRow">
-                            <td>Acute Medication</td>
-                            <td>Prescribed: 29 Apr 2020</td>
-                            <td>Propranolol 40mg tablets</td>
-                            <td>take one 3 times/day</td>
-                            <td>28 tablet</td>
-                          </tr>
-                          <tr class="oddRow">
-                            <td>Acute Medication</td>
-                            <td>Prescribed: 28 Apr 2020</td>
-                            <td>Aspirin 300mg tablets</td>
-                            <td>take 1 or 2 3 times/day</td>
-                            <td>60 tablet</td>
-                          </tr>
-                          <tr class="evenRow">
-                            <td>Acute Medication</td>
-                            <td>Prescribed: 28 Apr 2020</td>
-                            <td>Propranolol 40mg tablets</td>
-                            <td>take one 3 times/day</td>
-                            <td>28 tablet</td>
-                          </tr>
-                          <tr class="oddRow">
-                            <td>Acute Medication</td>
-                            <td>Prescribed: 23 Apr 2020</td>
-                            <td>Aspirin 300mg tablets</td>
-                            <td>take 1 or 2 3 times/day</td>
-                            <td>60 tablet</td>
-                          </tr>
-                          <tr class="evenRow">
-                            <td>Acute Medication</td>
-                            <td>Prescribed: 21 Apr 2020</td>
-                            <td>Aspirin 300mg tablets</td>
-                            <td>take 1 or 2 3 times/day</td>
-                            <td>60 tablet</td>
-                          </tr>
-                          <tr class="oddRow">
-                            <td>Acute Medication</td>
-                            <td>Prescribed: 01 Apr 2020</td>
-                            <td>Dukoral cholera vaccine oral suspension (Valneva UK Ltd)</td>
-                            <td/>
-                            <td>3ml</td>
-                          </tr>
-                          <tr class="evenRow">
-                            <td>Acute Medication</td>
-                            <td>Prescribed: 01 Apr 2020</td>
-                            <td>Propranolol 40mg tablets</td>
-                            <td>take one 3 times/day</td>
-                            <td>28 tablet</td>
-                          </tr>
-                          <tr class="oddRow">
-                            <td>Acute Medication</td>
-                            <td>Prescribed: 31 Mar 2020</td>
-                            <td>Abacavir 300mg tablets</td>
-                            <td>** RED DRUG ** Hospital/Specialist Use Only</td>
-                            <td>1 tablet</td>
-                          </tr>
-                          <tr class="evenRow">
-                            <td>Acute Medication</td>
-                            <td>Prescribed: 31 Mar 2020</td>
-                            <td>Abacavir 300mg tablets</td>
-                            <td>** RED DRUG ** Hospital/Specialist Use Only</td>
-                            <td>1 tablet</td>
-                          </tr>
-                          <tr class="oddRow">
-                            <td>Acute Medication</td>
-                            <td>Prescribed: 31 Mar 2020</td>
-                            <td>Abacavir 300mg tablets</td>
-                            <td>** RED DRUG ** Hospital/Specialist Use Only</td>
-                            <td>1 tablet</td>
-                          </tr>
-                          <tr class="evenRow">
-                            <td>Acute Medication</td>
-                            <td>Prescribed: 31 Mar 2020</td>
-                            <td>Abacavir 300mg tablets</td>
-                            <td>** RED DRUG ** Hospital/Specialist Use Only</td>
-                            <td>1 tablet</td>
-                          </tr>
-                          <tr class="oddRow">
-                            <td>Acute Medication</td>
-                            <td>Prescribed: 31 Mar 2020</td>
-                            <td>Abacavir 300mg tablets</td>
-                            <td>** RED DRUG ** Hospital/Specialist Use Only</td>
-                            <td>1 tablet</td>
-                          </tr>
-                        </tbody>
-                      </table>
-                      <h2 id="RepeatMedsHeader">Current Repeat Medications</h2>
-                      <table id="RepeatMeds" summary="This table includes information about this patient&apos;s current repeat medications.">
-                        <thead>
-                          <tr>
-                            <th>Type</th>
-                            <th>Date</th>
-                            <th>Medication Item</th>
-                            <th>Dosage Instructions</th>
-                            <th>Quantity</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr class="oddRow">
-                            <td>Repeat Medication</td>
-                            <td>Authorised (not issued): 26 Mar 2020</td>
-                            <td>Aspirin 300mg tablets</td>
-                            <td>take 1 or 2 3 times/day</td>
-                            <td>60 tablet</td>
-                          </tr>
-                        </tbody>
-                      </table>
-                      <h2 id="DiscRepeatMedsHeader">Discontinued Repeat Medications (For the 6 month period 30 Oct 2019 to 30 Apr 2020)</h2>
-                      <table id="DiscRepeatMeds" summary="This table includes information about this patient&apos;s past repeat medications.">
-                        <thead>
-                          <tr>
-                            <th>Type</th>
-                            <th>Date</th>
-                            <th>Medication Item</th>
-                            <th>Dosage Instructions</th>
-                            <th>Quantity</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr class="oddRow">
-                            <td>Repeat Medication</td>
-                            <td>Authorised (not issued): 25 Mar 2020</td>
-                            <td>Aspirin 300mg tablets</td>
-                            <td>take 1 or 2 3 times/day</td>
-                            <td>60 tablet</td>
-                          </tr>
-                          <tr class="oddRow">
-                            <td colspan="2"/>
-                            <td>Reason for Medication: Viral headache</td>
-                            <td colspan="2"/>
-                          </tr>
-                          <tr class="oddRow">
-                            <td/>
-                            <td colspan="4">***Date Discontinued: 25 Mar 2020, Reason: Clinical grounds***</td>
-                          </tr>
-                        </tbody>
-                      </table>
-                      <h2 id="RisksToPatientHeader">Risks to Patient</h2>
-                      <p id="WithheldCREItemsHeaderStatement" class="HighlightedStatement">One or more entries have been deliberately withheld from this GP Summary.</p>
-                      <table id="RisksToPatient">
-                        <thead>
-                          <tr>
-                            <th>Date</th>
-                            <th>Description</th>
-                            <th>Value</th>
-                            <th>Supporting Information</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr class="oddRow">
-                            <td>30 Apr 2020</td>
-                            <td>High risk category for developing complication from coronavirus disease 19 caused by severe acute respiratory syndrome coronavirus 2 infection (finding)</td>
-                            <td/>
-                            <td/>
-                          </tr>
-                        </tbody>
-                      </table>
-                      <h2 id="ProblemsHeader">Problems and Issues</h2>
-                      <table id="Problems">
-                        <thead>
-                          <tr>
-                            <th>Date</th>
-                            <th>Description</th>
-                            <th>Value</th>
-                            <th>Supporting Information</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr class="oddRow">
-                            <td>01 Apr 2020</td>
-                            <td>Diarrhoea and vomiting</td>
-                            <td/>
-                            <td>Suspected gastroenteritis</td>
-                          </tr>
-                          <tr class="evenRow">
-                            <td>31 Mar 2020</td>
-                            <td>Frugivore</td>
-                            <td/>
-                            <td>y[No notes were originally recorded]</td>
-                          </tr>
-                        </tbody>
-                      </table>
-                      <h2 id="ObservationsHeader">Clinical Observations and Findings</h2>
-                      <table id="Observations">
-                        <thead>
-                          <tr>
-                            <th>Date</th>
-                            <th>Description</th>
-                            <th>Value</th>
-                            <th>Supporting Information</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr class="oddRow">
-                            <td>01 Apr 2020</td>
-                            <td>Diarrhoea and vomiting</td>
-                            <td/>
-                            <td>Suspected gastroenteritis</td>
-                          </tr>
-                          <tr class="evenRow">
-                            <td>31 Mar 2020</td>
-                            <td>Frugivore</td>
-                            <td/>
-                            <td>y[No notes were originally recorded]</td>
-                          </tr>
-                          <tr class="oddRow">
-                            <td>26 Mar 2020</td>
-                            <td>Problem of sense of smell</td>
-                            <td/>
-                            <td/>
-                          </tr>
-                          <tr class="evenRow">
-                            <td>25 Mar 2020</td>
-                            <td>Viral headache</td>
-                            <td/>
-                            <td/>
-                          </tr>
-                          <tr class="oddRow">
-                            <td>25 Mar 2020</td>
-                            <td>Sense of smell impaired</td>
-                            <td/>
-                            <td/>
-                          </tr>
-                        </tbody>
-                      </table>
-                      <h2 id="TreatmentsHeader">Treatments</h2>
-                      <table id="Treatments">
-                        <thead>
-                          <tr>
-                            <th>Date</th>
-                            <th>Description</th>
-                            <th>Value</th>
-                            <th>Supporting Information</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr class="oddRow">
-                            <td>01 Apr 2020</td>
-                            <td>Dukoral 1</td>
-                            <td/>
-                            <td>Previously administered &gt; 10y</td>
-                          </tr>
-                          <tr class="evenRow">
-                            <td>31 Mar 2020</td>
-                            <td>Anti-D Immunglobulin 1</td>
-                            <td/>
-                            <td>notes</td>
-                          </tr>
-                          <tr class="oddRow">
-                            <td>31 Mar 2020</td>
-                            <td>Meningococcal B Vaccine (Bexsero) 1</td>
-                            <td/>
-                            <td/>
-                          </tr>
-                        </tbody>
-                      </table>
-                      <h2 id="CircumstancesHeader">Social and Personal Circumstances</h2>
-                      <p id="WithheldCREItemsHeaderStatement" class="HighlightedStatement">One or more entries have been deliberately withheld from this GP Summary.</p>
-                      <table id="Circumstances">
-                        <thead>
-                          <tr>
-                            <th>Date</th>
-                            <th>Description</th>
-                            <th>Value</th>
-                            <th>Supporting Information</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr class="oddRow">
-                            <td>01 Apr 2020</td>
-                            <td>Main spoken language English</td>
-                            <td/>
-                            <td>Bilingual</td>
-                          </tr>
-                          <tr class="evenRow">
-                            <td>31 Mar 2020</td>
-                            <td>Main spoken language English</td>
-                            <td/>
-                            <td>y[No notes were originally recorded]</td>
-                          </tr>
-                          <tr class="oddRow">
-                            <td>26 Mar 2020</td>
-                            <td>Main spoken language Mandarin</td>
-                            <td/>
-                            <td/>
-                          </tr>
-                        </tbody>
-                      </table>
-                      <p id="SendTime">Summary Sent: 30 Apr 2020 16:13</p>
-                    </body>
-                  </html>
-                </value>
-                <hl7:id root="19B4A070-8AF5-11EA-BE46-00155DC3FA44"/>
-                <hl7:code code="PresentationText" codeSystem="2.16.840.1.113883.2.1.3.2.4.17.126" displayName="Presentation Text"/>
-                <hl7:statusCode code="completed"/>
-                <hl7:effectiveTime value="202004301613"/>
-              </hl7:presentationText>
-            </hl7:component>
-          </hl7:UKCT_MT144051UK01.CareProfessionalDocumentationCRE>
-        </hl7:excerptFrom>
-        <pertinentInformation1 typeCode="PERT" inversionInd="false" contextConductionInd="true" negationInd="false">
-          <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.pertinentInformation1"/>
-          <seperatableInd value="true"/>
-          <pertinentRootCREType classCode="CATEGORY" moodCode="EVN">
-            <code code="163171000000105" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Care Professional Documentation"/>
-          </pertinentRootCREType>
-        </pertinentInformation1>
-        <pertinentInformation2 typeCode="PERT" inversionInd="false" contextConductionInd="true" negationInd="false">
-          <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.pertinentInformation1"/>
-          <seperatableInd value="true"/>
-          <pertinentCREType classCode="CATEGORY" moodCode="EVN">
-            <code code="163221000000102" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Allergies and Adverse Reactions"/>
-            <component typeCode="COMP" contextConductionInd="true">
-              <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.component"/>
-              <seperatableInd value="false"/>
-              <UKCT_MT144053UK02.Allergy classCode="OBS" moodCode="EVN">
-                <id root="C58727D0-6EB0-11EA-9966-5D82799DC48A"/>
-                <code code="294197000" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Astringent allergy">
-                  <originalText>Astringent allergy</originalText>
-                </code>
-                <statusCode code="completed"/>
-                <effectiveTime>
-                  <low value="20200325000000"/>
-                </effectiveTime>
-              </UKCT_MT144053UK02.Allergy>
-            </component>
-          </pertinentCREType>
-        </pertinentInformation2>
-        <pertinentInformation2 typeCode="PERT" inversionInd="false" contextConductionInd="true" negationInd="false">
-          <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.pertinentInformation1"/>
-          <seperatableInd value="true"/>
-          <pertinentCREType classCode="CATEGORY" moodCode="EVN">
-            <code code="185361000000102" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Medication"/>
-            <component typeCode="COMP" contextConductionInd="true">
-              <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.component"/>
-              <seperatableInd value="false"/>
-              <UKCT_MT144040UK01.CurrentRepeatMedication classCode="SBADM" moodCode="RQO">
-                <id root="B5CDED60-6F50-11EA-B6F6-9F3D81419F99"/>
-                <code code="222681000000101" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Repeat medication"/>
-                <statusCode code="active"/>
-                <effectiveTime>
-                  <center value="20200326000000"/>
-                </effectiveTime>
-                <pertinentInformation1 typeCode="PERT" contextConductionInd="true">
-                  <seperatableInd value="false"/>
-                  <pertinentDosageInstructions classCode="OBS" moodCode="EVN">
-                    <value>take 1 or 2 3 times/day</value>
-                    <code code="DI" codeSystem="2.16.840.1.113883.2.1.3.2.4.17.30" displayName="Dose Instructions"/>
-                  </pertinentDosageInstructions>
-                </pertinentInformation1>
-                <component typeCode="COMP">
-                  <seperatableInd value="false"/>
-                  <medicationQuantity classCode="SPLY" moodCode="RQO">
-                    <quantity xsi:type="PQ" value="60" unit="1">
-                      <translation value="60">
-                        <originalText>tablet</originalText>
-                      </translation>
-                    </quantity>
-                    <code code="246205007" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Quantity"/>
-                  </medicationQuantity>
-                </component>
-                <consumable typeCode="CSM" contextControlCode="OP">
-                  <manufacturedProduct classCode="MANU">
-                    <manufacturedManufacturedMaterial classCode="MMAT" determinerCode="KIND">
-                      <code code="329525004" displayName="Aspirin 300mg tablets" codeSystem="2.16.840.1.113883.2.1.3.2.4.15"/>
-                    </manufacturedManufacturedMaterial>
-                  </manufacturedProduct>
-                </consumable>
-              </UKCT_MT144040UK01.CurrentRepeatMedication>
-            </component>
-            <component typeCode="COMP" contextConductionInd="true">
-              <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.component"/>
-              <seperatableInd value="false"/>
-              <UKCT_MT144040UK01.DiscontinuedRepeatMedication classCode="SBADM" moodCode="RQO">
-                <id root="D02DCD60-6EB5-11EA-9966-5D82799DC48A"/>
-                <code code="222691000000104" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Discontinued repeat medication"/>
-                <statusCode code="completed"/>
-                <effectiveTime>
-                  <low value="20200325000000"/>
-                  <high value="20200325000000"/>
-                </effectiveTime>
-                <pertinentInformation1 typeCode="PERT" contextConductionInd="true">
-                  <seperatableInd value="false"/>
-                  <pertinentDosageInstructions classCode="OBS" moodCode="EVN">
-                    <value>take 1 or 2 3 times/day</value>
-                    <code code="DI" codeSystem="2.16.840.1.113883.2.1.3.2.4.17.30" displayName="Dose Instructions"/>
-                  </pertinentDosageInstructions>
-                </pertinentInformation1>
-                <component typeCode="COMP">
-                  <seperatableInd value="false"/>
-                  <medicationQuantity classCode="SPLY" moodCode="RQO">
-                    <quantity xsi:type="PQ" value="60" unit="1">
-                      <translation value="60">
-                        <originalText>tablet</originalText>
-                      </translation>
-                    </quantity>
-                    <code code="246205007" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Quantity"/>
-                  </medicationQuantity>
-                </component>
-                <consumable typeCode="CSM" contextControlCode="OP">
-                  <manufacturedProduct classCode="MANU">
-                    <manufacturedManufacturedMaterial classCode="MMAT" determinerCode="KIND">
-                      <code code="329525004" displayName="Aspirin 300mg tablets" codeSystem="2.16.840.1.113883.2.1.3.2.4.15"/>
-                    </manufacturedManufacturedMaterial>
-                  </manufacturedProduct>
-                </consumable>
-                <reason typeCode="RSON" inversionInd="false" negationInd="false">
-                  <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.sourceOf1"/>
-                  <seperatableInd value="false"/>
-                  <Finding classCode="OBS" moodCode="EVN">
-                    <id root="2C70D910-7298-11EA-A2AD-59F5A17939F6"/>
-                  </Finding>
-                </reason>
-              </UKCT_MT144040UK01.DiscontinuedRepeatMedication>
-            </component>
-            <component typeCode="COMP" contextConductionInd="true">
-              <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.component"/>
-              <seperatableInd value="false"/>
-              <UKCT_MT144040UK01.AcuteMedication classCode="SBADM" moodCode="RQO">
-                <id root="5B084FE0-89EC-11EA-B5FB-D32D83A1D0E4"/>
-                <code code="222671000000103" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Acute medication"/>
-                <statusCode code="completed"/>
-                <effectiveTime value="20200429000000"/>
-                <pertinentInformation1 typeCode="PERT" contextConductionInd="true">
-                  <seperatableInd value="false"/>
-                  <pertinentDosageInstructions classCode="OBS" moodCode="EVN">
-                    <value>take 1 or 2 3 times/day</value>
-                    <code code="DI" codeSystem="2.16.840.1.113883.2.1.3.2.4.17.30" displayName="Dose Instructions"/>
-                  </pertinentDosageInstructions>
-                </pertinentInformation1>
-                <component typeCode="COMP">
-                  <seperatableInd value="false"/>
-                  <medicationQuantity classCode="SPLY" moodCode="RQO">
-                    <quantity xsi:type="PQ" value="60" unit="1">
-                      <translation value="60">
-                        <originalText>tablet</originalText>
-                      </translation>
-                    </quantity>
-                    <code code="246205007" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Quantity"/>
-                  </medicationQuantity>
-                </component>
-                <consumable typeCode="CSM" contextControlCode="OP">
-                  <manufacturedProduct classCode="MANU">
-                    <manufacturedManufacturedMaterial classCode="MMAT" determinerCode="KIND">
-                      <code code="329525004" displayName="Aspirin 300mg tablets" codeSystem="2.16.840.1.113883.2.1.3.2.4.15"/>
-                    </manufacturedManufacturedMaterial>
-                  </manufacturedProduct>
-                </consumable>
-              </UKCT_MT144040UK01.AcuteMedication>
-            </component>
-            <component typeCode="COMP" contextConductionInd="true">
-              <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.component"/>
-              <seperatableInd value="false"/>
-              <UKCT_MT144040UK01.AcuteMedication classCode="SBADM" moodCode="RQO">
-                <id root="5A9944F0-89ED-11EA-91C7-6980A340C658"/>
-                <code code="222671000000103" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Acute medication"/>
-                <statusCode code="completed"/>
-                <effectiveTime value="20200429000000"/>
-                <pertinentInformation1 typeCode="PERT" contextConductionInd="true">
-                  <seperatableInd value="false"/>
-                  <pertinentDosageInstructions classCode="OBS" moodCode="EVN">
-                    <value>take one daily</value>
-                    <code code="DI" codeSystem="2.16.840.1.113883.2.1.3.2.4.17.30" displayName="Dose Instructions"/>
-                  </pertinentDosageInstructions>
-                </pertinentInformation1>
-                <component typeCode="COMP">
-                  <seperatableInd value="false"/>
-                  <medicationQuantity classCode="SPLY" moodCode="RQO">
-                    <quantity xsi:type="PQ" value="28" unit="1">
-                      <translation value="28">
-                        <originalText>capsule</originalText>
-                      </translation>
-                    </quantity>
-                    <code code="246205007" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Quantity"/>
-                  </medicationQuantity>
-                </component>
-                <consumable typeCode="CSM" contextControlCode="OP">
-                  <manufacturedProduct classCode="MANU">
-                    <manufacturedManufacturedMaterial classCode="MMAT" determinerCode="KIND">
-                      <code code="20344911000001107" displayName="Cetirizine 10mg capsules" codeSystem="2.16.840.1.113883.2.1.3.2.4.15"/>
-                    </manufacturedManufacturedMaterial>
-                  </manufacturedProduct>
-                </consumable>
-              </UKCT_MT144040UK01.AcuteMedication>
-            </component>
-            <component typeCode="COMP" contextConductionInd="true">
-              <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.component"/>
-              <seperatableInd value="false"/>
-              <UKCT_MT144040UK01.AcuteMedication classCode="SBADM" moodCode="RQO">
-                <id root="CCD89F90-89EB-11EA-B5FB-D32D83A1D0E4"/>
-                <code code="222671000000103" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Acute medication"/>
-                <statusCode code="completed"/>
-                <effectiveTime value="20200429000000"/>
-                <pertinentInformation1 typeCode="PERT" contextConductionInd="true">
-                  <seperatableInd value="false"/>
-                  <pertinentDosageInstructions classCode="OBS" moodCode="EVN">
-                    <value>one puff As needed</value>
-                    <code code="DI" codeSystem="2.16.840.1.113883.2.1.3.2.4.17.30" displayName="Dose Instructions"/>
-                  </pertinentDosageInstructions>
-                </pertinentInformation1>
-                <component typeCode="COMP">
-                  <seperatableInd value="false"/>
-                  <medicationQuantity classCode="SPLY" moodCode="RQO">
-                    <quantity xsi:type="PQ" value="150" unit="1">
-                      <translation value="150">
-                        <originalText>dose</originalText>
-                      </translation>
-                    </quantity>
-                    <code code="246205007" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Quantity"/>
-                  </medicationQuantity>
-                </component>
-                <consumable typeCode="CSM" contextControlCode="OP">
-                  <manufacturedProduct classCode="MANU">
-                    <manufacturedManufacturedMaterial classCode="MMAT" determinerCode="KIND">
-                      <code code="18358011000001101" displayName="Glyceryl trinitrate 400micrograms/dose pump sublingual spray" codeSystem="2.16.840.1.113883.2.1.3.2.4.15"/>
-                    </manufacturedManufacturedMaterial>
-                  </manufacturedProduct>
-                </consumable>
-              </UKCT_MT144040UK01.AcuteMedication>
-            </component>
-            <component typeCode="COMP" contextConductionInd="true">
-              <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.component"/>
-              <seperatableInd value="false"/>
-              <UKCT_MT144040UK01.AcuteMedication classCode="SBADM" moodCode="RQO">
-                <id root="C056E9B0-89EC-11EA-B5FB-D32D83A1D0E4"/>
-                <code code="222671000000103" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Acute medication"/>
-                <statusCode code="completed"/>
-                <effectiveTime value="20200429000000"/>
-                <pertinentInformation1 typeCode="PERT" contextConductionInd="true">
-                  <seperatableInd value="false"/>
-                  <pertinentDosageInstructions classCode="OBS" moodCode="EVN">
-                    <value>take one 3 times/day</value>
-                    <code code="DI" codeSystem="2.16.840.1.113883.2.1.3.2.4.17.30" displayName="Dose Instructions"/>
-                  </pertinentDosageInstructions>
-                </pertinentInformation1>
-                <component typeCode="COMP">
-                  <seperatableInd value="false"/>
-                  <medicationQuantity classCode="SPLY" moodCode="RQO">
-                    <quantity xsi:type="PQ" value="28" unit="1">
-                      <translation value="28">
-                        <originalText>tablet</originalText>
-                      </translation>
-                    </quantity>
-                    <code code="246205007" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Quantity"/>
-                  </medicationQuantity>
-                </component>
-                <consumable typeCode="CSM" contextControlCode="OP">
-                  <manufacturedProduct classCode="MANU">
-                    <manufacturedManufacturedMaterial classCode="MMAT" determinerCode="KIND">
-                      <code code="318353009" displayName="Propranolol 40mg tablets" codeSystem="2.16.840.1.113883.2.1.3.2.4.15"/>
-                    </manufacturedManufacturedMaterial>
-                  </manufacturedProduct>
-                </consumable>
-              </UKCT_MT144040UK01.AcuteMedication>
-            </component>
-            <component typeCode="COMP" contextConductionInd="true">
-              <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.component"/>
-              <seperatableInd value="false"/>
-              <UKCT_MT144040UK01.AcuteMedication classCode="SBADM" moodCode="RQO">
-                <id root="69C0A400-896B-11EA-A5E2-0F70FEB8A92E"/>
-                <code code="222671000000103" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Acute medication"/>
-                <statusCode code="completed"/>
-                <effectiveTime value="20200428000000"/>
-                <pertinentInformation1 typeCode="PERT" contextConductionInd="true">
-                  <seperatableInd value="false"/>
-                  <pertinentDosageInstructions classCode="OBS" moodCode="EVN">
-                    <value>take 1 or 2 3 times/day</value>
-                    <code code="DI" codeSystem="2.16.840.1.113883.2.1.3.2.4.17.30" displayName="Dose Instructions"/>
-                  </pertinentDosageInstructions>
-                </pertinentInformation1>
-                <component typeCode="COMP">
-                  <seperatableInd value="false"/>
-                  <medicationQuantity classCode="SPLY" moodCode="RQO">
-                    <quantity xsi:type="PQ" value="60" unit="1">
-                      <translation value="60">
-                        <originalText>tablet</originalText>
-                      </translation>
-                    </quantity>
-                    <code code="246205007" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Quantity"/>
-                  </medicationQuantity>
-                </component>
-                <consumable typeCode="CSM" contextControlCode="OP">
-                  <manufacturedProduct classCode="MANU">
-                    <manufacturedManufacturedMaterial classCode="MMAT" determinerCode="KIND">
-                      <code code="329525004" displayName="Aspirin 300mg tablets" codeSystem="2.16.840.1.113883.2.1.3.2.4.15"/>
-                    </manufacturedManufacturedMaterial>
-                  </manufacturedProduct>
-                </consumable>
-              </UKCT_MT144040UK01.AcuteMedication>
-            </component>
-            <component typeCode="COMP" contextConductionInd="true">
-              <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.component"/>
-              <seperatableInd value="false"/>
-              <UKCT_MT144040UK01.AcuteMedication classCode="SBADM" moodCode="RQO">
-                <id root="D8F73600-896A-11EA-A5E2-0F70FEB8A92E"/>
-                <code code="222671000000103" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Acute medication"/>
-                <statusCode code="completed"/>
-                <effectiveTime value="20200428000000"/>
-                <pertinentInformation1 typeCode="PERT" contextConductionInd="true">
-                  <seperatableInd value="false"/>
-                  <pertinentDosageInstructions classCode="OBS" moodCode="EVN">
-                    <value>take one 3 times/day</value>
-                    <code code="DI" codeSystem="2.16.840.1.113883.2.1.3.2.4.17.30" displayName="Dose Instructions"/>
-                  </pertinentDosageInstructions>
-                </pertinentInformation1>
-                <component typeCode="COMP">
-                  <seperatableInd value="false"/>
-                  <medicationQuantity classCode="SPLY" moodCode="RQO">
-                    <quantity xsi:type="PQ" value="28" unit="1">
-                      <translation value="28">
-                        <originalText>tablet</originalText>
-                      </translation>
-                    </quantity>
-                    <code code="246205007" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Quantity"/>
-                  </medicationQuantity>
-                </component>
-                <consumable typeCode="CSM" contextControlCode="OP">
-                  <manufacturedProduct classCode="MANU">
-                    <manufacturedManufacturedMaterial classCode="MMAT" determinerCode="KIND">
-                      <code code="318353009" displayName="Propranolol 40mg tablets" codeSystem="2.16.840.1.113883.2.1.3.2.4.15"/>
-                    </manufacturedManufacturedMaterial>
-                  </manufacturedProduct>
-                </consumable>
-              </UKCT_MT144040UK01.AcuteMedication>
-            </component>
-            <component typeCode="COMP" contextConductionInd="true">
-              <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.component"/>
-              <seperatableInd value="false"/>
-              <UKCT_MT144040UK01.AcuteMedication classCode="SBADM" moodCode="RQO">
-                <id root="E74F7800-8534-11EA-B07E-E3C1904595C7"/>
-                <code code="222671000000103" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Acute medication"/>
-                <statusCode code="completed"/>
-                <effectiveTime value="20200423000000"/>
-                <pertinentInformation1 typeCode="PERT" contextConductionInd="true">
-                  <seperatableInd value="false"/>
-                  <pertinentDosageInstructions classCode="OBS" moodCode="EVN">
-                    <value>take 1 or 2 3 times/day</value>
-                    <code code="DI" codeSystem="2.16.840.1.113883.2.1.3.2.4.17.30" displayName="Dose Instructions"/>
-                  </pertinentDosageInstructions>
-                </pertinentInformation1>
-                <component typeCode="COMP">
-                  <seperatableInd value="false"/>
-                  <medicationQuantity classCode="SPLY" moodCode="RQO">
-                    <quantity xsi:type="PQ" value="60" unit="1">
-                      <translation value="60">
-                        <originalText>tablet</originalText>
-                      </translation>
-                    </quantity>
-                    <code code="246205007" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Quantity"/>
-                  </medicationQuantity>
-                </component>
-                <consumable typeCode="CSM" contextControlCode="OP">
-                  <manufacturedProduct classCode="MANU">
-                    <manufacturedManufacturedMaterial classCode="MMAT" determinerCode="KIND">
-                      <code code="329525004" displayName="Aspirin 300mg tablets" codeSystem="2.16.840.1.113883.2.1.3.2.4.15"/>
-                    </manufacturedManufacturedMaterial>
-                  </manufacturedProduct>
-                </consumable>
-              </UKCT_MT144040UK01.AcuteMedication>
-            </component>
-            <component typeCode="COMP" contextConductionInd="true">
-              <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.component"/>
-              <seperatableInd value="false"/>
-              <UKCT_MT144040UK01.AcuteMedication classCode="SBADM" moodCode="RQO">
-                <id root="D79DBB30-83B1-11EA-A752-43C0475E0687"/>
-                <code code="222671000000103" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Acute medication"/>
-                <statusCode code="completed"/>
-                <effectiveTime value="20200421000000"/>
-                <pertinentInformation1 typeCode="PERT" contextConductionInd="true">
-                  <seperatableInd value="false"/>
-                  <pertinentDosageInstructions classCode="OBS" moodCode="EVN">
-                    <value>take 1 or 2 3 times/day</value>
-                    <code code="DI" codeSystem="2.16.840.1.113883.2.1.3.2.4.17.30" displayName="Dose Instructions"/>
-                  </pertinentDosageInstructions>
-                </pertinentInformation1>
-                <component typeCode="COMP">
-                  <seperatableInd value="false"/>
-                  <medicationQuantity classCode="SPLY" moodCode="RQO">
-                    <quantity xsi:type="PQ" value="60" unit="1">
-                      <translation value="60">
-                        <originalText>tablet</originalText>
-                      </translation>
-                    </quantity>
-                    <code code="246205007" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Quantity"/>
-                  </medicationQuantity>
-                </component>
-                <consumable typeCode="CSM" contextControlCode="OP">
-                  <manufacturedProduct classCode="MANU">
-                    <manufacturedManufacturedMaterial classCode="MMAT" determinerCode="KIND">
-                      <code code="329525004" displayName="Aspirin 300mg tablets" codeSystem="2.16.840.1.113883.2.1.3.2.4.15"/>
-                    </manufacturedManufacturedMaterial>
-                  </manufacturedProduct>
-                </consumable>
-              </UKCT_MT144040UK01.AcuteMedication>
-            </component>
-            <component typeCode="COMP" contextConductionInd="true">
-              <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.component"/>
-              <seperatableInd value="false"/>
-              <UKCT_MT144040UK01.AcuteMedication classCode="SBADM" moodCode="RQO">
-                <id root="57E0C8F0-7426-11EA-A953-E99D7DD36C3D"/>
-                <code code="222671000000103" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Acute medication"/>
-                <statusCode code="completed"/>
-                <effectiveTime value="20200401000000"/>
-                <pertinentInformation1 typeCode="PERT" contextConductionInd="true">
-                  <seperatableInd value="false"/>
-                  <pertinentDosageInstructions classCode="OBS" moodCode="EVN">
-                    <value/>
-                    <code code="DI" codeSystem="2.16.840.1.113883.2.1.3.2.4.17.30" displayName="Dose Instructions"/>
-                  </pertinentDosageInstructions>
-                </pertinentInformation1>
-                <component typeCode="COMP">
-                  <seperatableInd value="false"/>
-                  <medicationQuantity classCode="SPLY" moodCode="RQO">
-                    <quantity xsi:type="PQ" value="0" unit="1">
-                      <translation value="0">
-                        <originalText>Unknown Units</originalText>
-                      </translation>
-                    </quantity>
-                    <code code="246205007" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Quantity"/>
-                  </medicationQuantity>
-                </component>
-                <consumable typeCode="CSM" contextControlCode="OP">
-                  <manufacturedProduct classCode="MANU">
-                    <manufacturedManufacturedMaterial classCode="MMAT" determinerCode="KIND">
-                      <code code="5185911000001103" displayName="Dukoral cholera vaccine oral suspension (Valneva UK Ltd)" codeSystem="2.16.840.1.113883.2.1.3.2.4.15"/>
-                    </manufacturedManufacturedMaterial>
-                  </manufacturedProduct>
-                </consumable>
-              </UKCT_MT144040UK01.AcuteMedication>
-            </component>
-            <component typeCode="COMP" contextConductionInd="true">
-              <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.component"/>
-              <seperatableInd value="false"/>
-              <UKCT_MT144040UK01.AcuteMedication classCode="SBADM" moodCode="RQO">
-                <id root="7A529DD0-7428-11EA-A953-E99D7DD36C3D"/>
-                <code code="222671000000103" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Acute medication"/>
-                <statusCode code="completed"/>
-                <effectiveTime value="20200401000000"/>
-                <pertinentInformation1 typeCode="PERT" contextConductionInd="true">
-                  <seperatableInd value="false"/>
-                  <pertinentDosageInstructions classCode="OBS" moodCode="EVN">
-                    <value>take one 3 times/day</value>
-                    <code code="DI" codeSystem="2.16.840.1.113883.2.1.3.2.4.17.30" displayName="Dose Instructions"/>
-                  </pertinentDosageInstructions>
-                </pertinentInformation1>
-                <component typeCode="COMP">
-                  <seperatableInd value="false"/>
-                  <medicationQuantity classCode="SPLY" moodCode="RQO">
-                    <quantity xsi:type="PQ" value="28" unit="1">
-                      <translation value="28">
-                        <originalText>tablet</originalText>
-                      </translation>
-                    </quantity>
-                    <code code="246205007" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Quantity"/>
-                  </medicationQuantity>
-                </component>
-                <consumable typeCode="CSM" contextControlCode="OP">
-                  <manufacturedProduct classCode="MANU">
-                    <manufacturedManufacturedMaterial classCode="MMAT" determinerCode="KIND">
-                      <code code="318353009" displayName="Propranolol 40mg tablets" codeSystem="2.16.840.1.113883.2.1.3.2.4.15"/>
-                    </manufacturedManufacturedMaterial>
-                  </manufacturedProduct>
-                </consumable>
-              </UKCT_MT144040UK01.AcuteMedication>
-            </component>
-            <component typeCode="COMP" contextConductionInd="true">
-              <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.component"/>
-              <seperatableInd value="false"/>
-              <UKCT_MT144040UK01.AcuteMedication classCode="SBADM" moodCode="RQO">
-                <id root="EDC1AA70-7358-11EA-B8A2-4F7DF4768A52"/>
-                <code code="222671000000103" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Acute medication"/>
-                <statusCode code="completed"/>
-                <effectiveTime value="20200331000000"/>
-                <pertinentInformation1 typeCode="PERT" contextConductionInd="true">
-                  <seperatableInd value="false"/>
-                  <pertinentDosageInstructions classCode="OBS" moodCode="EVN">
-                    <value>** RED DRUG ** Hospital/Specialist Use Only</value>
-                    <code code="DI" codeSystem="2.16.840.1.113883.2.1.3.2.4.17.30" displayName="Dose Instructions"/>
-                  </pertinentDosageInstructions>
-                </pertinentInformation1>
-                <component typeCode="COMP">
-                  <seperatableInd value="false"/>
-                  <medicationQuantity classCode="SPLY" moodCode="RQO">
-                    <quantity xsi:type="PQ" value="1" unit="1">
-                      <translation value="1">
-                        <originalText>tablet</originalText>
-                      </translation>
-                    </quantity>
-                    <code code="246205007" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Quantity"/>
-                  </medicationQuantity>
-                </component>
-                <consumable typeCode="CSM" contextControlCode="OP">
-                  <manufacturedProduct classCode="MANU">
-                    <manufacturedManufacturedMaterial classCode="MMAT" determinerCode="KIND">
-                      <code code="324880001" displayName="Abacavir 300mg tablets" codeSystem="2.16.840.1.113883.2.1.3.2.4.15"/>
-                    </manufacturedManufacturedMaterial>
-                  </manufacturedProduct>
-                </consumable>
-              </UKCT_MT144040UK01.AcuteMedication>
-            </component>
-            <component typeCode="COMP" contextConductionInd="true">
-              <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.component"/>
-              <seperatableInd value="false"/>
-              <UKCT_MT144040UK01.AcuteMedication classCode="SBADM" moodCode="RQO">
-                <id root="7FAF0660-7356-11EA-B45D-4D2CEF80DF8F"/>
-                <code code="222671000000103" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Acute medication"/>
-                <statusCode code="completed"/>
-                <effectiveTime value="20200331000000"/>
-                <pertinentInformation1 typeCode="PERT" contextConductionInd="true">
-                  <seperatableInd value="false"/>
-                  <pertinentDosageInstructions classCode="OBS" moodCode="EVN">
-                    <value>** RED DRUG ** Hospital/Specialist Use Only</value>
-                    <code code="DI" codeSystem="2.16.840.1.113883.2.1.3.2.4.17.30" displayName="Dose Instructions"/>
-                  </pertinentDosageInstructions>
-                </pertinentInformation1>
-                <component typeCode="COMP">
-                  <seperatableInd value="false"/>
-                  <medicationQuantity classCode="SPLY" moodCode="RQO">
-                    <quantity xsi:type="PQ" value="1" unit="1">
-                      <translation value="1">
-                        <originalText>tablet</originalText>
-                      </translation>
-                    </quantity>
-                    <code code="246205007" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Quantity"/>
-                  </medicationQuantity>
-                </component>
-                <consumable typeCode="CSM" contextControlCode="OP">
-                  <manufacturedProduct classCode="MANU">
-                    <manufacturedManufacturedMaterial classCode="MMAT" determinerCode="KIND">
-                      <code code="324880001" displayName="Abacavir 300mg tablets" codeSystem="2.16.840.1.113883.2.1.3.2.4.15"/>
-                    </manufacturedManufacturedMaterial>
-                  </manufacturedProduct>
-                </consumable>
-              </UKCT_MT144040UK01.AcuteMedication>
-            </component>
-            <component typeCode="COMP" contextConductionInd="true">
-              <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.component"/>
-              <seperatableInd value="false"/>
-              <UKCT_MT144040UK01.AcuteMedication classCode="SBADM" moodCode="RQO">
-                <id root="77112F80-7359-11EA-B8A2-4F7DF4768A52"/>
-                <code code="222671000000103" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Acute medication"/>
-                <statusCode code="completed"/>
-                <effectiveTime value="20200331000000"/>
-                <pertinentInformation1 typeCode="PERT" contextConductionInd="true">
-                  <seperatableInd value="false"/>
-                  <pertinentDosageInstructions classCode="OBS" moodCode="EVN">
-                    <value>** RED DRUG ** Hospital/Specialist Use Only</value>
-                    <code code="DI" codeSystem="2.16.840.1.113883.2.1.3.2.4.17.30" displayName="Dose Instructions"/>
-                  </pertinentDosageInstructions>
-                </pertinentInformation1>
-                <component typeCode="COMP">
-                  <seperatableInd value="false"/>
-                  <medicationQuantity classCode="SPLY" moodCode="RQO">
-                    <quantity xsi:type="PQ" value="1" unit="1">
-                      <translation value="1">
-                        <originalText>tablet</originalText>
-                      </translation>
-                    </quantity>
-                    <code code="246205007" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Quantity"/>
-                  </medicationQuantity>
-                </component>
-                <consumable typeCode="CSM" contextControlCode="OP">
-                  <manufacturedProduct classCode="MANU">
-                    <manufacturedManufacturedMaterial classCode="MMAT" determinerCode="KIND">
-                      <code code="324880001" displayName="Abacavir 300mg tablets" codeSystem="2.16.840.1.113883.2.1.3.2.4.15"/>
-                    </manufacturedManufacturedMaterial>
-                  </manufacturedProduct>
-                </consumable>
-              </UKCT_MT144040UK01.AcuteMedication>
-            </component>
-            <component typeCode="COMP" contextConductionInd="true">
-              <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.component"/>
-              <seperatableInd value="false"/>
-              <UKCT_MT144040UK01.AcuteMedication classCode="SBADM" moodCode="RQO">
-                <id root="0AC4E4D0-735D-11EA-B8A2-4F7DF4768A52"/>
-                <code code="222671000000103" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Acute medication"/>
-                <statusCode code="completed"/>
-                <effectiveTime value="20200331000000"/>
-                <pertinentInformation1 typeCode="PERT" contextConductionInd="true">
-                  <seperatableInd value="false"/>
-                  <pertinentDosageInstructions classCode="OBS" moodCode="EVN">
-                    <value>** RED DRUG ** Hospital/Specialist Use Only</value>
-                    <code code="DI" codeSystem="2.16.840.1.113883.2.1.3.2.4.17.30" displayName="Dose Instructions"/>
-                  </pertinentDosageInstructions>
-                </pertinentInformation1>
-                <component typeCode="COMP">
-                  <seperatableInd value="false"/>
-                  <medicationQuantity classCode="SPLY" moodCode="RQO">
-                    <quantity xsi:type="PQ" value="1" unit="1">
-                      <translation value="1">
-                        <originalText>tablet</originalText>
-                      </translation>
-                    </quantity>
-                    <code code="246205007" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Quantity"/>
-                  </medicationQuantity>
-                </component>
-                <consumable typeCode="CSM" contextControlCode="OP">
-                  <manufacturedProduct classCode="MANU">
-                    <manufacturedManufacturedMaterial classCode="MMAT" determinerCode="KIND">
-                      <code code="324880001" displayName="Abacavir 300mg tablets" codeSystem="2.16.840.1.113883.2.1.3.2.4.15"/>
-                    </manufacturedManufacturedMaterial>
-                  </manufacturedProduct>
-                </consumable>
-              </UKCT_MT144040UK01.AcuteMedication>
-            </component>
-            <component typeCode="COMP" contextConductionInd="true">
-              <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.component"/>
-              <seperatableInd value="false"/>
-              <UKCT_MT144040UK01.AcuteMedication classCode="SBADM" moodCode="RQO">
-                <id root="CEF1CCC0-735C-11EA-B8A2-4F7DF4768A52"/>
-                <code code="222671000000103" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Acute medication"/>
-                <statusCode code="completed"/>
-                <effectiveTime value="20200331000000"/>
-                <pertinentInformation1 typeCode="PERT" contextConductionInd="true">
-                  <seperatableInd value="false"/>
-                  <pertinentDosageInstructions classCode="OBS" moodCode="EVN">
-                    <value>** RED DRUG ** Hospital/Specialist Use Only</value>
-                    <code code="DI" codeSystem="2.16.840.1.113883.2.1.3.2.4.17.30" displayName="Dose Instructions"/>
-                  </pertinentDosageInstructions>
-                </pertinentInformation1>
-                <component typeCode="COMP">
-                  <seperatableInd value="false"/>
-                  <medicationQuantity classCode="SPLY" moodCode="RQO">
-                    <quantity xsi:type="PQ" value="1" unit="1">
-                      <translation value="1">
-                        <originalText>tablet</originalText>
-                      </translation>
-                    </quantity>
-                    <code code="246205007" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Quantity"/>
-                  </medicationQuantity>
-                </component>
-                <consumable typeCode="CSM" contextControlCode="OP">
-                  <manufacturedProduct classCode="MANU">
-                    <manufacturedManufacturedMaterial classCode="MMAT" determinerCode="KIND">
-                      <code code="324880001" displayName="Abacavir 300mg tablets" codeSystem="2.16.840.1.113883.2.1.3.2.4.15"/>
-                    </manufacturedManufacturedMaterial>
-                  </manufacturedProduct>
-                </consumable>
-              </UKCT_MT144040UK01.AcuteMedication>
-            </component>
-          </pertinentCREType>
-        </pertinentInformation2>
-        <pertinentInformation2 typeCode="PERT" inversionInd="false" contextConductionInd="true" negationInd="false">
-          <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.pertinentInformation1"/>
-          <seperatableInd value="true"/>
-          <pertinentCREType classCode="CATEGORY" moodCode="EVN">
-            <code code="163131000000108" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Clinical Observations and Findings"/>
-            <component typeCode="COMP" contextConductionInd="true">
-              <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.component"/>
-              <seperatableInd value="false"/>
-              <UKCT_MT144043UK02.Finding classCode="OBS" moodCode="EVN">
-                <id root="19ABC6D1-8AF5-11EA-9FCE-AFDCAECF9DFB"/>
-                <code code="249519007" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Diarrhoea and vomiting">
-                  <originalText>Diarrhoea and vomiting</originalText>
-                </code>
-                <statusCode code="completed"/>
-                <effectiveTime>
-                  <low value="20200401152715"/>
-                </effectiveTime>
-                <pertinentInformation typeCode="PERT" contextConductionInd="true">
-                  <seperatableInd value="false"/>
-                  <pertinentSupportingInfo classCode="OBS" moodCode="EVN">
-                    <value>Suspected gastroenteritis</value>
-                    <code code="SupportingText" codeSystem="2.16.840.1.113883.2.1.3.2.4.17.126" displayName="Supporting Text"/>
-                  </pertinentSupportingInfo>
-                </pertinentInformation>
-              </UKCT_MT144043UK02.Finding>
-            </component>
-            <component typeCode="COMP" contextConductionInd="true">
-              <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.component"/>
-              <seperatableInd value="false"/>
-              <UKCT_MT144043UK02.Finding classCode="OBS" moodCode="EVN">
-                <id root="7FAF2D71-7356-11EA-B45D-4D2CEF80DF8F"/>
-                <code code="284732002" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Frugivore">
-                  <originalText>Frugivore</originalText>
-                </code>
-                <statusCode code="completed"/>
-                <effectiveTime>
-                  <low value="20200331142601"/>
-                </effectiveTime>
-                <pertinentInformation typeCode="PERT" contextConductionInd="true">
-                  <seperatableInd value="false"/>
-                  <pertinentSupportingInfo classCode="OBS" moodCode="EVN">
-                    <value>y[No notes were originally recorded]</value>
-                    <code code="SupportingText" codeSystem="2.16.840.1.113883.2.1.3.2.4.17.126" displayName="Supporting Text"/>
-                  </pertinentSupportingInfo>
-                </pertinentInformation>
-              </UKCT_MT144043UK02.Finding>
-            </component>
-            <component typeCode="COMP" contextConductionInd="true">
-              <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.component"/>
-              <seperatableInd value="false"/>
-              <UKCT_MT144043UK02.Finding classCode="OBS" moodCode="EVN">
-                <id root="31DAA490-6F54-11EA-B0C5-E7E2E0DFC8E6"/>
-                <code code="299899002" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Problem of sense of smell">
-                  <originalText>Problem of sense of smell</originalText>
-                </code>
-                <statusCode code="completed"/>
-                <effectiveTime>
-                  <low value="20200326105700"/>
-                </effectiveTime>
-              </UKCT_MT144043UK02.Finding>
-            </component>
-            <component typeCode="COMP" contextConductionInd="true">
-              <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.component"/>
-              <seperatableInd value="false"/>
-              <UKCT_MT144043UK02.Finding classCode="OBS" moodCode="EVN">
-                <id root="2C70D910-7298-11EA-A2AD-59F5A17939F6"/>
-                <code code="162211001" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Viral headache">
-                  <originalText>Viral headache</originalText>
-                </code>
-                <statusCode code="completed"/>
-                <effectiveTime>
-                  <low value="20200325162806"/>
-                </effectiveTime>
-              </UKCT_MT144043UK02.Finding>
-            </component>
-            <component typeCode="COMP" contextConductionInd="true">
-              <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.component"/>
-              <seperatableInd value="false"/>
-              <UKCT_MT144043UK02.Finding classCode="OBS" moodCode="EVN">
-                <id root="AD803D20-6EB5-11EA-9966-5D82799DC48A"/>
-                <code code="83156004" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Sense of smell impaired">
-                  <originalText>Sense of smell impaired</originalText>
-                </code>
-                <statusCode code="completed"/>
-                <effectiveTime>
-                  <low value="20200325154610"/>
-                </effectiveTime>
-              </UKCT_MT144043UK02.Finding>
-            </component>
-          </pertinentCREType>
-        </pertinentInformation2>
-        <pertinentInformation2 typeCode="PERT" inversionInd="false" contextConductionInd="true" negationInd="false">
-          <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.pertinentInformation1"/>
-          <seperatableInd value="true"/>
-          <pertinentCREType classCode="CATEGORY" moodCode="EVN">
-            <code code="163021000000107" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Social and Personal Circumstances"/>
-            <component typeCode="COMP" contextConductionInd="true">
-              <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.component"/>
-              <seperatableInd value="false"/>
-              <UKCT_MT144036UK01.SocialOrPersonalCircumstance classCode="OBS" moodCode="EVN">
-                <id root="7A59C9C0-7428-11EA-A953-E99D7DD36C3D"/>
-                <code code="315570003" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Main spoken language English">
-                  <originalText>Main spoken language English</originalText>
-                </code>
-                <statusCode code="normal"/>
-                <effectiveTime>
-                  <low value="20200401152715"/>
-                </effectiveTime>
-                <pertinentInformation typeCode="PERT" contextConductionInd="true">
-                  <seperatableInd value="false"/>
-                  <pertinentSupportingInfo classCode="OBS" moodCode="EVN">
-                    <value>Bilingual</value>
-                    <code code="SupportingText" codeSystem="2.16.840.1.113883.2.1.3.2.4.17.126" displayName="Supporting Text"/>
-                  </pertinentSupportingInfo>
-                </pertinentInformation>
-              </UKCT_MT144036UK01.SocialOrPersonalCircumstance>
-            </component>
-            <component typeCode="COMP" contextConductionInd="true">
-              <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.component"/>
-              <seperatableInd value="false"/>
-              <UKCT_MT144036UK01.SocialOrPersonalCircumstance classCode="OBS" moodCode="EVN">
-                <id root="7FAF2D70-7356-11EA-B45D-4D2CEF80DF8F"/>
-                <code code="315570003" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Main spoken language English">
-                  <originalText>Main spoken language English</originalText>
-                </code>
-                <statusCode code="normal"/>
-                <effectiveTime>
-                  <low value="20200331142601"/>
-                </effectiveTime>
-                <pertinentInformation typeCode="PERT" contextConductionInd="true">
-                  <seperatableInd value="false"/>
-                  <pertinentSupportingInfo classCode="OBS" moodCode="EVN">
-                    <value>y[No notes were originally recorded]</value>
-                    <code code="SupportingText" codeSystem="2.16.840.1.113883.2.1.3.2.4.17.126" displayName="Supporting Text"/>
-                  </pertinentSupportingInfo>
-                </pertinentInformation>
-              </UKCT_MT144036UK01.SocialOrPersonalCircumstance>
-            </component>
-            <component typeCode="COMP" contextConductionInd="true">
-              <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.component"/>
-              <seperatableInd value="false"/>
-              <UKCT_MT144036UK01.SocialOrPersonalCircumstance classCode="OBS" moodCode="EVN">
-                <id root="EAAC71C0-6F53-11EA-B0C5-E7E2E0DFC8E6"/>
-                <code code="315578005" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Main spoken language Mandarin">
-                  <originalText>Main spoken language Mandarin</originalText>
-                </code>
-                <statusCode code="normal"/>
-                <effectiveTime>
-                  <low value="20200326112038"/>
-                </effectiveTime>
-              </UKCT_MT144036UK01.SocialOrPersonalCircumstance>
-            </component>
-          </pertinentCREType>
-        </pertinentInformation2>
-        <pertinentInformation2 typeCode="PERT" inversionInd="false" contextConductionInd="true" negationInd="false">
-          <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.pertinentInformation1"/>
-          <seperatableInd value="true"/>
-          <pertinentCREType classCode="CATEGORY" moodCode="EVN">
-            <code code="162991000000102" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Problems and Issues"/>
-            <component typeCode="COMP" contextConductionInd="true">
-              <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.component"/>
-              <seperatableInd value="false"/>
-              <UKCT_MT144038UK02.Problem classCode="CNOD" moodCode="EVN">
-                <id root="7A59C9C2-7428-11EA-A953-E99D7DD36C3D"/>
-                <code code="181301000000103" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Abstract problem node"/>
-                <statusCode code="active"/>
-                <effectiveTime>
-                  <low value="20200401000000"/>
-                </effectiveTime>
-                <pertinentInformation typeCode="PERT" inversionInd="false" negationInd="false">
-                  <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.sourceOf"/>
-                  <seperatableInd value="false"/>
-                  <Finding classCode="OBS" moodCode="EVN">
-                    <id root="19ABC6D1-8AF5-11EA-9FCE-AFDCAECF9DFB"/>
-                  </Finding>
-                </pertinentInformation>
-              </UKCT_MT144038UK02.Problem>
-            </component>
-            <component typeCode="COMP" contextConductionInd="true">
-              <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.component"/>
-              <seperatableInd value="false"/>
-              <UKCT_MT144038UK02.Problem classCode="CNOD" moodCode="EVN">
-                <id root="7FAF2D74-7356-11EA-B45D-4D2CEF80DF8F"/>
-                <code code="181301000000103" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Abstract problem node"/>
-                <statusCode code="active"/>
-                <effectiveTime>
-                  <low value="20200331000000"/>
-                </effectiveTime>
-                <pertinentInformation typeCode="PERT" inversionInd="false" negationInd="false">
-                  <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.sourceOf"/>
-                  <seperatableInd value="false"/>
-                  <Finding classCode="OBS" moodCode="EVN">
-                    <id root="7FAF2D71-7356-11EA-B45D-4D2CEF80DF8F"/>
-                  </Finding>
-                </pertinentInformation>
-              </UKCT_MT144038UK02.Problem>
-            </component>
-          </pertinentCREType>
-        </pertinentInformation2>
-        <pertinentInformation2 typeCode="PERT" inversionInd="false" contextConductionInd="true" negationInd="false">
-          <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.pertinentInformation1"/>
-          <seperatableInd value="true"/>
-          <pertinentCREType classCode="CATEGORY" moodCode="EVN">
-            <code code="163071000000106" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Treatments"/>
-            <component typeCode="COMP" contextConductionInd="true">
-              <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.component"/>
-              <seperatableInd value="false"/>
-              <UKCT_MT144055UK01.Treatment classCode="PROC" moodCode="EVN">
-                <id root="7A59C9C1-7428-11EA-A953-E99D7DD36C3D"/>
-                <code code="196411000000103" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Transfer-degraded record Entry">
-                  <originalText>Dukoral 1</originalText>
-                </code>
-                <statusCode code="normal"/>
-                <effectiveTime>
-                  <low value="20200401152715"/>
-                </effectiveTime>
-                <pertinentInformation typeCode="PERT" contextConductionInd="true">
-                  <seperatableInd value="false"/>
-                  <pertinentSupportingInfo classCode="OBS" moodCode="EVN">
-                    <value>Previously administered &gt; 10y</value>
-                    <code code="SupportingText" codeSystem="2.16.840.1.113883.2.1.3.2.4.17.126" displayName="Supporting Text"/>
-                  </pertinentSupportingInfo>
-                </pertinentInformation>
-              </UKCT_MT144055UK01.Treatment>
-            </component>
-            <component typeCode="COMP" contextConductionInd="true">
-              <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.component"/>
-              <seperatableInd value="false"/>
-              <UKCT_MT144055UK01.Treatment classCode="PROC" moodCode="EVN">
-                <id root="7FAF2D73-7356-11EA-B45D-4D2CEF80DF8F"/>
-                <code code="196411000000103" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Transfer-degraded record Entry">
-                  <originalText>Anti-D Immunglobulin 1</originalText>
-                </code>
-                <statusCode code="normal"/>
-                <effectiveTime>
-                  <low value="20200331143641"/>
-                </effectiveTime>
-                <pertinentInformation typeCode="PERT" contextConductionInd="true">
-                  <seperatableInd value="false"/>
-                  <pertinentSupportingInfo classCode="OBS" moodCode="EVN">
-                    <value>notes</value>
-                    <code code="SupportingText" codeSystem="2.16.840.1.113883.2.1.3.2.4.17.126" displayName="Supporting Text"/>
-                  </pertinentSupportingInfo>
-                </pertinentInformation>
-              </UKCT_MT144055UK01.Treatment>
-            </component>
-            <component typeCode="COMP" contextConductionInd="true">
-              <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.component"/>
-              <seperatableInd value="false"/>
-              <UKCT_MT144055UK01.Treatment classCode="PROC" moodCode="EVN">
-                <id root="7FAF2D72-7356-11EA-B45D-4D2CEF80DF8F"/>
-                <code code="196411000000103" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Transfer-degraded record Entry">
-                  <originalText>Meningococcal B Vaccine (Bexsero) 1</originalText>
-                </code>
-                <statusCode code="normal"/>
-                <effectiveTime>
-                  <low value="20200331142601"/>
-                </effectiveTime>
-              </UKCT_MT144055UK01.Treatment>
-            </component>
-          </pertinentCREType>
-        </pertinentInformation2>
-        <pertinentInformation2 typeCode="PERT" inversionInd="false" contextConductionInd="true" negationInd="false">
-          <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.pertinentInformation1"/>
-          <seperatableInd value="true"/>
-          <pertinentCREType classCode="CATEGORY" moodCode="EVN">
-            <code code="163231000000100" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Risks to Patient"/>
-            <component typeCode="COMP" contextConductionInd="true">
-              <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.component"/>
-              <seperatableInd value="false"/>
-              <UKCT_MT144054UK01.RiskToPatient classCode="OBS" moodCode="EVN">
-                <id root="19ABC6D0-8AF5-11EA-9FCE-AFDCAECF9DFB"/>
-                <code code="1300561000000107" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="High risk category for developing complication from COVID-19 infection"/>
-                <statusCode code="normal"/>
-                <effectiveTime>
-                  <low value="20200430161257"/>
-                </effectiveTime>
-              </UKCT_MT144054UK01.RiskToPatient>
-            </component>
-          </pertinentCREType>
-        </pertinentInformation2>
-        <recordTarget typeCode="RCT">
-          <patient classCode="PAT">
-            <id extension="5900002233" root="2.16.840.1.113883.2.1.4.1"/>
-          </patient>
-        </recordTarget>
-        <replacementOf typeCode="RPLC">
-          <priorMessageRef classCode="COMPOSITION" moodCode="EVN">
-            <id root="DADD56E0-8A35-11EA-B3DD-AF6BFEE44A74"/>
-          </priorMessageRef>
-        </replacementOf>
-      </GPSummary>
-    </subject>
-  </ControlActEvent>
-</REPC_IN150016UK05>
+<?xml version='1.0' encoding='UTF-8'?>
+
+<SOAP-ENV:Envelope
+  xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+  xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing"
+  xmlns="urn:hl7-org:v3"
+  xmlns:psis="urn:npfit:psisqr">
+  <SOAP-ENV:Header>
+    <wsa:MessageID>uuid:19B11E00-8AF5-11EA-9FCE-AFDCAECF9DFB</wsa:MessageID>
+    <wsa:Action>urn:nhs:names:services:psisquery/QUPC_IN210000UK04</wsa:Action>
+    <wsa:To />
+    <wsa:From>
+      <wsa:Address>https://msg.intspineservices.nhs.uk/sync-service</wsa:Address>
+    </wsa:From>
+    <communicationFunctionRcv typeCode="RCV">
+      <device classCode="DEV" determinerCode="INSTANCE">
+        <id root="1.2.826.0.1285.0.2.0.107" extension="200000001162" />
+      </device>
+    </communicationFunctionRcv>
+    <communicationFunctionSnd typeCode="SND">
+      <device classCode="DEV" determinerCode="INSTANCE">
+        <id root="1.2.826.0.1285.0.2.0.107" extension="655159266510" />
+      </device>
+    </communicationFunctionSnd>
+    <wsa:RelatesTo>uuid:FD778600-4677-41F4-BE62-18E021E0D234</wsa:RelatesTo>
+  </SOAP-ENV:Header>
+  <SOAP-ENV:Body>
+    <eventQueryResponse>
+      <QUPC_IN210000UK04>
+        <id root="19B11E00-8AF5-11EA-9FCE-AFDCAECF9DFB" />
+        <creationTime value="20200430161309" />
+        <versionCode code="V3NPfIT4.2.00" />
+        <interactionId root="2.16.840.1.113883.2.1.3.2.4.12" extension="QUPC_IN210000UK04" />
+        <processingCode code="P" />
+        <processingModeCode code="T" />
+        <acceptAckCode code="NE" />
+        <communicationFunctionRcv>
+          <device classCode="DEV" determinerCode="INSTANCE">
+            <id root="1.2.826.0.1285.0.2.0.107" extension="227319907548" />
+          </device>
+        </communicationFunctionRcv>
+        <communicationFunctionSnd>
+          <device classCode="DEV" determinerCode="INSTANCE">
+            <id root="1.2.826.0.1285.0.2.0.107" extension="200000000166" />
+          </device>
+        </communicationFunctionSnd>
+        <ControlActEvent classCode="CACT" moodCode="EVN">
+          <author typeCode="AUT">
+            <AgentPersonSDS classCode="AGNT">
+              <id root="1.2.826.0.1285.0.2.0.67" extension="173067658018" />
+              <agentPersonSDS classCode="PSN" determinerCode="INSTANCE">
+                <id root="1.2.826.0.1285.0.2.0.65" extension="784578436584" />
+              </agentPersonSDS>
+              <part typeCode="PART">
+                <partSDSRole classCode="ROL">
+                  <id root="1.2.826.0.1285.0.2.1.104" extension="S0010:G0020:R0260" />
+                </partSDSRole>
+              </part>
+            </AgentPersonSDS>
+          </author>
+          <author1 typeCode="AUT">
+            <AgentSystemSDS classCode="AGNT">
+              <agentSystemSDS classCode="DEV" determinerCode="INSTANCE">
+                <id root="1.2.826.0.1285.0.2.0.107" extension="200000000166" />
+              </agentSystemSDS>
+            </AgentSystemSDS>
+          </author1>
+          <subject typeCode="SUBJ" contextConductionInd="false">
+            <psis:queryResponseEvent
+              xmlns:other="urn:some:other:namespace">
+              <psis:recordTarget>
+                <psis:patient>
+                  <psis:id extension="9995000180" root="2.16.840.1.113883.2.1.4.1" />
+                </psis:patient>
+              </psis:recordTarget>
+              <psis:event>
+                <psis:eventID root="BF4180FD-C403-4EF7-A4AB-E07303AF5477" />
+                <psis:payloadID extension="REPC_MT150007UK05" root="2.16.840.1.113883.2.1.3.2.4.12" />
+                <psis:persistenceDate value="20201125123012" />
+                <psis:eventStatus code="1" codeSystem="2.16.840.1.113883.2.1.3.2.4.17.59" displayName="Normal" />
+                <psis:eventType code="196981000000101" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="General Practice Summary" />
+                <psis:hl7Data>
+                  <GPSummary classCode="COMPOSITION" moodCode="EVN" xmlns="urn:hl7-org:v3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                    <id root="19B11E00-8AF5-11EA-9FCE-AFDCAECF9DFB" />
+                    <code code="196981000000101" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="General Practice Summary" />
+                    <statusCode code="active" />
+                    <effectiveTime value="202004301613" />
+                    <author typeCode="AUT" contextControlCode="OP">
+                      <time value="20200430161309" />
+                      <UKCT_MT160018UK01.AgentPersonSDS classCode="AGNT">
+                        <id root="1.2.826.0.1285.0.2.0.67" extension="173067658018" />
+                        <agentPersonSDS classCode="PSN" determinerCode="INSTANCE">
+                          <id root="1.2.826.0.1285.0.2.0.65" extension="784578436584" />
+                          <name use="L">
+                            <given>Mr</given>
+                            <given>Bob</given>
+                            <family>Wilson</family>
+                          </name>
+                        </agentPersonSDS>
+                      </UKCT_MT160018UK01.AgentPersonSDS>
+                    </author>
+                    <excerptFrom xmlns:hl7="urn:hl7-org:v3" typeCode="XCRPT" contextConductionInd="true" inversionInd="false" negationInd="false">
+                      <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAT_RM-NPfITUK10.excerptFrom" />
+                      <seperatableInd value="false" />
+                      <UKCT_MT144051UK01.CareProfessionalDocumentationCRE classCode="CATEGORY" moodCode="EVN">
+                        <code code="163171000000105" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Care Professional Documentation" />
+                        <component typeCode="COMP" inversionInd="false" negationInd="false">
+                          <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.component" />
+                          <seperatableInd value="false" />
+                          <presentationText classCode="OBS" moodCode="EVN">
+                            <value mediaType="text/plain" xsi:type="ED.NPfIT.Text.XHTML">
+                              <html xmlns="xhtml:NPfIT:PresentationText">
+                                <body>
+                                  <h2 id="Title">General Practice Summary</h2>
+                                  <h3 id="Disclaimer">Sourced from the patient&apos;s General Practice record. This summary may not include all the information pertinent to this patient.</h3>
+                                  <p id="CreateTime">Summary created: 30 Apr 2020 16:13</p>
+                                  <p id="WithheldCREItemsHeaderStatement" class="HighlightedStatement">One or more entries have been deliberately withheld from this GP Summary.</p>
+                                  <p id="Author">Created by: WILSON, Bob (Mr)</p>
+                                  <p id="Practice">Spine Testing, The Practice, Woodvale Terrace, Horsforth, Leeds LS18 4JW</p>
+                                  <h2 id="AllergiesHeader">Allergies and Adverse Reactions</h2>
+                                  <table id="Allergies" summary="This table includes information about this patient&apos;s allergies and adverse reactions">
+                                    <thead>
+                                      <tr>
+                                        <th>Date</th>
+                                        <th>Description</th>
+                                        <th>Certainty</th>
+                                        <th>Severity</th>
+                                        <th>Supporting Information</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      <tr class="oddRow">
+                                        <td>25 Mar 2020</td>
+                                        <td>Astringent allergy</td>
+                                        <td />
+                                        <td />
+                                        <td />
+                                      </tr>
+                                    </tbody>
+                                  </table>
+                                  <h2 id="AcuteMedsHeader">Acute Medications (For the 12 month period 01 May 2019 to 30 Apr 2020)</h2>
+                                  <table id="AcuteMeds" summary="This table includes information about this patient&apos;s acute medications.">
+                                    <thead>
+                                      <tr>
+                                        <th>Type</th>
+                                        <th>Date</th>
+                                        <th>Medication Item</th>
+                                        <th>Dosage Instructions</th>
+                                        <th>Quantity</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      <tr class="oddRow">
+                                        <td>Acute Medication</td>
+                                        <td>Prescribed: 29 Apr 2020</td>
+                                        <td>Aspirin 300mg tablets</td>
+                                        <td>take 1 or 2 3 times/day</td>
+                                        <td>60 tablet</td>
+                                      </tr>
+                                      <tr class="evenRow">
+                                        <td>Acute Medication</td>
+                                        <td>Prescribed: 29 Apr 2020</td>
+                                        <td>Cetirizine 10mg capsules</td>
+                                        <td>take one daily</td>
+                                        <td>28 capsule</td>
+                                      </tr>
+                                      <tr class="oddRow">
+                                        <td>Acute Medication</td>
+                                        <td>Prescribed: 29 Apr 2020</td>
+                                        <td>Glyceryl trinitrate 400micrograms/dose pump sublingual spray</td>
+                                        <td>one puff As needed</td>
+                                        <td>150 dose</td>
+                                      </tr>
+                                      <tr class="evenRow">
+                                        <td>Acute Medication</td>
+                                        <td>Prescribed: 29 Apr 2020</td>
+                                        <td>Propranolol 40mg tablets</td>
+                                        <td>take one 3 times/day</td>
+                                        <td>28 tablet</td>
+                                      </tr>
+                                      <tr class="oddRow">
+                                        <td>Acute Medication</td>
+                                        <td>Prescribed: 28 Apr 2020</td>
+                                        <td>Aspirin 300mg tablets</td>
+                                        <td>take 1 or 2 3 times/day</td>
+                                        <td>60 tablet</td>
+                                      </tr>
+                                      <tr class="evenRow">
+                                        <td>Acute Medication</td>
+                                        <td>Prescribed: 28 Apr 2020</td>
+                                        <td>Propranolol 40mg tablets</td>
+                                        <td>take one 3 times/day</td>
+                                        <td>28 tablet</td>
+                                      </tr>
+                                      <tr class="oddRow">
+                                        <td>Acute Medication</td>
+                                        <td>Prescribed: 23 Apr 2020</td>
+                                        <td>Aspirin 300mg tablets</td>
+                                        <td>take 1 or 2 3 times/day</td>
+                                        <td>60 tablet</td>
+                                      </tr>
+                                      <tr class="evenRow">
+                                        <td>Acute Medication</td>
+                                        <td>Prescribed: 21 Apr 2020</td>
+                                        <td>Aspirin 300mg tablets</td>
+                                        <td>take 1 or 2 3 times/day</td>
+                                        <td>60 tablet</td>
+                                      </tr>
+                                      <tr class="oddRow">
+                                        <td>Acute Medication</td>
+                                        <td>Prescribed: 01 Apr 2020</td>
+                                        <td>Dukoral cholera vaccine oral suspension (Valneva UK Ltd)</td>
+                                        <td />
+                                        <td>3ml</td>
+                                      </tr>
+                                      <tr class="evenRow">
+                                        <td>Acute Medication</td>
+                                        <td>Prescribed: 01 Apr 2020</td>
+                                        <td>Propranolol 40mg tablets</td>
+                                        <td>take one 3 times/day</td>
+                                        <td>28 tablet</td>
+                                      </tr>
+                                      <tr class="oddRow">
+                                        <td>Acute Medication</td>
+                                        <td>Prescribed: 31 Mar 2020</td>
+                                        <td>Abacavir 300mg tablets</td>
+                                        <td>** RED DRUG ** Hospital/Specialist Use Only</td>
+                                        <td>1 tablet</td>
+                                      </tr>
+                                      <tr class="evenRow">
+                                        <td>Acute Medication</td>
+                                        <td>Prescribed: 31 Mar 2020</td>
+                                        <td>Abacavir 300mg tablets</td>
+                                        <td>** RED DRUG ** Hospital/Specialist Use Only</td>
+                                        <td>1 tablet</td>
+                                      </tr>
+                                      <tr class="oddRow">
+                                        <td>Acute Medication</td>
+                                        <td>Prescribed: 31 Mar 2020</td>
+                                        <td>Abacavir 300mg tablets</td>
+                                        <td>** RED DRUG ** Hospital/Specialist Use Only</td>
+                                        <td>1 tablet</td>
+                                      </tr>
+                                      <tr class="evenRow">
+                                        <td>Acute Medication</td>
+                                        <td>Prescribed: 31 Mar 2020</td>
+                                        <td>Abacavir 300mg tablets</td>
+                                        <td>** RED DRUG ** Hospital/Specialist Use Only</td>
+                                        <td>1 tablet</td>
+                                      </tr>
+                                      <tr class="oddRow">
+                                        <td>Acute Medication</td>
+                                        <td>Prescribed: 31 Mar 2020</td>
+                                        <td>Abacavir 300mg tablets</td>
+                                        <td>** RED DRUG ** Hospital/Specialist Use Only</td>
+                                        <td>1 tablet</td>
+                                      </tr>
+                                    </tbody>
+                                  </table>
+                                  <h2 id="RepeatMedsHeader">Current Repeat Medications</h2>
+                                  <table id="RepeatMeds" summary="This table includes information about this patient&apos;s current repeat medications.">
+                                    <thead>
+                                      <tr>
+                                        <th>Type</th>
+                                        <th>Date</th>
+                                        <th>Medication Item</th>
+                                        <th>Dosage Instructions</th>
+                                        <th>Quantity</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      <tr class="oddRow">
+                                        <td>Repeat Medication</td>
+                                        <td>Authorised (not issued): 26 Mar 2020</td>
+                                        <td>Aspirin 300mg tablets</td>
+                                        <td>take 1 or 2 3 times/day</td>
+                                        <td>60 tablet</td>
+                                      </tr>
+                                    </tbody>
+                                  </table>
+                                  <h2 id="DiscRepeatMedsHeader">Discontinued Repeat Medications (For the 6 month period 30 Oct 2019 to 30 Apr 2020)</h2>
+                                  <table id="DiscRepeatMeds" summary="This table includes information about this patient&apos;s past repeat medications.">
+                                    <thead>
+                                      <tr>
+                                        <th>Type</th>
+                                        <th>Date</th>
+                                        <th>Medication Item</th>
+                                        <th>Dosage Instructions</th>
+                                        <th>Quantity</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      <tr class="oddRow">
+                                        <td>Repeat Medication</td>
+                                        <td>Authorised (not issued): 25 Mar 2020</td>
+                                        <td>Aspirin 300mg tablets</td>
+                                        <td>take 1 or 2 3 times/day</td>
+                                        <td>60 tablet</td>
+                                      </tr>
+                                      <tr class="oddRow">
+                                        <td colspan="2" />
+                                        <td>Reason for Medication: Viral headache</td>
+                                        <td colspan="2" />
+                                      </tr>
+                                      <tr class="oddRow">
+                                        <td />
+                                        <td colspan="4">***Date Discontinued: 25 Mar 2020, Reason: Clinical grounds***</td>
+                                      </tr>
+                                    </tbody>
+                                  </table>
+                                  <h2 id="RisksToPatientHeader">Risks to Patient</h2>
+                                  <p id="WithheldCREItemsHeaderStatement" class="HighlightedStatement">One or more entries have been deliberately withheld from this GP Summary.</p>
+                                  <table id="RisksToPatient">
+                                    <thead>
+                                      <tr>
+                                        <th>Date</th>
+                                        <th>Description</th>
+                                        <th>Value</th>
+                                        <th>Supporting Information</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      <tr class="oddRow">
+                                        <td>30 Apr 2020</td>
+                                        <td>High risk category for developing complication from coronavirus disease 19 caused by severe acute respiratory syndrome coronavirus 2 infection (finding)</td>
+                                        <td />
+                                        <td />
+                                      </tr>
+                                    </tbody>
+                                  </table>
+                                  <h2 id="ProblemsHeader">Problems and Issues</h2>
+                                  <table id="Problems">
+                                    <thead>
+                                      <tr>
+                                        <th>Date</th>
+                                        <th>Description</th>
+                                        <th>Value</th>
+                                        <th>Supporting Information</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      <tr class="oddRow">
+                                        <td>01 Apr 2020</td>
+                                        <td>Diarrhoea and vomiting</td>
+                                        <td />
+                                        <td>Suspected gastroenteritis</td>
+                                      </tr>
+                                      <tr class="evenRow">
+                                        <td>31 Mar 2020</td>
+                                        <td>Frugivore</td>
+                                        <td />
+                                        <td>y[No notes were originally recorded]</td>
+                                      </tr>
+                                    </tbody>
+                                  </table>
+                                  <h2 id="ObservationsHeader">Clinical Observations and Findings</h2>
+                                  <table id="Observations">
+                                    <thead>
+                                      <tr>
+                                        <th>Date</th>
+                                        <th>Description</th>
+                                        <th>Value</th>
+                                        <th>Supporting Information</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      <tr class="oddRow">
+                                        <td>01 Apr 2020</td>
+                                        <td>Diarrhoea and vomiting</td>
+                                        <td />
+                                        <td>Suspected gastroenteritis</td>
+                                      </tr>
+                                      <tr class="evenRow">
+                                        <td>31 Mar 2020</td>
+                                        <td>Frugivore</td>
+                                        <td />
+                                        <td>y[No notes were originally recorded]</td>
+                                      </tr>
+                                      <tr class="oddRow">
+                                        <td>26 Mar 2020</td>
+                                        <td>Problem of sense of smell</td>
+                                        <td />
+                                        <td />
+                                      </tr>
+                                      <tr class="evenRow">
+                                        <td>25 Mar 2020</td>
+                                        <td>Viral headache</td>
+                                        <td />
+                                        <td />
+                                      </tr>
+                                      <tr class="oddRow">
+                                        <td>25 Mar 2020</td>
+                                        <td>Sense of smell impaired</td>
+                                        <td />
+                                        <td />
+                                      </tr>
+                                    </tbody>
+                                  </table>
+                                  <h2 id="TreatmentsHeader">Treatments</h2>
+                                  <table id="Treatments">
+                                    <thead>
+                                      <tr>
+                                        <th>Date</th>
+                                        <th>Description</th>
+                                        <th>Value</th>
+                                        <th>Supporting Information</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      <tr class="oddRow">
+                                        <td>01 Apr 2020</td>
+                                        <td>Dukoral 1</td>
+                                        <td />
+                                        <td>Previously administered &gt; 10y</td>
+                                      </tr>
+                                      <tr class="evenRow">
+                                        <td>31 Mar 2020</td>
+                                        <td>Anti-D Immunglobulin 1</td>
+                                        <td />
+                                        <td>notes</td>
+                                      </tr>
+                                      <tr class="oddRow">
+                                        <td>31 Mar 2020</td>
+                                        <td>Meningococcal B Vaccine (Bexsero) 1</td>
+                                        <td />
+                                        <td />
+                                      </tr>
+                                    </tbody>
+                                  </table>
+                                  <h2 id="CircumstancesHeader">Social and Personal Circumstances</h2>
+                                  <p id="WithheldCREItemsHeaderStatement" class="HighlightedStatement">One or more entries have been deliberately withheld from this GP Summary.</p>
+                                  <table id="Circumstances">
+                                    <thead>
+                                      <tr>
+                                        <th>Date</th>
+                                        <th>Description</th>
+                                        <th>Value</th>
+                                        <th>Supporting Information</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      <tr class="oddRow">
+                                        <td>01 Apr 2020</td>
+                                        <td>Main spoken language English</td>
+                                        <td />
+                                        <td>Bilingual</td>
+                                      </tr>
+                                      <tr class="evenRow">
+                                        <td>31 Mar 2020</td>
+                                        <td>Main spoken language English</td>
+                                        <td />
+                                        <td>y[No notes were originally recorded]</td>
+                                      </tr>
+                                      <tr class="oddRow">
+                                        <td>26 Mar 2020</td>
+                                        <td>Main spoken language Mandarin</td>
+                                        <td />
+                                        <td />
+                                      </tr>
+                                    </tbody>
+                                  </table>
+                                  <p id="SendTime">Summary Sent: 30 Apr 2020 16:13</p>
+                                </body>
+                              </html>
+                            </value>
+                            <id root="19B4A070-8AF5-11EA-BE46-00155DC3FA44" />
+                            <code code="PresentationText" codeSystem="2.16.840.1.113883.2.1.3.2.4.17.126" displayName="Presentation Text" />
+                            <statusCode code="completed" />
+                            <effectiveTime value="202004301613" />
+                          </presentationText>
+                        </component>
+                      </UKCT_MT144051UK01.CareProfessionalDocumentationCRE>
+                    </excerptFrom>
+                    <pertinentInformation1 typeCode="PERT" inversionInd="false" contextConductionInd="true" negationInd="false">
+                      <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.pertinentInformation1" />
+                      <seperatableInd value="true" />
+                      <pertinentRootCREType classCode="CATEGORY" moodCode="EVN">
+                        <code code="163171000000105" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Care Professional Documentation" />
+                      </pertinentRootCREType>
+                    </pertinentInformation1>
+                    <pertinentInformation2 typeCode="PERT" inversionInd="false" contextConductionInd="true" negationInd="false">
+                      <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.pertinentInformation1" />
+                      <seperatableInd value="true" />
+                      <pertinentCREType classCode="CATEGORY" moodCode="EVN">
+                        <code code="163221000000102" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Allergies and Adverse Reactions" />
+                        <component typeCode="COMP" contextConductionInd="true">
+                          <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.component" />
+                          <seperatableInd value="false" />
+                          <UKCT_MT144053UK02.Allergy classCode="OBS" moodCode="EVN">
+                            <id root="C58727D0-6EB0-11EA-9966-5D82799DC48A" />
+                            <code code="294197000" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Astringent allergy">
+                              <originalText>Astringent allergy</originalText>
+                            </code>
+                            <statusCode code="completed" />
+                            <effectiveTime>
+                              <low value="20200325000000" />
+                            </effectiveTime>
+                          </UKCT_MT144053UK02.Allergy>
+                        </component>
+                      </pertinentCREType>
+                    </pertinentInformation2>
+                    <pertinentInformation2 typeCode="PERT" inversionInd="false" contextConductionInd="true" negationInd="false">
+                      <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.pertinentInformation1" />
+                      <seperatableInd value="true" />
+                      <pertinentCREType classCode="CATEGORY" moodCode="EVN">
+                        <code code="185361000000102" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Medication" />
+                        <component typeCode="COMP" contextConductionInd="true">
+                          <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.component" />
+                          <seperatableInd value="false" />
+                          <UKCT_MT144040UK01.CurrentRepeatMedication classCode="SBADM" moodCode="RQO">
+                            <id root="B5CDED60-6F50-11EA-B6F6-9F3D81419F99" />
+                            <code code="222681000000101" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Repeat medication" />
+                            <statusCode code="active" />
+                            <effectiveTime>
+                              <center value="20200326000000" />
+                            </effectiveTime>
+                            <pertinentInformation1 typeCode="PERT" contextConductionInd="true">
+                              <seperatableInd value="false" />
+                              <pertinentDosageInstructions classCode="OBS" moodCode="EVN">
+                                <value>take 1 or 2 3 times/day</value>
+                                <code code="DI" codeSystem="2.16.840.1.113883.2.1.3.2.4.17.30" displayName="Dose Instructions" />
+                              </pertinentDosageInstructions>
+                            </pertinentInformation1>
+                            <component typeCode="COMP">
+                              <seperatableInd value="false" />
+                              <medicationQuantity classCode="SPLY" moodCode="RQO">
+                                <quantity xsi:type="PQ" value="60" unit="1">
+                                  <translation value="60">
+                                    <originalText>tablet</originalText>
+                                  </translation>
+                                </quantity>
+                                <code code="246205007" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Quantity" />
+                              </medicationQuantity>
+                            </component>
+                            <consumable typeCode="CSM" contextControlCode="OP">
+                              <manufacturedProduct classCode="MANU">
+                                <manufacturedManufacturedMaterial classCode="MMAT" determinerCode="KIND">
+                                  <code code="329525004" displayName="Aspirin 300mg tablets" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" />
+                                </manufacturedManufacturedMaterial>
+                              </manufacturedProduct>
+                            </consumable>
+                          </UKCT_MT144040UK01.CurrentRepeatMedication>
+                        </component>
+                        <component typeCode="COMP" contextConductionInd="true">
+                          <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.component" />
+                          <seperatableInd value="false" />
+                          <UKCT_MT144040UK01.DiscontinuedRepeatMedication classCode="SBADM" moodCode="RQO">
+                            <id root="D02DCD60-6EB5-11EA-9966-5D82799DC48A" />
+                            <code code="222691000000104" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Discontinued repeat medication" />
+                            <statusCode code="completed" />
+                            <effectiveTime>
+                              <low value="20200325000000" />
+                              <high value="20200325000000" />
+                            </effectiveTime>
+                            <pertinentInformation1 typeCode="PERT" contextConductionInd="true">
+                              <seperatableInd value="false" />
+                              <pertinentDosageInstructions classCode="OBS" moodCode="EVN">
+                                <value>take 1 or 2 3 times/day</value>
+                                <code code="DI" codeSystem="2.16.840.1.113883.2.1.3.2.4.17.30" displayName="Dose Instructions" />
+                              </pertinentDosageInstructions>
+                            </pertinentInformation1>
+                            <component typeCode="COMP">
+                              <seperatableInd value="false" />
+                              <medicationQuantity classCode="SPLY" moodCode="RQO">
+                                <quantity xsi:type="PQ" value="60" unit="1">
+                                  <translation value="60">
+                                    <originalText>tablet</originalText>
+                                  </translation>
+                                </quantity>
+                                <code code="246205007" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Quantity" />
+                              </medicationQuantity>
+                            </component>
+                            <consumable typeCode="CSM" contextControlCode="OP">
+                              <manufacturedProduct classCode="MANU">
+                                <manufacturedManufacturedMaterial classCode="MMAT" determinerCode="KIND">
+                                  <code code="329525004" displayName="Aspirin 300mg tablets" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" />
+                                </manufacturedManufacturedMaterial>
+                              </manufacturedProduct>
+                            </consumable>
+                            <reason typeCode="RSON" inversionInd="false" negationInd="false">
+                              <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.sourceOf1" />
+                              <seperatableInd value="false" />
+                              <Finding classCode="OBS" moodCode="EVN">
+                                <id root="2C70D910-7298-11EA-A2AD-59F5A17939F6" />
+                              </Finding>
+                            </reason>
+                          </UKCT_MT144040UK01.DiscontinuedRepeatMedication>
+                        </component>
+                        <component typeCode="COMP" contextConductionInd="true">
+                          <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.component" />
+                          <seperatableInd value="false" />
+                          <UKCT_MT144040UK01.AcuteMedication classCode="SBADM" moodCode="RQO">
+                            <id root="5B084FE0-89EC-11EA-B5FB-D32D83A1D0E4" />
+                            <code code="222671000000103" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Acute medication" />
+                            <statusCode code="completed" />
+                            <effectiveTime value="20200429000000" />
+                            <pertinentInformation1 typeCode="PERT" contextConductionInd="true">
+                              <seperatableInd value="false" />
+                              <pertinentDosageInstructions classCode="OBS" moodCode="EVN">
+                                <value>take 1 or 2 3 times/day</value>
+                                <code code="DI" codeSystem="2.16.840.1.113883.2.1.3.2.4.17.30" displayName="Dose Instructions" />
+                              </pertinentDosageInstructions>
+                            </pertinentInformation1>
+                            <component typeCode="COMP">
+                              <seperatableInd value="false" />
+                              <medicationQuantity classCode="SPLY" moodCode="RQO">
+                                <quantity xsi:type="PQ" value="60" unit="1">
+                                  <translation value="60">
+                                    <originalText>tablet</originalText>
+                                  </translation>
+                                </quantity>
+                                <code code="246205007" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Quantity" />
+                              </medicationQuantity>
+                            </component>
+                            <consumable typeCode="CSM" contextControlCode="OP">
+                              <manufacturedProduct classCode="MANU">
+                                <manufacturedManufacturedMaterial classCode="MMAT" determinerCode="KIND">
+                                  <code code="329525004" displayName="Aspirin 300mg tablets" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" />
+                                </manufacturedManufacturedMaterial>
+                              </manufacturedProduct>
+                            </consumable>
+                          </UKCT_MT144040UK01.AcuteMedication>
+                        </component>
+                        <component typeCode="COMP" contextConductionInd="true">
+                          <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.component" />
+                          <seperatableInd value="false" />
+                          <UKCT_MT144040UK01.AcuteMedication classCode="SBADM" moodCode="RQO">
+                            <id root="5A9944F0-89ED-11EA-91C7-6980A340C658" />
+                            <code code="222671000000103" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Acute medication" />
+                            <statusCode code="completed" />
+                            <effectiveTime value="20200429000000" />
+                            <pertinentInformation1 typeCode="PERT" contextConductionInd="true">
+                              <seperatableInd value="false" />
+                              <pertinentDosageInstructions classCode="OBS" moodCode="EVN">
+                                <value>take one daily</value>
+                                <code code="DI" codeSystem="2.16.840.1.113883.2.1.3.2.4.17.30" displayName="Dose Instructions" />
+                              </pertinentDosageInstructions>
+                            </pertinentInformation1>
+                            <component typeCode="COMP">
+                              <seperatableInd value="false" />
+                              <medicationQuantity classCode="SPLY" moodCode="RQO">
+                                <quantity xsi:type="PQ" value="28" unit="1">
+                                  <translation value="28">
+                                    <originalText>capsule</originalText>
+                                  </translation>
+                                </quantity>
+                                <code code="246205007" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Quantity" />
+                              </medicationQuantity>
+                            </component>
+                            <consumable typeCode="CSM" contextControlCode="OP">
+                              <manufacturedProduct classCode="MANU">
+                                <manufacturedManufacturedMaterial classCode="MMAT" determinerCode="KIND">
+                                  <code code="20344911000001107" displayName="Cetirizine 10mg capsules" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" />
+                                </manufacturedManufacturedMaterial>
+                              </manufacturedProduct>
+                            </consumable>
+                          </UKCT_MT144040UK01.AcuteMedication>
+                        </component>
+                        <component typeCode="COMP" contextConductionInd="true">
+                          <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.component" />
+                          <seperatableInd value="false" />
+                          <UKCT_MT144040UK01.AcuteMedication classCode="SBADM" moodCode="RQO">
+                            <id root="CCD89F90-89EB-11EA-B5FB-D32D83A1D0E4" />
+                            <code code="222671000000103" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Acute medication" />
+                            <statusCode code="completed" />
+                            <effectiveTime value="20200429000000" />
+                            <pertinentInformation1 typeCode="PERT" contextConductionInd="true">
+                              <seperatableInd value="false" />
+                              <pertinentDosageInstructions classCode="OBS" moodCode="EVN">
+                                <value>one puff As needed</value>
+                                <code code="DI" codeSystem="2.16.840.1.113883.2.1.3.2.4.17.30" displayName="Dose Instructions" />
+                              </pertinentDosageInstructions>
+                            </pertinentInformation1>
+                            <component typeCode="COMP">
+                              <seperatableInd value="false" />
+                              <medicationQuantity classCode="SPLY" moodCode="RQO">
+                                <quantity xsi:type="PQ" value="150" unit="1">
+                                  <translation value="150">
+                                    <originalText>dose</originalText>
+                                  </translation>
+                                </quantity>
+                                <code code="246205007" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Quantity" />
+                              </medicationQuantity>
+                            </component>
+                            <consumable typeCode="CSM" contextControlCode="OP">
+                              <manufacturedProduct classCode="MANU">
+                                <manufacturedManufacturedMaterial classCode="MMAT" determinerCode="KIND">
+                                  <code code="18358011000001101" displayName="Glyceryl trinitrate 400micrograms/dose pump sublingual spray" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" />
+                                </manufacturedManufacturedMaterial>
+                              </manufacturedProduct>
+                            </consumable>
+                          </UKCT_MT144040UK01.AcuteMedication>
+                        </component>
+                        <component typeCode="COMP" contextConductionInd="true">
+                          <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.component" />
+                          <seperatableInd value="false" />
+                          <UKCT_MT144040UK01.AcuteMedication classCode="SBADM" moodCode="RQO">
+                            <id root="C056E9B0-89EC-11EA-B5FB-D32D83A1D0E4" />
+                            <code code="222671000000103" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Acute medication" />
+                            <statusCode code="completed" />
+                            <effectiveTime value="20200429000000" />
+                            <pertinentInformation1 typeCode="PERT" contextConductionInd="true">
+                              <seperatableInd value="false" />
+                              <pertinentDosageInstructions classCode="OBS" moodCode="EVN">
+                                <value>take one 3 times/day</value>
+                                <code code="DI" codeSystem="2.16.840.1.113883.2.1.3.2.4.17.30" displayName="Dose Instructions" />
+                              </pertinentDosageInstructions>
+                            </pertinentInformation1>
+                            <component typeCode="COMP">
+                              <seperatableInd value="false" />
+                              <medicationQuantity classCode="SPLY" moodCode="RQO">
+                                <quantity xsi:type="PQ" value="28" unit="1">
+                                  <translation value="28">
+                                    <originalText>tablet</originalText>
+                                  </translation>
+                                </quantity>
+                                <code code="246205007" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Quantity" />
+                              </medicationQuantity>
+                            </component>
+                            <consumable typeCode="CSM" contextControlCode="OP">
+                              <manufacturedProduct classCode="MANU">
+                                <manufacturedManufacturedMaterial classCode="MMAT" determinerCode="KIND">
+                                  <code code="318353009" displayName="Propranolol 40mg tablets" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" />
+                                </manufacturedManufacturedMaterial>
+                              </manufacturedProduct>
+                            </consumable>
+                          </UKCT_MT144040UK01.AcuteMedication>
+                        </component>
+                        <component typeCode="COMP" contextConductionInd="true">
+                          <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.component" />
+                          <seperatableInd value="false" />
+                          <UKCT_MT144040UK01.AcuteMedication classCode="SBADM" moodCode="RQO">
+                            <id root="69C0A400-896B-11EA-A5E2-0F70FEB8A92E" />
+                            <code code="222671000000103" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Acute medication" />
+                            <statusCode code="completed" />
+                            <effectiveTime value="20200428000000" />
+                            <pertinentInformation1 typeCode="PERT" contextConductionInd="true">
+                              <seperatableInd value="false" />
+                              <pertinentDosageInstructions classCode="OBS" moodCode="EVN">
+                                <value>take 1 or 2 3 times/day</value>
+                                <code code="DI" codeSystem="2.16.840.1.113883.2.1.3.2.4.17.30" displayName="Dose Instructions" />
+                              </pertinentDosageInstructions>
+                            </pertinentInformation1>
+                            <component typeCode="COMP">
+                              <seperatableInd value="false" />
+                              <medicationQuantity classCode="SPLY" moodCode="RQO">
+                                <quantity xsi:type="PQ" value="60" unit="1">
+                                  <translation value="60">
+                                    <originalText>tablet</originalText>
+                                  </translation>
+                                </quantity>
+                                <code code="246205007" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Quantity" />
+                              </medicationQuantity>
+                            </component>
+                            <consumable typeCode="CSM" contextControlCode="OP">
+                              <manufacturedProduct classCode="MANU">
+                                <manufacturedManufacturedMaterial classCode="MMAT" determinerCode="KIND">
+                                  <code code="329525004" displayName="Aspirin 300mg tablets" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" />
+                                </manufacturedManufacturedMaterial>
+                              </manufacturedProduct>
+                            </consumable>
+                          </UKCT_MT144040UK01.AcuteMedication>
+                        </component>
+                        <component typeCode="COMP" contextConductionInd="true">
+                          <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.component" />
+                          <seperatableInd value="false" />
+                          <UKCT_MT144040UK01.AcuteMedication classCode="SBADM" moodCode="RQO">
+                            <id root="D8F73600-896A-11EA-A5E2-0F70FEB8A92E" />
+                            <code code="222671000000103" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Acute medication" />
+                            <statusCode code="completed" />
+                            <effectiveTime value="20200428000000" />
+                            <pertinentInformation1 typeCode="PERT" contextConductionInd="true">
+                              <seperatableInd value="false" />
+                              <pertinentDosageInstructions classCode="OBS" moodCode="EVN">
+                                <value>take one 3 times/day</value>
+                                <code code="DI" codeSystem="2.16.840.1.113883.2.1.3.2.4.17.30" displayName="Dose Instructions" />
+                              </pertinentDosageInstructions>
+                            </pertinentInformation1>
+                            <component typeCode="COMP">
+                              <seperatableInd value="false" />
+                              <medicationQuantity classCode="SPLY" moodCode="RQO">
+                                <quantity xsi:type="PQ" value="28" unit="1">
+                                  <translation value="28">
+                                    <originalText>tablet</originalText>
+                                  </translation>
+                                </quantity>
+                                <code code="246205007" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Quantity" />
+                              </medicationQuantity>
+                            </component>
+                            <consumable typeCode="CSM" contextControlCode="OP">
+                              <manufacturedProduct classCode="MANU">
+                                <manufacturedManufacturedMaterial classCode="MMAT" determinerCode="KIND">
+                                  <code code="318353009" displayName="Propranolol 40mg tablets" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" />
+                                </manufacturedManufacturedMaterial>
+                              </manufacturedProduct>
+                            </consumable>
+                          </UKCT_MT144040UK01.AcuteMedication>
+                        </component>
+                        <component typeCode="COMP" contextConductionInd="true">
+                          <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.component" />
+                          <seperatableInd value="false" />
+                          <UKCT_MT144040UK01.AcuteMedication classCode="SBADM" moodCode="RQO">
+                            <id root="E74F7800-8534-11EA-B07E-E3C1904595C7" />
+                            <code code="222671000000103" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Acute medication" />
+                            <statusCode code="completed" />
+                            <effectiveTime value="20200423000000" />
+                            <pertinentInformation1 typeCode="PERT" contextConductionInd="true">
+                              <seperatableInd value="false" />
+                              <pertinentDosageInstructions classCode="OBS" moodCode="EVN">
+                                <value>take 1 or 2 3 times/day</value>
+                                <code code="DI" codeSystem="2.16.840.1.113883.2.1.3.2.4.17.30" displayName="Dose Instructions" />
+                              </pertinentDosageInstructions>
+                            </pertinentInformation1>
+                            <component typeCode="COMP">
+                              <seperatableInd value="false" />
+                              <medicationQuantity classCode="SPLY" moodCode="RQO">
+                                <quantity xsi:type="PQ" value="60" unit="1">
+                                  <translation value="60">
+                                    <originalText>tablet</originalText>
+                                  </translation>
+                                </quantity>
+                                <code code="246205007" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Quantity" />
+                              </medicationQuantity>
+                            </component>
+                            <consumable typeCode="CSM" contextControlCode="OP">
+                              <manufacturedProduct classCode="MANU">
+                                <manufacturedManufacturedMaterial classCode="MMAT" determinerCode="KIND">
+                                  <code code="329525004" displayName="Aspirin 300mg tablets" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" />
+                                </manufacturedManufacturedMaterial>
+                              </manufacturedProduct>
+                            </consumable>
+                          </UKCT_MT144040UK01.AcuteMedication>
+                        </component>
+                        <component typeCode="COMP" contextConductionInd="true">
+                          <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.component" />
+                          <seperatableInd value="false" />
+                          <UKCT_MT144040UK01.AcuteMedication classCode="SBADM" moodCode="RQO">
+                            <id root="D79DBB30-83B1-11EA-A752-43C0475E0687" />
+                            <code code="222671000000103" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Acute medication" />
+                            <statusCode code="completed" />
+                            <effectiveTime value="20200421000000" />
+                            <pertinentInformation1 typeCode="PERT" contextConductionInd="true">
+                              <seperatableInd value="false" />
+                              <pertinentDosageInstructions classCode="OBS" moodCode="EVN">
+                                <value>take 1 or 2 3 times/day</value>
+                                <code code="DI" codeSystem="2.16.840.1.113883.2.1.3.2.4.17.30" displayName="Dose Instructions" />
+                              </pertinentDosageInstructions>
+                            </pertinentInformation1>
+                            <component typeCode="COMP">
+                              <seperatableInd value="false" />
+                              <medicationQuantity classCode="SPLY" moodCode="RQO">
+                                <quantity xsi:type="PQ" value="60" unit="1">
+                                  <translation value="60">
+                                    <originalText>tablet</originalText>
+                                  </translation>
+                                </quantity>
+                                <code code="246205007" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Quantity" />
+                              </medicationQuantity>
+                            </component>
+                            <consumable typeCode="CSM" contextControlCode="OP">
+                              <manufacturedProduct classCode="MANU">
+                                <manufacturedManufacturedMaterial classCode="MMAT" determinerCode="KIND">
+                                  <code code="329525004" displayName="Aspirin 300mg tablets" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" />
+                                </manufacturedManufacturedMaterial>
+                              </manufacturedProduct>
+                            </consumable>
+                          </UKCT_MT144040UK01.AcuteMedication>
+                        </component>
+                        <component typeCode="COMP" contextConductionInd="true">
+                          <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.component" />
+                          <seperatableInd value="false" />
+                          <UKCT_MT144040UK01.AcuteMedication classCode="SBADM" moodCode="RQO">
+                            <id root="57E0C8F0-7426-11EA-A953-E99D7DD36C3D" />
+                            <code code="222671000000103" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Acute medication" />
+                            <statusCode code="completed" />
+                            <effectiveTime value="20200401000000" />
+                            <pertinentInformation1 typeCode="PERT" contextConductionInd="true">
+                              <seperatableInd value="false" />
+                              <pertinentDosageInstructions classCode="OBS" moodCode="EVN">
+                                <value />
+                                <code code="DI" codeSystem="2.16.840.1.113883.2.1.3.2.4.17.30" displayName="Dose Instructions" />
+                              </pertinentDosageInstructions>
+                            </pertinentInformation1>
+                            <component typeCode="COMP">
+                              <seperatableInd value="false" />
+                              <medicationQuantity classCode="SPLY" moodCode="RQO">
+                                <quantity xsi:type="PQ" value="0" unit="1">
+                                  <translation value="0">
+                                    <originalText>Unknown Units</originalText>
+                                  </translation>
+                                </quantity>
+                                <code code="246205007" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Quantity" />
+                              </medicationQuantity>
+                            </component>
+                            <consumable typeCode="CSM" contextControlCode="OP">
+                              <manufacturedProduct classCode="MANU">
+                                <manufacturedManufacturedMaterial classCode="MMAT" determinerCode="KIND">
+                                  <code code="5185911000001103" displayName="Dukoral cholera vaccine oral suspension (Valneva UK Ltd)" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" />
+                                </manufacturedManufacturedMaterial>
+                              </manufacturedProduct>
+                            </consumable>
+                          </UKCT_MT144040UK01.AcuteMedication>
+                        </component>
+                        <component typeCode="COMP" contextConductionInd="true">
+                          <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.component" />
+                          <seperatableInd value="false" />
+                          <UKCT_MT144040UK01.AcuteMedication classCode="SBADM" moodCode="RQO">
+                            <id root="7A529DD0-7428-11EA-A953-E99D7DD36C3D" />
+                            <code code="222671000000103" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Acute medication" />
+                            <statusCode code="completed" />
+                            <effectiveTime value="20200401000000" />
+                            <pertinentInformation1 typeCode="PERT" contextConductionInd="true">
+                              <seperatableInd value="false" />
+                              <pertinentDosageInstructions classCode="OBS" moodCode="EVN">
+                                <value>take one 3 times/day</value>
+                                <code code="DI" codeSystem="2.16.840.1.113883.2.1.3.2.4.17.30" displayName="Dose Instructions" />
+                              </pertinentDosageInstructions>
+                            </pertinentInformation1>
+                            <component typeCode="COMP">
+                              <seperatableInd value="false" />
+                              <medicationQuantity classCode="SPLY" moodCode="RQO">
+                                <quantity xsi:type="PQ" value="28" unit="1">
+                                  <translation value="28">
+                                    <originalText>tablet</originalText>
+                                  </translation>
+                                </quantity>
+                                <code code="246205007" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Quantity" />
+                              </medicationQuantity>
+                            </component>
+                            <consumable typeCode="CSM" contextControlCode="OP">
+                              <manufacturedProduct classCode="MANU">
+                                <manufacturedManufacturedMaterial classCode="MMAT" determinerCode="KIND">
+                                  <code code="318353009" displayName="Propranolol 40mg tablets" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" />
+                                </manufacturedManufacturedMaterial>
+                              </manufacturedProduct>
+                            </consumable>
+                          </UKCT_MT144040UK01.AcuteMedication>
+                        </component>
+                        <component typeCode="COMP" contextConductionInd="true">
+                          <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.component" />
+                          <seperatableInd value="false" />
+                          <UKCT_MT144040UK01.AcuteMedication classCode="SBADM" moodCode="RQO">
+                            <id root="EDC1AA70-7358-11EA-B8A2-4F7DF4768A52" />
+                            <code code="222671000000103" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Acute medication" />
+                            <statusCode code="completed" />
+                            <effectiveTime value="20200331000000" />
+                            <pertinentInformation1 typeCode="PERT" contextConductionInd="true">
+                              <seperatableInd value="false" />
+                              <pertinentDosageInstructions classCode="OBS" moodCode="EVN">
+                                <value>** RED DRUG ** Hospital/Specialist Use Only</value>
+                                <code code="DI" codeSystem="2.16.840.1.113883.2.1.3.2.4.17.30" displayName="Dose Instructions" />
+                              </pertinentDosageInstructions>
+                            </pertinentInformation1>
+                            <component typeCode="COMP">
+                              <seperatableInd value="false" />
+                              <medicationQuantity classCode="SPLY" moodCode="RQO">
+                                <quantity xsi:type="PQ" value="1" unit="1">
+                                  <translation value="1">
+                                    <originalText>tablet</originalText>
+                                  </translation>
+                                </quantity>
+                                <code code="246205007" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Quantity" />
+                              </medicationQuantity>
+                            </component>
+                            <consumable typeCode="CSM" contextControlCode="OP">
+                              <manufacturedProduct classCode="MANU">
+                                <manufacturedManufacturedMaterial classCode="MMAT" determinerCode="KIND">
+                                  <code code="324880001" displayName="Abacavir 300mg tablets" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" />
+                                </manufacturedManufacturedMaterial>
+                              </manufacturedProduct>
+                            </consumable>
+                          </UKCT_MT144040UK01.AcuteMedication>
+                        </component>
+                        <component typeCode="COMP" contextConductionInd="true">
+                          <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.component" />
+                          <seperatableInd value="false" />
+                          <UKCT_MT144040UK01.AcuteMedication classCode="SBADM" moodCode="RQO">
+                            <id root="7FAF0660-7356-11EA-B45D-4D2CEF80DF8F" />
+                            <code code="222671000000103" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Acute medication" />
+                            <statusCode code="completed" />
+                            <effectiveTime value="20200331000000" />
+                            <pertinentInformation1 typeCode="PERT" contextConductionInd="true">
+                              <seperatableInd value="false" />
+                              <pertinentDosageInstructions classCode="OBS" moodCode="EVN">
+                                <value>** RED DRUG ** Hospital/Specialist Use Only</value>
+                                <code code="DI" codeSystem="2.16.840.1.113883.2.1.3.2.4.17.30" displayName="Dose Instructions" />
+                              </pertinentDosageInstructions>
+                            </pertinentInformation1>
+                            <component typeCode="COMP">
+                              <seperatableInd value="false" />
+                              <medicationQuantity classCode="SPLY" moodCode="RQO">
+                                <quantity xsi:type="PQ" value="1" unit="1">
+                                  <translation value="1">
+                                    <originalText>tablet</originalText>
+                                  </translation>
+                                </quantity>
+                                <code code="246205007" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Quantity" />
+                              </medicationQuantity>
+                            </component>
+                            <consumable typeCode="CSM" contextControlCode="OP">
+                              <manufacturedProduct classCode="MANU">
+                                <manufacturedManufacturedMaterial classCode="MMAT" determinerCode="KIND">
+                                  <code code="324880001" displayName="Abacavir 300mg tablets" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" />
+                                </manufacturedManufacturedMaterial>
+                              </manufacturedProduct>
+                            </consumable>
+                          </UKCT_MT144040UK01.AcuteMedication>
+                        </component>
+                        <component typeCode="COMP" contextConductionInd="true">
+                          <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.component" />
+                          <seperatableInd value="false" />
+                          <UKCT_MT144040UK01.AcuteMedication classCode="SBADM" moodCode="RQO">
+                            <id root="77112F80-7359-11EA-B8A2-4F7DF4768A52" />
+                            <code code="222671000000103" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Acute medication" />
+                            <statusCode code="completed" />
+                            <effectiveTime value="20200331000000" />
+                            <pertinentInformation1 typeCode="PERT" contextConductionInd="true">
+                              <seperatableInd value="false" />
+                              <pertinentDosageInstructions classCode="OBS" moodCode="EVN">
+                                <value>** RED DRUG ** Hospital/Specialist Use Only</value>
+                                <code code="DI" codeSystem="2.16.840.1.113883.2.1.3.2.4.17.30" displayName="Dose Instructions" />
+                              </pertinentDosageInstructions>
+                            </pertinentInformation1>
+                            <component typeCode="COMP">
+                              <seperatableInd value="false" />
+                              <medicationQuantity classCode="SPLY" moodCode="RQO">
+                                <quantity xsi:type="PQ" value="1" unit="1">
+                                  <translation value="1">
+                                    <originalText>tablet</originalText>
+                                  </translation>
+                                </quantity>
+                                <code code="246205007" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Quantity" />
+                              </medicationQuantity>
+                            </component>
+                            <consumable typeCode="CSM" contextControlCode="OP">
+                              <manufacturedProduct classCode="MANU">
+                                <manufacturedManufacturedMaterial classCode="MMAT" determinerCode="KIND">
+                                  <code code="324880001" displayName="Abacavir 300mg tablets" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" />
+                                </manufacturedManufacturedMaterial>
+                              </manufacturedProduct>
+                            </consumable>
+                          </UKCT_MT144040UK01.AcuteMedication>
+                        </component>
+                        <component typeCode="COMP" contextConductionInd="true">
+                          <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.component" />
+                          <seperatableInd value="false" />
+                          <UKCT_MT144040UK01.AcuteMedication classCode="SBADM" moodCode="RQO">
+                            <id root="0AC4E4D0-735D-11EA-B8A2-4F7DF4768A52" />
+                            <code code="222671000000103" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Acute medication" />
+                            <statusCode code="completed" />
+                            <effectiveTime value="20200331000000" />
+                            <pertinentInformation1 typeCode="PERT" contextConductionInd="true">
+                              <seperatableInd value="false" />
+                              <pertinentDosageInstructions classCode="OBS" moodCode="EVN">
+                                <value>** RED DRUG ** Hospital/Specialist Use Only</value>
+                                <code code="DI" codeSystem="2.16.840.1.113883.2.1.3.2.4.17.30" displayName="Dose Instructions" />
+                              </pertinentDosageInstructions>
+                            </pertinentInformation1>
+                            <component typeCode="COMP">
+                              <seperatableInd value="false" />
+                              <medicationQuantity classCode="SPLY" moodCode="RQO">
+                                <quantity xsi:type="PQ" value="1" unit="1">
+                                  <translation value="1">
+                                    <originalText>tablet</originalText>
+                                  </translation>
+                                </quantity>
+                                <code code="246205007" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Quantity" />
+                              </medicationQuantity>
+                            </component>
+                            <consumable typeCode="CSM" contextControlCode="OP">
+                              <manufacturedProduct classCode="MANU">
+                                <manufacturedManufacturedMaterial classCode="MMAT" determinerCode="KIND">
+                                  <code code="324880001" displayName="Abacavir 300mg tablets" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" />
+                                </manufacturedManufacturedMaterial>
+                              </manufacturedProduct>
+                            </consumable>
+                          </UKCT_MT144040UK01.AcuteMedication>
+                        </component>
+                        <component typeCode="COMP" contextConductionInd="true">
+                          <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.component" />
+                          <seperatableInd value="false" />
+                          <UKCT_MT144040UK01.AcuteMedication classCode="SBADM" moodCode="RQO">
+                            <id root="CEF1CCC0-735C-11EA-B8A2-4F7DF4768A52" />
+                            <code code="222671000000103" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Acute medication" />
+                            <statusCode code="completed" />
+                            <effectiveTime value="20200331000000" />
+                            <pertinentInformation1 typeCode="PERT" contextConductionInd="true">
+                              <seperatableInd value="false" />
+                              <pertinentDosageInstructions classCode="OBS" moodCode="EVN">
+                                <value>** RED DRUG ** Hospital/Specialist Use Only</value>
+                                <code code="DI" codeSystem="2.16.840.1.113883.2.1.3.2.4.17.30" displayName="Dose Instructions" />
+                              </pertinentDosageInstructions>
+                            </pertinentInformation1>
+                            <component typeCode="COMP">
+                              <seperatableInd value="false" />
+                              <medicationQuantity classCode="SPLY" moodCode="RQO">
+                                <quantity xsi:type="PQ" value="1" unit="1">
+                                  <translation value="1">
+                                    <originalText>tablet</originalText>
+                                  </translation>
+                                </quantity>
+                                <code code="246205007" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Quantity" />
+                              </medicationQuantity>
+                            </component>
+                            <consumable typeCode="CSM" contextControlCode="OP">
+                              <manufacturedProduct classCode="MANU">
+                                <manufacturedManufacturedMaterial classCode="MMAT" determinerCode="KIND">
+                                  <code code="324880001" displayName="Abacavir 300mg tablets" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" />
+                                </manufacturedManufacturedMaterial>
+                              </manufacturedProduct>
+                            </consumable>
+                          </UKCT_MT144040UK01.AcuteMedication>
+                        </component>
+                      </pertinentCREType>
+                    </pertinentInformation2>
+                    <pertinentInformation2 typeCode="PERT" inversionInd="false" contextConductionInd="true" negationInd="false">
+                      <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.pertinentInformation1" />
+                      <seperatableInd value="true" />
+                      <pertinentCREType classCode="CATEGORY" moodCode="EVN">
+                        <code code="163131000000108" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Clinical Observations and Findings" />
+                        <component typeCode="COMP" contextConductionInd="true">
+                          <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.component" />
+                          <seperatableInd value="false" />
+                          <UKCT_MT144043UK02.Finding classCode="OBS" moodCode="EVN">
+                            <id root="19ABC6D1-8AF5-11EA-9FCE-AFDCAECF9DFB" />
+                            <code code="249519007" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Diarrhoea and vomiting">
+                              <originalText>Diarrhoea and vomiting</originalText>
+                            </code>
+                            <statusCode code="completed" />
+                            <effectiveTime>
+                              <low value="20200401152715" />
+                            </effectiveTime>
+                            <pertinentInformation typeCode="PERT" contextConductionInd="true">
+                              <seperatableInd value="false" />
+                              <pertinentSupportingInfo classCode="OBS" moodCode="EVN">
+                                <value>Suspected gastroenteritis</value>
+                                <code code="SupportingText" codeSystem="2.16.840.1.113883.2.1.3.2.4.17.126" displayName="Supporting Text" />
+                              </pertinentSupportingInfo>
+                            </pertinentInformation>
+                          </UKCT_MT144043UK02.Finding>
+                        </component>
+                        <component typeCode="COMP" contextConductionInd="true">
+                          <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.component" />
+                          <seperatableInd value="false" />
+                          <UKCT_MT144043UK02.Finding classCode="OBS" moodCode="EVN">
+                            <id root="7FAF2D71-7356-11EA-B45D-4D2CEF80DF8F" />
+                            <code code="284732002" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Frugivore">
+                              <originalText>Frugivore</originalText>
+                            </code>
+                            <statusCode code="completed" />
+                            <effectiveTime>
+                              <low value="20200331142601" />
+                            </effectiveTime>
+                            <pertinentInformation typeCode="PERT" contextConductionInd="true">
+                              <seperatableInd value="false" />
+                              <pertinentSupportingInfo classCode="OBS" moodCode="EVN">
+                                <value>y[No notes were originally recorded]</value>
+                                <code code="SupportingText" codeSystem="2.16.840.1.113883.2.1.3.2.4.17.126" displayName="Supporting Text" />
+                              </pertinentSupportingInfo>
+                            </pertinentInformation>
+                          </UKCT_MT144043UK02.Finding>
+                        </component>
+                        <component typeCode="COMP" contextConductionInd="true">
+                          <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.component" />
+                          <seperatableInd value="false" />
+                          <UKCT_MT144043UK02.Finding classCode="OBS" moodCode="EVN">
+                            <id root="31DAA490-6F54-11EA-B0C5-E7E2E0DFC8E6" />
+                            <code code="299899002" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Problem of sense of smell">
+                              <originalText>Problem of sense of smell</originalText>
+                            </code>
+                            <statusCode code="completed" />
+                            <effectiveTime>
+                              <low value="20200326105700" />
+                            </effectiveTime>
+                          </UKCT_MT144043UK02.Finding>
+                        </component>
+                        <component typeCode="COMP" contextConductionInd="true">
+                          <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.component" />
+                          <seperatableInd value="false" />
+                          <UKCT_MT144043UK02.Finding classCode="OBS" moodCode="EVN">
+                            <id root="2C70D910-7298-11EA-A2AD-59F5A17939F6" />
+                            <code code="162211001" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Viral headache">
+                              <originalText>Viral headache</originalText>
+                            </code>
+                            <statusCode code="completed" />
+                            <effectiveTime>
+                              <low value="20200325162806" />
+                            </effectiveTime>
+                          </UKCT_MT144043UK02.Finding>
+                        </component>
+                        <component typeCode="COMP" contextConductionInd="true">
+                          <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.component" />
+                          <seperatableInd value="false" />
+                          <UKCT_MT144043UK02.Finding classCode="OBS" moodCode="EVN">
+                            <id root="AD803D20-6EB5-11EA-9966-5D82799DC48A" />
+                            <code code="83156004" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Sense of smell impaired">
+                              <originalText>Sense of smell impaired</originalText>
+                            </code>
+                            <statusCode code="completed" />
+                            <effectiveTime>
+                              <low value="20200325154610" />
+                            </effectiveTime>
+                          </UKCT_MT144043UK02.Finding>
+                        </component>
+                      </pertinentCREType>
+                    </pertinentInformation2>
+                    <pertinentInformation2 typeCode="PERT" inversionInd="false" contextConductionInd="true" negationInd="false">
+                      <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.pertinentInformation1" />
+                      <seperatableInd value="true" />
+                      <pertinentCREType classCode="CATEGORY" moodCode="EVN">
+                        <code code="163021000000107" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Social and Personal Circumstances" />
+                        <component typeCode="COMP" contextConductionInd="true">
+                          <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.component" />
+                          <seperatableInd value="false" />
+                          <UKCT_MT144036UK01.SocialOrPersonalCircumstance classCode="OBS" moodCode="EVN">
+                            <id root="7A59C9C0-7428-11EA-A953-E99D7DD36C3D" />
+                            <code code="315570003" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Main spoken language English">
+                              <originalText>Main spoken language English</originalText>
+                            </code>
+                            <statusCode code="normal" />
+                            <effectiveTime>
+                              <low value="20200401152715" />
+                            </effectiveTime>
+                            <pertinentInformation typeCode="PERT" contextConductionInd="true">
+                              <seperatableInd value="false" />
+                              <pertinentSupportingInfo classCode="OBS" moodCode="EVN">
+                                <value>Bilingual</value>
+                                <code code="SupportingText" codeSystem="2.16.840.1.113883.2.1.3.2.4.17.126" displayName="Supporting Text" />
+                              </pertinentSupportingInfo>
+                            </pertinentInformation>
+                          </UKCT_MT144036UK01.SocialOrPersonalCircumstance>
+                        </component>
+                        <component typeCode="COMP" contextConductionInd="true">
+                          <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.component" />
+                          <seperatableInd value="false" />
+                          <UKCT_MT144036UK01.SocialOrPersonalCircumstance classCode="OBS" moodCode="EVN">
+                            <id root="7FAF2D70-7356-11EA-B45D-4D2CEF80DF8F" />
+                            <code code="315570003" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Main spoken language English">
+                              <originalText>Main spoken language English</originalText>
+                            </code>
+                            <statusCode code="normal" />
+                            <effectiveTime>
+                              <low value="20200331142601" />
+                            </effectiveTime>
+                            <pertinentInformation typeCode="PERT" contextConductionInd="true">
+                              <seperatableInd value="false" />
+                              <pertinentSupportingInfo classCode="OBS" moodCode="EVN">
+                                <value>y[No notes were originally recorded]</value>
+                                <code code="SupportingText" codeSystem="2.16.840.1.113883.2.1.3.2.4.17.126" displayName="Supporting Text" />
+                              </pertinentSupportingInfo>
+                            </pertinentInformation>
+                          </UKCT_MT144036UK01.SocialOrPersonalCircumstance>
+                        </component>
+                        <component typeCode="COMP" contextConductionInd="true">
+                          <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.component" />
+                          <seperatableInd value="false" />
+                          <UKCT_MT144036UK01.SocialOrPersonalCircumstance classCode="OBS" moodCode="EVN">
+                            <id root="EAAC71C0-6F53-11EA-B0C5-E7E2E0DFC8E6" />
+                            <code code="315578005" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Main spoken language Mandarin">
+                              <originalText>Main spoken language Mandarin</originalText>
+                            </code>
+                            <statusCode code="normal" />
+                            <effectiveTime>
+                              <low value="20200326112038" />
+                            </effectiveTime>
+                          </UKCT_MT144036UK01.SocialOrPersonalCircumstance>
+                        </component>
+                      </pertinentCREType>
+                    </pertinentInformation2>
+                    <pertinentInformation2 typeCode="PERT" inversionInd="false" contextConductionInd="true" negationInd="false">
+                      <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.pertinentInformation1" />
+                      <seperatableInd value="true" />
+                      <pertinentCREType classCode="CATEGORY" moodCode="EVN">
+                        <code code="162991000000102" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Problems and Issues" />
+                        <component typeCode="COMP" contextConductionInd="true">
+                          <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.component" />
+                          <seperatableInd value="false" />
+                          <UKCT_MT144038UK02.Problem classCode="CNOD" moodCode="EVN">
+                            <id root="7A59C9C2-7428-11EA-A953-E99D7DD36C3D" />
+                            <code code="181301000000103" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Abstract problem node" />
+                            <statusCode code="active" />
+                            <effectiveTime>
+                              <low value="20200401000000" />
+                            </effectiveTime>
+                            <pertinentInformation typeCode="PERT" inversionInd="false" negationInd="false">
+                              <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.sourceOf" />
+                              <seperatableInd value="false" />
+                              <Finding classCode="OBS" moodCode="EVN">
+                                <id root="19ABC6D1-8AF5-11EA-9FCE-AFDCAECF9DFB" />
+                              </Finding>
+                            </pertinentInformation>
+                          </UKCT_MT144038UK02.Problem>
+                        </component>
+                        <component typeCode="COMP" contextConductionInd="true">
+                          <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.component" />
+                          <seperatableInd value="false" />
+                          <UKCT_MT144038UK02.Problem classCode="CNOD" moodCode="EVN">
+                            <id root="7FAF2D74-7356-11EA-B45D-4D2CEF80DF8F" />
+                            <code code="181301000000103" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Abstract problem node" />
+                            <statusCode code="active" />
+                            <effectiveTime>
+                              <low value="20200331000000" />
+                            </effectiveTime>
+                            <pertinentInformation typeCode="PERT" inversionInd="false" negationInd="false">
+                              <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.sourceOf" />
+                              <seperatableInd value="false" />
+                              <Finding classCode="OBS" moodCode="EVN">
+                                <id root="7FAF2D71-7356-11EA-B45D-4D2CEF80DF8F" />
+                              </Finding>
+                            </pertinentInformation>
+                          </UKCT_MT144038UK02.Problem>
+                        </component>
+                      </pertinentCREType>
+                    </pertinentInformation2>
+                    <pertinentInformation2 typeCode="PERT" inversionInd="false" contextConductionInd="true" negationInd="false">
+                      <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.pertinentInformation1" />
+                      <seperatableInd value="true" />
+                      <pertinentCREType classCode="CATEGORY" moodCode="EVN">
+                        <code code="163071000000106" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Treatments" />
+                        <component typeCode="COMP" contextConductionInd="true">
+                          <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.component" />
+                          <seperatableInd value="false" />
+                          <UKCT_MT144055UK01.Treatment classCode="PROC" moodCode="EVN">
+                            <id root="7A59C9C1-7428-11EA-A953-E99D7DD36C3D" />
+                            <code code="196411000000103" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Transfer-degraded record Entry">
+                              <originalText>Dukoral 1</originalText>
+                            </code>
+                            <statusCode code="normal" />
+                            <effectiveTime>
+                              <low value="20200401152715" />
+                            </effectiveTime>
+                            <pertinentInformation typeCode="PERT" contextConductionInd="true">
+                              <seperatableInd value="false" />
+                              <pertinentSupportingInfo classCode="OBS" moodCode="EVN">
+                                <value>Previously administered &gt; 10y</value>
+                                <code code="SupportingText" codeSystem="2.16.840.1.113883.2.1.3.2.4.17.126" displayName="Supporting Text" />
+                              </pertinentSupportingInfo>
+                            </pertinentInformation>
+                          </UKCT_MT144055UK01.Treatment>
+                        </component>
+                        <component typeCode="COMP" contextConductionInd="true">
+                          <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.component" />
+                          <seperatableInd value="false" />
+                          <UKCT_MT144055UK01.Treatment classCode="PROC" moodCode="EVN">
+                            <id root="7FAF2D73-7356-11EA-B45D-4D2CEF80DF8F" />
+                            <code code="196411000000103" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Transfer-degraded record Entry">
+                              <originalText>Anti-D Immunglobulin 1</originalText>
+                            </code>
+                            <statusCode code="normal" />
+                            <effectiveTime>
+                              <low value="20200331143641" />
+                            </effectiveTime>
+                            <pertinentInformation typeCode="PERT" contextConductionInd="true">
+                              <seperatableInd value="false" />
+                              <pertinentSupportingInfo classCode="OBS" moodCode="EVN">
+                                <value>notes</value>
+                                <code code="SupportingText" codeSystem="2.16.840.1.113883.2.1.3.2.4.17.126" displayName="Supporting Text" />
+                              </pertinentSupportingInfo>
+                            </pertinentInformation>
+                          </UKCT_MT144055UK01.Treatment>
+                        </component>
+                        <component typeCode="COMP" contextConductionInd="true">
+                          <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.component" />
+                          <seperatableInd value="false" />
+                          <UKCT_MT144055UK01.Treatment classCode="PROC" moodCode="EVN">
+                            <id root="7FAF2D72-7356-11EA-B45D-4D2CEF80DF8F" />
+                            <code code="196411000000103" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Transfer-degraded record Entry">
+                              <originalText>Meningococcal B Vaccine (Bexsero) 1</originalText>
+                            </code>
+                            <statusCode code="normal" />
+                            <effectiveTime>
+                              <low value="20200331142601" />
+                            </effectiveTime>
+                          </UKCT_MT144055UK01.Treatment>
+                        </component>
+                      </pertinentCREType>
+                    </pertinentInformation2>
+                    <pertinentInformation2 typeCode="PERT" inversionInd="false" contextConductionInd="true" negationInd="false">
+                      <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.pertinentInformation1" />
+                      <seperatableInd value="true" />
+                      <pertinentCREType classCode="CATEGORY" moodCode="EVN">
+                        <code code="163231000000100" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Risks to Patient" />
+                        <component typeCode="COMP" contextConductionInd="true">
+                          <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.component" />
+                          <seperatableInd value="false" />
+                          <UKCT_MT144054UK01.RiskToPatient classCode="OBS" moodCode="EVN">
+                            <id root="19ABC6D0-8AF5-11EA-9FCE-AFDCAECF9DFB" />
+                            <code code="1300561000000107" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="High risk category for developing complication from COVID-19 infection" />
+                            <statusCode code="normal" />
+                            <effectiveTime>
+                              <low value="20200430161257" />
+                            </effectiveTime>
+                          </UKCT_MT144054UK01.RiskToPatient>
+                        </component>
+                      </pertinentCREType>
+                    </pertinentInformation2>
+                    <recordTarget typeCode="RCT">
+                      <patient classCode="PAT">
+                        <id extension="5900002233" root="2.16.840.1.113883.2.1.4.1" />
+                      </patient>
+                    </recordTarget>
+                    <replacementOf typeCode="RPLC">
+                      <priorMessageRef classCode="COMPOSITION" moodCode="EVN">
+                        <id root="DADD56E0-8A35-11EA-B3DD-AF6BFEE44A74" />
+                      </priorMessageRef>
+                    </replacementOf>
+                  </GPSummary>
+
+                </psis:hl7Data>
+              </psis:event>
+            </psis:queryResponseEvent>
+          </subject>
+          <queryAck type="QueryAck">
+            <queryResponseCode code="OK"/>
+          </queryAck>
+        </ControlActEvent>
+      </QUPC_IN210000UK04>
+    </eventQueryResponse>
+  </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>
