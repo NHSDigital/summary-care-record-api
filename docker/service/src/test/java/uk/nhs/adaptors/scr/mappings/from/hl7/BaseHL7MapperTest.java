@@ -82,6 +82,11 @@ public class BaseHL7MapperTest {
         return actualJson;
     }
 
+    /**
+     * Generate reference uri to interlink the various JSON sections for authors/participants.
+     * @param resource
+     * @return BundleEntryComponent
+     */
     protected Bundle.BundleEntryComponent getBundleEntryComponent(Resource resource) {
         return new Bundle.BundleEntryComponent()
             .setFullUrl(getScrUrl() + "/" + resource.getResourceType() + "/" + resource.getId())
