@@ -15,7 +15,7 @@
         "resourceType": "Composition",
         "id": "19B11E00-8AF5-11EA-9FCE-AFDCAECF9DFB",
         "meta": {
-          "lastUpdated": "2020-04-30T16:13:00+00:00"
+          "lastUpdated": "2020-04-30T16:13:09+00:00"
         },
         "identifier": {
           "system": "https://tools.ietf.org/html/rfc4122",
@@ -45,7 +45,7 @@
         "subject": {
           "reference": "Patient/80AD85F2-71DF-48D7-9429-BA75003AB4BB"
         },
-        "date": "2020-04-30T16:13:00+00:00",
+        "date": "2020-04-30T16:13:09+00:00",
         "author": [
           {
             "reference": "PractitionerRole/D4F14095-8BB0-446B-883F-2848426F1CE8"
@@ -85,7 +85,7 @@
             },
             "text": {
               "status": "generated",
-              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><table summary=\"This table includes information about this patient's allergies and adverse reactions.\" id=\"Allergies\"><thead><tr><th>Date</th><th>Description</th><th>Certainty</th><th>Severity</th><th>Supporting Information</th></tr></thead><tbody><tr class=\"oddRow\"><td>25 May 2020</td><td>Astringent allergy</td><td/><td/><td/></tr></tbody></table></div>"
+              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><table summary=\"This table includes information about this patient's allergies and adverse reactions.\" id=\"Allergies\"><thead><tr><th>Date</th><th>Description</th><th>Certainty</th><th>Severity</th><th>Supporting Information</th></tr></thead><tbody><tr class=\"oddRow\"><td>25 Mar 2020</td><td>Astringent allergy</td><td/><td/><td/></tr></tbody></table></div>"
             }
           },
           {
@@ -141,7 +141,7 @@
             },
             "text": {
               "status": "generated",
-              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><table id=\"RisksToPatient\"><thead><tr><th>Date</th><th>Description</th><th>Value</th><th>Supporting Information</th></tr></thead><tbody><tr class=\"oddRow\"><td>30 Apr 2020</td><td>High risk category for developing complication from coronavirus disease 19 caused by severe acute respiratory syndrome coronavirus 2 infection (finding)</td><td/><td/></tr></tbody></table></div>"
+              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p id=\"WithheldCREItemsHeaderStatement\" class=\"HighlightedStatement\">One or more entries have been deliberately withheld from this GP Summary.</p><table id=\"RisksToPatient\"><thead><tr><th>Date</th><th>Description</th><th>Value</th><th>Supporting Information</th></tr></thead><tbody><tr class=\"oddRow\"><td>30 Apr 2020</td><td>High risk category for developing complication from coronavirus disease 19 caused by severe acute respiratory syndrome coronavirus 2 infection (finding)</td><td/><td/></tr></tbody></table></div>"
             }
           },
           {
@@ -155,7 +155,7 @@
             },
             "text": {
               "status": "generated",
-              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><table id=\"Problems\"><thead><tr><th>Date</th><th>Description</th><th>Value</th><th>Supporting Information</th></tr></thead><tbody><tr class=\"oddRow\"><td>01 Apr 2020</td><td>Diarrhoea and vomiting</td><td/><td>Suspected gastroenteritis</td></tr><tr class=\"evenRow\"><td>31 Mar 2020</td><td>Frugivore</td><td/><td>[No notes were originally recorded]</td></tr></tbody></table></div>"
+              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><table id=\"Problems\"><thead><tr><th>Date</th><th>Description</th><th>Value</th><th>Supporting Information</th></tr></thead><tbody><tr class=\"oddRow\"><td>01 Apr 2020</td><td>Diarrhoea and vomiting</td><td/><td>Suspected gastroenteritis</td></tr><tr class=\"evenRow\"><td>31 Mar 2020</td><td>Frugivore</td><td/><td>y[No notes were originally recorded]</td></tr></tbody></table></div>"
             }
           },
           {
@@ -169,7 +169,7 @@
             },
             "text": {
               "status": "generated",
-              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><table id=\"Observations\"><thead><tr><th>Date</th><th>Description</th><th>Value</th><th>Supporting Information</th></tr></thead><tbody><tr class=\"oddRow\"><td>01 Apr 2020</td><td>Diarrhoea and vomiting</td><td/><td>Suspected gastroenteritis</td></tr><tr class=\"evenRow\"><td>31 Mar 2020</td><td>Frugivore</td><td/><td>[No notes were originally recorded]</td></tr><tr class=\"oddRow\"><td>26 Mar 2020</td><td>Problem of sense of smell</td><td/><td/></tr><tr class=\"evenRow\"><td>25 Mar 2020</td><td>Viral headache</td><td/><td/></tr><tr class=\"oddRow\"><td>25 Mar 2020</td><td>Sense of smell impaired</td><td/><td/></tr></tbody></table></div>"
+              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><table id=\"Observations\"><thead><tr><th>Date</th><th>Description</th><th>Value</th><th>Supporting Information</th></tr></thead><tbody><tr class=\"oddRow\"><td>01 Apr 2020</td><td>Diarrhoea and vomiting</td><td/><td>Suspected gastroenteritis</td></tr><tr class=\"evenRow\"><td>31 Mar 2020</td><td>Frugivore</td><td/><td>y[No notes were originally recorded]</td></tr><tr class=\"oddRow\"><td>26 Mar 2020</td><td>Problem of sense of smell</td><td/><td/></tr><tr class=\"evenRow\"><td>25 Mar 2020</td><td>Viral headache</td><td/><td/></tr><tr class=\"oddRow\"><td>25 Mar 2020</td><td>Sense of smell impaired</td><td/><td/></tr></tbody></table></div>"
             }
           },
           {
@@ -197,60 +197,8 @@
             },
             "text": {
               "status": "generated",
-              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p id=\"WithheldCREItemsHeaderStatement\" class=\"HighlightedStatement\">One or more entries have been deliberately withheld from this GP Summary.</p><table id=\"Circumstances\"><thead><tr><th>Date</th><th>Description</th><th>Value</th><th>Supporting Information</th></tr></thead><tbody><tr class=\"oddRow\"><td>01 Apr 2020</td><td>Main spoken language English</td><td/><td>Bilingual</td></tr><tr class=\"evenRow\"><td>31 Mar 2020</td><td>Main spoken language English</td><td/><td>[No notes were originally recorded]</td></tr><tr class=\"oddRow\"><td>26 Mar 2020</td><td>Main spoken language Mandarin</td><td/><td/></tr></tbody></table><p id=\"SendTime\">Summary Sent: 30 Apr 2020 16:13</p></div>"
+              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p id=\"WithheldCREItemsHeaderStatement\" class=\"HighlightedStatement\">One or more entries have been deliberately withheld from this GP Summary.</p><table id=\"Circumstances\"><thead><tr><th>Date</th><th>Description</th><th>Value</th><th>Supporting Information</th></tr></thead><tbody><tr class=\"oddRow\"><td>01 Apr 2020</td><td>Main spoken language English</td><td/><td>Bilingual</td></tr><tr class=\"evenRow\"><td>31 Mar 2020</td><td>Main spoken language English</td><td/><td>y[No notes were originally recorded]</td></tr><tr class=\"oddRow\"><td>26 Mar 2020</td><td>Main spoken language Mandarin</td><td/><td/></tr></tbody></table><p id=\"SendTime\">Summary Sent: 30 Apr 2020 16:13</p></div>"
             }
-          }
-        ]
-      }
-    },
-    {
-      "fullUrl": "https://internal-dev.api.service.nhs.uk/summary-care-record/FHIR/R4/PractitionerRole/D4F14095-8BB0-446B-883F-2848426F1CE8",
-      "resource": {
-        "resourceType": "PractitionerRole",
-        "id": "D4F14095-8BB0-446B-883F-2848426F1CE8",
-        "practitioner": {
-          "reference": "Practitioner/971E2213-D41B-4906-B32E-F2D2107AA431"
-        },
-        "organization": {
-          "reference": "Organization/EB7E5E32-09B3-4ECC-94C7-8A8914D9D691"
-        },
-        "code": [ {
-          "coding": [ {
-            "system": "https://fhir.nhs.uk/CodeSystem/HL7v3-SDSJobRoleName",
-            "code": "NR0260",
-            "display": "General Medical Practitioner"
-          } ]
-        } ]
-      }
-    },
-    {
-      "fullUrl": "https://internal-dev.api.service.nhs.uk/summary-care-record/FHIR/R4/Organization/EB7E5E32-09B3-4ECC-94C7-8A8914D9D691",
-      "resource": {
-        "resourceType": "Organization",
-        "id": "EB7E5E32-09B3-4ECC-94C7-8A8914D9D691",
-        "telecom": [ {
-          "system": "phone",
-          "value": "0177865579"
-        } ],
-        "address": [ {
-          "text": "ORG ADDRESS"
-        } ]
-      }
-    },
-    {
-      "fullUrl": "https://internal-dev.api.service.nhs.uk/summary-care-record/FHIR/R4/Practitioner/971E2213-D41B-4906-B32E-F2D2107AA431",
-      "resource": {
-        "resourceType": "Practitioner",
-        "id": "971E2213-D41B-4906-B32E-F2D2107AA431",
-        "identifier": [
-          {
-            "system": "https://fhir.nhs.uk/Id/sds-user-id",
-            "value": "676789689789"
-          }
-        ],
-        "name": [
-          {
-            "text": "Mr Bob Wilson"
           }
         ]
       }
@@ -272,14 +220,19 @@
       }
     },
     {
-      "fullUrl": "https://internal-dev.api.service.nhs.uk/summary-care-record/FHIR/R4/Patient/80AD85F2-71DF-48D7-9429-BA75003AB4BB",
+      "fullUrl": "https://internal-dev.api.service.nhs.uk/summary-care-record/FHIR/R4/Practitioner/971E2213-D41B-4906-B32E-F2D2107AA431",
       "resource": {
-        "resourceType": "Patient",
-        "id": "80AD85F2-71DF-48D7-9429-BA75003AB4BB",
+        "resourceType": "Practitioner",
+        "id": "971E2213-D41B-4906-B32E-F2D2107AA431",
         "identifier": [
           {
-            "system": "https://fhir.nhs.uk/Id/nhs-number",
-            "value": "5900002233"
+            "system": "https://fhir.nhs.uk/Id/sds-user-id",
+            "value": "784578436584"
+          }
+        ],
+        "name": [
+          {
+            "text": "Mr Bob Wilson"
           }
         ]
       }
@@ -739,7 +692,19 @@
         },
         "effectiveDateTime": "2020-03-31T14:26:01+00:00"
       }
-
+    },
+    {
+      "fullUrl": "https://internal-dev.api.service.nhs.uk/summary-care-record/FHIR/R4/Patient/80AD85F2-71DF-48D7-9429-BA75003AB4BB",
+      "resource": {
+        "resourceType": "Patient",
+        "id": "80AD85F2-71DF-48D7-9429-BA75003AB4BB",
+        "identifier": [
+          {
+            "system": "https://fhir.nhs.uk/Id/nhs-number",
+            "value": "5900002233"
+          }
+        ]
+      }
     }
   ]
 }
