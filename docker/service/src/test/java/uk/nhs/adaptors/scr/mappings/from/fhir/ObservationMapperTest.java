@@ -17,11 +17,10 @@ public class ObservationMapperTest extends BaseFhirMapperTest {
     private ObservationMapper finding;
 
     private static final String RESOURCE_DIRECTORY = "finding";
-    private static final String INVESTIGATION_RESOURCE_DIRECTORY = "finding/investigation_results_expected";
     private static final String RESOURCE_DIRECTORY_EXPECTED = "finding/expected";
     private static final String OBSERVATION_BUNDLE_FILE = "observationsBundle";
     private static final String INVESTIGATION_RESULTS_FILE = "investigationResults";
-    private static final String CLINICAL_OBS_FILE_NAME = "expected";
+    private static final String CLINICAL_OBS_FILE_NAME = "clinicalObservations";
 
     @Test
     public void When_MappingFromInvestigationResultsFHIR_Expect_RootId() {
@@ -79,7 +78,7 @@ public class ObservationMapperTest extends BaseFhirMapperTest {
 
     @Test
     public void When_MappingFromInvestigationResultsFHIR_Expect_MatchingHtml() {
-        var expectedHtml = getExpectedHtml(INVESTIGATION_RESOURCE_DIRECTORY, INVESTIGATION_RESULTS_FILE);
+        var expectedHtml = getExpectedHtml(RESOURCE_DIRECTORY_EXPECTED, INVESTIGATION_RESULTS_FILE);
         var jsonBundle = getFileAsObject(RESOURCE_DIRECTORY, OBSERVATION_BUNDLE_FILE, Bundle.class);
 
         var gpSummary = new GpSummary();

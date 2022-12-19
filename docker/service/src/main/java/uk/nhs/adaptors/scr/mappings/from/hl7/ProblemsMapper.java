@@ -25,14 +25,14 @@ import static uk.nhs.adaptors.scr.mappings.from.hl7.XmlToFhirMapper.SNOMED_SYSTE
 @Slf4j
 @Component
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
-public class ProblemsMapper {
+public class ProblemsMapper implements XmlToFhirMapper {
     private static final String DIAGNOSIS_CODE = "163001000000103";
     private static final String DIAGNOSIS_DISPLAY = "Diagnoses";
     private static final String ALLERGY_CODE = "";
     private static final String ALLERGY_DISPLAY = "";
     private final CodedEntryMapper codedEntryMapper;
     private final XmlUtils xmlUtils;
-    private static final String PERTINENT_CRET_BASE_PATH = "/pertinentInformation2/pertinentCREType[.//UKCT_MT144038UK02.Problem]";
+    private static final String PERTINENT_CRET_BASE_PATH = "//pertinentInformation2/pertinentCREType[.//UKCT_MT144038UK02.Problem]";
     private static final String PROBLEM_BASE_PATH = "./component/UKCT_MT144038UK02.Problem";
     private static final String PROBLEM_ALLERGY_XPATH = "./pertinentInformation/AllergiesAndAdverseReactionsIdent";
     private static final String PROBLEM_DIAGNOSIS_XPATH = "./pertinentInformation/Diagnosis";
@@ -41,7 +41,9 @@ public class ProblemsMapper {
 
     private static final String PERTINENT_CODE_CODE_XPATH = "./code/@code";
     private static final String PERTINENT_CODE_DISPLAY_XPATH = "./code/@displayName";
-    public List<? extends Resource>  map(Element document) {
+
+    @Override
+    public List<? extends Resource> map(Node document) {
         List<Resource> resources = new ArrayList<>();
 
         NodeList pertinentNodes = xmlUtils.getNodeListByXPath(document, PERTINENT_CRET_BASE_PATH);

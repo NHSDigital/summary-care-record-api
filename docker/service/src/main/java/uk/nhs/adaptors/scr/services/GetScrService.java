@@ -31,7 +31,11 @@ import uk.nhs.adaptors.scr.mappings.from.hl7.DiagnosisMapper;
 import uk.nhs.adaptors.scr.mappings.from.hl7.FindingsMapper;
 import uk.nhs.adaptors.scr.mappings.from.hl7.GpSummaryMapper;
 import uk.nhs.adaptors.scr.mappings.from.hl7.InteractionMapper;
+import uk.nhs.adaptors.scr.mappings.from.hl7.ProblemsMapper;
 import uk.nhs.adaptors.scr.mappings.from.hl7.RecordTargetMapper;
+import uk.nhs.adaptors.scr.mappings.from.hl7.RisksToPatientMapper;
+import uk.nhs.adaptors.scr.mappings.from.hl7.SocialOrPersonalCircumstancesMapper;
+import uk.nhs.adaptors.scr.mappings.from.hl7.TreatmentsMapper;
 import uk.nhs.adaptors.scr.models.EventListQueryParams;
 import uk.nhs.adaptors.scr.models.EventListQueryResponse;
 import uk.nhs.adaptors.scr.models.EventListQueryResponseParser;
@@ -81,8 +85,15 @@ public class GetScrService {
 
     private final InteractionMapper interactionMapper;
     private final GpSummaryMapper gpSummaryMapper;
+
+    // resource mappers
     private final DiagnosisMapper diagnosisMapper;
     private final FindingsMapper findingsMapper;
+    private final ProblemsMapper problemsMapper;
+    private final RisksToPatientMapper risksToPatientMapper;
+    private final SocialOrPersonalCircumstancesMapper socialOrPersonalCircumstancesMapper;
+    private final TreatmentsMapper treatmentsMapper;
+
     private final RecordTargetMapper recordTargetMapper;
     private final EventListQueryResponseParser eventListQueryResponseParser;
     private final SpineResponseParser spineResponseParser;
@@ -143,7 +154,11 @@ public class GetScrService {
             Stream.of(
                     gpSummaryMapper,
                     diagnosisMapper,
-                    findingsMapper)
+                    findingsMapper,
+                    problemsMapper,
+                    risksToPatientMapper,
+                    socialOrPersonalCircumstancesMapper,
+                    treatmentsMapper)
                     .map(mapper -> mapper.map(document))
                     .flatMap(resources -> resources.stream())
                     .peek(it -> setPatientReferences(it, patient))

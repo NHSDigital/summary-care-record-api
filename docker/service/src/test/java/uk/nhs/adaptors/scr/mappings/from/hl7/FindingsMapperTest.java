@@ -8,23 +8,23 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(MockitoExtension.class)
-public class ObservationsMapperTest extends BaseHL7MapperTest {
+public class FindingsMapperTest extends BaseHL7MapperTest {
 
     @InjectMocks
     private FindingsMapper finding;
 
     private static final String UK_CORE_OBSERVATION_META = "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Observation";
-    private static final String RESOURCE_DIRECTORY = "finding";
     private static final String INVESTIGATION_RESOURCE_DIRECTORY = "finding/investigation_results";
     private static final String INVESTIGATION_FILE_NAME = "investigationResults";
-    private static final String FILE_NAME = "example";
+    private static final String CLINICAL_RESOURCE_DIRECTORY = "finding/clinical_observations";
+    private static final String CLINICAL_OBSERVATIONS_FILE_NAME = "clinicalObservations";
     private static final String GP_SUMMARY_XPATH = "//QUPC_IN210000UK04/ControlActEvent/subject//GPSummary";
     private static final String PERTINENT_CRET_BASE_PATH =
         GP_SUMMARY_XPATH + "/pertinentInformation2/pertinentCREType[.//UKCT_MT144043UK02.Finding]";
 
     @Test
     public void When_MappingFromClinicalObservationsHL7_Expect_RandomUUID() {
-        var html = getHtmlExample(RESOURCE_DIRECTORY, FILE_NAME);
+        var html = getHtmlExample(CLINICAL_RESOURCE_DIRECTORY, CLINICAL_OBSERVATIONS_FILE_NAME);
 
         var result = finding.map(html);
 
@@ -33,7 +33,7 @@ public class ObservationsMapperTest extends BaseHL7MapperTest {
 
     @Test
     public void When_MappingFromClinicalObservationsHL7_Expect_XmlUtilsHit() {
-        var html = getHtmlExample(RESOURCE_DIRECTORY, FILE_NAME);
+        var html = getHtmlExample(CLINICAL_RESOURCE_DIRECTORY, CLINICAL_OBSERVATIONS_FILE_NAME);
 
         finding.map(html);
 
@@ -42,7 +42,7 @@ public class ObservationsMapperTest extends BaseHL7MapperTest {
 
     @Test
     public void When_MappingFromClinicalObservationsHL7_Expect_CodedEntryHit() {
-        var html = getHtmlExample(RESOURCE_DIRECTORY, FILE_NAME);
+        var html = getHtmlExample(CLINICAL_RESOURCE_DIRECTORY, CLINICAL_OBSERVATIONS_FILE_NAME);
 
         finding.map(html);
 
@@ -51,7 +51,7 @@ public class ObservationsMapperTest extends BaseHL7MapperTest {
 
     @Test
     public void When_MappingFromClinicalObservationsHL7_Expect_DateTimeFormatted() {
-        var html = getHtmlExample(RESOURCE_DIRECTORY, FILE_NAME);
+        var html = getHtmlExample(CLINICAL_RESOURCE_DIRECTORY, CLINICAL_OBSERVATIONS_FILE_NAME);
 
         var result = finding.map(html);
 
@@ -62,7 +62,7 @@ public class ObservationsMapperTest extends BaseHL7MapperTest {
 
     @Test
     public void When_MappingFromClinicalObservationsHL7_Expect_MetaUrl() {
-        var html = getHtmlExample(RESOURCE_DIRECTORY, FILE_NAME);
+        var html = getHtmlExample(CLINICAL_RESOURCE_DIRECTORY, CLINICAL_OBSERVATIONS_FILE_NAME);
 
         var result = finding.map(html);
 
@@ -73,7 +73,7 @@ public class ObservationsMapperTest extends BaseHL7MapperTest {
 
     @Test
     public void When_MappingFromClinicalObservationsHL7_Expect_CodingMapped() {
-        var html = getHtmlExample(RESOURCE_DIRECTORY, FILE_NAME);
+        var html = getHtmlExample(CLINICAL_RESOURCE_DIRECTORY, CLINICAL_OBSERVATIONS_FILE_NAME);
 
         var result = finding.map(html);
 
@@ -93,7 +93,7 @@ public class ObservationsMapperTest extends BaseHL7MapperTest {
 
     @Test
     public void When_MappingFromClinicalObservationsHL7_Expect_StatusFinal() {
-        var html = getHtmlExample(RESOURCE_DIRECTORY, FILE_NAME);
+        var html = getHtmlExample(CLINICAL_RESOURCE_DIRECTORY, CLINICAL_OBSERVATIONS_FILE_NAME);
 
         var result = finding.map(html);
 
@@ -105,7 +105,7 @@ public class ObservationsMapperTest extends BaseHL7MapperTest {
 
     @Test
     public void When_MappingFromClinicalObservationsHL7_Expect_CategoryMapped() {
-        var html = getHtmlExample(RESOURCE_DIRECTORY, FILE_NAME);
+        var html = getHtmlExample(CLINICAL_RESOURCE_DIRECTORY, CLINICAL_OBSERVATIONS_FILE_NAME);
 
         var result = finding.map(html);
 
@@ -123,8 +123,8 @@ public class ObservationsMapperTest extends BaseHL7MapperTest {
 
     @Test
     public void When_MappingFromClinicalObservationsHL7_Expect_MatchJson() {
-        var html = getHtmlExample(RESOURCE_DIRECTORY, FILE_NAME);
-        var expectedJson = getJsonExample(RESOURCE_DIRECTORY, "example");
+        var html = getHtmlExample(CLINICAL_RESOURCE_DIRECTORY, CLINICAL_OBSERVATIONS_FILE_NAME);
+        var expectedJson = getJsonExample(CLINICAL_RESOURCE_DIRECTORY, CLINICAL_OBSERVATIONS_FILE_NAME);
 
         var result = finding.map(html);
 
@@ -141,7 +141,7 @@ public class ObservationsMapperTest extends BaseHL7MapperTest {
 
         var result = finding.map(html);
 
-        assertThat(result.get(0).getId()).isEqualTo("19ABC6D1-8AF5-11EA-9FCE-AFDCAECF9DFB");
+        assertThat(result.get(0).getId()).isEqualTo("3CDB62E6-EFEA-4036-9709-52AE7ED7D930");
     }
 
     @Test
@@ -194,13 +194,13 @@ public class ObservationsMapperTest extends BaseHL7MapperTest {
         var codingFirstRep = resultObservation.getCode().getCodingFirstRep();
 
         assertThat(codingFirstRep.getCode())
-            .isEqualTo("163131000000108");
+            .isEqualTo("1322781000000102");
 
         assertThat(codingFirstRep.getSystem())
             .isEqualTo("http://snomed.info/sct");
 
         assertThat(codingFirstRep.getDisplay())
-            .isEqualTo("SARS-CoV-2 (severe acute respiratory syndrome coronavirus 2) RNA (ribonucleic acid) detection result positive");
+            .isEqualTo("Severe acute respiratory syndrome coronavirus 2 antigen detection result positive (finding)");
 
     }
 
