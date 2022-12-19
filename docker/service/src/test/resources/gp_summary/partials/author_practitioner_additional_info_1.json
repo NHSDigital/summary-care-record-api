@@ -1,0 +1,15 @@
+{
+  "resourceType": "Practitioner",
+  "id": "971E2213-D41B-4906-B32E-F2D2107AA431",
+  "identifier": [
+    {
+      "system": "https://fhir.nhs.uk/Id/sds-user-id",
+      "value": "676789689789"
+    }
+  ],
+  "name": [
+    {
+      "text": "Mr Bob Wilson"
+    }
+  ]
+}
