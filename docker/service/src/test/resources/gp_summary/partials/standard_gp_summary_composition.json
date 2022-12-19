@@ -1,0 +1,286 @@
+{
+  "resourceType": "Composition",
+  "id": "BF4180FD-C403-4EF7-A4AB-E07303AF5477",
+  "meta": {
+    "lastUpdated": "2020-11-17T01:00:00+00:00"
+  },
+  "identifier": {
+    "system": "https://tools.ietf.org/html/rfc4122",
+    "value": "BF4180FD-C403-4EF7-A4AB-E07303AF5477"
+  },
+  "status": "final",
+  "type": {
+    "coding": [
+      {
+        "system": "http://snomed.info/sct",
+        "code": "196981000000101",
+        "display": "General Practice Summary"
+      }
+    ]
+  },
+  "category": [
+    {
+      "coding": [
+        {
+          "system": "http://snomed.info/sct",
+          "code": "163171000000105",
+          "display": "Care Professional Documentation"
+        }
+      ]
+    }
+  ],
+  "date": "2020-11-17T01:00:00+00:00",
+  "author": [
+    {
+      "reference": "PractitionerRole/D4F14095-8BB0-446B-883F-2848426F1CE8"
+    }
+  ],
+  "relatesTo": [
+    {
+      "code": "replaces",
+      "targetIdentifier": {
+        "value": "D18B57ED-992E-45A2-A6AF-55200D20F48E"
+      }
+    }
+  ],
+  "section": [
+    {
+      "title": "General Practice Summary",
+      "code": {
+        "coding": [
+          {
+            "code": "Title"
+          }
+        ]
+      },
+      "text": {
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h3 id=\"Disclaimer\">Sourced from the patient's General Practice record. This summary may not include all the information pertinent to this patient.</h3><p id=\"CreateTime\">Summary Created: 14-May-2020 14:31</p><p id=\"RegistrationStartedStatement\" class=\"HighlightedStatement\">At the time this record was created, this patient had recently registered with the GP Practice. GP Summary information may not be complete.</p><p id=\"Author\">Created by: SMITH, Sean (Mr)</p><p id=\"Practice\">EMISWebCR1 50004, Fulford Grange, Rawdon, Leeds, West Yorkshire, LS19 7BY.</p></div>"
+      }
+    },
+    {
+      "title": "Allergies and Adverse Reactions",
+      "code": {
+        "coding": [
+          {
+            "code": "AllergiesHeader"
+          }
+        ]
+      },
+      "text": {
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><table summary=\"This table includes information about this patient's allergies and adverse reactions.\" id=\"Allergies\"><thead><tr><th>Date</th><th>Description</th><th>Certainty</th><th>Severity</th><th>Supporting Information</th></tr></thead><tbody><tr class=\"oddRow\"><td>12-May-2020</td><td>Toxic reaction to wasp sting</td><td/><td/><td>Problem; First</td></tr></tbody></table></div>"
+      }
+    },
+    {
+      "title": "Acute Medications (For the 12 month period 14-May-2019 to 14-May-2020)",
+      "code": {
+        "coding": [
+          {
+            "code": "AcuteMedsHeader"
+          }
+        ]
+      },
+      "text": {
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><table summary=\"This table includes information about this patient's acute medications.\" id=\"AcuteMeds\"><thead><tr><th>Type</th><th>Date</th><th>Medication Item</th><th>Dosage Instructions</th><th>Quantity</th></tr></thead><tbody><tr class=\"oddRow\"><td>Acute Medication</td><td>Prescribed: 12-May-2020</td><td>Co-codamol 8mg/500mg effervescent tablets</td><td>One To Be Taken Four Times A Day</td><td>112 tablet</td></tr></tbody></table></div>"
+      }
+    },
+    {
+      "title": "Current Repeat Medications",
+      "code": {
+        "coding": [
+          {
+            "code": "RepeatMedsHeader"
+          }
+        ]
+      },
+      "text": {
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><table summary=\"This table includes information about this patient's current repeat medications.\" id=\"RepeatMeds\"><thead><tr><th>Type</th><th>Date</th><th>Medication Item</th><th>Dosage Instructions</th><th>Quantity</th></tr></thead><tbody><tr class=\"oddRow\"><td>Repeat Medication</td><td>Last Issued: 12-May-2020</td><td>Paracetamol 250mg/5ml oral suspension</td><td>One 5ml Spoonful Every 4 To 6 Hours When Necessary. No More Than 4 doses in 24 Hours</td><td>40 ml</td></tr></tbody></table></div>"
+      }
+    },
+    {
+      "title": "Discontinued Repeat Medications (For the 6 month period 14-Nov-2019 to 14-May-2020)",
+      "code": {
+        "coding": [
+          {
+            "code": "DiscRepeatMedsHeader"
+          }
+        ]
+      },
+      "text": {
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><table summary=\"This table includes information about this patient's discontinued repeat medications.\" id=\"DiscRepeatMeds\"><thead><tr><th>Type</th><th>Date</th><th>Medication Item</th><th>Dosage Instructions</th><th>Quantity</th></tr></thead><tbody><tr><td colspan=\"5\">No relevant information available for this category.</td></tr></tbody></table></div>"
+      }
+    },
+    {
+      "title": "Risks to Patient",
+      "code": {
+        "coding": [
+          {
+            "code": "RisksToPatientHeader"
+          }
+        ]
+      },
+      "text": {
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><table id=\"RisksToPatient\"><thead><tr><th>Date</th><th>Description</th><th>Additional information</th></tr></thead><tbody><tr class=\"oddRow\"><td>14-May-2020</td><td>Low risk category for developing complication from COVID-19 infection</td><td>Problem; Review</td></tr></tbody></table></div>"
+      }
+    },
+    {
+      "title": "Diagnoses",
+      "code": {
+        "coding": [
+          {
+            "code": "DiagnosesHeader"
+          }
+        ]
+      },
+      "text": {
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><table id=\"Diagnoses\"><thead><tr><th>Date</th><th>Description</th><th>Additional information</th></tr></thead><tbody><tr class=\"oddRow\"><td>13-May-2020</td><td>COVID-19 confirmed by laboratory test</td><td>Problem; First, test</td></tr></tbody></table></div>"
+      },
+      "entry": [
+        {
+          "reference": "Condition/FCB84E15-02E5-495C-B334-D0685DCB0687"
+        },
+        {
+          "reference": "Condition/0F582D97-8F89-11EA-8B2D-B741F13EFC47"
+        },
+        {
+          "reference": "Condition/958E584C-25B8-4BD7-A71D-7625FDC1ACD6"
+        },
+        {
+          "reference": "Condition/8CEB2867-551B-43D0-88B5-3278DA20A6B0"
+        },
+        {
+          "reference": "Condition/6ECDAE6D-32AB-421C-AA8F-0B1ABA454C70"
+        }
+      ]
+    },
+    {
+      "title": "Problems and Issues",
+      "code": {
+        "coding": [
+          {
+            "code": "ProblemsHeader"
+          }
+        ]
+      },
+      "text": {
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><table id=\"Problems\"><thead><tr><th>Date</th><th>Description</th><th>Additional information</th></tr></thead><tbody><tr class=\"oddRow\"><td>14-May-2020</td><td>2019-nCoV (novel coronavirus) detected</td><td>Significant Active</td></tr></tbody></table></div>"
+      }
+    },
+    {
+      "title": "Clinical Observations and Findings",
+      "code": {
+        "coding": [
+          {
+            "code": "ObservationsHeader"
+          }
+        ]
+      },
+      "text": {
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><table id=\"Observations\"><thead><tr><th>Date</th><th>Description</th><th>Additional information</th></tr></thead><tbody><tr class=\"oddRow\"><td>14-May-2020</td><td>2019-nCoV (novel coronavirus) detected</td><td>Problem; New</td></tr></tbody></table></div>"
+      }
+    },
+    {
+      "title": "Treatments",
+      "code": {
+        "coding": [
+          {
+            "code": "TreatmentsHeader"
+          }
+        ]
+      },
+      "text": {
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><table id=\"Treatments\"><thead><tr><th>Date</th><th>Description</th><th>Additional information</th></tr></thead><tbody><tr class=\"oddRow\"><td>13-May-2020</td><td>2019-nCoV (novel coronavirus) vaccination</td><td>Problem; First, Manufacturer: jh, Expiry Date: 29-May-2020, Batch Number: 2, GMS: GMS, Injection site: Left arm, test</td></tr></tbody></table></div>"
+      }
+    },
+    {
+      "title": "Investigation Results",
+      "code": {
+        "coding": [
+          {
+            "code": "ResultsHeader"
+          }
+        ]
+      },
+      "text": {
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><table id=\"Results\"><thead><tr><th>Date</th><th>Description</th><th>Additional information</th></tr></thead><tbody><tr class=\"oddRow\"><td>13-May-2020</td><td>Assessment using COVID-19 severity scale</td><td>Problem; First, test</td></tr></tbody></table></div>"
+      },
+      "entry": [
+        {
+          "reference": "Observation/F17999D2-FFE7-4CA4-8CE8-52CB45FF6F49"
+        },
+        {
+          "reference": "Observation/EE608FAA-2433-4BAD-A0D5-4A10E45AB2B0"
+        },
+        {
+          "reference": "Observation/0F582D97-8F89-11CA-8B2D-B741F13EFC47"
+        }
+      ]
+    },
+    {
+      "title": "Care Events",
+      "code": {
+        "coding": [
+          {
+            "code": "EventsHeader"
+          }
+        ]
+      },
+      "text": {
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><table id=\"Events\"><thead><tr><th>Date</th><th>Description</th><th>Additional information</th></tr></thead><tbody><tr class=\"oddRow\"><td>13-May-2020</td><td>Did not attend 2019-nCoV (novel coronavirus) vaccination</td><td>Problem; First, test</td></tr></tbody></table></div>"
+      }
+    },
+    {
+      "title": "Administrative Procedures",
+      "code": {
+        "coding": [
+          {
+            "code": "ProceduresHeader"
+          }
+        ]
+      },
+      "text": {
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><table id=\"Procedures\"><thead><tr><th>Date</th><th>Description</th><th>Additional information</th></tr></thead><tbody><tr class=\"oddRow\"><td>14-May-2020</td><td>Household isolation note issued to patient</td><td>Test</td></tr></tbody></table></div>"
+      }
+    },
+    {
+      "title": "Provision of Advice and Information to Patients and Carers",
+      "code": {
+        "coding": [
+          {
+            "code": "AdviceHeader"
+          }
+        ]
+      },
+      "text": {
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><table id=\"Advice\"><thead><tr><th>Date</th><th>Description</th><th>Additional information</th></tr></thead><tbody><tr class=\"oddRow\"><td>13-May-2020</td><td>Advice given about SARS-CoV-2 (severe acute respiratory syndrome coronavirus 2) by telephone</td><td>Problem; First, test</td></tr></tbody></table></div>"
+      }
+    },
+    {
+      "title": "Personal Preferences",
+      "code": {
+        "coding": [
+          {
+            "code": "PreferencesHeader"
+          }
+        ]
+      },
+      "text": {
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><table id=\"Preferences\"><thead><tr><th>Date</th><th>Description</th><th>Additional information</th></tr></thead><tbody><tr class=\"oddRow\"><td>13-May-2020</td><td>2019-nCoV (novel coronavirus) vaccination declined</td><td>Problem; First, test</td></tr></tbody></table><p id=\"SendTime\">Summary Sent: 14-May-2020 14:31</p></div>"
+      }
+    }
+  ]
+}
