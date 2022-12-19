@@ -29,6 +29,8 @@ public class TreatmentsMapper implements XmlToFhirMapper {
     private final XmlUtils xmlUtils;
 
     private static final String PERTINENT_CRET_BASE_PATH = "/pertinentInformation2/pertinentCREType[.//UKCT_MT144055UK01.Treatment]";
+    private static final String PERTINENT_CODE_CODE_XPATH = "./code/@code";
+    private static final String PERTINENT_CODE_DISPLAY_XPATH = "./code/@displayName";
     private static final String TREATMENTS_BASE_PATH = "./component/UKCT_MT144055UK01.Treatment";
     private static final String UK_CORE_PROCEDURE_META = "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Procedure";
 
@@ -40,15 +42,18 @@ public class TreatmentsMapper implements XmlToFhirMapper {
         for (int i = 0; i < pertinentNodes.getLength(); i++) {
             Node pertinentCREType = xmlUtils.getNodeAndDetachFromParent(pertinentNodes, i);
             NodeList treatmentNodes = xmlUtils.getNodeListByXPath(pertinentCREType, TREATMENTS_BASE_PATH);
+            // Get "category" code/display values.
+            var pertinentCRETypeCode = xmlUtils.getValueByXPath(pertinentCREType, PERTINENT_CODE_CODE_XPATH);
+            var pertinentCRETypeDisplay = xmlUtils.getValueByXPath(pertinentCREType, PERTINENT_CODE_DISPLAY_XPATH);
             for (int j = 0; j < treatmentNodes.getLength(); j++) {
                 Node node = xmlUtils.getNodeAndDetachFromParent(treatmentNodes, j);
-                mapProcedure(resources, node);
+                mapProcedure(resources, pertinentCRETypeCode, pertinentCRETypeDisplay, node);
             }
         }
         return resources;
     }
 
-    private void mapProcedure(List<Resource> resources, Node node) {
+    private void mapProcedure(List<Resource> resources, String pertinentCRETypeCode, String pertinentCRETypeDisplay, Node node) {
         var procedure = new Procedure();
 
         procedure.setId(uuid.randomUuid());
@@ -56,6 +61,11 @@ public class TreatmentsMapper implements XmlToFhirMapper {
         procedure.setStatus(Procedure.ProcedureStatus.COMPLETED);
 
         CodedEntry entry = codedEntryMapper.getCommonCodedEntryValues(node);
+
+        procedure.setCategory(new CodeableConcept(new Coding()
+            .setSystem(SNOMED_SYSTEM)
+            .setCode(pertinentCRETypeCode)
+            .setDisplay(pertinentCRETypeDisplay)));
 
         var coding = new CodeableConcept().addCoding(new Coding()
             .setSystem(SNOMED_SYSTEM)
