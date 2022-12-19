@@ -18,6 +18,7 @@ import uk.nhs.adaptors.scr.models.xml.CareProfessionalDocumentation;
 import uk.nhs.adaptors.scr.models.xml.Diagnosis;
 import uk.nhs.adaptors.scr.models.xml.Finding;
 import uk.nhs.adaptors.scr.models.xml.Investigation;
+import uk.nhs.adaptors.scr.models.xml.Lifestyle;
 import uk.nhs.adaptors.scr.models.xml.Participant;
 import uk.nhs.adaptors.scr.models.xml.PatientCarerCorrespondence;
 import uk.nhs.adaptors.scr.models.xml.PersonalPreference;
@@ -59,6 +60,7 @@ public class GpSummary {
     private List<Diagnosis> diagnoses = new ArrayList<>();
     private List<Finding> clinicalObservationsAndFindings = new ArrayList<>();
     private List<Finding> investigationResults = new ArrayList<>();
+    private List<Lifestyle> lifestyles = new ArrayList<>();
     private List<Finding> medicationRecommendations = new ArrayList<>();
     private List<Finding> medicationRecords = new ArrayList<>();
     private List<Investigation> investigations = new ArrayList<>();
