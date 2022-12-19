@@ -1,0 +1,17 @@
+{
+  "resourceType": "PractitionerRole",
+  "id": "D4F14095-8BB0-446B-883F-2848426F1CE8",
+  "practitioner": {
+    "reference": "Practitioner/971E2213-D41B-4906-B32E-F2D2107AA431"
+  },
+  "organization": {
+    "reference": "Organization/EB7E5E32-09B3-4ECC-94C7-8A8914D9D691"
+  },
+  "code": [ {
+    "coding": [ {
+      "system": "https://fhir.nhs.uk/CodeSystem/HL7v3-SDSJobRoleName",
+      "code": "NR0260",
+      "display": "General Medical Practitioner"
+    } ]
+  } ]
+}

@@ -2,6 +2,7 @@ package uk.nhs.adaptors.scr.mappings.from.hl7;
 
 import lombok.SneakyThrows;
 import org.hl7.fhir.instance.model.api.IBaseResource;
+import org.hl7.fhir.r4.model.Bundle;
 import org.hl7.fhir.r4.model.Resource;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -30,12 +31,11 @@ public class BaseHL7MapperTest {
 
     @Mock
     private UuidWrapper uuid;
-
-    @Spy
-    private CodedEntryMapper codedEntry = new CodedEntryMapper(new XmlUtils(XPathFactory.newInstance()));
-
     @Spy
     private XmlUtils xmlUtils = new XmlUtils(XPathFactory.newInstance());
+    @Spy
+    private CodedEntryMapper codedEntry = new CodedEntryMapper(xmlUtils);
+
 
     private FhirParser fhirParser = new FhirParser();
 
@@ -82,4 +82,20 @@ public class BaseHL7MapperTest {
         return actualJson;
     }
 
+    /**
+     * Generate reference uri to interlink the various JSON sections for authors/participants.
+     * @param resource
+     * @return BundleEntryComponent
+     */
+    protected Bundle.BundleEntryComponent getBundleEntryComponent(Resource resource) {
+        return new Bundle.BundleEntryComponent()
+            .setFullUrl(getScrUrl() + "/" + resource.getResourceType() + "/" + resource.getId())
+            .setResource(resource);
+    }
+
+    private String getScrUrl() {
+        var baseUrl = "https://internal-dev.api.service.nhs.uk";
+        var basePath = "summary-care-record/FHIR/R4";
+        return String.format("%s/%s", baseUrl, basePath);
+    }
 }
