@@ -11,7 +11,7 @@
           "value": "51089E5B-0840-4237-8D91-CFC0238E83B4"
         }
       ],
-      "status": "active",
+      "status": "final",
       "category": [
         {
           "coding": [
@@ -31,6 +31,9 @@
             "display": "family history of kidney disease"
           }
         ]
+      },
+      "effectivePeriod":{
+        "start":"1990-08-25"
       },
       "encounter": {
         "reference": "Encounter/0G582D97-8G89-11EA-8B4G-B741F13EFC48"

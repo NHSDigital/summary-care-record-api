@@ -1,0 +1,10 @@
+{
+  "resourceType": "Practitioner",
+  "id": "DBE4369C-D19D-4948-A975-56CB9576597F",
+  "identifier": [
+    {
+      "system": "https://fhir.nhs.uk/Id/sds-user-id",
+      "value": "747664812032"
+    }
+  ]
+}

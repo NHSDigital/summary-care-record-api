@@ -5,6 +5,11 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
+import uk.nhs.adaptors.scr.models.GpSummary;
+import uk.nhs.adaptors.scr.models.xml.FamilyHistory;
+import uk.nhs.adaptors.scr.utils.TemplateUtils;
+
+import java.util.ArrayList;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -12,7 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class FamilyHistoryMapperTest extends BaseFhirMapperTest {
 
     private static final String RESOURCE_DIRECTORY = "family_history";
-    private static final String STATUS_CODE = "normal";
+    private static final String STATUS_CODE = "final";
     private static final String FILE_NAME = "without_author";
     private static final String FILE_NAME_HL7 = "without_author";
 
@@ -24,5 +29,48 @@ public class FamilyHistoryMapperTest extends BaseFhirMapperTest {
         var obj = getFileAsObject(RESOURCE_DIRECTORY, FILE_NAME, Observation.class);
         var result = familyHistoryMapper.map(obj);
         assertThat(result.getIdRoot()).isEqualTo("51089E5B-0840-4237-8D91-CFC0238E83B4");
+    }
+
+    @Test
+    public void When_MappingFromFHIR_Expect_Code() {
+        var obj = getFileAsObject(RESOURCE_DIRECTORY, FILE_NAME, Observation.class);
+        var result = familyHistoryMapper.map(obj);
+
+        assertThat(result.getCodeCode()).isEqualTo("289916006");
+        assertThat(result.getCodeDisplayName()).isEqualTo("family history of kidney disease");
+    }
+
+    @Test
+    public void When_MappingFromFHIR_Expect_StatusCode() {
+        var obj = getFileAsObject(RESOURCE_DIRECTORY, FILE_NAME, Observation.class);
+        var result = familyHistoryMapper.map(obj);
+
+        assertThat(result.getStatusCodeCode()).isEqualTo(STATUS_CODE);
+    }
+
+    @Test
+    public void When_MappingFromFHIR_Expect_EffectiveTime() {
+        var obj = getFileAsObject(RESOURCE_DIRECTORY, FILE_NAME, Observation.class);
+        var result = familyHistoryMapper.map(obj);
+
+        assertThat(result.getEffectiveTimeLow()).isEqualTo("19900825");
+    }
+
+    @Test
+    public void When_MappingFromFHIR_Expect_MatchingHtml() {
+        var expectedHtml = getExpectedHtml(RESOURCE_DIRECTORY, FILE_NAME_HL7);
+        var observation = getFileAsObject(RESOURCE_DIRECTORY, FILE_NAME, Observation.class);
+
+        // Map using method in fromFIHR CareProfessionalDocumentationMapper::map().
+        var result = familyHistoryMapper.map(observation);
+        var gpSummary = new GpSummary();
+        var list = new ArrayList<FamilyHistory>();
+        list.add(result);
+        gpSummary.setFamilyHistories(list);
+
+        // Assert that the expected HLS from the mustache template matches the expected, removing whitespace.
+        var template = TemplateUtils.loadPartialTemplate("FamilyHistories.mustache");
+        var resultStr = TemplateUtils.fillTemplate(template, gpSummary);
+        assertThat(resultStr).isEqualToIgnoringWhitespace(expectedHtml);
     }
 }
