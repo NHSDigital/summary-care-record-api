@@ -1388,7 +1388,7 @@
                             <code code="1300561000000107" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="High risk category for developing complication from COVID-19 infection" />
                             <statusCode code="normal" />
                             <effectiveTime>
-                              <low value="20200430161257" />
+                              <low value="20200331142601" />
                             </effectiveTime>
                           </UKCT_MT144054UK01.RiskToPatient>
                         </component>

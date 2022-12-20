@@ -4,6 +4,9 @@
   "meta": {
     "profile": [ "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Procedure" ]
   },
+  "identifier": [ {
+    "value": "E619AE11-4417-11E9-9B19-B5A20573E36F"
+  } ],
   "status": "completed",
   "category": {
     "coding": [ {

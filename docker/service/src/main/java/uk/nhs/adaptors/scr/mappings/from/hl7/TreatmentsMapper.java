@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.hl7.fhir.r4.model.CodeableConcept;
 import org.hl7.fhir.r4.model.Coding;
+import org.hl7.fhir.r4.model.Identifier;
 import org.hl7.fhir.r4.model.Meta;
 import org.hl7.fhir.r4.model.Procedure;
 import org.hl7.fhir.r4.model.Resource;
@@ -54,13 +55,14 @@ public class TreatmentsMapper implements XmlToFhirMapper {
     }
 
     private void mapProcedure(List<Resource> resources, String pertinentCRETypeCode, String pertinentCRETypeDisplay, Node node) {
+        CodedEntry entry = codedEntryMapper.getCommonCodedEntryValues(node);
+
         var procedure = new Procedure();
 
-        procedure.setId(uuid.randomUuid());
+        procedure.setId(entry.getId());
+        procedure.addIdentifier(new Identifier().setValue(entry.getId()));
         procedure.setMeta(new Meta().addProfile(UK_CORE_PROCEDURE_META));
         procedure.setStatus(Procedure.ProcedureStatus.COMPLETED);
-
-        CodedEntry entry = codedEntryMapper.getCommonCodedEntryValues(node);
 
         procedure.setCategory(new CodeableConcept(new Coding()
             .setSystem(SNOMED_SYSTEM)

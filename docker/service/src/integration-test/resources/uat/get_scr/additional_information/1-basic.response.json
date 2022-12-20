@@ -443,6 +443,139 @@
       }
     },
     {
+      "fullUrl": "https://internal-dev.api.service.nhs.uk/summary-care-record/FHIR/R4/Condition/7A59C9C2-7428-11EA-A953-E99D7DD36C3D",
+      "resource": {
+        "resourceType": "Condition",
+        "id": "7A59C9C2-7428-11EA-A953-E99D7DD36C3D",
+        "meta": {
+          "profile": [
+            "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Condition"
+          ]
+        },
+        "identifier": [
+          {
+            "value": "7A59C9C2-7428-11EA-A953-E99D7DD36C3D"
+          }
+        ],
+        "clinicalStatus": {
+          "coding": [
+            {
+              "system": "http://hl7.org/fhir/ValueSet/condition-clinical",
+              "code": "active",
+              "display": "Active"
+            }
+          ]
+        },
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://snomed.info/sct",
+                "code": "162991000000102",
+                "display": "Problems and Issues"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "181301000000103",
+              "display": "Abstract problem node"
+            }
+          ]
+        },
+        "onsetDateTime": "2020-04-01T00:00:00+00:00"
+      }
+    },
+    {
+      "fullUrl": "https://internal-dev.api.service.nhs.uk/summary-care-record/FHIR/R4/Condition/7FAF2D74-7356-11EA-B45D-4D2CEF80DF8F",
+      "resource": {
+        "resourceType": "Condition",
+        "id": "7FAF2D74-7356-11EA-B45D-4D2CEF80DF8F",
+        "meta": {
+          "profile": [
+            "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Condition"
+          ]
+        },
+        "identifier": [
+          {
+            "value": "7FAF2D74-7356-11EA-B45D-4D2CEF80DF8F"
+          }
+        ],
+        "clinicalStatus": {
+          "coding": [
+            {
+              "system": "http://hl7.org/fhir/ValueSet/condition-clinical",
+              "code": "active",
+              "display": "Active"
+            }
+          ]
+        },
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://snomed.info/sct",
+                "code": "162991000000102",
+                "display": "Problems and Issues"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "181301000000103",
+              "display": "Abstract problem node"
+            }
+          ]
+        },
+        "onsetDateTime": "2020-03-31T00:00:00+00:00"
+      }
+    },
+    {
+      "fullUrl": "https://internal-dev.api.service.nhs.uk/summary-care-record/FHIR/R4/Observation/19ABC6D0-8AF5-11EA-9FCE-AFDCAECF9DFB",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "19ABC6D0-8AF5-11EA-9FCE-AFDCAECF9DFB",
+        "meta": {
+          "profile": [
+            "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Observation"
+          ]
+        },
+        "identifier": [
+          {
+            "value": "19ABC6D0-8AF5-11EA-9FCE-AFDCAECF9DFB"
+          }
+        ],
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://snomed.info/sct",
+                "code": "163231000000100",
+                "display": "Risks to Patient"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "1300561000000107",
+              "display": "High risk category for developing complication from COVID-19 infection"
+            }
+          ]
+        },
+        "effectiveDateTime": "2020-03-31T14:26:01+00:00"
+      }
+    },
+    {
       "fullUrl": "https://internal-dev.api.service.nhs.uk/summary-care-record/FHIR/R4/Observation/7A59C9C0-7428-11EA-A953-E99D7DD36C3D",
       "resource": {
         "resourceType": "Observation",
@@ -464,7 +597,7 @@
               {
                 "system": "http://snomed.info/sct",
                 "code": "163021000000107",
-                "display": "Social or Personal Circumstances"
+                "display": "Social and Personal Circumstances"
               }
             ]
           }
@@ -503,7 +636,7 @@
               {
                 "system": "http://snomed.info/sct",
                 "code": "163021000000107",
-                "display": "Social or Personal Circumstances"
+                "display": "Social and Personal Circumstances"
               }
             ]
           }
@@ -542,7 +675,7 @@
               {
                 "system": "http://snomed.info/sct",
                 "code": "163021000000107",
-                "display": "Social or Personal Circumstances"
+                "display": "Social and Personal Circumstances"
               }
             ]
           }
@@ -575,13 +708,15 @@
           }
         ],
         "status": "completed",
-        "category": [ {
-          "coding": [ {
-            "system": "http://snomed.info/sct",
-            "code": "163071000000106",
-            "display": "Treatment"
-          } ]
-        } ],
+        "category": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "163071000000106",
+              "display": "Treatments"
+            }
+          ]
+        },
         "code": {
           "coding": [
             {
@@ -610,13 +745,15 @@
           }
         ],
         "status": "completed",
-        "category": [ {
-          "coding": [ {
-            "system": "http://snomed.info/sct",
-            "code": "163071000000106",
-            "display": "Treatment"
-          } ]
-        } ],
+        "category":  {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "163071000000106",
+              "display": "Treatments"
+            }
+          ]
+        },
         "code": {
           "coding": [
             {
@@ -645,13 +782,15 @@
           }
         ],
         "status": "completed",
-        "category": [ {
-          "coding": [ {
-            "system": "http://snomed.info/sct",
-            "code": "163071000000106",
-            "display": "Treatment"
-          } ]
-        } ],
+        "category": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "163071000000106",
+              "display": "Treatments"
+            }
+          ]
+        },
         "code": {
           "coding": [
             {
@@ -662,35 +801,6 @@
           ]
         },
         "performedDateTime": "2020-03-31T14:26:01+00:00"
-      }
-    },
-    {
-      "fullUrl": "https://internal-dev.api.service.nhs.uk/summary-care-record/FHIR/R4/Observation/19ABC6D0-8AF5-11EA-9FCE-AFDCAECF9DFB",
-      "resource": {
-        "resourceType": "Observation",
-        "id": "19ABC6D0-8AF5-11EA-9FCE-AFDCAECF9DFB",
-        "meta": {
-          "profile": [ "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Observation" ]
-        },
-        "identifier": [ {
-          "value": "19ABC6D0-8AF5-11EA-9FCE-AFDCAECF9DFB"
-        } ],
-        "status": "final",
-        "category": [ {
-          "coding": [ {
-            "system": "http://snomed.info/sct",
-            "code": "163231000000100",
-            "display": "Risks to Patient"
-          } ]
-        } ],
-        "code": {
-          "coding": [ {
-            "system": "http://snomed.info/sct",
-            "code": "1300561000000107",
-            "display": "High risk category for developing complication from COVID-19 infection"
-          } ]
-        },
-        "effectiveDateTime": "2020-03-31T14:26:01+00:00"
       }
     },
     {
