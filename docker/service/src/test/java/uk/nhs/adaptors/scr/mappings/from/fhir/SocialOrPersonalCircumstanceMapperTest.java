@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
-import uk.nhs.adaptors.scr.components.FhirParser;
 import uk.nhs.adaptors.scr.models.GpSummary;
 import uk.nhs.adaptors.scr.models.xml.SocialOrPersonalCircumstance;
 import uk.nhs.adaptors.scr.utils.TemplateUtils;
@@ -23,8 +22,6 @@ public class SocialOrPersonalCircumstanceMapperTest extends BaseFhirMapperTest {
 
     private static final String RESOURCE_DIRECTORY = "social_personal_circumstances";
     private static final String FILE_NAME = "example";
-
-    private FhirParser fhirParser = new FhirParser();
 
     @Test
     public void When_MappingFromFHIR_Expect_RootId() {
