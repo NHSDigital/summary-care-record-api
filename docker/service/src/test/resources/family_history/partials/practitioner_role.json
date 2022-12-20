@@ -1,0 +1,13 @@
+{
+  "resourceType": "PractitionerRole",
+  "id": "436C064D-6956-4E4E-B5BD-252BCBCB8787",
+  "identifier": [
+    {
+      "system": "http://fhir.nhs.net/Id/sds-role-profile-id",
+      "value": "216581645483"
+    }
+  ],
+  "practitioner": {
+    "reference": "Practitioner/DBE4369C-D19D-4948-A975-56CB9576597F"
+  }
+}

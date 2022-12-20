@@ -1,0 +1,12 @@
+{{^familyHistories.empty}}
+<pertinentInformation2 typeCode="PERT" inversionInd="false" contextConductionInd="true" negationInd="false">
+    <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.pertinentInformation1"/>
+    <seperatableInd value="true"/>
+    <pertinentCREType classCode="CATEGORY" moodCode="EVN">
+        <code code="163051000000102" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="FamilyHistory"/>
+        {{#familyHistories}}
+        {{> FamilyHistory.mustache }}
+        {{/familyHistories}}
+    </pertinentCREType>
+</pertinentInformation2>
+{{/familyHistories.empty}}

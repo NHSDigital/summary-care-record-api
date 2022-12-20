@@ -16,6 +16,7 @@ import uk.nhs.adaptors.scr.mappings.from.fhir.ProcedureMapper;
 import uk.nhs.adaptors.scr.models.xml.CareEvent;
 import uk.nhs.adaptors.scr.models.xml.CareProfessionalDocumentation;
 import uk.nhs.adaptors.scr.models.xml.Diagnosis;
+import uk.nhs.adaptors.scr.models.xml.FamilyHistory;
 import uk.nhs.adaptors.scr.models.xml.Finding;
 import uk.nhs.adaptors.scr.models.xml.Investigation;
 import uk.nhs.adaptors.scr.models.xml.Lifestyle;
@@ -26,8 +27,8 @@ import uk.nhs.adaptors.scr.models.xml.Presentation;
 import uk.nhs.adaptors.scr.models.xml.Problem;
 import uk.nhs.adaptors.scr.models.xml.ProvisionOfAdviceAndInformation;
 import uk.nhs.adaptors.scr.models.xml.RiskToPatient;
-import uk.nhs.adaptors.scr.models.xml.Treatment;
 import uk.nhs.adaptors.scr.models.xml.SocialOrPersonalCircumstance;
+import uk.nhs.adaptors.scr.models.xml.Treatment;
 import uk.nhs.adaptors.scr.utils.DateUtil;
 
 import java.util.ArrayList;
@@ -71,6 +72,7 @@ public class GpSummary {
     private List<RiskToPatient> risksToPatient = new ArrayList<>();
     private List<Treatment> treatments = new ArrayList<>();
     private List<SocialOrPersonalCircumstance> socialOrPersonalCircumstances = new ArrayList<>();
+    private List<FamilyHistory> familyHistories = new ArrayList<>();
 
     public static GpSummary fromBundle(Bundle bundle, String nhsdAsid) throws FhirMappingException {
         validateType(bundle);
