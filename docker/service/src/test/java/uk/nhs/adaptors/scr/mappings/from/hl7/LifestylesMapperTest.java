@@ -1,7 +1,6 @@
 package uk.nhs.adaptors.scr.mappings.from.hl7;
 
 import java.util.ArrayList;
-import org.hl7.fhir.r4.model.Bundle.BundleEntryComponent;
 import org.hl7.fhir.r4.model.Bundle;
 import org.hl7.fhir.r4.model.Observation;
 import org.hl7.fhir.r4.model.Practitioner;
@@ -160,17 +159,6 @@ public class LifestylesMapperTest extends BaseHL7MapperTest {
         resources.add(practitioner);
         resources.add(practitionerRole);
         return resources;
-    }
-
-    /**
-     * Generate reference uri to interlink the various JSON sections for authors/participants.
-     * @param resource
-     * @return BundleEntryComponent
-     */
-    private BundleEntryComponent getBundleEntryComponent(Resource resource) {
-        return new BundleEntryComponent()
-            .setFullUrl(getScrUrl() + "/" + resource.getResourceType() + "/" + resource.getId())
-            .setResource(resource);
     }
 
     /**

@@ -5,6 +5,13 @@
     "profile": [ "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Procedure" ]
   },
   "status": "completed",
+  "category": {
+    "coding": [ {
+      "system": "http://snomed.info/sct",
+      "code": "163071000000106",
+      "display": "Treatments"
+    } ]
+  },
   "code": {
     "coding": [ {
       "system": "http://snomed.info/sct",

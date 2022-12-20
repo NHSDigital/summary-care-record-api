@@ -134,6 +134,7 @@ public class CompositionMapper {
                 bodyNode.appendChild(htmlDocument.importNode(divChildNodes.item(i), true));
             }
         }
+        // set UUID
         presentation.setPresentationId(randomUUID());
         presentation.setPresentationText(serialize(htmlDocument));
 
