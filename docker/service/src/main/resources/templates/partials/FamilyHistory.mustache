@@ -1,0 +1,23 @@
+<component typeCode="COMP" contextConductionInd="true">
+            <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.component"/>
+            <seperatableInd value="false"/>
+            <UKCT_MT144044UK01.FamilyHistory xmlns="urn:hl7-org:v3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:hl7-org:v3 CmetSchema.xsd" classCode="OBS" moodCode="EVN">
+                <id root="{{idRoot}}"/>
+                <code codeSystem="2.16.840.1.113883.2.1.3.2.4.15" code="{{codeCode}}" displayName="{{codeDisplayName}}" />
+                <statusCode code="{{statusCodeCode}}" />
+                <effectiveTime>
+                    {{#effectiveTimeLow}}
+                    <low value="{{effectiveTimeLow}}"/>
+                    {{/effectiveTimeLow}}
+                    {{#effectiveTimeHigh}}
+                    <high value="{{effectiveTimeHigh}}"/>
+                    {{/effectiveTimeHigh}}
+                </effectiveTime>
+                {{#author}}
+                    {{> Author.mustache}}
+                {{/author}}
+                {{#informant}}
+                    {{> Informant.mustache}}
+                {{/informant}}
+            </UKCT_MT144044UK01.FamilyHistory>
+        </component>
