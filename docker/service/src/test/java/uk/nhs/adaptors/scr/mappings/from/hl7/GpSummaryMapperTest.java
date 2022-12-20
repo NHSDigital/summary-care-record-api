@@ -44,7 +44,7 @@ public class GpSummaryMapperTest extends BaseHL7MapperTest {
     @Test
     public void When_MappingGpSummaryFromHL7_Expect_BundleMatch() {
         var html = getHtmlExample(HTML_RESOURCE_DIRECTORY, STANDARD_FILE_NAME);
-         var expectedJson = getJsonExample(PARTIALS_RESOURCE_DIRECTORY, STANDARD_COMPOSITION_FILE_NAME);
+        var expectedJson = getJsonExample(PARTIALS_RESOURCE_DIRECTORY, STANDARD_COMPOSITION_FILE_NAME);
 
         var authorResources = prepStandardAuthorResources();
 
@@ -130,8 +130,10 @@ public class GpSummaryMapperTest extends BaseHL7MapperTest {
 
         var filename = "additional_info_1";
 
-        resources.add(getFileAsObject(PARTIALS_RESOURCE_DIRECTORY, String.format("author_practitioner_%s", filename), Practitioner.class));
-        resources.add(getFileAsObject(PARTIALS_RESOURCE_DIRECTORY, String.format("author_practitioner_role_%s", filename), PractitionerRole.class));
+        resources.add(getFileAsObject(
+            PARTIALS_RESOURCE_DIRECTORY, String.format("author_practitioner_%s", filename), Practitioner.class));
+        resources.add(getFileAsObject(
+            PARTIALS_RESOURCE_DIRECTORY, String.format("author_practitioner_role_%s", filename), PractitionerRole.class));
 
         return resources;
     }

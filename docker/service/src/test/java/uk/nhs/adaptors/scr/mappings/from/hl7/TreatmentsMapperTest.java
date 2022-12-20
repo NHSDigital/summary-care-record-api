@@ -16,17 +16,15 @@ public class TreatmentsMapperTest extends BaseHL7MapperTest {
 
     private static final String UK_CORE_PROCEDURE_META = "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Procedure";
     private static final String RESOURCE_DIRECTORY = "treatments";
-    private static final String PERTINENT_INFORMATION_BASE_PATH = "/pertinentInformation2/pertinentCREType["
+    private static final String PERTINENT_INFORMATION_BASE_PATH = "//pertinentInformation2/pertinentCREType["
         + ".//UKCT_MT144055UK01.Treatment]";
     private static final String STATUS_CODE = "COMPLETED";
-    private static final String ID = "870bfee5-67e6-4611-8b62-e4609e2f3105";
+    private static final String ID = "0F5A9E72-8F89-11EA-8B2D-B741F13EFC47";
     private static final String FILE_NAME = "example";
 
     @Test
     public void When_MappingFromHl7_Expect_RandomUUID() {
         var html = getHtmlExample(RESOURCE_DIRECTORY, FILE_NAME);
-
-        returnExpectedUuid(ID);
 
         var result = treatmentsMapper.map(html).get(0);
 
@@ -37,8 +35,6 @@ public class TreatmentsMapperTest extends BaseHL7MapperTest {
     public void When_MappingFromHl7_Expect_XmlUtilsHit() {
         var html = getHtmlExample(RESOURCE_DIRECTORY, FILE_NAME);
 
-        returnExpectedUuid(ID);
-
         treatmentsMapper.map(html);
 
         verifyXmlUtilsHits(html, PERTINENT_INFORMATION_BASE_PATH);
@@ -47,8 +43,6 @@ public class TreatmentsMapperTest extends BaseHL7MapperTest {
     @Test
     public void When_MappingFromHl7_Expect_MetaUrl() {
         var html = getHtmlExample(RESOURCE_DIRECTORY, FILE_NAME);
-
-        returnExpectedUuid(ID);
 
         var result = treatmentsMapper.map(html).get(0);
 
@@ -62,8 +56,6 @@ public class TreatmentsMapperTest extends BaseHL7MapperTest {
     public void When_MappingFromHl7_Expect_StatusCompleted() {
         var html = getHtmlExample(RESOURCE_DIRECTORY, FILE_NAME);
 
-        returnExpectedUuid(ID);
-
         var result = treatmentsMapper.map(html).get(0);
 
         var resultProcedure = (Procedure) result;
@@ -76,8 +68,6 @@ public class TreatmentsMapperTest extends BaseHL7MapperTest {
     public void When_MappingFromHl7_Expect_CodedEntryHit() {
         var html = getHtmlExample(RESOURCE_DIRECTORY, FILE_NAME);
 
-        returnExpectedUuid(ID);
-
         treatmentsMapper.map(html);
 
         verifyCodedEntryHits();
@@ -86,8 +76,6 @@ public class TreatmentsMapperTest extends BaseHL7MapperTest {
     @Test
     public void When_MappingFromHl7_Expect_CodingMapped() {
         var html = getHtmlExample(RESOURCE_DIRECTORY, FILE_NAME);
-
-        returnExpectedUuid(ID);
 
         var result = treatmentsMapper.map(html).get(0);
 
@@ -109,8 +97,6 @@ public class TreatmentsMapperTest extends BaseHL7MapperTest {
     public void When_MappingFromHl7_Expect_DateTimeFormatted() {
         var html = getHtmlExample(RESOURCE_DIRECTORY, FILE_NAME);
 
-        returnExpectedUuid(ID);
-
         var result = treatmentsMapper.map(html).get(0);
 
         var resultProcedure = (Procedure) result;
@@ -123,8 +109,6 @@ public class TreatmentsMapperTest extends BaseHL7MapperTest {
     public void When_MappingFromHl7_Expect_MatchJson() {
         var html = getHtmlExample(RESOURCE_DIRECTORY, FILE_NAME);
         var expectedJson = getJsonExample(RESOURCE_DIRECTORY, FILE_NAME);
-
-        returnExpectedUuid(ID);
 
         var result = treatmentsMapper.map(html).get(0);
 

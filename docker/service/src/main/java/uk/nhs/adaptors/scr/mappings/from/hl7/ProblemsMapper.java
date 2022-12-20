@@ -10,7 +10,7 @@ import org.hl7.fhir.r4.model.Meta;
 import org.hl7.fhir.r4.model.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.w3c.dom.Element;
+//import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import uk.nhs.adaptors.scr.mappings.from.hl7.common.CodedEntry;
@@ -20,7 +20,7 @@ import uk.nhs.adaptors.scr.utils.XmlUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-import static uk.nhs.adaptors.scr.mappings.from.hl7.XmlToFhirMapper.SNOMED_SYSTEM;
+//import static uk.nhs.adaptors.scr.mappings.from.hl7.XmlToFhirMapper.SNOMED_SYSTEM;
 
 @Slf4j
 @Component

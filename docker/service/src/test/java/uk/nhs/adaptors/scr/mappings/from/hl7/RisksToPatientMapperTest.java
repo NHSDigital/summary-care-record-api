@@ -24,7 +24,7 @@ public class RisksToPatientMapperTest extends BaseHL7MapperTest {
     private static final String CATEGORY_DISPLAY = "Risks to Patient";
     private static final String FILE_NAME = "example";
     private static final String ID = "10CE2F30-8AF5-11EA-9FCE-AFDCAECF9DFB";
-    private static final String INFORMATION_BASE_PATH = "/pertinentInformation2/pertinentCREType["
+    private static final String INFORMATION_BASE_PATH = "//pertinentInformation2/pertinentCREType["
         + ".//UKCT_MT144054UK01.RiskToPatient]";
     private static final String STATUS_CODE = "FINAL";
     private static final String CODE = "1240441000000108";

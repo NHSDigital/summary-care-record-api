@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import uk.nhs.adaptors.scr.mappings.from.common.UuidWrapper;
 import uk.nhs.adaptors.scr.mappings.from.hl7.common.CodedEntry;
 import uk.nhs.adaptors.scr.mappings.from.hl7.common.CodedEntryMapper;
 import uk.nhs.adaptors.scr.utils.XmlUtils;
@@ -24,8 +23,6 @@ import java.util.List;
 @Component
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class TreatmentsMapper implements XmlToFhirMapper {
-
-    private final UuidWrapper uuid;
     private final CodedEntryMapper codedEntryMapper;
     private final XmlUtils xmlUtils;
 
@@ -59,8 +56,10 @@ public class TreatmentsMapper implements XmlToFhirMapper {
 
         var procedure = new Procedure();
 
-        procedure.setId(entry.getId());
-        procedure.addIdentifier(new Identifier().setValue(entry.getId()));
+        var id = entry.getId();
+        procedure.setId(id);
+        procedure.addIdentifier(new Identifier().setValue(id));
+
         procedure.setMeta(new Meta().addProfile(UK_CORE_PROCEDURE_META));
         procedure.setStatus(Procedure.ProcedureStatus.COMPLETED);
 

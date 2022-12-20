@@ -24,7 +24,7 @@ public class GpSummaryTest {
 
     @Test
     public void When_MappingStandardGpSummaryFromBundle_Expect_PresentationTextHL7Match() {
-        var valueFile = "standard_gp_summary-presentation-text-value";
+        var valueFile = "standard_gp_summary_presentation_text_value";
         var expectedPresentationValue = readResourceFile(String.format(HTML_RESOURCE_DIRECTORY + "/%s.html", valueFile));
 
         var jsonFile = readResourceFile(String.format(RESOURCE_DIRECTORY + "/%s.json", STANDARD_FILE_NAME));
@@ -39,7 +39,7 @@ public class GpSummaryTest {
 
     @Test
     public void When_MappingAdditionalInfoGpSummaryFromBundle_Expect_PresentationTextHL7Match() {
-        var valueFile = "additional_information_gp_summary_1-presentation-text-value";
+        var valueFile = "additional_information_gp_summary_1_presentation_text_value";
         var expectedPresentationValue = readResourceFile(String.format(HTML_RESOURCE_DIRECTORY + "/%s.html", valueFile));
 
         var jsonFile = readResourceFile(String.format(RESOURCE_DIRECTORY + "/%s.json", ADDITIONAL_INFO_FILE_NAME_1));

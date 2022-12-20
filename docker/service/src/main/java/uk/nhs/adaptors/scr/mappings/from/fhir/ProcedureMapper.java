@@ -3,7 +3,6 @@ package uk.nhs.adaptors.scr.mappings.from.fhir;
 import org.hl7.fhir.r4.model.Bundle;
 import org.hl7.fhir.r4.model.Procedure;
 import uk.nhs.adaptors.scr.exceptions.FhirValidationException;
-import uk.nhs.adaptors.scr.mappings.from.common.UuidWrapper;
 import uk.nhs.adaptors.scr.models.GpSummary;
 import uk.nhs.adaptors.scr.models.xml.Treatment;
 
@@ -24,7 +23,7 @@ public class ProcedureMapper {
     }
 
     private static List<Treatment> mapTreatments(Bundle bundle) {
-        var treatmentMapper = new TreatmentMapper(new UuidWrapper());
+        var treatmentMapper = new TreatmentMapper();
         return getDomainResourceList(bundle, Procedure.class).stream()
             .filter(IS_TREATMENT)
             .map(procedure -> treatmentMapper.mapTreatment(procedure))
