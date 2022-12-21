@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.hl7.fhir.r4.model.CodeableConcept;
 import org.hl7.fhir.r4.model.Coding;
+import org.hl7.fhir.r4.model.Identifier;
 import org.hl7.fhir.r4.model.Meta;
 import org.hl7.fhir.r4.model.Procedure;
 import org.hl7.fhir.r4.model.Resource;
@@ -11,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import uk.nhs.adaptors.scr.mappings.from.common.UuidWrapper;
 import uk.nhs.adaptors.scr.mappings.from.hl7.common.CodedEntry;
 import uk.nhs.adaptors.scr.mappings.from.hl7.common.CodedEntryMapper;
 import uk.nhs.adaptors.scr.utils.XmlUtils;
@@ -23,12 +23,10 @@ import java.util.List;
 @Component
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class TreatmentsMapper implements XmlToFhirMapper {
-
-    private final UuidWrapper uuid;
     private final CodedEntryMapper codedEntryMapper;
     private final XmlUtils xmlUtils;
 
-    private static final String PERTINENT_CRET_BASE_PATH = "/pertinentInformation2/pertinentCREType[.//UKCT_MT144055UK01.Treatment]";
+    private static final String PERTINENT_CRET_BASE_PATH = "//pertinentInformation2/pertinentCREType[.//UKCT_MT144055UK01.Treatment]";
     private static final String PERTINENT_CODE_CODE_XPATH = "./code/@code";
     private static final String PERTINENT_CODE_DISPLAY_XPATH = "./code/@displayName";
     private static final String TREATMENTS_BASE_PATH = "./component/UKCT_MT144055UK01.Treatment";
@@ -54,13 +52,16 @@ public class TreatmentsMapper implements XmlToFhirMapper {
     }
 
     private void mapProcedure(List<Resource> resources, String pertinentCRETypeCode, String pertinentCRETypeDisplay, Node node) {
+        CodedEntry entry = codedEntryMapper.getCommonCodedEntryValues(node);
+
         var procedure = new Procedure();
 
-        procedure.setId(uuid.randomUuid());
+        var id = entry.getId();
+        procedure.setId(id);
+        procedure.addIdentifier(new Identifier().setValue(id));
+
         procedure.setMeta(new Meta().addProfile(UK_CORE_PROCEDURE_META));
         procedure.setStatus(Procedure.ProcedureStatus.COMPLETED);
-
-        CodedEntry entry = codedEntryMapper.getCommonCodedEntryValues(node);
 
         procedure.setCategory(new CodeableConcept(new Coding()
             .setSystem(SNOMED_SYSTEM)

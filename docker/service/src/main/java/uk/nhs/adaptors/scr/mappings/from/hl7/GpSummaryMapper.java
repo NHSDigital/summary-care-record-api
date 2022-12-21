@@ -47,8 +47,10 @@ public class GpSummaryMapper implements XmlToFhirMapper {
     private static final String GP_SUMMARY_AUTHOR_AGENT_ORG_SDS_XPATH =
             BASE_XPATH + "/author/UKCT_MT160017UK01.AgentOrgSDS/agentOrganizationSDS";
     private static final String GP_SUMMARY_AUTHOR_AGENT_ORG_XPATH = BASE_XPATH + "/author/UKCT_MT160017UK01.AgentOrg";
-    private static final Map<String, String> CODED_ENTRY_RESOURCE_MAP = Map.of("Clinical Observations and Findings", "Observation",
-            "Investigation Results", "Observation", "Diagnoses", "Condition");
+    private static final Map<String, String> CODED_ENTRY_RESOURCE_MAP = Map.of(
+        "Clinical Observations and Findings", "Observation",
+        "Investigation Results", "Observation",
+        "Diagnoses", "Condition");
 
     private static final String REPLACEMENT_OF_PRIOR_MESSAGE_REF_ID_ROOT_XPATH =
             BASE_XPATH + "/replacementOf/priorMessageRef/id/@root";

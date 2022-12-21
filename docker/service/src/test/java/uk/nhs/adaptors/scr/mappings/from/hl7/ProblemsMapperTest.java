@@ -18,7 +18,7 @@ public class ProblemsMapperTest extends BaseHL7MapperTest {
     private static final String RESOURCE_DIRECTORY = "problem";
     private static final String BASIC_FILE_NAME = "example-1";
     private static final String UK_CORE_CONDITION_META = "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Condition";
-    private static final String GP_SUMMARY_XPATH = "/pertinentInformation2/pertinentCREType[.//UKCT_MT144038UK02.Problem]";
+    private static final String GP_SUMMARY_XPATH = "//pertinentInformation2/pertinentCREType[.//UKCT_MT144038UK02.Problem]";
 
     @Test
     public void When_MappingFromHl7_Expect_GetId() {

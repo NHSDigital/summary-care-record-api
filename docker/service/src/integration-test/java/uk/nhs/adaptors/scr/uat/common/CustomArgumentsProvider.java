@@ -104,6 +104,12 @@ public abstract class CustomArgumentsProvider implements ArgumentsProvider {
         }
     }
 
+    public static class GetScrAdditionalInformation extends CustomArgumentsProvider {
+        public GetScrAdditionalInformation() {
+            super("get_scr", "additional_information");
+        }
+    }
+
     public static class GetScrInitialUploadOrgSDSSuccess extends CustomArgumentsProvider {
         public GetScrInitialUploadOrgSDSSuccess() {
             super("get_scr", "init_upload_org_sds_success");

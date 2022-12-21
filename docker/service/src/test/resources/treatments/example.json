@@ -1,9 +1,12 @@
 {
   "resourceType": "Procedure",
-  "id": "870bfee5-67e6-4611-8b62-e4609e2f3105",
+  "id": "0F5A9E72-8F89-11EA-8B2D-B741F13EFC47",
   "meta": {
     "profile": [ "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Procedure" ]
   },
+  "identifier": [ {
+    "value": "0F5A9E72-8F89-11EA-8B2D-B741F13EFC47"
+  } ],
   "status": "completed",
   "category": {
     "coding": [ {

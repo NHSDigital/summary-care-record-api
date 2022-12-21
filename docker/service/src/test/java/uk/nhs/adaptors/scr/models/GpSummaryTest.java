@@ -17,14 +17,14 @@ import static uk.nhs.utils.Utils.readResourceFile;
 public class GpSummaryTest {
     private static final String RESOURCE_DIRECTORY = "gp_summary";
     private static final String HTML_RESOURCE_DIRECTORY = "gp_summary/from/fhir";
-    private static final String STANDARD_FILE_NAME = "standard-gp-summary";
-    private static final String ADDITIONAL_INFO_FILE_NAME_1 = "additional-information-gp-summary-1";
+    private static final String STANDARD_FILE_NAME = "standard_gp_summary";
+    private static final String ADDITIONAL_INFO_FILE_NAME_1 = "additional_information_gp_summary_1";
     private static final String NHSD_ASID = "1029384756";
     private FhirParser fhirParser = new FhirParser();
 
     @Test
     public void When_MappingStandardGpSummaryFromBundle_Expect_PresentationTextHL7Match() {
-        var valueFile = "standard-gp-summary-presentation-text-value";
+        var valueFile = "standard_gp_summary_presentation_text_value";
         var expectedPresentationValue = readResourceFile(String.format(HTML_RESOURCE_DIRECTORY + "/%s.html", valueFile));
 
         var jsonFile = readResourceFile(String.format(RESOURCE_DIRECTORY + "/%s.json", STANDARD_FILE_NAME));
@@ -39,7 +39,7 @@ public class GpSummaryTest {
 
     @Test
     public void When_MappingAdditionalInfoGpSummaryFromBundle_Expect_PresentationTextHL7Match() {
-        var valueFile = "additional-information-gp-summary-1-presentation-text-value";
+        var valueFile = "additional_information_gp_summary_1_presentation_text_value";
         var expectedPresentationValue = readResourceFile(String.format(HTML_RESOURCE_DIRECTORY + "/%s.html", valueFile));
 
         var jsonFile = readResourceFile(String.format(RESOURCE_DIRECTORY + "/%s.json", ADDITIONAL_INFO_FILE_NAME_1));

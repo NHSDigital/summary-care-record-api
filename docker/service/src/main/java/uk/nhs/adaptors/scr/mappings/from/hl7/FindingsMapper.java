@@ -56,10 +56,9 @@ public class FindingsMapper implements XmlToFhirMapper {
     private static final String ENCOUNTER_CLASS_SYSTEM = "http://terminology.hl7.org/CodeSystem/v3-NullFlavor";
     private static final String UK_CORE_OBSERVATION_META = "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Observation";
     private static final String EFFECTIVE_TIME_CENTRE_XPATH = "./effectiveTime/centre/@value";
-    private static final String SARS_COV_2_CODE = "1240581000000104";
-    private static final String HIGH_PRIORITY_SARS = "1240601000000108";
-    private static final String SARS_COV_2_SEVERE = "163131000000108";
-    private static final List<String> ACCEPTED_CODES = Arrays.asList(SARS_COV_2_CODE, HIGH_PRIORITY_SARS, SARS_COV_2_SEVERE);
+    private static final String CLINICAL_OBSERVATIONS = "163131000000108";
+    private static final String INVESTIGATION_RESULTS = "163141000000104";
+    private static final List<String> ACCEPTED_CODES = Arrays.asList(CLINICAL_OBSERVATIONS, INVESTIGATION_RESULTS);
 
     private final ParticipantMapper participantMapper;
     private final CodedEntryMapper codedEntryMapper;
@@ -73,10 +72,13 @@ public class FindingsMapper implements XmlToFhirMapper {
             Node pertinentCREType = xmlUtils.getNodeAndDetachFromParent(pertinentNodes, i);
             var pertinentCRETypeCode = xmlUtils.getValueByXPath(pertinentCREType, PERTINENT_CODE_CODE_XPATH);
             var pertinentCRETypeDisplay = xmlUtils.getValueByXPath(pertinentCREType, PERTINENT_CODE_DISPLAY_XPATH);
-            NodeList findingNodes = xmlUtils.getNodeListByXPath(pertinentCREType, FINDING_BASE_PATH);
-            for (int j = 0; j < findingNodes.getLength(); j++) {
-                Node node = xmlUtils.getNodeAndDetachFromParent(findingNodes, j);
-                mapObservation(resources, pertinentCRETypeCode, pertinentCRETypeDisplay, node);
+
+            if (ACCEPTED_CODES.contains(pertinentCRETypeCode)) {
+                NodeList findingNodes = xmlUtils.getNodeListByXPath(pertinentCREType, FINDING_BASE_PATH);
+                for (int j = 0; j < findingNodes.getLength(); j++) {
+                    Node node = xmlUtils.getNodeAndDetachFromParent(findingNodes, j);
+                    mapObservation(resources, pertinentCRETypeCode, pertinentCRETypeDisplay, node);
+                }
             }
         }
         return resources;
@@ -84,39 +86,38 @@ public class FindingsMapper implements XmlToFhirMapper {
 
     private void mapObservation(ArrayList<Resource> resources, String creTypeCode, String creTypeDisplay, Node node) {
         CodedEntry entry = codedEntryMapper.getCommonCodedEntryValues(node);
-        if (ACCEPTED_CODES.contains(entry.getCodeValue())) {
-            var effectiveTimeCentre =
-                xmlUtils.getOptionalValueByXPath(node, EFFECTIVE_TIME_CENTRE_XPATH).map(it -> parseDate(it, DateTimeType.class));
+        var effectiveTimeCentre =
+            xmlUtils.getOptionalValueByXPath(node, EFFECTIVE_TIME_CENTRE_XPATH).map(it -> parseDate(it, DateTimeType.class));
 
-            var observation = new Observation();
-            observation.setId(entry.getId());
-            observation.setMeta(new Meta().addProfile(UK_CORE_OBSERVATION_META));
-            observation.addIdentifier(new Identifier().setValue(entry.getId()));
-            observation.setCode(new CodeableConcept().addCoding(new Coding()
-                .setCode(entry.getCodeValue())
-                .setSystem(SNOMED_SYSTEM)
-                .setDisplay(entry.getCodeDisplay())));
-            observation.setStatus(mapStatus(entry.getStatus()));
+        var observation = new Observation();
+        observation.setId(entry.getId());
+        observation.setMeta(new Meta().addProfile(UK_CORE_OBSERVATION_META));
+        observation.addIdentifier(new Identifier().setValue(entry.getId()));
+        observation.setCode(new CodeableConcept().addCoding(new Coding()
+            .setCode(entry.getCodeValue())
+            .setSystem(SNOMED_SYSTEM)
+            .setDisplay(entry.getCodeDisplay())));
+        observation.setStatus(mapStatus(entry.getStatus()));
 
-            if (entry.getEffectiveTimeLow().isPresent() || entry.getEffectiveTimeHigh().isPresent()) {
-                var period = new Period();
-                entry.getEffectiveTimeLow().ifPresent(period::setStartElement);
-                entry.getEffectiveTimeHigh().ifPresent(period::setEndElement);
-                observation.setEffective(period);
-            } else {
-                effectiveTimeCentre
-                    .ifPresent(observation::setEffective);
-            }
-
-            observation.addCategory(new CodeableConcept(new Coding()
-                .setSystem(SNOMED_SYSTEM)
-                .setCode(creTypeCode)
-                .setDisplay(creTypeDisplay)));
-
-            mapEncounter(node, observation, resources);
-            resources.add(observation);
+        if (entry.getEffectiveTimeLow().isPresent() || entry.getEffectiveTimeHigh().isPresent()) {
+            var period = new Period();
+            entry.getEffectiveTimeLow().ifPresent(period::setStartElement);
+            entry.getEffectiveTimeHigh().ifPresent(period::setEndElement);
+            observation.setEffective(period);
+        } else {
+            effectiveTimeCentre
+                .ifPresent(observation::setEffective);
         }
+
+        observation.addCategory(new CodeableConcept(new Coding()
+            .setSystem(SNOMED_SYSTEM)
+            .setCode(creTypeCode)
+            .setDisplay(creTypeDisplay)));
+
+        mapEncounter(node, observation, resources);
+        resources.add(observation);
     }
+
 
     private static Observation.ObservationStatus mapStatus(String statusCode) {
         switch (statusCode) {

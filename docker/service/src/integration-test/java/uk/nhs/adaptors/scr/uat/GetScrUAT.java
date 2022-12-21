@@ -41,6 +41,7 @@ import lombok.extern.slf4j.Slf4j;
 import uk.nhs.adaptors.scr.WireMockInitializer;
 import uk.nhs.adaptors.scr.config.SpineConfiguration;
 import uk.nhs.adaptors.scr.consts.ScrHttpHeaders;
+import uk.nhs.adaptors.scr.uat.common.CustomArgumentsProvider.GetScrAdditionalInformation;
 import uk.nhs.adaptors.scr.uat.common.CustomArgumentsProvider.GetScrAgentPersonAuthorSuccess;
 import uk.nhs.adaptors.scr.uat.common.CustomArgumentsProvider.GetScrInitialUploadOrgSDSSuccess;
 import uk.nhs.adaptors.scr.uat.common.CustomArgumentsProvider.GetScrInitialUploadSuccess;
@@ -89,6 +90,9 @@ public class GetScrUAT {
     @Value("classpath:uat/responses/event-query/success.xml")
     private Resource eventQuerySuccessResponse;
 
+    @Value("classpath:uat/responses/event-query/additional-information-success.xml")
+    private Resource eventQueryAdditionalInformationSuccessResponse;
+
     @Value("classpath:uat/responses/event-query/agent-person-author-success.xml")
     private Resource eventQuerySuccessAgentPersonResponse;
 
@@ -124,6 +128,15 @@ public class GetScrUAT {
     @ArgumentsSource(GetScrNotFound.class)
     void testGetScrNotFound(TestData testData) throws Exception {
         stubSpinePsisEventListEndpoint(eventListQueryNotFoundResponse);
+
+        performRequestAndAssert(testData, OK);
+    }
+
+    @ParameterizedTest(name = "[{index}] - {0}")
+    @ArgumentsSource(GetScrAdditionalInformation.class)
+    void testGetScrAdditionalInformation(TestData testData) throws Exception {
+        stubSpinePsisEventListEndpoint(eventListQuerySuccessResponse);
+        stubSpinePsisEventQueryEndpoint(eventQueryAdditionalInformationSuccessResponse);
 
         performRequestAndAssert(testData, OK);
     }

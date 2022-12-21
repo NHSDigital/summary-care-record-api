@@ -8,7 +8,6 @@ import org.hl7.fhir.r4.model.Procedure;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import uk.nhs.adaptors.scr.exceptions.FhirValidationException;
-import uk.nhs.adaptors.scr.mappings.from.common.UuidWrapper;
 import uk.nhs.adaptors.scr.models.xml.Treatment;
 
 import static uk.nhs.adaptors.scr.utils.DateUtil.formatDateToHl7;
@@ -18,12 +17,10 @@ import static uk.nhs.adaptors.scr.utils.DateUtil.formatDateToHl7;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class TreatmentMapper {
 
-    private final UuidWrapper uuid;
-
     public Treatment mapTreatment(Procedure procedure) {
         var treatment = new Treatment();
 
-        treatment.setIdRoot(uuid.randomUuid());
+        treatment.setIdRoot(procedure.getIdentifierFirstRep().getValue());
 
         var codingFirstRep = procedure.getCode().getCodingFirstRep();
         treatment.setCodeCode(codingFirstRep.getCode());

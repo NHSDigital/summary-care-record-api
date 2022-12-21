@@ -30,9 +30,18 @@ public class PersonSdsMapper {
 
         var name = xmlUtils.getOptionalValueByXPath(personSds, PERSON_NAME_XPATH);
         if (name.isPresent()) {
-            practitioner.addName(new HumanName().setText(name.get()));
+            //make human readable
+            var nameStr = humanReadableName(name.get());
+
+            practitioner.addName(new HumanName().setText(nameStr));
         }
 
         return practitioner;
+    }
+
+    private String humanReadableName(String nameWithSpaces) {
+        nameWithSpaces = nameWithSpaces.replaceAll("\\n", "");
+        nameWithSpaces = nameWithSpaces.replaceAll("                            ", " ");
+        return nameWithSpaces.trim();
     }
 }

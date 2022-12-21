@@ -27,8 +27,6 @@ public class TreatmentMapperTest extends BaseFhirMapperTest {
     public void When_MappingFromFHIR_Expect_RootId() {
         var procedure = getFileAsObject(RESOURCE_DIRECTORY, FILE_NAME, Procedure.class);
 
-        returnExpectedUuid(ID);
-
         var result = treatmentMapper.mapTreatment(procedure);
 
         assertThat(result.getIdRoot()).isEqualTo(ID);
@@ -68,8 +66,6 @@ public class TreatmentMapperTest extends BaseFhirMapperTest {
     public void When_MappingFromFHIR_Expect_MatchingHtml() {
         var expectedHtml = getExpectedHtml(RESOURCE_DIRECTORY, FILE_NAME);
         var procedure = getFileAsObject(RESOURCE_DIRECTORY, FILE_NAME, Procedure.class);
-
-        returnExpectedUuid(ID);
 
         var result = treatmentMapper.mapTreatment(procedure);
 

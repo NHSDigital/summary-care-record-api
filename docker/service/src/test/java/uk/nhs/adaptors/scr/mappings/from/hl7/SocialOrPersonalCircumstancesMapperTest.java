@@ -23,7 +23,7 @@ public class SocialOrPersonalCircumstancesMapperTest extends BaseHL7MapperTest {
     private static final String CATEGORY_DISPLAY = "Social or Personal Circumstances";
     private static final String FILE_NAME = "example";
     private static final String ID = "E619AE11-4417-11E9-9B19-B5A20573E36F";
-    private static final String INFORMATION_BASE_PATH = "/pertinentInformation2/pertinentCREType["
+    private static final String INFORMATION_BASE_PATH = "//pertinentInformation2/pertinentCREType["
         + ".//UKCT_MT144036UK01.SocialOrPersonalCircumstance]";
     private static final String STATUS_CODE = "FINAL";
 
