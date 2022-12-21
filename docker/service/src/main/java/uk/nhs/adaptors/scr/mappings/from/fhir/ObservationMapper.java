@@ -11,9 +11,7 @@ import org.hl7.fhir.r4.model.Observation.ObservationStatus;
 import org.hl7.fhir.r4.model.Period;
 import uk.nhs.adaptors.scr.exceptions.FhirValidationException;
 import uk.nhs.adaptors.scr.models.GpSummary;
-import uk.nhs.adaptors.scr.models.xml.Finding;
-import uk.nhs.adaptors.scr.models.xml.RiskToPatient;
-import uk.nhs.adaptors.scr.models.xml.SocialOrPersonalCircumstance;
+import uk.nhs.adaptors.scr.models.xml.*;
 
 import java.util.List;
 import java.util.function.Predicate;
@@ -38,6 +36,10 @@ public class ObservationMapper {
         observation -> "163231000000100".equals(observation.getCategoryFirstRep().getCodingFirstRep().getCode());
     private static final Predicate<Observation> IS_SOCIAL_OR_PERSONAL_CIRCUMSTANCES =
         observation -> "163021000000107".equals(observation.getCategoryFirstRep().getCodingFirstRep().getCode());
+    private static final Predicate<Observation> IS_FAMILY_HISTORY =
+        observation -> "163051000000102".equals(observation.getCategoryFirstRep().getCodingFirstRep().getCode());
+    private static final Predicate<Observation> IS_LIFESTYLE =
+        observation -> "163021000000107".equals(observation.getCategoryFirstRep().getCodingFirstRep().getCode());
 
     public static void mapObservations(GpSummary gpSummary, Bundle bundle) {
         validate(bundle);
@@ -49,6 +51,10 @@ public class ObservationMapper {
             .addAll(mapRisksToPatient(bundle));
         gpSummary.getSocialOrPersonalCircumstances()
             .addAll(mapSocialOrPersonalCircumstances(bundle));
+        gpSummary.getFamilyHistories()
+            .addAll(mapFamilyHistories(bundle));
+        gpSummary.getLifestyles()
+            .addAll(mapLifestyles(bundle));
     }
 
     private static void validate(Bundle bundle) {
@@ -95,6 +101,22 @@ public class ObservationMapper {
         var mapper = new SocialOrPersonalCircumstanceMapper();
         return getDomainResourceList(bundle, Observation.class).stream()
             .filter(IS_SOCIAL_OR_PERSONAL_CIRCUMSTANCES)
+            .map(observation -> mapper.map(observation))
+            .collect(Collectors.toList());
+    }
+
+    private static List<FamilyHistory> mapFamilyHistories(Bundle bundle) {
+        var mapper = new FamilyHistoryMapper();
+        return getDomainResourceList(bundle, Observation.class).stream()
+            .filter(IS_FAMILY_HISTORY)
+            .map(observation -> mapper.map(observation))
+            .collect(Collectors.toList());
+    }
+
+    private static List<Lifestyle> mapLifestyles(Bundle bundle) {
+        var mapper = new LifestyleMapper();
+        return getDomainResourceList(bundle, Observation.class).stream()
+            .filter(IS_LIFESTYLE)
             .map(observation -> mapper.map(observation))
             .collect(Collectors.toList());
     }
