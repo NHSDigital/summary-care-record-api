@@ -19,7 +19,7 @@ import java.util.List;
 
 import static java.util.Arrays.asList;
 import static java.util.stream.Collectors.joining;
-import static org.springframework.util.StringUtils.isEmpty;
+import static org.springframework.util.StringUtils.hasText;
 
 @Component
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -28,7 +28,7 @@ public class AlertRequestValidator implements ConstraintValidator<AlertRequest, 
     private static final String EXTENSION_URL = "https://fhir.nhs.uk/StructureDefinition/Extension-SCR-NotificationMessage";
     private static final String TYPE_SYSTEM = "http://terminology.hl7.org/CodeSystem/iso-21089-lifecycle";
     private static final String SUBTYPE_SYSTEM = "https://fhir.nhs.uk/CodeSystem/SCR-AlertReason";
-    private static final List<String> SUBTYPE_CODES = asList("0", "1", "2", "3", "4", "5");
+    private static final List<String> SUBTYPE_CODES = asList("1", "2", "3", "4", "5", "6");
     private static final String PATIENT_SYSTEM = "https://fhir.nhs.uk/Id/nhs-number";
     private static final String ORGANIZATION_SYSTEM = "https://fhir.nhs.uk/Id/ods-organization-code";
     private static final String PERSON_SYSTEM = "https://fhir.nhs.uk/Id/sds-user-id";
@@ -72,7 +72,7 @@ public class AlertRequestValidator implements ConstraintValidator<AlertRequest, 
         } else {
             agent.getRole().stream()
                 .forEach(role -> {
-                    if (isEmpty(role.getText()) && role.getCodingFirstRep().isEmpty()) {
+                    if (!role.hasText() && role.getCodingFirstRep().isEmpty()) {
                         throw new FhirValidationException("Expecting at least one non empty 'role' for 'agent' entry with system "
                             + PERSON_SYSTEM);
                     }
@@ -169,7 +169,7 @@ public class AlertRequestValidator implements ConstraintValidator<AlertRequest, 
     }
 
     private void checkNotEmpty(String value, String s) {
-        if (isEmpty(value)) {
+        if (!hasText(value)) {
             throw new FhirValidationException(s);
         }
     }
