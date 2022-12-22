@@ -57,7 +57,7 @@ public class AlertRequestValidatorTests {
         // assert
         assertThat(result).isFalse();
     }
-    
+
     @Test
     public void When_ValidatingTypeOutsideRange_Expect_False() {
         // arrange

@@ -34,7 +34,7 @@ properties:
         example: 1
       display:
         type: string
-        default: "Access/View Record Lifecycle Event"
+        default: "Create LR (Self Claimed)"
     required:
       - system
       - code
