@@ -11,7 +11,11 @@ import org.hl7.fhir.r4.model.Observation.ObservationStatus;
 import org.hl7.fhir.r4.model.Period;
 import uk.nhs.adaptors.scr.exceptions.FhirValidationException;
 import uk.nhs.adaptors.scr.models.GpSummary;
-import uk.nhs.adaptors.scr.models.xml.*;
+import uk.nhs.adaptors.scr.models.xml.FamilyHistory;
+import uk.nhs.adaptors.scr.models.xml.Finding;
+import uk.nhs.adaptors.scr.models.xml.Lifestyle;
+import uk.nhs.adaptors.scr.models.xml.RiskToPatient;
+import uk.nhs.adaptors.scr.models.xml.SocialOrPersonalCircumstance;
 
 import java.util.List;
 import java.util.function.Predicate;
