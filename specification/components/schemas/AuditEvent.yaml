@@ -30,7 +30,8 @@ properties:
         default: "http://terminology.hl7.org/CodeSystem/iso-21089-lifecycle"
       code:
         type: string
-        default: access
+        enum: [1, 2]
+        example: 1
       display:
         type: string
         default: "Access/View Record Lifecycle Event"
