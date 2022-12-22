@@ -20,7 +20,6 @@ import java.util.List;
 import static java.util.Arrays.asList;
 import static java.util.stream.Collectors.joining;
 import static org.springframework.util.StringUtils.hasText;
-import static org.springframework.util.StringUtils.isEmpty;
 
 @Component
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
