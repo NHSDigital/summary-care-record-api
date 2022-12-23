@@ -11,6 +11,10 @@ import uk.nhs.adaptors.scr.components.FhirParser;
 
 import javax.validation.ConstraintValidatorContext;
 
+import java.util.List;
+
+import static java.util.Arrays.asList;
+import static java.util.stream.Collectors.joining;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -20,6 +24,7 @@ import static uk.nhs.utils.Utils.readResourceFile;
 @ExtendWith(MockitoExtension.class)
 public class AlertRequestValidatorTests {
     private static final String RESOURCE_DIRECTORY = "alert";
+    private static final List<String> ALERT_TYPES_AND_SUBTYPES = asList("11", "12", "13", "14", "16", "21", "22", "23", "25");
     @InjectMocks
     private AlertRequestValidator alertRequestValidator;
     @Spy
@@ -58,4 +63,34 @@ public class AlertRequestValidatorTests {
         assertThat(result).isFalse();
     }
 
+    @Test
+    public void When_ValidatingTypeOutsideRange_Expect_False() {
+        // arrange
+        var json = readResourceFile(String.format(RESOURCE_DIRECTORY + "/%s.json", "type_range"));
+        var outOfBoundsMessage = "Invalid or missing value in field 'type.code'. Supported values are: 1, 2";
+
+        when(mockContext.buildConstraintViolationWithTemplate(outOfBoundsMessage)).thenReturn(mockBuilder);
+
+        // act
+        var result = alertRequestValidator.isValid(json, mockContext);
+
+        // assert
+        assertThat(result).isFalse();
+    }
+
+    @Test
+    public void When_AlertTypeCombination_Incorrect_Expect_False() {
+        // arrange
+        var json = readResourceFile(String.format(RESOURCE_DIRECTORY + "/%s.json", "alert_combination_check"));
+        var outOfBoundsMessage = "Invalid combination of alert type and alert subtype. Supported values are: "
+            + ALERT_TYPES_AND_SUBTYPES.stream().collect(joining(", "));
+
+        when(mockContext.buildConstraintViolationWithTemplate(outOfBoundsMessage)).thenReturn(mockBuilder);
+
+        // act
+        var result = alertRequestValidator.isValid(json, mockContext);
+
+        // assert
+        assertThat(result).isFalse();
+    }
 }

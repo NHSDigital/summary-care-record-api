@@ -25,10 +25,25 @@ import static org.springframework.util.StringUtils.hasText;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class AlertRequestValidator implements ConstraintValidator<AlertRequest, String> {
 
+    //Alert endpoint request types
+    //type 1 = Create LR (Self Claimed)
+    //type 2 =  Access alert
+    private static final List<String> TYPE_CODES = asList("1", "2");
+
+    //Alert endpoint subtypes
+    //type 1 = Access made in the public interest
+    //type 2 =  Access required by statute
+    //type 3 = Access required by Court Order
+    //type 4 = Self-Claim Emergency Access
+    //type 5 = Access made in an emergency
+    //type 6 = other
+    private static final List<String> SUBTYPE_CODES = asList("1", "2", "3", "4", "5", "6");
+
+    //Allowed alert type and subtype combinations
+    private static final List<String> ALERT_TYPES_AND_SUBTYPES = asList("11", "12", "13", "14", "16", "21", "22", "23", "25");
     private static final String EXTENSION_URL = "https://fhir.nhs.uk/StructureDefinition/Extension-SCR-NotificationMessage";
     private static final String TYPE_SYSTEM = "http://terminology.hl7.org/CodeSystem/iso-21089-lifecycle";
     private static final String SUBTYPE_SYSTEM = "https://fhir.nhs.uk/CodeSystem/SCR-AlertReason";
-    private static final List<String> SUBTYPE_CODES = asList("1", "2", "3", "4", "5", "6");
     private static final String PATIENT_SYSTEM = "https://fhir.nhs.uk/Id/nhs-number";
     private static final String ORGANIZATION_SYSTEM = "https://fhir.nhs.uk/Id/ods-organization-code";
     private static final String PERSON_SYSTEM = "https://fhir.nhs.uk/Id/sds-user-id";
@@ -52,6 +67,7 @@ public class AlertRequestValidator implements ConstraintValidator<AlertRequest, 
             checkPatient(auditEvent.getAgent());
             checkOrganization(auditEvent.getAgent());
             checkPerson(auditEvent.getAgent());
+            checkTypeAndSubtypeCombination(auditEvent.getType(), auditEvent.getSubtype());
         } catch (FhirValidationException exc) {
             setErrorMessage(context, exc.getMessage());
             return false;
@@ -149,6 +165,20 @@ public class AlertRequestValidator implements ConstraintValidator<AlertRequest, 
         }
 
         checkNotEmpty(type.getDisplay(), "Missing value 'type.display'");
+    }
+
+    private void checkTypeAndSubtypeCombination(Coding type, List<Coding> subtypes) {
+        var alertType = type.getCode();
+        if (subtypes.size() != 1) {
+            throw new FhirValidationException("Expecting exactly one 'subtype' element");
+        }
+        var alertSubtype = subtypes.get(0).getCode();
+        var alertCombination = alertType + alertSubtype;
+
+        if (!ALERT_TYPES_AND_SUBTYPES.contains(alertCombination)) {
+            throw new FhirValidationException(String.format("Invalid combination of alert type and alert subtype. Supported values are: "
+                + ALERT_TYPES_AND_SUBTYPES.stream().collect(joining(", "))));
+        }
     }
 
     private void checkExtension(AuditEvent auditEvent) {
