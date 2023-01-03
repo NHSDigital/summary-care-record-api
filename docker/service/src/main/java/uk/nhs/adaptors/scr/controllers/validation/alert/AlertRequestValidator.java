@@ -27,6 +27,7 @@ public class AlertRequestValidator implements ConstraintValidator<AlertRequest, 
 
     private static final String EXTENSION_URL = "https://fhir.nhs.uk/StructureDefinition/Extension-SCR-NotificationMessage";
     private static final String TYPE_SYSTEM = "http://terminology.hl7.org/CodeSystem/iso-21089-lifecycle";
+    private static final List<String> TYPE_CODES = asList("1", "2");
     private static final String SUBTYPE_SYSTEM = "https://fhir.nhs.uk/CodeSystem/SCR-AlertReason";
     private static final List<String> SUBTYPE_CODES = asList("1", "2", "3", "4", "5", "6");
     private static final String PATIENT_SYSTEM = "https://fhir.nhs.uk/Id/nhs-number";
@@ -146,6 +147,10 @@ public class AlertRequestValidator implements ConstraintValidator<AlertRequest, 
     private void checkType(Coding type) {
         if (!TYPE_SYSTEM.equals(type.getSystem())) {
             throw new FhirValidationException(String.format("'Type' element for '%s' system missing", TYPE_SYSTEM));
+        }
+        if (!TYPE_CODES.contains(type.getCode())) {
+            throw new FhirValidationException("Invalid or missing value in field 'type.code'. Supported values are: "
+                + TYPE_CODES.stream().collect(joining(", ")));
         }
 
         checkNotEmpty(type.getDisplay(), "Missing value 'type.display'");
