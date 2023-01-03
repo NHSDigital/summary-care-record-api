@@ -24,7 +24,6 @@ import static uk.nhs.utils.Utils.readResourceFile;
 @ExtendWith(MockitoExtension.class)
 public class AlertRequestValidatorTests {
     private static final String RESOURCE_DIRECTORY = "alert";
-    private static final List<String> ALERT_TYPES_AND_SUBTYPES = asList("11", "12", "13", "14", "16", "21", "22", "23", "25");
     @InjectMocks
     private AlertRequestValidator alertRequestValidator;
     @Spy
@@ -63,7 +62,7 @@ public class AlertRequestValidatorTests {
         assertThat(result).isFalse();
     }
 
-    @Test  
+    @Test
     public void When_ValidatingTypeOutsideRange_Expect_False() {
         // arrange
         var json = readResourceFile(String.format(RESOURCE_DIRECTORY + "/%s.json", "type_range"));
@@ -81,10 +80,9 @@ public class AlertRequestValidatorTests {
     @Test
     public void When_AlertTypeCombination_Incorrect_Expect_False() {
         // arrange
-        var json = readResourceFile(String.format(RESOURCE_DIRECTORY + "/%s.json", "alert_combination_check"));
-        var outOfBoundsMessage = "Invalid combination of alert type and alert subtype. Supported values are: "
-            + ALERT_TYPES_AND_SUBTYPES.stream().collect(joining(", "));
-    
+        var json = readResourceFile(String.format(RESOURCE_DIRECTORY + "/%s.json", "type_subtype_combination"));
+        var outOfBoundsMessage = "Invalid combination of alert type '1' and alert subtype '5'.";
+
         when(mockContext.buildConstraintViolationWithTemplate(outOfBoundsMessage)).thenReturn(mockBuilder);
 
         // act
