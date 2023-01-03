@@ -1,6 +1,5 @@
 package uk.nhs.adaptors.scr.clients.spine;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -29,9 +28,6 @@ public class SpineHttpClient {
     private final HttpClient client;
     private final PoolingHttpClientConnectionManager clientConnectionManager;
 
-    @SuppressFBWarnings(
-        value = "RCN_REDUNDANT_NULLCHECK_WOULD_HAVE_BEEN_A_NPE",
-        justification = "SpotBugs issue with fix not yet released https://github.com/spotbugs/spotbugs/pull/1248")
     @LogExecutionTime
     public <T> Response<T> sendRequest(HttpRequestBase request, ResponseHandler<? extends Response<T>> responseHandler) {
         LOGGER.debug("Attempting to send SPINE request: {}", request.getRequestLine().toString());
