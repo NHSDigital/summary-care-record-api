@@ -43,7 +43,6 @@ public class AlertRequestValidator implements ConstraintValidator<AlertRequest, 
     private static final List<String> ALERT_TYPES_AND_SUBTYPES = asList("11", "12", "13", "14", "16", "21", "22", "23", "25");
     private static final String EXTENSION_URL = "https://fhir.nhs.uk/StructureDefinition/Extension-SCR-NotificationMessage";
     private static final String TYPE_SYSTEM = "http://terminology.hl7.org/CodeSystem/iso-21089-lifecycle";
-    private static final List<String> TYPE_CODES = asList("1", "2");
     private static final String SUBTYPE_SYSTEM = "https://fhir.nhs.uk/CodeSystem/SCR-AlertReason";
     private static final String PATIENT_SYSTEM = "https://fhir.nhs.uk/Id/nhs-number";
     private static final String ORGANIZATION_SYSTEM = "https://fhir.nhs.uk/Id/ods-organization-code";
