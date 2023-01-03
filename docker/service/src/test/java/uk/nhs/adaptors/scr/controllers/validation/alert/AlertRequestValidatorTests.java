@@ -73,10 +73,25 @@ public class AlertRequestValidatorTests {
     }
 
     @Test
-    public void When_AlertTypeCombination_Incorrect_Expect_False() {
+    public void When_AlertTypeCombination24_Incorrect_Expect_False() {
         // arrange
-        var json = readResourceFile(String.format(RESOURCE_DIRECTORY + "/%s.json", "type_subtype_combination"));
-        var outOfBoundsMessage = "Invalid combination of alert type '1' and alert subtype '5'.";
+        var json = readResourceFile(String.format(RESOURCE_DIRECTORY + "/%s.json", "type_subtype_combination_24"));
+        var outOfBoundsMessage = "Invalid combination of alert type '2' and alert subtype '4'.";
+
+        when(mockContext.buildConstraintViolationWithTemplate(outOfBoundsMessage)).thenReturn(mockBuilder);
+
+        // act
+        var result = alertRequestValidator.isValid(json, mockContext);
+
+        // assert
+        assertThat(result).isFalse();
+    }
+
+    @Test
+    public void When_AlertTypeCombination26_Incorrect_Expect_False() {
+        // arrange
+        var json = readResourceFile(String.format(RESOURCE_DIRECTORY + "/%s.json", "type_subtype_combination_26"));
+        var outOfBoundsMessage = "Invalid combination of alert type '2' and alert subtype '6'.";
 
         when(mockContext.buildConstraintViolationWithTemplate(outOfBoundsMessage)).thenReturn(mockBuilder);
 

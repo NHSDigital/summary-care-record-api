@@ -1,6 +1,8 @@
 package uk.nhs.adaptors.scr.controllers.validation.alert;
 
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.collections4.MultiValuedMap;
+import org.apache.commons.collections4.multimap.ArrayListValuedHashMap;
 import org.hl7.fhir.r4.model.AuditEvent;
 import org.hl7.fhir.r4.model.AuditEvent.AuditEventAgentComponent;
 import org.hl7.fhir.r4.model.AuditEvent.AuditEventEntityComponent;
@@ -15,9 +17,7 @@ import uk.nhs.adaptors.scr.exceptions.FhirValidationException;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static java.util.Arrays.asList;
 import static java.util.stream.Collectors.joining;
@@ -42,7 +42,7 @@ public class AlertRequestValidator implements ConstraintValidator<AlertRequest, 
     private static final List<String> SUBTYPE_CODES = asList("1", "2", "3", "4", "5", "6");
 
     //Disallowed alert type and subtype combinations
-    private static final Map<String, String> DISALLOWED_TYPE_SUBTYPE_COMBOS = new HashMap<>() {{
+    private static final MultiValuedMap<String, String> DISALLOWED_TYPE_SUBTYPE_COMBOS = new ArrayListValuedHashMap<>() {{
             put("1", "5");
             put("2", "4");
             put("2", "6");
