@@ -63,13 +63,28 @@ public class AlertRequestValidatorTests {
         assertThat(result).isFalse();
     }
 
+    @Test  
+    public void When_ValidatingTypeOutsideRange_Expect_False() {
+        // arrange
+        var json = readResourceFile(String.format(RESOURCE_DIRECTORY + "/%s.json", "type_range"));
+        var outOfBoundsMessage = "Invalid or missing value in field 'type.code'. Supported values are: 1, 2";
+
+        when(mockContext.buildConstraintViolationWithTemplate(outOfBoundsMessage)).thenReturn(mockBuilder);
+
+        // act
+        var result = alertRequestValidator.isValid(json, mockContext);
+
+        // assert
+        assertThat(result).isFalse();
+    }
+
     @Test
     public void When_AlertTypeCombination_Incorrect_Expect_False() {
         // arrange
         var json = readResourceFile(String.format(RESOURCE_DIRECTORY + "/%s.json", "alert_combination_check"));
         var outOfBoundsMessage = "Invalid combination of alert type and alert subtype. Supported values are: "
             + ALERT_TYPES_AND_SUBTYPES.stream().collect(joining(", "));
-
+    
         when(mockContext.buildConstraintViolationWithTemplate(outOfBoundsMessage)).thenReturn(mockBuilder);
 
         // act
