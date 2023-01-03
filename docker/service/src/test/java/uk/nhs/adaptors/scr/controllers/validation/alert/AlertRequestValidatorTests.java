@@ -1,5 +1,6 @@
 package uk.nhs.adaptors.scr.controllers.validation.alert;
 
+import javax.validation.ConstraintValidatorContext;
 import org.hl7.fhir.r4.model.AuditEvent;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -9,12 +10,6 @@ import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import uk.nhs.adaptors.scr.components.FhirParser;
 
-import javax.validation.ConstraintValidatorContext;
-
-import java.util.List;
-
-import static java.util.Arrays.asList;
-import static java.util.stream.Collectors.joining;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;

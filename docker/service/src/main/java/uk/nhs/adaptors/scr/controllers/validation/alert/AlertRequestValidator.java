@@ -43,10 +43,11 @@ public class AlertRequestValidator implements ConstraintValidator<AlertRequest, 
 
     //Disallowed alert type and subtype combinations
     private static final Map<String, String> DISALLOWED_TYPE_SUBTYPE_COMBOS = new HashMap<>() {{
-        put("1", "5");
-        put("2", "4");
-        put("2", "6");
-    }};
+            put("1", "5");
+            put("2", "4");
+            put("2", "6");
+        }
+    };
 
     private static final String EXTENSION_URL = "https://fhir.nhs.uk/StructureDefinition/Extension-SCR-NotificationMessage";
     private static final String TYPE_SYSTEM = "http://terminology.hl7.org/CodeSystem/iso-21089-lifecycle";
