@@ -1,6 +1,8 @@
 package uk.nhs.adaptors.scr.controllers.validation.alert;
 
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.collections4.MultiValuedMap;
+import org.apache.commons.collections4.multimap.ArrayListValuedHashMap;
 import org.hl7.fhir.r4.model.AuditEvent;
 import org.hl7.fhir.r4.model.AuditEvent.AuditEventAgentComponent;
 import org.hl7.fhir.r4.model.AuditEvent.AuditEventEntityComponent;
@@ -19,16 +21,37 @@ import java.util.List;
 
 import static java.util.Arrays.asList;
 import static java.util.stream.Collectors.joining;
-import static org.springframework.util.StringUtils.isEmpty;
+import static org.springframework.util.StringUtils.hasText;
 
 @Component
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class AlertRequestValidator implements ConstraintValidator<AlertRequest, String> {
 
+    //Alert endpoint request types
+    //type 1 = Create LR (Self Claimed)
+    //type 2 =  Access alert
+    private static final List<String> TYPE_CODES = asList("1", "2");
+
+    //Alert endpoint subtypes
+    //type 1 = Access made in the public interest
+    //type 2 =  Access required by statute
+    //type 3 = Access required by Court Order
+    //type 4 = Self-Claim Emergency Access
+    //type 5 = Access made in an emergency
+    //type 6 = other
+    private static final List<String> SUBTYPE_CODES = asList("1", "2", "3", "4", "5", "6");
+
+    //Disallowed alert type and subtype combinations
+    private static final MultiValuedMap<String, String> DISALLOWED_TYPE_SUBTYPE_COMBOS = new ArrayListValuedHashMap<>() {{
+            put("1", "5");
+            put("2", "4");
+            put("2", "6");
+        }
+    };
+
     private static final String EXTENSION_URL = "https://fhir.nhs.uk/StructureDefinition/Extension-SCR-NotificationMessage";
     private static final String TYPE_SYSTEM = "http://terminology.hl7.org/CodeSystem/iso-21089-lifecycle";
     private static final String SUBTYPE_SYSTEM = "https://fhir.nhs.uk/CodeSystem/SCR-AlertReason";
-    private static final List<String> SUBTYPE_CODES = asList("0", "1", "2", "3", "4", "5");
     private static final String PATIENT_SYSTEM = "https://fhir.nhs.uk/Id/nhs-number";
     private static final String ORGANIZATION_SYSTEM = "https://fhir.nhs.uk/Id/ods-organization-code";
     private static final String PERSON_SYSTEM = "https://fhir.nhs.uk/Id/sds-user-id";
@@ -47,6 +70,7 @@ public class AlertRequestValidator implements ConstraintValidator<AlertRequest, 
             checkExtension(auditEvent);
             checkType(auditEvent.getType());
             checkSubtype(auditEvent.getSubtype());
+            checkTypeSubtypeCombination(auditEvent.getType(), auditEvent.getSubtype());
             checkRecorded(auditEvent.getRecorded());
             checkEntity(auditEvent.getEntity());
             checkPatient(auditEvent.getAgent());
@@ -72,7 +96,7 @@ public class AlertRequestValidator implements ConstraintValidator<AlertRequest, 
         } else {
             agent.getRole().stream()
                 .forEach(role -> {
-                    if (isEmpty(role.getText()) && role.getCodingFirstRep().isEmpty()) {
+                    if (!role.hasText() && role.getCodingFirstRep().isEmpty()) {
                         throw new FhirValidationException("Expecting at least one non empty 'role' for 'agent' entry with system "
                             + PERSON_SYSTEM);
                     }
@@ -147,8 +171,24 @@ public class AlertRequestValidator implements ConstraintValidator<AlertRequest, 
         if (!TYPE_SYSTEM.equals(type.getSystem())) {
             throw new FhirValidationException(String.format("'Type' element for '%s' system missing", TYPE_SYSTEM));
         }
+        if (!TYPE_CODES.contains(type.getCode())) {
+            throw new FhirValidationException("Invalid or missing value in field 'type.code'. Supported values are: "
+                + TYPE_CODES.stream().collect(joining(", ")));
+        }
 
         checkNotEmpty(type.getDisplay(), "Missing value 'type.display'");
+    }
+
+    private void checkTypeSubtypeCombination(Coding type, List<Coding> subtypes) {
+        var alertType = type.getCode();
+        var alertSubtype = subtypes.get(0).getCode();
+
+        if (DISALLOWED_TYPE_SUBTYPE_COMBOS.containsKey(alertType)
+            && DISALLOWED_TYPE_SUBTYPE_COMBOS.get(alertType).contains(alertSubtype)) {
+            throw new FhirValidationException(
+                String.format("Invalid combination of alert type '%s' and alert subtype '%s'.", alertType, alertSubtype)
+            );
+        }
     }
 
     private void checkExtension(AuditEvent auditEvent) {
@@ -169,7 +209,7 @@ public class AlertRequestValidator implements ConstraintValidator<AlertRequest, 
     }
 
     private void checkNotEmpty(String value, String s) {
-        if (isEmpty(value)) {
+        if (!hasText(value)) {
             throw new FhirValidationException(s);
         }
     }

@@ -1,7 +1,7 @@
 {
   "resourceType": "AuditEvent",
   "id": "example",
-  "extension": [
+  "extension":  [
     {
       "url": "https://fhir.nhs.uk/StructureDefinition/Extension-SCR-NotificationMessage",
       "valueString": "Alert: Permission to view override 1C03CF4F-D404-4D76-B192-4F81727059F6"
@@ -9,10 +9,10 @@
   ],
   "type": {
     "system": "http://terminology.hl7.org/CodeSystem/iso-21089-lifecycle",
-    "code": "1",
-    "display": "Create LR (Self Claimed)"
+    "code": "-34",
+    "display": "Access/View Record NOT Lifecycle Event"
   },
-  "subtype": [
+  "subtype":  [
     {
       "system": "https://fhir.nhs.uk/CodeSystem/SCR-AlertReason",
       "code": "1",
@@ -20,11 +20,12 @@
     }
   ],
   "recorded": "2020-11-13T00:00:00+00:00",
-  "agent": [
+  "agent":  [
     {
       "who": {
         "identifier": {
-          "system": "https://fhir.nhs.uk/Id/nhs-number"
+          "system": "https://fhir.nhs.uk/Id/nhs-number",
+          "value": "9995000180"
         }
       },
       "requestor": false
@@ -45,7 +46,7 @@
           "value": "T10101"
         }
       },
-      "role": [
+      "role":  [
         {
           "text": "General Practitioner"
         }
@@ -57,11 +58,11 @@
     "observer": {
       "identifier": {
         "system": "https://fhir.nhs.uk/Id/nhsSpineASID",
-        "value": "227319907548"
+        "value": "200000001162"
       }
     }
   },
-  "entity": [
+  "entity":  [
     {
       "what": {
         "identifier": {

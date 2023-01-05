@@ -30,10 +30,11 @@ properties:
         default: "http://terminology.hl7.org/CodeSystem/iso-21089-lifecycle"
       code:
         type: string
-        default: access
+        enum: [1, 2]
+        example: 1
       display:
         type: string
-        default: "Access/View Record Lifecycle Event"
+        default: "Create LR (Self Claimed)"
     required:
       - system
       - code
@@ -49,7 +50,7 @@ properties:
           default: "https://fhir.nhs.uk/CodeSystem/SCR-AlertReason"
         code:
           type: string
-          enum: [0, 1, 2, 3, 4, 5]
+          enum: [1, 2, 3, 4, 5, 6]
           example: 1
         display:
           type: string
