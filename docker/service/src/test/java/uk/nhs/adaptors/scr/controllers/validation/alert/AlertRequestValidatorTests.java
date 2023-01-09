@@ -1,5 +1,6 @@
 package uk.nhs.adaptors.scr.controllers.validation.alert;
 
+import javax.validation.ConstraintValidatorContext;
 import org.hl7.fhir.r4.model.AuditEvent;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -8,8 +9,6 @@ import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import uk.nhs.adaptors.scr.components.FhirParser;
-
-import javax.validation.ConstraintValidatorContext;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.Mockito.times;
@@ -58,4 +57,48 @@ public class AlertRequestValidatorTests {
         assertThat(result).isFalse();
     }
 
+    @Test
+    public void When_ValidatingTypeOutsideRange_Expect_False() {
+        // arrange
+        var json = readResourceFile(String.format(RESOURCE_DIRECTORY + "/%s.json", "type_range"));
+        var outOfBoundsMessage = "Invalid or missing value in field 'type.code'. Supported values are: 1, 2";
+
+        when(mockContext.buildConstraintViolationWithTemplate(outOfBoundsMessage)).thenReturn(mockBuilder);
+
+        // act
+        var result = alertRequestValidator.isValid(json, mockContext);
+
+        // assert
+        assertThat(result).isFalse();
+    }
+
+    @Test
+    public void When_AlertTypeCombination24_Incorrect_Expect_False() {
+        // arrange
+        var json = readResourceFile(String.format(RESOURCE_DIRECTORY + "/%s.json", "type_subtype_combination_24"));
+        var outOfBoundsMessage = "Invalid combination of alert type '2' and alert subtype '4'.";
+
+        when(mockContext.buildConstraintViolationWithTemplate(outOfBoundsMessage)).thenReturn(mockBuilder);
+
+        // act
+        var result = alertRequestValidator.isValid(json, mockContext);
+
+        // assert
+        assertThat(result).isFalse();
+    }
+
+    @Test
+    public void When_AlertTypeCombination26_Incorrect_Expect_False() {
+        // arrange
+        var json = readResourceFile(String.format(RESOURCE_DIRECTORY + "/%s.json", "type_subtype_combination_26"));
+        var outOfBoundsMessage = "Invalid combination of alert type '2' and alert subtype '6'.";
+
+        when(mockContext.buildConstraintViolationWithTemplate(outOfBoundsMessage)).thenReturn(mockBuilder);
+
+        // act
+        var result = alertRequestValidator.isValid(json, mockContext);
+
+        // assert
+        assertThat(result).isFalse();
+    }
 }

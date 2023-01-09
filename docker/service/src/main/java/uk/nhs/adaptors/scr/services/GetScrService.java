@@ -28,9 +28,11 @@ import uk.nhs.adaptors.scr.config.ScrConfiguration;
 import uk.nhs.adaptors.scr.config.SpineConfiguration;
 import uk.nhs.adaptors.scr.logging.LogExecutionTime;
 import uk.nhs.adaptors.scr.mappings.from.hl7.DiagnosisMapper;
+import uk.nhs.adaptors.scr.mappings.from.hl7.FamilyHistoriesMapper;
 import uk.nhs.adaptors.scr.mappings.from.hl7.FindingsMapper;
 import uk.nhs.adaptors.scr.mappings.from.hl7.GpSummaryMapper;
 import uk.nhs.adaptors.scr.mappings.from.hl7.InteractionMapper;
+import uk.nhs.adaptors.scr.mappings.from.hl7.LifestylesMapper;
 import uk.nhs.adaptors.scr.mappings.from.hl7.ProblemsMapper;
 import uk.nhs.adaptors.scr.mappings.from.hl7.RecordTargetMapper;
 import uk.nhs.adaptors.scr.mappings.from.hl7.RisksToPatientMapper;
@@ -88,7 +90,9 @@ public class GetScrService {
 
     // resource mappers
     private final DiagnosisMapper diagnosisMapper;
+    private final FamilyHistoriesMapper familyHistoriesMapper;
     private final FindingsMapper findingsMapper;
+    private final LifestylesMapper lifestylesMapper;
     private final ProblemsMapper problemsMapper;
     private final RisksToPatientMapper risksToPatientMapper;
     private final SocialOrPersonalCircumstancesMapper socialOrPersonalCircumstancesMapper;
@@ -154,7 +158,9 @@ public class GetScrService {
             Stream.of(
                     gpSummaryMapper,
                     diagnosisMapper,
+                    familyHistoriesMapper,
                     findingsMapper,
+                    lifestylesMapper,
                     problemsMapper,
                     risksToPatientMapper,
                     socialOrPersonalCircumstancesMapper,
