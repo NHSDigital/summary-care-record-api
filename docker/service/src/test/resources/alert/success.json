@@ -9,8 +9,8 @@
   ],
   "type": {
     "system": "http://terminology.hl7.org/CodeSystem/iso-21089-lifecycle",
-    "code": "access",
-    "display": "Access/View Record Lifecycle Event"
+    "code": "1",
+    "display": "Create LR (Self Claimed)"
   },
   "subtype":  [
     {
