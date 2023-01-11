@@ -3,6 +3,7 @@ package uk.nhs.adaptors.scr.mappings.from.fhir;
 import org.hl7.fhir.r4.model.Bundle;
 import org.hl7.fhir.r4.model.Communication;
 import uk.nhs.adaptors.scr.exceptions.FhirValidationException;
+import uk.nhs.adaptors.scr.mappings.from.common.UuidWrapper;
 import uk.nhs.adaptors.scr.models.GpSummary;
 import uk.nhs.adaptors.scr.models.xml.PatientCarerCorrespondence;
 import uk.nhs.adaptors.scr.models.xml.ProvisionOfAdviceAndInformation;
@@ -15,7 +16,7 @@ import static uk.nhs.adaptors.scr.utils.FhirHelper.getDomainResourceList;
 
 public class CommunicationMapper {
     private static final Predicate<Communication> IS_PATIENT_CARER_CORRESPONDENCE =
-        communication -> "163181000000107".equals(communication.getCategory().getCodingFirstRep().getCode());
+        communication -> "163181000000107".equals(communication.getCategoryFirstRep().getCodingFirstRep().getCode());
     private static final Predicate<Communication> IS_PROVISION_OF_ADVICE_AND_INFORMATION =
         communication -> "163101000000102".equals(communication.getCategory().getCodingFirstRep().getCode());
 
@@ -34,7 +35,7 @@ public class CommunicationMapper {
      * @return PatientCarerCorrespondence List
      */
     private static List<PatientCarerCorrespondence> mapPatientAndCarersCorrespondence(Bundle bundle) {
-        var patientAndCarersCorrespondenceMapper = new PatientAndCarersCorrespondenceMapper();
+        var patientAndCarersCorrespondenceMapper = new PatientAndCarersCorrespondenceMapper(new UuidWrapper());
         return getDomainResourceList(bundle, Communication.class).stream()
             .filter(IS_PATIENT_CARER_CORRESPONDENCE)
             .map(communication -> patientAndCarersCorrespondenceMapper.mapPatientCarerCorrespondence(communication))
@@ -58,10 +59,10 @@ public class CommunicationMapper {
         getDomainResourceList(bundle, Communication.class).stream()
             .forEach(it -> {
                 if (!it.hasId()) {
-                    throw new FhirValidationException("Procedure.id is missing");
+                    throw new FhirValidationException("Communication.id is missing");
                 }
-                if (!it.hasCode()) {
-                    throw new FhirValidationException("Procedure.code is missing");
+                if (!it.hasTopic()) {
+                    throw new FhirValidationException("Communication.code is missing");
                 }
             });
     }
