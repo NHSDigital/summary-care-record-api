@@ -27,12 +27,15 @@ import uk.nhs.adaptors.scr.clients.spine.SpineHttpClient.Response;
 import uk.nhs.adaptors.scr.config.ScrConfiguration;
 import uk.nhs.adaptors.scr.config.SpineConfiguration;
 import uk.nhs.adaptors.scr.logging.LogExecutionTime;
+import uk.nhs.adaptors.scr.mappings.from.hl7.CareEventsMapper;
 import uk.nhs.adaptors.scr.mappings.from.hl7.DiagnosisMapper;
 import uk.nhs.adaptors.scr.mappings.from.hl7.FamilyHistoriesMapper;
 import uk.nhs.adaptors.scr.mappings.from.hl7.FindingsMapper;
 import uk.nhs.adaptors.scr.mappings.from.hl7.GpSummaryMapper;
 import uk.nhs.adaptors.scr.mappings.from.hl7.InteractionMapper;
+import uk.nhs.adaptors.scr.mappings.from.hl7.InvestigationsMapper;
 import uk.nhs.adaptors.scr.mappings.from.hl7.LifestylesMapper;
+import uk.nhs.adaptors.scr.mappings.from.hl7.PersonalPreferencesMapper;
 import uk.nhs.adaptors.scr.mappings.from.hl7.ProblemsMapper;
 import uk.nhs.adaptors.scr.mappings.from.hl7.RecordTargetMapper;
 import uk.nhs.adaptors.scr.mappings.from.hl7.RisksToPatientMapper;
@@ -89,16 +92,19 @@ public class GetScrService {
     private final GpSummaryMapper gpSummaryMapper;
 
     // resource mappers
+
+    private final CareEventsMapper careEventsMapper;
     private final DiagnosisMapper diagnosisMapper;
     private final FamilyHistoriesMapper familyHistoriesMapper;
     private final FindingsMapper findingsMapper;
+    private final InvestigationsMapper investigationsMapper;
     private final LifestylesMapper lifestylesMapper;
+    private final PersonalPreferencesMapper personalPreferencesMapper;
     private final ProblemsMapper problemsMapper;
+    private final RecordTargetMapper recordTargetMapper;
     private final RisksToPatientMapper risksToPatientMapper;
     private final SocialOrPersonalCircumstancesMapper socialOrPersonalCircumstancesMapper;
     private final TreatmentsMapper treatmentsMapper;
-
-    private final RecordTargetMapper recordTargetMapper;
     private final EventListQueryResponseParser eventListQueryResponseParser;
     private final SpineResponseParser spineResponseParser;
     private final SpineDetectedIssuesHandler spineDetectedIssuesHandler;
@@ -156,11 +162,14 @@ public class GetScrService {
             Patient patient = recordTargetMapper.mapPatient(document);
 
             Stream.of(
-                    gpSummaryMapper,
+                    careEventsMapper,
                     diagnosisMapper,
                     familyHistoriesMapper,
                     findingsMapper,
+                    gpSummaryMapper,
+                    investigationsMapper,
                     lifestylesMapper,
+                    personalPreferencesMapper,
                     problemsMapper,
                     risksToPatientMapper,
                     socialOrPersonalCircumstancesMapper,
