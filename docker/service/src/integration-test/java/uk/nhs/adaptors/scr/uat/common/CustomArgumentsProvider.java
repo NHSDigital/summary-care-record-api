@@ -62,6 +62,12 @@ public abstract class CustomArgumentsProvider implements ArgumentsProvider {
         }
     }
 
+    public static class UploadScrAdditionalInformationSuccess extends CustomArgumentsProvider {
+        public UploadScrAdditionalInformationSuccess() {
+            super("upload_scr", "additional_information");
+        }
+    }
+
     public static class UploadScrBadRequest extends CustomArgumentsProvider {
         public UploadScrBadRequest() {
             super("upload_scr", "bad_request");

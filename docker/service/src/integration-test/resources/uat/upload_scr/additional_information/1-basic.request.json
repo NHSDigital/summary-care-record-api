@@ -1,0 +1,853 @@
+{
+  "resourceType": "Bundle",
+  "id": "19B11E00-8AF5-11EA-9FCE-AFDCAECF9DFB",
+  "identifier": {
+    "system": "https://tools.ietf.org/html/rfc4122",
+    "value": "19B11E00-8AF5-11EA-9FCE-AFDCAECF9DFB"
+  },
+  "type": "document",
+  "timestamp": "2020-04-30T16:13:09+00:00",
+  "entry": [
+    {
+      "fullUrl": "https://internal-dev.api.service.nhs.uk/summary-care-record/FHIR/R4/Composition/19B11E00-8AF5-11EA-9FCE-AFDCAECF9DFB",
+      "resource": {
+        "resourceType": "Composition",
+        "id": "19B11E00-8AF5-11EA-9FCE-AFDCAECF9DFB",
+        "meta": {
+          "lastUpdated": "2020-04-30T16:13:09+00:00"
+        },
+        "identifier": {
+          "system": "https://tools.ietf.org/html/rfc4122",
+          "value": "19B11E00-8AF5-11EA-9FCE-AFDCAECF9DFB"
+        },
+        "status": "final",
+        "type": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "196981000000101",
+              "display": "General Practice Summary"
+            }
+          ]
+        },
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://snomed.info/sct",
+                "code": "163171000000105",
+                "display": "Care Professional Documentation"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/80AD85F2-71DF-48D7-9429-BA75003AB4BB"
+        },
+        "date": "2020-04-30T16:13:09+00:00",
+        "author": [
+          {
+            "reference": "PractitionerRole/D4F14095-8BB0-446B-883F-2848426F1CE8"
+          }
+        ],
+        "relatesTo": [
+          {
+            "code": "replaces",
+            "targetIdentifier": {
+              "value": "DADD56E0-8A35-11EA-B3DD-AF6BFEE44A74"
+            }
+          }
+        ],
+        "section": [
+          {
+            "title": "General Practice Summary",
+            "code": {
+              "coding": [
+                {
+                  "code": "Title"
+                }
+              ]
+            },
+            "text": {
+              "status": "generated",
+              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h3 id=\"Disclaimer\">Sourced from the patient's General Practice record. This summary may not include all the information pertinent to this patient.</h3><p id=\"CreateTime\">Summary Created: 30 Apr 2020 16:13</p><p id=\"WithheldCREItemsHeaderStatement\" class=\"HighlightedStatement\">One or more entries have been deliberately withheld from this GP Summary.</p><p id=\"Author\">Created by: WILSON, Bob (Mr)</p><p id=\"Practice\">Spine Testing, The Practice, Woodvale Terrace, Horsforth, Leeds LS18 4JW</p></div>"
+            }
+          },
+          {
+            "title": "Allergies and Adverse Reactions",
+            "code": {
+              "coding": [
+                {
+                  "code": "AllergiesHeader"
+                }
+              ]
+            },
+            "text": {
+              "status": "generated",
+              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><table summary=\"This table includes information about this patient's allergies and adverse reactions.\" id=\"Allergies\"><thead><tr><th>Date</th><th>Description</th><th>Certainty</th><th>Severity</th><th>Supporting Information</th></tr></thead><tbody><tr class=\"oddRow\"><td>25 Mar 2020</td><td>Astringent allergy</td><td/><td/><td/></tr></tbody></table></div>"
+            }
+          },
+          {
+            "title": "Acute Medications (For the 12 month period 01 May 2019 to 30 Apr 2020)",
+            "code": {
+              "coding": [
+                {
+                  "code": "AcuteMedsHeader"
+                }
+              ]
+            },
+            "text": {
+              "status": "generated",
+              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><table summary=\"This table includes information about this patient's acute medications.\" id=\"AcuteMeds\"><thead><tr><th>Type</th><th>Date</th><th>Medication Item</th><th>Dosage Instructions</th><th>Quantity</th></tr></thead><tbody><tr class=\"oddRow\"><td>Acute Medication</td><td>Prescribed: 29 Apr 2020</td><td>Aspirin 300mg tablets</td><td>take 1 or 2 3 times/day</td><td>60 tablet</td></tr><tr class=\"evenRow\"><td>Acute Medication</td><td>Prescribed: 29 Apr 2020</td><td>Cetirizine 10mg capsules</td><td>take one daily</td><td>28 capsule</td></tr><tr class=\"oddRow\"><td>Acute Medication</td><td>Prescribed: 29 Apr 2020</td><td>Glyceryl trinitrate 400micrograms/dose pump sublingual spray</td><td>one puff As needed</td><td>150 dose</td></tr><tr class=\"evenRow\"><td>Acute Medication</td><td>Prescribed: 29 Apr 2020</td><td>Propranolol 40mg tablets</td><td>take one 3 times/day</td><td>28 tablet</td></tr><tr class=\"oddRow\"><td>Acute Medication</td><td>Prescribed: 28 Apr 2020</td><td>Aspirin 300mg tablets</td><td>take 1 or 2 3 times/day</td><td>60 tablet</td></tr><tr class=\"evenRow\"><td>Acute Medication</td><td>Prescribed: 28 Apr 2020</td><td>Propranolol 40mg tablets</td><td>take one 3 times/day</td><td>28 tablet</td></tr><tr class=\"oddRow\"><td>Acute Medication</td><td>Prescribed: 23 Apr 2020</td><td>Aspirin 300mg tablets</td><td>take 1 or 2 3 times/day</td><td>60 tablet</td></tr><tr class=\"evenRow\"><td>Acute Medication</td><td>Prescribed: 21 Apr 2020</td><td>Aspirin 300mg tablets</td><td>take 1 or 2 3 times/day</td><td>60 tablet</td></tr><tr class=\"oddRow\"><td>Acute Medication</td><td>Prescribed: 01 Apr 2020</td><td>Dukoral cholera vaccine oral suspension (Valneva UK Ltd)</td><td/><td>3ml</td></tr><tr class=\"evenRow\"><td>Acute Medication</td><td>Prescribed: 01 Apr 2020</td><td>Propranolol 40mg tablets</td><td>take one 3 times/day</td><td>28 tablet</td></tr><tr class=\"oddRow\"><td>Acute Medication</td><td>Prescribed: 31 Mar 2020</td><td>Abacavir 300mg tablets</td><td>** RED DRUG ** Hospital/Specialist Use Only</td><td>1 tablet</td></tr><tr class=\"evenRow\"><td>Acute Medication</td><td>Prescribed: 31 Mar 2020</td><td>Abacavir 300mg tablets</td><td>** RED DRUG ** Hospital/Specialist Use Only</td><td>1 tablet</td></tr><tr class=\"oddRow\"><td>Acute Medication</td><td>Prescribed: 31 Mar 2020</td><td>Abacavir 300mg tablets</td><td>** RED DRUG ** Hospital/Specialist Use Only</td><td>1 tablet</td></tr><tr class=\"evenRow\"><td>Acute Medication</td><td>Prescribed: 31 Mar 2020</td><td>Abacavir 300mg tablets</td><td>** RED DRUG ** Hospital/Specialist Use Only</td><td>1 tablet</td></tr><tr class=\"oddRow\"><td>Acute Medication</td><td>Prescribed: 31 Mar 2020</td><td>Abacavir 300mg tablets</td><td>** RED DRUG ** Hospital/Specialist Use Only</td><td>1 tablet</td></tr></tbody></table></div>"
+            }
+          },
+          {
+            "title": "Current Repeat Medications",
+            "code": {
+              "coding": [
+                {
+                  "code": "RepeatMedsHeader"
+                }
+              ]
+            },
+            "text": {
+              "status": "generated",
+              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><table summary=\"This table includes information about this patient's current repeat medications.\" id=\"RepeatMeds\"><thead><tr><th>Type</th><th>Date</th><th>Medication Item</th><th>Dosage Instructions</th><th>Quantity</th></tr></thead><tbody><tr class=\"oddRow\"><td>Repeat Medication</td><td>Authorised (not issued): 26 Mar 2020</td><td>Aspirin 300mg tablets</td><td>take 1 or 2 3 times/day</td><td>60 tablet</td></tr></tbody></table></div>"
+            }
+          },
+          {
+            "title": "Discontinued Repeat Medications (For the 6 month period 30 Oct 2019 to 30 Apr 2020)",
+            "code": {
+              "coding": [
+                {
+                  "code": "DiscRepeatMedsHeader"
+                }
+              ]
+            },
+            "text": {
+              "status": "generated",
+              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><table summary=\"This table includes information about this patient's discontinued repeat medications.\" id=\"DiscRepeatMeds\"><thead><tr><th>Type</th><th>Date</th><th>Medication Item</th><th>Dosage Instructions</th><th>Quantity</th></tr></thead><tbody><tr class=\"oddRow\"><td>Repeat Medication</td><td>Authorised (not issued): 25 Mar 2020</td><td>Aspirin 300mg tablets</td><td>take 1 or 2 3 times/day</td><td>60 tablet</td></tr><tr class=\"oddRow\"><td colspan=\"2\"/><td>Reason for Medication: Viral headache</td><td colspan=\"2\"/></tr><tr class=\"oddRow\"><td/><td colspan=\"4\">***Date Discontinued: 25 Mar 2020, Reason: Clinical grounds***</td></tr></tbody></table></div>"
+            }
+          },
+          {
+            "title": "Risks to Patient",
+            "code": {
+              "coding": [
+                {
+                  "code": "RisksToPatientHeader"
+                }
+              ]
+            },
+            "text": {
+              "status": "generated",
+              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p id=\"WithheldCREItemsHeaderStatement\" class=\"HighlightedStatement\">One or more entries have been deliberately withheld from this GP Summary.</p><table id=\"RisksToPatient\"><thead><tr><th>Date</th><th>Description</th><th>Value</th><th>Supporting Information</th></tr></thead><tbody><tr class=\"oddRow\"><td>30 Apr 2020</td><td>High risk category for developing complication from coronavirus disease 19 caused by severe acute respiratory syndrome coronavirus 2 infection (finding)</td><td/><td/></tr></tbody></table></div>"
+            }
+          },
+          {
+            "title": "Problems and Issues",
+            "code": {
+              "coding": [
+                {
+                  "code": "ProblemsHeader"
+                }
+              ]
+            },
+            "text": {
+              "status": "generated",
+              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><table id=\"Problems\"><thead><tr><th>Date</th><th>Description</th><th>Value</th><th>Supporting Information</th></tr></thead><tbody><tr class=\"oddRow\"><td>01 Apr 2020</td><td>Diarrhoea and vomiting</td><td/><td>Suspected gastroenteritis</td></tr><tr class=\"evenRow\"><td>31 Mar 2020</td><td>Frugivore</td><td/><td>y[No notes were originally recorded]</td></tr></tbody></table></div>"
+            }
+          },
+          {
+            "title": "Clinical Observations and Findings",
+            "code": {
+              "coding": [
+                {
+                  "code": "ObservationsHeader"
+                }
+              ]
+            },
+            "text": {
+              "status": "generated",
+              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><table id=\"Observations\"><thead><tr><th>Date</th><th>Description</th><th>Value</th><th>Supporting Information</th></tr></thead><tbody><tr class=\"oddRow\"><td>01 Apr 2020</td><td>Diarrhoea and vomiting</td><td/><td>Suspected gastroenteritis</td></tr><tr class=\"evenRow\"><td>31 Mar 2020</td><td>Frugivore</td><td/><td>y[No notes were originally recorded]</td></tr><tr class=\"oddRow\"><td>26 Mar 2020</td><td>Problem of sense of smell</td><td/><td/></tr><tr class=\"evenRow\"><td>25 Mar 2020</td><td>Viral headache</td><td/><td/></tr><tr class=\"oddRow\"><td>25 Mar 2020</td><td>Sense of smell impaired</td><td/><td/></tr></tbody></table></div>"
+            }
+          },
+          {
+            "title": "Treatments",
+            "code": {
+              "coding": [
+                {
+                  "code": "TreatmentsHeader"
+                }
+              ]
+            },
+            "text": {
+              "status": "generated",
+              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><table id=\"Treatments\"><thead><tr><th>Date</th><th>Description</th><th>Value</th><th>Supporting Information</th></tr></thead><tbody><tr class=\"oddRow\"><td>01 Apr 2020</td><td>Dukoral 1</td><td/><td>Previously administered &gt; 10y</td></tr><tr class=\"evenRow\"><td>31 Mar 2020</td><td>Anti-D Immunglobulin 1</td><td/><td>notes</td></tr><tr class=\"oddRow\"><td>31 Mar 2020</td><td>Meningococcal B Vaccine (Bexsero) 1</td><td/><td/></tr></tbody></table></div>"
+            }
+          },
+          {
+            "title": "Social and Personal Circumstances",
+            "code": {
+              "coding": [
+                {
+                  "code": "CircumstancesHeader"
+                }
+              ]
+            },
+            "text": {
+              "status": "generated",
+              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p id=\"WithheldCREItemsHeaderStatement\" class=\"HighlightedStatement\">One or more entries have been deliberately withheld from this GP Summary.</p><table id=\"Circumstances\"><thead><tr><th>Date</th><th>Description</th><th>Value</th><th>Supporting Information</th></tr></thead><tbody><tr class=\"oddRow\"><td>01 Apr 2020</td><td>Main spoken language English</td><td/><td>Bilingual</td></tr><tr class=\"evenRow\"><td>31 Mar 2020</td><td>Main spoken language English</td><td/><td>y[No notes were originally recorded]</td></tr><tr class=\"oddRow\"><td>26 Mar 2020</td><td>Main spoken language Mandarin</td><td/><td/></tr></tbody></table><p id=\"SendTime\">Summary Sent: 30 Apr 2020 16:13</p></div>"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "https://internal-dev.api.service.nhs.uk/summary-care-record/FHIR/R4/PractitionerRole/9AC86463-AA06-4DB1-AF0B-2CB5335BA71D",
+      "resource": {
+        "resourceType": "PractitionerRole",
+        "id": "9AC86463-AA06-4DB1-AF0B-2CB5335BA71D",
+        "identifier": [
+          {
+            "system": "http://fhir.nhs.net/Id/sds-role-profile-id",
+            "value": "173067658018"
+          }
+        ],
+        "practitioner": {
+          "reference": "Practitioner/971E2213-D41B-4906-B32E-F2D2107AA431"
+        }
+      }
+    },
+    {
+      "fullUrl": "https://internal-dev.api.service.nhs.uk/summary-care-record/FHIR/R4/Practitioner/971E2213-D41B-4906-B32E-F2D2107AA431",
+      "resource": {
+        "resourceType": "Practitioner",
+        "id": "971E2213-D41B-4906-B32E-F2D2107AA431",
+        "identifier": [
+          {
+            "system": "https://fhir.nhs.uk/Id/sds-user-id",
+            "value": "784578436584"
+          }
+        ],
+        "name": [
+          {
+            "text": "Mr Bob Wilson"
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "https://internal-dev.api.service.nhs.uk/summary-care-record/FHIR/R4/Observation/19ABC6D1-8AF5-11EA-9FCE-AFDCAECF9DFB",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "19ABC6D1-8AF5-11EA-9FCE-AFDCAECF9DFB",
+        "meta": {
+          "profile": [
+            "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Observation"
+          ]
+        },
+        "identifier": [
+          {
+            "value": "19ABC6D1-8AF5-11EA-9FCE-AFDCAECF9DFB"
+          }
+        ],
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://snomed.info/sct",
+                "code": "163131000000108",
+                "display": "Clinical Observations and Findings"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "249519007",
+              "display": "Diarrhoea and vomiting"
+            }
+          ]
+        },
+        "effectivePeriod": {
+          "start": "2020-04-01T15:27:15+00:00"
+        }
+      }
+    },
+    {
+      "fullUrl": "https://internal-dev.api.service.nhs.uk/summary-care-record/FHIR/R4/Observation/7FAF2D71-7356-11EA-B45D-4D2CEF80DF8F",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "7FAF2D71-7356-11EA-B45D-4D2CEF80DF8F",
+        "meta": {
+          "profile": [
+            "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Observation"
+          ]
+        },
+        "identifier": [
+          {
+            "value": "7FAF2D71-7356-11EA-B45D-4D2CEF80DF8F"
+          }
+        ],
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://snomed.info/sct",
+                "code": "163131000000108",
+                "display": "Clinical Observations and Findings"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "284732002",
+              "display": "Frugivore"
+            }
+          ]
+        },
+        "effectivePeriod": {
+          "start": "2020-03-31T14:26:01+00:00"
+        }
+      }
+    },
+    {
+      "fullUrl": "https://internal-dev.api.service.nhs.uk/summary-care-record/FHIR/R4/Observation/31DAA490-6F54-11EA-B0C5-E7E2E0DFC8E6",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "31DAA490-6F54-11EA-B0C5-E7E2E0DFC8E6",
+        "meta": {
+          "profile": [
+            "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Observation"
+          ]
+        },
+        "identifier": [
+          {
+            "value": "31DAA490-6F54-11EA-B0C5-E7E2E0DFC8E6"
+          }
+        ],
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://snomed.info/sct",
+                "code": "163131000000108",
+                "display": "Clinical Observations and Findings"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "299899002",
+              "display": "Problem of sense of smell"
+            }
+          ]
+        },
+        "effectivePeriod": {
+          "start": "2020-03-26T10:57:00+00:00"
+        }
+      }
+    },
+    {
+      "fullUrl": "https://internal-dev.api.service.nhs.uk/summary-care-record/FHIR/R4/Observation/2C70D910-7298-11EA-A2AD-59F5A17939F6",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "2C70D910-7298-11EA-A2AD-59F5A17939F6",
+        "meta": {
+          "profile": [
+            "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Observation"
+          ]
+        },
+        "identifier": [
+          {
+            "value": "2C70D910-7298-11EA-A2AD-59F5A17939F6"
+          }
+        ],
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://snomed.info/sct",
+                "code": "163131000000108",
+                "display": "Clinical Observations and Findings"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "162211001",
+              "display": "Viral headache"
+            }
+          ]
+        },
+        "effectivePeriod": {
+          "start": "2020-03-25T16:28:06+00:00"
+        }
+      }
+    },
+    {
+      "fullUrl": "https://internal-dev.api.service.nhs.uk/summary-care-record/FHIR/R4/Observation/AD803D20-6EB5-11EA-9966-5D82799DC48A",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "AD803D20-6EB5-11EA-9966-5D82799DC48A",
+        "meta": {
+          "profile": [
+            "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Observation"
+          ]
+        },
+        "identifier": [
+          {
+            "value": "AD803D20-6EB5-11EA-9966-5D82799DC48A"
+          }
+        ],
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://snomed.info/sct",
+                "code": "163131000000108",
+                "display": "Clinical Observations and Findings"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "83156004",
+              "display": "Sense of smell impaired"
+            }
+          ]
+        },
+        "effectivePeriod": {
+          "start": "2020-03-25T15:46:10+00:00"
+        }
+      }
+    },
+    {
+      "fullUrl": "https://internal-dev.api.service.nhs.uk/summary-care-record/FHIR/R4/Condition/7A59C9C2-7428-11EA-A953-E99D7DD36C3D",
+      "resource": {
+        "resourceType": "Condition",
+        "id": "7A59C9C2-7428-11EA-A953-E99D7DD36C3D",
+        "meta": {
+          "profile": [
+            "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Condition"
+          ]
+        },
+        "identifier": [
+          {
+            "value": "7A59C9C2-7428-11EA-A953-E99D7DD36C3D"
+          }
+        ],
+        "clinicalStatus": {
+          "coding": [
+            {
+              "system": "http://hl7.org/fhir/ValueSet/condition-clinical",
+              "code": "active",
+              "display": "Active"
+            }
+          ]
+        },
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://snomed.info/sct",
+                "code": "162991000000102",
+                "display": "Problems and Issues"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "181301000000103",
+              "display": "Abstract problem node"
+            }
+          ]
+        },
+        "onsetDateTime": "2020-04-01T00:00:00+00:00"
+      }
+    },
+    {
+      "fullUrl": "https://internal-dev.api.service.nhs.uk/summary-care-record/FHIR/R4/Condition/7FAF2D74-7356-11EA-B45D-4D2CEF80DF8F",
+      "resource": {
+        "resourceType": "Condition",
+        "id": "7FAF2D74-7356-11EA-B45D-4D2CEF80DF8F",
+        "meta": {
+          "profile": [
+            "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Condition"
+          ]
+        },
+        "identifier": [
+          {
+            "value": "7FAF2D74-7356-11EA-B45D-4D2CEF80DF8F"
+          }
+        ],
+        "clinicalStatus": {
+          "coding": [
+            {
+              "system": "http://hl7.org/fhir/ValueSet/condition-clinical",
+              "code": "active",
+              "display": "Active"
+            }
+          ]
+        },
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://snomed.info/sct",
+                "code": "162991000000102",
+                "display": "Problems and Issues"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "181301000000103",
+              "display": "Abstract problem node"
+            }
+          ]
+        },
+        "onsetDateTime": "2020-03-31T00:00:00+00:00"
+      }
+    },
+    {
+      "fullUrl": "https://internal-dev.api.service.nhs.uk/summary-care-record/FHIR/R4/Observation/19ABC6D0-8AF5-11EA-9FCE-AFDCAECF9DFB",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "19ABC6D0-8AF5-11EA-9FCE-AFDCAECF9DFB",
+        "meta": {
+          "profile": [
+            "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Observation"
+          ]
+        },
+        "identifier": [
+          {
+            "value": "19ABC6D0-8AF5-11EA-9FCE-AFDCAECF9DFB"
+          }
+        ],
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://snomed.info/sct",
+                "code": "163231000000100",
+                "display": "Risks to Patient"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "1300561000000107",
+              "display": "High risk category for developing complication from COVID-19 infection"
+            }
+          ]
+        },
+        "effectiveDateTime": "2020-03-31T14:26:01+00:00"
+      }
+    },
+    {
+      "fullUrl": "https://internal-dev.api.service.nhs.uk/summary-care-record/FHIR/R4/Observation/7A59C9C0-7428-11EA-A953-E99D7DD36C3D",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "7A59C9C0-7428-11EA-A953-E99D7DD36C3D",
+        "meta": {
+          "profile": [
+            "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Observation"
+          ]
+        },
+        "identifier": [
+          {
+            "value": "7A59C9C0-7428-11EA-A953-E99D7DD36C3D"
+          }
+        ],
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://snomed.info/sct",
+                "code": "163021000000107",
+                "display": "Social and Personal Circumstances"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "315570003",
+              "display": "Main spoken language English"
+            }
+          ]
+        },
+        "effectiveDateTime": "2020-04-01T15:27:15+00:00"
+      }
+    },
+    {
+      "fullUrl": "https://internal-dev.api.service.nhs.uk/summary-care-record/FHIR/R4/Observation/7FAF2D70-7356-11EA-B45D-4D2CEF80DF8F",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "7FAF2D70-7356-11EA-B45D-4D2CEF80DF8F",
+        "meta": {
+          "profile": [
+            "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Observation"
+          ]
+        },
+        "identifier": [
+          {
+            "value": "7FAF2D70-7356-11EA-B45D-4D2CEF80DF8F"
+          }
+        ],
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://snomed.info/sct",
+                "code": "163021000000107",
+                "display": "Social and Personal Circumstances"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "315570003",
+              "display": "Main spoken language English"
+            }
+          ]
+        },
+        "effectiveDateTime": "2020-03-31T14:26:01+00:00"
+      }
+    },
+    {
+      "fullUrl": "https://internal-dev.api.service.nhs.uk/summary-care-record/FHIR/R4/Observation/EAAC71C0-6F53-11EA-B0C5-E7E2E0DFC8E6",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "EAAC71C0-6F53-11EA-B0C5-E7E2E0DFC8E6",
+        "meta": {
+          "profile": [
+            "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Observation"
+          ]
+        },
+        "identifier": [
+          {
+            "value": "EAAC71C0-6F53-11EA-B0C5-E7E2E0DFC8E6"
+          }
+        ],
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://snomed.info/sct",
+                "code": "163021000000107",
+                "display": "Social and Personal Circumstances"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "315578005",
+              "display": "Main spoken language Mandarin"
+            }
+          ]
+        },
+        "effectiveDateTime": "2020-03-26T11:20:38+00:00"
+      }
+    },
+    {
+      "fullUrl": "https://internal-dev.api.service.nhs.uk/summary-care-record/FHIR/R4/Procedure/7A59C9C1-7428-11EA-A953-E99D7DD36C3D",
+      "resource": {
+        "resourceType": "Procedure",
+        "id": "7A59C9C1-7428-11EA-A953-E99D7DD36C3D",
+        "meta": {
+          "profile": [
+            "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Procedure"
+          ]
+        },
+        "identifier": [
+          {
+            "value": "7A59C9C1-7428-11EA-A953-E99D7DD36C3D"
+          }
+        ],
+        "status": "completed",
+        "category": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "163071000000106",
+              "display": "Treatments"
+            }
+          ]
+        },
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "196411000000103",
+              "display": "Transfer-degraded record Entry"
+            }
+          ]
+        },
+        "performedDateTime": "2020-04-01T15:27:15+00:00"
+      }
+    },
+    {
+      "fullUrl": "https://internal-dev.api.service.nhs.uk/summary-care-record/FHIR/R4/Procedure/7FAF2D73-7356-11EA-B45D-4D2CEF80DF8F",
+      "resource": {
+        "resourceType": "Procedure",
+        "id": "7FAF2D73-7356-11EA-B45D-4D2CEF80DF8F",
+        "meta": {
+          "profile": [
+            "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Procedure"
+          ]
+        },
+        "identifier": [
+          {
+            "value": "7FAF2D73-7356-11EA-B45D-4D2CEF80DF8F"
+          }
+        ],
+        "status": "completed",
+        "category":  {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "163071000000106",
+              "display": "Treatments"
+            }
+          ]
+        },
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "196411000000103",
+              "display": "Transfer-degraded record Entry"
+            }
+          ]
+        },
+        "performedDateTime": "2020-03-31T14:36:41+00:00"
+      }
+    },
+    {
+      "fullUrl": "https://internal-dev.api.service.nhs.uk/summary-care-record/FHIR/R4/Procedure/7FAF2D72-7356-11EA-B45D-4D2CEF80DF8F",
+      "resource": {
+        "resourceType": "Procedure",
+        "id": "7FAF2D72-7356-11EA-B45D-4D2CEF80DF8F",
+        "meta": {
+          "profile": [
+            "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Procedure"
+          ]
+        },
+        "identifier": [
+          {
+            "value": "7FAF2D72-7356-11EA-B45D-4D2CEF80DF8F"
+          }
+        ],
+        "status": "completed",
+        "category": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "163071000000106",
+              "display": "Treatments"
+            }
+          ]
+        },
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "196411000000103",
+              "display": "Transfer-degraded record Entry"
+            }
+          ]
+        },
+        "performedDateTime": "2020-03-31T14:26:01+00:00"
+      }
+    },
+    {
+      "fullUrl": "https://internal-dev.api.service.nhs.uk/summary-care-record/FHIR/R4/PractitionerRole/D4F14095-8BB0-446B-883F-2848426F1CE8",
+      "resource": {
+        "resourceType": "PractitionerRole",
+        "id": "D4F14095-8BB0-446B-883F-2848426F1CE8",
+        "practitioner": {
+          "reference": "Practitioner/971E2213-D41B-4906-B32E-F2D2107AA431"
+        },
+        "organization": {
+          "reference": "Organization/EB7E5E32-09B3-4ECC-94C7-8A8914D9D691"
+        },
+        "code": [ {
+          "coding": [ {
+            "system": "https://fhir.nhs.uk/CodeSystem/HL7v3-SDSJobRoleName",
+            "code": "NR0260",
+            "display": "General Medical Practitioner"
+          } ]
+        } ]
+      }
+    },
+    {
+      "fullUrl": "https://internal-dev.api.service.nhs.uk/summary-care-record/FHIR/R4/Organization/EB7E5E32-09B3-4ECC-94C7-8A8914D9D691",
+      "resource": {
+        "resourceType": "Organization",
+        "id": "EB7E5E32-09B3-4ECC-94C7-8A8914D9D691",
+        "telecom": [ {
+          "system": "phone",
+          "value": "0177865579"
+        } ],
+        "address": [ {
+          "text": "ORG ADDRESS"
+        } ]
+      }
+    },
+    {
+      "fullUrl": "https://internal-dev.api.service.nhs.uk/summary-care-record/FHIR/R4/Patient/80AD85F2-71DF-48D7-9429-BA75003AB4BB",
+      "resource": {
+        "resourceType": "Patient",
+        "id": "80AD85F2-71DF-48D7-9429-BA75003AB4BB",
+        "identifier": [
+          {
+            "system": "https://fhir.nhs.uk/Id/nhs-number",
+            "value": "5900002233"
+          }
+        ]
+      }
+    }
+  ]
+}
