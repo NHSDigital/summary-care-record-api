@@ -81,3 +81,5 @@ extends:
           - internal_qa_sandbox
         jinja_templates:
           REQUIRE_ASID: false
+        post_deploy:
+          - template: ./templates/run-tests-prod.yml
