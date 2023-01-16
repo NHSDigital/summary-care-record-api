@@ -19,15 +19,12 @@ public class ProvisionsOfAdviceAndInfoMapperTest extends BaseHL7MapperTest {
     private static final String PERTINENT_INFORMATION_BASE_PATH = "/pertinentInformation2/pertinentCREType["
         + ".//UKCT_MT144049UK01.ProvisionOfAdviceAndInformation]";
     private static final String STATUS_CODE = "COMPLETED";
-    private static final String ID = "8e8acd76-9a1c-44de-ac88-30254abdee4a";
+    private static final String ID = "0F582D83-8F89-11EA-8B2D-B741F13EFC47";
     private static final String FILE_NAME = "example";
 
     @Test
-    public void When_MappingFromHl7_Expect_RandomUUID() {
+    public void When_MappingFromHl7_Expect_CorrectUUID() {
         var html = getHtmlExample(RESOURCE_DIRECTORY, FILE_NAME);
-
-        returnExpectedUuid(ID);
-
         var result = provisionsOfAdviceAndInfoMapper.map(html).get(0);
 
         assertThat(result.getId()).isEqualTo(ID);
@@ -37,21 +34,14 @@ public class ProvisionsOfAdviceAndInfoMapperTest extends BaseHL7MapperTest {
     public void When_MappingFromHl7_Expect_XmlUtilsHit() {
         var html = getHtmlExample(RESOURCE_DIRECTORY, FILE_NAME);
 
-        returnExpectedUuid(ID);
-
         provisionsOfAdviceAndInfoMapper.map(html);
-
         verifyXmlUtilsHits(html, PERTINENT_INFORMATION_BASE_PATH);
     }
 
     @Test
     public void When_MappingFromHl7_Expect_MetaUrl() {
         var html = getHtmlExample(RESOURCE_DIRECTORY, FILE_NAME);
-
-        returnExpectedUuid(ID);
-
         var result = provisionsOfAdviceAndInfoMapper.map(html).get(0);
-
         var resultCommunication = (Communication) result;
 
         assertThat(resultCommunication.getMeta().getProfile().get(0).getValue()).isEqualTo(UK_CORE_PROCEDURE_META);
@@ -61,11 +51,7 @@ public class ProvisionsOfAdviceAndInfoMapperTest extends BaseHL7MapperTest {
     @Test
     public void When_MappingFromHl7_Expect_StatusCode() {
         var html = getHtmlExample(RESOURCE_DIRECTORY, FILE_NAME);
-
-        returnExpectedUuid(ID);
-
         var result = provisionsOfAdviceAndInfoMapper.map(html).get(0);
-
         var resultCommunication = (Communication) result;
 
         assertThat(resultCommunication.getStatus().toString()).isEqualTo(STATUS_CODE);
@@ -76,21 +62,14 @@ public class ProvisionsOfAdviceAndInfoMapperTest extends BaseHL7MapperTest {
     public void When_MappingFromHl7_Expect_CodedEntryHit() {
         var html = getHtmlExample(RESOURCE_DIRECTORY, FILE_NAME);
 
-        returnExpectedUuid(ID);
-
         provisionsOfAdviceAndInfoMapper.map(html);
-
         verifyCodedEntryHits();
     }
 
     @Test
     public void When_MappingFromHl7_Expect_CodingMapped() {
         var html = getHtmlExample(RESOURCE_DIRECTORY, FILE_NAME);
-
-        returnExpectedUuid(ID);
-
         var result = provisionsOfAdviceAndInfoMapper.map(html).get(0);
-
         var resultCommunication = (Communication) result;
         var codingFirstRep = resultCommunication.getTopic().getCodingFirstRep();
 
@@ -108,11 +87,7 @@ public class ProvisionsOfAdviceAndInfoMapperTest extends BaseHL7MapperTest {
     @Test
     public void When_MappingFromHl7_Expect_DateTimeFormatted() {
         var html = getHtmlExample(RESOURCE_DIRECTORY, FILE_NAME);
-
-        returnExpectedUuid(ID);
-
         var result = provisionsOfAdviceAndInfoMapper.map(html).get(0);
-
         var resultCommunication = (Communication) result;
 
         assertThat(resultCommunication.getSentElement().toHumanDisplay()).isEqualTo("2020-08-05");
@@ -123,11 +98,7 @@ public class ProvisionsOfAdviceAndInfoMapperTest extends BaseHL7MapperTest {
     public void When_MappingFromHl7_Expect_MatchJson() {
         var html = getHtmlExample(RESOURCE_DIRECTORY, FILE_NAME);
         var expectedJson = getJsonExample(RESOURCE_DIRECTORY, FILE_NAME);
-
-        returnExpectedUuid(ID);
-
         var result = provisionsOfAdviceAndInfoMapper.map(html).get(0);
-
         var actualJson = encodeToJson(result);
 
         assertThat(actualJson).isEqualTo(expectedJson.trim());

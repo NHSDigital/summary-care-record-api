@@ -1,9 +1,12 @@
 {
   "resourceType": "Communication",
-  "id": "8e8acd76-9a1c-44de-ac88-30254abdee4a",
+  "id": "0F582D83-8F89-11EA-8B2D-B741F13EFC47",
   "meta": {
     "profile": [ "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Communication" ]
   },
+  "identifier": [ {
+    "value": "0F582D83-8F89-11EA-8B2D-B741F13EFC47"
+  } ],
   "status": "completed",
   "topic": {
     "coding": [ {

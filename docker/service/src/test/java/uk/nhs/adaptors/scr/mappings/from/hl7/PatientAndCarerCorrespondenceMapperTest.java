@@ -26,9 +26,6 @@ public class PatientAndCarerCorrespondenceMapperTest extends BaseHL7MapperTest {
     @Test
     public void When_MappingFromHl7_Expect_RandomUUID() {
         var html = getHtmlExample(RESOURCE_DIRECTORY, FILE_NAME);
-
-        returnExpectedUuid(ID);
-
         var result = patientCarerCorrMapper.map(html).get(0);
 
         assertThat(result.getId()).isEqualTo(ID);
@@ -38,21 +35,14 @@ public class PatientAndCarerCorrespondenceMapperTest extends BaseHL7MapperTest {
     public void When_MappingFromHl7_Expect_XmlUtilsHit() {
         var html = getHtmlExample(RESOURCE_DIRECTORY, FILE_NAME);
 
-        returnExpectedUuid(ID);
-
         patientCarerCorrMapper.map(html);
-
         verifyXmlUtilsHits(html, PERTINENT_INFORMATION_BASE_PATH);
     }
 
     @Test
     public void When_MappingFromHl7_Expect_MetaUrl() {
         var html = getHtmlExample(RESOURCE_DIRECTORY, FILE_NAME);
-
-        returnExpectedUuid(ID);
-
         var result = patientCarerCorrMapper.map(html).get(0);
-
         var resultCommunication = (Communication) result;
 
         assertThat(resultCommunication.getMeta().getProfile().get(0).getValue()).isEqualTo(UK_CORE_PROCEDURE_META);
@@ -62,11 +52,7 @@ public class PatientAndCarerCorrespondenceMapperTest extends BaseHL7MapperTest {
     @Test
     public void When_MappingFromHl7_Expect_StatusCode() {
         var html = getHtmlExample(RESOURCE_DIRECTORY, FILE_NAME);
-
-        returnExpectedUuid(ID);
-
         var result = patientCarerCorrMapper.map(html).get(0);
-
         var resultCommunication = (Communication) result;
 
         assertThat(resultCommunication.getStatus().toString()).isEqualTo(STATUS_CODE);
@@ -77,21 +63,14 @@ public class PatientAndCarerCorrespondenceMapperTest extends BaseHL7MapperTest {
     public void When_MappingFromHl7_Expect_CodedEntryHit() {
         var html = getHtmlExample(RESOURCE_DIRECTORY, FILE_NAME);
 
-        returnExpectedUuid(ID);
-
         patientCarerCorrMapper.map(html);
-
         verifyCodedEntryHits();
     }
 
     @Test
     public void When_MappingFromHl7_Expect_CodingMapped() {
         var html = getHtmlExample(RESOURCE_DIRECTORY, FILE_NAME);
-
-        returnExpectedUuid(ID);
-
         var result = patientCarerCorrMapper.map(html).get(0);
-
         var resultCommunication = (Communication) result;
         var codingFirstRep = resultCommunication.getTopic().getCodingFirstRep();
 
@@ -126,11 +105,7 @@ public class PatientAndCarerCorrespondenceMapperTest extends BaseHL7MapperTest {
     public void When_MappingFromHl7_Expect_MatchJson() {
         var html = getHtmlExample(RESOURCE_DIRECTORY, FILE_NAME);
         var expectedJson = getJsonExample(RESOURCE_DIRECTORY, FILE_NAME);
-
-        returnExpectedUuid(ID);
-
         var result = patientCarerCorrMapper.map(html).get(0);
-
         var actualJson = encodeToJson(result);
 
         assertThat(actualJson).isEqualTo(expectedJson.trim());
