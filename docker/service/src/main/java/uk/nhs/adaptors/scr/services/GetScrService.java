@@ -162,11 +162,11 @@ public class GetScrService {
             Patient patient = recordTargetMapper.mapPatient(document);
 
             Stream.of(
+                    gpSummaryMapper, // important that this is mapped first to get core patient data
                     careEventsMapper,
                     diagnosisMapper,
                     familyHistoriesMapper,
                     findingsMapper,
-                    gpSummaryMapper,
                     investigationsMapper,
                     lifestylesMapper,
                     personalPreferencesMapper,
