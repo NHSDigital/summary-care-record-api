@@ -4,6 +4,7 @@ import org.hl7.fhir.r4.model.Bundle;
 import org.hl7.fhir.r4.model.Communication;
 import uk.nhs.adaptors.scr.exceptions.FhirValidationException;
 import uk.nhs.adaptors.scr.models.GpSummary;
+import uk.nhs.adaptors.scr.models.xml.CareProfessionalDocumentation;
 import uk.nhs.adaptors.scr.models.xml.PatientCarerCorrespondence;
 import uk.nhs.adaptors.scr.models.xml.ProvisionOfAdviceAndInformation;
 
@@ -18,6 +19,8 @@ public class CommunicationMapper {
         communication -> "163181000000107".equals(communication.getCategoryFirstRep().getCodingFirstRep().getCode());
     private static final Predicate<Communication> IS_PROVISION_OF_ADVICE_AND_INFORMATION =
         communication -> "163101000000102".equals(communication.getCategoryFirstRep().getCodingFirstRep().getCode());
+    private static final Predicate<Communication> IS_CARE_PROFESSIONAL_DOCUMENTATION =
+        communication -> "163171000000105".equals(communication.getCategoryFirstRep().getCodingFirstRep().getCode());
 
     public static void mapCommunications(GpSummary gpSummary, Bundle bundle) {
         validate(bundle);
@@ -51,6 +54,19 @@ public class CommunicationMapper {
         return getDomainResourceList(bundle, Communication.class).stream()
             .filter(IS_PROVISION_OF_ADVICE_AND_INFORMATION)
             .map(communication -> provisionOfAdviceAndInformationMapper.mapProvisionOfAdviceInfo(communication))
+            .collect(Collectors.toList());
+    }
+
+    /**
+     * Mapping of Care Professional Documentation
+     * @param bundle
+     * @return CareProfessionalDocumentation List
+     */
+    private static List<CareProfessionalDocumentation> mapCareProfessionalDocumentation(Bundle bundle) {
+        var careProfessionalDocumentationMapper = new CareProfessionalDocumentationMapper();
+        return getDomainResourceList(bundle, Communication.class).stream()
+            .filter(IS_CARE_PROFESSIONAL_DOCUMENTATION)
+            .map(communication -> careProfessionalDocumentationMapper.map(communication))
             .collect(Collectors.toList());
     }
 

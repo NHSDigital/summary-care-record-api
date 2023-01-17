@@ -35,8 +35,10 @@ import uk.nhs.adaptors.scr.mappings.from.hl7.GpSummaryMapper;
 import uk.nhs.adaptors.scr.mappings.from.hl7.InteractionMapper;
 import uk.nhs.adaptors.scr.mappings.from.hl7.InvestigationsMapper;
 import uk.nhs.adaptors.scr.mappings.from.hl7.LifestylesMapper;
+import uk.nhs.adaptors.scr.mappings.from.hl7.PatientAndCarerCorrespondenceMapper;
 import uk.nhs.adaptors.scr.mappings.from.hl7.PersonalPreferencesMapper;
 import uk.nhs.adaptors.scr.mappings.from.hl7.ProblemsMapper;
+import uk.nhs.adaptors.scr.mappings.from.hl7.ProvisionsOfAdviceAndInfoMapper;
 import uk.nhs.adaptors.scr.mappings.from.hl7.RecordTargetMapper;
 import uk.nhs.adaptors.scr.mappings.from.hl7.RisksToPatientMapper;
 import uk.nhs.adaptors.scr.mappings.from.hl7.SocialOrPersonalCircumstancesMapper;
@@ -99,8 +101,10 @@ public class GetScrService {
     private final FindingsMapper findingsMapper;
     private final InvestigationsMapper investigationsMapper;
     private final LifestylesMapper lifestylesMapper;
+    private final PatientAndCarerCorrespondenceMapper patientAndCarerCorrespondenceMapper;
     private final PersonalPreferencesMapper personalPreferencesMapper;
     private final ProblemsMapper problemsMapper;
+    private final ProvisionsOfAdviceAndInfoMapper provisionsOfAdviceAndInfoMapper;
     private final RecordTargetMapper recordTargetMapper;
     private final RisksToPatientMapper risksToPatientMapper;
     private final SocialOrPersonalCircumstancesMapper socialOrPersonalCircumstancesMapper;
@@ -169,8 +173,10 @@ public class GetScrService {
                     findingsMapper,
                     investigationsMapper,
                     lifestylesMapper,
+                    patientAndCarerCorrespondenceMapper,
                     personalPreferencesMapper,
                     problemsMapper,
+                    provisionsOfAdviceAndInfoMapper,
                     risksToPatientMapper,
                     socialOrPersonalCircumstancesMapper,
                     treatmentsMapper)
