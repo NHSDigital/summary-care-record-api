@@ -20,7 +20,7 @@ public class PatientAndCarersCorrespondenceMapperTest extends BaseFhirMapperTest
     @InjectMocks
     private PatientAndCarersCorrespondenceMapper patientCarerCorrMapper;
 
-    private static final String ID = "0F582D83-8F89-11EA-8B2D-B741F13EFC47";
+    private static final String ID = "3b3f207f-be82-4ffb-924e-9be0966f5c65";
     private static final String RESOURCE_DIRECTORY = "patient_carer_correspondence";
     private static final String STATUS_CODE = "normal";
     private static final String FILE_NAME = "example";
@@ -28,20 +28,15 @@ public class PatientAndCarersCorrespondenceMapperTest extends BaseFhirMapperTest
     @Test
     public void When_MappingFromFHIR_Expect_RootId() {
         var communication = getFileAsObject(RESOURCE_DIRECTORY, FILE_NAME, Communication.class);
-
-        returnExpectedUuid(ID);
-
         var result = patientCarerCorrMapper.mapPatientCarerCorrespondence(communication);
 
-        assertThat(result.getIdRoot()).isEqualTo("0F582D83-8F89-11EA-8B2D-B741F13EFC47");
-
+        assertThat(result.getIdRoot()).isEqualTo(ID);
     }
 
     @Test
     public void When_MappingFromFHIR_Expect_Code() {
         var communication = getFileAsObject(RESOURCE_DIRECTORY, FILE_NAME, Communication.class);
 
-        returnExpectedUuid(ID);
 
         var result = patientCarerCorrMapper.mapPatientCarerCorrespondence(communication);
 
@@ -74,8 +69,6 @@ public class PatientAndCarersCorrespondenceMapperTest extends BaseFhirMapperTest
         var expectedHtml = getExpectedHtml(RESOURCE_DIRECTORY, FILE_NAME);
         var communication = getFileAsObject(RESOURCE_DIRECTORY, FILE_NAME, Communication.class);
 
-        returnExpectedUuid(ID);
-
         var result = patientCarerCorrMapper.mapPatientCarerCorrespondence(communication);
 
         var gpSummary = new GpSummary();
@@ -88,5 +81,4 @@ public class PatientAndCarersCorrespondenceMapperTest extends BaseFhirMapperTest
         var resultStr = TemplateUtils.fillTemplate(patientCarerCorrTemplate, gpSummary);
         assertThat(resultStr).isEqualTo(expectedHtml);
     }
-
 }

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import uk.nhs.adaptors.scr.exceptions.FhirMappingException;
 import uk.nhs.adaptors.scr.exceptions.FhirValidationException;
 import uk.nhs.adaptors.scr.mappings.from.fhir.AuthorMapper;
+import uk.nhs.adaptors.scr.mappings.from.fhir.CommunicationMapper;
 import uk.nhs.adaptors.scr.mappings.from.fhir.CompositionMapper;
 import uk.nhs.adaptors.scr.mappings.from.fhir.ConditionMapper;
 import uk.nhs.adaptors.scr.mappings.from.fhir.ObservationMapper;
@@ -59,20 +60,20 @@ public class GpSummary {
     private List<CareEvent> careEvents = new ArrayList<>();
     private List<CareProfessionalDocumentation> careProfessionalDocumentations = new ArrayList<>();
     private List<Diagnosis> diagnoses = new ArrayList<>();
+    private List<FamilyHistory> familyHistories = new ArrayList<>();
     private List<Finding> clinicalObservationsAndFindings = new ArrayList<>();
     private List<Finding> investigationResults = new ArrayList<>();
-    private List<Lifestyle> lifestyles = new ArrayList<>();
     private List<Finding> medicationRecommendations = new ArrayList<>();
     private List<Finding> medicationRecords = new ArrayList<>();
     private List<Investigation> investigations = new ArrayList<>();
+    private List<Lifestyle> lifestyles = new ArrayList<>();
     private List<PatientCarerCorrespondence> patientCarerCorrespondences = new ArrayList<>();
     private List<PersonalPreference> personalPreferences = new ArrayList<>();
     private List<Problem> problems = new ArrayList<>();
     private List<ProvisionOfAdviceAndInformation> provisionsOfAdviceAndInformationToPatientsAndCarers = new ArrayList<>();
     private List<RiskToPatient> risksToPatient = new ArrayList<>();
-    private List<Treatment> treatments = new ArrayList<>();
     private List<SocialOrPersonalCircumstance> socialOrPersonalCircumstances = new ArrayList<>();
-    private List<FamilyHistory> familyHistories = new ArrayList<>();
+    private List<Treatment> treatments = new ArrayList<>();
 
     public static GpSummary fromBundle(Bundle bundle, String nhsdAsid) throws FhirMappingException {
         validateType(bundle);
@@ -85,6 +86,7 @@ public class GpSummary {
                     GpSummary::gpSummarySetHeaderTimeStamp,
                     GpSummary::gpSummarySetHeaderId,
                     AuthorMapper::mapAuthor,
+                    CommunicationMapper::mapCommunications,
                     CompositionMapper::mapComposition,
                     ConditionMapper::mapConditions,
                     ObservationMapper::mapObservations,
