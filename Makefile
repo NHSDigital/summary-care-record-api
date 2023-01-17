@@ -77,3 +77,6 @@ pytest-guards: guard-SERVICE_BASE_PATH guard-APIGEE_ENVIRONMENT guard-SOURCE_COM
 
 smoketest: pytest-guards
 	poetry run python -m pytest -v --junitxml=smoketest-report.xml -s -m smoketest
+
+prod-smoketest: pytest-guards
+	poetry run python -m pytest -v --junitxml=smoketest-report.xml -s -m prodsmoketest
