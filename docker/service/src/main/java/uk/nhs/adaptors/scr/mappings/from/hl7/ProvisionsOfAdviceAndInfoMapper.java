@@ -52,12 +52,12 @@ public class ProvisionsOfAdviceAndInfoMapper implements XmlToFhirMapper {
 
     private void mapCommunication(List<Resource> resources, Node node) {
         var communication = new Communication();
-
-        communication.setId(uuid.randomUuid());
-        communication.setMeta(new Meta().addProfile(UK_CORE_PROCEDURE_META));
-        communication.setStatus(Communication.CommunicationStatus.COMPLETED);
-
         CodedEntry entry = codedEntryMapper.getCommonCodedEntryValues(node);
+        var entryId = entry.getId();
+        communication.setId(entryId);
+        communication.setMeta(new Meta().addProfile(UK_CORE_PROCEDURE_META));
+        communication.addIdentifier().setValue(entryId);
+        communication.setStatus(Communication.CommunicationStatus.COMPLETED);
 
         var coding = new CodeableConcept().addCoding(new Coding()
             .setCode(entry.getCodeValue())

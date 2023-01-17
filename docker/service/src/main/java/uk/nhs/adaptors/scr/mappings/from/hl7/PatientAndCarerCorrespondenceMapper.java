@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import uk.nhs.adaptors.scr.mappings.from.common.UuidWrapper;
 import uk.nhs.adaptors.scr.mappings.from.hl7.common.CodedEntry;
 import uk.nhs.adaptors.scr.mappings.from.hl7.common.CodedEntryMapper;
 import uk.nhs.adaptors.scr.utils.XmlUtils;
@@ -24,7 +23,6 @@ import java.util.List;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class PatientAndCarerCorrespondenceMapper implements XmlToFhirMapper {
 
-    private final UuidWrapper uuid;
     private final CodedEntryMapper codedEntryMapper;
     private final XmlUtils xmlUtils;
     private static final String PERTINENT_CODE_CODE_XPATH = "./code/@code";
@@ -55,16 +53,16 @@ public class PatientAndCarerCorrespondenceMapper implements XmlToFhirMapper {
 
     private void mapCommunication(List<Resource> resources, String pertinentCRETypeCode, String pertinentCRETypeDisplay,  Node node) {
         var communication = new Communication();
-
-        communication.setId(uuid.randomUuid());
+        CodedEntry entry = codedEntryMapper.getCommonCodedEntryValues(node);
+        var entryId = entry.getId();
+        communication.setId(entryId);
         communication.setMeta(new Meta().addProfile(UK_CORE_PROCEDURE_META));
+        communication.addIdentifier().setValue(entryId);
         communication.setStatus(Communication.CommunicationStatus.COMPLETED);
         communication.addCategory(new CodeableConcept(new Coding()
             .setSystem(SNOMED_SYSTEM)
             .setCode(pertinentCRETypeCode)
             .setDisplay(pertinentCRETypeDisplay)));
-
-        CodedEntry entry = codedEntryMapper.getCommonCodedEntryValues(node);
 
         var topicCoding = new CodeableConcept().addCoding(new Coding()
             .setCode(entry.getCodeValue())
@@ -76,6 +74,5 @@ public class PatientAndCarerCorrespondenceMapper implements XmlToFhirMapper {
             communication.setSent(entry.getEffectiveTimeLow().get().getValue());
         }
         resources.add(communication);
-
     }
 }
