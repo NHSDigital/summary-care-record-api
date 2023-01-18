@@ -20,9 +20,38 @@
   </FaultRule>
   </FaultRules>
   <PreFlow>
+  <Flows>
+    <Flow name="application_restricted">
+      <Condition>(access-mode Equals "application-restricted")</Condition>
+      <Request>
+        <!-- Prevent use of PATCH method in application restricted mode -->
+        <Step>
+          <Name>RaiseFault.PatchMethodNotAllowedAppRestricted</Name>
+          <Condition>(request.verb Equals "PATCH")</Condition>
+        </Step>
+        <!-- If _max-results param is unset, set to allowed value for application-restricted mode -->
+        <Step>
+          <Name>AssignMessage.SetMaxResultsToOne</Name>
+          <Condition>(proxy.pathsuffix MatchesPath "/Patient" and request.verb Equals "GET" and request.queryparam._max-results Is null)</Condition>
+        </Step>
+        <!-- If _max-results is set to anything other than 1, prevent query -->
+        <Step>
+          <Name>RaiseFault.MaxResultsInvalidAppRestricted</Name>
+          <Condition>(proxy.pathsuffix MatchesPath "/Patient" and request.verb Equals "GET" and request.queryparam._max-results NotEquals "1")</Condition>
+        </Step>
+      </Request>
+    </Flow>
+  </Flows>
     <Request>
       <Step>
         <Name>OauthV2.VerifyAccessToken</Name>
+      </Step>
+      <Step>
+        <Name>AssignMessage.SetAccessModeApplicationRestricted</Name>
+      </Step>
+      <Step>
+        <Name>AssignMessage.SetAccessModeUserRestricted</Name>
+        <Condition>(scope JavaRegex "(.+\ personal-demographics-service:USER-RESTRICTED\ .+|^personal-demographics-service:USER-RESTRICTED\ .+|.+\ personal-demographics-service:USER-RESTRICTED$|^personal-demographics-service:USER-RESTRICTED$)")</Condition>
       </Step>
       <Step>
         <Name>FlowCallout.UserRoleService</Name>
