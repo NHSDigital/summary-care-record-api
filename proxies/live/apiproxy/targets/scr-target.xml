@@ -30,11 +30,11 @@
           <Condition>(request.verb Equals "PATCH")</Condition>
         </Step>
         <Step>
-          <Name>AssignMessage.SetAccessModeApplicationRestrictedDocumentRef</Name>
-          <Condition>(proxy.pathsuffix MatchesPath "/DocumentReference") and (request.verb = "GET" || "POST")</Condition>
+          <Name>AssignMessage.SetAccessModeApplicationRestricted</Name>
+          <Condition>(proxy.pathsuffix MatchesPath "/DocumentReference") and (request.verb = "GET") or (request.verb = "POST")</Condition>
         </Step>
         <Step>
-          <Name>AssignMessage.SetAccessModeApplicationRestrictedBundle</Name>
+          <Name>AssignMessage.SetAccessModeApplicationRestricted</Name>
           <Condition>(proxy.pathsuffix MatchesPath "/Bundle") and (request.verb = "GET")</Condition>
         </Step>
       </Request>
