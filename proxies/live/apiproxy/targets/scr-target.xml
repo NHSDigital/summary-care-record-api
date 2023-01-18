@@ -29,15 +29,13 @@
           <Name>RaiseFault.PatchMethodNotAllowedAppRestricted</Name>
           <Condition>(request.verb Equals "PATCH")</Condition>
         </Step>
-        <!-- If _max-results param is unset, set to allowed value for application-restricted mode -->
         <Step>
-          <Name>AssignMessage.SetMaxResultsToOne</Name>
-          <Condition>(proxy.pathsuffix MatchesPath "/Patient" and request.verb Equals "GET" and request.queryparam._max-results Is null)</Condition>
+          <Name>AssignMessage.SetAccessModeApplicationRestrictedDocumentRef</Name>
+          <Condition>(proxy.pathsuffix MatchesPath "/DocumentReference") and (request.verb = "GET" || "POST")</Condition>
         </Step>
-        <!-- If _max-results is set to anything other than 1, prevent query -->
         <Step>
-          <Name>RaiseFault.MaxResultsInvalidAppRestricted</Name>
-          <Condition>(proxy.pathsuffix MatchesPath "/Patient" and request.verb Equals "GET" and request.queryparam._max-results NotEquals "1")</Condition>
+          <Name>AssignMessage.SetAccessModeApplicationRestrictedBundle</Name>
+          <Condition>(proxy.pathsuffix MatchesPath "/Bundle") and (request.verb = "GET")</Condition>
         </Step>
       </Request>
     </Flow>
@@ -47,15 +45,8 @@
         <Name>OauthV2.VerifyAccessToken</Name>
       </Step>
       <Step>
-        <Name>AssignMessage.SetAccessModeApplicationRestricted</Name>
-      </Step>
-      <Step>
-        <Name>AssignMessage.SetAccessModeUserRestricted</Name>
-        <Condition>(scope JavaRegex "(.+\ personal-demographics-service:USER-RESTRICTED\ .+|^personal-demographics-service:USER-RESTRICTED\ .+|.+\ personal-demographics-service:USER-RESTRICTED$|^personal-demographics-service:USER-RESTRICTED$)")</Condition>
-      </Step>
-      <Step>
         <Name>FlowCallout.UserRoleService</Name>
-    </Step>
+      </Step>
       <Step>
         <Name>Quota</Name>
       </Step>
