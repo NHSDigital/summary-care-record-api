@@ -30,11 +30,11 @@
           <Condition>(request.verb Equals "PATCH")</Condition>
         </Step>
         <Step>
-          <Name>AssignMessage.SetAccessModeApplicationRestricted</Name>
+          <Name>DocumentReference</Name>
           <Condition>(proxy.pathsuffix MatchesPath "/DocumentReference") and (request.verb = "GET") or (request.verb = "POST")</Condition>
         </Step>
         <Step>
-          <Name>AssignMessage.SetAccessModeApplicationRestricted</Name>
+          <Name>Bundle</Name>
           <Condition>(proxy.pathsuffix MatchesPath "/Bundle") and (request.verb = "GET")</Condition>
         </Step>
       </Request>
@@ -43,6 +43,10 @@
     <Request>
       <Step>
         <Name>OauthV2.VerifyAccessToken</Name>
+      </Step>
+      <Step>
+        <Name>AssignMessage.SetAccessModeApplicationRestricted</Name>
+        <Condition>(scope JavaRegex "(.+\ application-restricted:APPLICATION-RESTRICTED\ .+|^application-restricted:APPLICATION-RESTRICTED\ .+|.+\ application-restricted:APPLICATION-RESTRICTED$|^application-restricted:APPLICATION-RESTRICTED$)")</Condition>
       </Step>
       <Step>
         <Name>FlowCallout.UserRoleService</Name>
