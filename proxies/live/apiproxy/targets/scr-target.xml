@@ -20,30 +20,6 @@
   </FaultRule>
   </FaultRules>
   <PreFlow>
-  <Flows>
-    <Flow name="application_restricted">
-      <Condition>(access-mode Equals "application-restricted")</Condition>
-      <Request>
-        <!-- Prevent use of PATCH method in application restricted mode -->
-        <Step>
-          <Name>RaiseFault.PatchMethodNotAllowedAppRestricted</Name>
-          <Condition>(request.verb Equals "PATCH")</Condition>
-        </Step>
-        <Step>
-          <Name>RaiseFault.PatchMethodNotAllowedAppRestricted</Name>
-          <Condition>(request.verb Equals "PATCH")</Condition>
-        </Step>
-        <Step>
-          <Name>DocumentReference</Name>
-          <Condition>(proxy.pathsuffix MatchesPath "/DocumentReference") and (request.verb = "GET") or (request.verb = "POST")</Condition>
-        </Step>
-        <Step>
-          <Name>Bundle</Name>
-          <Condition>(proxy.pathsuffix MatchesPath "/Bundle") and (request.verb = "GET")</Condition>
-        </Step>
-      </Request>
-    </Flow>
-  </Flows>
     <Request>
       <Step>
         <Name>OauthV2.VerifyAccessToken</Name>
@@ -104,6 +80,30 @@
       </Step>
     </Request>
   </PreFlow>
+  <Flows>
+    <Flow name="application_restricted">
+      <Condition>(access-mode Equals "application-restricted")</Condition>
+      <Request>
+        <!-- Prevent use of PATCH method in application restricted mode -->
+        <Step>
+          <Name>RaiseFault.PatchMethodNotAllowedAppRestricted</Name>
+          <Condition>(request.verb Equals "PATCH")</Condition>
+        </Step>
+        <Step>
+          <Name>RaiseFault.PatchMethodNotAllowedAppRestricted</Name>
+          <Condition>(request.verb Equals "PATCH")</Condition>
+        </Step>
+        <Step>
+          <Name>DocumentReference</Name>
+          <Condition>(proxy.pathsuffix MatchesPath "/DocumentReference") and (request.verb = "GET") or (request.verb = "POST")</Condition>
+        </Step>
+        <Step>
+          <Name>Bundle</Name>
+          <Condition>(proxy.pathsuffix MatchesPath "/Bundle") and (request.verb = "GET")</Condition>
+        </Step>
+      </Request>
+    </Flow>
+  </Flows>
   <!--
     The {{ HOSTED_TARGET_CONNECTION }} resolved to this:
     For example:
