@@ -30,6 +30,10 @@
           <Condition>(request.verb Equals "PATCH")</Condition>
         </Step>
         <Step>
+          <Name>RaiseFault.PatchMethodNotAllowedAppRestricted</Name>
+          <Condition>(request.verb Equals "PATCH")</Condition>
+        </Step>
+        <Step>
           <Name>DocumentReference</Name>
           <Condition>(proxy.pathsuffix MatchesPath "/DocumentReference") and (request.verb = "GET") or (request.verb = "POST")</Condition>
         </Step>
@@ -50,6 +54,7 @@
       </Step>
       <Step>
         <Name>FlowCallout.UserRoleService</Name>
+        <Condition>(access-mode Equals "user-restricted")</Condition>
       </Step>
       <Step>
         <Name>Quota</Name>
