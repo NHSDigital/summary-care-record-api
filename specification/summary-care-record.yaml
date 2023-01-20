@@ -43,9 +43,9 @@ info:
     ## API status and roadmap
     This API is initially for use by new market entrant GP IT developers with other use cases to follow later.
     
-    This API is [in development](https://digital.nhs.uk/developer/guides-and-documentation/reference-guide#statuses), meaning:
+    This API is [in beta](https://digital.nhs.uk/developer/guides-and-documentation/reference-guide#statuses), meaning:
     - the API is available in our sandbox and integration test environments
-    - the API is not yet available for production use
+    - the API is available for production (private beta) use
     - we might make breaking changes, but only if we cannot avoid it, and we'll give advance notice
 
     To see our roadmap, or to suggest, comment or vote on features for this API, see our [interactive product backlog](https://nhs-digital-api-management.featureupvote.com/?order=popular&filter=all&tag=scr-fhir-api&deleted=0#controls).
@@ -89,7 +89,8 @@ info:
     | ---------------------------------------|-----------------------------------------------------|
     | Sandbox                                | `https://sandbox.api.service.nhs.uk/summary-care-record/FHIR/R4`|
     | Integration test                       | `https://int.api.service.nhs.uk/summary-care-record/FHIR/R4`    |
-
+    | Production                             | `https://api.service.nhs.uk/summary-care-record/FHIR/R4`    |
+    
 
 
     ### Sandbox testing
@@ -112,6 +113,14 @@ info:
 
     For more details see [integration testing with our RESTful APIs](https://digital.nhs.uk/developer/guides-and-documentation/testing#integration-testing-with-our-restful-apis).   
 
+    ### Production
+    Our [production environment](https://digital.nhs.uk/services/path-to-live-environments):
+
+    * is for formal use in a live environment
+    * is stateful, so persists updates
+    * includes authorisation, with [smartcard](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation/nhs-smartcards-for-developers)
+ 
+    For more information about our Production Environment please contact the [National Service Desk](ssd.nationalservicedesk@nhs.net)
 
     ## Onboarding
     You need to get your software approved by us before it can go live with this API. We call this onboarding. The onboarding process can sometimes be quite long, so it’s worth planning well ahead.
