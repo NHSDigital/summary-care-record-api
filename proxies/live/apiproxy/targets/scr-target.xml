@@ -26,10 +26,10 @@
       </Step>
       <Step>
         <Name>AssignMessage.SetAccessModeApplicationRestricted</Name>
-        <Condition>(scope JavaRegex "(.+\ application-restricted:APPLICATION-RESTRICTED\ .+|^application-restricted:APPLICATION-RESTRICTED\ .+|.+\ application-restricted:APPLICATION-RESTRICTED$|^application-restricted:APPLICATION-RESTRICTED$)")</Condition>
       </Step>
       <Step>
         <Name>AssignMessage.SetAccessModeUserRestricted</Name>
+        <Condition>(scope JavaRegex "(.+\ application-restricted:USER-RESTRICTED\ .+|^application-restricted:USER-RESTRICTED\ .+|.+\ application-restricted:USER-RESTRICTED$|^application-restricted:USER-RESTRICTED$)")</Condition>
       </Step>
       <Step>
         <Name>FlowCallout.UserRoleService</Name>
@@ -91,10 +91,17 @@
         </Step>
         <Step>
           <Name>RaiseFault.PatchMethodNotAllowedAppRestricted</Name>
+        </Step>
+        <Step>
+          <Name>RaiseFault.PostMethodNotAllowedAppRestricted</Name>
+          <Condition>(proxy.pathsuffix MatchesPath "/Bundle") and (request.verb = "POST")</Condition>
+        </Step>
+        <Step>
+          <Name>AssignMessage.DocumentReference</Name>
           <Condition>(proxy.pathsuffix MatchesPath "/DocumentReference") and (request.verb = "GET") or (request.verb = "POST")</Condition>
         </Step>
         <Step>
-          <Name>RaiseFault.PatchMethodNotAllowedAppRestricted</Name>
+          <Name>AssignMessage.Bundle</Name>
           <Condition>(proxy.pathsuffix MatchesPath "/Bundle") and (request.verb = "GET")</Condition>
         </Step>
       </Request>
