@@ -89,10 +89,10 @@
           <Name>RaiseFault.PatchMethodNotAllowedAppRestricted</Name>
           <Condition>(request.verb Equals "PATCH")</Condition>
         </Step>
-        <Step>
+        <!-- <Step>
           <Name>RaiseFault.PostMethodNotAllowedAppRestricted</Name>
           <Condition>(proxy.pathsuffix MatchesPath "/Bundle") and (request.verb = "POST")</Condition>
-        </Step>
+        </Step> -->
         <Step>
           <Name>AssignMessage.DocumentReference</Name>
           <Condition>(proxy.pathsuffix MatchesPath "/DocumentReference") and (request.verb = "GET") or (request.verb = "POST")</Condition>
