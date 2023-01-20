@@ -1,5 +1,5 @@
-<AssignMessage name="AssignMessage.DocumentReference" enabled="true">
+<AssignMessage name="AssignMessage.Bundle" enabled="true">
   <AssignVariable>
-    <Name>DocumentReference</Name>
+    <Name>Bundle</Name>
   </AssignVariable>
 </AssignMessage>
