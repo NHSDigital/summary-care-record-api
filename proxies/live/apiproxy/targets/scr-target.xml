@@ -90,9 +90,6 @@
           <Condition>(request.verb Equals "PATCH")</Condition>
         </Step>
         <Step>
-          <Name>RaiseFault.PatchMethodNotAllowedAppRestricted</Name>
-        </Step>
-        <Step>
           <Name>RaiseFault.PostMethodNotAllowedAppRestricted</Name>
           <Condition>(proxy.pathsuffix MatchesPath "/Bundle") and (request.verb = "POST")</Condition>
         </Step>
