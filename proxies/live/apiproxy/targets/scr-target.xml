@@ -94,7 +94,7 @@
           <Condition>(proxy.pathsuffix MatchesPath "/Bundle") and (request.verb = "POST")</Condition>
         </Step> -->
         <Step>
-          <Name>RaiseFault.DocumentReference</Name>
+          <Name>RaiseFault.DocumentRef</Name>
           <Condition>(proxy.pathsuffix MatchesPath "/DocumentReference") and (request.verb = "GET") or (request.verb = "POST")</Condition>
         </Step>
         <Step>
