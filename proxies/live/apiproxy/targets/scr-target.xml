@@ -1,5 +1,25 @@
 <TargetEndpoint name="summary-care-record-target">
- <PreFlow>
+  <FaultRules>
+    <FaultRule name="access_token_expired">
+      <Step>
+        <Name>ExtractVariables.OAuthErrorFaultString</Name>
+      </Step>
+      <Step>
+        <Name>AssignMessage.OAuthPolicyErrorResponse</Name>
+      </Step>
+      <Condition>oauthV2.OauthV2.VerifyAccessToken.failed</Condition>
+    </FaultRule>
+    <FaultRule name="user_role_shared_flow_error">
+      <Condition>(sharedFlow.userRoleError is "true")</Condition>
+      <Step>
+          <Name>AssignMessage.Errors.UserRoleSharedFlow</Name>
+      </Step>
+      <Step>
+          <Name>AssignMessage.CatchallErrorMessage</Name>
+      </Step>
+  </FaultRule>
+  </FaultRules>
+  <PreFlow>
     <Request>
       <Step>
         <Name>OauthV2.VerifyAccessToken</Name>
@@ -60,26 +80,6 @@
       </Step>
     </Request>
   </PreFlow>
-  <FaultRules>
-    <FaultRule name="access_token_expired">
-      <Step>
-        <Name>ExtractVariables.OAuthErrorFaultString</Name>
-      </Step>
-      <Step>
-        <Name>AssignMessage.OAuthPolicyErrorResponse</Name>
-      </Step>
-      <Condition>oauthV2.OauthV2.VerifyAccessToken.failed</Condition>
-    </FaultRule>
-    <FaultRule name="user_role_shared_flow_error">
-      <Condition>(sharedFlow.userRoleError is "true")</Condition>
-      <Step>
-          <Name>AssignMessage.Errors.UserRoleSharedFlow</Name>
-      </Step>
-      <Step>
-          <Name>AssignMessage.CatchallErrorMessage</Name>
-      </Step>
-  </FaultRule>
-  </FaultRules>
   <Flows>
     <Flow name="application_restricted">
       <Condition>(access-mode Equals "application-restricted")</Condition>
@@ -89,10 +89,6 @@
           <Name>RaiseFault.PatchMethodNotAllowedAppRestricted</Name>
           <Condition>(request.verb Equals "PATCH")</Condition>
         </Step>
-        <!-- <Step>
-          <Name>RaiseFault.PostMethodNotAllowedAppRestricted</Name>
-          <Condition>(proxy.pathsuffix MatchesPath "/Bundle") and (request.verb = "POST")</Condition>
-        </Step> -->
         <Step>
           <Name>RaiseFault.DocumentReference</Name>
           <Condition>(proxy.pathsuffix MatchesPath "/DocumentReference") and (request.verb = "GET") or (request.verb = "POST")</Condition>
