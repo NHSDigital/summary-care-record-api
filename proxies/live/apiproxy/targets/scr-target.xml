@@ -1,25 +1,5 @@
 <TargetEndpoint name="summary-care-record-target">
-  <FaultRules>
-    <FaultRule name="access_token_expired">
-      <Step>
-        <Name>ExtractVariables.OAuthErrorFaultString</Name>
-      </Step>
-      <Step>
-        <Name>AssignMessage.OAuthPolicyErrorResponse</Name>
-      </Step>
-      <Condition>oauthV2.OauthV2.VerifyAccessToken.failed</Condition>
-    </FaultRule>
-    <FaultRule name="user_role_shared_flow_error">
-      <Condition>(sharedFlow.userRoleError is "true")</Condition>
-      <Step>
-          <Name>AssignMessage.Errors.UserRoleSharedFlow</Name>
-      </Step>
-      <Step>
-          <Name>AssignMessage.CatchallErrorMessage</Name>
-      </Step>
-  </FaultRule>
-  </FaultRules>
-  <PreFlow>
+ <PreFlow>
     <Request>
       <Step>
         <Name>OauthV2.VerifyAccessToken</Name>
@@ -80,6 +60,26 @@
       </Step>
     </Request>
   </PreFlow>
+  <FaultRules>
+    <FaultRule name="access_token_expired">
+      <Step>
+        <Name>ExtractVariables.OAuthErrorFaultString</Name>
+      </Step>
+      <Step>
+        <Name>AssignMessage.OAuthPolicyErrorResponse</Name>
+      </Step>
+      <Condition>oauthV2.OauthV2.VerifyAccessToken.failed</Condition>
+    </FaultRule>
+    <FaultRule name="user_role_shared_flow_error">
+      <Condition>(sharedFlow.userRoleError is "true")</Condition>
+      <Step>
+          <Name>AssignMessage.Errors.UserRoleSharedFlow</Name>
+      </Step>
+      <Step>
+          <Name>AssignMessage.CatchallErrorMessage</Name>
+      </Step>
+  </FaultRule>
+  </FaultRules>
   <Flows>
     <Flow name="application_restricted">
       <Condition>(access-mode Equals "application-restricted")</Condition>
