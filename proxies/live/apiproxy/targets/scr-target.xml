@@ -81,7 +81,7 @@
     </Request>
   </PreFlow>
   <Flows>
-    <Flow name="application_restricted">
+    <Flow name="application-restricted">
       <Condition>(access-mode Equals "application-restricted")</Condition>
       <Request>
         <!-- Prevent use of PATCH method in application restricted mode -->
@@ -96,6 +96,15 @@
         <Step>
           <Name>RaiseFault.Bundle</Name>
           <Condition>(proxy.pathsuffix MatchesPath "/Bundle") and (request.verb = "GET")</Condition>
+        </Step>
+      </Request>
+    </Flow>
+    <Flow name="user-restricted">
+      <Condition>(access-mode Equals "user-restricted")</Condition>
+      <Request>
+        <Step>
+          <Name>RaiseFault.DocumentReferenceUser</Name>
+          <Condition>(proxy.pathsuffix MatchesPath "/DocumentReference") and (request.verb = "GET") or (request.verb = "POST")</Condition>
         </Step>
       </Request>
     </Flow>

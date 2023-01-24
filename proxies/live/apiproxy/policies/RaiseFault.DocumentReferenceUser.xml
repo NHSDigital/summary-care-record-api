@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<RaiseFault async="false" continueOnError="false" enabled="true" name="RaiseFault.DocumentReference">
-    <DisplayName>RaiseFault.DocumentReference</DisplayName>
+<RaiseFault async="false" continueOnError="false" enabled="true" name="RaiseFault.DocumentReferenceUser">
+    <DisplayName>RaiseFault.DocumentReferenceUser</DisplayName>
     <Properties/>
     <FaultResponse>
         <Set>
             <Headers/>
             <Payload contentType="text/plain"/>
             <StatusCode>401</StatusCode>
-            <ReasonPhrase>DocumentRef Error APP RESTRICTED (to be removed)</ReasonPhrase>
+            <ReasonPhrase>DocumentRef Error USER RESTRICTED (to be removed)</ReasonPhrase>
         </Set>
     </FaultResponse>
     <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
