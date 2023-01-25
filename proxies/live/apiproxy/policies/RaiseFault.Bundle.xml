@@ -7,7 +7,7 @@
             <Headers/>
             <Payload contentType="text/plain"/>
             <StatusCode>401</StatusCode>
-            <ReasonPhrase>Bundle Error TEST (to be removed)</ReasonPhrase>
+            <ReasonPhrase>Bundle APPLICATION RESTRICTED</ReasonPhrase>
         </Set>
     </FaultResponse>
     <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>

@@ -7,7 +7,7 @@
             <Headers/>
             <Payload contentType="text/plain"/>
             <StatusCode>401</StatusCode>
-            <ReasonPhrase>DocumentRef Error APP RESTRICTED (to be removed)</ReasonPhrase>
+            <ReasonPhrase>DocumentReference APPLICATION RESTRICTED</ReasonPhrase>
         </Set>
     </FaultResponse>
     <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>

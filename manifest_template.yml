@@ -87,3 +87,17 @@ apigee:
         visibility: {{ ENV.make_spec_visible | default(false) }}
         specId: {{ NAME }}
 {% endfor %}
+
+ACCESS_MODES:
+  - name: user-restricted
+    nameSuffix: ''
+    displayName: Healthcare Worker
+    scopes: ['urn:nhsd:apim:user-nhs-id:aal3:summary-care-record']
+    requireCallbackUrl: true
+    description: User restricted
+  - name: application-restricted
+    nameSuffix: -application-restricted
+    displayName: Application-Restricted
+    scopes: ['urn:nhsd:apim:app:level3:summary-care-record']
+    requireCallbackUrl: false
+    description: Application Restricted
