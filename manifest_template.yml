@@ -92,7 +92,7 @@ ACCESS_MODES:
   - name: user-restricted
     nameSuffix: ''
     displayName: Healthcare Worker
-    scopes: ['urn:nhsd:apim:user-nhs-id:aal3:summary-care-record']
+    scopes: ['urn:nhsd:apim:user-nhs-id:aal3:summary-care-record'] 
     requireCallbackUrl: true
     description: User restricted
   - name: application-restricted
