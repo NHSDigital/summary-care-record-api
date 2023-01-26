@@ -22,15 +22,15 @@ properties:
         - url
         - valueString
   type:
-    description: Fixed value
+    description: A parent valueset to subtype to identify the reason a viewing alert has been triggered while viewing a Summary Care Record
     type: object
     properties:
       system:
         type: string
-        default: "http://terminology.hl7.org/CodeSystem/iso-21089-lifecycle"
+        default: "https://fhir.nhs.uk/CodeSystem/SCR-AlertType"
       code:
         type: string
-        enum: [1, 2]
+        enum: [1,2]
         example: 1
       display:
         type: string
