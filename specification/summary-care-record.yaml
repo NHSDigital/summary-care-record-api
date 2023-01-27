@@ -43,7 +43,7 @@ info:
     ## API status and roadmap
     This API is initially for use by new market entrant GP IT developers with other use cases to follow later.
     
-    This API is [BETA](https://digital.nhs.uk/developer/guides-and-documentation/reference-guide#statuses [IN PRODUCTION](https://digital.nhs.uk/developer/guides-and-documentation/reference-guide#statuses), meaning:
+    This API is [Beta](https://digital.nhs.uk/developer/guides-and-documentation/reference-guide#statuses) [Production](https://digital.nhs.uk/developer/guides-and-documentation/reference-guide#statuses), meaning:
     - the API is available in our sandbox and integration test environments
     - the API is available for production (private beta) use
     - we might make breaking changes, but only if we cannot avoid it, and we'll give advance notice
