@@ -87,28 +87,18 @@
         <!-- Prevent use of PATCH method in application restricted mode -->
         <Step>
           <Name>RaiseFault.PatchMethodNotAllowedAppRestricted</Name>
-          <Condition>(request.verb Equals "PATCH")</Condition>
+          <Condition>(request.verb NotEquals "GET" and request.verb NotEquals "POST")</Condition>
         </Step>
         <Step>
-          <Name>RaiseFault.DocumentReference</Name>
-          <Condition>(proxy.pathsuffix MatchesPath "/DocumentReference") and (request.verb = "GET") or (request.verb = "POST")</Condition>
+          <Name>RaiseFault.GetMethodNotAllowAppRestricted</Name>
+          <Condition>(request.verb Equals "GET") and !(proxy.pathsuffix MatchesPath "/DocumentReference") and !(proxy.pathsuffix MatchesPath "/Bundle")</Condition>
         </Step>
         <Step>
-          <Name>RaiseFault.Bundle</Name>
-          <Condition>(proxy.pathsuffix MatchesPath "/Bundle") and (request.verb = "GET")</Condition>
+          <Name>RaiseFault.PostMethodNotAllowAppRestricted</Name>
+          <Condition>(request.verb Equals "POST") and !(proxy.pathsuffix MatchesPath "/Bundle")</Condition>
         </Step>
       </Request>
     </Flow>
-    <Flow name="user-restricted">
-      <Condition>(access-mode Equals "user-restricted")</Condition>
-      <Request>
-        <Step>
-          <Name>RaiseFault.DocumentReferenceUser</Name>
-          <Condition>(proxy.pathsuffix MatchesPath "/DocumentReference") and (request.verb = "GET") or (request.verb = "POST")</Condition>
-        </Step>
-      </Request>
-    </Flow>
-  </Flows>
   <!--
     The {{ HOSTED_TARGET_CONNECTION }} resolved to this:
     For example:
