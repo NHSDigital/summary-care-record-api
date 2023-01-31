@@ -99,6 +99,7 @@
         </Step>
       </Request>
     </Flow>
+  </Flows>
   <!--
     The {{ HOSTED_TARGET_CONNECTION }} resolved to this:
     For example:
