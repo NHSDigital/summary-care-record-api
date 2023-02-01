@@ -9,6 +9,10 @@
             <StatusCode>401</StatusCode>
             <ReasonPhrase>Application-restricted access is not available on this POST request</ReasonPhrase>
         </Set>
+    <AssignVariable>
+      <Name>scr.error.diagnostics</Name>
+      <Template>Your app has insufficient permissions to use this method. Please contact support.</Template>
+    </AssignVariable>
     </FaultResponse>
     <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
 </RaiseFault>

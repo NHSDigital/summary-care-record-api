@@ -1,4 +1,4 @@
-<RaiseFault async="false" continueOnError="false" enabled="true" name="RaiseFault.PatchMethodNotAllowedAppRestricted">
+<RaiseFault async="false" continueOnError="false" enabled="true" name="RaiseFault.RestMethodNotAllowedAppRestricted">
   <FaultResponse>
     <Set>
       <Headers />

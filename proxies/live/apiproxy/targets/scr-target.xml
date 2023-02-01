@@ -29,7 +29,7 @@
       </Step>
       <Step>
         <Name>AssignMessage.SetAccessModeUserRestricted</Name>
-        <Condition>(scope JavaRegex "(.+\ urn:nhsd:apim:user-nhs-id:aal3:summary-care-record\ .+|^urn:nhsd:apim:user-nhs-id:aal3:summary-care-record\ .+|.+\ urn:nhsd:apim:user-nhs-id:aal3:summary-care-record$|^urn:nhsd:apim:user-nhs-id:aal3:summary-care-record$|.+\ summary-care-record:USER-RESTRICTED\ .+|^summary-care-record:USER-RESTRICTED\ .+|.+\ summary-care-record:USER-RESTRICTED$|^summary-care-record:USER-RESTRICTED$)")</Condition>
+        <Condition>(scope JavaRegex "(.+\ summary-care-record:USER-RESTRICTED\ .+|^summary-care-record:USER-RESTRICTED\ .+|.+\ summary-care-record:USER-RESTRICTED$|^summary-care-record:USER-RESTRICTED$)")</Condition>
       </Step>
       <Step>
         <Name>FlowCallout.UserRoleService</Name>
@@ -84,9 +84,8 @@
     <Flow name="application-restricted">
       <Condition>(access-mode Equals "application-restricted")</Condition>
       <Request>
-        <!-- Prevent use of PATCH method in application restricted mode -->
         <Step>
-          <Name>RaiseFault.PatchMethodNotAllowedAppRestricted</Name>
+          <Name>RaiseFault.RestMethodNotAllowedAppRestricted</Name>
           <Condition>(request.verb NotEquals "GET" and request.verb NotEquals "POST")</Condition>
         </Step>
         <Step>
