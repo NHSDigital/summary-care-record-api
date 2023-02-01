@@ -7,19 +7,19 @@
       <ReasonPhrase>Forbidden</ReasonPhrase>
     </Set>
     <AssignVariable>
-      <Name>pds.error.code</Name>
+      <Name>scr.error.code</Name>
       <Value>forbidden</Value>
     </AssignVariable>
     <AssignVariable>
-      <Name>pds.error.coding.code</Name>
+      <Name>scr.error.coding.code</Name>
       <Value>INVALID_METHOD</Value>
     </AssignVariable>
     <AssignVariable>
-      <Name>pds.error.coding.display</Name>
+      <Name>scr.error.coding.display</Name>
       <Value>Cannot update resource with Application-Restricted access token</Value>
     </AssignVariable>
     <AssignVariable>
-      <Name>pds.error.diagnostics</Name>
+      <Name>scr.error.diagnostics</Name>
       <Template>Your app has insufficient permissions to use this method. Please contact support.</Template>
     </AssignVariable>
   </FaultResponse>
