@@ -1,8 +1,8 @@
 <RaiseFault async="false" continueOnError="false" enabled="true" name="RaiseFault.RestMethodNotAllowedAppRestricted">
   <FaultResponse>
     <Set>
-      <Headers />
-      <Payload contentType="text/plain" />
+      <Headers/>
+      <Payload contentType="text/plain"/>
       <StatusCode>403</StatusCode>
       <ReasonPhrase>Forbidden</ReasonPhrase>
     </Set>
