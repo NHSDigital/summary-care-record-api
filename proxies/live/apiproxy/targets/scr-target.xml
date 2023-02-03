@@ -85,7 +85,7 @@
       <Condition>(access-mode Equals "application-restricted")</Condition>
       <Request>
         <Step>
-          <Name>RaiseFault.RestMethodNotAllowedAppRestricted</Name>
+          <Name>RaiseFault.RestMethodsNotAllowedAppRestricted</Name>
           <Condition>(request.verb NotEquals "GET" and request.verb NotEquals "POST")</Condition>
         </Step>
         <Step>
