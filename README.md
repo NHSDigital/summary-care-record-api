@@ -88,6 +88,10 @@ Swagger UI unfortunately doesn't correctly render `$ref`s in examples, so use `s
 #### Apigee Portal
 The Apigee portal will not automatically pull examples from schemas, you must specify them manually.
 
+## Branching
+To be updated...
+
+
 ## Deployment
 
 ### Specification
