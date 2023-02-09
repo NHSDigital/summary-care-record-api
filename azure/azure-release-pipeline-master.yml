@@ -72,8 +72,8 @@ extends:
               smoke_tests: true
       - environment: prod
         depends_on:
+          - int
           - internal_qa
-          - internal_qa_sandbox
         jinja_templates:
           REQUIRE_ASID: false
         post_deploy:
