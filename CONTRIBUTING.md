@@ -12,7 +12,7 @@ linked to an issue. If the maintainers cannot understand why a pull request was 
 so please explain why the changes need to be made (unless it is self-evident).
 
 ### Branch Strategy
-Development branches should be pulled of the develop branch, and the PR raised should go into develop. This will then be tested in the `internal-dev` environment and merged into master regularly (which deploys to `int` and after a manual gat to `prod`).
+Development branches should be pulled of the develop branch, and the PR raised should go into develop. This will then be tested in the `internal-dev` environment and merged into master regularly (which deploys to `int` and after a manual gate to `prod`).
 
 ### Merge responsibility
 * It is the responsibility of the reviewer to merge branches they have approved.
