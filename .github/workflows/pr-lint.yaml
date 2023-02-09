@@ -15,7 +15,7 @@ jobs:
 
       - name: Comment on PR
         if: contains(github.event.pull_request.head.ref, 'apm-') || contains(github.event.pull_request.head.ref, 'APM-') || contains(github.event.pull_request.head.ref, 'niad-') || contains(github.event.pull_request.head.ref, 'NIAD-') || contains(github.event.pull_request.head.ref, 'amb-') || contains(github.event.pull_request.head.ref, 'AMB-')
-        uses: unsplash/comment-on-pr@develop
+        uses: unsplash/comment-on-pr@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
