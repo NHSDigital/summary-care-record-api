@@ -17,6 +17,7 @@ resources:
       branches:
         exclude:
           - master
+          - develop
           - refs/heads/master
           - refs/tags/v*
 
