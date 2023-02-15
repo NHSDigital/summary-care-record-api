@@ -11,6 +11,9 @@ Ideally pull requests should be fairly granular and aim to solve one problem eac
 linked to an issue. If the maintainers cannot understand why a pull request was raised, it will be rejected,
 so please explain why the changes need to be made (unless it is self-evident).
 
+### Branch Strategy
+Development branches should be pulled of the develop branch, and the PR raised should go into develop. This will then be tested in the `internal-dev` environment and merged into master regularly (which deploys to `int` and after a manual gate to `prod`).
+
 ### Merge responsibility
 * It is the responsibility of the reviewer to merge branches they have approved.
 * It is the responsibility of the author of the merge to ensure their merge is in a mergeable state.

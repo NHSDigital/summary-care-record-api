@@ -88,6 +88,27 @@ Swagger UI unfortunately doesn't correctly render `$ref`s in examples, so use `s
 #### Apigee Portal
 The Apigee portal will not automatically pull examples from schemas, you must specify them manually.
 
+## Branching
+Branches and deployments are well linked in this project, there are a few special branches which trigger azure build and release pipelines.
+
+### Master
+The master branch should be the most stable branch, it is used to deploy to most notably: int and (after a manual gate) prod. It uses `azure/azure-release-pipeline-master.yml` to deploy the following:
+
+* internal-qa
+* internal-qa-sandbox
+* sandbox
+* ref
+* int
+* prod (`prod_producer_approval: true` is the deployment parameter that creates the manual gate)
+
+### Develop
+The develop branch is where all ticket feature branches get merged into. This then deploys the changes to the `internal-dev` environment. Changes can then be completed and tested here before merging into master, where external teams may be actively testing.
+
+The pipeline yaml `azure/azure-release-pipeline.yml` is the relevant one for this branch.
+
+### Pull Requests
+Pull requests deploy to their own environment accessed via `https://internal-dev.api.service.nhs.uk/summary-care-record/FHIR/R4-pr-{PRNUMBER}`, where PRNUMBER is the Github PR number. The deployment of these is determined by `azure/azure-pr-pipeline.yml`, this is the best way to test any API branch development.
+
 ## Deployment
 
 ### Specification
