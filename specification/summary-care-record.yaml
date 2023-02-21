@@ -22,7 +22,7 @@ info:
     ## Overview
     Use this API to access or update a patient's [Summary Care Record (SCR)](https://digital.nhs.uk/services/summary-care-records-scr) - an electronic record of important patient information, created from GP medical records. SCRs can be seen and used by authorised staff in other areas of the health and care system involved in the patient's direct care.
     
-    This API is currently only approved for use in primary care software, specifically GP software. We hope to make it available for secondary care in the future. You can vote for this on our [interactive product backlog](https://nhs-digital-api-management.featureupvote.com/suggestions/151217/summary-care-record-scr-fhir-api-other-use-cases)
+    This API is currently only approved for use in primary care software, specifically GP software. We hope to make it available for secondary care in the future. You can vote for this on our [interactive product backlog](https://nhs-digital-api-management.featureupvote.com/suggestions/151217/summary-care-record-scr-fhir-api-other-use-cases).
 
     Also use this API to update a patient's consent to share their SCR, and to raise a privacy alert where you have to override a patient's dissent to share their SCR in certain circumstances.
 
