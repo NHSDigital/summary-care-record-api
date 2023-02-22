@@ -21,6 +21,8 @@ info:
     
     ## Overview
     Use this API to access or update a patient's [Summary Care Record (SCR)](https://digital.nhs.uk/services/summary-care-records-scr) - an electronic record of important patient information, created from GP medical records. SCRs can be seen and used by authorised staff in other areas of the health and care system involved in the patient's direct care.
+    
+    This API is currently only approved for use in primary care software, specifically GP software. We hope to make it available for secondary care in the future. You can vote for this on our [interactive product backlog](https://nhs-digital-api-management.featureupvote.com/suggestions/151217/summary-care-record-scr-fhir-api-other-use-cases).
 
     Also use this API to update a patient's consent to share their SCR, and to raise a privacy alert where you have to override a patient's dissent to share their SCR in certain circumstances.
 
@@ -31,8 +33,12 @@ info:
     * send a privacy alert message, if you have to override a patient's dissent to view their SCR 
     * update a patient's consent to share their SCR
     
+    A healthcare worker must be present and authenticated with an [NHS smartcard or a modern alternative](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation/nhs-smartcards-for-developers) to use this API.
+    
     ## Who can use this API
     This API can only be used where there is a legal basis to do so. Make sure you have a valid use case before you go too far with your development. You must do this before you can go live (see ‘Onboarding’ below).
+    
+    This API is initially for use by new market entrant GP IT developers with other use cases to follow later.
 
     ## Related APIs
     To use this API, you need the patient's NHS number, which can be retrieved by using the following API:
@@ -43,7 +49,8 @@ info:
     ## API status and roadmap
     This API is initially for use by new market entrant GP IT developers with other use cases to follow later.
     
-    This API is [Beta](https://digital.nhs.uk/developer/guides-and-documentation/reference-guide#statuses) [Production](https://digital.nhs.uk/developer/guides-and-documentation/reference-guide#statuses), meaning:
+    This API is [in production, beta] (https://digital.nhs.uk/developer/guides-and-documentation/reference-guide#statuses), meaning:
+    
     - the API is available in our sandbox and integration test environments
     - the API is available for production (private beta) use
     - we might make breaking changes, but only if we cannot avoid it, and we'll give advance notice
@@ -73,7 +80,7 @@ info:
     This API is [user-restricted](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation#user-restricted-apis), meaning an end user must be present and authenticated to use it.
 
     The end user must be:
-    - a healthcare professional
+    - a healthcare worker
     - strongly authenticated, using either an [NHS smartcard or a modern alternative](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation/nhs-smartcards-for-developers) available via [NHS Care Identity Service 2 (NHS CIS2)](https://digital.nhs.uk/services/nhs-identity)
 
     The API uses OAuth 2.0 to authorise the calling system. It supports the following security patterns:
