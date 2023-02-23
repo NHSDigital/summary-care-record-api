@@ -1,4 +1,5 @@
 import json
+import jwt
 import pytest
 from pytest_check import check
 import requests
@@ -6,7 +7,7 @@ from .configuration import config
 import re
 import os
 import uuid
-
+import time
 
 TEST_DATA_BASE_PATH = os.path.join(os.path.dirname(__file__), './test_data/')
 
@@ -154,3 +155,69 @@ def test_auth_token(headers):
 
     expected_http_status = 201 if "sandbox" in config.ENVIRONMENT else 401
     assert response.status_code == expected_http_status, "auth token check failed"
+
+
+@pytest.mark.smoketest
+def test_app_restricted_get_document_ref(headers):
+    patient_nhs = "9000000009" if "sandbox" in config.ENVIRONMENT else "9995000180"
+    headers["NHSD-session-URID"] = "555254242102"
+    headers["Authorization"] = f"Bearer {generate_app_restricted_token()}"
+
+    response = requests.get(
+        f"{_base_valid_uri()}/DocumentReference?patient=https://fhir.nhs.uk/Id/" +
+        f"nhs-number|{patient_nhs}&type=http://snomed.info/sct%7C196981000000101&_sort=date&_count=1",
+        headers=headers)
+
+    assert response.status_code == 200, "GET DocumentReference failed"
+
+
+@pytest.mark.smoketest
+def test_app_restricted_get_bundle(headers):
+    patient_nhs = "9000000009" if "sandbox" in config.ENVIRONMENT else "9995000180"
+    headers["NHSD-session-URID"] = "555254242102"
+    headers["Authorization"] = f"Bearer {generate_app_restricted_token()}"
+
+    response = requests.get(
+        f"{_base_valid_uri()}/Bundle?composition.identifier=F5EC9F9F-46D4-4FA3-8131-415FF6BA1B44&" +
+        f"composition.subject:Patient.identifier=https://fhir.nhs.uk/Id/nhs-number|{patient_nhs}",
+        headers=headers)
+
+    assert response.status_code == 200, "GET Bundle failed"
+
+
+@pytest.mark.smoketest
+def test_app_restricted_post_bundle(headers):
+    headers["NHSD-session-URID"] = "555254242102"
+    headers["Content-Type"] = "application/fhir+json"
+    headers["Authorization"] = f"Bearer {generate_app_restricted_token()}"
+
+    body_from_file = read_body_from_file("app_restricted_post_bundle.json")
+    body_as_string = json.dumps(body_from_file)
+
+    response = requests.post(
+        f"{_base_valid_uri()}/Bundle",
+        json=json.loads(body_as_string),
+        headers=headers)
+
+    assert response.status_code == 201, "POST Bundle failed"
+
+
+# $setPermission endpoint should reject using app-restricted access if functioning correctly.
+@pytest.mark.smoketest
+def test_app_restricts_set_permission_jwt(headers):
+    headers["Content-Type"] = "application/fhir+json"
+    patient_nhs = "9000000009" if "sandbox" in config.ENVIRONMENT else "9995000180"
+    headers["Authorization"] = f"Bearer {generate_app_restricted_token()}"
+
+    body_from_file = read_body_from_file("set_permission.json")
+    body_as_string = json.dumps(body_from_file) \
+        .replace("{{PERMISSION_CODE}}", "Yes") \
+        .replace("{{PATIENT_NHS_NUMBER}}", patient_nhs)
+
+    response = requests.post(
+        f"{_base_valid_uri()}/$setPermission",
+        json=json.loads(body_as_string),
+        headers=headers
+    )
+
+    assert response.status_code == 401, "Application restricted access is not functioning properly."

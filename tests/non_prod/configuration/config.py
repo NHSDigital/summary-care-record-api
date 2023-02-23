@@ -8,6 +8,9 @@ ENV = EnvVarWrapper(
         'client_secret': 'CLIENT_SECRET',
         'redirect_uri': 'REDIRECT_URI',
         'service_base_path': 'SERVICE_BASE_PATH',
+        'app_restricted_api_key': 'APPLICATION_RESTRICTED_API_KEY',
+        'app_restricted_key_id': 'APPLICATION_RESTRICTED_KEY_ID',
+        'app_restricted_signing_key': 'APPLICATION_RESTRICTED_SIGNING_KEY'
     }
 )
 
@@ -43,3 +46,8 @@ ENDPOINTS = {
 }
 
 SERVICE_BASE_PATH = ENV["service_base_path"]
+
+# Set up app restricted variables
+APPLICATION_RESTRICTED_API_KEY = ENV["app_restricted_api_key"]
+KEY_ID = ENV["app_restricted_key_id"]
+SIGNING_KEY = ENV["app_restricted_signing_key"]
