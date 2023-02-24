@@ -1,0 +1,80 @@
+name: "$(SourceBranchName)+$(BuildID)"
+
+trigger: none
+pr: none
+
+resources:
+  repositories:
+    - repository: common
+      type: github
+      name: NHSDigital/api-management-utils
+      ref: refs/heads/edge
+      endpoint: NHSDigital
+  pipelines:
+  - pipeline: build_pipeline
+    source: "Summary-Care-Record-Build"
+    trigger:
+      branches:
+        include:
+          - refs/tags/v*
+
+pool:
+  name: 'AWS-ECS'
+
+variables:
+  - template: project.yml
+
+extends:
+  template: azure/common/apigee-deployment.yml@common
+  parameters:
+    service_name: ${{ variables.service_name }}
+    short_service_name: ${{ variables.short_service_name }}
+    service_base_path: ${{ variables.service_base_path }}
+    prod_producer_approval: true
+    enable_monitoring: true
+    enable_status_monitoring: true
+    jinja_templates:
+      REQUIRE_ASID: true
+    apigee_deployments:
+      - environment: internal-qa
+        post_deploy:
+          - template: ./templates/run-tests.yml
+            parameters:
+              smoke_tests: true
+      - environment: internal-qa-sandbox
+        proxy_path: sandbox
+        post_deploy:
+          - template: ./templates/run-tests.yml
+            parameters:
+              smoke_tests: true
+      - environment: sandbox
+        proxy_path: sandbox
+        depends_on:
+          - internal_qa
+          - internal_qa_sandbox
+        post_deploy:
+          - template: ./templates/run-tests.yml
+            parameters:
+              smoke_tests: true
+      - environment: ref
+        depends_on:
+          - internal_qa
+          - internal_qa_sandbox
+      - environment: int
+        depends_on:
+          - internal_qa
+          - internal_qa_sandbox
+        jinja_templates:
+          REQUIRE_ASID: false
+        post_deploy:
+          - template: ./templates/run-tests-int.yml
+            parameters:
+              smoke_tests: true
+      - environment: prod
+        depends_on:
+          - int
+          - internal_qa
+        jinja_templates:
+          REQUIRE_ASID: false
+        post_deploy:
+          - template: ./templates/run-tests-prod.yml

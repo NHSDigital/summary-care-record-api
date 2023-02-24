@@ -25,8 +25,16 @@
         <Name>OauthV2.VerifyAccessToken</Name>
       </Step>
       <Step>
+        <Name>AssignMessage.SetAccessModeApplicationRestricted</Name>
+      </Step>
+      <Step>
+        <Name>AssignMessage.SetAccessModeUserRestricted</Name>
+        <Condition>(scope JavaRegex "(.+\ urn:nhsd:apim:user-nhs-id:aal3:summary-care-record\ .+|^urn:nhsd:apim:user-nhs-id:aal3:summary-care-record\ .+|.+\ urn:nhsd:apim:user-nhs-id:aal3:summary-care-record$|^urn:nhsd:apim:user-nhs-id:aal3:summary-care-record$)")</Condition>
+      </Step>
+      <Step>
         <Name>FlowCallout.UserRoleService</Name>
-    </Step>
+        <Condition>(access-mode Equals "user-restricted")</Condition>
+      </Step>
       <Step>
         <Name>Quota</Name>
       </Step>
@@ -72,6 +80,25 @@
       </Step>
     </Request>
   </PreFlow>
+  <Flows>
+    <Flow name="application-restricted">
+      <Condition>(access-mode Equals "application-restricted")</Condition>
+      <Request>
+        <Step>
+          <Name>RaiseFault.RestMethodsNotAllowedAppRestricted</Name>
+          <Condition>(request.verb NotEquals "GET" and request.verb NotEquals "POST")</Condition>
+        </Step>
+        <Step>
+          <Name>RaiseFault.GetMethodNotAllowAppRestricted</Name>
+          <Condition>(request.verb Equals "GET") and !(proxy.pathsuffix MatchesPath "/DocumentReference") and !(proxy.pathsuffix MatchesPath "/Bundle")</Condition>
+        </Step>
+        <Step>
+          <Name>RaiseFault.PostMethodNotAllowAppRestricted</Name>
+          <Condition>(request.verb Equals "POST") and !(proxy.pathsuffix MatchesPath "/Bundle")</Condition>
+        </Step>
+      </Request>
+    </Flow>
+  </Flows>
   <!--
     The {{ HOSTED_TARGET_CONNECTION }} resolved to this:
     For example:
