@@ -75,9 +75,8 @@ info:
 
     For more details see [Network access for APIs](https://digital.nhs.uk/developer/guides-and-documentation/network-access-for-apis).
 
-
     ## Security and authorisation
-    This API is [user-restricted](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation#user-restricted-apis), meaning an end user must be present and authenticated to use it.
+    This API has two authorisation methods. The first is [user-restricted](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation#user-restricted-apis), meaning an end user must be present and authenticated to use it.
 
     The end user must be:
     - a healthcare worker
@@ -90,6 +89,17 @@ info:
 
     For more details, see [user-restricted APIs](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation#user-restricted-apis).
 
+    The second authorisation method is [application-restricted](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation#application-restricted-apis)(signed JWT authentication), meaning a few specific API calls can be authorised by the application making the requests. This is typically provided so that GPs can perform batch updates of multiple Summary Care Records through the SCR Application (SCRa).
+    
+    The following specific endpoint and method combinations can be used with application-restricted authentication, in addition to user-restricted authentication:
+    
+    - GET DocumentReference
+    - GET Bundle
+    - POST Bundle
+    
+    For more details, see:
+    - [application-restricted APIs](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation#application-restricted-apis) and 
+    - [application-restricted RESTful APIs - signed with JWT authentication](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation/application-restricted-restful-apis-signed-jwt-authentication)
 
     ## Environments and testing
     | Purpose                                | Base URL                                            |
