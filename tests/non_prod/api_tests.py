@@ -44,6 +44,37 @@ def send_set_permission_request(headers, permission_code: str):
     assert response.status_code == 201, "POST $setPermission request failed"
 
 
+def generate_app_restricted_token():
+    claims = {
+        "sub": config.APPLICATION_RESTRICTED_API_KEY,
+        "iss": config.APPLICATION_RESTRICTED_API_KEY,
+        "jti": str(uuid.uuid4()),
+        "aud": f"{config.BASE_URL}/oauth2-mock/token",
+        "exp": int(time.time()) + 300,
+    }
+
+    headers = {"kid": config.KEY_ID}
+
+    private_key = config.SIGNING_KEY
+
+    encoded_jwt = jwt.encode(
+        claims, private_key, algorithm="RS512", headers=headers
+    )
+
+    response = requests.post(
+        f"{config.BASE_URL}/oauth2-mock/token",
+        data={
+            "grant_type": "client_credentials",
+            "client_assertion_type": "urn:ietf:params:oauth:client-assertion-type:jwt-bearer",
+            "client_assertion": encoded_jwt,
+        },
+    )
+
+    response_json = response.json()
+
+    return response_json["access_token"]
+
+
 @pytest.mark.smoketest
 def test_healthcheck(headers):
     response = requests.get(
