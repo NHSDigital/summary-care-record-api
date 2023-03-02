@@ -52,7 +52,7 @@ steps:
         export ID_TOKEN_NHS_LOGIN_PRIVATE_KEY_ABSOLUTE_PATH="$(Pipeline.Workspace)/secrets/$(ID_TOKEN_NHS_LOGIN_PRIVATE_KEY)"
         export AUTHENTICATE_URL="https://nhsd-apim-testing-internal-dev.herokuapp.com/"
         export APPLICATION_RESTRICTED_SIGNING_KEY="$(Pipeline.Workspace)/secrets/$(JWT_APP_RESTRICTED_PRIVATE_KEY)"
-        export APPLICATION_RESTRICTED_KEY_ID="JWT_PRIVATE_KEY"
+        export APPLICATION_RESTRICTED_KEY_ID="test-2"
         export APPLICATION_RESTRICTED_API_KEY="$(APP_RESTRICTED_API_KEY)"
         make smoketest
       workingDirectory: $(Pipeline.Workspace)/s/$(SERVICE_NAME)/$(SERVICE_ARTIFACT_NAME)

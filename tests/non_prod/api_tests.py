@@ -71,7 +71,6 @@ def generate_app_restricted_token():
     )
 
     response_json = response.json()
-
     return response_json["access_token"]
 
 
