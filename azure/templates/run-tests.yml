@@ -33,6 +33,8 @@ steps:
         config_ids:
           - /ptl/azure-devops/env-internal-dev/test-app/internal-testing-internal-dev/CLIENT_ID
           - /ptl/azure-devops/env-internal-dev/test-app/internal-testing-internal-dev/CLIENT_SECRET
+        secret_ids:
+          - ptl/app-credentials/jwt-testing/summary-care-record/non-prod/APP_RESTRICTED_API_KEY
     - bash: |
         export RELEASE_RELEASEID=$(Build.BuildId)
         export SOURCE_COMMIT_ID=$(Build.SourceVersion)
@@ -50,6 +52,7 @@ steps:
         export ID_TOKEN_NHS_LOGIN_PRIVATE_KEY_ABSOLUTE_PATH="$(Pipeline.Workspace)/secrets/$(ID_TOKEN_NHS_LOGIN_PRIVATE_KEY)"
         export AUTHENTICATE_URL="https://nhsd-apim-testing-internal-dev.herokuapp.com/"
         export APPLICATION_RESTRICTED_SIGNING_KEY="$(Pipeline.Workspace)/secrets/$(JWT_APP_RESTRICTED_PRIVATE_KEY)"
+        export APPLICATION_RESTRICTED_API_KEY="$(APP_RESTRICTED_API_KEY)"
         make smoketest
       workingDirectory: $(Pipeline.Workspace)/s/$(SERVICE_NAME)/$(SERVICE_ARTIFACT_NAME)
       displayName: Run smoketests
