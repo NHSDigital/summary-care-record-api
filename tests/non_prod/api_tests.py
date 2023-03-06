@@ -55,8 +55,7 @@ def generate_app_restricted_token():
 
     headers = {"kid": config.KEY_ID}
 
-    with open(config.SIGNING_KEY, "r") as f:
-        private_key = f.read()
+    private_key = config.SIGNING_KEY
 
     encoded_jwt = jwt.encode(
         claims, private_key, algorithm="RS512", headers=headers

@@ -30,7 +30,6 @@ steps:
           - ptl/app-credentials/jwt_testing/non-prod/JWT_TESTING_PRIVATE_KEY
           - ptl/app-credentials/jwt_testing/non-prod/ID_TOKEN_NHS_LOGIN_PRIVATE_KEY
           - ptl/app-credentials/jwt-testing/summary-care-record/non-prod/JWT_APP_RESTRICTED_PRIVATE_KEY
-          - ptl/app-credentials/jwt-testing/summary-care-record/non-prod/APP_RESTRICTED_API_KEY
         config_ids:
           - /ptl/azure-devops/summary-care-record/int/CLIENT_ID_INT
         secret_ids:
