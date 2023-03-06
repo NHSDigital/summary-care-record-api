@@ -198,6 +198,8 @@ def test_app_restricted_get_document_ref(headers):
         f"nhs-number|{patient_nhs}&type=http://snomed.info/sct%7C196981000000101&_sort=date&_count=1",
         headers=headers)
 
+    print(response)
+
     assert response.status_code == 200, "GET DocumentReference failed"
 
 
@@ -211,6 +213,8 @@ def test_app_restricted_get_bundle(headers):
         f"{_base_valid_uri()}/Bundle?composition.identifier=F5EC9F9F-46D4-4FA3-8131-415FF6BA1B44&" +
         f"composition.subject:Patient.identifier=https://fhir.nhs.uk/Id/nhs-number|{patient_nhs}",
         headers=headers)
+    
+    print(response)
 
     assert response.status_code == 200, "GET Bundle failed"
 
@@ -228,6 +232,8 @@ def test_app_restricted_post_bundle(headers):
         f"{_base_valid_uri()}/Bundle",
         json=json.loads(body_as_string),
         headers=headers)
+    
+    print(response)
 
     assert response.status_code == 201, "POST Bundle failed"
 
@@ -249,5 +255,7 @@ def test_app_restricts_set_permission_jwt(headers):
         json=json.loads(body_as_string),
         headers=headers
     )
+
+    print(response)
 
     assert response.status_code == 401, "Application restricted access is not functioning properly."
