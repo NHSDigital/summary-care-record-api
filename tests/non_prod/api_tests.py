@@ -49,7 +49,7 @@ def generate_app_restricted_token():
         "sub": config.APPLICATION_RESTRICTED_API_KEY,
         "iss": config.APPLICATION_RESTRICTED_API_KEY,
         "jti": str(uuid.uuid4()),
-        "aud": f"{config.BASE_URL}/oauth2-mock/token",
+        "aud": f"{config.BASE_URL}/oauth2/token",
         "exp": int(time.time()) + 300,
     }
 
@@ -62,7 +62,7 @@ def generate_app_restricted_token():
     )
 
     response = requests.post(
-        f"{config.BASE_URL}/oauth2-mock/token",
+        f"{config.BASE_URL}/oauth2/token",
         data={
             "grant_type": "client_credentials",
             "client_assertion_type": "urn:ietf:params:oauth:client-assertion-type:jwt-bearer",
