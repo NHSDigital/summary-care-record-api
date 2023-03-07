@@ -160,4 +160,6 @@ public class ObservationMapperTest extends BaseFhirMapperTest {
         var resultStr = TemplateUtils.fillTemplate(findingsTemplate, gpSummary);
         assertThat(resultStr).isEqualTo(expectedHtml);
     }
+
+
 }

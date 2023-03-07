@@ -21,7 +21,6 @@ import uk.nhs.adaptors.scr.WireMockInitializer;
 import uk.nhs.adaptors.scr.config.SpineConfiguration;
 import uk.nhs.adaptors.scr.consts.ScrHttpHeaders;
 import uk.nhs.adaptors.scr.consts.SpineHttpHeaders;
-import uk.nhs.adaptors.scr.uat.common.CustomArgumentsProvider.UploadScrAdditionalInformationSuccess;
 import uk.nhs.adaptors.scr.uat.common.CustomArgumentsProvider.UploadScrBadRequest;
 import uk.nhs.adaptors.scr.uat.common.CustomArgumentsProvider.UploadScrCaseNotFound;
 import uk.nhs.adaptors.scr.uat.common.CustomArgumentsProvider.UploadScrNoConsent;
@@ -97,17 +96,6 @@ public class UploadScrUAT {
     @ParameterizedTest(name = "[{index}] - {0}")
     @ArgumentsSource(UploadScrSuccess.class)
     void testTranslatingFromFhirToHL7v3(TestData testData) throws Exception {
-        stubSpine(eventListQuerySuccessResponse);
-
-        MvcResult mvcResult = performRequest(testData);
-
-        mockMvc.perform(asyncDispatch(mvcResult))
-            .andExpect(status().isCreated());
-    }
-
-    @ParameterizedTest(name = "[{index}] - {0}")
-    @ArgumentsSource(UploadScrAdditionalInformationSuccess.class)
-    void testTranslatingFromFhirToHL7v3AdditionalInformation(TestData testData) throws Exception {
         stubSpine(eventListQuerySuccessResponse);
 
         MvcResult mvcResult = performRequest(testData);

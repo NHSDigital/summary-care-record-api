@@ -93,9 +93,6 @@ public class GetScrUAT {
     @Value("classpath:uat/responses/event-query/additional-information-success.xml")
     private Resource eventQueryAdditionalInformationSuccessResponse;
 
-    @Value("classpath:uat/responses/event-query/additional-information-success-2.xml")
-    private Resource eventQueryAdditionalInformation2SuccessResponse;
-
     @Value("classpath:uat/responses/event-query/agent-person-author-success.xml")
     private Resource eventQuerySuccessAgentPersonResponse;
 

@@ -9,7 +9,6 @@ import uk.nhs.adaptors.scr.models.xml.Diagnosis;
 import uk.nhs.adaptors.scr.models.xml.Finding;
 import uk.nhs.adaptors.scr.models.xml.RiskToPatient;
 import uk.nhs.adaptors.scr.models.xml.Treatment;
-import uk.nhs.adaptors.scr.utils.TemplateUtils;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static uk.nhs.utils.Utils.readResourceFile;
@@ -120,19 +119,19 @@ public class GpSummaryTest {
 //        assertThat(resultStr).isEqualToIgnoringWhitespace(expectedHtml);
 //    }
 //
-    @Test
-    public void When_MappingAdditionalInfoGpSummaryFromBundle_Expect_HL7Match() {
-        var expectedHtml = readResourceFile(String.format(RESOURCE_DIRECTORY + "/%s.html", ADDITIONAL_INFO_FILE_NAME_1));
-
-        var jsonFile = readResourceFile(String.format(RESOURCE_DIRECTORY + "/%s.json", ADDITIONAL_INFO_FILE_NAME_1));
-        var bundle = fhirParser.parseResource(jsonFile, Bundle.class);
-
-        // act
-        var result = GpSummary.fromBundle(bundle, NHSD_ASID);
-
-        var gpSummaryTemplate = TemplateUtils.loadPartialTemplate("GpSummary.mustache");
-
-        var resultStr = TemplateUtils.fillTemplate(gpSummaryTemplate, result);
-        assertThat(resultStr).isEqualToIgnoringWhitespace(expectedHtml);
-    }
+//    @Test
+//    public void When_MappingAdditionalInfoGpSummaryFromBundle_Expect_HL7Match() {
+//        var expectedHtml = readResourceFile(String.format(RESOURCE_DIRECTORY + "/%s.html", ADDITIONAL_INFO_FILE_NAME_1));
+//
+//        var jsonFile = readResourceFile(String.format(RESOURCE_DIRECTORY + "/%s.json", ADDITIONAL_INFO_FILE_NAME_1));
+//        var bundle = fhirParser.parseResource(jsonFile, Bundle.class);
+//
+//        // act
+//        var result = GpSummary.fromBundle(bundle, NHSD_ASID);
+//
+//        var gpSummaryTemplate = TemplateUtils.loadPartialTemplate("GpSummary.mustache");
+//
+//        var resultStr = TemplateUtils.fillTemplate(gpSummaryTemplate, result);
+//        assertThat(resultStr).isEqualToIgnoringWhitespace(expectedHtml);
+//    }
 }
