@@ -3,6 +3,7 @@ package uk.nhs.adaptors.scr.mappings.from.hl7;
 import lombok.RequiredArgsConstructor;
 import org.hl7.fhir.r4.model.CodeableConcept;
 import org.hl7.fhir.r4.model.Coding;
+import org.hl7.fhir.r4.model.Identifier;
 import org.hl7.fhir.r4.model.DateTimeType;
 import org.hl7.fhir.r4.model.Encounter;
 import org.hl7.fhir.r4.model.Meta;
@@ -17,7 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import uk.nhs.adaptors.scr.mappings.from.common.UuidWrapper;
 import uk.nhs.adaptors.scr.mappings.from.hl7.common.CodedEntry;
 import uk.nhs.adaptors.scr.mappings.from.hl7.common.CodedEntryMapper;
 import uk.nhs.adaptors.scr.utils.XmlUtils;
@@ -33,7 +33,6 @@ import static uk.nhs.adaptors.scr.mappings.from.hl7.XmlToFhirMapper.parseDate;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class FamilyHistoriesMapper implements XmlToFhirMapper {
 
-    private final UuidWrapper uuid;
     private final ParticipantMapper participantMapper;
     private final CodedEntryMapper codedEntryMapper;
     private final XmlUtils xmlUtils;
@@ -41,7 +40,7 @@ public class FamilyHistoriesMapper implements XmlToFhirMapper {
     private static final String PERTINENT_CODE_CODE_XPATH = "./code/@code";
     private static final String PERTINENT_CODE_DISPLAY_XPATH = "./code/@displayName";
     private static final String EFFECTIVE_TIME_CENTRE_XPATH = "./effectiveTime/centre/@value";
-    private static final String PERTINENT_CRET_BASE_PATH = "/pertinentInformation2/pertinentCREType[."
+    private static final String PERTINENT_CRET_BASE_PATH = "//pertinentInformation2/pertinentCREType[."
         + "//UKCT_MT144044UK01.FamilyHistory]";
     private static final String TREATMENTS_BASE_PATH = "./component/UKCT_MT144044UK01.FamilyHistory";
     private static final String UK_CORE_PROCEDURE_META = "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Observation";
@@ -134,6 +133,7 @@ public class FamilyHistoriesMapper implements XmlToFhirMapper {
     }
 
     private void mapEncounter(Node node, Observation observation, List<Resource> resources) {
+        CodedEntry entry = codedEntryMapper.getCommonCodedEntryValues(node);
         Optional<Node> author = xmlUtils.detachOptionalNodeByXPath(node, AUTHOR_XPATH);
         Optional<Node> informant = xmlUtils.detachOptionalNodeByXPath(node, INFORMANT_XPATH);
 
@@ -144,7 +144,9 @@ public class FamilyHistoriesMapper implements XmlToFhirMapper {
                 .setCode("UNK")
                 .setSystem("http://terminology.hl7.org/CodeSystem/v3-NullFlavor")
                 .setDisplay("Unknown"));
-            encounter.setId(uuid.randomUuid());
+            var id = entry.getId();
+            encounter.setId(id);
+            encounter.addIdentifier(new Identifier().setValue(id));
             author.ifPresent(authorNode -> mapAuthor(resources, encounter, authorNode));
             informant.ifPresent(informantNode -> mapInformant(resources, encounter, informantNode));
             observation.setEncounter(new Reference(encounter));
