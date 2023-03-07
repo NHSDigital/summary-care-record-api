@@ -194,13 +194,12 @@ def test_app_restricted_get_document_ref(headers):
     headers["Authorization"] = f"Bearer {generate_app_restricted_token()}"
 
     response = requests.get(
-        f"https://internal-dev.api.service.nhs.uk/summary-care-record/R4/DocumentReference?patient=https://fhir.nhs.uk/Id/" +
+        f"{_base_valid_uri}/DocumentReference?patient=https://fhir.nhs.uk/Id/" +
         f"nhs-number|{patient_nhs}&type=http://snomed.info/sct%7C196981000000101&_sort=date&_count=1",
         headers=headers)
 
-    print(response)
-
     assert response.status_code == 200, "GET DocumentReference failed"
+    print(response)
 
 
 @pytest.mark.smoketest
@@ -210,13 +209,12 @@ def test_app_restricted_get_bundle(headers):
     headers["Authorization"] = f"Bearer {generate_app_restricted_token()}"
 
     response = requests.get(
-        f"https://internal-dev.api.service.nhs.uk/summary-care-record/R4/Bundle?composition.identifier=F5EC9F9F-46D4-4FA3-8131-415FF6BA1B44&" +
+        f"{_base_valid_uri}/Bundle?composition.identifier=F5EC9F9F-46D4-4FA3-8131-415FF6BA1B44&" +
         f"composition.subject:Patient.identifier=https://fhir.nhs.uk/Id/nhs-number|{patient_nhs}",
         headers=headers)
-    
-    print(response)
 
     assert response.status_code == 200, "GET Bundle failed"
+    print(response)
 
 
 @pytest.mark.smoketest
@@ -229,13 +227,12 @@ def test_app_restricted_post_bundle(headers):
     body_as_string = json.dumps(body_from_file)
 
     response = requests.post(
-        f"https://internal-dev.api.service.nhs.uk/summary-care-record/R4/Bundle",
+        f"{_base_valid_uri}/Bundle",
         json=json.loads(body_as_string),
         headers=headers)
-    
-    print(response)
 
     assert response.status_code == 201, "POST Bundle failed"
+    print(response)
 
 
 # $setPermission endpoint should reject using app-restricted access if functioning correctly.
@@ -256,6 +253,5 @@ def test_app_restricts_set_permission_jwt(headers):
         headers=headers
     )
 
-    print(response)
-
     assert response.status_code == 401, "Application restricted access is not functioning properly."
+    print(response)
