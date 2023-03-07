@@ -194,7 +194,7 @@ def test_app_restricted_get_document_ref(headers):
     headers["Authorization"] = f"Bearer {generate_app_restricted_token()}"
 
     response = requests.get(
-        f"{_base_valid_uri}/DocumentReference?patient=https://fhir.nhs.uk/Id/" +
+        f"{_base_valid_uri()}/DocumentReference?patient=https://fhir.nhs.uk/Id/" +
         f"nhs-number|{patient_nhs}&type=http://snomed.info/sct%7C196981000000101&_sort=date&_count=1",
         headers=headers)
 
@@ -209,7 +209,7 @@ def test_app_restricted_get_bundle(headers):
     headers["Authorization"] = f"Bearer {generate_app_restricted_token()}"
 
     response = requests.get(
-        f"{_base_valid_uri}/Bundle?composition.identifier=F5EC9F9F-46D4-4FA3-8131-415FF6BA1B44&" +
+        f"{_base_valid_uri()}/Bundle?composition.identifier=F5EC9F9F-46D4-4FA3-8131-415FF6BA1B44&" +
         f"composition.subject:Patient.identifier=https://fhir.nhs.uk/Id/nhs-number|{patient_nhs}",
         headers=headers)
 
@@ -227,7 +227,7 @@ def test_app_restricted_post_bundle(headers):
     body_as_string = json.dumps(body_from_file)
 
     response = requests.post(
-        f"{_base_valid_uri}/Bundle",
+        f"{_base_valid_uri()}/Bundle",
         json=json.loads(body_as_string),
         headers=headers)
 
