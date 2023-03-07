@@ -38,7 +38,7 @@ public class LifestylesMapperTest extends BaseHL7MapperTest {
     private static final String FILE_AS_BUNDLE = "as_bundle";
     private static final String ID = "5EDDDF8C-775A-4437-8990-41012DB32BD0";
     private static final String ID_ENCOUNTER = "5F748C32-4BE8-44C5-8E50-F640B2F4743E";
-    private static final String INFORMATION_BASE_PATH = "/pertinentInformation2/pertinentCREType["
+    private static final String INFORMATION_BASE_PATH = "//pertinentInformation2/pertinentCREType["
         + ".//UKCT_MT144036UK01.LifeStyle]";
     private static final String STATUS_CODE = "FINAL";
 

@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import uk.nhs.adaptors.scr.mappings.from.common.UuidWrapper;
 import uk.nhs.adaptors.scr.mappings.from.hl7.common.CodedEntry;
 import uk.nhs.adaptors.scr.mappings.from.hl7.common.CodedEntryMapper;
 import uk.nhs.adaptors.scr.utils.XmlUtils;
@@ -32,7 +33,7 @@ import static uk.nhs.adaptors.scr.mappings.from.hl7.XmlToFhirMapper.parseDate;
 @Component
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class FamilyHistoriesMapper implements XmlToFhirMapper {
-
+    private final UuidWrapper uuid;
     private final ParticipantMapper participantMapper;
     private final CodedEntryMapper codedEntryMapper;
     private final XmlUtils xmlUtils;
@@ -133,7 +134,6 @@ public class FamilyHistoriesMapper implements XmlToFhirMapper {
     }
 
     private void mapEncounter(Node node, Observation observation, List<Resource> resources) {
-        CodedEntry entry = codedEntryMapper.getCommonCodedEntryValues(node);
         Optional<Node> author = xmlUtils.detachOptionalNodeByXPath(node, AUTHOR_XPATH);
         Optional<Node> informant = xmlUtils.detachOptionalNodeByXPath(node, INFORMANT_XPATH);
 
@@ -144,9 +144,7 @@ public class FamilyHistoriesMapper implements XmlToFhirMapper {
                 .setCode("UNK")
                 .setSystem("http://terminology.hl7.org/CodeSystem/v3-NullFlavor")
                 .setDisplay("Unknown"));
-            var id = entry.getId();
-            encounter.setId(id);
-            encounter.addIdentifier(new Identifier().setValue(id));
+            encounter.setId(uuid.randomUuid());
             author.ifPresent(authorNode -> mapAuthor(resources, encounter, authorNode));
             informant.ifPresent(informantNode -> mapInformant(resources, encounter, informantNode));
             observation.setEncounter(new Reference(encounter));

@@ -45,7 +45,7 @@ public class LifestylesMapper implements XmlToFhirMapper {
     private static final String PERTINENT_CODE_CODE_XPATH = "./code/@code";
     private static final String PERTINENT_CODE_DISPLAY_XPATH = "./code/@displayName";
     private static final String EFFECTIVE_TIME_CENTRE_XPATH = "./effectiveTime/centre/@value";
-    private static final String PERTINENT_CRET_BASE_PATH = "/pertinentInformation2/pertinentCREType[."
+    private static final String PERTINENT_CRET_BASE_PATH = "//pertinentInformation2/pertinentCREType[."
         + "//UKCT_MT144036UK01.LifeStyle]";
     private static final String TREATMENTS_BASE_PATH = "./component/UKCT_MT144036UK01.LifeStyle";
     private static final String UK_CORE_PROCEDURE_META = "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Observation";

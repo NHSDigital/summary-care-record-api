@@ -35,7 +35,7 @@ public class FamilyHistoriesMapperTest extends BaseHL7MapperTest {
     private static final String FILE_AS_BUNDLE = "as_bundle";
     private static final String ID = "51089E5B-0840-4237-8D91-CFC0238E83B4";
     private static final String ID_ENCOUNTER = "0G582D97-8G89-11EA-8B4G-B741F13EFC48";
-    private static final String INFORMATION_BASE_PATH = "/pertinentInformation2/pertinentCREType["
+    private static final String INFORMATION_BASE_PATH = "//pertinentInformation2/pertinentCREType["
         + ".//UKCT_MT144044UK01.FamilyHistory]";
     private static final String STATUS_CODE = "FINAL";
 
