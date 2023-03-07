@@ -213,8 +213,7 @@ def test_app_restricted_get_bundle(headers):
         headers=headers)
 
     assert response.status_code == 200, "GET Bundle failed"
-    print(response)
-
+    
 
 @pytest.mark.smoketest
 def test_app_restricted_post_bundle(headers):
