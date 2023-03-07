@@ -199,7 +199,6 @@ def test_app_restricted_get_document_ref(headers):
         headers=headers)
 
     assert response.status_code == 200, "GET DocumentReference failed"
-    print(response)
 
 
 @pytest.mark.smoketest
@@ -232,7 +231,6 @@ def test_app_restricted_post_bundle(headers):
         headers=headers)
 
     assert response.status_code == 201, "POST Bundle failed"
-    print(response)
 
 
 # $setPermission endpoint should reject using app-restricted access if functioning correctly.
@@ -252,7 +250,5 @@ def test_app_restricts_set_permission_jwt(headers):
         json=json.loads(body_as_string),
         headers=headers
     )
-
-    print(_base_valid_uri())
 
     assert response.status_code == 401, "Application restricted access is not functioning properly."
