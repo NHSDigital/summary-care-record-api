@@ -1,0 +1,4 @@
+<OAuthV2 async="false" continueOnError="false" enabled="true" name="OauthV2.VerifyAccessTokenWithUserRestrictedScope">
+  <Operation>VerifyAccessToken</Operation>
+  <Scope>summary-care-record:USER-RESTRICTED</Scope>
+</OAuthV2>

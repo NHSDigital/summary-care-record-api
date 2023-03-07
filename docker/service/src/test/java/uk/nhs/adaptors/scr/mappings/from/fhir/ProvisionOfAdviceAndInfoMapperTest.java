@@ -26,19 +26,14 @@ public class ProvisionOfAdviceAndInfoMapperTest extends BaseFhirMapperTest {
     @Test
     public void When_MappingFromFHIR_Expect_RootId() {
         var communication = getFileAsObject(RESOURCE_DIRECTORY, FILE_NAME, Communication.class);
-
-        returnExpectedUuid(ID);
-
         var result = provisionOfAdviceAndInfoMapper.mapProvisionOfAdviceInfo(communication);
 
         assertThat(result.getIdRoot()).isEqualTo(ID);
-
     }
 
     @Test
     public void When_MappingFromFHIR_Expect_Code() {
         var communication = getFileAsObject(RESOURCE_DIRECTORY, FILE_NAME, Communication.class);
-
         var result = provisionOfAdviceAndInfoMapper.mapProvisionOfAdviceInfo(communication);
 
         assertThat(result.getCodeCode()).isEqualTo("1240711000000104");
@@ -49,7 +44,6 @@ public class ProvisionOfAdviceAndInfoMapperTest extends BaseFhirMapperTest {
     @Test
     public void When_MappingFromFHIR_Expect_StatusCode() {
         var communication = getFileAsObject(RESOURCE_DIRECTORY, FILE_NAME, Communication.class);
-
         var result = provisionOfAdviceAndInfoMapper.mapProvisionOfAdviceInfo(communication);
 
         assertThat(result.getStatusCodeCode()).isEqualTo(STATUS_CODE);
@@ -58,29 +52,22 @@ public class ProvisionOfAdviceAndInfoMapperTest extends BaseFhirMapperTest {
     @Test
     public void When_MappingFromFHIR_Expect_EffectiveTimeLow() {
         var communication = getFileAsObject(RESOURCE_DIRECTORY, FILE_NAME, Communication.class);
-
         var result = provisionOfAdviceAndInfoMapper.mapProvisionOfAdviceInfo(communication);
 
         assertThat(result.getEffectiveTimeLow()).isEqualTo("20200805");
-
     }
 
     @Test
     public void When_MappingFromFHIR_Expect_MatchingHtml() {
         var expectedHtml = getExpectedHtml(RESOURCE_DIRECTORY, FILE_NAME);
         var communication = getFileAsObject(RESOURCE_DIRECTORY, FILE_NAME, Communication.class);
-
-        returnExpectedUuid(ID);
-
         var result = provisionOfAdviceAndInfoMapper.mapProvisionOfAdviceInfo(communication);
-
         var gpSummary = new GpSummary();
         var provisionsOfAdviceInfo = new ArrayList<ProvisionOfAdviceAndInformation>();
         provisionsOfAdviceInfo.add(result);
         gpSummary.setProvisionsOfAdviceAndInformationToPatientsAndCarers(provisionsOfAdviceInfo);
 
         var provisionOfAdviceInfoTemplate = TemplateUtils.loadPartialTemplate("ProvisionsOfAdviceInformation.mustache");
-
         var resultStr = TemplateUtils.fillTemplate(provisionOfAdviceInfoTemplate, gpSummary);
         assertThat(resultStr).isEqualTo(expectedHtml);
     }
