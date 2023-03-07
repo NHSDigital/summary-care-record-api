@@ -253,5 +253,6 @@ def test_app_restricts_set_permission_jwt(headers):
         headers=headers
     )
 
+    print(_base_valid_uri())
+
     assert response.status_code == 401, "Application restricted access is not functioning properly."
-    print(response)
