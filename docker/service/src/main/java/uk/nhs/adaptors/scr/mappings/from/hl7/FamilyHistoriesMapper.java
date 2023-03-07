@@ -3,7 +3,6 @@ package uk.nhs.adaptors.scr.mappings.from.hl7;
 import lombok.RequiredArgsConstructor;
 import org.hl7.fhir.r4.model.CodeableConcept;
 import org.hl7.fhir.r4.model.Coding;
-import org.hl7.fhir.r4.model.Identifier;
 import org.hl7.fhir.r4.model.DateTimeType;
 import org.hl7.fhir.r4.model.Encounter;
 import org.hl7.fhir.r4.model.Meta;
