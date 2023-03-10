@@ -17,10 +17,22 @@ import static uk.nhs.utils.Utils.readResourceFile;
 public class GpSummaryTest {
     private static final String RESOURCE_DIRECTORY = "gp_summary";
     private static final String HTML_RESOURCE_DIRECTORY = "gp_summary/from/fhir";
+    private static final String BUNDLE_RESOURCE_DIRECTORY = "gp_summary/from/fhir/additionalinfo";
     private static final String STANDARD_FILE_NAME = "standard_gp_summary";
     private static final String ADDITIONAL_INFO_FILE_NAME_1 = "additional_information_gp_summary_1";
     private static final String NHSD_ASID = "1029384756";
     private FhirParser fhirParser = new FhirParser();
+
+    /**
+     * Given a supplied bundle with no non-core, no third party correspondence section should be found.
+     */
+    @Test
+    public void When_MappingBundleWithNoNonCoreCres_Expect_NoThirdPartyCorrespondence() {
+        var jsonFile = readResourceFile(String.format(BUNDLE_RESOURCE_DIRECTORY + "/%s.json", "no-non-core.json"));
+        var bundle = fhirParser.parseResource(jsonFile, Bundle.class);
+        var result = GpSummary.fromBundle(bundle, NHSD_ASID);
+        assertThat(result.getThirdPartyCorrespondence()).notexists();
+    }
 
     @Test
     public void When_MappingStandardGpSummaryFromBundle_Expect_PresentationTextHL7Match() {
