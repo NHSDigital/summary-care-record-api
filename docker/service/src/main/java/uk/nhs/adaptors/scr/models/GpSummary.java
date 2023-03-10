@@ -97,12 +97,13 @@ public class GpSummary {
             throw new FhirMappingException(e.getMessage(), e.getCause());
         }
 
-        // Add logic here.
-//        if (gpSummary.getCareEvents().contains("EventsHeader")){
-//            System.out.println("This worked");
-//        } else {
-//            System.out.println("This didn't work");
-//        }
+        // the path to the header
+        var gpList = bundle.getEntry().get(0).getResource().getChildByName("section"); //entries stored in this section
+        var code = gpList.getValues().get(0).getChildByName("code");
+        var coding = code.getValues().get(0).getChildByName("coding");
+        var code_value = coding.getValues().get(0);
+
+        var header = code_value.getChildByName("code").getValues().get(0); //header extracted in this variable
 
         return gpSummary;
     }
