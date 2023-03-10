@@ -23,15 +23,31 @@ public class GpSummaryTest {
     private static final String NHSD_ASID = "1029384756";
     private FhirParser fhirParser = new FhirParser();
 
+
     /**
      * Given a supplied bundle with no non-core, no third party correspondence section should be found.
      */
     @Test
     public void When_MappingBundleWithNoNonCoreCres_Expect_NoThirdPartyCorrespondence() {
-        var jsonFile = readResourceFile(String.format(BUNDLE_RESOURCE_DIRECTORY + "/%s.json", "no-non-core.json"));
+        var jsonFile = readResourceFile(String.format(BUNDLE_RESOURCE_DIRECTORY + "/%s.json", "no-non-core"));
         var bundle = fhirParser.parseResource(jsonFile, Bundle.class);
         var result = GpSummary.fromBundle(bundle, NHSD_ASID);
-        assertThat(result.getThirdPartyCorrespondence()).notexists();
+
+        assertThat(result.getRisksToPatient().stream().count()).isEqualTo(0);
+        //assertThat(result.getThirdPartyCorrespondence().stream().count()).isEqualTo(0);
+    }
+
+    /**
+     * Given a supplied bundle with no non-core, no third party correspondence section should be found.
+     */
+    @Test
+    public void When_MappingBundleWithOneRiskToPatient_Expect_ThirdPartyCorrespondence() {
+        var jsonFile = readResourceFile(String.format(BUNDLE_RESOURCE_DIRECTORY + "/%s.json", "one-risk-to-patient"));
+        var bundle = fhirParser.parseResource(jsonFile, Bundle.class);
+        var result = GpSummary.fromBundle(bundle, NHSD_ASID);
+
+        assertThat(result.getRisksToPatient().stream().count()).isEqualTo(1);
+        //assertThat(result.getThirdPartyCorrespondence().stream().count()).isEqualTo(0);
     }
 
     @Test

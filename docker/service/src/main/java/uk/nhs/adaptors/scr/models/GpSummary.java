@@ -96,7 +96,14 @@ public class GpSummary {
         } catch (Exception e) {
             throw new FhirMappingException(e.getMessage(), e.getCause());
         }
+
         // Add logic here.
+//        if (gpSummary.getCareEvents().contains("EventsHeader")){
+//            System.out.println("This worked");
+//        } else {
+//            System.out.println("This didn't work");
+//        }
+
         return gpSummary;
     }
 
