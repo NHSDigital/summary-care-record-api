@@ -23,6 +23,7 @@ import uk.nhs.adaptors.scr.models.xml.Investigation;
 import uk.nhs.adaptors.scr.models.xml.Lifestyle;
 import uk.nhs.adaptors.scr.models.xml.Participant;
 import uk.nhs.adaptors.scr.models.xml.PatientCarerCorrespondence;
+import uk.nhs.adaptors.scr.models.xml.ThirdPartyCorrespondence;
 import uk.nhs.adaptors.scr.models.xml.PersonalPreference;
 import uk.nhs.adaptors.scr.models.xml.Presentation;
 import uk.nhs.adaptors.scr.models.xml.Problem;
@@ -73,7 +74,9 @@ public class GpSummary {
     private List<ProvisionOfAdviceAndInformation> provisionsOfAdviceAndInformationToPatientsAndCarers = new ArrayList<>();
     private List<RiskToPatient> risksToPatient = new ArrayList<>();
     private List<SocialOrPersonalCircumstance> socialOrPersonalCircumstances = new ArrayList<>();
+    private List<ThirdPartyCorrespondence> thirdPartyCorrespondences = new ArrayList<>();
     private List<Treatment> treatments = new ArrayList<>();
+    private List<String> headers = new ArrayList<>();
 
     public static GpSummary fromBundle(Bundle bundle, String nhsdAsid) throws FhirMappingException {
         validateType(bundle);
@@ -97,6 +100,7 @@ public class GpSummary {
             throw new FhirMappingException(e.getMessage(), e.getCause());
         }
 
+
         // the path to the header
         var gpList = bundle.getEntry().get(0).getResource().getChildByName("section"); //entries stored in this section
         var code = gpList.getValues().get(0).getChildByName("code");
@@ -104,6 +108,10 @@ public class GpSummary {
         var code_value = coding.getValues().get(0);
 
         var header = code_value.getChildByName("code").getValues().get(0); //header extracted in this variable
+
+        // HERE IS WHERE OUR CODE GOES.
+        // bundle>entry>0>resource>section>n>code>coding>n>code>myStringValue
+
 
         return gpSummary;
     }

@@ -7,6 +7,7 @@ import uk.nhs.adaptors.scr.models.GpSummary;
 import uk.nhs.adaptors.scr.models.xml.CareProfessionalDocumentation;
 import uk.nhs.adaptors.scr.models.xml.PatientCarerCorrespondence;
 import uk.nhs.adaptors.scr.models.xml.ProvisionOfAdviceAndInformation;
+import uk.nhs.adaptors.scr.models.xml.ThirdPartyCorrespondence;
 
 import java.util.List;
 import java.util.function.Predicate;
@@ -15,12 +16,26 @@ import java.util.stream.Collectors;
 import static uk.nhs.adaptors.scr.utils.FhirHelper.getDomainResourceList;
 
 public class CommunicationMapper {
+    /**
+     * Documentation of SNOMED code, see: http://bit.ly/3YL32JY
+     */
     private static final Predicate<Communication> IS_PATIENT_CARER_CORRESPONDENCE =
         communication -> "163181000000107".equals(communication.getCategoryFirstRep().getCodingFirstRep().getCode());
+    /**
+     * Documentation of SNOMED code, see: http://bit.ly/3yASZws
+     */
     private static final Predicate<Communication> IS_PROVISION_OF_ADVICE_AND_INFORMATION =
         communication -> "163101000000102".equals(communication.getCategoryFirstRep().getCodingFirstRep().getCode());
+    /**
+     * Documentation of SNOMED code, see: http://bit.ly/3JDtzoh
+     */
     private static final Predicate<Communication> IS_CARE_PROFESSIONAL_DOCUMENTATION =
         communication -> "163171000000105".equals(communication.getCategoryFirstRep().getCodingFirstRep().getCode());
+    /**
+     * Documentation of SNOMED code, see: http://bit.ly/3ZY0qJA
+     */
+    private static final Predicate<Communication> IS_THIRD_PARTY_CORRESPONDENCE =
+        communication -> "163191000000109".equals(communication.getCategoryFirstRep().getCodingFirstRep().getCode());
 
     public static void mapCommunications(GpSummary gpSummary, Bundle bundle) {
         validate(bundle);
@@ -30,6 +45,15 @@ public class CommunicationMapper {
             .addAll(mapProvisionOfAdviceAndInformation(bundle));
     }
 
+    public static void mapCommunicationsWithAdditionalInfoButton(GpSummary gpSummary, Bundle bundle) {
+        validate(bundle);
+        gpSummary.getPatientCarerCorrespondences()
+            .addAll(mapPatientAndCarersCorrespondence(bundle));
+        gpSummary.getProvisionsOfAdviceAndInformationToPatientsAndCarers()
+            .addAll(mapProvisionOfAdviceAndInformation(bundle));
+        gpSummary.getThirdPartyCorrespondences()
+            .addAll(mapThirdPartyCorrespondence(bundle));
+    }
 
     /**
      * Mapping of Patient/carer correspondence
@@ -54,6 +78,19 @@ public class CommunicationMapper {
         return getDomainResourceList(bundle, Communication.class).stream()
             .filter(IS_PROVISION_OF_ADVICE_AND_INFORMATION)
             .map(communication -> provisionOfAdviceAndInformationMapper.mapProvisionOfAdviceInfo(communication))
+            .collect(Collectors.toList());
+    }
+
+    /**
+     * Mapping of Third Party Correspondence
+     * @param bundle
+     * @return ProvisionOfAdviceAndInformation List
+     */
+    private static List<ThirdPartyCorrespondence> mapThirdPartyCorrespondence(Bundle bundle) {
+        var thirdPartyCorrespondenceMapper = new ThirdPartyCorrespondenceMapper();
+        return getDomainResourceList(bundle, Communication.class).stream()
+            .filter(IS_THIRD_PARTY_CORRESPONDENCE)
+            .map(communication -> thirdPartyCorrespondenceMapper.mapThirdPartyCorrespondence(communication))
             .collect(Collectors.toList());
     }
 
