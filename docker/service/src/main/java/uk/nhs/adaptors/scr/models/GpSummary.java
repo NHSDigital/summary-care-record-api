@@ -3,7 +3,7 @@ package uk.nhs.adaptors.scr.models;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import org.hl7.fhir.r4.model.Bundle;
+import org.hl7.fhir.r4.model.*;
 import org.springframework.stereotype.Component;
 import uk.nhs.adaptors.scr.exceptions.FhirMappingException;
 import uk.nhs.adaptors.scr.exceptions.FhirValidationException;
@@ -100,20 +100,66 @@ public class GpSummary {
             throw new FhirMappingException(e.getMessage(), e.getCause());
         }
 
-
-        // the path to the header
-        var gpList = bundle.getEntry().get(0).getResource().getChildByName("section"); //entries stored in this section
-        var code = gpList.getValues().get(0).getChildByName("code");
-        var coding = code.getValues().get(0).getChildByName("coding");
-        var code_value = coding.getValues().get(0);
-
-        var header = code_value.getChildByName("code").getValues().get(0); //header extracted in this variable
-
-        // HERE IS WHERE OUR CODE GOES.
-        // bundle>entry>0>resource>section>n>code>coding>n>code>myStringValue
-
+        //Check whether additional information is present so that third party correspondence can be injected.
+        boolean additionalInformation = gpSummary.isBundleWithAdditionalInformation(bundle);
 
         return gpSummary;
+    }
+
+    public static boolean isBundleWithAdditionalInformation(Bundle bundle){
+        //A list of all the additional headers for comparison that will trigger third party correspondence.
+        ArrayList<String> additionalInformationHeaders = new ArrayList<String>(){
+            {
+                add("ProceduresHeader");
+                add("EventsHeader");
+                add("DocumentationHeader");
+                add("ObservationsHeader");
+                add("DiagnosesHeader");
+                add("HistoryHeader");
+                add("ResultsHeader");
+                add("InvestigationsHeader");
+                add("LifestyleHeader");
+                add("PatientCarerCorrespondenceHeader");
+                add("PreferencesHeader");
+                add("ProblemsHeader");
+                add("AdviceHeader");
+                add("RisksToPatientHeader");
+                add("CircumstancesHeader");
+                add("TreatmentsHeader");
+                add("RisksToProfessionalHeader");
+                add("ServicesHeader");
+            }
+        };
+
+        Property gpList = bundle.getEntry().get(0).getResource().getChildByName("section"); //entries stored in this section
+
+        //A list that will contain all headers present in the bundle, no matter if they're additional information or not.
+        ArrayList<String> headerList = new ArrayList<String>();
+
+        gpList.getValues().forEach(gp -> {
+            Property code = gp.getChildByName("code");
+            Property coding = code.getValues().get(0).getChildByName("coding");
+            Base code_value = coding.getValues().get(0);
+
+            Base header = code_value.getChildByName("code").getValues().get(0); //header extracted in this variable
+
+            headerList.add(((CodeType) header).getCode());
+        } );
+
+        //assign all the headers that are additional information and present in the bundle. Removes duplicates, if any.
+        additionalInformationHeaders.retainAll(headerList);
+
+        if(additionalInformationHeaders.size() > 0){
+            additionalInformationHeaders.forEach(header -> {
+                //TODO: A nice to have, use this to signal which header caused the third party information to appear.
+                System.out.println(String.format("Additional information header found! Header: %s",header));
+            });
+            return true;
+        }
+
+        System.out.println("No additional information headers found!");
+
+        return false;
     }
 
     private static void validateType(Bundle bundle) {

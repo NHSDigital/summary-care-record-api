@@ -38,6 +38,18 @@ public class GpSummaryTest {
     }
 
     /**
+     * Given a supplied bundle with no non-core, additional information should be detected.
+     */
+    @Test
+    public void When_MappingBundleWithOneRiskToPatient_Expect_NoAdditionalInformation() {
+        var jsonFile = readResourceFile(String.format(BUNDLE_RESOURCE_DIRECTORY + "/%s.json", "no-non-core"));
+        var bundle = fhirParser.parseResource(jsonFile, Bundle.class);
+        var result = GpSummary.isBundleWithAdditionalInformation(bundle);
+
+        assertThat(result).isEqualTo(false);
+    }
+
+    /**
      * Given a supplied bundle with no non-core, no third party correspondence section should be found.
      */
     @Test
@@ -48,6 +60,18 @@ public class GpSummaryTest {
 
         assertThat(result.getRisksToPatient().stream().count()).isEqualTo(1);
         //assertThat(result.getThirdPartyCorrespondence().stream().count()).isEqualTo(0);
+    }
+
+    /**
+     * Given a supplied bundle with no non-core, additional information should be detected.
+     */
+    @Test
+    public void When_MappingBundleWithOneRiskToPatient_Expect_AdditionalInformation() {
+        var jsonFile = readResourceFile(String.format(BUNDLE_RESOURCE_DIRECTORY + "/%s.json", "one-risk-to-patient"));
+        var bundle = fhirParser.parseResource(jsonFile, Bundle.class);
+        var result = GpSummary.isBundleWithAdditionalInformation(bundle);
+
+        assertThat(result).isEqualTo(true);
     }
 
     @Test
