@@ -89,7 +89,6 @@ public class GpSummary {
                     GpSummary::gpSummarySetHeaderTimeStamp,
                     GpSummary::gpSummarySetHeaderId,
                     AuthorMapper::mapAuthor,
-                    CommunicationMapper::mapCommunications,
                     CompositionMapper::mapComposition,
                     ConditionMapper::mapConditions,
                     ObservationMapper::mapObservations,
@@ -102,6 +101,22 @@ public class GpSummary {
 
         //Check whether additional information is present so that third party correspondence can be injected.
         boolean additionalInformation = gpSummary.isBundleWithAdditionalInformation(bundle);
+
+        //The mapping happens differently depending on whether third party communication is expected. If it is, map that too.
+        try {
+            if(additionalInformation){
+                Stream.<BiConsumer<GpSummary, Bundle>>of(
+                        CommunicationMapper::mapCommunicationsWithAdditionalInfoButton)
+                    .forEach(mapper -> mapper.accept(gpSummary, bundle));
+            }
+            else{
+                Stream.<BiConsumer<GpSummary, Bundle>>of(
+                        CommunicationMapper::mapCommunications)
+                    .forEach(mapper -> mapper.accept(gpSummary, bundle));
+            }
+        } catch (Exception e) {
+            throw new FhirMappingException(e.getMessage(), e.getCause());
+        }
 
         return gpSummary;
     }
