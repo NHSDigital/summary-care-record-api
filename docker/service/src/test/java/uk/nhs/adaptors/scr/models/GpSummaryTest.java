@@ -54,7 +54,8 @@ public class GpSummaryTest {
      */
     @Test
     public void When_MappingBundleWithOneRiskToPatient_Expect_ThirdPartyCorrespondence() {
-        var jsonFile = readResourceFile(String.format(BUNDLE_RESOURCE_DIRECTORY + "/%s.json", "one-risk-to-patient-third-party-communication"));
+        var jsonFile = readResourceFile(String.format(BUNDLE_RESOURCE_DIRECTORY + "/%s.json",
+                "one-risk-to-patient-third-party-communication"));
         var bundle = fhirParser.parseResource(jsonFile, Bundle.class);
         var result = GpSummary.fromBundle(bundle, NHSD_ASID);
 

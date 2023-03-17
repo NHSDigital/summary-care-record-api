@@ -107,12 +107,11 @@ public class GpSummary {
 
         //The mapping happens differently depending on whether third party communication is expected. If it is, map that too.
         try {
-            if(additionalInformation){
+            if (additionalInformation) {
                 Stream.<BiConsumer<GpSummary, Bundle>>of(
                         CommunicationMapper::mapCommunicationsWithAdditionalInfoButton)
                     .forEach(mapper -> mapper.accept(gpSummary, bundle));
-            }
-            else{
+            } else {
                 Stream.<BiConsumer<GpSummary, Bundle>>of(
                         CommunicationMapper::mapCommunications)
                     .forEach(mapper -> mapper.accept(gpSummary, bundle));
@@ -124,9 +123,9 @@ public class GpSummary {
         return gpSummary;
     }
 
-    public static boolean isBundleWithAdditionalInformation(Bundle bundle){
+    public static boolean isBundleWithAdditionalInformation(Bundle bundle) {
         //A list of all the additional headers for comparison that will trigger third party correspondence.
-        ArrayList<String> additionalInformationHeaders = new ArrayList<String>(){
+        ArrayList<String> additionalInformationHeaders = new ArrayList<String>() {
             {
                 add("ProceduresHeader");
                 add("EventsHeader");
@@ -157,20 +156,20 @@ public class GpSummary {
         gpList.getValues().forEach(gp -> {
             Property code = gp.getChildByName("code");
             Property coding = code.getValues().get(0).getChildByName("coding");
-            Base code_value = coding.getValues().get(0);
+            Base codingValue = coding.getValues().get(0);
 
-            Base header = code_value.getChildByName("code").getValues().get(0); //header extracted in this variable
+            Base header = codingValue.getChildByName("code").getValues().get(0); //header extracted in this variable
 
             headerList.add(((CodeType) header).getCode());
-        } );
+        });
 
         //assign all the headers that are additional information and present in the bundle. Removes duplicates, if any.
         additionalInformationHeaders.retainAll(headerList);
 
-        if(additionalInformationHeaders.size() > 0){
+        if (additionalInformationHeaders.size() > 0) {
             additionalInformationHeaders.forEach(header -> {
                 //TODO: A nice to have, use this to signal which header caused the third party information to appear.
-                System.out.println(String.format("Additional information header found! Header: %s",header));
+                System.out.println(String.format("Additional information header found! Header: %s", header));
             });
             return true;
         }
