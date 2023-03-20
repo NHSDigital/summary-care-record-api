@@ -10,6 +10,8 @@ import uk.nhs.adaptors.scr.models.xml.Finding;
 import uk.nhs.adaptors.scr.models.xml.RiskToPatient;
 import uk.nhs.adaptors.scr.models.xml.Treatment;
 
+import java.util.ArrayList;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static uk.nhs.utils.Utils.readResourceFile;
 
@@ -28,29 +30,16 @@ public class GpSummaryTest {
      * Given a supplied bundle with no non-core, no third party correspondence section should be found.
      */
     @Test
-    public void When_MappingBundleWithNoNonCoreCres_Expect_NoThirdPartyCorrespondence() {
+    public void When_MappingBundleWithNoNonCore_Expect_NoThirdPartyCorrespondence() {
         var jsonFile = readResourceFile(String.format(BUNDLE_RESOURCE_DIRECTORY + "/%s.json", "no-non-core"));
         var bundle = fhirParser.parseResource(jsonFile, Bundle.class);
         var result = GpSummary.fromBundle(bundle, NHSD_ASID);
 
-        assertThat(result.getRisksToPatient().stream().count()).isEqualTo(0);
-        //assertThat(result.getThirdPartyCorrespondence().stream().count()).isEqualTo(0);
+        assertThat(result.getThirdPartyCorrespondences().stream().count()).isEqualTo(0);
     }
 
     /**
-     * Given a supplied bundle with no non-core, additional information should be detected.
-     */
-    @Test
-    public void When_MappingBundleWithOneRiskToPatient_Expect_NoAdditionalInformation() {
-        var jsonFile = readResourceFile(String.format(BUNDLE_RESOURCE_DIRECTORY + "/%s.json", "no-non-core"));
-        var bundle = fhirParser.parseResource(jsonFile, Bundle.class);
-        var result = GpSummary.isBundleWithAdditionalInformation(bundle);
-
-        assertThat(result).isEqualTo(false);
-    }
-
-    /**
-     * Given a supplied bundle with non-core, third party correspondence section should be found.
+     * Given a supplied bundle with one risk to patient, third party correspondence section should be found.
      */
     @Test
     public void When_MappingBundleWithOneRiskToPatient_Expect_ThirdPartyCorrespondence() {
@@ -64,28 +53,156 @@ public class GpSummaryTest {
     }
 
     /**
-     * Given a supplied bundle with no non-core, no third party correspondence section should be found.
+     * Given a supplied bundle multiple treatments and risks to patient, third party correspondence section should be found.
      */
     @Test
-    public void When_MappingBundleWithOneRiskToPatient_Expect_NoThirdPartyCorrespondence() {
-        var jsonFile = readResourceFile(String.format(BUNDLE_RESOURCE_DIRECTORY + "/%s.json", "no-non-core"));
+    public void When_MappingBundleWithMultipleTreatmentsMultipleRisksToPatient_Expect_ThirdPartyCorrespondence() {
+        var jsonFile = readResourceFile(String.format(BUNDLE_RESOURCE_DIRECTORY + "/%s.json",
+                "treatments-plus-risks-to-patient"));
         var bundle = fhirParser.parseResource(jsonFile, Bundle.class);
         var result = GpSummary.fromBundle(bundle, NHSD_ASID);
 
-        assertThat(result.getRisksToPatient().stream().count()).isEqualTo(0);
-        assertThat(result.getThirdPartyCorrespondences().stream().count()).isEqualTo(0);
+        assertThat(result.getRisksToPatient().stream().count()).isEqualTo(2);
+        assertThat(result.getTreatments().stream().count()).isEqualTo(2);
+        assertThat(result.getThirdPartyCorrespondences().stream().count()).isEqualTo(4);
     }
 
     /**
-     * Given a supplied bundle with no non-core, additional information should be detected.
+     * Given a supplied bundle with multiple treatments, third party correspondence section should be found.
+     */
+    @Test
+    public void When_MappingBundleWithMultipleTreatments_Expect_ThirdPartyCorrespondence() {
+        var jsonFile = readResourceFile(String.format(BUNDLE_RESOURCE_DIRECTORY + "/%s.json",
+                "treatments"));
+        var bundle = fhirParser.parseResource(jsonFile, Bundle.class);
+        var result = GpSummary.fromBundle(bundle, NHSD_ASID);
+
+        assertThat(result.getTreatments().stream().count()).isEqualTo(2);
+        assertThat(result.getThirdPartyCorrespondences().stream().count()).isEqualTo(2);
+    }
+
+    /**
+     * Given a supplied bundle with multiple risks to patient, third party correspondence section should be found.
+     */
+    @Test
+    public void When_MappingBundleWithMultipleRisksToPatient_Expect_ThirdPartyCorrespondence() {
+        var jsonFile = readResourceFile(String.format(BUNDLE_RESOURCE_DIRECTORY + "/%s.json",
+                "riskstopatient"));
+        var bundle = fhirParser.parseResource(jsonFile, Bundle.class);
+        var result = GpSummary.fromBundle(bundle, NHSD_ASID);
+
+        assertThat(result.getRisksToPatient().stream().count()).isEqualTo(2);
+        assertThat(result.getThirdPartyCorrespondences().stream().count()).isEqualTo(2);
+    }
+
+    /**
+     * Given a supplied bundle with no non-core, additional information should not be detected.
+     */
+    @Test
+    public void When_MappingBundleWithNoNonCore_Expect_NoAdditionalInformation() {
+        var jsonFile = readResourceFile(String.format(BUNDLE_RESOURCE_DIRECTORY + "/%s.json", "no-non-core"));
+        var bundle = fhirParser.parseResource(jsonFile, Bundle.class);
+
+        ArrayList<String> expectedHeaders = new ArrayList<String>();
+
+        var result = GpSummary.isBundleWithAdditionalInformation(bundle);
+        var additionalInformationFlag = result.getLeft();
+        var actualHeaders = result.getRight();
+
+        assertThat(additionalInformationFlag).isEqualTo(false);
+        assertThat(actualHeaders).isEqualTo(expectedHeaders);
+    }
+
+    /**
+     * Given a supplied bundle with non-core, additional information should be detected.
      */
     @Test
     public void When_MappingBundleWithOneRiskToPatient_Expect_AdditionalInformation() {
         var jsonFile = readResourceFile(String.format(BUNDLE_RESOURCE_DIRECTORY + "/%s.json", "one-risk-to-patient"));
         var bundle = fhirParser.parseResource(jsonFile, Bundle.class);
-        var result = GpSummary.isBundleWithAdditionalInformation(bundle);
 
-        assertThat(result).isEqualTo(true);
+        ArrayList<String> expectedHeaders = new ArrayList<String>() {
+            {
+                add("RisksToPatientHeader");
+            }
+        };
+
+        var result = GpSummary.isBundleWithAdditionalInformation(bundle);
+        var additionalInformationFlag = result.getLeft();
+        var actualHeaders = result.getRight();
+
+        assertThat(additionalInformationFlag).isEqualTo(true);
+        assertThat(actualHeaders).isEqualTo(expectedHeaders);
+    }
+
+    /**
+     * Given a supplied bundle with treatments and risks to patients, additional information should be detected.
+     */
+    @Test
+    public void When_MappingBundleWithMultipleTreatmentsMultipleRisksToPatient_Expect_AdditionalInformation() {
+        var jsonFile = readResourceFile(String.format(BUNDLE_RESOURCE_DIRECTORY + "/%s.json",
+                "treatments-plus-risks-to-patient"));
+        var bundle = fhirParser.parseResource(jsonFile, Bundle.class);
+
+        ArrayList<String> expectedHeaders = new ArrayList<String>() {
+            {
+                add("RisksToPatientHeader");
+                add("TreatmentsHeader");
+            }
+        };
+
+        var result = GpSummary.isBundleWithAdditionalInformation(bundle);
+        var additionalInformationFlag = result.getLeft();
+        var actualHeaders = result.getRight();
+
+        assertThat(additionalInformationFlag).isEqualTo(true);
+        assertThat(actualHeaders).isEqualTo(expectedHeaders);
+    }
+
+    /**
+     * Given a supplied bundle with treatments, additional information should be detected.
+     */
+    @Test
+    public void When_MappingBundleWithMultipleTreatments_Expect_AdditionalInformation() {
+        var jsonFile = readResourceFile(String.format(BUNDLE_RESOURCE_DIRECTORY + "/%s.json",
+                "treatments"));
+        var bundle = fhirParser.parseResource(jsonFile, Bundle.class);
+
+        ArrayList<String> expectedHeaders = new ArrayList<String>() {
+            {
+                add("TreatmentsHeader");
+            }
+        };
+
+        var result = GpSummary.isBundleWithAdditionalInformation(bundle);
+        var additionalInformationFlag = result.getLeft();
+        var actualHeaders = result.getRight();
+
+        assertThat(additionalInformationFlag).isEqualTo(true);
+        assertThat(actualHeaders).isEqualTo(expectedHeaders);
+    }
+
+    /**
+     * Given a supplied bundle with risks to patients, additional information should be detected.
+     */
+    @Test
+    public void When_MappingBundleWithMultipleRisksToPatient_Expect_AdditionalInformation() {
+        var jsonFile = readResourceFile(String.format(BUNDLE_RESOURCE_DIRECTORY + "/%s.json",
+                "riskstopatient"));
+        var bundle = fhirParser.parseResource(jsonFile, Bundle.class);
+
+        ArrayList<String> expectedHeaders = new ArrayList<String>() {
+            {
+                add("RisksToPatientHeader");
+            }
+        };
+
+        var result = GpSummary.isBundleWithAdditionalInformation(bundle);
+        var additionalInformationFlag = result.getLeft();
+        var actualHeaders = result.getRight();
+
+        assertThat(additionalInformationFlag).isEqualTo(true);
+        assertThat(actualHeaders).isEqualTo(expectedHeaders);
     }
 
     @Test

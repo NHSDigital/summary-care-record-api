@@ -3,6 +3,7 @@ package uk.nhs.adaptors.scr.models;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.hl7.fhir.r4.model.Bundle;
 import org.hl7.fhir.r4.model.Property;
 import org.hl7.fhir.r4.model.Base;
@@ -93,6 +94,7 @@ public class GpSummary {
                     GpSummary::gpSummarySetHeaderId,
                     AuthorMapper::mapAuthor,
                     CompositionMapper::mapComposition,
+                    CommunicationMapper::mapCommunications,
                     ConditionMapper::mapConditions,
                     ObservationMapper::mapObservations,
                     PatientMapper::mapPatient,
@@ -103,17 +105,13 @@ public class GpSummary {
         }
 
         //Check whether additional information is present so that third party correspondence can be injected.
-        boolean additionalInformation = gpSummary.isBundleWithAdditionalInformation(bundle);
+        boolean additionalInformation = gpSummary.isBundleWithAdditionalInformation(bundle).getLeft();
 
-        //The mapping happens differently depending on whether third party communication is expected. If it is, map that too.
+        //Map the additional information only if third party should be injected.
         try {
             if (additionalInformation) {
                 Stream.<BiConsumer<GpSummary, Bundle>>of(
                         CommunicationMapper::mapCommunicationsWithAdditionalInfoButton)
-                    .forEach(mapper -> mapper.accept(gpSummary, bundle));
-            } else {
-                Stream.<BiConsumer<GpSummary, Bundle>>of(
-                        CommunicationMapper::mapCommunications)
                     .forEach(mapper -> mapper.accept(gpSummary, bundle));
             }
         } catch (Exception e) {
@@ -123,7 +121,7 @@ public class GpSummary {
         return gpSummary;
     }
 
-    public static boolean isBundleWithAdditionalInformation(Bundle bundle) {
+    public static ImmutablePair<Boolean, ArrayList<String>> isBundleWithAdditionalInformation(Bundle bundle) {
         //A list of all the additional headers for comparison that will trigger third party correspondence.
         ArrayList<String> additionalInformationHeaders = new ArrayList<String>() {
             {
@@ -167,16 +165,12 @@ public class GpSummary {
         additionalInformationHeaders.retainAll(headerList);
 
         if (additionalInformationHeaders.size() > 0) {
-            additionalInformationHeaders.forEach(header -> {
-                //TODO: A nice to have, use this to signal which header caused the third party information to appear.
-                System.out.println(String.format("Additional information header found! Header: %s", header));
-            });
-            return true;
+            return new ImmutablePair<>(true, additionalInformationHeaders);
         }
 
         System.out.println("No additional information headers found!");
 
-        return false;
+        return new ImmutablePair<>(false, additionalInformationHeaders);
     }
 
     private static void validateType(Bundle bundle) {

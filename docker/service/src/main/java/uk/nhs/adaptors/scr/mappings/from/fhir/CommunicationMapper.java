@@ -47,10 +47,6 @@ public class CommunicationMapper {
 
     public static void mapCommunicationsWithAdditionalInfoButton(GpSummary gpSummary, Bundle bundle) {
         validate(bundle);
-        gpSummary.getPatientCarerCorrespondences()
-            .addAll(mapPatientAndCarersCorrespondence(bundle));
-        gpSummary.getProvisionsOfAdviceAndInformationToPatientsAndCarers()
-            .addAll(mapProvisionOfAdviceAndInformation(bundle));
         gpSummary.getThirdPartyCorrespondences()
             .addAll(mapThirdPartyCorrespondence(bundle));
     }
