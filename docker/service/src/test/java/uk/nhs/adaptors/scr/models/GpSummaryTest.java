@@ -11,6 +11,8 @@ import uk.nhs.adaptors.scr.models.xml.RiskToPatient;
 import uk.nhs.adaptors.scr.models.xml.Treatment;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static uk.nhs.utils.Utils.readResourceFile;
@@ -25,6 +27,16 @@ public class GpSummaryTest {
     private static final String NHSD_ASID = "1029384756";
     private FhirParser fhirParser = new FhirParser();
 
+    private void assertThirdPartyCorrespondenceText(GpSummary actualResult, ArrayList<String> expectedHeaders) {
+
+        String expectedString = "Additional information records have been found under the following types:";
+        for (String expectedRecordType : expectedHeaders) {
+            expectedString += "\n" + expectedRecordType;
+        }
+
+        assertThat(actualResult.getThirdPartyCorrespondences().get(0).getNote().getText())
+                .isEqualTo(expectedString);
+    }
 
     /**
      * Given a supplied bundle with no non-core, no third party correspondence section should be found.
@@ -43,6 +55,12 @@ public class GpSummaryTest {
      */
     @Test
     public void When_MappingBundleWithOneRiskToPatient_Expect_ThirdPartyCorrespondence() {
+        ArrayList<String> expectedRecordTypes = new ArrayList<String>() {
+            {
+                add("Risks to Patient");
+            }
+        };
+
         var jsonFile = readResourceFile(String.format(BUNDLE_RESOURCE_DIRECTORY + "/%s.json",
                 "one-risk-to-patient-third-party-communication"));
         var bundle = fhirParser.parseResource(jsonFile, Bundle.class);
@@ -50,6 +68,7 @@ public class GpSummaryTest {
 
         assertThat(result.getRisksToPatient().stream().count()).isEqualTo(1);
         assertThat(result.getThirdPartyCorrespondences().stream().count()).isEqualTo(1);
+        assertThirdPartyCorrespondenceText(result, expectedRecordTypes);
     }
 
     /**
@@ -62,9 +81,17 @@ public class GpSummaryTest {
         var bundle = fhirParser.parseResource(jsonFile, Bundle.class);
         var result = GpSummary.fromBundle(bundle, NHSD_ASID);
 
+        ArrayList<String> expectedRecordTypes = new ArrayList<String>() {
+            {
+                add("Risks to Patient");
+                add("Treatments");
+            }
+        };
+
         assertThat(result.getRisksToPatient().stream().count()).isEqualTo(2);
         assertThat(result.getTreatments().stream().count()).isEqualTo(2);
-        assertThat(result.getThirdPartyCorrespondences().stream().count()).isEqualTo(4);
+        assertThat(result.getThirdPartyCorrespondences().stream().count()).isEqualTo(1);
+        assertThirdPartyCorrespondenceText(result, expectedRecordTypes);
     }
 
     /**
@@ -77,8 +104,15 @@ public class GpSummaryTest {
         var bundle = fhirParser.parseResource(jsonFile, Bundle.class);
         var result = GpSummary.fromBundle(bundle, NHSD_ASID);
 
+        ArrayList<String> expectedRecordTypes = new ArrayList<String>() {
+            {
+                add("Treatments");
+            }
+        };
+
         assertThat(result.getTreatments().stream().count()).isEqualTo(2);
-        assertThat(result.getThirdPartyCorrespondences().stream().count()).isEqualTo(2);
+        assertThat(result.getThirdPartyCorrespondences().stream().count()).isEqualTo(1);
+        assertThirdPartyCorrespondenceText(result, expectedRecordTypes);
     }
 
     /**
@@ -91,8 +125,15 @@ public class GpSummaryTest {
         var bundle = fhirParser.parseResource(jsonFile, Bundle.class);
         var result = GpSummary.fromBundle(bundle, NHSD_ASID);
 
+        ArrayList<String> expectedRecordTypes = new ArrayList<String>() {
+            {
+                add("Risks to Patient");
+            }
+        };
+
         assertThat(result.getRisksToPatient().stream().count()).isEqualTo(2);
-        assertThat(result.getThirdPartyCorrespondences().stream().count()).isEqualTo(2);
+        assertThat(result.getThirdPartyCorrespondences().stream().count()).isEqualTo(1);
+        assertThirdPartyCorrespondenceText(result, expectedRecordTypes);
     }
 
     /**
@@ -103,7 +144,7 @@ public class GpSummaryTest {
         var jsonFile = readResourceFile(String.format(BUNDLE_RESOURCE_DIRECTORY + "/%s.json", "no-non-core"));
         var bundle = fhirParser.parseResource(jsonFile, Bundle.class);
 
-        ArrayList<String> expectedHeaders = new ArrayList<String>();
+        Map<String, String> expectedHeaders = new HashMap<>();
 
         var result = GpSummary.isBundleWithAdditionalInformation(bundle);
         var additionalInformationFlag = result.getLeft();
@@ -121,9 +162,9 @@ public class GpSummaryTest {
         var jsonFile = readResourceFile(String.format(BUNDLE_RESOURCE_DIRECTORY + "/%s.json", "one-risk-to-patient"));
         var bundle = fhirParser.parseResource(jsonFile, Bundle.class);
 
-        ArrayList<String> expectedHeaders = new ArrayList<String>() {
+        Map<String, String> expectedHeaders = new HashMap<>() {
             {
-                add("RisksToPatientHeader");
+                put("Risks to Patient", "RisksToPatientHeader");
             }
         };
 
@@ -144,10 +185,10 @@ public class GpSummaryTest {
                 "treatments-plus-risks-to-patient"));
         var bundle = fhirParser.parseResource(jsonFile, Bundle.class);
 
-        ArrayList<String> expectedHeaders = new ArrayList<String>() {
+        Map<String, String> expectedHeaders = new HashMap<>() {
             {
-                add("RisksToPatientHeader");
-                add("TreatmentsHeader");
+                put("Risks to Patient", "RisksToPatientHeader");
+                put("Treatments", "TreatmentsHeader");
             }
         };
 
@@ -168,9 +209,9 @@ public class GpSummaryTest {
                 "treatments"));
         var bundle = fhirParser.parseResource(jsonFile, Bundle.class);
 
-        ArrayList<String> expectedHeaders = new ArrayList<String>() {
+        Map<String, String> expectedHeaders = new HashMap<>() {
             {
-                add("TreatmentsHeader");
+                put("Treatments", "TreatmentsHeader");
             }
         };
 
@@ -191,9 +232,9 @@ public class GpSummaryTest {
                 "riskstopatient"));
         var bundle = fhirParser.parseResource(jsonFile, Bundle.class);
 
-        ArrayList<String> expectedHeaders = new ArrayList<String>() {
+        Map<String, String> expectedHeaders = new HashMap<>() {
             {
-                add("RisksToPatientHeader");
+                put("Risks to Patient", "RisksToPatientHeader");
             }
         };
 

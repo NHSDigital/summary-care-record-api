@@ -38,7 +38,9 @@ import uk.nhs.adaptors.scr.models.xml.Treatment;
 import uk.nhs.adaptors.scr.utils.DateUtil;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.stream.Stream;
 
@@ -105,14 +107,19 @@ public class GpSummary {
         }
 
         //Check whether additional information is present so that third party correspondence can be injected.
-        boolean additionalInformation = gpSummary.isBundleWithAdditionalInformation(bundle).getLeft();
+        ImmutablePair<Boolean, Map<String, String>> searchResult = gpSummary.isBundleWithAdditionalInformation(bundle);
+        boolean additionalInformation = searchResult.getLeft();
 
         //Map the additional information only if third party should be injected.
         try {
             if (additionalInformation) {
-                Stream.<BiConsumer<GpSummary, Bundle>>of(
-                        CommunicationMapper::mapCommunicationsWithAdditionalInfoButton)
-                    .forEach(mapper -> mapper.accept(gpSummary, bundle));
+                CommunicationMapper.mapCommunicationsWithAdditionalInfoButton(gpSummary, bundle);
+                //Add additional information message with the additional information types to the first element.
+                Map<String, String> additionalInformationHeaders = searchResult.getRight();
+                additionalInformationHeaders.entrySet()
+                        .forEach(headerEntry -> gpSummary.getThirdPartyCorrespondences().get(0).getNote()
+                                .setText(gpSummary.getThirdPartyCorrespondences().get(0).getNote().getText()
+                                        + "\n" + headerEntry.getKey()));
             }
         } catch (Exception e) {
             throw new FhirMappingException(e.getMessage(), e.getCause());
@@ -121,28 +128,28 @@ public class GpSummary {
         return gpSummary;
     }
 
-    public static ImmutablePair<Boolean, ArrayList<String>> isBundleWithAdditionalInformation(Bundle bundle) {
+    public static ImmutablePair<Boolean, Map<String, String>> isBundleWithAdditionalInformation(Bundle bundle) {
         //A list of all the additional headers for comparison that will trigger third party correspondence.
-        ArrayList<String> additionalInformationHeaders = new ArrayList<String>() {
+        Map<String, String> additionalInformationHeaders = new HashMap() {
             {
-                add("ProceduresHeader");
-                add("EventsHeader");
-                add("DocumentationHeader");
-                add("ObservationsHeader");
-                add("DiagnosesHeader");
-                add("HistoryHeader");
-                add("ResultsHeader");
-                add("InvestigationsHeader");
-                add("LifestyleHeader");
-                add("PatientCarerCorrespondenceHeader");
-                add("PreferencesHeader");
-                add("ProblemsHeader");
-                add("AdviceHeader");
-                add("RisksToPatientHeader");
-                add("CircumstancesHeader");
-                add("TreatmentsHeader");
-                add("RisksToProfessionalHeader");
-                add("ServicesHeader");
+                put("Administrative Procedures", "ProceduresHeader");
+                put("Care Events", "EventsHeader");
+                put("Care Professional Documentation", "DocumentationHeader");
+                put("Clinical Observations and Findings", "ObservationsHeader");
+                put("Diagnoses", "DiagnosesHeader");
+                put("Family History", "HistoryHeader");
+                put("Investigation Results", "ResultsHeader");
+                put("Investigations", "InvestigationsHeader");
+                put("Lifestyle", "LifestyleHeader");
+                put("Patient/Carer Correspondence", "PatientCarerCorrespondenceHeader");
+                put("Personal Preferences", "PreferencesHeader");
+                put("Problems and Issues", "ProblemsHeader");
+                put("Provision of Advice and Information to Patients and Carers", "AdviceHeader");
+                put("Risks to Patient", "RisksToPatientHeader");
+                put("Social and Personal Circumstances", "CircumstancesHeader");
+                put("Treatments", "TreatmentsHeader");
+                put("Risks to Care Professional or Third Party", "RisksToProfessionalHeader");
+                put("Services, Care Professionals and Carers", "ServicesHeader");
             }
         };
 
@@ -162,15 +169,18 @@ public class GpSummary {
         });
 
         //assign all the headers that are additional information and present in the bundle. Removes duplicates, if any.
-        additionalInformationHeaders.retainAll(headerList);
+        Map<String, String> additionalInformationHeadersPresent = new HashMap();
+        additionalInformationHeaders.entrySet().stream()
+                .filter(headerEntry -> headerList.contains(headerEntry.getValue()))
+                .forEach(entry -> additionalInformationHeadersPresent.put(entry.getKey(), entry.getValue()));
 
-        if (additionalInformationHeaders.size() > 0) {
-            return new ImmutablePair<>(true, additionalInformationHeaders);
+        if (additionalInformationHeadersPresent.size() > 0) {
+            return new ImmutablePair<>(true, additionalInformationHeadersPresent);
         }
 
         System.out.println("No additional information headers found!");
 
-        return new ImmutablePair<>(false, additionalInformationHeaders);
+        return new ImmutablePair<>(false, additionalInformationHeadersPresent);
     }
 
     private static void validateType(Bundle bundle) {
