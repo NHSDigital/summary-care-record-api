@@ -3,7 +3,11 @@ package uk.nhs.adaptors.scr.models;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.hl7.fhir.r4.model.Bundle;
+import org.hl7.fhir.r4.model.Property;
+import org.hl7.fhir.r4.model.Base;
+import org.hl7.fhir.r4.model.CodeType;
 import org.springframework.stereotype.Component;
 import uk.nhs.adaptors.scr.exceptions.FhirMappingException;
 import uk.nhs.adaptors.scr.exceptions.FhirValidationException;
@@ -34,7 +38,9 @@ import uk.nhs.adaptors.scr.models.xml.Treatment;
 import uk.nhs.adaptors.scr.utils.DateUtil;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.stream.Stream;
 
@@ -89,8 +95,8 @@ public class GpSummary {
                     GpSummary::gpSummarySetHeaderTimeStamp,
                     GpSummary::gpSummarySetHeaderId,
                     AuthorMapper::mapAuthor,
-                    CommunicationMapper::mapCommunications,
                     CompositionMapper::mapComposition,
+                    CommunicationMapper::mapCommunications,
                     ConditionMapper::mapConditions,
                     ObservationMapper::mapObservations,
                     PatientMapper::mapPatient,
@@ -100,20 +106,81 @@ public class GpSummary {
             throw new FhirMappingException(e.getMessage(), e.getCause());
         }
 
+        //Check whether additional information is present so that third party correspondence can be injected.
+        ImmutablePair<Boolean, Map<String, String>> searchResult = gpSummary.isBundleWithAdditionalInformation(bundle);
+        boolean additionalInformation = searchResult.getLeft();
 
-        // the path to the header
-        var gpList = bundle.getEntry().get(0).getResource().getChildByName("section"); //entries stored in this section
-        var code = gpList.getValues().get(0).getChildByName("code");
-        var coding = code.getValues().get(0).getChildByName("coding");
-        var code_value = coding.getValues().get(0);
-
-        var header = code_value.getChildByName("code").getValues().get(0); //header extracted in this variable
-
-        // HERE IS WHERE OUR CODE GOES.
-        // bundle>entry>0>resource>section>n>code>coding>n>code>myStringValue
-
+        //Map the additional information only if third party should be injected.
+        try {
+            if (additionalInformation) {
+                CommunicationMapper.mapCommunicationsWithAdditionalInfoButton(gpSummary, bundle);
+                //Add additional information message with the additional information types to the first element.
+                Map<String, String> additionalInformationHeaders = searchResult.getRight();
+                additionalInformationHeaders.entrySet()
+                        .forEach(headerEntry -> gpSummary.getThirdPartyCorrespondences().get(0).getNote()
+                                .setText(gpSummary.getThirdPartyCorrespondences().get(0).getNote().getText()
+                                        + "\n" + headerEntry.getKey()));
+            }
+        } catch (Exception e) {
+            throw new FhirMappingException(e.getMessage(), e.getCause());
+        }
 
         return gpSummary;
+    }
+
+    public static ImmutablePair<Boolean, Map<String, String>> isBundleWithAdditionalInformation(Bundle bundle) {
+        //A list of all the additional headers for comparison that will trigger third party correspondence.
+        Map<String, String> additionalInformationHeaders = new HashMap() {
+            {
+                put("Administrative Procedures", "ProceduresHeader");
+                put("Care Events", "EventsHeader");
+                put("Care Professional Documentation", "DocumentationHeader");
+                put("Clinical Observations and Findings", "ObservationsHeader");
+                put("Diagnoses", "DiagnosesHeader");
+                put("Family History", "HistoryHeader");
+                put("Investigation Results", "ResultsHeader");
+                put("Investigations", "InvestigationsHeader");
+                put("Lifestyle", "LifestyleHeader");
+                put("Patient/Carer Correspondence", "PatientCarerCorrespondenceHeader");
+                put("Personal Preferences", "PreferencesHeader");
+                put("Problems and Issues", "ProblemsHeader");
+                put("Provision of Advice and Information to Patients and Carers", "AdviceHeader");
+                put("Risks to Patient", "RisksToPatientHeader");
+                put("Social and Personal Circumstances", "CircumstancesHeader");
+                put("Treatments", "TreatmentsHeader");
+                put("Risks to Care Professional or Third Party", "RisksToProfessionalHeader");
+                put("Services, Care Professionals and Carers", "ServicesHeader");
+            }
+        };
+
+        Property gpList = bundle.getEntry().get(0).getResource().getChildByName("section"); //entries stored in this section
+
+        //A list that will contain all headers present in the bundle, no matter if they're additional information or not.
+        ArrayList<String> headerList = new ArrayList<String>();
+
+        gpList.getValues().forEach(gp -> {
+            Property code = gp.getChildByName("code");
+            Property coding = code.getValues().get(0).getChildByName("coding");
+            Base codingValue = coding.getValues().get(0);
+
+            Base header = codingValue.getChildByName("code").getValues().get(0); //header extracted in this variable
+
+            headerList.add(((CodeType) header).getCode());
+        });
+
+        //assign all the headers that are additional information and present in the bundle. Removes duplicates, if any.
+        Map<String, String> additionalInformationHeadersPresent = new HashMap();
+        additionalInformationHeaders.entrySet().stream()
+                .filter(headerEntry -> headerList.contains(headerEntry.getValue()))
+                .forEach(entry -> additionalInformationHeadersPresent.put(entry.getKey(), entry.getValue()));
+
+        if (additionalInformationHeadersPresent.size() > 0) {
+            return new ImmutablePair<>(true, additionalInformationHeadersPresent);
+        }
+
+        System.out.println("No additional information headers found!");
+
+        return new ImmutablePair<>(false, additionalInformationHeadersPresent);
     }
 
     private static void validateType(Bundle bundle) {

@@ -47,12 +47,11 @@ public class CommunicationMapper {
 
     public static void mapCommunicationsWithAdditionalInfoButton(GpSummary gpSummary, Bundle bundle) {
         validate(bundle);
-        gpSummary.getPatientCarerCorrespondences()
-            .addAll(mapPatientAndCarersCorrespondence(bundle));
-        gpSummary.getProvisionsOfAdviceAndInformationToPatientsAndCarers()
-            .addAll(mapProvisionOfAdviceAndInformation(bundle));
+        gpSummary.getThirdPartyCorrespondences().add(new ThirdPartyCorrespondence());
+        /*TODO: When the actual mapping gets done, add the correspondences as well. But an empty one will always be first.
         gpSummary.getThirdPartyCorrespondences()
             .addAll(mapThirdPartyCorrespondence(bundle));
+        */
     }
 
     /**

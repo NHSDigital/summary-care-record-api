@@ -194,24 +194,6 @@
             }
         },
         {
-            "fullUrl": "https://int.api.service.nhs.uk/summary-care-record/FHIR/R4/Practitioner/D01B9A29-BD59-425E-BA4D-FAF2F1E89653",
-            "resource": {
-                "resourceType": "Practitioner",
-                "id": "D01B9A29-BD59-425E-BA4D-FAF2F1E89653",
-                "identifier": [
-                    {
-                        "system": "https://fhir.nhs.uk/Id/sds-user-id",
-                        "value": "103267400988"
-                    }
-                ],
-                "name": [
-                    {
-                        "text": "MICHELLEMrsRADFORD"
-                    }
-                ]
-            }
-        },
-        {
             "resource": {
                 "resourceType": "Communication",
                 "id": "7D50E3C0-7565-11E8-AEC7-950876D8FD27",
@@ -242,7 +224,7 @@
                         {
                             "system": "http://snomed.info/sct",
                             "code": "415171009",
-                            "display": "Risk To Patient 1"
+                            "display": "Prescribing observations"
                         }
                     ]
                 },
@@ -252,6 +234,24 @@
                     }
                 ],
                 "sent": "2016-02-17T14:58:55+01:00"
+            }
+        },
+        {
+            "fullUrl": "https://int.api.service.nhs.uk/summary-care-record/FHIR/R4/Practitioner/D01B9A29-BD59-425E-BA4D-FAF2F1E89653",
+            "resource": {
+                "resourceType": "Practitioner",
+                "id": "D01B9A29-BD59-425E-BA4D-FAF2F1E89653",
+                "identifier": [
+                    {
+                        "system": "https://fhir.nhs.uk/Id/sds-user-id",
+                        "value": "103267400988"
+                    }
+                ],
+                "name": [
+                    {
+                        "text": "MICHELLEMrsRADFORD"
+                    }
+                ]
             }
         },
         {
