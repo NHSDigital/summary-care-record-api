@@ -110,16 +110,12 @@ public class GpSummary {
         ImmutablePair<Boolean, Map<String, String>> searchResult = gpSummary.isBundleWithAdditionalInformation(bundle);
         boolean additionalInformation = searchResult.getLeft();
 
-        //Map the additional information only if third party should be injected.
+        //Check whether third party information should be injected.
         try {
             if (additionalInformation) {
-                CommunicationMapper.mapCommunicationsWithAdditionalInfoButton(gpSummary, bundle);
-                //Add additional information message with the additional information types to the first element.
                 Map<String, String> additionalInformationHeaders = searchResult.getRight();
-                additionalInformationHeaders.entrySet()
-                        .forEach(headerEntry -> gpSummary.getThirdPartyCorrespondences().get(0).getNote()
-                                .setText(gpSummary.getThirdPartyCorrespondences().get(0).getNote().getText()
-                                        + "\n" + headerEntry.getKey()));
+                //Map the additional information message to the third party communications.
+                CommunicationMapper.mapCommunicationsWithAdditionalInfoButton(gpSummary, bundle, additionalInformationHeaders);
             }
         } catch (Exception e) {
             throw new FhirMappingException(e.getMessage(), e.getCause());

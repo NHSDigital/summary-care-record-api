@@ -13,7 +13,6 @@ public class ThirdPartyCorrespondence {
     private String effectiveTimeLow;
     private ThirdPartyCorrespondenceNote note;
     public ThirdPartyCorrespondence() {
-        this.note = new ThirdPartyCorrespondenceNote(
-                "Additional information records have been found under the following types:");
+        this.note = new ThirdPartyCorrespondenceNote("");
     }
 }

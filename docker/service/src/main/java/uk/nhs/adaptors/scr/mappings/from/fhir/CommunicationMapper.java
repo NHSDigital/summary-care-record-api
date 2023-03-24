@@ -10,6 +10,7 @@ import uk.nhs.adaptors.scr.models.xml.ProvisionOfAdviceAndInformation;
 import uk.nhs.adaptors.scr.models.xml.ThirdPartyCorrespondence;
 
 import java.util.List;
+import java.util.Map;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -45,13 +46,16 @@ public class CommunicationMapper {
             .addAll(mapProvisionOfAdviceAndInformation(bundle));
     }
 
-    public static void mapCommunicationsWithAdditionalInfoButton(GpSummary gpSummary, Bundle bundle) {
+    public static void mapCommunicationsWithAdditionalInfoButton(GpSummary gpSummary, Bundle bundle,
+                                                                 Map<String, String> additionalInformationHeaders) {
         validate(bundle);
-        gpSummary.getThirdPartyCorrespondences().add(new ThirdPartyCorrespondence());
-        /*TODO: When the actual mapping gets done, add the correspondences as well. But an empty one will always be first.
         gpSummary.getThirdPartyCorrespondences()
-            .addAll(mapThirdPartyCorrespondence(bundle));
-        */
+            .add(mapAdditionalInformationButton(bundle, additionalInformationHeaders));
+        /*TODO: When the actual mapping gets done, add the correspondences as well.
+           But the one with the additional information message will always be first.
+        gpSummary.getThirdPartyCorrespondences()
+            .addAll(mapThirdPartyCorrespondence(bundle));*/
+
     }
 
     /**
@@ -87,10 +91,36 @@ public class CommunicationMapper {
      */
     private static List<ThirdPartyCorrespondence> mapThirdPartyCorrespondence(Bundle bundle) {
         var thirdPartyCorrespondenceMapper = new ThirdPartyCorrespondenceMapper();
+
         return getDomainResourceList(bundle, Communication.class).stream()
             .filter(IS_THIRD_PARTY_CORRESPONDENCE)
             .map(communication -> thirdPartyCorrespondenceMapper.mapThirdPartyCorrespondence(communication))
             .collect(Collectors.toList());
+    }
+
+    /**
+     * Mapping of Third Party Correspondence
+     * @param bundle
+     * @return ProvisionOfAdviceAndInformation List
+     */
+    private static ThirdPartyCorrespondence mapAdditionalInformationButton(
+            Bundle bundle,
+            Map<String, String> additionalInformationHeaders) {
+        var thirdPartyCorrespondenceMapper = new ThirdPartyCorrespondenceMapper();
+
+        List<ThirdPartyCorrespondence> thirdPartyCorrespondences = getDomainResourceList(bundle, Communication.class)
+                .stream()
+                .filter(IS_THIRD_PARTY_CORRESPONDENCE)
+                .map(communication -> thirdPartyCorrespondenceMapper
+                        .mapAdditionalInformationButtonEntry(communication, additionalInformationHeaders))
+                .collect(Collectors.toList());
+
+        //If no valid information is present in the bundle, create an empty entry.
+        if (thirdPartyCorrespondences.isEmpty()) {
+            return new ThirdPartyCorrespondence();
+        }
+
+        return thirdPartyCorrespondences.get(0);
     }
 
     /**

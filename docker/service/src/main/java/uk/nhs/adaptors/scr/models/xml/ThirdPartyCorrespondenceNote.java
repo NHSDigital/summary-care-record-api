@@ -7,7 +7,11 @@ import lombok.Setter;
 @Setter
 public class ThirdPartyCorrespondenceNote {
     private String text;
+    private String codeCode;
+    private String codeDisplayName;
     public ThirdPartyCorrespondenceNote(String text) {
         this.text = text;
+        this.codeCode = "SupportingText";
+        this.codeDisplayName = "Supporting Text";
     }
 }
