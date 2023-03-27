@@ -232,7 +232,7 @@ def test_app_restricted_post_bundle(headers):
     assert response.status_code == 201, "POST Bundle failed"
 
 
-# $setPermission endpoint should reject using app-restricted access if functioning correctly.
+#$setPermission endpoint should reject using app-restricted access if functioning correctly.
 @pytest.mark.smoketest
 def test_app_restricts_set_permission_jwt(headers):
     headers["Content-Type"] = "application/fhir+json"
