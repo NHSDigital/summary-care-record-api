@@ -41,7 +41,7 @@
                "reference":"Encounter/5F748C32-4BE8-44C5-8E50-F640B2F4743E"
             },
             "effectivePeriod":{
-               "start":"1990-08-25T13:00+00:00"
+               "start":"1990-08-25"
             },
             "valueString":"My Value Text"
          }
