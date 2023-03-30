@@ -43,7 +43,7 @@ public class ObservationMapper {
     private static final Predicate<Observation> IS_FAMILY_HISTORY =
         observation -> "163051000000102".equals(observation.getCategoryFirstRep().getCodingFirstRep().getCode());
     private static final Predicate<Observation> IS_LIFESTYLE =
-        observation -> "163021000000107".equals(observation.getCategoryFirstRep().getCodingFirstRep().getCode());
+        observation -> "163041000000100".equals(observation.getCategoryFirstRep().getCodingFirstRep().getCode());
 
     public static void mapObservations(GpSummary gpSummary, Bundle bundle) {
         validate(bundle);
