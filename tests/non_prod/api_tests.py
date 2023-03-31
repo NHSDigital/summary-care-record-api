@@ -16,7 +16,6 @@ TEST_DATA_BASE_PATH = os.path.join(os.path.dirname(__file__), './test_data/')
 def _base_valid_uri() -> str:
     prNo = re.search("pr-[0-9]+", config.SERVICE_BASE_PATH)
     prString = f"-{prNo.group()}" if prNo is not None else ""
-
     return f"{config.BASE_URL}/summary-care-record/FHIR/R4{prString}"
 
 
