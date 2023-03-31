@@ -27,7 +27,7 @@ def read_body_from_file(file_name):
 
 def send_set_permission_request(headers, permission_code: str):
     headers["Content-Type"] = "application/fhir+json"
-    patient_nhs = "9000000009" if "sandbox" in config.ENVIRONMENT else "9995000180"
+    patient_nhs = "9995000180"
     if ("Authorization" not in headers):
         headers["Authorization"] = "Bearer U7VUOM5e274qjOppmzqCRxRRZCG4k"
 
@@ -67,7 +67,7 @@ def test_update_bundle_without_permissions(headers):
     send_set_permission_request(headers, "No")
 
     headers["Content-Type"] = "application/fhir+json"
-    patient_nhs = "9995333333" if "sandbox" in config.ENVIRONMENT else "9995000180"
+    patient_nhs = "9995000180"
     body_from_file = read_body_from_file("post_bundle.json")
     body_as_string = json.dumps(body_from_file) \
         .replace("{{COMPOSITION_ID}}", str(uuid.uuid4())) \
@@ -90,7 +90,7 @@ def test_set_permission_yes(headers):
 
 @pytest.mark.smoketest
 def test_get_scr_id(headers):
-    patient_nhs = "9000000009" if "sandbox" in config.ENVIRONMENT else "9995000180"
+    patient_nhs = "9995000180"
     response = requests.get(
         f"{_base_valid_uri()}/DocumentReference?patient=https://fhir.nhs.uk/Id/nhs-number|{patient_nhs}"
         + "&_sort=date&type=http://snomed.info/sct|196981000000101&_count=1",
@@ -109,7 +109,7 @@ def test_get_scr_id(headers):
 
 @pytest.mark.smoketest
 def test_get_bundle(headers):
-    patient_nhs = "9000000009" if "sandbox" in config.ENVIRONMENT else "9995000180"
+    patient_nhs = "9995000180"
 
     response = requests.get(
         f"{_base_valid_uri()}/Bundle?composition.identifier=29B2BAEB-E2E7-4B08-B30E-55C0F90CABDF"
@@ -129,7 +129,7 @@ def test_get_bundle(headers):
 
 def send_audit_event(headers):
     headers["Content-Type"] = "application/fhir+json"
-    patient_nhs = "9000000009" if "sandbox" in config.ENVIRONMENT else "9995000180"
+    patient_nhs = "9995000180"
     body_from_file = read_body_from_file("audit_event.json")
     body_as_string = json.dumps(body_from_file) \
         .replace("{{PATIENT_NHS_NUMBER}}", patient_nhs)
@@ -154,5 +154,5 @@ def test_auth_token(headers):
 
     response = send_audit_event(headers)
 
-    expected_http_status = 201 if "sandbox" in config.ENVIRONMENT else 401
+    expected_http_status = 401
     assert response.status_code == expected_http_status, "auth token check failed"
