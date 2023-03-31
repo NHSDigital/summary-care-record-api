@@ -14,7 +14,7 @@ info:
                 </figure>
             </div>
             <div class="nhsd-m-emphasis-box__content-box">
-                <div data-uipath="website.contentblock.emphasis.content" class="nhsd-t-word-break"><p class="nhsd-t-body">This API is initially for use by new market entrant GP IT developers with other use cases to follow later.</p></div>            
+                <div data-uipath="website.contentblock.emphasis.content" class="nhsd-t-word-break"><p class="nhsd-t-body">This API is initially for use by new market entrant <a href="https://digital.nhs.uk/developer/guides-and-documentation/building-healthcare-software/general-practice/integrating-with-national-services">GP IT foundation system developers</a> with other use cases to follow later.</p></div>            
             </div>
         </div>
     </div>
