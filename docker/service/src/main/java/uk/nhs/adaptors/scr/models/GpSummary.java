@@ -3,11 +3,7 @@ package uk.nhs.adaptors.scr.models;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.hl7.fhir.r4.model.Bundle;
-import org.hl7.fhir.r4.model.Property;
-import org.hl7.fhir.r4.model.Base;
-import org.hl7.fhir.r4.model.CodeType;
 import org.springframework.stereotype.Component;
 import uk.nhs.adaptors.scr.exceptions.FhirMappingException;
 import uk.nhs.adaptors.scr.exceptions.FhirValidationException;
@@ -27,7 +23,6 @@ import uk.nhs.adaptors.scr.models.xml.Investigation;
 import uk.nhs.adaptors.scr.models.xml.Lifestyle;
 import uk.nhs.adaptors.scr.models.xml.Participant;
 import uk.nhs.adaptors.scr.models.xml.PatientCarerCorrespondence;
-import uk.nhs.adaptors.scr.models.xml.ThirdPartyCorrespondence;
 import uk.nhs.adaptors.scr.models.xml.PersonalPreference;
 import uk.nhs.adaptors.scr.models.xml.Presentation;
 import uk.nhs.adaptors.scr.models.xml.Problem;
@@ -38,9 +33,7 @@ import uk.nhs.adaptors.scr.models.xml.Treatment;
 import uk.nhs.adaptors.scr.utils.DateUtil;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.stream.Stream;
 
@@ -80,9 +73,7 @@ public class GpSummary {
     private List<ProvisionOfAdviceAndInformation> provisionsOfAdviceAndInformationToPatientsAndCarers = new ArrayList<>();
     private List<RiskToPatient> risksToPatient = new ArrayList<>();
     private List<SocialOrPersonalCircumstance> socialOrPersonalCircumstances = new ArrayList<>();
-    private List<ThirdPartyCorrespondence> thirdPartyCorrespondences = new ArrayList<>();
     private List<Treatment> treatments = new ArrayList<>();
-    private List<String> headers = new ArrayList<>();
 
     public static GpSummary fromBundle(Bundle bundle, String nhsdAsid) throws FhirMappingException {
         validateType(bundle);
@@ -95,8 +86,8 @@ public class GpSummary {
                     GpSummary::gpSummarySetHeaderTimeStamp,
                     GpSummary::gpSummarySetHeaderId,
                     AuthorMapper::mapAuthor,
-                    CompositionMapper::mapComposition,
                     CommunicationMapper::mapCommunications,
+                    CompositionMapper::mapComposition,
                     ConditionMapper::mapConditions,
                     ObservationMapper::mapObservations,
                     PatientMapper::mapPatient,
@@ -106,77 +97,7 @@ public class GpSummary {
             throw new FhirMappingException(e.getMessage(), e.getCause());
         }
 
-        //Check whether additional information is present so that third party correspondence can be injected.
-        ImmutablePair<Boolean, Map<String, String>> searchResult = gpSummary.isBundleWithAdditionalInformation(bundle);
-        boolean additionalInformation = searchResult.getLeft();
-
-        //Check whether third party information should be injected.
-        try {
-            if (additionalInformation) {
-                Map<String, String> additionalInformationHeaders = searchResult.getRight();
-                //Map the additional information message to the third party communications.
-                CommunicationMapper.mapCommunicationsWithAdditionalInfoButton(gpSummary, bundle, additionalInformationHeaders);
-            }
-        } catch (Exception e) {
-            throw new FhirMappingException(e.getMessage(), e.getCause());
-        }
-
         return gpSummary;
-    }
-
-    public static ImmutablePair<Boolean, Map<String, String>> isBundleWithAdditionalInformation(Bundle bundle) {
-        //A list of all the additional headers for comparison that will trigger third party correspondence.
-        Map<String, String> additionalInformationHeaders = new HashMap() {
-            {
-                put("Administrative Procedures", "ProceduresHeader");
-                put("Care Events", "EventsHeader");
-                put("Care Professional Documentation", "DocumentationHeader");
-                put("Clinical Observations and Findings", "ObservationsHeader");
-                put("Diagnoses", "DiagnosesHeader");
-                put("Family History", "HistoryHeader");
-                put("Investigation Results", "ResultsHeader");
-                put("Investigations", "InvestigationsHeader");
-                put("Lifestyle", "LifestyleHeader");
-                put("Patient/Carer Correspondence", "PatientCarerCorrespondenceHeader");
-                put("Personal Preferences", "PreferencesHeader");
-                put("Problems and Issues", "ProblemsHeader");
-                put("Provision of Advice and Information to Patients and Carers", "AdviceHeader");
-                put("Risks to Patient", "RisksToPatientHeader");
-                put("Social and Personal Circumstances", "CircumstancesHeader");
-                put("Treatments", "TreatmentsHeader");
-                put("Risks to Care Professional or Third Party", "RisksToProfessionalHeader");
-                put("Services, Care Professionals and Carers", "ServicesHeader");
-            }
-        };
-
-        Property gpList = bundle.getEntry().get(0).getResource().getChildByName("section"); //entries stored in this section
-
-        //A list that will contain all headers present in the bundle, no matter if they're additional information or not.
-        ArrayList<String> headerList = new ArrayList<String>();
-
-        gpList.getValues().forEach(gp -> {
-            Property code = gp.getChildByName("code");
-            Property coding = code.getValues().get(0).getChildByName("coding");
-            Base codingValue = coding.getValues().get(0);
-
-            Base header = codingValue.getChildByName("code").getValues().get(0); //header extracted in this variable
-
-            headerList.add(((CodeType) header).getCode());
-        });
-
-        //assign all the headers that are additional information and present in the bundle. Removes duplicates, if any.
-        Map<String, String> additionalInformationHeadersPresent = new HashMap();
-        additionalInformationHeaders.entrySet().stream()
-                .filter(headerEntry -> headerList.contains(headerEntry.getValue()))
-                .forEach(entry -> additionalInformationHeadersPresent.put(entry.getKey(), entry.getValue()));
-
-        if (additionalInformationHeadersPresent.size() > 0) {
-            return new ImmutablePair<>(true, additionalInformationHeadersPresent);
-        }
-
-        System.out.println("No additional information headers found!");
-
-        return new ImmutablePair<>(false, additionalInformationHeadersPresent);
     }
 
     private static void validateType(Bundle bundle) {
