@@ -246,6 +246,29 @@ public class GpSummaryTest {
         assertThat(actualHeaders).isEqualTo(expectedHeaders);
     }
 
+    /**
+     * Given a supplied bundle with risks to patients, additional information should be detected.
+     */
+    @Test
+    public void When_MappingBundleWithLifestyle_Expect_AdditionalInformation() {
+        var jsonFile = readResourceFile(String.format(BUNDLE_RESOURCE_DIRECTORY + "/%s.json",
+                "lifestyle"));
+        var bundle = fhirParser.parseResource(jsonFile, Bundle.class);
+
+        Map<String, String> expectedHeaders = new HashMap<>() {
+            {
+                put("Lifestyle", "LifestyleHeader");
+            }
+        };
+
+        var result = GpSummary.isBundleWithAdditionalInformation(bundle);
+        var additionalInformationFlag = result.getLeft();
+        var actualHeaders = result.getRight();
+
+        assertThat(additionalInformationFlag).isEqualTo(true);
+        assertThat(actualHeaders).isEqualTo(expectedHeaders);
+    }
+
     @Test
     public void When_MappingStandardGpSummaryFromBundle_Expect_PresentationTextHL7Match() {
         var valueFile = "standard_gp_summary_presentation_text_value";
