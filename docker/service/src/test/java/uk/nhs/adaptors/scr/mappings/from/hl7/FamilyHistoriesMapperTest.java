@@ -81,7 +81,6 @@ public class FamilyHistoriesMapperTest extends BaseHL7MapperTest {
         var html = getHtmlExample(RESOURCE_DIRECTORY, FILE_NAME);
         var result = familyHistoryMapper.map(html).get(0);
         var resultObservation = (Observation) result;
-        
         assertThat(resultObservation.getStatus().toString()).isEqualTo(STATUS_CODE);
     }
 
@@ -105,7 +104,6 @@ public class FamilyHistoriesMapperTest extends BaseHL7MapperTest {
         var result = familyHistoryMapper.map(html).get(familyHistoryMapper.map(html).size());
         var resultObservation = (Observation) result;
         var codingFirstRep = resultObservation.getCode().getCodingFirstRep();
-
         assertThat(codingFirstRep.getCode()).isEqualTo("289916006");
         assertThat(codingFirstRep.getSystem()).isEqualTo("http://snomed.info/sct");
         assertThat(codingFirstRep.getDisplay()).isEqualTo("family history of kidney disease");
