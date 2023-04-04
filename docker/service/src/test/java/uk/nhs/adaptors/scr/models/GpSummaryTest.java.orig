@@ -245,7 +245,8 @@ public class GpSummaryTest {
         assertThat(additionalInformationFlag).isEqualTo(true);
         assertThat(actualHeaders).isEqualTo(expectedHeaders);
     }
-    
+
+<<<<<<< HEAD
     /**
      * Given a supplied bundle with risks to patients, additional information should be detected.
      */
@@ -269,6 +270,8 @@ public class GpSummaryTest {
         assertThat(actualHeaders).isEqualTo(expectedHeaders);
     }
 
+=======
+>>>>>>> parent of 681ee06 (Revert "Niad 2624 additional info button")
     @Test
     public void When_MappingStandardGpSummaryFromBundle_Expect_PresentationTextHL7Match() {
         var valueFile = "standard_gp_summary_presentation_text_value";
