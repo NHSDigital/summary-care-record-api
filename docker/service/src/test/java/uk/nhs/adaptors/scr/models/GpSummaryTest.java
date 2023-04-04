@@ -245,7 +245,7 @@ public class GpSummaryTest {
         assertThat(additionalInformationFlag).isEqualTo(true);
         assertThat(actualHeaders).isEqualTo(expectedHeaders);
     }
-    
+
     /**
      * Given a supplied bundle with risks to patients, additional information should be detected.
      */
