@@ -44,6 +44,7 @@ public class FamilyHistoriesMapperTest extends BaseHL7MapperTest {
         var html = getHtmlExample(RESOURCE_DIRECTORY, FILE_NAME);
         var result = familyHistoryMapper.map(html).get(0);
         var resultObservation = (Observation) result;
+
         assertThat(result.getId()).isEqualTo(ID);
         assertThat(result.getMeta().getProfile().get(0).getValue()).isEqualTo(UK_CORE_PROCEDURE_META);
         assertThat(resultObservation.getStatus().toString()).isEqualTo(STATUS_CODE);
@@ -68,6 +69,7 @@ public class FamilyHistoriesMapperTest extends BaseHL7MapperTest {
         var html = getHtmlExample(RESOURCE_DIRECTORY, FILE_NAME);
         var result = familyHistoryMapper.map(html).get(0);
         var resultObservation = (Observation) result;
+
         assertThat(resultObservation.getMeta().getProfile().get(0).getValue()).isEqualTo(UK_CORE_PROCEDURE_META);
     }
 
@@ -79,6 +81,7 @@ public class FamilyHistoriesMapperTest extends BaseHL7MapperTest {
         var html = getHtmlExample(RESOURCE_DIRECTORY, FILE_NAME);
         var result = familyHistoryMapper.map(html).get(0);
         var resultObservation = (Observation) result;
+        
         assertThat(resultObservation.getStatus().toString()).isEqualTo(STATUS_CODE);
     }
 
