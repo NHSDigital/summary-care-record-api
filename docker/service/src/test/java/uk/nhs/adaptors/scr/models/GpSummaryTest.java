@@ -10,10 +10,6 @@ import uk.nhs.adaptors.scr.models.xml.Finding;
 import uk.nhs.adaptors.scr.models.xml.RiskToPatient;
 import uk.nhs.adaptors.scr.models.xml.Treatment;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static uk.nhs.utils.Utils.readResourceFile;
 
@@ -21,7 +17,6 @@ import static uk.nhs.utils.Utils.readResourceFile;
 public class GpSummaryTest {
     private static final String RESOURCE_DIRECTORY = "gp_summary";
     private static final String HTML_RESOURCE_DIRECTORY = "gp_summary/from/fhir";
-    private static final String BUNDLE_RESOURCE_DIRECTORY = "gp_summary/from/fhir/additionalinfo";
     private static final String STANDARD_FILE_NAME = "standard_gp_summary";
     private static final String ADDITIONAL_INFO_FILE_NAME_1 = "additional_information_gp_summary_1";
     private static final String NHSD_ASID = "1029384756";
