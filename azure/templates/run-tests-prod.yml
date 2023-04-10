@@ -19,7 +19,7 @@ steps:
       profile: "apm_ptl"
   - bash: |
       wait
-      sleep 300
+      sleep 350
       export RELEASE_RELEASEID=$(Build.BuildId)
       export SOURCE_COMMIT_ID=$(Build.SourceVersion)
       export APIGEE_ENVIRONMENT="$(ENVIRONMENT)"
