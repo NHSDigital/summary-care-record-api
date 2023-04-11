@@ -34,6 +34,8 @@ steps:
         secret_ids:
           - ptl/azure-devops/summary-care-record/int/CLIENT_SECRET_INT
     - bash: |
+        wait
+        sleep 350
         export RELEASE_RELEASEID=$(Build.BuildId)
         export SOURCE_COMMIT_ID=$(Build.SourceVersion)
         export APIGEE_ENVIRONMENT="$(ENVIRONMENT)"
