@@ -1,0 +1,24 @@
+<component typeCode="COMP" contextConductionInd="true">
+            <templateId root="2.16.840.1.113883.2.1.3.2.4.18.2" extension="CSAB_RM-NPfITUK10.component" />
+            <seperatableInd value="false" />
+            <UKCT_MT144035UK01.ThirdPartyCorrespondence classCode="DOC" moodCode="EVN">
+                <id root="{{idRoot}}" />
+                <code code="{{codeCode}}" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="{{codeDisplayName}}">
+                    <originalText>This field text does not exist in the example FHIR provided</originalText>
+                </code>
+                <text />
+                {{#statusCodeCode}}
+                <statusCode code="{{statusCodeCode}}" />
+                {{/statusCodeCode}}
+                <effectiveTime value="{{effectiveTimeLow}}" />
+                <pertinentInformation typeCode="PERT" contextConductionInd="true">
+                    <seperatableInd value="false" />
+                    <pertinentSupportingInfo classCode="OBS" moodCode="EVN">
+                        {{#note}}
+                        <value>{{text}}</value>
+                        <code code="{{codeCode}}" codeSystem="2.16.840.1.113883.2.1.3.2.4.17.126" displayName="{{codeDisplayName}}" />
+                        {{/note}}
+                    </pertinentSupportingInfo>
+                </pertinentInformation>
+            </UKCT_MT144035UK01.ThirdPartyCorrespondence>
+        </component>

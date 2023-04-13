@@ -9,6 +9,8 @@ import os
 import uuid
 import time
 
+# This file is executed by make test in the root directory
+# This is the smoketest file.
 TEST_DATA_BASE_PATH = os.path.join(os.path.dirname(__file__), './test_data/')
 
 

@@ -36,6 +36,8 @@ steps:
         secret_ids:
           - ptl/app-credentials/jwt-testing/summary-care-record/non-prod/APP_RESTRICTED_API_KEY
     - bash: |
+        wait
+        sleep 350
         export RELEASE_RELEASEID=$(Build.BuildId)
         export SOURCE_COMMIT_ID=$(Build.SourceVersion)
         export APIGEE_ENVIRONMENT="$(ENVIRONMENT)"
