@@ -70,7 +70,7 @@
             },
             "text": {
               "status": "generated",
-              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n    <h3 id=\"Disclaimer\">Sourced from the patient's General Practice record. This summary may not include all the information pertinent to this patient.</h3>\n    <p id=\"CreateTime\">Summary Created: 14-May-2020 14:31</p>\n    <p id=\"RegistrationStartedStatement\" class=\"HighlightedStatement\">At the time this record was created, this patient had recently registered with the GP Practice. GP Summary information may not be complete.</p>\n    <p id=\"Author\">Created by: SMITH, Sean (Mr)</p>\n    <p id=\"Practice\">EMISWebCR1 50004, Fulford Grange, Rawdon, Leeds, West Yorkshire, LS19 7BY.</p>\n</div>"
+              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n    <h3 id=\"Disclaimer\">Sourced from the patient&apos;s General Practice record. This summary may not include all the information pertinent to this patient.</h3>\n    <p id=\"CreateTime\">Summary Created: 14-May-2020 14:31</p>\n    <p id=\"RegistrationStartedStatement\" class=\"HighlightedStatement\">At the time this record was created, this patient had recently registered with the GP Practice. GP Summary information may not be complete.</p>\n    <p id=\"Author\">Created by: SMITH, Sean (Mr)</p>\n    <p id=\"Practice\">EMISWebCR1 50004, Fulford Grange, Rawdon, Leeds, West Yorkshire, LS19 7BY.</p>\n</div>"
             }
           },
           {
@@ -84,7 +84,7 @@
             },
             "text": {
               "status": "generated",
-              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n    <table summary=\"This table includes information about this patient's allergies and adverse reactions.\" id=\"Allergies\">\n        <thead>\n            <tr>\n                <th>Date</th>\n                <th>Description</th>\n                <th>Certainty</th>\n                <th>Severity</th>\n                <th>Supporting Information</th>\n            </tr>\n        </thead>\n        <tbody>\n            <tr class=\"oddRow\">\n                <td>12-May-2020</td>\n                <td>Toxic reaction to wasp sting</td>\n                <td/>\n                <td/>\n                <td>Problem; First</td>\n            </tr>\n        </tbody>\n    </table>\n</div>"
+              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n    <table summary=\"This table includes information about this patient&apos;s allergies and adverse reactions.\" id=\"Allergies\">\n        <thead>\n            <tr>\n                <th>Date</th>\n                <th>Description</th>\n                <th>Certainty</th>\n                <th>Severity</th>\n                <th>Supporting Information</th>\n            </tr>\n        </thead>\n        <tbody>\n            <tr class=\"oddRow\">\n                <td>12-May-2020</td>\n                <td>Toxic reaction to wasp sting</td>\n                <td/>\n                <td/>\n                <td>Problem; First</td>\n            </tr>\n        </tbody>\n    </table>\n</div>"
             }
           },
           {
@@ -98,7 +98,7 @@
             },
             "text": {
               "status": "generated",
-              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n    <table summary=\"This table includes information about this patient's acute medications.\" id=\"AcuteMeds\">\n        <thead>\n            <tr>\n                <th>Type</th>\n                <th>Date</th>\n                <th>Medication Item</th>\n                <th>Dosage Instructions</th>\n                <th>Quantity</th>\n            </tr>\n        </thead>\n        <tbody>\n            <tr class=\"oddRow\">\n                <td>Acute Medication</td>\n                <td>Prescribed: 12-May-2020</td>\n                <td>Co-codamol 8mg/500mg effervescent tablets</td>\n                <td>One To Be Taken Four Times A Day</td>\n                <td>112 tablet</td>\n            </tr>\n        </tbody>\n    </table>\n</div>"
+              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n    <table summary=\"This table includes information about this patient&apos;s acute medications.\" id=\"AcuteMeds\">\n        <thead>\n            <tr>\n                <th>Type</th>\n                <th>Date</th>\n                <th>Medication Item</th>\n                <th>Dosage Instructions</th>\n                <th>Quantity</th>\n            </tr>\n        </thead>\n        <tbody>\n            <tr class=\"oddRow\">\n                <td>Acute Medication</td>\n                <td>Prescribed: 12-May-2020</td>\n                <td>Co-codamol 8mg/500mg effervescent tablets</td>\n                <td>One To Be Taken Four Times A Day</td>\n                <td>112 tablet</td>\n            </tr>\n        </tbody>\n    </table>\n</div>"
             }
           },
           {
@@ -112,7 +112,7 @@
             },
             "text": {
               "status": "generated",
-              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n    <table summary=\"This table includes information about this patient's current repeat medications.\" id=\"RepeatMeds\">\n        <thead>\n            <tr>\n                <th>Type</th>\n                <th>Date</th>\n                <th>Medication Item</th>\n                <th>Dosage Instructions</th>\n                <th>Quantity</th>\n            </tr>\n        </thead>\n        <tbody>\n            <tr class=\"oddRow\">\n                <td>Repeat Medication</td>\n                <td>Last Issued: 12-May-2020</td>\n                <td>Paracetamol 250mg/5ml oral suspension</td>\n                <td>One 5ml Spoonful Every 4 To 6 Hours When Necessary. No More Than 4 doses in 24 Hours</td>\n                <td>40 ml</td>\n            </tr>\n        </tbody>\n    </table>\n</div>"
+              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n    <table summary=\"This table includes information about this patient&apos;s current repeat medications.\" id=\"RepeatMeds\">\n        <thead>\n            <tr>\n                <th>Type</th>\n                <th>Date</th>\n                <th>Medication Item</th>\n                <th>Dosage Instructions</th>\n                <th>Quantity</th>\n            </tr>\n        </thead>\n        <tbody>\n            <tr class=\"oddRow\">\n                <td>Repeat Medication</td>\n                <td>Last Issued: 12-May-2020</td>\n                <td>Paracetamol 250mg/5ml oral suspension</td>\n                <td>One 5ml Spoonful Every 4 To 6 Hours When Necessary. No More Than 4 doses in 24 Hours</td>\n                <td>40 ml</td>\n            </tr>\n        </tbody>\n    </table>\n</div>"
             }
           },
           {
@@ -126,7 +126,7 @@
             },
             "text": {
               "status": "generated",
-              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n    <table summary=\"This table includes information about this patient's discontinued repeat medications.\" id=\"DiscRepeatMeds\">\n        <thead>\n            <tr>\n                <th>Type</th>\n                <th>Date</th>\n                <th>Medication Item</th>\n                <th>Dosage Instructions</th>\n                <th>Quantity</th>\n            </tr>\n        </thead>\n        <tbody>\n            <tr>\n                <td colspan=\"5\">No relevant information available for this category.</td>\n            </tr>\n        </tbody>\n    </table>\n</div>"
+              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n    <table summary=\"This table includes information about this patient&apos;s discontinued repeat medications.\" id=\"DiscRepeatMeds\">\n        <thead>\n            <tr>\n                <th>Type</th>\n                <th>Date</th>\n                <th>Medication Item</th>\n                <th>Dosage Instructions</th>\n                <th>Quantity</th>\n            </tr>\n        </thead>\n        <tbody>\n            <tr>\n                <td colspan=\"5\">No relevant information available for this category.</td>\n            </tr>\n        </tbody>\n    </table>\n</div>"
             }
           },
           {
