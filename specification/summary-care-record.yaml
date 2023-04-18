@@ -127,7 +127,7 @@ info:
     * is stateful, so persists updates
     * includes authorisation, with [smartcard](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation/nhs-smartcards-for-developers)
  
-    For more information about our Production Environment please contact the [National Service Desk](ssd.nationalservicedesk@nhs.net)
+    For more information about our Production Environment, contact the [National Service Desk](ssd.nationalservicedesk@nhs.net)
 
     ## Onboarding
     You need to get your software approved by us before it can go live with this API. We call this onboarding. The onboarding process can sometimes be quite long, so it’s worth planning well ahead.
