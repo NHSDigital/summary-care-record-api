@@ -370,7 +370,7 @@ public class GpSummaryTest {
         var gpSummaryTemplate = TemplateUtils.loadPartialTemplate("GpSummary.mustache");
 
         var resultStr = TemplateUtils.fillTemplate(gpSummaryTemplate, result);
-        assertThat(resultStr).isEqualToIgnoringWhitespace(expectedHtml);
+        assertThat(resultStr).isEqualToNormalizingWhitespace(expectedHtml);
     }
 
 //    Below tests are to be used manually during development.
