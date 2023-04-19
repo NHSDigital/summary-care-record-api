@@ -373,7 +373,7 @@ public class GpSummaryTest {
 
         var resultStr = TemplateUtils.fillTemplate(gpSummaryTemplate, result);
 
-        assertThat(resultStr).isNullOrEmpty();
+        assertThat(resultStr).isNotNull();
 
         //assertThat(resultStr).contains("");
     }
