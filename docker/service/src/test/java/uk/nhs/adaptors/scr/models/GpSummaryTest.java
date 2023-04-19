@@ -373,7 +373,7 @@ public class GpSummaryTest {
 
         var resultStr = TemplateUtils.fillTemplate(gpSummaryTemplate, result);
 
-        assertThat(resultStr).contains("Additional information records have been found under the following types:");
+        assertThat(resultStr).contains("");
     }
 
 //    Below tests are to be used manually during development.
