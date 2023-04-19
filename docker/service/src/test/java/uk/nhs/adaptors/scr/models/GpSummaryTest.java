@@ -369,7 +369,15 @@ public class GpSummaryTest {
         //Fill in the template.
         var gpSummaryTemplate = TemplateUtils.loadPartialTemplate("GpSummary.mustache");
 
+
+
         var resultStr = TemplateUtils.fillTemplate(gpSummaryTemplate, result);
+
+        System.out.println("Actual:");
+        System.out.println(resultStr);
+        System.out.println("Expected:");
+        System.out.println(expectedHtml);
+
         assertThat(resultStr).isEqualToNormalizingWhitespace(expectedHtml);
     }
 
