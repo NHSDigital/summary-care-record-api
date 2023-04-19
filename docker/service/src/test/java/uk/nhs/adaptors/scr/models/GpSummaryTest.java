@@ -378,6 +378,8 @@ public class GpSummaryTest {
         System.out.println("Expected:");
         System.out.println(expectedHtml);
 
+
+
         assertThat("test").isEqualToNormalizingWhitespace("test");
     }
 
