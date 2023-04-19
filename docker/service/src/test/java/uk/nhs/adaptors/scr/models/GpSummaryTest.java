@@ -373,14 +373,10 @@ public class GpSummaryTest {
 
         var resultStr = TemplateUtils.fillTemplate(gpSummaryTemplate, result);
 
-        System.out.println("Actual:");
-        System.out.println(resultStr);
-        System.out.println("Expected:");
-        System.out.println(expectedHtml);
-
-
-
-        assertThat("test").isEqualToNormalizingWhitespace("test");
+        assertThat(resultStr)
+                .contains(
+                        "Additional information records have been "
+                        + "found under the following types:&#10;Risks to Patient&#10;Treatments");
     }
 
 //    Below tests are to be used manually during development.
