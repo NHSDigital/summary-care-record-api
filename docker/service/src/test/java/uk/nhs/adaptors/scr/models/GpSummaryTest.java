@@ -14,6 +14,7 @@ import uk.nhs.adaptors.scr.utils.TemplateUtils;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static uk.nhs.utils.Utils.readResourceFile;
@@ -377,6 +378,7 @@ public class GpSummaryTest {
         System.out.println(resultStr);
         System.out.println("Expected:");
         System.out.println(expectedHtml);
+        System.console().printf("Actual:\n%s\nExpected:\n%s", resultStr, expectedHtml);
 
         assertThat(resultStr).isEqualToNormalizingWhitespace(expectedHtml);
     }
