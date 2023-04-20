@@ -49,7 +49,7 @@ info:
     ## API status and roadmap
     This API is initially for use by new market entrant GP IT developers with other use cases to follow later.
     
-    This API is [in production, beta] (https://digital.nhs.uk/developer/guides-and-documentation/reference-guide#statuses), meaning:
+    This API is [in production, beta](https://digital.nhs.uk/developer/guides-and-documentation/reference-guide#statuses), meaning:
     
     - the API is available in our sandbox and integration test environments
     - the API is available for production (private beta) use
@@ -57,7 +57,7 @@ info:
 
     To see our roadmap, or to suggest, comment or vote on features for this API, see our [interactive product backlog](https://nhs-digital-api-management.featureupvote.com/?order=popular&filter=all&tag=scr-fhir-api&deleted=0#controls).
 
-    If you have any other queries, please [contact us](https://digital.nhs.uk/developer/help-and-support).
+    If you have any other queries, [contact us](https://digital.nhs.uk/developer/help-and-support).
 
     ## Technology
     This API is [RESTful](https://digital.nhs.uk/developer/guides-and-documentation/our-api-technologies#basic-rest).
@@ -138,7 +138,7 @@ info:
     * is stateful, so persists updates
     * includes authorisation, with [smartcard](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation/nhs-smartcards-for-developers)
  
-    For more information about our Production Environment please contact the [National Service Desk](ssd.nationalservicedesk@nhs.net)
+    For more information about our Production Environment, contact the [National Service Desk](ssd.nationalservicedesk@nhs.net)
 
     ## Onboarding
     You need to get your software approved by us before it can go live with this API. We call this onboarding. The onboarding process can sometimes be quite long, so it’s worth planning well ahead.
