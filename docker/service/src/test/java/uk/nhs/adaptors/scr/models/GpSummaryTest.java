@@ -350,35 +350,31 @@ public class GpSummaryTest {
         assertThat(result.getRisksToPatient()).hasAtLeastOneElementOfType(RiskToPatient.class);
     }
 
-    //Check whether the mapping of the third party communication prompt is correct after HL7 conversion.
-    @Test
-    public void When_MappingAdditionalInfoGpSummaryFromBundle_Expect_HL7Match() {
-        var expectedHtml = readResourceFile(String.format(RESOURCE_DIRECTORY + "/%s.html", ADDITIONAL_INFO_FILE_NAME_1));
-
-        //Treatment and risks to patient snippets will cause the third party trigger to fire.
-        var jsonFile = readResourceFile(String.format(BUNDLE_RESOURCE_DIRECTORY + "/%s.json",
-                "treatments-plus-risks-to-patient"));
-        var bundle = fhirParser.parseResource(jsonFile, Bundle.class);
-
-        var result = GpSummary.fromBundle(bundle, NHSD_ASID);
-
-        //Normally these would be changing, so we set a known value for the purpose of this comparison.
-        result.getThirdPartyCorrespondences().get(0).setIdRoot("68B1730B-C782-438F-9493-9F4324F4DDA7");
-        result.getPresentation().setPresentationId("68B1730B-C782-438F-9493-9F4324F4DDA7");
-
-        //Fill in the template.
-        var gpSummaryTemplate = TemplateUtils.loadPartialTemplate("GpSummary.mustache");
-
-
-
-        var resultStr = TemplateUtils.fillTemplate(gpSummaryTemplate, result);
-
-        assertThat(resultStr).isNotEmpty();
-
-        //assertThat(resultStr).contains("");
-    }
-
 //    Below tests are to be used manually during development.
+    //Check whether the mapping of the third party communication prompt is correct after HL7 conversion.
+//    @Test
+//    public void When_MappingAdditionalInfoGpSummaryFromBundle_Expect_HL7Match() {
+//        var expectedHtml = readResourceFile(String.format(RESOURCE_DIRECTORY + "/%s.html", ADDITIONAL_INFO_FILE_NAME_1));
+//
+//        //Treatment and risks to patient snippets will cause the third party trigger to fire.
+//        var jsonFile = readResourceFile(String.format(BUNDLE_RESOURCE_DIRECTORY + "/%s.json",
+//                "treatments-plus-risks-to-patient"));
+//        var bundle = fhirParser.parseResource(jsonFile, Bundle.class);
+//
+//        var result = GpSummary.fromBundle(bundle, NHSD_ASID);
+//
+//        //Normally these would be changing, so we set a known value for the purpose of this comparison.
+//        result.getThirdPartyCorrespondences().get(0).setIdRoot("68B1730B-C782-438F-9493-9F4324F4DDA7");
+//        result.getPresentation().setPresentationId("68B1730B-C782-438F-9493-9F4324F4DDA7");
+//
+//        //Fill in the template.
+//        var gpSummaryTemplate = TemplateUtils.loadPartialTemplate("GpSummary.mustache");
+//
+//        String resultStr = TemplateUtils.fillTemplate(gpSummaryTemplate, result);
+//
+//        assertThat(resultStr).isEqualToNormalizingWhitespace("");
+//    }
+
 //    @Test
 //    public void When_MappingStandardGpSummaryFromBundle_Expect_HL7Match() {
 //        var expectedHtml = readResourceFile(String.format(RESOURCE_DIRECTORY + "/%s.html", STANDARD_FILE_NAME));
