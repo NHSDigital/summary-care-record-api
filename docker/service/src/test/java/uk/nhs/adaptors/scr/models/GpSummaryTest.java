@@ -9,7 +9,6 @@ import uk.nhs.adaptors.scr.models.xml.Diagnosis;
 import uk.nhs.adaptors.scr.models.xml.Finding;
 import uk.nhs.adaptors.scr.models.xml.RiskToPatient;
 import uk.nhs.adaptors.scr.models.xml.Treatment;
-import uk.nhs.adaptors.scr.utils.TemplateUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
