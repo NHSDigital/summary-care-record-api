@@ -9,6 +9,7 @@ import uk.nhs.adaptors.scr.models.xml.PatientCarerCorrespondence;
 import uk.nhs.adaptors.scr.models.xml.ProvisionOfAdviceAndInformation;
 import uk.nhs.adaptors.scr.models.xml.ThirdPartyCorrespondence;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
@@ -108,12 +109,10 @@ public class CommunicationMapper {
             Map<String, String> additionalInformationHeaders) {
         var thirdPartyCorrespondenceMapper = new ThirdPartyCorrespondenceMapper();
 
-        List<ThirdPartyCorrespondence> thirdPartyCorrespondences = getDomainResourceList(bundle, Communication.class)
-                .stream()
-                .filter(IS_THIRD_PARTY_CORRESPONDENCE)
-                .map(communication -> thirdPartyCorrespondenceMapper
-                        .mapAdditionalInformationButtonEntry(communication, additionalInformationHeaders))
-                .collect(Collectors.toList());
+        List<ThirdPartyCorrespondence> thirdPartyCorrespondences = new ArrayList<>();
+
+        thirdPartyCorrespondences.add(thirdPartyCorrespondenceMapper
+                .mapAdditionalInformationButtonEntry(additionalInformationHeaders));
 
         //If no valid information is present in the bundle, create an empty entry.
         if (thirdPartyCorrespondences.isEmpty()) {
