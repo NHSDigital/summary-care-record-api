@@ -43,6 +43,7 @@ import uk.nhs.adaptors.scr.mappings.from.hl7.RecordTargetMapper;
 import uk.nhs.adaptors.scr.mappings.from.hl7.RisksToPatientMapper;
 import uk.nhs.adaptors.scr.mappings.from.hl7.SocialOrPersonalCircumstancesMapper;
 import uk.nhs.adaptors.scr.mappings.from.hl7.TreatmentsMapper;
+import uk.nhs.adaptors.scr.mappings.from.hl7.ThirdPartyCorrespondencesMapper;
 import uk.nhs.adaptors.scr.models.EventListQueryParams;
 import uk.nhs.adaptors.scr.models.EventListQueryResponse;
 import uk.nhs.adaptors.scr.models.EventListQueryResponseParser;
@@ -112,6 +113,7 @@ public class GetScrService {
     private final EventListQueryResponseParser eventListQueryResponseParser;
     private final SpineResponseParser spineResponseParser;
     private final SpineDetectedIssuesHandler spineDetectedIssuesHandler;
+    private final ThirdPartyCorrespondencesMapper thirdPartyCorrespondencesMapper;
 
     @LogExecutionTime
     public Bundle getScrId(String nhsNumber, String nhsdAsid, String clientIp) {
@@ -179,7 +181,8 @@ public class GetScrService {
                     provisionsOfAdviceAndInfoMapper,
                     risksToPatientMapper,
                     socialOrPersonalCircumstancesMapper,
-                    treatmentsMapper)
+                    treatmentsMapper,
+                    thirdPartyCorrespondencesMapper)
                     .map(mapper -> mapper.map(document))
                     .flatMap(resources -> resources.stream())
                     .peek(it -> setPatientReferences(it, patient))

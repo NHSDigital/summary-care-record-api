@@ -18,14 +18,12 @@
   "topic": {
     "coding": [ {
       "system": "http://snomed.info/sct",
-      "code": "415171009",
-      "display": "Prescribing observations"
+      "code": "263536004",
+      "display": "Communication"
     } ]
   },
-  "note": [
-    {
-      "text": "Long text long text long text long text Long text long text long text long text Long text long text long text long text"
-    }
-  ],
-  "sent": "2016-02-17T14:58:55+01:00"
+  "sent": "2016-02-17T13:58:55+00:00",
+  "note": [ {
+    "text": "Additional information records have been found under the following types:\nClinical Observations and Findings"
+  } ]
 }

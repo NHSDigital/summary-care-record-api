@@ -42,9 +42,9 @@ public class ThirdPartyCorrespondenceMapperTest extends BaseFhirMapperTest {
 
         var result = thirdPartyCorrMapper.mapThirdPartyCorrespondence(communication);
 
-        assertThat(result.getCodeCode()).isEqualTo("415171009");
+        assertThat(result.getCodeCode()).isEqualTo("263536004");
         assertThat(result.getCodeDisplayName())
-                .isEqualTo("Prescribing observations");
+                .isEqualTo("Communication");
     }
 
     @Test

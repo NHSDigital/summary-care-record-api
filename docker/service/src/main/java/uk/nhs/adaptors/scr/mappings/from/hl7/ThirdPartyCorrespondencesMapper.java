@@ -1,0 +1,104 @@
+package uk.nhs.adaptors.scr.mappings.from.hl7;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.hl7.fhir.r4.model.CodeableConcept;
+import org.hl7.fhir.r4.model.Coding;
+import org.hl7.fhir.r4.model.Communication;
+import org.hl7.fhir.r4.model.Resource;
+import org.hl7.fhir.r4.model.Meta;
+import org.hl7.fhir.r4.model.DateTimeType;
+import org.hl7.fhir.r4.model.StringType;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import uk.nhs.adaptors.scr.mappings.from.common.UuidWrapper;
+import uk.nhs.adaptors.scr.mappings.from.hl7.common.CodedEntry;
+import uk.nhs.adaptors.scr.mappings.from.hl7.common.CodedEntryMapper;
+import uk.nhs.adaptors.scr.utils.XmlUtils;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@Slf4j
+@Component
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
+public class ThirdPartyCorrespondencesMapper implements XmlToFhirMapper {
+
+    private final UuidWrapper uuid;
+    private final CodedEntryMapper codedEntryMapper;
+    private final XmlUtils xmlUtils;
+
+    private static final String PERTINENT_CRET_BASE_PATH = "/pertinentInformation2/pertinentCREType"
+            + "[.//UKCT_MT144035UK01.ThirdPartyCorrespondence]";
+    private static final String PERTINENT_SUPPORTING_TEXT_PATH = "/pertinentInformation2/pertinentCREType/component"
+            + "/UKCT_MT144035UK01.ThirdPartyCorrespondence/pertinentInformation/pertinentSupportingInfo/value";
+    private static final String THIRDPARTYCORRESPONDENCE_BASE_PATH = "./component/UKCT_MT144035UK01.ThirdPartyCorrespondence";
+    private static final String UK_CORE_OBSERVATION_META = "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Encounter";
+    private static final String UK_CORE_PROCEDURE_META = "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Communication";
+    private static final String ENCOUNTER_CLASS_SYSTEM = "http://terminology.hl7.org/CodeSystem/v3-ActCode";
+    private static final String PERTINENT_CODE_CODE_XPATH = "./code/@code";
+    private static final String PERTINENT_CODE_DISPLAY_XPATH = "./code/@displayName";
+    private List<CodeableConcept> coding = new ArrayList<>();
+
+
+    @Override
+    public List<? extends Resource> map(Node document) {
+        List<Resource> resources = new ArrayList<>();
+
+        NodeList pertinentNodes = xmlUtils.getNodeListByXPath(document, PERTINENT_CRET_BASE_PATH);
+        List<Node> supportingTextNodes = xmlUtils.getNodesByXPath(document, PERTINENT_SUPPORTING_TEXT_PATH);
+        for (int i = 0; i < pertinentNodes.getLength(); i++) {
+            Node pertinentCREType = xmlUtils.getNodeAndDetachFromParent(pertinentNodes, i);
+            NodeList treatmentNodes = xmlUtils.getNodeListByXPath(pertinentCREType, THIRDPARTYCORRESPONDENCE_BASE_PATH);
+            // Get "category" code/display values.
+            var pertinentCRETypeCode = xmlUtils.getValueByXPath(pertinentCREType, PERTINENT_CODE_CODE_XPATH);
+            var pertinentCRETypeDisplay = xmlUtils.getValueByXPath(pertinentCREType, PERTINENT_CODE_DISPLAY_XPATH);
+            for (int j = 0; j < treatmentNodes.getLength(); j++) {
+                Node node = xmlUtils.getNodeAndDetachFromParent(treatmentNodes, j);
+                mapCommunication(resources, pertinentCRETypeCode, pertinentCRETypeDisplay, node, supportingTextNodes);
+            }
+        }
+        return resources;
+    }
+
+    private void mapCommunication(List<Resource> resources, String pertinentCRETypeCode,
+                                  String pertinentCRETypeDisplay, Node node, List<Node> supportingTextNodes) {
+        var communication = new Communication();
+        CodedEntry entry = codedEntryMapper.getCommonCodedEntryValues(node);
+        var entryId = entry.getId();
+        communication.setId(entryId);
+        communication.setMeta(new Meta().addProfile(UK_CORE_PROCEDURE_META));
+        communication.addIdentifier().setValue(entryId);
+        communication.setStatus(Communication.CommunicationStatus.COMPLETED);
+        communication.addCategory(new CodeableConcept(new Coding()
+                .setSystem(SNOMED_SYSTEM)
+                .setCode(pertinentCRETypeCode)
+                .setDisplay(pertinentCRETypeDisplay)));
+        var topicCoding = new CodeableConcept().addCoding(new Coding()
+                .setCode(entry.getCodeValue())
+                .setSystem(SNOMED_SYSTEM)
+                .setDisplay(entry.getCodeDisplay()));
+        communication.setTopic(topicCoding);
+
+        if (entry.getEffectiveTimeLow().isPresent()) {
+            communication.setSent(entry.getEffectiveTimeLow().get().getValue());
+        }
+
+        String text = supportingTextNodes.get(0).getTextContent();
+
+        communication.addChild("note");
+        communication.getChildByName("note").getValues().get(0).setProperty("text", new StringType(text));
+
+        if (entry.getEffectiveTime().isPresent()) {
+            var dateTime = new DateTimeType();
+            if (entry.getEffectiveTime().isPresent()) {
+                dateTime.setValue(entry.getEffectiveTime().get().getValue());
+            }
+            communication.setSentElement(dateTime);
+        }
+        //node.get;
+        resources.add(communication);
+    }
+}
