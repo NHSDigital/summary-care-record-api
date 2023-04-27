@@ -3,11 +3,14 @@ package uk.nhs.adaptors.scr.mappings.from.fhir;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.hl7.fhir.r4.model.Communication;
+import org.hl7.fhir.r4.model.DateTimeType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import uk.nhs.adaptors.scr.mappings.from.common.UuidWrapper;
 import uk.nhs.adaptors.scr.models.xml.ThirdPartyCorrespondence;
 import uk.nhs.adaptors.scr.models.xml.ThirdPartyCorrespondenceNote;
 
+import java.util.Date;
 import java.util.Map;
 
 import static uk.nhs.adaptors.scr.utils.DateUtil.formatDateToHl7;
@@ -34,18 +37,18 @@ public class ThirdPartyCorrespondenceMapper {
     }
 
     public ThirdPartyCorrespondence mapAdditionalInformationButtonEntry(
-            Communication communication,
             Map<String, String> additionalInformationHeaders) {
-        var obj = new ThirdPartyCorrespondence();
-        obj.setIdRoot(communication.getIdentifierFirstRep().getValue());
 
+        var obj = new ThirdPartyCorrespondence();
+        UuidWrapper uuid = new UuidWrapper();
+
+        obj.setIdRoot(uuid.randomUuid());
         obj.setCodeCode("263536004");
         obj.setCodeDisplayName("Communication");
         obj.setStatusCodeCode("normal");
-
-        obj.setEffectiveTimeLow(formatDateToHl7(communication.getSentElement()));
-
-        obj.setNote(new ThirdPartyCorrespondenceNote("Additional information records have been found under the following types:"));
+        obj.setEffectiveTimeLow(formatDateToHl7(new DateTimeType(new Date())));
+        obj.setNote(new ThirdPartyCorrespondenceNote(
+                "Additional information records have been found under the following types:"));
 
         //Add all the relevant additional information headers which caused the message to appear to the note.
         additionalInformationHeaders.entrySet()
