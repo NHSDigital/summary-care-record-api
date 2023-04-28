@@ -91,7 +91,7 @@ public class ThirdPartyCorrespondencesMapper implements XmlToFhirMapper {
         //Grab the note text from the node
         communication.addChild("note");
         communication.getChildByName("note").getValues().get(0).setProperty("text", new StringType(text));
-        
+
         if (entry.getEffectiveTime().isPresent()) {
             var dateTime = new DateTimeType();
             if (entry.getEffectiveTime().isPresent()) {
