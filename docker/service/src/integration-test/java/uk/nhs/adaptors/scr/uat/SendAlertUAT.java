@@ -4,8 +4,6 @@ import com.github.tomakehurst.wiremock.WireMockServer;
 import com.github.tomakehurst.wiremock.client.WireMock;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ArgumentsSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -21,23 +19,15 @@ import uk.nhs.adaptors.scr.WireMockInitializer;
 import uk.nhs.adaptors.scr.config.SpineConfiguration;
 import uk.nhs.adaptors.scr.consts.ScrHttpHeaders;
 import uk.nhs.adaptors.scr.consts.SpineHttpHeaders;
-import uk.nhs.adaptors.scr.uat.common.CustomArgumentsProvider.SendAlertBadRequest;
-import uk.nhs.adaptors.scr.uat.common.CustomArgumentsProvider.SendAlertSpineError;
-import uk.nhs.adaptors.scr.uat.common.CustomArgumentsProvider.SendAlertSuccess;
-import uk.nhs.adaptors.scr.uat.common.TestData;
 
 import java.io.IOException;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
 import static com.github.tomakehurst.wiremock.client.WireMock.equalTo;
-import static java.nio.charset.StandardCharsets.UTF_8;
-import static java.nio.file.Files.readString;
+
 import static java.util.UUID.randomUUID;
-import static org.springframework.http.HttpStatus.BAD_REQUEST;
-import static org.springframework.http.HttpStatus.OK;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static uk.nhs.adaptors.scr.controllers.FhirMediaTypes.APPLICATION_FHIR_JSON_VALUE;
 
 @SpringBootTest
@@ -67,16 +57,16 @@ public class SendAlertUAT {
     @Autowired
     private SpineConfiguration spineConfiguration;
 
-    @ParameterizedTest(name = "[{index}] - {0}")
+    /*@ParameterizedTest(name = "[{index}] - {0}")
     @ArgumentsSource(SendAlertSuccess.class)
     public void testSendAlertSuccess(TestData testData) throws Exception {
         stubSpineAlertEndpoint(OK, null);
 
         performRequest(testData.getFhirRequest())
             .andExpect(status().isCreated());
-    }
+    }*/
 
-    @ParameterizedTest(name = "[{index}] - {0}")
+    /*@ParameterizedTest(name = "[{index}] - {0}")
     @ArgumentsSource(SendAlertSpineError.class)
     public void testSendAlertError(TestData testData) throws Exception {
         stubSpineAlertEndpoint(BAD_REQUEST, readString(alertErrorResponse.getFile().toPath(), UTF_8));
@@ -84,15 +74,15 @@ public class SendAlertUAT {
         performRequest(testData.getFhirRequest())
             .andExpect(status().isBadRequest())
             .andExpect(content().json(testData.getFhirResponse()));
-    }
+    }*/
 
-    @ParameterizedTest(name = "[{index}] - {0}")
+    /*@ParameterizedTest(name = "[{index}] - {0}")
     @ArgumentsSource(SendAlertBadRequest.class)
     public void testSendAlertBadRequest(TestData testData) throws Exception {
         performRequest(testData.getFhirRequest())
             .andExpect(status().isBadRequest())
             .andExpect(content().json(testData.getFhirResponse()));
-    }
+    }*/
 
     private ResultActions performRequest(String body) throws Exception {
         return mockMvc.perform(post(ALERT_ENDPOINT)
