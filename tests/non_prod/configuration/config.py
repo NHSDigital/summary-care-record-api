@@ -8,11 +8,14 @@ ENV = EnvVarWrapper(
         'client_secret': 'CLIENT_SECRET',
         'redirect_uri': 'REDIRECT_URI',
         'service_base_path': 'SERVICE_BASE_PATH',
+        'jwt_app_restricted_private_key_absolute_path': 'JWT_PRIVATE_KEY_APP_RESTRICTED_ABSOLUTE_PATH'
     }
 )
 
 # Api Details
 ENVIRONMENT = ENV["environment"]
+PRIVATE_KEY = ENV["jwt_app_restricted_private_key_absolute_path"]
+
 BASE_URL = f"https://{ENVIRONMENT}.api.service.nhs.uk"  # Apigee proxy url
 
 IDENTITY_SERVICE = "oauth2-no-smartcard" if ENVIRONMENT == "int" else "oauth2"

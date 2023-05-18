@@ -29,6 +29,7 @@ steps:
         secret_file_ids:
           - ptl/app-credentials/jwt_testing/non-prod/JWT_TESTING_PRIVATE_KEY
           - ptl/app-credentials/jwt_testing/non-prod/ID_TOKEN_NHS_LOGIN_PRIVATE_KEY
+          - ptl/azure-devops/summary-care-record/JWT_TESTING_APP_RESTRICTED_PRIVATE_KEY
         config_ids:
           - /ptl/azure-devops/env-internal-dev/test-app/internal-testing-internal-dev/CLIENT_ID
           - /ptl/azure-devops/env-internal-dev/test-app/internal-testing-internal-dev/CLIENT_SECRET
@@ -41,13 +42,14 @@ steps:
         export SERVICE_BASE_PATH="$(SERVICE_BASE_PATH)"
         export STATUS_ENDPOINT_API_KEY="$(status-endpoint-api-key)"
         export APIGEE_PRODUCT="$(FULLY_QUALIFIED_SERVICE_NAME)"
-        export OAUTH_PROXY="oauth2"
+        export OAUTH_PROXY="oauth2-mock"
         export OAUTH_BASE_URI="https://$(ENVIRONMENT).api.service.nhs.uk"
         export APIGEE_API_TOKEN="$(secret.AccessToken)"
         export REDIRECT_URI="https://example.org/callback"
         export CLIENT_ID="$(CLIENT_ID)"
         export CLIENT_SECRET="$(CLIENT_SECRET)"
         export JWT_PRIVATE_KEY_ABSOLUTE_PATH="$(Pipeline.Workspace)/secrets/$(JWT_TESTING_PRIVATE_KEY)"
+        export JWT_PRIVATE_KEY_APP_RESTRICTED_ABSOLUTE_PATH="$(Pipeline.Workspace)/secrets/$(JWT_TESTING_APP_RESTRICTED_PRIVATE_KEY)"
         export ID_TOKEN_NHS_LOGIN_PRIVATE_KEY_ABSOLUTE_PATH="$(Pipeline.Workspace)/secrets/$(ID_TOKEN_NHS_LOGIN_PRIVATE_KEY)"
         export AUTHENTICATE_URL="https://nhsd-apim-testing-internal-dev.herokuapp.com/"
         make smoketest
