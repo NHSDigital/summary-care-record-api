@@ -68,7 +68,6 @@ public class ThirdPartyCorrespondenceMapperTest extends BaseFhirMapperTest {
     @Test
     public void When_MappingFromFHIR_Expect_MatchingHtml() {
         var expectedHtml = getExpectedHtml(RESOURCE_DIRECTORY, FILE_NAME);
-        var communication = getFileAsObject(RESOURCE_DIRECTORY, FILE_NAME, Communication.class);
 
         //Headers expected to appear in the message object in the final html.
         Map<String, String> additionalInformationHeaders = new HashMap() {
@@ -77,7 +76,11 @@ public class ThirdPartyCorrespondenceMapperTest extends BaseFhirMapperTest {
             }
         };
 
-        var result = thirdPartyCorrMapper.mapAdditionalInformationButtonEntry(communication, additionalInformationHeaders);
+        var result = thirdPartyCorrMapper.mapAdditionalInformationButtonEntry(additionalInformationHeaders);
+
+        //We replace the always-changing values with known ones, so that we can test against an already-filled template.
+        result.setIdRoot("7D50E3C0-7565-11E8-AEC7-950876D8FD27");
+        result.setEffectiveTimeLow("20160217135855");
 
         var gpSummary = new GpSummary();
         var thirdpartyCorr = new ArrayList<ThirdPartyCorrespondence>();
