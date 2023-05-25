@@ -8,6 +8,8 @@ import org.hl7.fhir.r4.model.Bundle;
 import org.hl7.fhir.r4.model.Property;
 import org.hl7.fhir.r4.model.Base;
 import org.hl7.fhir.r4.model.CodeType;
+import org.hl7.fhir.r4.model.Composition;
+import org.hl7.fhir.utilities.xhtml.XhtmlNode;
 import org.springframework.stereotype.Component;
 import uk.nhs.adaptors.scr.exceptions.FhirMappingException;
 import uk.nhs.adaptors.scr.exceptions.FhirValidationException;
@@ -124,6 +126,43 @@ public class GpSummary {
         return gpSummary;
     }
 
+    /**
+     * Determination of withheld information is done by parsing the html information attached to the header.
+     * Those that have information to display will have elements other than the ones specified below.
+     * This is done like this because there is not always a structured object to accompany the headers.
+     */
+    public static boolean hasInformationThatIsNotWithheld(XhtmlNode html) {
+        // A list of common HTML element IDs that any withheld information will contain.
+        ArrayList<String> withheldInformationHtmlIDs = new ArrayList<>();
+        withheldInformationHtmlIDs.add("Disclaimer");
+        withheldInformationHtmlIDs.add("CreateTime");
+        withheldInformationHtmlIDs.add("WithheldCREItemsHeaderStatement");
+        withheldInformationHtmlIDs.add("WithheldCREItemsStatement");
+        withheldInformationHtmlIDs.add("Author");
+        withheldInformationHtmlIDs.add("Practice");
+        withheldInformationHtmlIDs.add("SendTime");
+
+
+        for (XhtmlNode childNode:html.getChildNodes().get(0).getChildNodes()) {
+
+            /**
+             * Edge case: Some headers will not have html information attached to it.
+             * It is assumed that they will be filtered out later down the line as they
+             * will not be additional information headers.
+             */
+            if (childNode.getChildNodes().isEmpty()) {
+                return false;
+            }
+
+            // Any ids other than the common ones mean that information to display is present.
+            if (!withheldInformationHtmlIDs.contains(childNode.getAttribute("id").toString())) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public static ImmutablePair<Boolean, Map<String, String>> isBundleWithAdditionalInformation(Bundle bundle) {
         //A list of all the additional headers for comparison that will trigger third party correspondence.
         Map<String, String> additionalInformationHeaders = new HashMap() {
@@ -151,7 +190,7 @@ public class GpSummary {
 
         Property gpList = bundle.getEntry().get(0).getResource().getChildByName("section"); //entries stored in this section
 
-        //A list that will contain all headers present in the bundle, no matter if they're additional information or not.
+        // A list that will contain all headers present in the bundle, no matter if they're additional information or not.
         ArrayList<String> headerList = new ArrayList<String>();
 
         gpList.getValues().forEach(gp -> {
@@ -160,11 +199,17 @@ public class GpSummary {
             Base codingValue = coding.getValues().get(0);
 
             Base header = codingValue.getChildByName("code").getValues().get(0); //header extracted in this variable
+            XhtmlNode html = ((Composition.SectionComponent) gp).getText().getDiv();
 
-            headerList.add(((CodeType) header).getCode());
+            // Check if there is any pertinent information to display attached to the header.
+            // Withheld information is not to be displayed.
+            if (hasInformationThatIsNotWithheld(html)) {
+                headerList.add(((CodeType) header).getCode());
+            }
         });
 
-        //assign all the headers that are additional information and present in the bundle. Removes duplicates, if any.
+
+        // Assign all the headers that are additional information and present in the bundle. Removes duplicates, if any.
         Map<String, String> additionalInformationHeadersPresent = new HashMap();
         additionalInformationHeaders.entrySet().stream()
                 .filter(headerEntry -> headerList.contains(headerEntry.getValue()))
@@ -173,8 +218,6 @@ public class GpSummary {
         if (additionalInformationHeadersPresent.size() > 0) {
             return new ImmutablePair<>(true, additionalInformationHeadersPresent);
         }
-
-        System.out.println("No additional information headers found!");
 
         return new ImmutablePair<>(false, additionalInformationHeadersPresent);
     }
