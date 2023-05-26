@@ -463,7 +463,7 @@ paths:
           
         - in: query
           name: _sort
-          description: Defines how Patient's SCR list should be sorted in order to retrieve the latest one. The only supported value is _sort=date. If a different value is provided HTTP 400 Bad Request will be returned.
+          description: Defines how Patient's SCR list should be sorted in order to retrieve the latest one. The only supported value is _sort=date. If a different value is provided 400 HTTP status will be returned.
           required: false
           example: date
           schema:
@@ -471,7 +471,7 @@ paths:
              
         - in: query
           name: _count
-          description: Defines the number of latest patient SCR IDs that could be retrieved. Currently the only supported value is _count=1. If a different value is provided HTTP 400 Bad Request will be returned.
+          description: Defines the number of latest patient SCR IDs that could be retrieved. Currently the only supported value is _count=1. If a different value is provided 400 HTTP status will be returned.
           required: false
           example: 1
           schema:
