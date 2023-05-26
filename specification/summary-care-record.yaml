@@ -33,7 +33,7 @@ info:
     * send a privacy alert message, if you have to override a patient's dissent to view their SCR 
     * update a patient's consent to share their SCR
     
-    A healthcare worker must be present and authenticated with an [NHS smartcard or a modern alternative](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation/nhs-smartcards-for-developers) to use this API.
+    A health or care staff providing direct care to patients must be present and authenticated with an [NHS smartcard or a modern alternative](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation/nhs-smartcards-for-developers) to use this API.
     
     ## Who can use this API
     This API can only be used where there is a legal basis to do so. Make sure you have a valid use case before you go too far with your development. You must do this before you can go live (see ‘Onboarding’ below).
@@ -79,7 +79,7 @@ info:
     This API has two authorisation methods. The first is [user-restricted](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation#user-restricted-apis), meaning an end user must be present and authenticated to use it.
 
     The end user must be:
-    - a healthcare worker
+    - a health or care staff providing direct care to patients
     - strongly authenticated, using either an [NHS smartcard or a modern alternative](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation/nhs-smartcards-for-developers) available via [NHS Care Identity Service 2 (NHS CIS2)](https://digital.nhs.uk/services/nhs-identity)
 
     The API uses OAuth 2.0 to authorise the calling system. It supports the following security patterns:
