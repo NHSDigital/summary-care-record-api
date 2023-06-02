@@ -50,6 +50,8 @@ steps:
         export CLIENT_SECRET="$(CLIENT_SECRET_INT)"
         export JWT_PRIVATE_KEY_ABSOLUTE_PATH="$(Pipeline.Workspace)/secrets/$(JWT_TESTING_PRIVATE_KEY)"
         export ID_TOKEN_NHS_LOGIN_PRIVATE_KEY_ABSOLUTE_PATH="$(Pipeline.Workspace)/secrets/$(ID_TOKEN_NHS_LOGIN_PRIVATE_KEY)"
+        export JWT_PRIVATE_KEY_APP_RESTRICTED_ABSOLUTE_PATH=""
+        export AUTHENTICATE_URL=""
         make prod-smoketest
       workingDirectory: $(Pipeline.Workspace)/s/$(SERVICE_NAME)/$(SERVICE_ARTIFACT_NAME)
       displayName: Run smoketests
