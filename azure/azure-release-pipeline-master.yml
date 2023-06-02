@@ -36,34 +36,14 @@ extends:
     jinja_templates:
       REQUIRE_ASID: true
     apigee_deployments:
-      - environment: internal-qa
+      - environment: internal-dev
         post_deploy:
           - template: ./templates/run-tests.yml
             parameters:
               smoke_tests: true
-      - environment: internal-qa-sandbox
-        proxy_path: sandbox
-        post_deploy:
-          - template: ./templates/run-tests.yml
-            parameters:
-              smoke_tests: true
-      - environment: sandbox
-        proxy_path: sandbox
-        depends_on:
-          - internal_qa
-          - internal_qa_sandbox
-        post_deploy:
-          - template: ./templates/run-tests.yml
-            parameters:
-              smoke_tests: true
-      - environment: ref
-        depends_on:
-          - internal_qa
-          - internal_qa_sandbox
       - environment: int
         depends_on:
-          - internal_qa
-          - internal_qa_sandbox
+          - internal_dev
         jinja_templates:
           REQUIRE_ASID: false
         post_deploy:
@@ -73,7 +53,6 @@ extends:
       - environment: prod
         depends_on:
           - int
-          - internal_qa
         jinja_templates:
           REQUIRE_ASID: false
         post_deploy:
