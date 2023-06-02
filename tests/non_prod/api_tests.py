@@ -19,8 +19,8 @@ TEST_DATA_BASE_PATH = os.path.join(os.path.dirname(__file__), './test_data/')
 # stored in the build environment.
 def new_token():
     claims = {
-        "sub": "yLnp8eYDuujs52lkGWHBWmn6hyP5jDDc",
-        "iss": "yLnp8eYDuujs52lkGWHBWmn6hyP5jDDc",
+        "sub": "PSRd5XUfxdnmGc1VA75zsKW37lDSiFtH",
+        "iss": "PSRd5XUfxdnmGc1VA75zsKW37lDSiFtH",
         "jti": str(uuid.uuid4()),
         "aud": config.TOKEN_URL,
         "exp": int(time.time()) + 300,
