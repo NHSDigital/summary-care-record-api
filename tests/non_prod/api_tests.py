@@ -26,6 +26,7 @@ def new_token():
         "exp": int(time.time()) + 300,
     }
 
+
     headers = {"kid": "test-2"}
 
     encoded_jwt = jwt.encode(
