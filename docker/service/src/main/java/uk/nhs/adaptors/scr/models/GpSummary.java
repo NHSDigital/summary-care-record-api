@@ -146,7 +146,7 @@ public class GpSummary {
         for (XhtmlNode childNode:html.getChildNodes().get(0).getChildNodes()) {
 
             /**
-             * Edge case: Some headers will not have html information attached to it.
+             * Edge case: Some headers will not have HTML information attached to it.
              * It is assumed that they will be filtered out later down the line as they
              * will not be additional information headers.
              */
