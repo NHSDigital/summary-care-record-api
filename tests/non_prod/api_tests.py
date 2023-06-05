@@ -42,11 +42,6 @@ def new_token():
         },
     )
 
-    if response.status_code != 200:
-        print("URL: " + config.TOKEN_URL + "\n")
-        print("Status Code: " + response.status_code + "/n")
-        print("Response:\n" + response.json())
-
     response_json = response.json()
 
     return "Bearer " + response_json["access_token"]
