@@ -24,6 +24,12 @@ pool:
 variables:
   - template: project.yml
 
+# This pipeline gets executed when we merge to master.
+# So, it's presumed that internal-dev has already passed because otherwise you couldn't
+# have merged in. This file requires manual approval deploy to production. So only approve
+# (by clicking review/approve in Azure DevOps UI) if that's what you want to do.
+# The azure-release-pipeline.yml contains the regular internal-dev deployment pipeline. 
+# That is where your pr branches will live.
 extends:
   template: azure/common/apigee-deployment.yml@common
   parameters:
@@ -36,34 +42,7 @@ extends:
     jinja_templates:
       REQUIRE_ASID: true
     apigee_deployments:
-      - environment: internal-qa
-        post_deploy:
-          - template: ./templates/run-tests.yml
-            parameters:
-              smoke_tests: true
-      - environment: internal-qa-sandbox
-        proxy_path: sandbox
-        post_deploy:
-          - template: ./templates/run-tests.yml
-            parameters:
-              smoke_tests: true
-      - environment: sandbox
-        proxy_path: sandbox
-        depends_on:
-          - internal_qa
-          - internal_qa_sandbox
-        post_deploy:
-          - template: ./templates/run-tests.yml
-            parameters:
-              smoke_tests: true
-      - environment: ref
-        depends_on:
-          - internal_qa
-          - internal_qa_sandbox
       - environment: int
-        depends_on:
-          - internal_qa
-          - internal_qa_sandbox
         jinja_templates:
           REQUIRE_ASID: false
         post_deploy:
@@ -73,7 +52,6 @@ extends:
       - environment: prod
         depends_on:
           - int
-          - internal_qa
         jinja_templates:
           REQUIRE_ASID: false
         post_deploy:

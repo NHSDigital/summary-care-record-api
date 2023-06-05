@@ -24,6 +24,11 @@ pool:
 variables:
   - template: project.yml
 
+
+# This pipeline gets executed when we commit a new feature branch (to internal-dev).
+# It will execute more advanced smoketests than int or prod.
+# This deploy does not include the prod environment as that can only occur once you merge 
+# into master, which will execue the azure-release-pipeline-master.yml file.
 extends:
   template: azure/common/apigee-deployment.yml@common
   parameters:
@@ -41,45 +46,12 @@ extends:
           - template: ./templates/run-tests.yml
             parameters:
               smoke_tests: true
-      - environment: internal-qa
-        post_deploy:
-          - template: ./templates/run-tests.yml
-            parameters:
-              smoke_tests: true
-      - environment: internal-qa-sandbox
-        proxy_path: sandbox
-        post_deploy:
-          - template: ./templates/run-tests.yml
-            parameters:
-              smoke_tests: true
-      - environment: sandbox
-        proxy_path: sandbox
-        depends_on:
-          - internal_qa
-          - internal_qa_sandbox
-        post_deploy:
-          - template: ./templates/run-tests.yml
-            parameters:
-              smoke_tests: true
-      - environment: ref
-        depends_on:
-          - internal_qa
-          - internal_qa_sandbox
       - environment: int
         depends_on:
-          - internal_qa
-          - internal_qa_sandbox
+          - internal_dev
         jinja_templates:
           REQUIRE_ASID: false
         post_deploy:
           - template: ./templates/run-tests-int.yml
             parameters:
               smoke_tests: true
-      - environment: prod
-        depends_on:
-          - internal_qa
-          - internal_qa_sandbox
-        jinja_templates:
-          REQUIRE_ASID: false
-        post_deploy:
-          - template: ./templates/run-tests-prod.yml
