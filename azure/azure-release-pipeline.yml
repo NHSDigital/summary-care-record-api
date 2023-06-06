@@ -27,7 +27,6 @@ variables:
 
 # This pipeline gets executed when we commit a new feature branch (to internal-dev).
 # It will execute more advanced smoketests than int or prod.
-# 
 # This deploy does not include the prod environment as that can only occur once you merge 
 # into master, which will execue the azure-release-pipeline-master.yml file.
 extends:
