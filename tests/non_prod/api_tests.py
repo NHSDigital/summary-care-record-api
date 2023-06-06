@@ -17,10 +17,11 @@ TEST_DATA_BASE_PATH = os.path.join(os.path.dirname(__file__), './test_data/')
 
 # Generated a new token, based on a jwt key, that is generated using client credentials, as well as a private key
 # stored in the build environment.
+# The sub and iss values below are the key of the internal-dev application (see ApiGee or NHS Dev Portal).
 def new_token():
     claims = {
-        "sub": "yLnp8eYDuujs52lkGWHBWmn6hyP5jDDc",
-        "iss": "yLnp8eYDuujs52lkGWHBWmn6hyP5jDDc",
+        "sub": "rx35jQzKBQW1l5FxY4siA7Wr7hsuhAJb",
+        "iss": "rx35jQzKBQW1l5FxY4siA7Wr7hsuhAJb",
         "jti": str(uuid.uuid4()),
         "aud": config.TOKEN_URL,
         "exp": int(time.time()) + 300,
