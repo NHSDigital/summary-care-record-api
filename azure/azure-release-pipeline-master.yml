@@ -46,7 +46,7 @@ extends:
         post_deploy:
           - template: ./templates/run-tests.yml
             parameters:
-            smoke_tests: true
+              smoke_tests: true
       - environment: int
         depends_on:
           - internal_dev
