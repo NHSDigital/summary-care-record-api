@@ -19,3 +19,4 @@ def test_healthcheck():
 
     assert response.status_code == 200, "GET _status failed"
     assert response.json().get("status") == "pass", "_status response: " + str(response.json())
+    assert response.json().get("commitId") == config.COMMIT_ID, "_status response: " + str(response.json())
