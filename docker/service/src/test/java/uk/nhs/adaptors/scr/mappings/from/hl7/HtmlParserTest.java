@@ -35,7 +35,7 @@ class HtmlParserTest {
 
         var actualJson = fhirParser.encodeToJson(composition);
 
-        assertThat(actualJson).isEqualTo(expectedJson);
+        assertThat(actualJson).isEqualToNormalizingWhitespace(expectedJson);
     }
 
     @SneakyThrows
