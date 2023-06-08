@@ -28,6 +28,15 @@ steps:
       export APIGEE_PRODUCT="$(FULLY_QUALIFIED_SERVICE_NAME)"
       export JWT_PRIVATE_KEY_APP_RESTRICTED_ABSOLUTE_PATH=""
       export AUTHENTICATE_URL=""
+      export OAUTH_PROXY="oauth2"
+      export OAUTH_BASE_URI="https://$(ENVIRONMENT).api.service.nhs.uk"
+      export APIGEE_API_TOKEN="$(secret.AccessToken)"
+      export REDIRECT_URI="https://example.org/callback"
+      export CLIENT_ID="$(CLIENT_ID_INT)"
+      export CLIENT_SECRET="$(CLIENT_SECRET_INT)"
+      export JWT_PRIVATE_KEY_ABSOLUTE_PATH="$(Pipeline.Workspace)/secrets/$(JWT_TESTING_PRIVATE_KEY)"
+      export ID_TOKEN_NHS_LOGIN_PRIVATE_KEY_ABSOLUTE_PATH="$(Pipeline.Workspace)/secrets/$(ID_TOKEN_NHS_LOGIN_PRIVATE_KEY)"
+
       make prod-smoketest
     workingDirectory: $(Pipeline.Workspace)/s/$(SERVICE_NAME)/$(SERVICE_ARTIFACT_NAME)
     displayName: Run smoketests
