@@ -26,6 +26,8 @@ steps:
       export SERVICE_BASE_PATH="$(SERVICE_BASE_PATH)"
       export STATUS_ENDPOINT_API_KEY="$(status-endpoint-api-key)"
       export APIGEE_PRODUCT="$(FULLY_QUALIFIED_SERVICE_NAME)"
+      export JWT_PRIVATE_KEY_APP_RESTRICTED_ABSOLUTE_PATH=""
+      export AUTHENTICATE_URL=""
       make prod-smoketest
     workingDirectory: $(Pipeline.Workspace)/s/$(SERVICE_NAME)/$(SERVICE_ARTIFACT_NAME)
     displayName: Run smoketests
