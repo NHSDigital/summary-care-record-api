@@ -375,6 +375,7 @@ paths:
             | 400         | error          | invalid       | Bad request, error in business logic on the client's side |
             | 401         | error          | forbidden     | Unauthorized, access token missing, invalid or expired |
             | 403         | error          | forbidden     | There's no patient's consent to store SCR |
+            | 420         | error          | forbidden     | Business condition related to access control  which prevents the action being performed by PSIS |
             | 429         | error          | -             | You have exceeded your application's [rate limit](https://digital.nhs.uk/developer/guides-and-documentation/reference-guide#rate-limits). |
           content:
             application/fhir+json:
