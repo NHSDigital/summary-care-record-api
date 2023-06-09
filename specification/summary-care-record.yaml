@@ -289,7 +289,7 @@ paths:
                         version: 1
                         code: UNKNOWN_ERROR
                         display: Unknown Error
-                    diagnostics: "An unknown error occurred processing this request. Contact us for assistance diagnosing this issue: https://digital.nhs.uk/developer/help-and-support. (Message ID: rrt-4161241190348351641-b-geu2-4210-928960-20)"
+                    diagnostics: "An unknown server-side error occurred processing this request. Contact us for assistance diagnosing this issue: https://digital.nhs.uk/developer/help-and-support. (Message ID: rrt-4161241190348351641-b-geu2-4210-928960-20)"
         "503":
           description: Service unavailable
           content:
@@ -405,7 +405,7 @@ paths:
                         version: 1
                         code: UNKNOWN_ERROR
                         display: Unknown Error
-                    diagnostics: "An unknown error occurred processing this request. Contact us for assistance diagnosing this issue: https://digital.nhs.uk/developer/help-and-support. (Message ID: rrt-4161241190348351641-b-geu2-4210-928960-20)"
+                    diagnostics: "An unknown server-side error occurred processing this request. Contact us for assistance diagnosing this issue: https://digital.nhs.uk/developer/help-and-support. (Message ID: rrt-4161241190348351641-b-geu2-4210-928960-20)"
         "503":
           description: Service unavailable
           content:
@@ -526,7 +526,7 @@ paths:
                         version: 1
                         code: UNKNOWN_ERROR
                         display: Unknown Error
-                    diagnostics: "An unknown error occurred processing this request. Contact us for assistance diagnosing this issue: https://digital.nhs.uk/developer/help-and-support. (Message ID: rrt-4161241190348351641-b-geu2-4210-928960-20)"
+                    diagnostics: "An unknown server-side error occurred processing this request. Contact us for assistance diagnosing this issue: https://digital.nhs.uk/developer/help-and-support. (Message ID: rrt-4161241190348351641-b-geu2-4210-928960-20)"
         "503":
           description: Service unavailable
           content:
@@ -610,8 +610,8 @@ paths:
                         system: "https://fhir.nhs.uk/CodeSystem/Spine-ErrorOrWarningCode"
                         version: 1
                         code: UNKNOWN_ERROR
-                        display: Unknown Error
-                    diagnostics: "An unknown error occurred processing this request. Contact us for assistance diagnosing this issue: https://digital.nhs.uk/developer/help-and-support. (Message ID: rrt-4161241190348351641-b-geu2-4210-928960-20)"
+                        display: Unknown Server Side Error
+                    diagnostics: "An unknown server-side error occurred processing this request. Contact us for assistance diagnosing this issue: https://digital.nhs.uk/developer/help-and-support. (Message ID: rrt-4161241190348351641-b-geu2-4210-928960-20)"
 
   /AuditEvent:
     post:
@@ -683,7 +683,7 @@ paths:
                         version: 1
                         code: UNKNOWN_ERROR
                         display: Unknown Error
-                    diagnostics: "An unknown error occurred processing this request. Contact us for assistance diagnosing this issue: https://digital.nhs.uk/developer/help-and-support. (Message ID: rrt-4161241190348351641-b-geu2-4210-928960-20)"
+                    diagnostics: "An unknown server-side error occurred processing this request. Contact us for assistance diagnosing this issue: https://digital.nhs.uk/developer/help-and-support. (Message ID: rrt-4161241190348351641-b-geu2-4210-928960-20)"
 components:
   parameters:
     BearerAuthorization:
