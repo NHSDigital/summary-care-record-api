@@ -173,7 +173,7 @@ info:
     Errors specific to each API are shown in the Endpoints section, under Response. See our [reference guide](https://digital.nhs.uk/developer/guides-and-documentation/reference-guide#http-status-codes) for more on errors.
     
     ## Operations
-    Here are links to the possible SCR operations:
+    Here are links to the possible SCR operations. These endpoints are for create and consume use cases for GP systems:
     * [Get patient's Summary Care Record](#get-/Bundle)
     ![GET SCR Diagram](https://placebear.com/cache/395-205.jpg)
     * [Upload patient's Summary Care Record](#post-/Bundle)
