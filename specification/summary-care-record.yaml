@@ -704,6 +704,8 @@ components:
       description: |
         A globally unique identifier (GUID) for the request, which we use to trace the request if you contact our helpdesk.
 
+        When contacting the helpdesk and asking them to trace logs in Splunk, please supply the X-Correlation-ID (GIUD) from the request you are attempting to debug.
+
         Mirrored back in a response header.
 
         Avoid `.` characters.
