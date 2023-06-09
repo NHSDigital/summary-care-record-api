@@ -302,7 +302,7 @@ paths:
                   - severity: error
                     code: transient
                     details:
-                      "text": "Code: 502, Display: Service Not Available"
+                      "text": "Code: 503, Display: Service Not Available"
         "504":
           description: |
             The request timed out during processing. This does not imply the request has failed or been rejected.
@@ -418,7 +418,7 @@ paths:
                   - severity: error
                     code: transient
                     details:
-                      "text": "Code: 502, Display: Service Not Available"
+                      "text": "Code: 503, Display: Service Not Available"
   /DocumentReference:
     get:
       summary: Get patient's latest Summary Care Record identifier
@@ -539,7 +539,7 @@ paths:
                   - severity: error
                     code: transient
                     details:
-                      "text": "Code: 502, Display: Service Not Available"
+                      "text": "Code: 503, Display: Service Not Available"
   /$setPermission:
     post:
       summary: Update patient's consent to share SCR
