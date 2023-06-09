@@ -175,6 +175,7 @@ info:
     ## Operations
     Here are links to the possible SCR operations:
     * [Get patient's Summary Care Record](#get-/Bundle)
+    ![GET SCR Diagram](https://placebear.com/cache/395-205.jpg)
     * [Upload patient's Summary Care Record](#post-/Bundle)
     * [Get patient's latest Summary Care Record identifier](#get-/DocumentReference)
     * [Update patient's consent to share SCR](#post-/$setPermission)
