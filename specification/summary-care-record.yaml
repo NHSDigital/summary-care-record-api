@@ -259,7 +259,7 @@ paths:
             | 400         | error          | invalid       | Bad request, error in business logic on the client's side |
             | 401         | error          | forbidden     | Unauthorized, access token missing, invalid or expired |
             | 403         | error          | forbidden     | There's no patient's consent to store SCR |
-            | 415         | error          | not-supported | Unsupported Media Type, Content-Type header is invalid or missing |
+            | 415         | error          | not-supported | Unsupported Media Type, Content-Type header is invalid or missing. The following header should be sent with the request: `Content-Type: application/fhir+json` |
             | 429         | error          | -             | You have exceeded your application's [rate limit](https://digital.nhs.uk/developer/guides-and-documentation/reference-guide#rate-limits). |
           content:
             application/fhir+json:
@@ -580,7 +580,7 @@ paths:
             | ----------- | -------------- | ------------- | --------------------------------------------- |
             | 400         | error          | invalid       | Bad request, error in business logic on the client's side |
             | 401         | error          | forbidden     | Unauthorized, access token missing, invalid or expired |
-            | 415         | error          | not-supported | Unsupported Media Type, Content-Type header is invalid or missing |
+            | 415         | error          | not-supported | Unsupported Media Type, Content-Type header is invalid or missing. The following header should be sent with the request: `Content-Type: application/fhir+json` |
             | 429         | error          | -             | You have exceeded your application's [rate limit](https://digital.nhs.uk/developer/guides-and-documentation/reference-guide#rate-limits). |
           content:
             application/fhir+json:
@@ -652,7 +652,7 @@ paths:
             | ----------- | -------------- | ------------- | --------------------------------------------- |
             | 400         | error          | invalid       | Bad request, error in business logic on the client's side |
             | 401         | error          | forbidden     | Unauthorized, access token missing, invalid or expired |
-            | 415         | error          | not-supported | Unsupported Media Type, Content-Type header is invalid or missing |
+            | 415         | error          | not-supported | Unsupported Media Type, Content-Type header is invalid or missing. The following header should be sent with the request: `Content-Type: application/fhir+json` |
             | 429         | error          | -             | You have exceeded your application's [rate limit](https://digital.nhs.uk/developer/guides-and-documentation/reference-guide#rate-limits). |
           content:
             application/fhir+json:
