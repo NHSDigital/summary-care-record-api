@@ -338,6 +338,7 @@ paths:
         | -------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------|---------------------------------- |
         | Happy path                       | `composition.identifier`=`FA60BE64-1F34-11EB-A2A8-000C29A364EB` `composition.subject:Patient.identifier`=`9000000009`               | HTTP Status 200 - Full Bundle     |
         | No results                       | `composition.identifier`=`81CC2DA0-8882-11EB-B538-0800200C9A66` `composition.subject:Patient.identifier`=`9000000033`               | HTTP Status 200 - Empty Bundle    |
+        | Invalid results                  | `composition.identifier`=`INVALID ID` `composition.subject:Patient.identifier`=`INVALID NHS NUMBER`                                 | HTTP Status 400 - Invalid Request |
         
       summary: Get patient's Summary Care Record
       operationId: get-scr
@@ -444,6 +445,7 @@ paths:
         | ----------------------------------| --------------------------------- | ---------------------------------- |
         | Happy path                        | `nhs-number=9000000009`           | HTTP Status 200 - Full Bundle      |
         | Empty result                      | `nhs-number=9000000033`           | HTTP Status 200 - Empty Bundle     |
+        | Invalid results                   | `nhs-number=INVALID NHS NUMBER`   | HTTP Status 400 - Invalid Request  |
         
       parameters:
         - $ref: '#/components/parameters/BearerAuthorization'
