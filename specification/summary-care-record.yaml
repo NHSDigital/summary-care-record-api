@@ -33,7 +33,7 @@ info:
     * send a privacy alert message, if you have to override a patient's dissent to view their SCR 
     * update a patient's consent to share their SCR
     
-    A healthcare worker must be present and authenticated with an [NHS smartcard or a modern alternative](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation/nhs-smartcards-for-developers) to use this API.
+    A health or care staff providing direct care to patients must be present and authenticated with an [NHS smartcard or a modern alternative](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation/nhs-smartcards-for-developers) to use this API.
     
     ## Who can use this API
     This API can only be used where there is a legal basis to do so. Make sure you have a valid use case before you go too far with your development. You must do this before you can go live (see ‘Onboarding’ below).
@@ -79,7 +79,7 @@ info:
     This API has two authorisation methods. The first is [user-restricted](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation#user-restricted-apis), meaning an end user must be present and authenticated to use it.
 
     The end user must be:
-    - a healthcare worker
+    - a health or care staff providing direct care to patients
     - strongly authenticated, using either an [NHS smartcard or a modern alternative](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation/nhs-smartcards-for-developers) available via [NHS Care Identity Service 2 (NHS CIS2)](https://digital.nhs.uk/services/nhs-identity)
 
     The API uses OAuth 2.0 to authorise the calling system. It supports the following security patterns:
@@ -108,7 +108,10 @@ info:
     | Integration test                       | `https://int.api.service.nhs.uk/summary-care-record/FHIR/R4`    |
     | Production                             | `https://api.service.nhs.uk/summary-care-record/FHIR/R4`    |
     
-
+    ## NME Testing
+    The approach to testing for external developers is as follows.
+    
+    For sandbox, New Market Entrants (NMEs) should perform Self Testing, followed by Integration Testing which will be available on the Assurance Technical Evidencing. NMEs need to meet these to progress in integration.
 
     ### Sandbox testing
     Our [sandbox environment](https://digital.nhs.uk/developer/guides-and-documentation/testing#sandbox-testing):
@@ -173,9 +176,11 @@ info:
     Errors specific to each API are shown in the Endpoints section, under Response. See our [reference guide](https://digital.nhs.uk/developer/guides-and-documentation/reference-guide#http-status-codes) for more on errors.
     
     ## Operations
-    Here are links to the possible SCR operations:
+    Here are links to the possible SCR operations. These endpoints are for create and consume use cases for GP systems:
     * [Get patient's Summary Care Record](#get-/Bundle)
+    ![GET SCR Diagram](https://raw.githubusercontent.com/NHSDigital/summary-care-record-api/various-documentation-changes/specification/components/resources/images/diagram-2.png)
     * [Upload patient's Summary Care Record](#post-/Bundle)
+    ![POST SCR Diagram](https://raw.githubusercontent.com/NHSDigital/summary-care-record-api/various-documentation-changes/specification/components/resources/images/diagram-1.png)
     * [Get patient's latest Summary Care Record identifier](#get-/DocumentReference)
     * [Update patient's consent to share SCR](#post-/$setPermission)
     * [Send a privacy alert message](#post-/AuditEvent)
@@ -258,7 +263,7 @@ paths:
             | 400         | error          | invalid       | Bad request, error in business logic on the client's side |
             | 401         | error          | forbidden     | Unauthorized, access token missing, invalid or expired |
             | 403         | error          | forbidden     | There's no patient's consent to store SCR |
-            | 415         | error          | not-supported | Unsupported Media Type, Content-Type header is invalid or missing |
+            | 415         | error          | not-supported | Unsupported Media Type, Content-Type header is invalid or missing. The following header should be sent with the request: `Content-Type: application/fhir+json` |
             | 429         | error          | -             | You have exceeded your application's [rate limit](https://digital.nhs.uk/developer/guides-and-documentation/reference-guide#rate-limits). |
           content:
             application/fhir+json:
@@ -288,7 +293,7 @@ paths:
                         version: 1
                         code: UNKNOWN_ERROR
                         display: Unknown Error
-                    diagnostics: "An unknown error occurred processing this request. Contact us for assistance diagnosing this issue: https://digital.nhs.uk/developer/help-and-support. (Message ID: rrt-4161241190348351641-b-geu2-4210-928960-20)"
+                    diagnostics: "An unknown server-side error occurred processing this request. Contact us for assistance diagnosing this issue: https://digital.nhs.uk/developer/help-and-support. (Message ID: rrt-4161241190348351641-b-geu2-4210-928960-20)"
         "503":
           description: Service unavailable
           content:
@@ -301,7 +306,7 @@ paths:
                   - severity: error
                     code: transient
                     details:
-                      "text": "Code: 502, Display: Service Not Available"
+                      "text": "Code: 503, Display: Service Not Available"
         "504":
           description: |
             The request timed out during processing. This does not imply the request has failed or been rejected.
@@ -334,6 +339,7 @@ paths:
         | -------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------|---------------------------------- |
         | Happy path                       | `composition.identifier`=`FA60BE64-1F34-11EB-A2A8-000C29A364EB` `composition.subject:Patient.identifier`=`9000000009`               | HTTP Status 200 - Full Bundle     |
         | No results                       | `composition.identifier`=`81CC2DA0-8882-11EB-B538-0800200C9A66` `composition.subject:Patient.identifier`=`9000000033`               | HTTP Status 200 - Empty Bundle    |
+        | Invalid results                  | `composition.identifier`=`INVALID ID` `composition.subject:Patient.identifier`=`INVALID NHS NUMBER`                                 | HTTP Status 400 - Invalid Request |
         
       summary: Get patient's Summary Care Record
       operationId: get-scr
@@ -374,6 +380,7 @@ paths:
             | 400         | error          | invalid       | Bad request, error in business logic on the client's side |
             | 401         | error          | forbidden     | Unauthorized, access token missing, invalid or expired |
             | 403         | error          | forbidden     | There's no patient's consent to store SCR |
+            | 420         | error          | forbidden     | Business condition related to access control  which prevents the action being performed by PSIS |
             | 429         | error          | -             | You have exceeded your application's [rate limit](https://digital.nhs.uk/developer/guides-and-documentation/reference-guide#rate-limits). |
           content:
             application/fhir+json:
@@ -403,7 +410,7 @@ paths:
                         version: 1
                         code: UNKNOWN_ERROR
                         display: Unknown Error
-                    diagnostics: "An unknown error occurred processing this request. Contact us for assistance diagnosing this issue: https://digital.nhs.uk/developer/help-and-support. (Message ID: rrt-4161241190348351641-b-geu2-4210-928960-20)"
+                    diagnostics: "An unknown server-side error occurred processing this request. Contact us for assistance diagnosing this issue: https://digital.nhs.uk/developer/help-and-support. (Message ID: rrt-4161241190348351641-b-geu2-4210-928960-20)"
         "503":
           description: Service unavailable
           content:
@@ -416,7 +423,7 @@ paths:
                   - severity: error
                     code: transient
                     details:
-                      "text": "Code: 502, Display: Service Not Available"
+                      "text": "Code: 503, Display: Service Not Available"
   /DocumentReference:
     get:
       summary: Get patient's latest Summary Care Record identifier
@@ -439,6 +446,7 @@ paths:
         | ----------------------------------| --------------------------------- | ---------------------------------- |
         | Happy path                        | `nhs-number=9000000009`           | HTTP Status 200 - Full Bundle      |
         | Empty result                      | `nhs-number=9000000033`           | HTTP Status 200 - Empty Bundle     |
+        | Invalid results                   | `nhs-number=INVALID NHS NUMBER`   | HTTP Status 400 - Invalid Request  |
         
       parameters:
         - $ref: '#/components/parameters/BearerAuthorization'
@@ -463,7 +471,7 @@ paths:
           
         - in: query
           name: _sort
-          description: Defines how Patient's SCR list should be sorted in order to retrieve the latest one. The only supported value is _sort=date. If a different value is provided HTTP 400 Bad Request will be returned.
+          description: Defines how Patient's SCR list should be sorted in order to retrieve the latest one. The only supported value is _sort=date. If a different value is provided 400 HTTP status will be returned.
           required: false
           example: date
           schema:
@@ -471,7 +479,7 @@ paths:
              
         - in: query
           name: _count
-          description: Defines the number of latest patient SCR IDs that sgould be retrieved. Currently the only supported value is _count=1. If a different value is provided HTTP 400 Bad Request will be returned.
+          description: Defines the number of latest patient SCR IDs that could be retrieved. Currently the only supported value is _count=1. If a different value is provided 400 HTTP status will be returned.
           required: false
           example: 1
           schema:
@@ -524,7 +532,7 @@ paths:
                         version: 1
                         code: UNKNOWN_ERROR
                         display: Unknown Error
-                    diagnostics: "An unknown error occurred processing this request. Contact us for assistance diagnosing this issue: https://digital.nhs.uk/developer/help-and-support. (Message ID: rrt-4161241190348351641-b-geu2-4210-928960-20)"
+                    diagnostics: "An unknown server-side error occurred processing this request. Contact us for assistance diagnosing this issue: https://digital.nhs.uk/developer/help-and-support. (Message ID: rrt-4161241190348351641-b-geu2-4210-928960-20)"
         "503":
           description: Service unavailable
           content:
@@ -537,7 +545,7 @@ paths:
                   - severity: error
                     code: transient
                     details:
-                      "text": "Code: 502, Display: Service Not Available"
+                      "text": "Code: 503, Display: Service Not Available"
   /$setPermission:
     post:
       summary: Update patient's consent to share SCR
@@ -579,7 +587,7 @@ paths:
             | ----------- | -------------- | ------------- | --------------------------------------------- |
             | 400         | error          | invalid       | Bad request, error in business logic on the client's side |
             | 401         | error          | forbidden     | Unauthorized, access token missing, invalid or expired |
-            | 415         | error          | not-supported | Unsupported Media Type, Content-Type header is invalid or missing |
+            | 415         | error          | not-supported | Unsupported Media Type, Content-Type header is invalid or missing. The following header should be sent with the request: `Content-Type: application/fhir+json` |
             | 429         | error          | -             | You have exceeded your application's [rate limit](https://digital.nhs.uk/developer/guides-and-documentation/reference-guide#rate-limits). |
           content:
             application/fhir+json:
@@ -608,8 +616,8 @@ paths:
                         system: "https://fhir.nhs.uk/CodeSystem/Spine-ErrorOrWarningCode"
                         version: 1
                         code: UNKNOWN_ERROR
-                        display: Unknown Error
-                    diagnostics: "An unknown error occurred processing this request. Contact us for assistance diagnosing this issue: https://digital.nhs.uk/developer/help-and-support. (Message ID: rrt-4161241190348351641-b-geu2-4210-928960-20)"
+                        display: Unknown Server Side Error
+                    diagnostics: "An unknown server-side error occurred processing this request. Contact us for assistance diagnosing this issue: https://digital.nhs.uk/developer/help-and-support. (Message ID: rrt-4161241190348351641-b-geu2-4210-928960-20)"
 
   /AuditEvent:
     post:
@@ -651,7 +659,7 @@ paths:
             | ----------- | -------------- | ------------- | --------------------------------------------- |
             | 400         | error          | invalid       | Bad request, error in business logic on the client's side |
             | 401         | error          | forbidden     | Unauthorized, access token missing, invalid or expired |
-            | 415         | error          | not-supported | Unsupported Media Type, Content-Type header is invalid or missing |
+            | 415         | error          | not-supported | Unsupported Media Type, Content-Type header is invalid or missing. The following header should be sent with the request: `Content-Type: application/fhir+json` |
             | 429         | error          | -             | You have exceeded your application's [rate limit](https://digital.nhs.uk/developer/guides-and-documentation/reference-guide#rate-limits). |
           content:
             application/fhir+json:
@@ -681,7 +689,7 @@ paths:
                         version: 1
                         code: UNKNOWN_ERROR
                         display: Unknown Error
-                    diagnostics: "An unknown error occurred processing this request. Contact us for assistance diagnosing this issue: https://digital.nhs.uk/developer/help-and-support. (Message ID: rrt-4161241190348351641-b-geu2-4210-928960-20)"
+                    diagnostics: "An unknown server-side error occurred processing this request. Contact us for assistance diagnosing this issue: https://digital.nhs.uk/developer/help-and-support. (Message ID: rrt-4161241190348351641-b-geu2-4210-928960-20)"
 components:
   parameters:
     BearerAuthorization:
@@ -701,6 +709,8 @@ components:
       required: false
       description: |
         A globally unique identifier (GUID) for the request, which we use to trace the request if you contact our helpdesk.
+
+        When contacting the helpdesk and asking them to trace logs in Splunk, please supply the X-Correlation-ID (GIUD) from the request you are attempting to debug.
 
         Mirrored back in a response header.
 
@@ -732,7 +742,7 @@ components:
 
         This header is optional.
 
-        In user-restricted access mode if you send this header it must be valid for the logged-in user. See [determin the user's role](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation/user-restricted-restful-apis-nhs-cis2-combined-authentication-and-authorisation#step-7-determine-the-user-s-role) for guidance.
+        In user-restricted access mode if you send this header it must be valid for the logged-in user. See [determine the user's role](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation/user-restricted-restful-apis-nhs-cis2-combined-authentication-and-authorisation#step-7-determine-the-user-s-role) for guidance.
 
       required: false
       schema:
