@@ -178,8 +178,9 @@ info:
     ## Operations
     Here are links to the possible SCR operations. These endpoints are for create and consume use cases for GP systems:
     * [Get patient's Summary Care Record](#get-/Bundle)
-    ![GET SCR Diagram](https://placebear.com/cache/395-205.jpg)
+    ![GET SCR Diagram](https://raw.githubusercontent.com/NHSDigital/summary-care-record-api/various-documentation-changes/specification/components/resources/images/diagram-2.png)
     * [Upload patient's Summary Care Record](#post-/Bundle)
+    ![POST SCR Diagram](https://raw.githubusercontent.com/NHSDigital/summary-care-record-api/various-documentation-changes/specification/components/resources/images/diagram-1.png)
     * [Get patient's latest Summary Care Record identifier](#get-/DocumentReference)
     * [Update patient's consent to share SCR](#post-/$setPermission)
     * [Send a privacy alert message](#post-/AuditEvent)
