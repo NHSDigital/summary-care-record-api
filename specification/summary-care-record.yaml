@@ -626,7 +626,14 @@ paths:
       description: |
         ## Overview
         Use this endpoint to send a privacy alert where it is necessary to override patient's dissent to share their SCR in certain circumstances.
-
+        
+        The following combinations of type and subtype are **NOT** allowed:
+        | Type | Subtype |
+        |-----|-----|
+        | 1   | 2   |
+        | 2   | 4   |
+        | 2   | 6   |
+        
         ## Sandbox test scenarios
         You can test the following scenarios in our sandbox environment:
 
