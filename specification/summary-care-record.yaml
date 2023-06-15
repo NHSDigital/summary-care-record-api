@@ -277,7 +277,7 @@ paths:
                     details:
                       text: "[PSIS-30134] - Duplicate event with eventId FFFBB3CF-62F3-11EC-BCD6-024734D13536 and nhsNumber 9111231130."
         "500":
-          description: Internal Server Error
+          description: Internal Server Error. A similar message could be triggered for 502 Bad Gateway or any other 5XX error. See the "Errors" section for more details.
           content:
             application/fhir+json:
               schema:
@@ -394,7 +394,7 @@ paths:
                     details:
                       text: "Code: 420, Display: Business condition related to access control  which prevents the action being performed by PSIS;Code: 30418, Display: [PSIS-30418] - ACF does not permit access to resource"
         "500":
-          description: Internal Server Error
+          description: Internal Server Error. A similar message could be triggered for 502 Bad Gateway or any other 5XX error. See the "Errors" section for more details.
           content:
             application/fhir+json:
               schema:
@@ -516,7 +516,7 @@ paths:
                     details:
                       text: Invalid access token
         "500":
-          description: Internal Server Error
+          description: Internal Server Error. A similar message could be triggered for 502 Bad Gateway or any other 5XX error. See the "Errors" section for more details.
           content:
             application/fhir+json:
               schema:
@@ -601,7 +601,7 @@ paths:
                     details:
                       text: Content type 'text/plain' not supported
         "500":
-          description: Internal Server Error
+          description: Internal Server Error. A similar message could be triggered for 502 Bad Gateway or any other 5XX error. See the "Errors" section for more details.
           content:
             application/fhir+json:
               schema:
@@ -673,7 +673,7 @@ paths:
                     details:
                       text: NHS number missing
         "500":
-          description: Internal Server Error
+          description: Internal Server Error. A similar message could be triggered for 502 Bad Gateway or any other 5XX error. See the "Errors" section for more details.
           content:
             application/fhir+json:
               schema:
