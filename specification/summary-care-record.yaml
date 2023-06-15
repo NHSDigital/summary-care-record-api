@@ -625,8 +625,24 @@ paths:
       operationId: alert
       description: |
         ## Overview
-        Use this endpoint to send a privacy alert where it is necessary to override patient's dissent to share their SCR in certain circumstances.
-
+        Use this endpoint to raise an Electronic Alert to an organisation's Privacy Officer(s) when a Care Professional in the same organisation creates a Self-Claim LR or accesses an SCR without the patient's permission.
+        
+        The following combinations of type and subtype are possible. Note the non-permitted combinations in this list:
+        | Requirement Identifier | Alert Type | Alert Type Display       | Alert Sub-Type<br>(“Reason Code”) | Alert Sub-Type (“Reason Display”)  | Business Scenario Notes                    |
+        | ---------------------- | ---------- | ------------------------ | --------------------------------- | ---------------------------------- | ------------------------------------------ |
+        | MSCA-SCR-103           | 1          | Create LR (Self Claimed) | 1                                 | Access made in the public interest | SCR accessed for legal reasons             |
+        | MSCA-SCR-103           | 1          | Create LR (Self Claimed) | 2                                 | Access required by statute         | SCR accessed for legal reasons             |
+        | MSCA-SCR-103           | 1          | Create LR (Self Claimed) | 3                                 | Access required by Court Order     | SCR accessed for legal reasons             |
+        | MSCA-SCR-103           | 1          | Create LR (Self Claimed) | 4                                 | Self-Claim Emergency Access        | SCR accessed for emergency reasons         |
+        | n/a                    | 1          | n/a                      | 5                                 | n/a                                | Not a permitted combination                |
+        | MSCA-SCR-103           | 1          | Create LR (Self Claimed) | 6                                 | Other                              | SCR accessed with the patient’s permission |
+        | MSCA-SCR-105           | 2          | Access Alert             | 1                                 | Access made in the public interest | SCR accessed for legal reasons             |
+        | MSCA-SCR-105           | 2          | Access Alert             | 2                                 | Access required by statute         | SCR accessed for legal reasons             |
+        | MSCA-SCR-105           | 2          | Access Alert             | 3                                 | Access required by Court Order     | SCR accessed for legal reasons             |
+        | n/a                    | 2          | n/a                      | 4                                 | n/a                                | Not a permitted combination                |
+        | MSCA-SCR-104           | 2          | Access Alert             | 5                                 | Access made in an emergency        | SCR accessed for emergency reasons.        |
+        | n/a                    | 2          | n/a                      | 6                                 | n/a                                | Not a permitted combination                |
+        
         ## Sandbox test scenarios
         You can test the following scenarios in our sandbox environment:
 
