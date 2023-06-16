@@ -175,6 +175,25 @@ info:
     
     Errors specific to each API are shown in the Endpoints section, under Response. See our [reference guide](https://digital.nhs.uk/developer/guides-and-documentation/reference-guide#http-status-codes) for more on errors.
     
+    ## Exponential Backoff
+    In the event of a transitory error:
+    
+    * 429 – exceeded application rate limit (5 TPS per application)
+    * 500 – internal server error
+    * 503 – service unavailable
+    * 504 – response timed out
+    
+    The following retries are recommended:
+    
+    * Attempt 1: 1 minute after first failure
+    * Attempt 2: 30 minutes after attempt 1
+    * Attempt 3: 60 minutes after attempt 2
+    * Attempt 4: 2 hours after attempt 3
+    * Attempt 5: 4 hours after attempt 4
+    * Attempt 6: 8 hours after attempt 5
+    * Attempt 7: 16 hours after attempt 6
+    * If attempt 7 fails, then fail permanently.
+    
     ## Operations
     Here are links to the possible SCR operations. These endpoints are for create and consume use cases for GP systems:
     * [Get patient's Summary Care Record](#get-/Bundle)
