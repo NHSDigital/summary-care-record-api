@@ -315,7 +315,7 @@ paths:
                         display: Unknown Error
                     diagnostics: "An unknown server-side error occurred processing this request. Contact us for assistance diagnosing this issue: https://digital.nhs.uk/developer/help-and-support. (Message ID: rrt-4161241190348351641-b-geu2-4210-928960-20)"
         "503":
-          description: Service unavailable
+          description: Service unavailable. Response may be JSON as per example, or HTML message including the term "503 Service Temporarily Unavailable".
           content:
             application/fhir+json:
               schema:
@@ -432,7 +432,7 @@ paths:
                         display: Unknown Error
                     diagnostics: "An unknown server-side error occurred processing this request. Contact us for assistance diagnosing this issue: https://digital.nhs.uk/developer/help-and-support. (Message ID: rrt-4161241190348351641-b-geu2-4210-928960-20)"
         "503":
-          description: Service unavailable
+          description: Service unavailable. Response may be JSON as per example, or HTML message including the term "503 Service Temporarily Unavailable".
           content:
             application/fhir+json:
               schema:
@@ -554,7 +554,7 @@ paths:
                         display: Unknown Error
                     diagnostics: "An unknown server-side error occurred processing this request. Contact us for assistance diagnosing this issue: https://digital.nhs.uk/developer/help-and-support. (Message ID: rrt-4161241190348351641-b-geu2-4210-928960-20)"
         "503":
-          description: Service unavailable
+          description: Service unavailable. Response may be JSON as per example, or HTML message including the term "503 Service Temporarily Unavailable".
           content:
             application/fhir+json:
               schema:
