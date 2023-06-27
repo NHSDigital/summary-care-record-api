@@ -13,7 +13,7 @@
   "homepage": "https://github.com/NHSDigital/summary-care-record-api",
   "dependencies": {
     "gradle": "^1.2.4",
-    "speccy": "^0.11.0"
+    "speccy": "github:stevenmccullaghmadetech/speccy"
   },
   "devDependencies": {
     "apigeetool": "^0.16.1",
