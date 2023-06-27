@@ -6,7 +6,8 @@
     "lint": "node_modules/.bin/speccy lint -s openapi-tags -s operation-tags specification/summary-care-record.yaml --skip default-and-example-are-redundant",
     "publish": "mkdir -p build && node_modules/.bin/speccy resolve specification/summary-care-record.yaml -i | poetry run python scripts/yaml2json.py | poetry run python scripts/set_version.py > build/summary-care-record.json",
     "serve": "node_modules/.bin/speccy serve build/summary-care-record.json",
-    "check-licenses": "node_modules/.bin/license-checker --failOn GPL --failOn LGPL"
+    "check-licenses": "node_modules/.bin/license-checker --failOn GPL --failOn LGPL",
+    "preinstall": "npx npm-force-resolutions"
   },
   "author": "NHS Digital",
   "license": "MIT",
@@ -18,9 +19,10 @@
   "devDependencies": {
     "apigeetool": "^0.16.1",
     "license-checker": "^25.0.1",
-    "minimist": "^1.2.7",
-    "newman": "^4.5.7",
-    "newman-reporter-html": "^1.0.5",
-    "newman-reporter-htmlextra": "^1.11.3"
+    "minimist": "^1.2.8",
+    "newman": "^5.3.2"
+  },
+  "resolutions": {
+    "minimist": "^1.2.8"
   }
 }
