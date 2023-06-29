@@ -24,7 +24,12 @@ info:
     
     This API is currently only approved for use in primary care software, specifically GP software. We hope to make it available for secondary care in the future. You can vote for this on our [interactive product backlog](https://nhs-digital-api-management.featureupvote.com/suggestions/151217/summary-care-record-scr-fhir-api-other-use-cases).
 
-    Also use this API to update a patient's consent to share their SCR, and to raise a privacy alert where you have to override a patient's dissent to share their SCR in certain circumstances.
+    Also use this API to update a patient's SCR Consent Preference on the Spine ACS and to raise electronic Alerts when:
+    * a SCR is accessed without the patient’s permission
+    and/or
+    * the equivalent of Self-Claim Legitimate Relationship is created by an individual, who subsequently accesses the patient's SCR
+    * send an SCR alert message, on those occasions when an SCR is accessed without the patient’s permission e.g., in an emergency or when the equivalent of Self-Claim Legitimate Relationship is created.
+    * update a patient's SCR Consent Preference on the Spine ACS
 
     You can:
     * get a patient's SCR identifier
@@ -65,10 +70,6 @@ info:
     It conforms to the [FHIR](https://digital.nhs.uk/developer/guides-and-documentation/our-api-technologies#fhir) global standard for health care data exchange, specifically to [FHIR R4 (v4.0.1)](https://hl7.org/fhir/r4/), except that it does not support the [capabilities](http://hl7.org/fhir/R4/http.html#capabilities) interaction.
 
     It includes some country-specific FHIR extensions, which are built against [FHIR UK Core](https://digital.nhs.uk/services/fhir-uk-core), specifically [UK.core.r4.v2 2.0.5](https://simplifier.net/packages/uk.core.r4.v2/2.0.5).
-
-    You do not need to know much about FHIR to use this API - FHIR APIs are just RESTful APIs that follow specific rules. In particular:
-        - array names are singular, for example `line` not `lines` for address lines
-        - data items that are country-specific and thus not included in the FHIR global base resources are usually wrapped in an `extension` object
 
     ## Network access
     This API is available on the internet and, indirectly, on the [Health and Social Care Network (HSCN)](https://digital.nhs.uk/services/health-and-social-care-network). To use this API with [NHS smartcards](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation/nhs-smartcards-for-developers), the end user needs an HSCN connection, although internet-facing alternatives to smartcards are available.
@@ -197,9 +198,13 @@ info:
     ## Operations
     Here are links to the possible SCR operations. These endpoints are for create and consume use cases for GP systems:
     * [Get patient's Summary Care Record](#get-/Bundle)
-    ![GET SCR Diagram](https://raw.githubusercontent.com/NHSDigital/summary-care-record-api/various-documentation-changes/specification/components/resources/images/diagram-2.png)
+    
+    ![GET SCR Diagram](https://raw.githubusercontent.com/NHSDigital/summary-care-record-api/various-documentation-changes/specification/components/resources/images/diagram-2.jpg)
+    
     * [Upload patient's Summary Care Record](#post-/Bundle)
-    ![POST SCR Diagram](https://raw.githubusercontent.com/NHSDigital/summary-care-record-api/various-documentation-changes/specification/components/resources/images/diagram-1.png)
+    
+    ![POST SCR Diagram](https://raw.githubusercontent.com/NHSDigital/summary-care-record-api/various-documentation-changes/specification/components/resources/images/diagram-1.jpg)
+    
     * [Get patient's latest Summary Care Record identifier](#get-/DocumentReference)
     * [Update patient's consent to share SCR](#post-/$setPermission)
     * [Send a privacy alert message](#post-/AuditEvent)
