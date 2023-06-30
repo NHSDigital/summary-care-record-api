@@ -198,13 +198,8 @@ info:
     ## Operations
     Here are links to the possible SCR operations. These endpoints are for create and consume use cases for GP systems:
     * [Get patient's Summary Care Record](#get-/Bundle)
-    
-    ![GET SCR Diagram](https://raw.githubusercontent.com/NHSDigital/summary-care-record-api/various-documentation-changes/specification/components/resources/images/diagram-2.jpg)
-    
     * [Upload patient's Summary Care Record](#post-/Bundle)
-    
-    ![POST SCR Diagram](https://raw.githubusercontent.com/NHSDigital/summary-care-record-api/various-documentation-changes/specification/components/resources/images/diagram-1.jpg)
-    
+    * [Upload patient's Summary Care Record](#post-/Bundle)
     * [Get patient's latest Summary Care Record identifier](#get-/DocumentReference)
     * [Update patient's consent to share SCR](#post-/$setPermission)
     * [Send a privacy alert message](#post-/AuditEvent)
@@ -250,6 +245,9 @@ paths:
         To execute the upload you must provide patient's NHS number.
         In case of an update, before executing the request, latest UUID must be obtained using GET /DocumentReference endpoint
         and set inside the request body.
+        
+        ## Usage diagram
+        ![POST SCR Diagram](https://raw.githubusercontent.com/NHSDigital/summary-care-record-api/various-documentation-changes/specification/components/resources/images/diagram-1.jpg)
 
         ## Sandbox test scenarios
         You can test the following scenarios in our sandbox environment:
@@ -356,6 +354,10 @@ paths:
         You must specify the NHS number and the UUID of the latest Summary Care Record of this patient. This UUID should be obtained using the GET /DocumentReference endpoint.
 
         If you specify an out-of-date UUID, this endpoint returns a Bundle with 0 entries.
+        
+        ## Usage diagram
+        
+        ![GET SCR Diagram](https://raw.githubusercontent.com/NHSDigital/summary-care-record-api/various-documentation-changes/specification/components/resources/images/diagram-2.jpg)
 
         ## Sandbox test scenarios
         You can test the following scenarios in our sandbox environment:
