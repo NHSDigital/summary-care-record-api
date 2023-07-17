@@ -46,4 +46,4 @@
                       example: Unknown Error
           diagnostics:
             type: string
-            example: "An unknown error occurred processing this request. Contact us for assistance diagnosing this issue: https://digital.nhs.uk/developer/help-and-support. (Message ID: {messageid})"
+            example: "An unknown server-side error occurred processing this request. Contact us for assistance diagnosing this issue: https://digital.nhs.uk/developer/help-and-support. (Message ID: {messageid})"

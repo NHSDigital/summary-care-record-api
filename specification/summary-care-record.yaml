@@ -24,7 +24,12 @@ info:
     
     This API is currently only approved for use in primary care software, specifically GP software. We hope to make it available for secondary care in the future. You can vote for this on our [interactive product backlog](https://nhs-digital-api-management.featureupvote.com/suggestions/151217/summary-care-record-scr-fhir-api-other-use-cases).
 
-    Also use this API to update a patient's consent to share their SCR, and to raise a privacy alert where you have to override a patient's dissent to share their SCR in certain circumstances.
+    Also use this API to update a patient's SCR Consent Preference on the Spine ACS and to raise electronic Alerts when:
+    * a SCR is accessed without the patient’s permission
+    and/or
+    * the equivalent of Self-Claim Legitimate Relationship is created by an individual, who subsequently accesses the patient's SCR
+    * send an SCR alert message, on those occasions when an SCR is accessed without the patient’s permission e.g., in an emergency or when the equivalent of Self-Claim Legitimate Relationship is created.
+    * update a patient's SCR Consent Preference on the Spine ACS
 
     You can:
     * get a patient's SCR identifier
@@ -33,7 +38,7 @@ info:
     * send a privacy alert message, if you have to override a patient's dissent to view their SCR 
     * update a patient's consent to share their SCR
     
-    A healthcare worker must be present and authenticated with an [NHS smartcard or a modern alternative](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation/nhs-smartcards-for-developers) to use this API.
+    A health or care staff providing direct care to patients must be present and authenticated with an [NHS smartcard or a modern alternative](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation/nhs-smartcards-for-developers) to use this API.
     
     ## Who can use this API
     This API can only be used where there is a legal basis to do so. Make sure you have a valid use case before you go too far with your development. You must do this before you can go live (see ‘Onboarding’ below).
@@ -66,10 +71,6 @@ info:
 
     It includes some country-specific FHIR extensions, which are built against [FHIR UK Core](https://digital.nhs.uk/services/fhir-uk-core), specifically [UK.core.r4.v2 2.0.5](https://simplifier.net/packages/uk.core.r4.v2/2.0.5).
 
-    You do not need to know much about FHIR to use this API - FHIR APIs are just RESTful APIs that follow specific rules. In particular:
-        - array names are singular, for example `line` not `lines` for address lines
-        - data items that are country-specific and thus not included in the FHIR global base resources are usually wrapped in an `extension` object
-
     ## Network access
     This API is available on the internet and, indirectly, on the [Health and Social Care Network (HSCN)](https://digital.nhs.uk/services/health-and-social-care-network). To use this API with [NHS smartcards](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation/nhs-smartcards-for-developers), the end user needs an HSCN connection, although internet-facing alternatives to smartcards are available.
 
@@ -79,7 +80,7 @@ info:
     This API has two authorisation methods. The first is [user-restricted](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation#user-restricted-apis), meaning an end user must be present and authenticated to use it.
 
     The end user must be:
-    - a healthcare worker
+    - a health or care staff providing direct care to patients
     - strongly authenticated, using either an [NHS smartcard or a modern alternative](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation/nhs-smartcards-for-developers) available via [NHS Care Identity Service 2 (NHS CIS2)](https://digital.nhs.uk/services/nhs-identity)
 
     The API uses OAuth 2.0 to authorise the calling system. It supports the following security patterns:
@@ -89,7 +90,7 @@ info:
 
     For more details, see [user-restricted APIs](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation#user-restricted-apis).
 
-    The second authorisation method is [application-restricted](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation#application-restricted-apis)(signed JWT authentication), meaning a few specific API calls can be authorised by the application making the requests. This is typically provided so that GPs can perform batch updates of multiple Summary Care Records through the SCR Application (SCRa).
+    The second authorisation method is [application-restricted](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation#application-restricted-apis) (signed JWT authentication), meaning a few specific API calls can be authorised by the application making the requests. This is typically provided so that GPs can perform batch updates of multiple Summary Care Records through the SCR Application (SCRa).
     
     The following specific endpoint and method combinations can be used with application-restricted authentication, in addition to user-restricted authentication:
     
@@ -108,7 +109,10 @@ info:
     | Integration test                       | `https://int.api.service.nhs.uk/summary-care-record/FHIR/R4`    |
     | Production                             | `https://api.service.nhs.uk/summary-care-record/FHIR/R4`    |
     
-
+    ## NME Testing
+    The approach to testing for external developers is as follows.
+    
+    For sandbox, New Market Entrants (NMEs) should perform Self Testing, followed by Integration Testing which will be available on the Assurance Technical Evidencing. NMEs need to meet these to progress in integration.
 
     ### Sandbox testing
     Our [sandbox environment](https://digital.nhs.uk/developer/guides-and-documentation/testing#sandbox-testing):
@@ -172,9 +176,29 @@ info:
     
     Errors specific to each API are shown in the Endpoints section, under Response. See our [reference guide](https://digital.nhs.uk/developer/guides-and-documentation/reference-guide#http-status-codes) for more on errors.
     
+    ## Exponential Backoff
+    In the event of a transitory error:
+    
+    * 429 – exceeded application rate limit (5 TPS per application)
+    * 500 – internal server error
+    * 503 – service unavailable
+    * 504 – response timed out
+    
+    The following retries are recommended:
+    
+    * Attempt 1: 1 minute after first failure
+    * Attempt 2: 30 minutes after attempt 1
+    * Attempt 3: 60 minutes after attempt 2
+    * Attempt 4: 2 hours after attempt 3
+    * Attempt 5: 4 hours after attempt 4
+    * Attempt 6: 8 hours after attempt 5
+    * Attempt 7: 16 hours after attempt 6
+    * If attempt 7 fails, then fail permanently.
+    
     ## Operations
-    Here are links to the possible SCR operations:
+    Here are links to the possible SCR operations. These endpoints are for create and consume use cases for GP systems:
     * [Get patient's Summary Care Record](#get-/Bundle)
+    * [Upload patient's Summary Care Record](#post-/Bundle)
     * [Upload patient's Summary Care Record](#post-/Bundle)
     * [Get patient's latest Summary Care Record identifier](#get-/DocumentReference)
     * [Update patient's consent to share SCR](#post-/$setPermission)
@@ -221,6 +245,9 @@ paths:
         To execute the upload you must provide patient's NHS number.
         In case of an update, before executing the request, latest UUID must be obtained using GET /DocumentReference endpoint
         and set inside the request body.
+        
+        ## Usage diagram
+        ![POST SCR Diagram](https://raw.githubusercontent.com/NHSDigital/summary-care-record-api/various-documentation-changes/specification/components/resources/images/diagram-1.jpg)
 
         ## Sandbox test scenarios
         You can test the following scenarios in our sandbox environment:
@@ -258,7 +285,8 @@ paths:
             | 400         | error          | invalid       | Bad request, error in business logic on the client's side |
             | 401         | error          | forbidden     | Unauthorized, access token missing, invalid or expired |
             | 403         | error          | forbidden     | There's no patient's consent to store SCR |
-            | 415         | error          | not-supported | Unsupported Media Type, Content-Type header is invalid or missing |
+            | 413         | error          | invalid       | Content too large, request was larger than the server was able to handle. This is a host imposed limitation/error.  |
+            | 415         | error          | not-supported | Unsupported Media Type, Content-Type header is invalid or missing. The following header should be sent with the request: `Content-Type: application/fhir+json` |
             | 429         | error          | -             | You have exceeded your application's [rate limit](https://digital.nhs.uk/developer/guides-and-documentation/reference-guide#rate-limits). |
           content:
             application/fhir+json:
@@ -272,7 +300,7 @@ paths:
                     details:
                       text: "[PSIS-30134] - Duplicate event with eventId FFFBB3CF-62F3-11EC-BCD6-024734D13536 and nhsNumber 9111231130."
         "500":
-          description: Internal Server Error
+          description: Internal Server Error. A similar message could be triggered for 502 Bad Gateway or any other 5XX error. See the "Errors" section for more details.
           content:
             application/fhir+json:
               schema:
@@ -288,9 +316,9 @@ paths:
                         version: 1
                         code: UNKNOWN_ERROR
                         display: Unknown Error
-                    diagnostics: "An unknown error occurred processing this request. Contact us for assistance diagnosing this issue: https://digital.nhs.uk/developer/help-and-support. (Message ID: rrt-4161241190348351641-b-geu2-4210-928960-20)"
+                    diagnostics: "An unknown server-side error occurred processing this request. Contact us for assistance diagnosing this issue: https://digital.nhs.uk/developer/help-and-support. (Message ID: rrt-4161241190348351641-b-geu2-4210-928960-20)"
         "503":
-          description: Service unavailable
+          description: Service unavailable. Response may be JSON as per example, or HTML message including the term "503 Service Temporarily Unavailable".
           content:
             application/fhir+json:
               schema:
@@ -301,7 +329,7 @@ paths:
                   - severity: error
                     code: transient
                     details:
-                      "text": "Code: 502, Display: Service Not Available"
+                      "text": "Code: 503, Display: Service Not Available"
         "504":
           description: |
             The request timed out during processing. This does not imply the request has failed or been rejected.
@@ -326,6 +354,10 @@ paths:
         You must specify the NHS number and the UUID of the latest Summary Care Record of this patient. This UUID should be obtained using the GET /DocumentReference endpoint.
 
         If you specify an out-of-date UUID, this endpoint returns a Bundle with 0 entries.
+        
+        ## Usage diagram
+        
+        ![GET SCR Diagram](https://raw.githubusercontent.com/NHSDigital/summary-care-record-api/various-documentation-changes/specification/components/resources/images/diagram-2.jpg)
 
         ## Sandbox test scenarios
         You can test the following scenarios in our sandbox environment:
@@ -334,6 +366,7 @@ paths:
         | -------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------|---------------------------------- |
         | Happy path                       | `composition.identifier`=`FA60BE64-1F34-11EB-A2A8-000C29A364EB` `composition.subject:Patient.identifier`=`9000000009`               | HTTP Status 200 - Full Bundle     |
         | No results                       | `composition.identifier`=`81CC2DA0-8882-11EB-B538-0800200C9A66` `composition.subject:Patient.identifier`=`9000000033`               | HTTP Status 200 - Empty Bundle    |
+        | Invalid results                  | `composition.identifier`=`INVALID ID` `composition.subject:Patient.identifier`=`INVALID NHS NUMBER`                                 | HTTP Status 400 - Invalid Request |
         
       summary: Get patient's Summary Care Record
       operationId: get-scr
@@ -374,6 +407,7 @@ paths:
             | 400         | error          | invalid       | Bad request, error in business logic on the client's side |
             | 401         | error          | forbidden     | Unauthorized, access token missing, invalid or expired |
             | 403         | error          | forbidden     | There's no patient's consent to store SCR |
+            | 420         | error          | forbidden     | Business condition related to access control  which prevents the action being performed by PSIS |
             | 429         | error          | -             | You have exceeded your application's [rate limit](https://digital.nhs.uk/developer/guides-and-documentation/reference-guide#rate-limits). |
           content:
             application/fhir+json:
@@ -387,7 +421,7 @@ paths:
                     details:
                       text: "Code: 420, Display: Business condition related to access control  which prevents the action being performed by PSIS;Code: 30418, Display: [PSIS-30418] - ACF does not permit access to resource"
         "500":
-          description: Internal Server Error
+          description: Internal Server Error. A similar message could be triggered for 502 Bad Gateway or any other 5XX error. See the "Errors" section for more details.
           content:
             application/fhir+json:
               schema:
@@ -403,9 +437,9 @@ paths:
                         version: 1
                         code: UNKNOWN_ERROR
                         display: Unknown Error
-                    diagnostics: "An unknown error occurred processing this request. Contact us for assistance diagnosing this issue: https://digital.nhs.uk/developer/help-and-support. (Message ID: rrt-4161241190348351641-b-geu2-4210-928960-20)"
+                    diagnostics: "An unknown server-side error occurred processing this request. Contact us for assistance diagnosing this issue: https://digital.nhs.uk/developer/help-and-support. (Message ID: rrt-4161241190348351641-b-geu2-4210-928960-20)"
         "503":
-          description: Service unavailable
+          description: Service unavailable. Response may be JSON as per example, or HTML message including the term "503 Service Temporarily Unavailable".
           content:
             application/fhir+json:
               schema:
@@ -416,7 +450,7 @@ paths:
                   - severity: error
                     code: transient
                     details:
-                      "text": "Code: 502, Display: Service Not Available"
+                      "text": "Code: 503, Display: Service Not Available"
   /DocumentReference:
     get:
       summary: Get patient's latest Summary Care Record identifier
@@ -439,6 +473,7 @@ paths:
         | ----------------------------------| --------------------------------- | ---------------------------------- |
         | Happy path                        | `nhs-number=9000000009`           | HTTP Status 200 - Full Bundle      |
         | Empty result                      | `nhs-number=9000000033`           | HTTP Status 200 - Empty Bundle     |
+        | Invalid results                   | `nhs-number=INVALID NHS NUMBER`   | HTTP Status 400 - Invalid Request  |
         
       parameters:
         - $ref: '#/components/parameters/BearerAuthorization'
@@ -463,7 +498,7 @@ paths:
           
         - in: query
           name: _sort
-          description: Defines how Patient's SCR list should be sorted in order to retrieve the latest one. The only supported value is _sort=date. If a different value is provided HTTP 400 Bad Request will be returned.
+          description: Defines how Patient's SCR list should be sorted in order to retrieve the latest one. The only supported value is _sort=date. If a different value is provided 400 HTTP status will be returned.
           required: false
           example: date
           schema:
@@ -471,7 +506,7 @@ paths:
              
         - in: query
           name: _count
-          description: Defines the number of latest patient SCR IDs that sgould be retrieved. Currently the only supported value is _count=1. If a different value is provided HTTP 400 Bad Request will be returned.
+          description: Defines the number of latest patient SCR IDs that could be retrieved. Currently the only supported value is _count=1. If a different value is provided 400 HTTP status will be returned.
           required: false
           example: 1
           schema:
@@ -508,7 +543,7 @@ paths:
                     details:
                       text: Invalid access token
         "500":
-          description: Internal Server Error
+          description: Internal Server Error. A similar message could be triggered for 502 Bad Gateway or any other 5XX error. See the "Errors" section for more details.
           content:
             application/fhir+json:
               schema:
@@ -524,9 +559,9 @@ paths:
                         version: 1
                         code: UNKNOWN_ERROR
                         display: Unknown Error
-                    diagnostics: "An unknown error occurred processing this request. Contact us for assistance diagnosing this issue: https://digital.nhs.uk/developer/help-and-support. (Message ID: rrt-4161241190348351641-b-geu2-4210-928960-20)"
+                    diagnostics: "An unknown server-side error occurred processing this request. Contact us for assistance diagnosing this issue: https://digital.nhs.uk/developer/help-and-support. (Message ID: rrt-4161241190348351641-b-geu2-4210-928960-20)"
         "503":
-          description: Service unavailable
+          description: Service unavailable. Response may be JSON as per example, or HTML message including the term "503 Service Temporarily Unavailable".
           content:
             application/fhir+json:
               schema:
@@ -537,7 +572,7 @@ paths:
                   - severity: error
                     code: transient
                     details:
-                      "text": "Code: 502, Display: Service Not Available"
+                      "text": "Code: 503, Display: Service Not Available"
   /$setPermission:
     post:
       summary: Update patient's consent to share SCR
@@ -579,7 +614,8 @@ paths:
             | ----------- | -------------- | ------------- | --------------------------------------------- |
             | 400         | error          | invalid       | Bad request, error in business logic on the client's side |
             | 401         | error          | forbidden     | Unauthorized, access token missing, invalid or expired |
-            | 415         | error          | not-supported | Unsupported Media Type, Content-Type header is invalid or missing |
+            | 413         | error          | invalid       | Content too large, request was larger than the server was able to handle. This is a host imposed limitation/error.  |
+            | 415         | error          | not-supported | Unsupported Media Type, Content-Type header is invalid or missing. The following header should be sent with the request: `Content-Type: application/fhir+json` |
             | 429         | error          | -             | You have exceeded your application's [rate limit](https://digital.nhs.uk/developer/guides-and-documentation/reference-guide#rate-limits). |
           content:
             application/fhir+json:
@@ -593,7 +629,7 @@ paths:
                     details:
                       text: Content type 'text/plain' not supported
         "500":
-          description: Internal Server Error
+          description: Internal Server Error. A similar message could be triggered for 502 Bad Gateway or any other 5XX error. See the "Errors" section for more details.
           content:
             application/fhir+json:
               schema:
@@ -608,8 +644,8 @@ paths:
                         system: "https://fhir.nhs.uk/CodeSystem/Spine-ErrorOrWarningCode"
                         version: 1
                         code: UNKNOWN_ERROR
-                        display: Unknown Error
-                    diagnostics: "An unknown error occurred processing this request. Contact us for assistance diagnosing this issue: https://digital.nhs.uk/developer/help-and-support. (Message ID: rrt-4161241190348351641-b-geu2-4210-928960-20)"
+                        display: Unknown Server Side Error
+                    diagnostics: "An unknown server-side error occurred processing this request. Contact us for assistance diagnosing this issue: https://digital.nhs.uk/developer/help-and-support. (Message ID: rrt-4161241190348351641-b-geu2-4210-928960-20)"
 
   /AuditEvent:
     post:
@@ -617,8 +653,24 @@ paths:
       operationId: alert
       description: |
         ## Overview
-        Use this endpoint to send a privacy alert where it is necessary to override patient's dissent to share their SCR in certain circumstances.
-
+        Use this endpoint to raise an Electronic Alert to an organisation's Privacy Officer(s) when a Care Professional in the same organisation creates a Self-Claim LR or accesses an SCR without the patient's permission.
+        
+        The following combinations of type and subtype are possible. Note the non-permitted combinations in this list:
+        | Requirement Identifier | Alert Type | Alert Type Display       | Alert Sub-Type<br>(“Reason Code”) | Alert Sub-Type (“Reason Display”)  | Business Scenario Notes                    |
+        | ---------------------- | ---------- | ------------------------ | --------------------------------- | ---------------------------------- | ------------------------------------------ |
+        | MSCA-SCR-103           | 1          | Create LR (Self Claimed) | 1                                 | Access made in the public interest | SCR accessed for legal reasons             |
+        | MSCA-SCR-103           | 1          | Create LR (Self Claimed) | 2                                 | Access required by statute         | SCR accessed for legal reasons             |
+        | MSCA-SCR-103           | 1          | Create LR (Self Claimed) | 3                                 | Access required by Court Order     | SCR accessed for legal reasons             |
+        | MSCA-SCR-103           | 1          | Create LR (Self Claimed) | 4                                 | Self-Claim Emergency Access        | SCR accessed for emergency reasons         |
+        | n/a                    | 1          | n/a                      | 5                                 | n/a                                | Not a permitted combination                |
+        | MSCA-SCR-103           | 1          | Create LR (Self Claimed) | 6                                 | Other                              | SCR accessed with the patient’s permission |
+        | MSCA-SCR-105           | 2          | Access Alert             | 1                                 | Access made in the public interest | SCR accessed for legal reasons             |
+        | MSCA-SCR-105           | 2          | Access Alert             | 2                                 | Access required by statute         | SCR accessed for legal reasons             |
+        | MSCA-SCR-105           | 2          | Access Alert             | 3                                 | Access required by Court Order     | SCR accessed for legal reasons             |
+        | n/a                    | 2          | n/a                      | 4                                 | n/a                                | Not a permitted combination                |
+        | MSCA-SCR-104           | 2          | Access Alert             | 5                                 | Access made in an emergency        | SCR accessed for emergency reasons.        |
+        | n/a                    | 2          | n/a                      | 6                                 | n/a                                | Not a permitted combination                |
+        
         ## Sandbox test scenarios
         You can test the following scenarios in our sandbox environment:
 
@@ -651,7 +703,8 @@ paths:
             | ----------- | -------------- | ------------- | --------------------------------------------- |
             | 400         | error          | invalid       | Bad request, error in business logic on the client's side |
             | 401         | error          | forbidden     | Unauthorized, access token missing, invalid or expired |
-            | 415         | error          | not-supported | Unsupported Media Type, Content-Type header is invalid or missing |
+            | 413         | error          | invalid       | Content too large, request was larger than the server was able to handle. This is a host imposed limitation/error.  |
+            | 415         | error          | not-supported | Unsupported Media Type, Content-Type header is invalid or missing. The following header should be sent with the request: `Content-Type: application/fhir+json` |
             | 429         | error          | -             | You have exceeded your application's [rate limit](https://digital.nhs.uk/developer/guides-and-documentation/reference-guide#rate-limits). |
           content:
             application/fhir+json:
@@ -665,7 +718,7 @@ paths:
                     details:
                       text: NHS number missing
         "500":
-          description: Internal Server Error
+          description: Internal Server Error. A similar message could be triggered for 502 Bad Gateway or any other 5XX error. See the "Errors" section for more details.
           content:
             application/fhir+json:
               schema:
@@ -681,7 +734,7 @@ paths:
                         version: 1
                         code: UNKNOWN_ERROR
                         display: Unknown Error
-                    diagnostics: "An unknown error occurred processing this request. Contact us for assistance diagnosing this issue: https://digital.nhs.uk/developer/help-and-support. (Message ID: rrt-4161241190348351641-b-geu2-4210-928960-20)"
+                    diagnostics: "An unknown server-side error occurred processing this request. Contact us for assistance diagnosing this issue: https://digital.nhs.uk/developer/help-and-support. (Message ID: rrt-4161241190348351641-b-geu2-4210-928960-20)"
 components:
   parameters:
     BearerAuthorization:
@@ -701,6 +754,8 @@ components:
       required: false
       description: |
         A globally unique identifier (GUID) for the request, which we use to trace the request if you contact our helpdesk.
+
+        When contacting the helpdesk and asking them to trace logs in Splunk, please supply the X-Correlation-ID (GIUD) from the request you are attempting to debug.
 
         Mirrored back in a response header.
 
@@ -732,7 +787,7 @@ components:
 
         This header is optional.
 
-        In user-restricted access mode if you send this header it must be valid for the logged-in user. See [determin the user's role](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation/user-restricted-restful-apis-nhs-cis2-combined-authentication-and-authorisation#step-7-determine-the-user-s-role) for guidance.
+        In user-restricted access mode if you send this header it must be valid for the logged-in user. See [determine the user's role](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation/user-restricted-restful-apis-nhs-cis2-combined-authentication-and-authorisation#step-7-determine-the-user-s-role) for guidance.
 
       required: false
       schema:
