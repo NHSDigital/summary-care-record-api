@@ -72,6 +72,42 @@ public class GpSummaryTest {
     }
 
     /**
+     * Given a supplied bundle with additional information where the same header contains withheld information AND
+     * information to display, third party correspondence should be returned.
+     */
+    @Test
+    public void When_MappingBundleWithWithheldInformationAndAdditionalInformation_Expect_ThirdPartyCorrespondence() {
+        ArrayList<String> expectedRecordTypes = new ArrayList<String>() {
+            {
+                add("Personal Preferences");
+            }
+        };
+
+        var jsonFile = readResourceFile(String.format(BUNDLE_RESOURCE_DIRECTORY + "/%s.json",
+                "withheld-information-and-additional"));
+        var bundle = fhirParser.parseResource(jsonFile, Bundle.class);
+        var result = GpSummary.fromBundle(bundle, NHSD_ASID);
+
+        assertThat(result.getThirdPartyCorrespondences().stream().count()).isEqualTo(1);
+        assertThirdPartyCorrespondenceText(result, expectedRecordTypes);
+    }
+
+    /**
+     * Given a supplied bundle with additional information that is withheld,
+     * third party correspondence section should not be found.
+     */
+    @Test
+    public void When_MappingBundleWithWithheldInformation_Expect_NoThirdPartyCorrespondence() {
+
+        var jsonFile = readResourceFile(String.format(BUNDLE_RESOURCE_DIRECTORY + "/%s.json",
+                "withheld-information"));
+        var bundle = fhirParser.parseResource(jsonFile, Bundle.class);
+        var result = GpSummary.fromBundle(bundle, NHSD_ASID);
+
+        assertThat(result.getThirdPartyCorrespondences().stream().count()).isEqualTo(0);
+    }
+
+    /**
      * Given a supplied bundle multiple treatments and risks to patient, third party correspondence section should be found.
      */
     @Test
