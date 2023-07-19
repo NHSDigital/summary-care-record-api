@@ -36,7 +36,7 @@ info:
     * get a patient's SCR
     * upload a patient's SCR
     * send a privacy alert message, if you have to override a patient's dissent to view their SCR 
-    * update a patient's consent to share their SCR
+    * update a patient's SCR Consent Preference on the Spine ACS
     
     A health or care staff providing direct care to patients must be present and authenticated with an [NHS smartcard or a modern alternative](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation/nhs-smartcards-for-developers) to use this API.
     
