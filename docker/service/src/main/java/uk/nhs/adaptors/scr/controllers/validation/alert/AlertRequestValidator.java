@@ -23,23 +23,31 @@ import static java.util.Arrays.asList;
 import static java.util.stream.Collectors.joining;
 import static org.springframework.util.StringUtils.hasText;
 
+/**
+ * Validator for the /AuditEvent endpoint.
+ * Endpoint requires a type and subtype code to be sent. Only specific
+ * combinations are valid.
+ * The outcomeDesc field is a free text field required when the SCR is
+ * accessed in an emergency (type 4 or 5).
+ */
 @Component
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class AlertRequestValidator implements ConstraintValidator<AlertRequest, String> {
 
-    //Alert endpoint request types
-    //type 1 = Create LR (Self Claimed)
-    //type 2 =  Access alert
+    // Alert endpoint request types
+    // type 1 = Create LR (Self Claimed)
+    // type 2 = Access alert
     private static final List<String> TYPE_CODES = asList("1", "2");
 
-    //Alert endpoint subtypes
-    //type 1 = Access made in the public interest
-    //type 2 =  Access required by statute
-    //type 3 = Access required by Court Order
-    //type 4 = Self-Claim Emergency Access
-    //type 5 = Access made in an emergency
-    //type 6 = other
+    // Alert endpoint subtypes
+    // type 1 = Access made in the public interest
+    // type 2 = Access required by statute
+    // type 3 = Access required by Court Order
+    // type 4 = Self-Claim Emergency Access
+    // type 5 = Access made in an emergency
+    // type 6 = other
     private static final List<String> SUBTYPE_CODES = asList("1", "2", "3", "4", "5", "6");
+    private static final List<String> EMERGENCY_CODES = asList("4", "5");
 
     //Disallowed alert type and subtype combinations
     private static final MultiValuedMap<String, String> DISALLOWED_TYPE_SUBTYPE_COMBOS = new ArrayListValuedHashMap<>() {{
@@ -71,6 +79,8 @@ public class AlertRequestValidator implements ConstraintValidator<AlertRequest, 
             checkType(auditEvent.getType());
             checkSubtype(auditEvent.getSubtype());
             checkTypeSubtypeCombination(auditEvent.getType(), auditEvent.getSubtype());
+            String outcomeDesc = auditEvent.getOutcomeDesc();
+            checkOutcomeDesc(outcomeDesc, auditEvent.getSubtype());
             checkRecorded(auditEvent.getRecorded());
             checkEntity(auditEvent.getEntity());
             checkPatient(auditEvent.getAgent());
@@ -179,6 +189,11 @@ public class AlertRequestValidator implements ConstraintValidator<AlertRequest, 
         checkNotEmpty(type.getDisplay(), "Missing value 'type.display'");
     }
 
+    /**
+     * Ensure type-subtype combinations are not the disallowed combinations.
+     * @param type
+     * @param subtypes
+     */
     private void checkTypeSubtypeCombination(Coding type, List<Coding> subtypes) {
         var alertType = type.getCode();
         var alertSubtype = subtypes.get(0).getCode();
@@ -188,6 +203,23 @@ public class AlertRequestValidator implements ConstraintValidator<AlertRequest, 
             throw new FhirValidationException(
                 String.format("Invalid combination of alert type '%s' and alert subtype '%s'.", alertType, alertSubtype)
             );
+        }
+    }
+
+    /**
+     * If freetext is supplied but has zero characters, throw an exception.
+     * If freetext is not supplied, do nothing (optional parameter)
+     * @param freetext
+     */
+    private void checkOutcomeDesc(String freetext, List<Coding> subtypes) {
+        var alertSubtype = subtypes.get(0).getCode();
+        if (freetext != null && freetext.length() == 0) {
+            throw new FhirValidationException("outcomeDesc must be a non-empty string if it is supplied");
+        }
+
+        // Verify that the alertSubtype value is either 4 or 5
+        if (!SUBTYPE_CODES.contains(alertSubtype)) {
+            throw new FhirValidationException("If an outcomeDesc string is supplied, it must be only in an emergency");
         }
     }
 
