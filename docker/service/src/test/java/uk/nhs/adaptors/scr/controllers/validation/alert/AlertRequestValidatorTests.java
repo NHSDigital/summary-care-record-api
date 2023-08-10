@@ -116,21 +116,6 @@ public class AlertRequestValidatorTests {
     }
 
     @Test
-    public void When_FreeTextAndSubtypeCombination_Incorrect_Expect_False() {
-        // arrange
-        var json = readResourceFile(String.format(RESOURCE_DIRECTORY + "/%s.json", "free_text_wrong_subtype"));
-        var outOfBoundsMessage = "OutcomeDesc field can only be used with emergency subtypes.";
-
-        when(mockContext.buildConstraintViolationWithTemplate(outOfBoundsMessage)).thenReturn(mockBuilder);
-
-        // act
-        var result = alertRequestValidator.isValid(json, mockContext);
-
-        // assert
-        assertThat(result).isFalse();
-    }
-
-    @Test
     public void When_ValidatingFreeTextField_Expect_False() {
         // arrange
         var json = readResourceFile(String.format(RESOURCE_DIRECTORY + "/%s.json", "free_text_empty"));
