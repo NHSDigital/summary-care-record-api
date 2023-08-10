@@ -41,6 +41,8 @@ public class AlertRequestValidator implements ConstraintValidator<AlertRequest, 
     //type 6 = other
     private static final List<String> SUBTYPE_CODES = asList("1", "2", "3", "4", "5", "6");
 
+    private static final List<String> EMERGENCY_SUBTYPES = asList("4", "5");
+
     //Disallowed alert type and subtype combinations
     private static final MultiValuedMap<String, String> DISALLOWED_TYPE_SUBTYPE_COMBOS = new ArrayListValuedHashMap<>() {{
             put("1", "5");
@@ -76,6 +78,7 @@ public class AlertRequestValidator implements ConstraintValidator<AlertRequest, 
             checkPatient(auditEvent.getAgent());
             checkOrganization(auditEvent.getAgent());
             checkPerson(auditEvent.getAgent());
+            checkOutcomeDesc(auditEvent);
         } catch (FhirValidationException exc) {
             setErrorMessage(context, exc.getMessage());
             return false;
@@ -199,6 +202,16 @@ public class AlertRequestValidator implements ConstraintValidator<AlertRequest, 
         }
         if (!extensions.get(0).hasValue()) {
             throw new FhirValidationException(String.format("'valueString' for 'extension' '%s' is missing", EXTENSION_URL));
+        }
+    }
+
+    private void checkOutcomeDesc(AuditEvent auditEvent) {
+        if (auditEvent.hasOutcomeDesc()) {
+            String subtype = auditEvent.getSubtype().get(0).getCode();
+
+            if (!EMERGENCY_SUBTYPES.contains(subtype)) {
+                throw new FhirValidationException("OutcomeDesc field can only be used with emergency subtypes.");
+            }
         }
     }
 

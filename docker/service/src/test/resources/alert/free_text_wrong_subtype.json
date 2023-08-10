@@ -1,0 +1,75 @@
+{
+    "resourceType": "AuditEvent",
+    "id": "example",
+    "extension":  [
+        {
+            "url": "https://fhir.nhs.uk/StructureDefinition/Extension-SCR-NotificationMessage",
+            "valueString": "Alert: Permission to view override 1C03CF4F-D404-4D76-B192-4F81727059F6"
+        }
+    ],
+    "type": {
+        "system": "https://fhir.nhs.uk/CodeSystem/SCR-AlertType",
+        "code": "1",
+        "display": "Create LR (Self Claimed)"
+    },
+    "subtype":  [
+        {
+            "system": "https://fhir.nhs.uk/CodeSystem/SCR-AlertReason",
+            "code": "1",
+            "display": "Access made in the public interest"
+        }
+    ],
+    "outcomeDesc": "Emergency override for direct care of patient",
+    "recorded": "2020-11-13T00:00:00+00:00",
+    "agent":  [
+        {
+            "who": {
+                "identifier": {
+                    "system": "https://fhir.nhs.uk/Id/nhs-number",
+                    "value": "9995000180"
+                }
+            },
+            "requestor": false
+        },
+        {
+            "who": {
+                "identifier": {
+                    "system": "https://fhir.nhs.uk/Id/ods-organization-code",
+                    "value": "T10101"
+                }
+            },
+            "requestor": false
+        },
+        {
+            "who": {
+                "identifier": {
+                    "system": "https://fhir.nhs.uk/Id/sds-user-id",
+                    "value": "T10101"
+                }
+            },
+            "role":  [
+                {
+                    "text": "General Practitioner"
+                }
+            ],
+            "requestor": false
+        }
+    ],
+    "source": {
+        "observer": {
+            "identifier": {
+                "system": "https://fhir.nhs.uk/Id/nhsSpineASID",
+                "value": "200000001162"
+            }
+        }
+    },
+    "entity":  [
+        {
+            "what": {
+                "identifier": {
+                    "value": "1C03CF4F-D404-4D76-B192-4F81727059F6"
+                }
+            }
+        }
+    ]
+}
