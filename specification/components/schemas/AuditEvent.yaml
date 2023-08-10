@@ -65,6 +65,10 @@ properties:
     description: The time when the event was recorded
     type: string
     example: "2020-11-13T00:00:00+00:00"
+  outcomeDesc:
+    description: Free text field. Must only be used with emergency subtypes. Used to explain the nature of the emergency access.
+    type: string
+    example: "Patient collapsed - needed to check current medication."
   agent:
     type: array
     items:
