@@ -208,7 +208,7 @@ public class AlertRequestValidator implements ConstraintValidator<AlertRequest, 
     private void checkOutcomeDesc(AuditEvent auditEvent) {
         if (auditEvent.hasOutcomeDesc()) {
             String subtype = auditEvent.getSubtype().get(0).getCode();
-            
+
             if (!EMERGENCY_SUBTYPES.contains(subtype)) {
                 throw new FhirValidationException("OutcomeDesc field can only be used with emergency subtypes.");
             }
