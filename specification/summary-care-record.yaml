@@ -169,7 +169,8 @@ info:
     
     ### Troubleshooting
     
-    * After setting up your new application through the NHS Developer Portal and connecting it to the Summary Care Record API, you will need to ensure your application has a valid ASID custom attribute. ITOC support services should be able to ensure your ASID values are setup to use the [QUPC_IN190000UK04](https://data.developer.nhs.uk/dms/mim/4.2.00/Domains/PSIS%20Query/Document%20files/PSIS%20Query%20IM.htm#_Toc_Section_6.2) interaction. This interaction is for access to resources on Personal Spine Information Service (PSIS), the former name of Summary Care Record. If this isn't setup, you may encounter 403 Forbidden errors when accessing records. This can be checked by emailing [itoc.supportdesk@nhs.net](mailto:itoc.supportdesk@nhs.net).  
+    * After setting up your new application through the NHS Developer Portal and connecting it to the Summary Care Record API, you will need to ensure your application has a valid ASID custom attribute. ITOC support services should be able to ensure your ASID values are setup to use the [QUPC_IN190000UK04](https://data.developer.nhs.uk/dms/mim/4.2.00/Domains/PSIS%20Query/Document%20files/PSIS%20Query%20IM.htm#_Toc_Section_6.2) interaction. This interaction is for access to resources on Personal Spine Information Service (PSIS), the former name of Summary Care Record. If this isn't setup, you may encounter 403 Forbidden errors when accessing records. This can be checked by emailing [itoc.supportdesk@nhs.net](mailto:itoc.supportdesk@nhs.net).
+    * ITOC should also be able to apply the GP summary v3 message set to the endpoints for you.
     
     ## Errors
     We use standard HTTP status codes to show whether an API request succeeded or not. They are usually in the range:
