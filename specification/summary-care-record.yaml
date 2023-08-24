@@ -201,7 +201,7 @@ info:
     * If attempt 7 fails, then fail permanently.
     
     ## Operations
-    Here are links to the possible SCR operations. These endpoints are for create and consume use cases for GP systems:
+    Here are the links to the possible SCR operations. These endpoints are for create and consume use cases for GP systems:
     * [Get patient's Summary Care Record](#get-/Bundle)
     * [Upload patient's Summary Care Record](#post-/Bundle)
     * [Get patient's latest Summary Care Record identifier](#get-/DocumentReference)
