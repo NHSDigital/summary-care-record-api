@@ -7,7 +7,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import uk.nhs.adaptors.scr.controllers.validation.acs.AcsRequest;
 import uk.nhs.adaptors.scr.models.RequestData;
@@ -19,7 +18,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.constraints.NotNull;
 
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
-import static org.springframework.http.HttpStatus.CREATED;
 import static uk.nhs.adaptors.scr.consts.ScrHttpHeaders.CLIENT_IP;
 import static uk.nhs.adaptors.scr.consts.ScrHttpHeaders.NHSD_ASID;
 import static uk.nhs.adaptors.scr.consts.ScrHttpHeaders.NHSD_SESSION_URID;

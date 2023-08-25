@@ -55,7 +55,7 @@ public class AcsService {
     private static final Mustache SET_RESOURCE_PERMISSIONS_TEMPLATE =
         loadTemplate("SET_RESOURCE_PERMISSIONS_INUK01.mustache");
 
-    public void setPermission(RequestData requestData) {
+    public String setPermission(RequestData requestData) {
         Parameters parameters = fhirParser.parseResource(requestData.getBody(), Parameters.class);
         ParametersParameterComponent parameter = getSetPermissionParameter(parameters);
 
@@ -67,6 +67,7 @@ public class AcsService {
         String acsRequest = prepareAcsRequest(parameter, requestData, userInfoPair.getLeft(), userInfoPair.getRight());
         Response<Document> response = spineClient.sendAcsData(acsRequest, requestData.getNhsdAsid());
         spineDetectedIssuesHandler.handleDetectedIssues(spineResponseParser.getDetectedIssues(response.getBody()));
+        return acsRequest;
     }
 
     private Pair<String, String> getUserRoleCodeAndId(String authorisation, String nhsdSessionUrid, String nhsdIdentity) {
