@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.RestController;
 import uk.nhs.adaptors.scr.controllers.validation.acs.AcsRequest;
 import uk.nhs.adaptors.scr.models.RequestData;
 import uk.nhs.adaptors.scr.services.AcsService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import javax.servlet.http.HttpServletResponse;
 
 import javax.validation.constraints.NotNull;
 
@@ -34,18 +37,23 @@ public class AcsController {
         path = "/$setPermission",
         consumes = {APPLICATION_FHIR_JSON_VALUE},
         produces = {APPLICATION_FHIR_JSON_VALUE})
-    @ResponseStatus(CREATED)
-    public void setPermission(@RequestBody @AcsRequest String parameters,
-                              @RequestHeader(NHSD_ASID) @NotNull String nhsdAsid,
-                              @RequestHeader(CLIENT_IP) @NotNull String clientIp,
-                              @RequestHeader(NHSD_SESSION_URID) @NotNull String nhsdSessionUrid,
-                              @RequestHeader(AUTHORIZATION) @NotNull String authorization) {
+    public ResponseEntity<String> setPermission(
+        @RequestBody @AcsRequest String parameters,
+        @RequestHeader(NHSD_ASID) @NotNull String nhsdAsid,
+        @RequestHeader(CLIENT_IP) @NotNull String clientIp,
+        @RequestHeader(NHSD_SESSION_URID) @NotNull String nhsdSessionUrid,
+        @RequestHeader(AUTHORIZATION) @NotNull String authorization,
+        HttpServletResponse response) {
         LOGGER.info("Received ACS Set Permission request");
         RequestData requestData = new RequestData().setBody(parameters)
             .setClientIp(clientIp)
             .setNhsdAsid(nhsdAsid)
             .setNhsdSessionUrid(nhsdSessionUrid)
             .setAuthorization(authorization);
-        acsService.setPermission(requestData);
+        String responseBody = acsService.setPermission(requestData);
+
+        // Set the response body and return appropriate status code
+        response.setStatus(HttpStatus.CREATED.value()); // You can set the desired status code here
+        return ResponseEntity.status(HttpStatus.CREATED).body(responseBody);
     }
 }
