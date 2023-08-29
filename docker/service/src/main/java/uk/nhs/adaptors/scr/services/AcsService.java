@@ -24,6 +24,11 @@ import uk.nhs.adaptors.scr.models.AcsParams;
 import uk.nhs.adaptors.scr.models.AcsPermission;
 import uk.nhs.adaptors.scr.models.RequestData;
 
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import java.io.StringWriter;
 import java.net.URISyntaxException;
 import java.time.format.DateTimeFormatter;
 
@@ -66,6 +71,19 @@ public class AcsService {
 
         String acsRequest = prepareAcsRequest(parameter, requestData, userInfoPair.getLeft(), userInfoPair.getRight());
         Response<Document> response = spineClient.sendAcsData(acsRequest, requestData.getNhsdAsid());
+
+        //Logging the raw output from Spine on each request
+        try {
+            DOMSource domSource = new DOMSource(response.getBody());
+            Transformer transformer = TransformerFactory.newInstance().newTransformer();
+            StringWriter stringWriter = new StringWriter();
+            StreamResult streamResult = new StreamResult(stringWriter);
+            transformer.transform(domSource, streamResult);
+            LOGGER.info(stringWriter.toString());
+        } catch (Exception e) {
+            LOGGER.info(e.getMessage());
+        }
+
         spineDetectedIssuesHandler.handleDetectedIssues(spineResponseParser.getDetectedIssues(response.getBody()));
     }
 
