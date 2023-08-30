@@ -70,6 +70,14 @@ public class AcsService {
             requestData.getNhsdIdentity());
 
         String acsRequest = prepareAcsRequest(parameter, requestData, userInfoPair.getLeft(), userInfoPair.getRight());
+
+        //Logging the raw request that is sent to Spine
+        try {
+            LOGGER.info(acsRequest.toString());
+        } catch (Exception e) {
+            LOGGER.info(e.getMessage());
+        }
+
         Response<Document> response = spineClient.sendAcsData(acsRequest, requestData.getNhsdAsid());
 
         //Logging the raw output from Spine on each request
