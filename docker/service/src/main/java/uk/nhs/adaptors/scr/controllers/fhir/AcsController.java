@@ -45,6 +45,7 @@ public class AcsController {
         LOGGER.info("nhsdSessionUrid: " + nhsdSessionUrid);
         LOGGER.info("authorization: " + authorization);
         LOGGER.info("parameters: " + parameters);
+        LOGGER.info("nhsdIdentity: " + nhsdIdentity);
         LOGGER.info("Log data complete.");
         RequestData requestData = new RequestData().setBody(parameters)
             .setClientIp(clientIp)
