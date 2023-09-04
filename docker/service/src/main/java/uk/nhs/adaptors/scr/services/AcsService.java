@@ -56,6 +56,10 @@ public class AcsService {
         loadTemplate("SET_RESOURCE_PERMISSIONS_INUK01.mustache");
 
     public void setPermission(RequestData requestData) {
+        LOGGER.info("Log requestData");
+        LOGGER.info(requestData);
+        LOGGER.info(requestData.getNhsdIdentity());
+        LOGGER.info("Log requestData complete");
         Parameters parameters = fhirParser.parseResource(requestData.getBody(), Parameters.class);
         ParametersParameterComponent parameter = getSetPermissionParameter(parameters);
 
