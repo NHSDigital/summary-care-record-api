@@ -17,9 +17,7 @@ import javax.validation.constraints.NotNull;
 
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.HttpStatus.CREATED;
-import static uk.nhs.adaptors.scr.consts.ScrHttpHeaders.CLIENT_IP;
-import static uk.nhs.adaptors.scr.consts.ScrHttpHeaders.NHSD_ASID;
-import static uk.nhs.adaptors.scr.consts.ScrHttpHeaders.NHSD_SESSION_URID;
+import static uk.nhs.adaptors.scr.consts.ScrHttpHeaders.*;
 import static uk.nhs.adaptors.scr.controllers.FhirMediaTypes.APPLICATION_FHIR_JSON_VALUE;
 
 @RestController
@@ -38,20 +36,22 @@ public class AcsController {
     public void setPermission(@RequestBody @AcsRequest String parameters,
                               @RequestHeader(NHSD_ASID) @NotNull String nhsdAsid,
                               @RequestHeader(CLIENT_IP) @NotNull String clientIp,
+                              @RequestHeader(NHSD_IDENTITY) @NotNull String nhsdIdentity,
                               @RequestHeader(NHSD_SESSION_URID) @NotNull String nhsdSessionUrid,
                               @RequestHeader(AUTHORIZATION) @NotNull String authorization) {
         LOGGER.info("Received ACS Set Permission request. Log data.");
-        LOGGER.info("clientIp: {clientIp}");
-        LOGGER.info("nhsdAsid: {nhsdAsid}");
-        LOGGER.info("nhsdSessionUrid: {nhsdSessionUrid}");
-        LOGGER.info("authorization: {authorization}");
-        LOGGER.info("requestData: {requestData}");
+        LOGGER.info("clientIp: " + clientIp);
+        LOGGER.info("nhsdAsid: " + nhsdAsid);
+        LOGGER.info("nhsdSessionUrid: " + nhsdSessionUrid);
+        LOGGER.info("authorization: " + authorization);
+        LOGGER.info("parameters: " + parameters);
         LOGGER.info("Log data complete.");
         RequestData requestData = new RequestData().setBody(parameters)
             .setClientIp(clientIp)
             .setNhsdAsid(nhsdAsid)
             .setNhsdSessionUrid(nhsdSessionUrid)
-            .setAuthorization(authorization);
+            .setAuthorization(authorization)
+            .setNhsdIdentity(nhsdIdentity);
         acsService.setPermission(requestData);
     }
 }
