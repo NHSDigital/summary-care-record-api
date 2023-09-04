@@ -57,8 +57,12 @@ public class AcsService {
 
     public void setPermission(RequestData requestData) {
         LOGGER.info("Log requestData");
-        LOGGER.info(requestData);
         LOGGER.info(requestData.getNhsdIdentity());
+        LOGGER.info(requestData.getBody());
+        LOGGER.info(requestData.getNhsdAsid());
+        LOGGER.info(requestData.getClientIp());
+        LOGGER.info(requestData.getNhsdSessionUrid());
+        LOGGER.info(requestData.getAuthorization());
         LOGGER.info("Log requestData complete");
         Parameters parameters = fhirParser.parseResource(requestData.getBody(), Parameters.class);
         ParametersParameterComponent parameter = getSetPermissionParameter(parameters);
