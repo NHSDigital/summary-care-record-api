@@ -59,6 +59,7 @@ public class SetAcsUAT {
     private static final String CLIENT_IP = "192.168.0.24";
     private static final String NHSD_SESSION_URID = "555254240100";
     private static final String USER_ID_QUERY_PARAM = "user-role-id";
+    private static final String NHSD_IDENTITY_UUID = "786333543";
 
     @Value("classpath:uat/responses/acs/success.xml")
     private Resource acsSuccessResponse;
@@ -126,6 +127,7 @@ public class SetAcsUAT {
             .header(ScrHttpHeaders.NHSD_ASID, NHSD_ASID)
             .header(ScrHttpHeaders.CLIENT_IP, CLIENT_IP)
             .header(ScrHttpHeaders.NHSD_SESSION_URID, NHSD_SESSION_URID)
+            .header(ScrHttpHeaders.NHSD_IDENTITY, NHSD_IDENTITY_UUID)
             .header(AUTHORIZATION, BEARER_TOKEN)
             .content(request));
 

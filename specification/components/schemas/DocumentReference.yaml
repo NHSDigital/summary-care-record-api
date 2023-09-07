@@ -63,7 +63,7 @@
                     type: string
                     default: "https://fhir.nhs.uk/CodeSystem/SCR-ACSPermission"
                   code:
-                    description: "The following values are allowed: Yes, No, Ask. 'No' means the patient has an SCR opt-out. 'Ask' means permission to view is required. 'Yes' is a legacy functionality and not used."
+                    description: "The following values are allowed: Yes, No, Ask. 'No' means the patient has an SCR opt-out. 'Ask' means permission to view is required. 'Yes' is a legacy functionality and not used, but if it is encountered it must be treated the same as 'Ask'."
                     type: string
                     example: Ask
                 required:
