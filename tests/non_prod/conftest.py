@@ -32,10 +32,11 @@ def get_headers():
 
 def get_token():
     """Get an access token"""
-    oauth_endpoints = CheckOauth()
-    token = oauth_endpoints.get_token_response()
-    access_token = token['access_token']
-    return access_token
+    #oauth_endpoints = CheckOauth()
+    #token = oauth_endpoints.get_token_response()
+    #access_token = token['access_token']
+    #return access_token
+    return 1
 
 
 @pytest.fixture()
