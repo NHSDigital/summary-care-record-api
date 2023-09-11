@@ -30,6 +30,8 @@ public class FhirParser {
     }
 
     public String encodeToJson(IBaseResource resource) {
-        return jsonParser.setPrettyPrint(true).encodeResourceToString(resource);
+        String output = jsonParser.setPrettyPrint(true).encodeResourceToString(resource);
+        output = output.replace("<td/>", "<td></td>");
+        return output;
     }
 }
