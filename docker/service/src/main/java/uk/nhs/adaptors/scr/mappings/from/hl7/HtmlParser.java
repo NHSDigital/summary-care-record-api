@@ -156,7 +156,6 @@ public class HtmlParser {
         transformerFactory.setAttribute(ACCESS_EXTERNAL_STYLESHEET, "");
         var transformer = transformerFactory.newTransformer();
         transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
-        transformer.setOutputProperty(OutputKeys.METHOD, "html");
         transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
         transformer.setOutputProperty(OutputKeys.INDENT, "no");
         return transformer;
