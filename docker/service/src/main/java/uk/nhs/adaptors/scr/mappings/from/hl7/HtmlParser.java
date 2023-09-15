@@ -101,6 +101,7 @@ public class HtmlParser {
     public static String serialize(Document document) {
         // Traverse the DOM and perform string replacement to change prefix of emoji characters to custom prefix.
         performStringReplacementInDocument(document, "&#", "___emoji___");
+        performStringReplacementInDocument(document, "TEST", "____TEST____");
 
         var xmlOutput = new StreamResult(new StringWriter());
         transformer().transform(new DOMSource(document), xmlOutput);
@@ -152,8 +153,36 @@ public class HtmlParser {
             Node emptyTextNode = emptyTextNodes.item(i);
             emptyTextNode.getParentNode().removeChild(emptyTextNode);
         }
+
+
+        xpathExp = XPathFactory.newInstance().newXPath()
+            .compile("'//*[contains(text(), \"TEST\")]'");
+        /*
+        NodeList nodeContains = (NodeList) xpathExp.evaluate(document, XPathConstants.NODESET);
+        for (int i = 0; i < nodeContains.getLength(); i++) {
+            Node textNode = nodeContains.item(i);
+            String textContent = textNode.getTextContent();
+            textContent = textContent.replace("TEST", "-*-*-TEST-*-*-");
+            textNode.setTextContent(textContent);
+        }
+        */
+        performStringReplacement(document);
     }
 
+    public static void performStringReplacement(Node node) {
+        if (node.getNodeType() == Node.TEXT_NODE) {
+            String text = node.getTextContent();
+            text = text.replace("&#", "___bar___");
+            text = text.replace("TEST", "**** TEST ****");
+            node.setTextContent(text);
+        }
+
+        NodeList children = node.getChildNodes();
+        for (int i = 0; i < children.getLength(); i++) {
+            Node child = children.item(i);
+            performStringReplacement(child);
+        }
+    }
     private static Composition.SectionComponent buildSectionComponent(ParsedHtml parsedHtml) {
         var sectionComponent = new Composition.SectionComponent()
             .setTitle(parsedHtml.h2Value)
