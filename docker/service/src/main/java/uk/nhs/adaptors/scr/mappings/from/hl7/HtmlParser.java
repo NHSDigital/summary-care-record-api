@@ -146,6 +146,7 @@ public class HtmlParser {
     public static void removeEmptyNodes(Node document) {
         XPathExpression xpathExp = XPathFactory.newInstance().newXPath()
             .compile("//text()[normalize-space(.) = '']");
+
         NodeList emptyTextNodes = (NodeList) xpathExp.evaluate(document, XPathConstants.NODESET);
         for (int i = 0; i < emptyTextNodes.getLength(); i++) {
             Node emptyTextNode = emptyTextNodes.item(i);
@@ -165,7 +166,7 @@ public class HtmlParser {
         String toBeReplaced = sectionComponent.getText().getDiv().getValue();
 
         // Replace any customised emoji characters with the correct HTML entity prefix.
-        toBeReplaced = toBeReplaced.replaceAll("___emoji___", "&#");
+        // toBeReplaced = toBeReplaced.replaceAll("___emoji___", "&#");
 
         if (toBeReplaced.contains("One or more entries have been deliberately withheld from this GP Summary.")) {
             toBeReplaced = toBeReplaced.replace(
