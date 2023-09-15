@@ -25,7 +25,10 @@ class HtmlParserTest {
     @ParameterizedTest(name = "[{index}] - {0}.html/json")
     @ArgumentsSource(HtmlParserArgumentsProvider.class)
     public void When_ParsingHtml_Expect_CompositionSectionsAreCreated(String fileName) {
-        var html = parseXml(readResourceFile(String.format("html_parser/%s.html", fileName))).getDocumentElement();
+        var htmlstr = readResourceFile(String.format("html_parser/%s.html", fileName));
+        // Replace all emoji strings in input with custom prefix to avoid parsing corruption.
+        htmlstr = htmlstr.replaceAll("&#", "___emoji___");
+        var html = parseXml(htmlstr).getDocumentElement();
         var expectedJson = readResourceFile(String.format("html_parser/%s.json", fileName));
 
         var compositionSections = htmlParser.parse(html);
@@ -34,7 +37,8 @@ class HtmlParserTest {
         composition.setSection(compositionSections);
 
         var actualJson = fhirParser.encodeToJson(composition);
-
+        // Return emojis back to their native state.
+        actualJson = actualJson.replaceAll("___emoji___", "&#");
         assertThat(actualJson).isEqualToNormalizingWhitespace(expectedJson);
     }
 

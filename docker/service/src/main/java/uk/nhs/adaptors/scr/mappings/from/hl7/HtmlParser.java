@@ -99,9 +99,47 @@ public class HtmlParser {
 
     @SneakyThrows
     public static String serialize(Document document) {
+        // Traverse the DOM and perform string replacement to change prefix of emoji characters to custom prefix.
+        performStringReplacementInDocument(document, "___emoji___", "&#");
+
         var xmlOutput = new StreamResult(new StringWriter());
         transformer().transform(new DOMSource(document), xmlOutput);
         return xmlOutput.getWriter().toString();
+    }
+
+    /**
+     * Call string replacement method with the document element.
+     * @param document
+     * @param from
+     * @param to
+     */
+    @SneakyThrows
+    public static void performStringReplacementInDocument(Document document, String from, String to) {
+        // Start by processing the root element of the document
+        performStringReplacement(document.getDocumentElement(), from, to);
+    }
+
+    /**
+     * Perform string replacement in the given node. If it's a text node, perform the replacement. If it's not a text,
+     * recursively process its children.
+     * @param node
+     * @param from
+     * @param to
+     */
+    @SneakyThrows
+    public static void performStringReplacement(Node node, String from, String to) {
+        if (node.getNodeType() == Node.TEXT_NODE) {
+            // If it's a text node, perform the replacement
+            String textContent = node.getTextContent();
+            textContent = textContent.replaceAll(from, to);
+            node.setTextContent(textContent);
+        } else {
+            // If it's not a text node, recursively process its children
+            NodeList children = node.getChildNodes();
+            for (int i = 0; i < children.getLength(); i++) {
+                performStringReplacement(children.item(i), from, to);
+            }
+        }
     }
 
     @SneakyThrows
@@ -125,6 +163,9 @@ public class HtmlParser {
                     .setCode(parsedHtml.h2Id)));
         }
         String toBeReplaced = sectionComponent.getText().getDiv().getValue();
+
+        // Replace any customised emoji characters with the correct HTML entity prefix.
+        toBeReplaced = toBeReplaced.replaceAll("___emoji___", "&#");
 
         if (toBeReplaced.contains("One or more entries have been deliberately withheld from this GP Summary.")) {
             toBeReplaced = toBeReplaced.replace(
