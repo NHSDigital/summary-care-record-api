@@ -100,7 +100,7 @@ public class HtmlParser {
     @SneakyThrows
     public static String serialize(Document document) {
         // Traverse the DOM and perform string replacement to change prefix of emoji characters to custom prefix.
-        performStringReplacementInDocument(document, "___emoji___", "&#");
+        performStringReplacementInDocument(document, "&#", "___emoji___");
 
         var xmlOutput = new StreamResult(new StringWriter());
         transformer().transform(new DOMSource(document), xmlOutput);

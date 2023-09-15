@@ -28,6 +28,7 @@ class HtmlParserTest {
         var htmlstr = readResourceFile(String.format("html_parser/%s.html", fileName));
         // Replace all emoji strings in input with custom prefix to avoid parsing corruption.
         htmlstr = htmlstr.replaceAll("&#", "___emoji___");
+
         var html = parseXml(htmlstr).getDocumentElement();
         var expectedJson = readResourceFile(String.format("html_parser/%s.json", fileName));
 
