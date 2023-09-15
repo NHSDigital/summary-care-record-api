@@ -61,6 +61,15 @@ public class HtmlParser {
         Document targetDocument = null;
         for (int i = 0; i < childNodes.getLength(); i++) {
             var currentNode = childNodes.item(i);
+            if (currentNode.getNodeType() == Node.TEXT_NODE) {
+                String textContent = currentNode.getTextContent();
+
+                // Replace all occurrences of "foo" with "bar"
+                textContent = textContent.replaceAll("TEST", "TEST_REPLACED");
+
+                // Set the modified text content back to the text node
+                currentNode.setTextContent(textContent);
+            }
             if (H2.equals(currentNode.getNodeName())) {
                 //since this is the H2, we begin to capture following nodes as a new Document
                 targetDocument = createNewDocument("div", "http://www.w3.org/1999/xhtml");
@@ -154,18 +163,6 @@ public class HtmlParser {
             emptyTextNode.getParentNode().removeChild(emptyTextNode);
         }
 
-
-        xpathExp = XPathFactory.newInstance().newXPath()
-            .compile("'//*[contains(text(), \"TEST\")]'");
-        /*
-        NodeList nodeContains = (NodeList) xpathExp.evaluate(document, XPathConstants.NODESET);
-        for (int i = 0; i < nodeContains.getLength(); i++) {
-            Node textNode = nodeContains.item(i);
-            String textContent = textNode.getTextContent();
-            textContent = textContent.replace("TEST", "-*-*-TEST-*-*-");
-            textNode.setTextContent(textContent);
-        }
-        */
         performStringReplacement(document);
     }
 
