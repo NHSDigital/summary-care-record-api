@@ -38,7 +38,6 @@ import static uk.nhs.adaptors.scr.utils.DocumentBuilderUtil.documentBuilder;
 @Component
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class HtmlParser {
-    private static final int PREFIX_LENGTH = 10;
 
     private static final String H2 = "h2";
 
@@ -115,21 +114,7 @@ public class HtmlParser {
     @SneakyThrows
     public static String serialize(Document document) {
         // Traverse the DOM and perform string replacement to change prefix of emoji characters to custom prefix.
-        performStringReplacementInDocument(document, "&#", "___emoji___");    // This doesn't.
-        performStringReplacementInDocument(document, "裸", "___ALREADY CHINESE___");    // This doesn't.
-        performStringReplacementInDocument(document, "&amp;", "___Found an amp___");    // This doesn't.
-        performStringReplacementInDocument(document, "洛", "___ALREADY CHINESE 2___");    // This doesn't.
         performStringReplacementInDocument(document, "TEST", "_---___TEST_---___"); // This works.
-        performStringReplacementInDocument(document, "&#129314;", "_GOOD GOOD GOOD_"); // ?
-        performStringReplacementInDocument(document, "#128565", "_GOOD2 GOOD2 GOOD2_"); // ?
-        performStringReplacementInDocument(document, "#129327", "_GOOD3 GOOD3 GOOD3_"); // ?
-
-
-        //performStringReplacementInDocument(document, "128567", "_GENERAL TEXT REPLACEMENT_"); // ?
-        performStringReplacementInDocument(document, "略", "_GENERAL TEXT REPLACEMENT 2_"); // ?
-        performStringReplacementInDocument(document, "amp", "_GENERAL TEXT REPLACEMENT 3_"); // ?
-
-
 
         var xmlOutput = new StreamResult(new StringWriter());
         transformer().transform(new DOMSource(document), xmlOutput);
@@ -160,14 +145,7 @@ public class HtmlParser {
         if (node.getNodeType() == Node.TEXT_NODE) {
             // If it's a text node, perform the replacement
             String textContent = node.getTextContent();
-            if (from.length() > PREFIX_LENGTH) {
-                String prefix = from.substring(0, PREFIX_LENGTH);
-                textContent = textContent.replace(prefix + from, to);
-
-            } else {
-                textContent = textContent.replace(from, to);
-            }
-            //textContent = textContent.replaceAll(from, to);
+            textContent = textContent.replaceAll(from, to);
             node.setTextContent(textContent);
         } else {
             // If it's not a text node, recursively process its children
@@ -197,7 +175,10 @@ public class HtmlParser {
             String text = node.getTextContent();
             text = text.replaceAll("&#", "___bar___"); // This doesn't work.
             text = text.replaceAll("TEST", "*====*** TEST AGAIN ***====*"); // This does work.
-            text = text.replaceAll("&amp;", "*====*** FOUND AMP ***====*"); // This ?.
+            text = text.replaceAll("裸", "FOUND CHINESE"); // This ?.
+            text = text.replaceAll("&amp;", "FOUND amp"); // This ?.
+            text = text.replaceAll("\uD83E\uDD22", "FOUND something else"); // This ?.
+            text = text.replaceAll("\uDD22", "FOUND something else 2"); // This ?.
 
             node.setTextContent(text);
         }
