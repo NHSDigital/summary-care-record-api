@@ -66,6 +66,8 @@ public class HtmlParser {
 
                 // Replace all occurrences of "foo" with "bar"
                 textContent = textContent.replaceAll("TEST", "TEST_REPLACED"); // This doesn't work.
+                textContent = textContent.replaceAll("&#129314;", "GOOD 1"); // This doesn't work.
+
                 System.out.println("Here is the content of the textContent:");
                 System.out.println(textContent);
                 System.out.println("@@@@@@@@@@@@@@@@@");
@@ -117,6 +119,13 @@ public class HtmlParser {
         performStringReplacementInDocument(document, "&amp;", "___Found an amp___");    // This doesn't.
         performStringReplacementInDocument(document, "洛", "___ALREADY CHINESE 2___");    // This doesn't.
         performStringReplacementInDocument(document, "TEST", "_---___TEST_---___"); // This works.
+        performStringReplacementInDocument(document, "&#129314;", "_GOOD GOOD GOOD_"); // ?
+        performStringReplacementInDocument(document, "#128565", "_GOOD2 GOOD2 GOOD2_"); // ?
+        performStringReplacementInDocument(document, "#129327", "_GOOD3 GOOD3 GOOD3_"); // ?
+
+
+        performStringReplacementInDocument(document, "Fulford", "_GENERAL TEXT REPLACEMENT_"); // This works.
+
 
         var xmlOutput = new StreamResult(new StringWriter());
         transformer().transform(new DOMSource(document), xmlOutput);
