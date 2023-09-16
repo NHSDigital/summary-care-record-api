@@ -174,11 +174,12 @@ public class HtmlParser {
         if (node.getNodeType() == Node.TEXT_NODE) {
             String text = node.getTextContent();
             text = text.replaceAll("&#", "___bar___"); // This doesn't work.
-            text = text.replaceAll("TEST", "*====*** TEST AGAIN ***====*"); // This does work.
+            text = text.replaceAll("TEST", "*====*** TEST AGAIN2 ***====*"); // This does work.
             text = text.replaceAll("裸", "FOUND CHINESE"); // This ?.
             text = text.replaceAll("&amp;", "FOUND amp"); // This ?.
             text = text.replaceAll("\uD83E\uDD22", "FOUND something else"); // This ?.
             text = text.replaceAll("\uDD22", "FOUND something else 2"); // This ?.
+            text = text.replaceAll("\\u", "FOUND something else 3"); // This ?.
 
             node.setTextContent(text);
         }
