@@ -170,7 +170,7 @@ public class HtmlParser {
         if (node.getNodeType() == Node.TEXT_NODE) {
             String text = node.getTextContent();
             text = text.replace("&#", "___bar___"); // This doesn't work.
-            text = text.replace("TEST", "**** TEST AGAIN ****"); // This might work.
+            text = text.replace("TEST", "*====*** TEST AGAIN ***====*"); // This might work.
             node.setTextContent(text);
         }
 
