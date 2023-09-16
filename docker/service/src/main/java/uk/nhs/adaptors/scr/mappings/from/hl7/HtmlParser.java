@@ -179,7 +179,7 @@ public class HtmlParser {
             text = text.replaceAll("&amp;", "FOUND amp"); // This ?.
             text = text.replaceAll("\uD83E\uDD22", "FOUND something else"); // This ?.
             text = text.replaceAll("\uDD22", "FOUND something else 2"); // This ?.
-            text = text.replaceAll("\\u", "FOUND something else 3"); // This ?.
+            text = text.replaceAll("DD22", "FOUND something else 3"); // This ?.
 
             node.setTextContent(text);
         }
