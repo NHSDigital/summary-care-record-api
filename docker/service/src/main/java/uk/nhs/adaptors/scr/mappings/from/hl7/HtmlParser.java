@@ -110,6 +110,7 @@ public class HtmlParser {
     public static String serialize(Document document) {
         // Traverse the DOM and perform string replacement to change prefix of emoji characters to custom prefix.
         performStringReplacementInDocument(document, "&#", "___emoji___");    // This doesn't.
+        performStringReplacementInDocument(document, "裸", "___ALREADY CHINESE___");    // This doesn't.
         performStringReplacementInDocument(document, "TEST", "_---___TEST_---___"); // This works.
 
         var xmlOutput = new StreamResult(new StringWriter());
@@ -170,7 +171,7 @@ public class HtmlParser {
         if (node.getNodeType() == Node.TEXT_NODE) {
             String text = node.getTextContent();
             text = text.replace("&#", "___bar___"); // This doesn't work.
-            text = text.replace("TEST", "*====*** TEST AGAIN ***====*"); // This might work.
+            text = text.replace("TEST", "*====*** TEST AGAIN ***====*"); // This does work.
             node.setTextContent(text);
         }
 
