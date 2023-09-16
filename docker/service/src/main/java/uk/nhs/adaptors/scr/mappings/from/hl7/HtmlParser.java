@@ -38,6 +38,7 @@ import static uk.nhs.adaptors.scr.utils.DocumentBuilderUtil.documentBuilder;
 @Component
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class HtmlParser {
+    private static final int PREFIX_LENGTH = 10;
 
     private static final String H2 = "h2";
 
@@ -159,7 +160,14 @@ public class HtmlParser {
         if (node.getNodeType() == Node.TEXT_NODE) {
             // If it's a text node, perform the replacement
             String textContent = node.getTextContent();
-            textContent = textContent.replaceAll(from, to);
+            if (from.length() > PREFIX_LENGTH) {
+                String prefix = from.substring(0, PREFIX_LENGTH);
+                textContent = textContent.replace(prefix + from, to);
+
+            } else {
+                textContent = textContent.replace(from, to);
+            }
+            //textContent = textContent.replaceAll(from, to);
             node.setTextContent(textContent);
         } else {
             // If it's not a text node, recursively process its children
@@ -187,9 +195,9 @@ public class HtmlParser {
     public static void performStringReplacement(Node node) {
         if (node.getNodeType() == Node.TEXT_NODE) {
             String text = node.getTextContent();
-            text = text.replace("&#", "___bar___"); // This doesn't work.
-            text = text.replace("TEST", "*====*** TEST AGAIN ***====*"); // This does work.
-            text = text.replace("&amp;", "*====*** FOUND AMP ***====*"); // This ?.
+            text = text.replaceAll("&#", "___bar___"); // This doesn't work.
+            text = text.replaceAll("TEST", "*====*** TEST AGAIN ***====*"); // This does work.
+            text = text.replaceAll("&amp;", "*====*** FOUND AMP ***====*"); // This ?.
 
             node.setTextContent(text);
         }
