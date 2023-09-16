@@ -126,6 +126,7 @@ public class HtmlParser {
 
         //performStringReplacementInDocument(document, "128567", "_GENERAL TEXT REPLACEMENT_"); // ?
         performStringReplacementInDocument(document, "略", "_GENERAL TEXT REPLACEMENT 2_"); // ?
+        performStringReplacementInDocument(document, "amp", "_GENERAL TEXT REPLACEMENT 3_"); // ?
 
 
 
@@ -159,9 +160,6 @@ public class HtmlParser {
             // If it's a text node, perform the replacement
             String textContent = node.getTextContent();
             textContent = textContent.replaceAll(from, to);
-            System.out.println("PRINTLN");
-            System.out.println(textContent);
-            System.out.println("DONE");
             node.setTextContent(textContent);
         } else {
             // If it's not a text node, recursively process its children
