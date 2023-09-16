@@ -111,6 +111,7 @@ public class HtmlParser {
         // Traverse the DOM and perform string replacement to change prefix of emoji characters to custom prefix.
         performStringReplacementInDocument(document, "&#", "___emoji___");    // This doesn't.
         performStringReplacementInDocument(document, "裸", "___ALREADY CHINESE___");    // This doesn't.
+        performStringReplacementInDocument(document, "&amp;", "___Found an amp___");    // This doesn't.
         performStringReplacementInDocument(document, "TEST", "_---___TEST_---___"); // This works.
 
         var xmlOutput = new StreamResult(new StringWriter());
