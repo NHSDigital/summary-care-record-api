@@ -65,7 +65,7 @@ public class HtmlParser {
                 String textContent = currentNode.getTextContent();
 
                 // Replace all occurrences of "foo" with "bar"
-                textContent = textContent.replaceAll("TEST", "TEST_REPLACED");
+                textContent = textContent.replaceAll("TEST", "TEST_REPLACED"); // This doesn't work.
 
                 // Set the modified text content back to the text node
                 currentNode.setTextContent(textContent);
@@ -109,8 +109,8 @@ public class HtmlParser {
     @SneakyThrows
     public static String serialize(Document document) {
         // Traverse the DOM and perform string replacement to change prefix of emoji characters to custom prefix.
-        performStringReplacementInDocument(document, "&#", "___emoji___");
-        performStringReplacementInDocument(document, "TEST", "____TEST____");
+        performStringReplacementInDocument(document, "&#", "___emoji___");    // This doesn't.
+        performStringReplacementInDocument(document, "TEST", "_---___TEST_---___"); // This works.
 
         var xmlOutput = new StreamResult(new StringWriter());
         transformer().transform(new DOMSource(document), xmlOutput);
@@ -163,14 +163,14 @@ public class HtmlParser {
             emptyTextNode.getParentNode().removeChild(emptyTextNode);
         }
 
-        performStringReplacement(document);
+        performStringReplacement(document); // Not sure if this is needed.
     }
 
     public static void performStringReplacement(Node node) {
         if (node.getNodeType() == Node.TEXT_NODE) {
             String text = node.getTextContent();
-            text = text.replace("&#", "___bar___");
-            text = text.replace("TEST", "**** TEST ****");
+            text = text.replace("&#", "___bar___"); // This doesn't work.
+            text = text.replace("TEST", "**** TEST AGAIN ****"); // This might work.
             node.setTextContent(text);
         }
 
