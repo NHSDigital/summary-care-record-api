@@ -171,7 +171,6 @@ public class HtmlParser {
         if (node.getNodeType() == Node.TEXT_NODE) {
             String text = node.getTextContent();
             text = EmojiParser.parseToAliases(text);
-            text = EmojiParser.parseToUnicode(text);
 
             /*
             text = text.replaceAll("&#", "___bar___"); // This doesn't work.
