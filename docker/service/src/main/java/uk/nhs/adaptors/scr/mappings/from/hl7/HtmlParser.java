@@ -171,6 +171,7 @@ public class HtmlParser {
         if (node.getNodeType() == Node.TEXT_NODE) {
             String text = node.getTextContent();
             text = EmojiParser.parseToHtmlDecimal(text);
+            text = text.replaceAll("&amp;#", "&#");
             /*
             text = text.replaceAll("&#", "___bar___"); // This doesn't work.
             text = text.replaceAll("TEST", "*====*** TEST AGAIN2 ***====*"); // This does work.
