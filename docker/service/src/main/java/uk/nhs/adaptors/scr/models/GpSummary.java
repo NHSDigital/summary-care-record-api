@@ -182,6 +182,7 @@ public class GpSummary {
                 put("Provision of Advice and Information to Patients and Carers", "AdviceHeader");
                 put("Risks to Patient", "RisksToPatientHeader");
                 put("Social and Personal Circumstances", "CircumstancesHeader");
+                put("Third Party Correspondence", "ThirdPartyCorrespondenceHeader");
                 put("Treatments", "TreatmentsHeader");
                 put("Risks to Care Professional or Third Party", "RisksToProfessionalHeader");
                 put("Services, Care Professionals and Carers", "ServicesHeader");
