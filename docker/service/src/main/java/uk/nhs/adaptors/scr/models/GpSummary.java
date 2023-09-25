@@ -150,13 +150,12 @@ public class GpSummary {
              * It is assumed that they will be filtered out later down the line as they
              * will not be additional information headers.
              */
-            if (childNode.getChildNodes().isEmpty()) {
-                return false;
-            }
 
-            // Any ids other than the common ones mean that information to display is present.
-            if (!withheldInformationHtmlIDs.contains(childNode.getAttribute("id").toString())) {
-                return true;
+            if(childNode.getAttribute("id") != null) {
+                // Any ids other than the common ones mean that information to display is present.
+                if (!withheldInformationHtmlIDs.contains(childNode.getAttribute("id").toString())) {
+                    return true;
+                }
             }
         }
 
