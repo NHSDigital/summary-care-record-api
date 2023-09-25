@@ -151,7 +151,7 @@ public class GpSummary {
              * will not be additional information headers.
              */
 
-            if(childNode.getAttribute("id") != null) {
+            if (childNode.getAttribute("id") != null) {
                 // Any ids other than the common ones mean that information to display is present.
                 if (!withheldInformationHtmlIDs.contains(childNode.getAttribute("id").toString())) {
                     return true;
