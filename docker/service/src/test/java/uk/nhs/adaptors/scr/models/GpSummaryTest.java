@@ -306,6 +306,29 @@ public class GpSummaryTest {
     }
 
     @Test
+    public void When_MappingBundleFromMedicus_Expect_AdditionalInformation() {
+        var jsonFile = readResourceFile(String.format(BUNDLE_RESOURCE_DIRECTORY + "/%s.json",
+                "medicus"));
+        var bundle = fhirParser.parseResource(jsonFile, Bundle.class);
+
+        Map<String, String> expectedHeaders = new HashMap<>() {
+            {
+                put("Clinical Observations and Findings", "ObservationsHeader");
+                put("Diagnoses", "DiagnosesHeader");
+                put("Personal Preferences", "PreferencesHeader");
+                put("Problems and Issues", "ProblemsHeader");
+            }
+        };
+
+        var result = GpSummary.isBundleWithAdditionalInformation(bundle);
+        var additionalInformationFlag = result.getLeft();
+        var actualHeaders = result.getRight();
+
+        assertThat(additionalInformationFlag).isEqualTo(true);
+        assertThat(actualHeaders).isEqualTo(expectedHeaders);
+    }
+
+    @Test
     public void When_MappingStandardGpSummaryFromBundle_Expect_PresentationTextHL7Match() {
         var valueFile = "standard_gp_summary_presentation_text_value";
         var expectedPresentationValue = readResourceFile(String.format(HTML_RESOURCE_DIRECTORY + "/%s.html", valueFile));
