@@ -311,7 +311,7 @@ public class GpSummaryTest {
     @Test
     public void When_MappingBundleWithEmptyHTMLTags_Expect_AdditionalInformation() {
         var jsonFile = readResourceFile(String.format(BUNDLE_RESOURCE_DIRECTORY + "/%s.json",
-                "nme"));
+                "empty-html-tags"));
         var bundle = fhirParser.parseResource(jsonFile, Bundle.class);
 
         Map<String, String> expectedHeaders = new HashMap<>() {
