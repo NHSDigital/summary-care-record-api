@@ -1,6 +1,6 @@
 # Summary Care Record API
 
-![Build](https://github.com/NHSDigital/summary-care-record/workflows/Build/badge.svg?branch=master)
+[![Build](https://github.com/NHSDigital/summary-care-record-api/actions/workflows/continuous-integration.yml/badge.svg)](https://github.com/NHSDigital/summary-care-record-api/actions/workflows/continuous-integration.yml)
 
 This is a RESTful HL7® FHIR® API specification for the *Template API*.
 
