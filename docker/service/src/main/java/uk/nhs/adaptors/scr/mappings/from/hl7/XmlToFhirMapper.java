@@ -26,6 +26,7 @@ public interface XmlToFhirMapper {
     String DATE_TIME_MINUTES_PATTERN = "yyyyMMddHHmm";
     String DATE_PATTERN = "yyyyMMdd";
     String YEAR_MONTH_PATTERN = "yyyyMM";
+    String YEAR_MONTH_PATTERN_2 = "yyyy-MM";
     String YEAR_PATTERN = "yyyy";
     String SNOMED_SYSTEM = "http://snomed.info/sct";
 
@@ -51,6 +52,14 @@ public interface XmlToFhirMapper {
             baseDateTimeType.setPrecision(MONTH);
             baseDateTimeType.setMonth(parseInt(month));
             baseDateTimeType.setYear(parseInt(year));
+        } else if (date.length() == YEAR_MONTH_PATTERN_2.length()) {
+            // Handle "yyyy-MM" format with a dash
+            String[] parts = date.split("-");
+            String year = parts[0];
+            String month = parts[1];
+            baseDateTimeType.setPrecision(MONTH);
+            baseDateTimeType.setYear(parseInt(year));
+            baseDateTimeType.setMonth(parseInt(month));
         } else if (date.length() == DATE_PATTERN.length()) {
             LocalDate parsed = LocalDate.parse(date, DateTimeFormatter.ofPattern(DATE_PATTERN));
             baseDateTimeType.setPrecision(DAY);
