@@ -1,0 +1,296 @@
+{
+    "resourceType": "Bundle",
+    "id": "a80d914c-92ad-46f2-95db-6eaed5dc03fd",
+    "identifier": {
+        "system": "https://tools.ietf.org/html/rfc4122",
+        "value": "cbc6d904-d9ce-4e68-9114-1cb5c179d51b"
+    },
+    "type": "document",
+    "timestamp": "2023-09-21T16:03:55+00:00",
+    "entry": [
+        {
+            "fullUrl": "https://api.service.nhs.uk/summary-care-record/FHIR/R4/Composition/837ffe0f-b024-4516-a0dd-cf20f23b653a",
+            "resource": {
+                "id": "837ffe0f-b024-4516-a0dd-cf20f23b653a",
+                "resourceType": "Composition",
+                "meta": {
+                    "lastUpdated": "2023-09-21T16:03:55+00:00"
+                },
+                "identifier": {
+                    "system": "https://tools.ietf.org/html/rfc4122",
+                    "value": "bfce3e1d-11e4-4239-8e82-1c102dfe3ed7"
+                },
+                "status": "final",
+                "type": {
+                    "coding": [
+                        {
+                            "system": "http://snomed.info/sct",
+                            "code": "196981000000101",
+                            "display": "General Practice Summary"
+                        }
+                    ]
+                },
+                "category": [
+                    {
+                        "coding": [
+                            {
+                                "system": "http://snomed.info/sct",
+                                "code": "163171000000105",
+                                "display": "Care Professional Documentation"
+                            }
+                        ]
+                    }
+                ],
+                "subject": {
+                    "reference": "Patient/0189f833-e358-7117-86d9-34f2a439d5e4"
+                },
+                "date": "2023-09-21T16:03:55+00:00",
+                "author": [
+                    {
+                        "reference": "PractitionerRole/999999999999",
+                        "display": "MCCULLAGH, Steven"
+                    }
+                ],
+                "title": "General Practice Summary",
+                "section": [
+                    {
+                        "title": "General Practice Summary",
+                        "code": {
+                            "coding": [
+                                {
+                                    "code": "Title"
+                                }
+                            ]
+                        },
+                        "text": {
+                            "status": "generated",
+                            "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n<h3 id=\"Disclaimer\">\n    Sourced from the patient's General Practice record. This summary may not\n    include all the information pertinent to this patient.\n</h3>\n<p id=\"CreateTime\">Summary Created: 21-Sep-2023 16:03</p>\n<p id=\"RegistrationStartedStatement\" class=\"HighlightedStatement\">\n    At the time this record was created, this patient had recently registered\n    with the GP Practice. GP Summary information may not be complete.\n</p>\n<p id=\"Author\">Created by: MCCULLAGH, Steven</p>\n<p id=\"Practice\">Dr MA Baird&apos;s Practice, 1 Main St, London, W1A 1AA</p>\n\n</div>\n"
+                        }
+                    },
+                    {
+                        "title": "Allergies and Adverse Reactions",
+                        "code": {
+                            "coding": [
+                                {
+                                    "code": "AllergiesHeader"
+                                }
+                            ]
+                        },
+                        "text": {
+                            "status": "generated",
+                            "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n<table summary=\"This table includes information about this patient's allergies and adverse reactions.\" id=\"Allergies\">\n<thead>\n    <tr>\n        <th>Date</th>\n        <th>Description</th>\n        <th>Certainty</th>\n        <th>Severity</th>\n        <th>Supporting Information</th>\n    </tr>\n</thead>\n<tbody>\n    <tr class=\"oddRow\">\n        <td>20-Sep-2023</td>\n        <td>Aller-Eze</td>\n        <td>Unlikely</td>\n        <td>Mild</td>\n        <td>\n            This is a test on SCR AI with Steven             •             Linked Reaction(s): Skin lines                                </td>\n    </tr>\n    <tr class=\"evenRow\">\n        <td>05-Sep-2023</td>\n        <td>Allergy to coal tar</td>\n        <td></td>\n        <td></td>\n        <td>\n                                                                    </td>\n    </tr>\n    <tr class=\"oddRow\">\n        <td>05-Sep-2023</td>\n        <td>Phenytoin allergy</td>\n        <td></td>\n        <td></td>\n        <td>\n                                                                    </td>\n    </tr>\n    <tr class=\"evenRow\">\n        <td>15-Aug-2023</td>\n        <td>Loxapine allergy</td>\n        <td></td>\n        <td></td>\n        <td>\n                                                                    </td>\n    </tr>\n    <tr class=\"oddRow\">\n        <td>04-Jan-2023</td>\n        <td>Amoxicillin allergy</td>\n        <td>Unlikely</td>\n        <td>Mild</td>\n        <td>\n            SCR CMV Test 001             •             Linked Reaction(s): Skin lines, Skin rash             •             Linked Problem(s): Wheezing stridor        </td>\n    </tr>\n</tbody>\n</table>\n</div>\n"
+                        }
+                    },
+                    {
+                        "title": "Acute Medications (For the 12 month period 21-Sep-2022 to 21-Sep-2023)",
+                        "code": {
+                            "coding": [
+                                {
+                                    "code": "AcuteMedsHeader"
+                                }
+                            ]
+                        },
+                        "text": {
+                            "status": "generated",
+                            "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n<table summary=\"This table includes information about this patient's acute medications.\" id=\"AcuteMeds\">\n<thead>\n<tr>\n    <th>Type</th>\n    <th>Date</th>\n    <th>Medication Item</th>\n    <th>Dosage Instructions</th>\n    <th>Quantity</th>\n</tr>\n</thead>\n<tbody>\n<tr class=\"oddRow\">\n    <td>Prescribed Elsewhere</td>\n    <td>Entered: 01-Sep-2023</td>\n    <td>Amoxicillin</td>\n    <td>Test test</td>\n    <td></td>\n</tr>\n\n</tbody>\n</table>\n</div>\n"
+                        }
+                    },
+                    {
+                        "title": "Current Repeat Medications",
+                        "code": {
+                            "coding": [
+                                {
+                                    "code": "RepeatMedsHeader"
+                                }
+                            ]
+                        },
+                        "text": {
+                            "status": "generated",
+                            "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n<table summary=\"This table includes information about this patient's current repeat medications.\" id=\"RepeatMeds\">\n<tbody>\n<tr>\n<td>No relevant information available for this category.</td>\n</tr>\n</tbody>\n</table>\n</div>\n"
+                        }
+                    },
+                    {
+                        "title": "Discontinued Repeat Medications (For the 6 month period 21-Mar-2023 to 21-Sep-2023)",
+                        "code": {
+                            "coding": [
+                                {
+                                    "code": "DiscRepeatMedsHeader"
+                                }
+                            ]
+                        },
+                        "text": {
+                            "status": "generated",
+                            "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n<table summary=\"This table includes information about this patient's discontinued repeat medications.\" id=\"DiscRepeatMeds\">\n<tbody>\n<tr>\n<td>No relevant information available for this category.</td>\n</tr>\n</tbody>\n</table>\n</div>\n"
+                        }
+                    },
+                    {
+                        "title": "Diagnoses",
+                        "code": {
+                            "coding": [
+                                {
+                                    "code": "DiagnosesHeader"
+                                }
+                            ]
+                        },
+                        "text": {
+                            "status": "generated",
+                            "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n<table summary=\"This table includes information about Diagnoses.\" id=\"DiagnosesHeader\">\n<thead>\n<tr>\n    <th>Date</th>\n    <th>Description</th>\n    <th>Additional information</th>\n</tr>\n</thead>\n<tbody>\n\n<tr class=\"oddRow\">\n    <td>21-Sep-2023</td>\n    <td>Infarction of thyroid</td>\n    <td>Problem • Status: Active • Episode: First • Significance: Major • Onset date: 20-Sep-2023 • Additional information: 007007</td>\n</tr>\n</tbody>\n</table>\n</div>\n"
+                        }
+                    },
+                    {
+                        "title": "Problems and Issues",
+                        "code": {
+                            "coding": [
+                                {
+                                    "code": "ProblemsHeader"
+                                }
+                            ]
+                        },
+                        "text": {
+                            "status": "generated",
+                            "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n<table summary=\"This table includes information about Problems and Issues.\" id=\"ProblemsHeader\">\n<thead>\n<tr>\n    <th>Date</th>\n    <th>Description</th>\n    <th>Additional information</th>\n</tr>\n</thead>\n<tbody>\n\n<tr class=\"oddRow\">\n    <td>21-Sep-2023</td>\n    <td>Infarction of thyroid</td>\n    <td>Status: Active • Episode: First • Significance: Major • Onset date: 20-Sep-2023 • Additional information: 007007</td>\n</tr>\n\n<tr class=\"evenRow\">\n    <td>21-Sep-2023</td>\n    <td>Allergic arthritis</td>\n    <td>Status: Active • Episode: First • Significance: Major • Onset date: 21-Sep-2023 • Additional information: Second test not using manual SCR PUSH</td>\n</tr>\n\n<tr class=\"oddRow\">\n    <td>21-Sep-2023</td>\n    <td>Allergic headache</td>\n    <td>Status: Active • Episode: First • Significance: Major • Onset date: 21-Sep-2023 • Additional information: SCR and Madetech Test</td>\n</tr>\n\n<tr class=\"evenRow\">\n    <td>20-Sep-2023</td>\n    <td>Wheezing stridor</td>\n    <td>Status: Active</td>\n</tr>\n</tbody>\n</table>\n</div>\n"
+                        }
+                    },
+                    {
+                        "title": "Clinical Observations and Findings",
+                        "code": {
+                            "coding": [
+                                {
+                                    "code": "ObservationsHeader"
+                                }
+                            ]
+                        },
+                        "text": {
+                            "status": "generated",
+                            "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n<table summary=\"This table includes information about Clinical Observations and Findings.\" id=\"ObservationsHeader\">\n<thead>\n<tr>\n    <th>Date</th>\n    <th>Description</th>\n    <th>Additional information</th>\n</tr>\n</thead>\n<tbody>\n\n<tr class=\"oddRow\">\n    <td>21-Sep-2023</td>\n    <td>Allergic arthritis</td>\n    <td>Problem • Status: Active • Episode: First • Significance: Major • Onset date: 21-Sep-2023 • Additional information: Second test not using manual SCR PUSH</td>\n</tr>\n\n<tr class=\"evenRow\">\n    <td>21-Sep-2023</td>\n    <td>Allergic headache</td>\n    <td>Problem • Status: Active • Episode: First • Significance: Major • Onset date: 21-Sep-2023 • Additional information: SCR and Madetech Test</td>\n</tr>\n\n<tr class=\"oddRow\">\n    <td>20-Sep-2023</td>\n    <td>Wheezing stridor</td>\n    <td>Problem • Status: Active</td>\n</tr>\n</tbody>\n</table>\n</div>\n"
+                        }
+                    },
+                    {
+                        "title": "Personal Preferences",
+                        "code": {
+                            "coding": [
+                                {
+                                    "code": "PreferencesHeader"
+                                }
+                            ]
+                        },
+                        "text": {
+                            "status": "generated",
+                            "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n<table summary=\"This table includes information about Personal Preferences.\" id=\"PreferencesHeader\">\n<thead>\n<tr>\n    <th>Date</th>\n    <th>Description</th>\n    <th>Additional information</th>\n</tr>\n</thead>\n<tbody>\n\n<tr class=\"oddRow\">\n    <td>05-Sep-2023</td>\n    <td>Express consent for core and additional Summary Care Record dataset upload</td>\n    <td></td>\n</tr>\n</tbody>\n</table>\n<p id=\"SendTime\">Summary Sent: 21-Sep-2023 16:03</p></div>\n"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "fullUrl": "https://api.service.nhs.uk/summary-care-record/FHIR/R4/Patient/0189f833-e358-7117-86d9-34f2a439d5e4",
+            "resource": {
+                "resourceType": "Patient",
+                "id": "0189f833-e358-7117-86d9-34f2a439d5e4",
+                "identifier": [
+                    {
+                        "extension": [
+                            {
+                                "url": "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-NHSNumberVerificationStatus-1",
+                                "valueCodeableConcept": {
+                                    "coding": [
+                                        {
+                                            "system": "https://fhir.hl7.org.uk/STU3/CodeSystem/CareConnect-NHSNumberVerificationStatus-1",
+                                            "code": "01",
+                                            "display": "Number present and verified"
+                                        }
+                                    ]
+                                }
+                            }
+                        ],
+                        "system": "https://fhir.nhs.uk/Id/nhs-number",
+                        "value": "9729561850"
+                    }
+                ]
+            }
+        },
+        {
+            "fullUrl": "https://api.service.nhs.uk/summary-care-record/FHIR/R4/Practitioner/018ab844-deab-7267-bf4e-6cd770562180",
+            "resource": {
+                "resourceType": "Practitioner",
+                "id": "018ab844-deab-7267-bf4e-6cd770562180",
+                "identifier": [
+                    {
+                        "system": "https://fhir.nhs.uk/Id/sds-user-id",
+                        "value": "999999999999"
+                    }
+                ],
+                "name": [
+                    {
+                        "text": "MCCULLAGH, Steven"
+                    }
+                ]
+            }
+        },
+        {
+            "fullUrl": "https://api.service.nhs.uk/summary-care-record/FHIR/R4/PractitionerRole/999999999999",
+            "resource": {
+                "resourceType": "PractitionerRole",
+                "id": "999999999999",
+                "identifier": [
+                    {
+                        "system": "http://fhir.nhs.net/Id/sds-role-profile-id",
+                        "value": "999999999999"
+                    }
+                ],
+                "practitioner": {
+                    "reference": "Practitioner/018ab844-deab-7267-bf4e-6cd770562180"
+                },
+                "organization": {
+                    "reference": "Organization/13399a1e-28d6-11eb-adc1-0242ac120002"
+                },
+                "code": [
+                    {
+                        "coding": [
+                            {
+                                "system": "https://fhir.nhs.uk/CodeSystem/HL7v3-SDSJobRoleName",
+                                "code": "UNKNOWN",
+                                "display": "Unknown Role"
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
+        {
+            "fullUrl": "https://api.service.nhs.uk/summary-care-record/FHIR/R4/Organization/13399a1e-28d6-11eb-adc1-0242ac120002",
+            "resource": {
+                "resourceType": "Organization",
+                "id": "13399a1e-28d6-11eb-adc1-0242ac120002",
+                "identifier": [
+                    {
+                        "use": "official",
+                        "system": "https://fhir.nhs.uk/Id/ods-organization-code",
+                        "value": "13399a1e-28d6-11eb-adc1-0242ac120002"
+                    }
+                ],
+                "type": [
+                    {
+                        "coding": [
+                            {
+                                "code": "214"
+                            }
+                        ]
+                    }
+                ],
+                "name": "Dr MA Baird's Practice",
+                "telecom": [
+                    {
+                        "system": "phone",
+                        "value": "+442071231234"
+                    }
+                ],
+                "address": [
+                    {
+                        "text": "1 Main St, London, W1A 1AA, GBR"
+                    }
+                ]
+            }
+        }
+    ]
+}
