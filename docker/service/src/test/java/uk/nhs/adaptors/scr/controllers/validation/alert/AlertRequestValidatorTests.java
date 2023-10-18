@@ -101,4 +101,36 @@ public class AlertRequestValidatorTests {
         // assert
         assertThat(result).isFalse();
     }
+
+    @Test
+    public void When_ValidatingFreeTextField_Expect_True() {
+        // arrange
+        var json = readResourceFile(String.format(RESOURCE_DIRECTORY + "/%s.json", "free_text"));
+
+        // act
+        var result = alertRequestValidator.isValid(json, mockContext);
+
+        // assert
+        assertThat(result).isTrue();
+        verify(fhirParser, times(1)).parseResource(json, AuditEvent.class);
+    }
+
+    @Test
+    public void When_ValidatingFreeTextField_Expect_False() {
+        // arrange
+        var json = readResourceFile(String.format(RESOURCE_DIRECTORY + "/%s.json", "free_text_empty"));
+        String mustNotBeEmptyMessage =
+                "[element=\"outcomeDesc\"] Invalid attribute value \"\": Attribute value must not be empty (\"\")";
+        when(mockContext.buildConstraintViolationWithTemplate(mustNotBeEmptyMessage)).thenReturn(mockBuilder);
+
+        // act
+        var result = alertRequestValidator.isValid(json, mockContext);
+
+        // assert
+        assertThat(result).isFalse();
+
+        // assert
+        assertThat(result).isFalse();
+        verify(fhirParser, times(1)).parseResource(json, AuditEvent.class);
+    }
 }

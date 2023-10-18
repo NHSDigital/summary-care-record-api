@@ -85,7 +85,7 @@
             },
             "text": {
               "status": "generated",
-              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><table summary=\"This table includes information about this patient's allergies and adverse reactions.\" id=\"Allergies\"><thead><tr><th>Date</th><th>Description</th><th>Certainty</th><th>Severity</th><th>Supporting Information</th></tr></thead><tbody><tr class=\"oddRow\"><td>12-May-2020</td><td>Toxic reaction to wasp sting</td><td/><td/><td>Problem; First</td></tr></tbody></table></div>"
+              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><table summary=\"This table includes information about this patient's allergies and adverse reactions.\" id=\"Allergies\"><thead><tr><th>Date</th><th>Description</th><th>Certainty</th><th>Severity</th><th>Supporting Information</th></tr></thead><tbody><tr class=\"oddRow\"><td>12-May-2020</td><td>Toxic reaction to wasp sting</td><td></td><td></td><td>Problem; First</td></tr></tbody></table></div>"
             }
           },
           {

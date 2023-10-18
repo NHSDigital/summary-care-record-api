@@ -36,7 +36,7 @@ info:
     * get a patient's SCR
     * upload a patient's SCR
     * send a privacy alert message, if you have to override a patient's dissent to view their SCR 
-    * update a patient's consent to share their SCR
+    * update a patient's SCR Consent Preference on the Spine ACS
     
     A health or care staff providing direct care to patients must be present and authenticated with an [NHS smartcard or a modern alternative](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation/nhs-smartcards-for-developers) to use this API.
     
@@ -165,7 +165,12 @@ info:
                 <div data-uipath="website.contentblock.emphasis.content" class="nhsd-t-word-break"><p class="nhsd-t-body">To get started, sign in or create a <a href="http://onboarding.prod.api.platform.nhs.uk/">developer account</a>, then select 'product onboarding'.</p></div>            
             </div>
         </div>
-    </div> 
+    </div>
+    
+    ### Troubleshooting
+    
+    * After setting up your new application through the NHS Developer Portal and connecting it to the Summary Care Record API, you will need to ensure your application has a valid ASID custom attribute. ITOC support services should be able to ensure your ASID values are setup to use the [QUPC_IN190000UK04](https://data.developer.nhs.uk/dms/mim/4.2.00/Domains/PSIS%20Query/Document%20files/PSIS%20Query%20IM.htm#_Toc_Section_6.2) interaction. This interaction is for access to resources on Personal Spine Information Service (PSIS), the former name of Summary Care Record. If this isn't setup, you may encounter 403 Forbidden errors when accessing records. This can be checked by emailing [itoc.supportdesk@nhs.net](mailto:itoc.supportdesk@nhs.net).
+    * ITOC should also be able to apply the GP summary v3 message set to the endpoints for you.
     
     ## Errors
     We use standard HTTP status codes to show whether an API request succeeded or not. They are usually in the range:
@@ -196,9 +201,8 @@ info:
     * If attempt 7 fails, then fail permanently.
     
     ## Operations
-    Here are links to the possible SCR operations. These endpoints are for create and consume use cases for GP systems:
+    Here are the links to the possible SCR operations. These endpoints are for create and consume use cases for GP systems:
     * [Get patient's Summary Care Record](#get-/Bundle)
-    * [Upload patient's Summary Care Record](#post-/Bundle)
     * [Upload patient's Summary Care Record](#post-/Bundle)
     * [Get patient's latest Summary Care Record identifier](#get-/DocumentReference)
     * [Update patient's consent to share SCR](#post-/$setPermission)
