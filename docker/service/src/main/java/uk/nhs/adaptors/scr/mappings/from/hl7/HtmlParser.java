@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import com.vdurmont.emoji.EmojiParser;
 
 import static javax.xml.XMLConstants.ACCESS_EXTERNAL_DTD;
 import static javax.xml.XMLConstants.ACCESS_EXTERNAL_STYLESHEET;
@@ -112,6 +113,23 @@ public class HtmlParser {
         for (int i = 0; i < emptyTextNodes.getLength(); i++) {
             Node emptyTextNode = emptyTextNodes.item(i);
             emptyTextNode.getParentNode().removeChild(emptyTextNode);
+        }
+
+        performStringReplacement(document);
+    }
+
+    public static void performStringReplacement(Node node) {
+        // Convert emojis.
+        if (node.getNodeType() == Node.TEXT_NODE) {
+            String text = node.getTextContent();
+            text = EmojiParser.parseToAliases(text);
+            node.setTextContent(text);
+        }
+
+        NodeList children = node.getChildNodes();
+        for (int i = 0; i < children.getLength(); i++) {
+            Node child = children.item(i);
+            performStringReplacement(child);
         }
     }
 

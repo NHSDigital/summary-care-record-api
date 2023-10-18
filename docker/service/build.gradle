@@ -37,6 +37,7 @@ dependencies {
     implementation 'ch.qos.logback:logback-classic:1.2.6'
     implementation 'ch.qos.logback.contrib:logback-json-classic:0.1.5'
     implementation 'ch.qos.logback.contrib:logback-jackson:0.1.5'
+    implementation 'com.vdurmont:emoji-java:5.1.1'
 
     testImplementation 'org.projectlombok:lombok'
     testImplementation "org.mockito:mockito-core:4.0.0"

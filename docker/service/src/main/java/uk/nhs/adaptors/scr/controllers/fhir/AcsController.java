@@ -20,6 +20,7 @@ import static org.springframework.http.HttpStatus.CREATED;
 import static uk.nhs.adaptors.scr.consts.ScrHttpHeaders.CLIENT_IP;
 import static uk.nhs.adaptors.scr.consts.ScrHttpHeaders.NHSD_ASID;
 import static uk.nhs.adaptors.scr.consts.ScrHttpHeaders.NHSD_SESSION_URID;
+import static uk.nhs.adaptors.scr.consts.ScrHttpHeaders.NHSD_IDENTITY;
 import static uk.nhs.adaptors.scr.controllers.FhirMediaTypes.APPLICATION_FHIR_JSON_VALUE;
 
 @RestController
@@ -39,12 +40,14 @@ public class AcsController {
                               @RequestHeader(NHSD_ASID) @NotNull String nhsdAsid,
                               @RequestHeader(CLIENT_IP) @NotNull String clientIp,
                               @RequestHeader(NHSD_SESSION_URID) @NotNull String nhsdSessionUrid,
+                              @RequestHeader(NHSD_IDENTITY) @NotNull String nhsdIdentity,
                               @RequestHeader(AUTHORIZATION) @NotNull String authorization) {
-        LOGGER.info("Received ACS Set Permission request");
+        LOGGER.info("Received ACS Set Permission request for NHSD Identity" + nhsdIdentity);
         RequestData requestData = new RequestData().setBody(parameters)
             .setClientIp(clientIp)
             .setNhsdAsid(nhsdAsid)
             .setNhsdSessionUrid(nhsdSessionUrid)
+            .setNhsdIdentity(nhsdIdentity)
             .setAuthorization(authorization);
         acsService.setPermission(requestData);
     }
