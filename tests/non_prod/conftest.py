@@ -29,7 +29,7 @@ def get_headers():
                }
     return headers
 
-
+# Python fixtures use v1 auth which APIM have retired.
 def get_token():
     """Get an access token"""
     #oauth_endpoints = CheckOauth()
