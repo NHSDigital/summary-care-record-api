@@ -42,6 +42,7 @@ import uk.nhs.adaptors.scr.WireMockInitializer;
 import uk.nhs.adaptors.scr.config.SpineConfiguration;
 import uk.nhs.adaptors.scr.consts.ScrHttpHeaders;
 //import uk.nhs.adaptors.scr.uat.common.CustomArgumentsProvider.GetScrAdditionalInformation;
+import uk.nhs.adaptors.scr.uat.common.CustomArgumentsProvider;
 import uk.nhs.adaptors.scr.uat.common.CustomArgumentsProvider.GetScrAgentPersonAuthorSuccess;
 import uk.nhs.adaptors.scr.uat.common.CustomArgumentsProvider.GetScrInitialUploadOrgSDSSuccess;
 import uk.nhs.adaptors.scr.uat.common.CustomArgumentsProvider.GetScrInitialUploadSuccess;
@@ -132,14 +133,14 @@ public class GetScrUAT {
         performRequestAndAssert(testData, OK);
     }
 
-    /*@ParameterizedTest(name = "[{index}] - {0}")
-    @ArgumentsSource(GetScrAdditionalInformation.class)
+    @ParameterizedTest(name = "[{index}] - {0}")
+    @ArgumentsSource(CustomArgumentsProvider.GetScrAdditionalInformation.class)
     void testGetScrAdditionalInformation(TestData testData) throws Exception {
         stubSpinePsisEventListEndpoint(eventListQuerySuccessResponse);
         stubSpinePsisEventQueryEndpoint(eventQueryAdditionalInformationSuccessResponse);
 
         performRequestAndAssert(testData, OK);
-    }*/
+    }
 
     @ParameterizedTest(name = "[{index}] - {0}")
     @ArgumentsSource(GetScrSuccess.class)
