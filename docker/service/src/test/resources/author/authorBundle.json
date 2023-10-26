@@ -40,7 +40,7 @@
       },
       "date": "2020-11-17T01:00:00+00:00",
       "author": [ {
-        "reference": "PractitionerRole/D4F14095-8BB0-446B-883F-2848426F1CE8"
+        "reference": " "
       } ],
       "relatesTo": [ {
         "code": "replaces",
@@ -234,34 +234,6 @@
       } ]
     }
   }, {
-    "fullUrl": "https://internal-dev.api.service.nhs.uk/summary-care-record/FHIR/R4/Practitioner/971E2213-D41B-4906-B32E-F2D2107AA431",
-    "resource": {
-      "resourceType": "Practitioner",
-      "id": "971E2213-D41B-4906-B32E-F2D2107AA431",
-      "name": [ {
-        "text": "Dr Mark Spencer"
-      } ]
-    }
-  }, {
-    "fullUrl": "https://internal-dev.api.service.nhs.uk/summary-care-record/FHIR/R4/PractitionerRole/D4F14095-8BB0-446B-883F-2848426F1CE8",
-    "resource": {
-      "resourceType": "PractitionerRole",
-      "id": "D4F14095-8BB0-446B-883F-2848426F1CE8",
-      "practitioner": {
-        "reference": "Practitioner/971E2213-D41B-4906-B32E-F2D2107AA431"
-      },
-      "organization": {
-        "reference": "Organization/EB7E5E32-09B3-4ECC-94C7-8A8914D9D691"
-      },
-      "code": [ {
-        "coding": [ {
-          "system": "https://fhir.nhs.uk/CodeSystem/HL7v3-SDSJobRoleName",
-          "code": "NR0260",
-          "display": "General Medical Practitioner"
-        } ]
-      } ]
-    }
-  }, {
     "fullUrl": "https://internal-dev.api.service.nhs.uk/summary-care-record/FHIR/R4/Organization/EB7E5E32-09B3-4ECC-94C7-8A8914D9D691",
     "resource": {
       "resourceType": "Organization",
@@ -309,59 +281,6 @@
       "onsetDateTime": "2020-05-06T12:48:19+00:00"
     }
   }, {
-    "fullUrl": "https://internal-dev.api.service.nhs.uk/summary-care-record/FHIR/R4/PractitionerRole/9AC86463-AA06-4DB1-AF0B-2CB5335BA71D",
-    "resource": {
-      "resourceType": "PractitionerRole",
-      "id": "9AC86463-AA06-4DB1-AF0B-2CB5335BA71D",
-      "identifier": [ {
-        "system": "http://fhir.nhs.net/Id/sds-role-profile-id",
-        "value": "673836492727"
-      } ],
-      "practitioner": {
-        "reference": "Practitioner/C89843C2-D51F-41BA-B99D-43C0F1ACB1AA"
-      }
-    }
-  }, {
-    "fullUrl": "https://internal-dev.api.service.nhs.uk/summary-care-record/FHIR/R4/Practitioner/C89843C2-D51F-41BA-B99D-43C0F1ACB1AA",
-    "resource": {
-      "resourceType": "Practitioner",
-      "id": "C89843C2-D51F-41BA-B99D-43C0F1ACB1AA",
-      "identifier": [ {
-        "system": "https://fhir.nhs.uk/Id/sds-user-id",
-        "value": "676789689789"
-      } ],
-      "name": [ {
-        "text": "Dr Steve Jones"
-      } ]
-    }
-  }, {
-    "fullUrl": "https://internal-dev.api.service.nhs.uk/summary-care-record/FHIR/R4/Encounter/FF2B7036-BB9B-47B7-A4BA-1E60A36666B6",
-    "resource": {
-      "resourceType": "Encounter",
-      "id": "FF2B7036-BB9B-47B7-A4BA-1E60A36666B6",
-      "status": "finished",
-      "class": {
-        "system": "http://terminology.hl7.org/CodeSystem/v3-NullFlavor",
-        "code": "UNK",
-        "display": "Unknown"
-      },
-      "participant": [ {
-        "type": [ {
-          "coding": [ {
-            "system": "http://terminology.hl7.org/CodeSystem/v3-ParticipationType",
-            "code": "AUT",
-            "display": "author"
-          } ]
-        } ],
-        "period": {
-          "start": "2020-11-17T01:00:00+00:00"
-        },
-        "individual": {
-          "reference": "PractitionerRole/9AC86463-AA06-4DB1-AF0B-2CB5335BA71D"
-        }
-      } ]
-    }
-  }, {
     "fullUrl": "https://internal-dev.api.service.nhs.uk/summary-care-record/FHIR/R4/Condition/0F582D97-8F89-11EA-8B2D-B741F13EFC47",
     "resource": {
       "resourceType": "Condition",
@@ -404,34 +323,6 @@
       } ]
     }
   }, {
-    "fullUrl": "https://internal-dev.api.service.nhs.uk/summary-care-record/FHIR/R4/Practitioner/158D0B2E-8433-40BF-BEFD-C4AB592286BE",
-    "resource": {
-      "resourceType": "Practitioner",
-      "id": "158D0B2E-8433-40BF-BEFD-C4AB592286BE",
-      "name": [ {
-        "text": "BLOGGS Fred"
-      } ]
-    }
-  }, {
-    "fullUrl": "https://internal-dev.api.service.nhs.uk/summary-care-record/FHIR/R4/PractitionerRole/4957FA91-92F3-4F08-BC2C-4C86D95C1872",
-    "resource": {
-      "resourceType": "PractitionerRole",
-      "id": "4957FA91-92F3-4F08-BC2C-4C86D95C1872",
-      "practitioner": {
-        "reference": "Practitioner/158D0B2E-8433-40BF-BEFD-C4AB592286BE"
-      },
-      "organization": {
-        "reference": "Organization/7135AD95-95BC-45EC-BFAC-5256C4D999E6"
-      },
-      "code": [ {
-        "coding": [ {
-          "system": "https://fhir.nhs.uk/CodeSystem/HL7v3-SDSJobRoleName",
-          "code": "R0050",
-          "display": "Consultant"
-        } ]
-      } ]
-    }
-  }, {
     "fullUrl": "https://internal-dev.api.service.nhs.uk/summary-care-record/FHIR/R4/Organization/7135AD95-95BC-45EC-BFAC-5256C4D999E6",
     "resource": {
       "resourceType": "Organization",
@@ -445,33 +336,6 @@
       } ],
       "address": [ {
         "text": "ORG ADDRESS"
-      } ]
-    }
-  }, {
-    "fullUrl": "https://internal-dev.api.service.nhs.uk/summary-care-record/FHIR/R4/Encounter/8E68FE90-0DCB-452A-86B0-3378CC658E2B",
-    "resource": {
-      "resourceType": "Encounter",
-      "id": "8E68FE90-0DCB-452A-86B0-3378CC658E2B",
-      "status": "finished",
-      "class": {
-        "system": "http://terminology.hl7.org/CodeSystem/v3-NullFlavor",
-        "code": "UNK",
-        "display": "Unknown"
-      },
-      "participant": [ {
-        "type": [ {
-          "coding": [ {
-            "system": "http://terminology.hl7.org/CodeSystem/v3-ParticipationType",
-            "code": "AUT",
-            "display": "author"
-          } ]
-        } ],
-        "period": {
-          "start": "2020-11-18T01:00:00+00:00"
-        },
-        "individual": {
-          "reference": "PractitionerRole/4957FA91-92F3-4F08-BC2C-4C86D95C1872"
-        }
       } ]
     }
   }, {
@@ -509,34 +373,6 @@
       "onsetDateTime": "2020-05-06T12:48:19+00:00"
     }
   }, {
-    "fullUrl": "https://internal-dev.api.service.nhs.uk/summary-care-record/FHIR/R4/Practitioner/0F482E43-9B8A-420C-B09E-245E688E0B74",
-    "resource": {
-      "resourceType": "Practitioner",
-      "id": "0F482E43-9B8A-420C-B09E-245E688E0B74",
-      "name": [ {
-        "text": "William Jones"
-      } ]
-    }
-  }, {
-    "fullUrl": "https://internal-dev.api.service.nhs.uk/summary-care-record/FHIR/R4/PractitionerRole/2DD9187F-6B47-46C9-A341-6FAFD753C257",
-    "resource": {
-      "resourceType": "PractitionerRole",
-      "id": "2DD9187F-6B47-46C9-A341-6FAFD753C257",
-      "practitioner": {
-        "reference": "Practitioner/0F482E43-9B8A-420C-B09E-245E688E0B74"
-      },
-      "organization": {
-        "reference": "Organization/F30118EE-4E2D-4317-BD9D-2C1CDAB5A3C2"
-      },
-      "code": [ {
-        "coding": [ {
-          "system": "https://fhir.nhs.uk/CodeSystem/HL7v3-SDSJobRoleName",
-          "code": "R0010",
-          "display": "Medical Director"
-        } ]
-      } ]
-    }
-  }, {
     "fullUrl": "https://internal-dev.api.service.nhs.uk/summary-care-record/FHIR/R4/Organization/F30118EE-4E2D-4317-BD9D-2C1CDAB5A3C2",
     "resource": {
       "resourceType": "Organization",
@@ -556,73 +392,6 @@
       } ],
       "address": [ {
         "text": "ORG ADDRESS_2"
-      } ]
-    }
-  }, {
-    "fullUrl": "https://internal-dev.api.service.nhs.uk/summary-care-record/FHIR/R4/PractitionerRole/9FA6EC19-B637-4440-B07D-8C8C1A91B812",
-    "resource": {
-      "resourceType": "PractitionerRole",
-      "id": "9FA6EC19-B637-4440-B07D-8C8C1A91B812",
-      "identifier": [ {
-        "system": "http://fhir.nhs.net/Id/sds-role-profile-id",
-        "value": "578934433"
-      } ],
-      "practitioner": {
-        "reference": "Practitioner/EB2D1CA7-4DF0-486C-A634-2ADFFD8F36DB"
-      }
-    }
-  }, {
-    "fullUrl": "https://internal-dev.api.service.nhs.uk/summary-care-record/FHIR/R4/Practitioner/EB2D1CA7-4DF0-486C-A634-2ADFFD8F36DB",
-    "resource": {
-      "resourceType": "Practitioner",
-      "id": "EB2D1CA7-4DF0-486C-A634-2ADFFD8F36DB",
-      "identifier": [ {
-        "system": "https://fhir.nhs.uk/Id/sds-user-id",
-        "value": "9054354543"
-      } ],
-      "name": [ {
-        "text": "Anna Maria"
-      } ]
-    }
-  }, {
-    "fullUrl": "https://internal-dev.api.service.nhs.uk/summary-care-record/FHIR/R4/Encounter/EEA89AC2-A5FE-4694-A90A-5087D04BEB64",
-    "resource": {
-      "resourceType": "Encounter",
-      "id": "EEA89AC2-A5FE-4694-A90A-5087D04BEB64",
-      "status": "finished",
-      "class": {
-        "system": "http://terminology.hl7.org/CodeSystem/v3-NullFlavor",
-        "code": "UNK",
-        "display": "Unknown"
-      },
-      "participant": [ {
-        "type": [ {
-          "coding": [ {
-            "system": "http://terminology.hl7.org/CodeSystem/v3-ParticipationType",
-            "code": "AUT",
-            "display": "author"
-          } ]
-        } ],
-        "period": {
-          "start": "2020-12-18T01:00:00+00:00"
-        },
-        "individual": {
-          "reference": "PractitionerRole/2DD9187F-6B47-46C9-A341-6FAFD753C257"
-        }
-      }, {
-        "type": [ {
-          "coding": [ {
-            "system": "http://terminology.hl7.org/CodeSystem/v3-ParticipationType",
-            "code": "INF",
-            "display": "informant"
-          } ]
-        } ],
-        "period": {
-          "start": "2016-06-30T10:33:58+00:00"
-        },
-        "individual": {
-          "reference": "PractitionerRole/9FA6EC19-B637-4440-B07D-8C8C1A91B812"
-        }
       } ]
     }
   }, {
@@ -658,34 +427,6 @@
         "reference": "Encounter/2C630210-4B52-460D-B4F9-3390AD194AAA"
       },
       "onsetDateTime": "2020-05-06T12:48:19+00:00"
-    }
-  }, {
-    "fullUrl": "https://internal-dev.api.service.nhs.uk/summary-care-record/FHIR/R4/Practitioner/2CEDF931-9841-49C1-AAAE-A703C18EA0BD",
-    "resource": {
-      "resourceType": "Practitioner",
-      "id": "2CEDF931-9841-49C1-AAAE-A703C18EA0BD",
-      "name": [ {
-        "text": "Stephan Spence"
-      } ]
-    }
-  }, {
-    "fullUrl": "https://internal-dev.api.service.nhs.uk/summary-care-record/FHIR/R4/PractitionerRole/E77D1B7B-6E32-4370-8A99-9BDA33EB9E5A",
-    "resource": {
-      "resourceType": "PractitionerRole",
-      "id": "E77D1B7B-6E32-4370-8A99-9BDA33EB9E5A",
-      "practitioner": {
-        "reference": "Practitioner/2CEDF931-9841-49C1-AAAE-A703C18EA0BD"
-      },
-      "organization": {
-        "reference": "Organization/AAADDBE6-9E2F-4794-8F68-0810DC8AAA12"
-      },
-      "code": [ {
-        "coding": [ {
-          "system": "https://fhir.nhs.uk/CodeSystem/HL7v3-SDSJobRoleName",
-          "code": "R0020",
-          "display": "Clinical Director - Medical"
-        } ]
-      } ]
     }
   }, {
     "fullUrl": "https://internal-dev.api.service.nhs.uk/summary-care-record/FHIR/R4/Organization/AAADDBE6-9E2F-4794-8F68-0810DC8AAA12",
@@ -728,47 +469,6 @@
       } ]
     }
   }, {
-    "fullUrl": "https://internal-dev.api.service.nhs.uk/summary-care-record/FHIR/R4/Encounter/2C630210-4B52-460D-B4F9-3390AD194AAA",
-    "resource": {
-      "resourceType": "Encounter",
-      "id": "2C630210-4B52-460D-B4F9-3390AD194AAA",
-      "status": "finished",
-      "class": {
-        "system": "http://terminology.hl7.org/CodeSystem/v3-NullFlavor",
-        "code": "UNK",
-        "display": "Unknown"
-      },
-      "participant": [ {
-        "type": [ {
-          "coding": [ {
-            "system": "http://terminology.hl7.org/CodeSystem/v3-ParticipationType",
-            "code": "AUT",
-            "display": "author"
-          } ]
-        } ],
-        "period": {
-          "start": "2020-12-18T01:00:00+00:00"
-        },
-        "individual": {
-          "reference": "PractitionerRole/E77D1B7B-6E32-4370-8A99-9BDA33EB9E5A"
-        }
-      }, {
-        "type": [ {
-          "coding": [ {
-            "system": "http://terminology.hl7.org/CodeSystem/v3-ParticipationType",
-            "code": "INF",
-            "display": "informant"
-          } ]
-        } ],
-        "period": {
-          "start": "2016-06-30T10:33:58+00:00"
-        },
-        "individual": {
-          "reference": "RelatedPerson/B82DE088-1482-4ABC-A55B-F9B5D444E7A4"
-        }
-      } ]
-    }
-  }, {
     "fullUrl": "https://internal-dev.api.service.nhs.uk/summary-care-record/FHIR/R4/Condition/6ECDAE6D-32AB-421C-AA8F-0B1ABA454C70",
     "resource": {
       "resourceType": "Condition",
@@ -803,38 +503,6 @@
       "onsetDateTime": "2020-05-06T12:48:19+00:00"
     }
   }, {
-    "fullUrl": "https://internal-dev.api.service.nhs.uk/summary-care-record/FHIR/R4/Practitioner/D61E249C-84DE-429E-8AC5-FF2087F23FAB",
-    "resource": {
-      "resourceType": "Practitioner",
-      "id": "D61E249C-84DE-429E-8AC5-FF2087F23FAB",
-      "identifier": [ {
-        "system": "https://fhir.nhs.uk/Id/sds-user-id",
-        "value": "8563857943834"
-      } ],
-      "name": [ {
-        "text": "Gregory House"
-      } ]
-    }
-  }, {
-    "fullUrl": "https://internal-dev.api.service.nhs.uk/summary-care-record/FHIR/R4/PractitionerRole/F2C9B994-6E3D-4BAF-8039-B387EBF1C614",
-    "resource": {
-      "resourceType": "PractitionerRole",
-      "id": "F2C9B994-6E3D-4BAF-8039-B387EBF1C614",
-      "practitioner": {
-        "reference": "Practitioner/D61E249C-84DE-429E-8AC5-FF2087F23FAB"
-      },
-      "organization": {
-        "reference": "Organization/6E966BE3-3BF0-4087-9D09-3EA7CA62AA01"
-      },
-      "code": [ {
-        "coding": [ {
-          "system": "https://fhir.nhs.uk/CodeSystem/HL7v3-SDSJobRoleName",
-          "code": "R0080",
-          "display": "Staff Grade"
-        } ]
-      } ]
-    }
-  }, {
     "fullUrl": "https://internal-dev.api.service.nhs.uk/summary-care-record/FHIR/R4/Organization/6E966BE3-3BF0-4087-9D09-3EA7CA62AA01",
     "resource": {
       "resourceType": "Organization",
@@ -848,38 +516,6 @@
       } ]
     }
   }, {
-    "fullUrl": "https://internal-dev.api.service.nhs.uk/summary-care-record/FHIR/R4/Practitioner/53AE7167-ACE3-412F-A86B-2C7C18012FFD",
-    "resource": {
-      "resourceType": "Practitioner",
-      "id": "53AE7167-ACE3-412F-A86B-2C7C18012FFD",
-      "identifier": [ {
-        "system": "https://fhir.nhs.uk/Id/sds-user-id",
-        "value": "564735334"
-      } ],
-      "name": [ {
-        "text": "Thomas Moore"
-      } ]
-    }
-  }, {
-    "fullUrl": "https://internal-dev.api.service.nhs.uk/summary-care-record/FHIR/R4/PractitionerRole/EE75CC1F-FBBA-4D92-82BC-19C99DE18F8E",
-    "resource": {
-      "resourceType": "PractitionerRole",
-      "id": "EE75CC1F-FBBA-4D92-82BC-19C99DE18F8E",
-      "practitioner": {
-        "reference": "Practitioner/53AE7167-ACE3-412F-A86B-2C7C18012FFD"
-      },
-      "organization": {
-        "reference": "Organization/31D588A1-0CCF-4837-B238-9946D0B21FE8"
-      },
-      "code": [ {
-        "coding": [ {
-          "system": "https://fhir.nhs.uk/CodeSystem/HL7v3-SDSJobRoleName",
-          "code": "R0100",
-          "display": "Clinical Assistant"
-        } ]
-      } ]
-    }
-  }, {
     "fullUrl": "https://internal-dev.api.service.nhs.uk/summary-care-record/FHIR/R4/Organization/31D588A1-0CCF-4837-B238-9946D0B21FE8",
     "resource": {
       "resourceType": "Organization",
@@ -890,73 +526,6 @@
       } ],
       "address": [ {
         "text": "ORG ADDRESS_4"
-      } ]
-    }
-  }, {
-    "fullUrl": "https://internal-dev.api.service.nhs.uk/summary-care-record/FHIR/R4/Encounter/E72DE85D-13EB-4B30-ADC6-F780F1CDFA8C",
-    "resource": {
-      "resourceType": "Encounter",
-      "id": "E72DE85D-13EB-4B30-ADC6-F780F1CDFA8C",
-      "status": "finished",
-      "class": {
-        "system": "http://terminology.hl7.org/CodeSystem/v3-NullFlavor",
-        "code": "UNK",
-        "display": "Unknown"
-      },
-      "participant": [ {
-        "type": [ {
-          "coding": [ {
-            "system": "http://terminology.hl7.org/CodeSystem/v3-ParticipationType",
-            "code": "AUT",
-            "display": "author"
-          } ]
-        } ],
-        "period": {
-          "start": "2020-12-18T01:00:00+00:00"
-        },
-        "individual": {
-          "reference": "PractitionerRole/F2C9B994-6E3D-4BAF-8039-B387EBF1C614"
-        }
-      }, {
-        "type": [ {
-          "coding": [ {
-            "system": "http://terminology.hl7.org/CodeSystem/v3-ParticipationType",
-            "code": "INF",
-            "display": "informant"
-          } ]
-        } ],
-        "period": {
-          "start": "2016-06-30T10:33:58+00:00"
-        },
-        "individual": {
-          "reference": "PractitionerRole/EE75CC1F-FBBA-4D92-82BC-19C99DE18F8E"
-        }
-      } ]
-    }
-  }, {
-    "fullUrl": "https://internal-dev.api.service.nhs.uk/summary-care-record/FHIR/R4/PractitionerRole/286100B4-A55A-4942-BAEC-185F0832DEDE",
-    "resource": {
-      "resourceType": "PractitionerRole",
-      "id": "286100B4-A55A-4942-BAEC-185F0832DEDE",
-      "identifier": [ {
-        "system": "http://fhir.nhs.net/Id/sds-role-profile-id",
-        "value": "89823498234"
-      } ],
-      "practitioner": {
-        "reference": "Practitioner/0A51EC1B-019F-4CBF-B461-ED366FDCC1FA"
-      }
-    }
-  }, {
-    "fullUrl": "https://internal-dev.api.service.nhs.uk/summary-care-record/FHIR/R4/Practitioner/0A51EC1B-019F-4CBF-B461-ED366FDCC1FA",
-    "resource": {
-      "resourceType": "Practitioner",
-      "id": "0A51EC1B-019F-4CBF-B461-ED366FDCC1FA",
-      "identifier": [ {
-        "system": "https://fhir.nhs.uk/Id/sds-user-id",
-        "value": "9699575667"
-      } ],
-      "name": [ {
-        "text": "Maria Smith"
       } ]
     }
   }, {
@@ -1055,42 +624,6 @@
       } ]
     }
   }, {
-    "fullUrl": "https://internal-dev.api.service.nhs.uk/summary-care-record/FHIR/R4/PractitionerRole/598C6DE5-7253-4BDE-A043-DAD777762666",
-    "resource": {
-      "resourceType": "PractitionerRole",
-      "id": "598C6DE5-7253-4BDE-A043-DAD777762666",
-      "organization": {
-        "reference": "Organization/2AA16203-E77D-4F7D-A31B-14B960406C56"
-      }
-    }
-  }, {
-    "fullUrl": "https://internal-dev.api.service.nhs.uk/summary-care-record/FHIR/R4/Encounter/E71A712E-6791-4EE1-A599-63F087F616AE",
-    "resource": {
-      "resourceType": "Encounter",
-      "id": "E71A712E-6791-4EE1-A599-63F087F616AE",
-      "status": "finished",
-      "class": {
-        "system": "http://terminology.hl7.org/CodeSystem/v3-NullFlavor",
-        "code": "UNK",
-        "display": "Unknown"
-      },
-      "participant": [ {
-        "type": [ {
-          "coding": [ {
-            "system": "http://terminology.hl7.org/CodeSystem/v3-ParticipationType",
-            "code": "AUT",
-            "display": "author"
-          } ]
-        } ],
-        "period": {
-          "start": "2016-06-30T10:33:58+00:00"
-        },
-        "individual": {
-          "reference": "PractitionerRole/598C6DE5-7253-4BDE-A043-DAD777762666"
-        }
-      } ]
-    }
-  }, {
     "fullUrl": "https://internal-dev.api.service.nhs.uk/summary-care-record/FHIR/R4/Observation/EE608FAA-2433-4BAD-A0D5-4A10E45AB2B0",
     "resource": {
       "resourceType": "Observation",
@@ -1173,42 +706,6 @@
       } ],
       "address": [ {
         "text": "ADDRESS LINE 1"
-      } ]
-    }
-  }, {
-    "fullUrl": "https://internal-dev.api.service.nhs.uk/summary-care-record/FHIR/R4/PractitionerRole/E0565311-59A4-4AE6-9D32-95E9776121E3",
-    "resource": {
-      "resourceType": "PractitionerRole",
-      "id": "E0565311-59A4-4AE6-9D32-95E9776121E3",
-      "organization": {
-        "reference": "Organization/EB82B8D2-63B4-403B-9517-5B1F73A6973E"
-      }
-    }
-  }, {
-    "fullUrl": "https://internal-dev.api.service.nhs.uk/summary-care-record/FHIR/R4/Encounter/23CA2892-2873-4DF4-80C3-A1CA9B631D7D",
-    "resource": {
-      "resourceType": "Encounter",
-      "id": "23CA2892-2873-4DF4-80C3-A1CA9B631D7D",
-      "status": "finished",
-      "class": {
-        "system": "http://terminology.hl7.org/CodeSystem/v3-NullFlavor",
-        "code": "UNK",
-        "display": "Unknown"
-      },
-      "participant": [ {
-        "type": [ {
-          "coding": [ {
-            "system": "http://terminology.hl7.org/CodeSystem/v3-ParticipationType",
-            "code": "AUT",
-            "display": "author"
-          } ]
-        } ],
-        "period": {
-          "start": "2016-06-30T10:33:58+00:00"
-        },
-        "individual": {
-          "reference": "PractitionerRole/E0565311-59A4-4AE6-9D32-95E9776121E3"
-        }
       } ]
     }
   }, {

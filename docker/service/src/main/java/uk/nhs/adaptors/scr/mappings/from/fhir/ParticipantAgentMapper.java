@@ -216,6 +216,7 @@ public class ParticipantAgentMapper {
     }
 
     public static void setParticipantAgents(Bundle bundle, Reference individual, Participant participant) {
+        //TODO: This is where the practitionerRole is searched for by using the reference. Perhaps adding a check for an empty reference?
         var practitionerRole = getResourceByReference(bundle, individual.getReference(), PractitionerRole.class)
                 .orElseThrow(() -> new FhirValidationException(
                         String.format("Bundle is missing PractitionerRole %s that is linked to Encounter", individual.getReference())));
