@@ -12,12 +12,13 @@ import static uk.nhs.adaptors.scr.utils.FhirHelper.getDomainResource;
 public class AuthorMapper {
     public static void mapAuthor(GpSummary gpSummary, Bundle bundle) {
         var composition = getDomainResource(bundle, Composition.class);
+        if (!composition.getAuthor().isEmpty()) {
+            var author = new Participant.Author();
 
-        var author = new Participant.Author();
+            author.setTime(formatTimestampToHl7(composition.getMeta().getLastUpdatedElement()));
+            setParticipantAgents(bundle, composition.getAuthorFirstRep(), author);
 
-        author.setTime(formatTimestampToHl7(composition.getMeta().getLastUpdatedElement()));
-        setParticipantAgents(bundle, composition.getAuthorFirstRep(), author);
-
-        gpSummary.setAuthor(author);
+            gpSummary.setAuthor(author);
+        }
     }
 }

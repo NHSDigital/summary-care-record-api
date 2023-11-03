@@ -39,10 +39,6 @@
         "reference": "Patient/80AD85F2-71DF-48D7-9429-BA75003AB4BB"
       },
       "date": "2020-11-17T01:00:00+00:00",
-      //TODO: There are two ways to approach this, have the reference be empty (""), or remove the author altogether. The former seems more likely to work correctly with spine.
-      "author": [ {
-        "reference": " "
-      } ],
       "relatesTo": [ {
         "code": "replaces",
         "targetIdentifier": {
