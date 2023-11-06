@@ -76,7 +76,12 @@ public class SendScrController {
         task.onTimeout(() -> {
             throw new ScrTimeoutException();
         });
+        task.onError(() -> {
+            LOGGER.info("Error encountered attempting to send data to Spine (SCR FHIR API). Spine could not process the data provided.");
+            throw new Exception();
+        });
 
+        LOGGER.info("Upload SCR to Spine complete. Returning task.");
         return task;
     }
 }
