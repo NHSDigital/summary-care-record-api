@@ -55,6 +55,8 @@ public class SendScrController {
             clientIp,
             nhsdIdentity,
             nhsdSessionUrid);
+        
+        LOGGER.info("TEST 0");
 
         var requestData = new RequestData();
 
