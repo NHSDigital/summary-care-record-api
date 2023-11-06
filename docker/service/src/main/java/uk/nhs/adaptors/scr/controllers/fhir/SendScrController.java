@@ -57,12 +57,15 @@ public class SendScrController {
             nhsdSessionUrid);
 
         var requestData = new RequestData();
+
+        LOGGER.info("TEST 1 - set body");
         requestData.setBody(body)
             .setNhsdAsid(nhsdAsid)
             .setClientIp(clientIp)
             .setNhsdIdentity(nhsdIdentity)
             .setNhsdSessionUrid(nhsdSessionUrid);
 
+        LOGGER.info("TEST 2 - getCopyOfContextMap");
         var mdcContextMap = MDC.getCopyOfContextMap();
         Callable<ResponseEntity<?>> callable = () -> {
             MDC.setContextMap(mdcContextMap);
@@ -72,7 +75,9 @@ public class SendScrController {
                 .build();
         };
 
+        LOGGER.info("TEST 3 - WebAsyncTask");
         var task = new WebAsyncTask<>(spineConfiguration.getScrResultTimeout(), callable);
+        LOGGER.info("TEST 4 - WebAsyncTask Complete");
         task.onTimeout(() -> {
             throw new ScrTimeoutException();
         });
