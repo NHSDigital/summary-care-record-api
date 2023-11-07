@@ -55,12 +55,12 @@ public class SendScrController {
             clientIp,
             nhsdIdentity,
             nhsdSessionUrid);
-        
+
         LOGGER.info("TEST 0");
 
         var requestData = new RequestData();
 
-        LOGGER.info("TEST 1 - set body");
+        LOGGER.info("TEST 1 - set body.");
         requestData.setBody(body)
             .setNhsdAsid(nhsdAsid)
             .setClientIp(clientIp)
