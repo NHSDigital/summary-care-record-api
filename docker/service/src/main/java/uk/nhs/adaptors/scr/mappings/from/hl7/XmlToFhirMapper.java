@@ -8,6 +8,8 @@ import org.hl7.fhir.r4.model.Resource;
 import org.w3c.dom.Node;
 import uk.nhs.adaptors.scr.exceptions.ScrBaseException;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -26,7 +28,7 @@ public interface XmlToFhirMapper {
     String DATE_TIME_MINUTES_PATTERN = "yyyyMMddHHmm";
     String DATE_PATTERN = "yyyyMMdd";
     String YEAR_MONTH_PATTERN = "yyyyMM";
-    String YEAR_MONTH_PATTERN_2 = "yyyy-MM";
+    String YEAR_MONTH_PATTERN_DASH = "yyyy-MM";
     String YEAR_PATTERN = "yyyy";
     String SNOMED_SYSTEM = "http://snomed.info/sct";
 
@@ -43,45 +45,55 @@ public interface XmlToFhirMapper {
             throw new ScrBaseException("Invalid target class: " + clazz.getName());
         }
 
-        if (date.length() == YEAR_PATTERN.length()) {
-            baseDateTimeType.setPrecision(YEAR);
-            baseDateTimeType.setYear(parseInt(date));
-        } else if (date.length() == YEAR_MONTH_PATTERN.length()) {
-            String year = date.substring(0, YEAR_PATTERN.length());
-            String month = date.substring(YEAR_PATTERN.length());
-            baseDateTimeType.setPrecision(MONTH);
-            baseDateTimeType.setMonth(parseInt(month));
-            baseDateTimeType.setYear(parseInt(year));
-        } else if (date.length() == YEAR_MONTH_PATTERN_2.length()) {
-            // Handle "yyyy-MM" format with a dash
-            String[] parts = date.split("-");
-            String year = parts[0];
-            String month = parts[1];
-            baseDateTimeType.setPrecision(MONTH);
-            baseDateTimeType.setYear(parseInt(year));
-            baseDateTimeType.setMonth(parseInt(month));
-        } else if (date.length() == DATE_PATTERN.length()) {
-            LocalDate parsed = LocalDate.parse(date, DateTimeFormatter.ofPattern(DATE_PATTERN));
-            baseDateTimeType.setPrecision(DAY);
-            setDatePart(baseDateTimeType, parsed.getDayOfMonth(), parsed.getMonthValue(), parsed.getYear());
-        } else if (date.length() == DATE_TIME_MINUTES_PATTERN.length()) {
-            LocalDateTime parsed = LocalDateTime.parse(date, DateTimeFormatter.ofPattern(DATE_TIME_MINUTES_PATTERN));
-            baseDateTimeType.setPrecision(MINUTE);
-            baseDateTimeType.setTimeZone(TimeZone.getTimeZone("Europe/London"));
-            setHoursMinutesPart(baseDateTimeType, parsed);
-            setDatePart(baseDateTimeType, parsed.getDayOfMonth(), parsed.getMonthValue(), parsed.getYear());
-        } else if (date.length() == DATE_TIME_SECONDS_PATTERN.length()) {
+        if (isValidDate(date, DATE_TIME_SECONDS_PATTERN)) {
             LocalDateTime parsed = LocalDateTime.parse(date, DateTimeFormatter.ofPattern(DATE_TIME_SECONDS_PATTERN));
             baseDateTimeType.setPrecision(SECOND);
             baseDateTimeType.setTimeZone(TimeZone.getTimeZone("Europe/London"));
             baseDateTimeType.setSecond(parsed.getSecond());
             setHoursMinutesPart(baseDateTimeType, parsed);
             setDatePart(baseDateTimeType, parsed.getDayOfMonth(), parsed.getMonthValue(), parsed.getYear());
+        } else if (isValidDate(date, DATE_TIME_MINUTES_PATTERN)) {
+            LocalDateTime parsed = LocalDateTime.parse(date, DateTimeFormatter.ofPattern(DATE_TIME_MINUTES_PATTERN));
+            baseDateTimeType.setPrecision(MINUTE);
+            baseDateTimeType.setTimeZone(TimeZone.getTimeZone("Europe/London"));
+            setHoursMinutesPart(baseDateTimeType, parsed);
+            setDatePart(baseDateTimeType, parsed.getDayOfMonth(), parsed.getMonthValue(), parsed.getYear());
+        } else if (isValidDate(date, DATE_PATTERN)) {
+            LocalDate parsed = LocalDate.parse(date, DateTimeFormatter.ofPattern(DATE_PATTERN));
+            baseDateTimeType.setPrecision(DAY);
+            setDatePart(baseDateTimeType, parsed.getDayOfMonth(), parsed.getMonthValue(), parsed.getYear());
+        } else if (isValidDate(date, YEAR_MONTH_PATTERN_DASH)) {
+            String[] parts = date.split("-");
+            String year = parts[0];
+            String month = parts[1];
+            baseDateTimeType.setPrecision(MONTH);
+            baseDateTimeType.setYear(parseInt(year));
+            baseDateTimeType.setMonth(parseInt(month));
+        } else if (isValidDate(date, YEAR_MONTH_PATTERN)) {
+            String year = date.substring(0, YEAR_PATTERN.length());
+            String month = date.substring(YEAR_PATTERN.length());
+            baseDateTimeType.setPrecision(MONTH);
+            baseDateTimeType.setMonth(parseInt(month));
+            baseDateTimeType.setYear(parseInt(year));
+        } else if (isValidDate(date, YEAR_PATTERN)) {
+            baseDateTimeType.setPrecision(YEAR);
+            baseDateTimeType.setYear(parseInt(date));
         } else {
             throw new ScrBaseException("Unsupported date format: " + date);
         }
 
         return (T) baseDateTimeType;
+    }
+
+    static boolean isValidDate(String date, String format) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat(format);
+        boolean isDate = true;
+        try {
+            dateFormat.parse(date);
+        } catch (ParseException e) {
+            isDate = false;
+        }
+        return isDate;
     }
 
     private static void setHoursMinutesPart(BaseDateTimeType baseDateTimeType, LocalDateTime parsed) {
