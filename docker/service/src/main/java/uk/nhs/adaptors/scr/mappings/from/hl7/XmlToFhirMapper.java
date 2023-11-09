@@ -66,6 +66,7 @@ public interface XmlToFhirMapper {
             String[] parts = date.split("-");
             String year = parts[0];
             String month = parts[1];
+            baseDateTimeType.setTimeZone(TimeZone.getTimeZone("Europe/London"));
             baseDateTimeType.setPrecision(MONTH);
             baseDateTimeType.setYear(parseInt(year));
             baseDateTimeType.setMonth(parseInt(month));
@@ -87,7 +88,7 @@ public interface XmlToFhirMapper {
 
     static boolean isValidDate(String date, String format) {
         SimpleDateFormat dateFormat = new SimpleDateFormat(format);
-        boolean isDate = true;
+        boolean isDate = date.length() == format.length();
         try {
             dateFormat.parse(date);
         } catch (ParseException e) {
