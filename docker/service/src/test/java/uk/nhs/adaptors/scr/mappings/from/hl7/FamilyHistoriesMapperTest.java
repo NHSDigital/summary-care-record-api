@@ -129,6 +129,26 @@ public class FamilyHistoriesMapperTest extends BaseHL7MapperTest {
     }
 
     /**
+     * Compares generated JSON by mapping the XML, against the expected JSON.
+     */
+    @Test
+    public void When_MappingFromHl7_WithDifferentDateFormats_Expect_MatchJson() {
+        returnExpectedUuid(ID_ENCOUNTER);
+        var informantResources = prepAuthorResources();
+        var authorResources = prepAuthorResources();
+        doReturn(authorResources).doReturn(informantResources).when(participantMapper).map(any(Node.class));
+
+        var html = getHtmlExample(RESOURCE_DIRECTORY, "different_date_formats");
+        var expectedJson = getJsonExample(RESOURCE_DIRECTORY, "different_date_formats");
+        var results = familyHistoryMapper.map(html);
+        var resultBundle = new Bundle();
+        results.stream().map(resource -> getBundleEntryComponent(resource)).forEach(resultBundle::addEntry);
+        var actualJson = encodeToJson(resultBundle);
+
+        assertThat(actualJson).isEqualToIgnoringWhitespace(expectedJson);
+    }
+
+    /**
      * List practitioner and practioner roles and add them to resources using JSON partial files.
      * @return resources
      */

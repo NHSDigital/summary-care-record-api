@@ -21,6 +21,7 @@ import static ca.uhn.fhir.model.api.TemporalPrecisionEnum.MINUTE;
 import static ca.uhn.fhir.model.api.TemporalPrecisionEnum.MONTH;
 import static ca.uhn.fhir.model.api.TemporalPrecisionEnum.SECOND;
 import static ca.uhn.fhir.model.api.TemporalPrecisionEnum.YEAR;
+import static ca.uhn.fhir.model.api.TemporalPrecisionEnum.MILLI;
 import static java.lang.Integer.parseInt;
 
 public interface XmlToFhirMapper {
@@ -45,6 +46,11 @@ public interface XmlToFhirMapper {
             throw new ScrBaseException("Invalid target class: " + clazz.getName());
         }
 
+        int dayPrecision = 3;
+        int monthPrecision = 2;
+        int yearPrecision = 1;
+
+
         if (isValidDate(date, DATE_TIME_SECONDS_PATTERN)) {
             LocalDateTime parsed = LocalDateTime.parse(date, DateTimeFormatter.ofPattern(DATE_TIME_SECONDS_PATTERN));
             baseDateTimeType.setPrecision(SECOND);
@@ -62,23 +68,27 @@ public interface XmlToFhirMapper {
             LocalDate parsed = LocalDate.parse(date, DateTimeFormatter.ofPattern(DATE_PATTERN));
             baseDateTimeType.setPrecision(DAY);
             setDatePart(baseDateTimeType, parsed.getDayOfMonth(), parsed.getMonthValue(), parsed.getYear());
+            baseDateTimeType.setMillis(dayPrecision);
         } else if (isValidDate(date, YEAR_MONTH_PATTERN_DASH)) {
             String[] parts = date.split("-");
             String year = parts[0];
             String month = parts[1];
             baseDateTimeType.setTimeZone(TimeZone.getTimeZone("Europe/London"));
             baseDateTimeType.setPrecision(MONTH);
-            baseDateTimeType.setYear(parseInt(year));
-            baseDateTimeType.setMonth(parseInt(month));
+            baseDateTimeType.setYear(parseInt(year) + 1);
+            baseDateTimeType.setMonth(parseInt(month) - 1);
+            baseDateTimeType.setMillis(monthPrecision);
         } else if (isValidDate(date, YEAR_MONTH_PATTERN)) {
             String year = date.substring(0, YEAR_PATTERN.length());
             String month = date.substring(YEAR_PATTERN.length());
-            baseDateTimeType.setPrecision(MONTH);
-            baseDateTimeType.setMonth(parseInt(month));
+            baseDateTimeType.setPrecision(MILLI);
+            baseDateTimeType.setMillis(monthPrecision);
             baseDateTimeType.setYear(parseInt(year));
+            baseDateTimeType.setMonth(parseInt(month) - 1);
         } else if (isValidDate(date, YEAR_PATTERN)) {
             baseDateTimeType.setPrecision(YEAR);
-            baseDateTimeType.setYear(parseInt(date));
+            baseDateTimeType.setYear(parseInt(date) + 1);
+            baseDateTimeType.setMillis(yearPrecision);
         } else {
             throw new ScrBaseException("Unsupported date format: " + date);
         }
