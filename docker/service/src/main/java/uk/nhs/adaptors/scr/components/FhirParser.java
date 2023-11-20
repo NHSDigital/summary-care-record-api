@@ -25,9 +25,31 @@ public class FhirParser {
         jsonParser = ctx.newJsonParser();
     }
 
+    private List<String> findDateRegularExpression(String json, String regEx) {
+
+        List<String> occurences = new ArrayList<>();
+        Pattern pattern = Pattern.compile(regEx);
+        Matcher matcher = pattern.matcher(json);
+        while (matcher.find()) {
+            String str = matcher.group();
+            occurences.add(str);
+        }
+
+        return occurences;
+    }
+
     @LogExecutionTime
     public <T extends IBaseResource> T parseResource(String body, Class<T> klass) {
         try {
+
+            List<String> dates = findDateRegularExpression(body, "\"start\":\"\\d{4}\\d{2}");
+
+            if (!dates.isEmpty()) {
+                for (String date : dates) {
+                    body = body.replace(date, (date.substring(0, 13) + "-" + date.substring(13, date.length())));
+                }
+            }
+
             return jsonParser.parseResource(klass, body);
         } catch (Exception ex) {
             throw new FhirValidationException(ex.getMessage());

@@ -73,4 +73,31 @@ public class FamilyHistoryMapperTest extends BaseFhirMapperTest {
         var resultStr = TemplateUtils.fillTemplate(template, gpSummary);
         assertThat(resultStr).isEqualToIgnoringWhitespace(expectedHtml);
     }
+
+    @Test
+    public void When_MappingFromFHIRWithDifferentDateFormats_Expect_MatchingHtml() {
+        var expectedHtmlYear = getExpectedHtml(RESOURCE_DIRECTORY, "date_formats");
+        var observationYear = getFileAsObject(RESOURCE_DIRECTORY, "year_only", Observation.class);
+        var observationYearMonth = getFileAsObject(RESOURCE_DIRECTORY, "year_and_month", Observation.class);
+        var observationYearMonthDash = getFileAsObject(RESOURCE_DIRECTORY, "year_and_month_dash", Observation.class);
+
+        // Map using method in fromFIHR CareProfessionalDocumentationMapper::map().
+        var result = familyHistoryMapper.map(observationYear);
+        var gpSummary = new GpSummary();
+        var list = new ArrayList<FamilyHistory>();
+        list.add(result);
+        result = familyHistoryMapper.map(observationYearMonth);
+        list.add(result);
+        result = familyHistoryMapper.map(observationYearMonthDash);
+        list.add(result);
+
+        gpSummary.setFamilyHistories(list);
+
+        // Assert that the expected HLS from the mustache template matches the expected, removing whitespace.
+        var template = TemplateUtils.loadPartialTemplate("FamilyHistories.mustache");
+        var resultStr = TemplateUtils.fillTemplate(template, gpSummary);
+        assertThat(resultStr).isEqualToIgnoringWhitespace(expectedHtmlYear);
+
+
+    }
 }
