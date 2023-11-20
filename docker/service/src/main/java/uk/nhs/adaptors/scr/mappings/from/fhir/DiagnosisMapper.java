@@ -18,7 +18,7 @@ import static uk.nhs.adaptors.scr.utils.DateUtil.formatDateToHl7;
  *
  * CMET: UKCT_MT144042UK01
  */
-public class DiagnosesMapper {
+public class DiagnosisMapper {
 
     private final UuidWrapper uuid;
 

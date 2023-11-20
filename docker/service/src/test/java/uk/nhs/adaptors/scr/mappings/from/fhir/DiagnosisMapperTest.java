@@ -14,10 +14,10 @@ import java.util.ArrayList;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(MockitoExtension.class)
-public class DiagnosesMapperTest extends BaseFhirMapperTest {
+public class DiagnosisMapperTest extends BaseFhirMapperTest {
 
     @InjectMocks
-    private DiagnosesMapper diagnosesMapper;
+    private DiagnosisMapper diagnosisMapper;
 
     private static final String ID = "AF0AAF00-797C-11EA-B378-F1A7EC384595";
     private static final String RESOURCE_DIRECTORY = "diagnosis";
@@ -32,7 +32,7 @@ public class DiagnosesMapperTest extends BaseFhirMapperTest {
 
         returnExpectedUuid(ID);
 
-        var result = diagnosesMapper.mapDiagnosis(condition);
+        var result = diagnosisMapper.mapDiagnosis(condition);
 
         assertThat(result.getIdRoot()).isEqualTo(ID);
     }
@@ -43,7 +43,7 @@ public class DiagnosesMapperTest extends BaseFhirMapperTest {
 
         returnExpectedUuid(ID);
 
-        var result = diagnosesMapper.mapDiagnosis(condition);
+        var result = diagnosisMapper.mapDiagnosis(condition);
 
         assertThat(result.getCodeCode()).isEqualTo("1300721000000109");
         assertThat(result.getCodeDisplayName())
@@ -56,7 +56,7 @@ public class DiagnosesMapperTest extends BaseFhirMapperTest {
 
         returnExpectedUuid(ID);
 
-        var result = diagnosesMapper.mapDiagnosis(condition);
+        var result = diagnosisMapper.mapDiagnosis(condition);
 
         assertThat(result.getEffectiveTimeLow()).isEqualTo("20200805");
     }
@@ -68,7 +68,7 @@ public class DiagnosesMapperTest extends BaseFhirMapperTest {
 
         returnExpectedUuid(ID);
 
-        var result = diagnosesMapper.mapDiagnosis(condition);
+        var result = diagnosisMapper.mapDiagnosis(condition);
 
         var gpSummary = new GpSummary();
         var conditions = new ArrayList<Diagnosis>();
