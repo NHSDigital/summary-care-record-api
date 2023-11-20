@@ -30,8 +30,10 @@ import static org.hl7.fhir.r4.model.Encounter.EncounterStatus.FINISHED;
 import static uk.nhs.adaptors.scr.mappings.from.hl7.XmlToFhirMapper.parseDate;
 
 /**
- * Maps the SocialOrPersonalCircumstances HL7 XML to FHIR JSON.
+ * Maps the Lifestyles from HL7 XML to FHIR JSON.
+ * Closely related to Social or Personal Circumstances.
  *
+ * CMET: UKCT_MT144036UK01
  * @see: NIAD-2324
  */
 @Component

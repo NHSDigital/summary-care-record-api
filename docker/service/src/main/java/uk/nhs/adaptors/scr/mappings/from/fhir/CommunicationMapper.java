@@ -19,22 +19,22 @@ import static uk.nhs.adaptors.scr.utils.FhirHelper.getDomainResourceList;
 
 public class CommunicationMapper {
     /**
-     * Documentation of SNOMED code, see: http://bit.ly/3YL32JY
+     * Documentation of SNOMED code, see: https://bit.ly/3R6QKLi
      */
     private static final Predicate<Communication> IS_PATIENT_CARER_CORRESPONDENCE =
         communication -> "163181000000107".equals(communication.getCategoryFirstRep().getCodingFirstRep().getCode());
     /**
-     * Documentation of SNOMED code, see: http://bit.ly/3yASZws
+     * Documentation of SNOMED code, see: https://bit.ly/3szy6lZ
      */
     private static final Predicate<Communication> IS_PROVISION_OF_ADVICE_AND_INFORMATION =
         communication -> "163101000000102".equals(communication.getCategoryFirstRep().getCodingFirstRep().getCode());
     /**
-     * Documentation of SNOMED code, see: http://bit.ly/3JDtzoh
+     * Documentation of SNOMED code, see: https://bit.ly/3SQSv0A
      */
     private static final Predicate<Communication> IS_CARE_PROFESSIONAL_DOCUMENTATION =
         communication -> "163171000000105".equals(communication.getCategoryFirstRep().getCodingFirstRep().getCode());
     /**
-     * Documentation of SNOMED code, see: http://bit.ly/3ZY0qJA
+     * Documentation of SNOMED code, see: https://bit.ly/46hORji
      */
     private static final Predicate<Communication> IS_THIRD_PARTY_CORRESPONDENCE =
         communication -> "163191000000109".equals(communication.getCategoryFirstRep().getCodingFirstRep().getCode());

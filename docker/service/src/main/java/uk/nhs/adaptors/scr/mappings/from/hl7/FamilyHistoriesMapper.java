@@ -31,6 +31,11 @@ import static uk.nhs.adaptors.scr.mappings.from.hl7.XmlToFhirMapper.parseDate;
 
 @Component
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
+/**
+ * Mapping from FHIR to HL7 to represent observations related to family history.
+ *
+ * CMET: UKCT_MT144044UK01
+ */
 public class FamilyHistoriesMapper implements XmlToFhirMapper {
 
     private final UuidWrapper uuid;

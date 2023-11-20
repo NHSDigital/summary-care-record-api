@@ -5,6 +5,12 @@ import uk.nhs.adaptors.scr.models.xml.Problem;
 
 import static uk.nhs.adaptors.scr.utils.DateUtil.formatDateToHl7;
 
+/**
+ * Mapping from FHIR to HL7 ProblemMapper for highlighting a clinical statement as a problem
+ *
+ * CMET: UKCT_MT144038UK02
+ */
+
 public class ProblemMapper {
     public Problem mapProblem(Condition condition) {
         var problem = new Problem();

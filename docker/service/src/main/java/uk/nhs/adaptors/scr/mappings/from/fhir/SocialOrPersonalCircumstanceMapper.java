@@ -14,6 +14,13 @@ import static uk.nhs.adaptors.scr.utils.DateUtil.formatDateToHl7;
 @Slf4j
 @Component
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
+/**
+ * Mapping from FHIR to HL7 to represent Social or Personal Circumstances.
+ * Closely related to lifestyle.
+ *
+ * CMET: UKCT_MT144036UK01
+ * @see: NIAD-2324
+ */
 public class SocialOrPersonalCircumstanceMapper {
 
     public SocialOrPersonalCircumstance map(Observation observation) {

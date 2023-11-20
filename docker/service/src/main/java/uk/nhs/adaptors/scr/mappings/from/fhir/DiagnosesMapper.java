@@ -13,6 +13,11 @@ import static uk.nhs.adaptors.scr.utils.DateUtil.formatDateToHl7;
 @Slf4j
 @Component
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
+/**
+ * Mapping from FHIR to HL7 for a diagnosis
+ *
+ * CMET: UKCT_MT144042UK01
+ */
 public class DiagnosesMapper {
 
     private final UuidWrapper uuid;

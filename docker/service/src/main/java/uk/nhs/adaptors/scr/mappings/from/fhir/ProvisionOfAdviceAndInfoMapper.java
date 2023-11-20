@@ -12,6 +12,11 @@ import static uk.nhs.adaptors.scr.utils.DateUtil.formatDateToHl7;
 @Slf4j
 @Component
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
+/**
+ * Maps the Provision Of Advice And Information from HL7 XML to FHIR JSON.
+ *
+ * CMET: UKCT_MT144049UK01
+ */
 public class ProvisionOfAdviceAndInfoMapper {
 
     public ProvisionOfAdviceAndInformation mapProvisionOfAdviceInfo(Communication communication) {
