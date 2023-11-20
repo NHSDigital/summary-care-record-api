@@ -39,7 +39,7 @@ import static uk.nhs.adaptors.scr.utils.FhirHelper.randomUUID;
  *
  * CMET: UKCT_MT144042UK01
  */
-public class DiagnosisMapper implements XmlToFhirMapper {
+public class DiagnosesMapper implements XmlToFhirMapper {
 
     private static final String GP_SUMMARY_XPATH = "//QUPC_IN210000UK04/ControlActEvent/subject//GPSummary";
     private static final String PERTINENT_CRET_BASE_PATH =

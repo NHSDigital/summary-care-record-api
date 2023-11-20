@@ -28,7 +28,7 @@ import uk.nhs.adaptors.scr.config.ScrConfiguration;
 import uk.nhs.adaptors.scr.config.SpineConfiguration;
 import uk.nhs.adaptors.scr.logging.LogExecutionTime;
 import uk.nhs.adaptors.scr.mappings.from.hl7.CareEventsMapper;
-import uk.nhs.adaptors.scr.mappings.from.hl7.DiagnosisMapper;
+import uk.nhs.adaptors.scr.mappings.from.hl7.DiagnosesMapper;
 import uk.nhs.adaptors.scr.mappings.from.hl7.FamilyHistoriesMapper;
 import uk.nhs.adaptors.scr.mappings.from.hl7.FindingsMapper;
 import uk.nhs.adaptors.scr.mappings.from.hl7.GpSummaryMapper;
@@ -96,7 +96,7 @@ public class GetScrService {
     // resource mappers
 
     private final CareEventsMapper careEventsMapper;
-    private final DiagnosisMapper diagnosisMapper;
+    private final DiagnosesMapper diagnosesMapper;
     private final FamilyHistoriesMapper familyHistoriesMapper;
     private final FindingsMapper findingsMapper;
     private final InvestigationsMapper investigationsMapper;
@@ -168,7 +168,7 @@ public class GetScrService {
             Stream.of(
                     gpSummaryMapper, // important that this is mapped first to get core patient data
                     careEventsMapper,
-                    diagnosisMapper,
+                    diagnosesMapper,
                     familyHistoriesMapper,
                     findingsMapper,
                     investigationsMapper,
