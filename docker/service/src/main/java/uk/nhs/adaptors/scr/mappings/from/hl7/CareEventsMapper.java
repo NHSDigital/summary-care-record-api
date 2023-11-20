@@ -25,6 +25,14 @@ import static org.hl7.fhir.r4.model.Encounter.EncounterStatus.FINISHED;
 @Slf4j
 @Component
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
+/**
+ * Mapping from HL7 to FHIR for Care Events.
+ * File & class name pluralised to avoid confusion/conflicts with mappings.from fhir.
+ * Recording of care events including but not limited to those which are:
+ * Intended, Requested, Promised, Proposed, Booked.
+ *
+ * CMET: UKCT_MT144037UK01
+ */
 public class CareEventsMapper implements XmlToFhirMapper {
 
     private final UuidWrapper uuid;

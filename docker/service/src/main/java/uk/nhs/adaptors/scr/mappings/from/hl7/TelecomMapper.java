@@ -10,6 +10,10 @@ import uk.nhs.adaptors.scr.utils.XmlUtils;
 
 @Component
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
+
+/**
+ * Used by the Organisation Mapper to map pager/telephone numbers of organisations' contact persons.
+ */
 public class TelecomMapper {
 
     private static final String TELECOM_USE_XPATH = "./@use";

@@ -23,6 +23,11 @@ import uk.nhs.adaptors.scr.utils.XmlUtils;
 @Slf4j
 @Component
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
+/**
+ * Mapping from HL7 to FHIR to represent investigative procedures
+ *
+ * CMET: UKCT_MT144045UK01
+ */
 public class InvestigationsMapper implements XmlToFhirMapper {
 
     private final UuidWrapper uuid;

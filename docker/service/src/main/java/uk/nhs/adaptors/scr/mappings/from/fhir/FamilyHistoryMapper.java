@@ -15,6 +15,11 @@ import static uk.nhs.adaptors.scr.utils.DateUtil.formatDateToHl7;
 @Slf4j
 @Component
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
+/**
+ * Mapping from FHIR to HL7 to represent observations related to family history.
+ *
+ * CMET: UKCT_MT144044UK01
+ */
 public class FamilyHistoryMapper {
 
     public FamilyHistory map(Observation observation) {

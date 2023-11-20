@@ -23,6 +23,11 @@ import java.util.List;
 @Slf4j
 @Component
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
+/**
+ * Maps the Provision Of Advice And Information from FHIR to HL7.
+ *
+ * CMET: UKCT_MT144049UK01
+ */
 public class ProvisionsOfAdviceAndInfoMapper implements XmlToFhirMapper {
 
     private final UuidWrapper uuid;

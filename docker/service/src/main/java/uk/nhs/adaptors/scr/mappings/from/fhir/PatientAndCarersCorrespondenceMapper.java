@@ -13,6 +13,13 @@ import static uk.nhs.adaptors.scr.utils.DateUtil.formatDateToHl7;
 @Slf4j
 @Component
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
+/**
+ * Mapping from FHIR to HL7 for Patient or carer correspondence.
+ * Despite having the same CMET number, Third party correspondence, and Care professional documentation are
+ * mapped separately.
+ *
+ * CMET: UKCT_MT144035UK01
+ */
 public class PatientAndCarersCorrespondenceMapper {
 
     public PatientCarerCorrespondence mapPatientCarerCorrespondence(Communication communication) {

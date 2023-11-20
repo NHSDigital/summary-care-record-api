@@ -18,8 +18,9 @@ import uk.nhs.adaptors.scr.mappings.from.hl7.common.CodedEntryMapper;
 import uk.nhs.adaptors.scr.utils.XmlUtils;
 
 /**
- * Maps the SocialOrPersonalCircumstances HL7 XML to FHIR JSON.
+ * Mapping from HL7 to FHIR for risks to patient
  *
+ * CMET: UKCT_MT144054UK01
  * @see: NIAD-2324
  */
 @Slf4j

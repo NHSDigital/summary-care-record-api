@@ -15,6 +15,11 @@ import static uk.nhs.adaptors.scr.utils.DateUtil.formatDateToHl7;
 @Slf4j
 @Component
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
+/**
+ * Mapping from FHIR to HL7 to represent treatment given to the patient.
+ *
+ * CMET: UKCT_MT144055UK01
+ */
 public class TreatmentMapper {
 
     public Treatment mapTreatment(Procedure procedure) {

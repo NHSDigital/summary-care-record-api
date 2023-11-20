@@ -22,6 +22,10 @@ import java.util.List;
 @Slf4j
 @Component
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
+/**
+ * CMET: UKCT_MT144055UK01
+ * Mapping from HL7 to FHIR to represent treatment given to the patient.
+ */
 public class TreatmentsMapper implements XmlToFhirMapper {
     private final CodedEntryMapper codedEntryMapper;
     private final XmlUtils xmlUtils;
