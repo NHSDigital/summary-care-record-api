@@ -15,9 +15,11 @@ import static uk.nhs.adaptors.scr.utils.DateUtil.formatDateToHl7;
 @Component
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 /**
- * Mapping from FHIR to HL7 for risks to patient
+ * Mapping from FHIR to HL7 for risks to patient.
+ * Part of the "Observation" resourceType.
  *
  * CMET: UKCT_MT144054UK01
+ * SNOMED: 163231000000100
  * @see: NIAD-2324
  */
 public class RiskToPatientMapper {

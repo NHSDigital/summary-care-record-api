@@ -13,6 +13,7 @@ import uk.nhs.adaptors.scr.utils.XmlUtils;
 
 /**
  * Used by the Organisation Mapper to map pager/telephone numbers of organisations' contact persons.
+ * HL2 to FHIR.
  */
 public class TelecomMapper {
 

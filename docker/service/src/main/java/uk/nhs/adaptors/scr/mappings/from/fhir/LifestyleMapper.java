@@ -17,8 +17,10 @@ import static uk.nhs.adaptors.scr.utils.DateUtil.formatDateToHl7;
 /**
  * Maps the Lifestyles from FHIR to HL7.
  * Closely related to Social or Personal Circumstances.
+ * Part of the "Observation" resourceType.
  *
  * CMET: UKCT_MT144036UK01
+ * SNOMED: 163021000000107
  * @see: NIAD-2324
  */
 public class LifestyleMapper {

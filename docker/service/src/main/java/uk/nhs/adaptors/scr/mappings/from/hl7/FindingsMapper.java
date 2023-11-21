@@ -40,6 +40,7 @@ import static uk.nhs.adaptors.scr.utils.FhirHelper.randomUUID;
 /**
  * Mapping from HL7 to FHIR for Findings such as by not limited to:
  * Blood pressure, height, weight, temperature, clinical findings.
+ * File & class name pluralised to avoid confusion/conflicts with mappings.from fhir.
  *
  * CMET: UKCT_MT144043UK02
  */

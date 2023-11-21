@@ -18,7 +18,7 @@ import uk.nhs.adaptors.scr.mappings.from.hl7.common.CodedEntryMapper;
 import uk.nhs.adaptors.scr.utils.XmlUtils;
 
 /**
- * Mapping from HL7 to FHIR for risks to patient
+ * Mapping from HL7 to FHIR for risks to patient.
  *
  * CMET: UKCT_MT144054UK01
  * @see: NIAD-2324

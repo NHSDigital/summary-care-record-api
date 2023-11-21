@@ -17,8 +17,10 @@ import static uk.nhs.adaptors.scr.utils.DateUtil.formatDateToHl7;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 /**
  * Mapping from FHIR to HL7 to represent observations related to family history.
+ * Part of the "Observation" resourceType.
  *
  * CMET: UKCT_MT144044UK01
+ * SNOMED: 163051000000102
  */
 public class FamilyHistoryMapper {
 
