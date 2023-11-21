@@ -74,6 +74,10 @@ public class FamilyHistoryMapperTest extends BaseFhirMapperTest {
         assertThat(resultStr).isEqualToIgnoringWhitespace(expectedHtml);
     }
 
+    /**
+     * Added tests to validate what happens when partial dates are received in the SCR.
+     * See XMLToFhirMapper/FhirParser for details.
+     */
     @Test
     public void When_MappingFromFHIRWithDifferentDateFormats_Expect_MatchingHtml() {
         var expectedHtmlYear = getExpectedHtml(RESOURCE_DIRECTORY, "date_formats");

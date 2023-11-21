@@ -130,6 +130,8 @@ public class FamilyHistoriesMapperTest extends BaseHL7MapperTest {
 
     /**
      * Compares generated JSON by mapping the XML, against the expected JSON.
+     * Added tests to validate what happens when partial dates are received in the SCR.
+     * See XMLToFhirMapper/FhirParser for details.
      */
     @Test
     public void When_MappingFromHl7_WithDifferentDateFormats_Expect_MatchJson() {

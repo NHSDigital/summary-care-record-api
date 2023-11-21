@@ -25,6 +25,7 @@ import static ca.uhn.fhir.model.api.TemporalPrecisionEnum.MILLI;
 import static java.lang.Integer.parseInt;
 
 public interface XmlToFhirMapper {
+    // List of known date/time formats which may be present in HL7 based SCR.
     String DATE_TIME_SECONDS_PATTERN = "yyyyMMddHHmmss";
     String DATE_TIME_MINUTES_PATTERN = "yyyyMMddHHmm";
     String DATE_PATTERN = "yyyyMMdd";
@@ -96,6 +97,13 @@ public interface XmlToFhirMapper {
         return (T) baseDateTimeType;
     }
 
+    /**
+     * Checks that a date string is the length of one of the dates defined above, and that the date can be
+     * correctly parsed.
+     * @param date
+     * @param format
+     * @return
+     */
     static boolean isValidDate(String date, String format) {
         SimpleDateFormat dateFormat = new SimpleDateFormat(format);
         boolean isDate = date.length() == format.length();
