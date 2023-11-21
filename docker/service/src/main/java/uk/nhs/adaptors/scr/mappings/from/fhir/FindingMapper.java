@@ -17,6 +17,7 @@ import static uk.nhs.adaptors.scr.utils.DateUtil.formatDateToHl7;
  * Blood pressure, height, weight, temperature, clinical findings.
  *
  * CMET: UKCT_MT144043UK02
+ * SNOMED: 163131000000108
  */
 public class FindingMapper {
 

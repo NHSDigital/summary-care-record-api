@@ -24,7 +24,7 @@ import java.util.List;
 @Component
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 /**
- * Maps the Provision Of Advice And Information from FHIR to HL7.
+ * Maps the Provision Of Advice And Information from HL7 to FHIR.
  *
  * CMET: UKCT_MT144049UK01
  */

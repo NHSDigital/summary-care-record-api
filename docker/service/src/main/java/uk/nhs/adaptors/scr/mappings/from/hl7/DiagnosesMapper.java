@@ -35,9 +35,11 @@ import static uk.nhs.adaptors.scr.utils.FhirHelper.randomUUID;
 @Component
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 /**
- * Mapping from HL7 to FHIR for a diagnosis
+ * Mapping from HL7 to FHIR for a diagnosis.
+ * File & class name pluralised to avoid confusion/conflicts with mappings.from fhir.
  *
  * CMET: UKCT_MT144042UK01
+ * SNOMED: 163001000000103
  */
 public class DiagnosesMapper implements XmlToFhirMapper {
 

@@ -108,15 +108,15 @@ public class GpSummary {
             throw new FhirMappingException(e.getMessage(), e.getCause());
         }
 
-        //Check whether additional information is present so that third party correspondence can be injected.
+        // Check whether additional information is present so that third party correspondence can be injected.
         ImmutablePair<Boolean, Map<String, String>> searchResult = gpSummary.isBundleWithAdditionalInformation(bundle);
         boolean additionalInformation = searchResult.getLeft();
 
-        //Check whether third party information should be injected.
+        // Check whether third party information should be injected.
         try {
             if (additionalInformation) {
                 Map<String, String> additionalInformationHeaders = searchResult.getRight();
-                //Map the additional information message to the third party communications.
+                // Map the additional information message to the third party communications.
                 CommunicationMapper.mapCommunicationsWithAdditionalInfoButton(gpSummary, bundle, additionalInformationHeaders);
             }
         } catch (Exception e) {
@@ -144,13 +144,11 @@ public class GpSummary {
 
 
         for (XhtmlNode childNode:html.getChildNodes().get(0).getChildNodes()) {
-
             /**
              * Edge case: Some headers will not have html information attached to it.
              * It is assumed that they will be filtered out later down the line as they
              * will not be additional information headers.
              */
-
             if (childNode.getAttribute("id") != null) {
                 // Any ids other than the common ones mean that information to display is present.
                 if (!withheldInformationHtmlIDs.contains(childNode.getAttribute("id").toString())) {
@@ -163,7 +161,7 @@ public class GpSummary {
     }
 
     public static ImmutablePair<Boolean, Map<String, String>> isBundleWithAdditionalInformation(Bundle bundle) {
-        //A list of all the additional headers for comparison that will trigger third party correspondence.
+        // A list of all the additional headers for comparison that will trigger third party correspondence.
         Map<String, String> additionalInformationHeaders = new HashMap() {
             {
                 put("Administrative Procedures", "ProceduresHeader");
@@ -187,7 +185,7 @@ public class GpSummary {
             }
         };
 
-        Property gpList = bundle.getEntry().get(0).getResource().getChildByName("section"); //entries stored in this section
+        Property gpList = bundle.getEntry().get(0).getResource().getChildByName("section"); // Entries stored in this section.
 
         // A list that will contain all headers present in the bundle, no matter if they're additional information or not.
         ArrayList<String> headerList = new ArrayList<String>();
@@ -197,7 +195,7 @@ public class GpSummary {
             Property coding = code.getValues().get(0).getChildByName("coding");
             Base codingValue = coding.getValues().get(0);
 
-            Base header = codingValue.getChildByName("code").getValues().get(0); //header extracted in this variable
+            Base header = codingValue.getChildByName("code").getValues().get(0); // Header extracted in this variable.
             XhtmlNode html = ((Composition.SectionComponent) gp).getText().getDiv();
 
             // Check if there is any pertinent information to display attached to the header.
@@ -208,7 +206,8 @@ public class GpSummary {
         });
 
 
-        // Assign all the headers that are additional information and present in the bundle. Removes duplicates, if any.
+        // Assign all the headers that are additional information and present in the bundle.
+        // Removes duplicates, if any.
         Map<String, String> additionalInformationHeadersPresent = new HashMap();
         additionalInformationHeaders.entrySet().stream()
                 .filter(headerEntry -> headerList.contains(headerEntry.getValue()))
@@ -221,12 +220,21 @@ public class GpSummary {
         return new ImmutablePair<>(false, additionalInformationHeadersPresent);
     }
 
+    /**
+     * Validate bundle.type to be valid FHIR bundle document.
+     * @param bundle
+     */
     private static void validateType(Bundle bundle) {
         if (!DOCUMENT.equals(bundle.getType())) {
             throw new FhirValidationException("Unsupported Bundle.type: " + bundle.getType());
         }
     }
 
+    /**
+     * Set the bundle's header id in uppercase. Throws exception wrong or empty value.
+     * @param gpSummary
+     * @param bundle
+     */
     private static void gpSummarySetHeaderId(GpSummary gpSummary, Bundle bundle) {
         if (bundle.hasIdentifier()) {
             var identifier = bundle.getIdentifier();
@@ -243,6 +251,13 @@ public class GpSummary {
         }
     }
 
+    /**
+     * Sets the Header timestamp for GP Summary.
+     * Throws exception if empty.
+     *
+     * @param gpSummary
+     * @param bundle
+     */
     private static void gpSummarySetHeaderTimeStamp(GpSummary gpSummary, Bundle bundle) {
         if (bundle.hasTimestampElement()) {
             gpSummary.setHeaderTimeStamp(DateUtil.formatTimestampToHl7(bundle.getTimestampElement()));

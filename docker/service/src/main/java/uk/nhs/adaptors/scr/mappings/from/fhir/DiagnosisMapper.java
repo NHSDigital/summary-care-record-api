@@ -14,9 +14,11 @@ import static uk.nhs.adaptors.scr.utils.DateUtil.formatDateToHl7;
 @Component
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 /**
- * Mapping from FHIR to HL7 for a diagnosis
+ * Mapping from FHIR to HL7 for a diagnosis.
+ * Part of the "Condition" resourceType.
  *
  * CMET: UKCT_MT144042UK01
+ * SNOMED: 163001000000103
  */
 public class DiagnosisMapper {
 

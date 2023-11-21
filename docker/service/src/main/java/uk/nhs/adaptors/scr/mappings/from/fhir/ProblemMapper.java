@@ -6,11 +6,12 @@ import uk.nhs.adaptors.scr.models.xml.Problem;
 import static uk.nhs.adaptors.scr.utils.DateUtil.formatDateToHl7;
 
 /**
- * Mapping from FHIR to HL7 ProblemMapper for highlighting a clinical statement as a problem
+ * Mapping from FHIR to HL7 ProblemMapper for highlighting a clinical statement as a problem.
+ * Referenced in the ConditionMapper.java
  *
  * CMET: UKCT_MT144038UK02
+ * SNOMED: 162991000000102
  */
-
 public class ProblemMapper {
     public Problem mapProblem(Condition condition) {
         var problem = new Problem();
@@ -27,7 +28,7 @@ public class ProblemMapper {
 
         problem.setEffectiveTimeLow(formatDateToHl7(condition.getOnsetDateTimeType()));
 
-        // Commented out, awaiting further information and action in NIAD-2505
+        // @todo: Commented out, awaiting further information and action in NIAD-2505
         // set diagnosis reference?
 
         return problem;

@@ -17,27 +17,37 @@ import java.util.stream.Collectors;
 
 import static uk.nhs.adaptors.scr.utils.FhirHelper.getDomainResourceList;
 
+/**
+ * Many of the non-core CREs have a parent category (the basis of the CRE).
+ * "Communication" is the parent category of:
+ * - Patient/Carer correspondence    (UKCT_MT144035UK01)
+ * - Care Professional documentation (UKCT_MT144035UK01)
+ * - Third party correspondence      (UKCT_MT144035UK01)
+ * - Provision of Advice/Information (UKCT_MT144049UK01)
+ * The similarity is emphasised by the same CMET codes for 3 out of 4 which you can look up in the online SNOMED browser.
+ * Consider this mapper a parent or container for the sub-mappers.
+ * In SNOMED terms, the Communication is a "qualifier value".
+ * In FHIR terms, the Communication is a "resourceType".
+ * This method uses the Java "Predicate" interface to help with comparisons.
+ *
+ * See: src/test/resources/third_party_correspondence/example.json
+ */
 public class CommunicationMapper {
-    /**
-     * Documentation of SNOMED code, see: https://bit.ly/3R6QKLi
-     */
+    // Documentation of SNOMED code, see: https://bit.ly/3R6QKLi
     private static final Predicate<Communication> IS_PATIENT_CARER_CORRESPONDENCE =
         communication -> "163181000000107".equals(communication.getCategoryFirstRep().getCodingFirstRep().getCode());
-    /**
-     * Documentation of SNOMED code, see: https://bit.ly/3szy6lZ
-     */
-    private static final Predicate<Communication> IS_PROVISION_OF_ADVICE_AND_INFORMATION =
-        communication -> "163101000000102".equals(communication.getCategoryFirstRep().getCodingFirstRep().getCode());
-    /**
-     * Documentation of SNOMED code, see: https://bit.ly/3SQSv0A
-     */
+
+    // Documentation of SNOMED code, see: https://bit.ly/3SQSv0A
     private static final Predicate<Communication> IS_CARE_PROFESSIONAL_DOCUMENTATION =
         communication -> "163171000000105".equals(communication.getCategoryFirstRep().getCodingFirstRep().getCode());
-    /**
-     * Documentation of SNOMED code, see: https://bit.ly/46hORji
-     */
+
+     // Documentation of SNOMED code, see: https://bit.ly/46hORji
     private static final Predicate<Communication> IS_THIRD_PARTY_CORRESPONDENCE =
         communication -> "163191000000109".equals(communication.getCategoryFirstRep().getCodingFirstRep().getCode());
+
+    // Documentation of SNOMED code, see: https://bit.ly/3szy6lZ
+    private static final Predicate<Communication> IS_PROVISION_OF_ADVICE_AND_INFORMATION =
+        communication -> "163101000000102".equals(communication.getCategoryFirstRep().getCodingFirstRep().getCode());
 
     public static void mapCommunications(GpSummary gpSummary, Bundle bundle) {
         validate(bundle);
@@ -52,7 +62,7 @@ public class CommunicationMapper {
         validate(bundle);
         gpSummary.getThirdPartyCorrespondences()
             .add(mapAdditionalInformationButton(bundle, additionalInformationHeaders));
-        /*TODO: When the actual mapping gets done, add the correspondences as well.
+        /* @todo: When the actual mapping gets done, add the correspondences as well.
            But the one with the additional information message will always be first.
         gpSummary.getThirdPartyCorrespondences()
             .addAll(mapThirdPartyCorrespondence(bundle));*/
@@ -114,7 +124,7 @@ public class CommunicationMapper {
         thirdPartyCorrespondences.add(thirdPartyCorrespondenceMapper
                 .mapAdditionalInformationButtonEntry(additionalInformationHeaders));
 
-        //If no valid information is present in the bundle, create an empty entry.
+        // If no valid information is present in the bundle, create an empty entry.
         if (thirdPartyCorrespondences.isEmpty()) {
             return new ThirdPartyCorrespondence();
         }

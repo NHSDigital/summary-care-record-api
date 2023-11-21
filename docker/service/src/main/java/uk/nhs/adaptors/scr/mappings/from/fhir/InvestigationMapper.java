@@ -14,9 +14,11 @@ import static uk.nhs.adaptors.scr.utils.DateUtil.formatDateToHl7;
 @Component
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 /**
- * Mapping from FHIR to HL7 to represent investigative procedures
+ * Mapping from FHIR to HL7 to represent investigative procedures.
+ * Part of the "Observation" resourceType.
  *
  * CMET: UKCT_MT144045UK01
+ * SNOMED: 163141000000104
  */
 public class InvestigationMapper {
 

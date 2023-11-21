@@ -32,6 +32,7 @@ import static uk.nhs.adaptors.scr.mappings.from.hl7.XmlToFhirMapper.parseDate;
 /**
  * Maps the Lifestyles from HL7 XML to FHIR JSON.
  * Closely related to Social or Personal Circumstances.
+ * File & class name pluralised to avoid confusion/conflicts with mappings.from fhir.
  *
  * CMET: UKCT_MT144036UK01
  * @see: NIAD-2324
