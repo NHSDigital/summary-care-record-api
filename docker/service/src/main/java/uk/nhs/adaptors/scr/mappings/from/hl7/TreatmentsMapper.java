@@ -24,8 +24,10 @@ import java.util.List;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 /**
  * Mapping from HL7 to FHIR to represent treatment given to the patient.
- * 
+ *
  * CMET: UKCT_MT144055UK01
+ * SNOMED: 163071000000106
+ * @see: NIAD-2312
  */
 public class TreatmentsMapper implements XmlToFhirMapper {
     private final CodedEntryMapper codedEntryMapper;

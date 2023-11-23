@@ -19,6 +19,7 @@ import static uk.nhs.adaptors.scr.utils.DateUtil.formatDateToHl7;
  * mapped separately.
  *
  * CMET: UKCT_MT144035UK01
+ * @see: NIAD-2322
  */
 public class PatientAndCarersCorrespondenceMapper {
 

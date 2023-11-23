@@ -21,7 +21,7 @@ import static uk.nhs.adaptors.scr.utils.DateUtil.formatDateToHl7;
  *
  * CMET: UKCT_MT144036UK01
  * SNOMED: 163021000000107
- * @see: NIAD-2324
+ * @see: NIAD-2324 and NIAD-2325
  */
 public class LifestyleMapper {
 

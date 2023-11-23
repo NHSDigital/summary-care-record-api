@@ -36,6 +36,8 @@ import static uk.nhs.adaptors.scr.mappings.from.hl7.XmlToFhirMapper.parseDate;
  * File & class name pluralised to avoid confusion/conflicts with mappings.from fhir.
  *
  * CMET: UKCT_MT144044UK01
+ * SNOMED: 163051000000102
+ * @see: NIAD-2315
  */
 public class FamilyHistoriesMapper implements XmlToFhirMapper {
 

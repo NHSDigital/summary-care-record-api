@@ -13,6 +13,11 @@ import java.util.List;
 
 import static java.util.stream.Collectors.toList;
 
+/**
+ * SpineResourceParser service.
+ * Accepts an XML document and detects whether it contains a "Justifying Detected Issue Event" node. Returns list
+ * of issue codes and names. Called after several Spine requests.
+ */
 @Component
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class SpineResponseParser {

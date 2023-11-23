@@ -18,6 +18,7 @@ import static uk.nhs.adaptors.scr.utils.DateUtil.formatDateToHl7;
  * Intended, Requested, Promised, Proposed, Booked.
  *
  * CMET: UKCT_MT144037UK01
+ * @see: NIAD-2316
  */
 public class CareEventMapper {
 

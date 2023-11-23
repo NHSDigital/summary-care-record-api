@@ -43,6 +43,8 @@ import static uk.nhs.adaptors.scr.utils.FhirHelper.randomUUID;
  * File & class name pluralised to avoid confusion/conflicts with mappings.from fhir.
  *
  * CMET: UKCT_MT144043UK02
+ * SNOMED: 163131000000108
+ * @see: NIAD-2311 and NIAD-2314
  */
 public class FindingsMapper implements XmlToFhirMapper {
 

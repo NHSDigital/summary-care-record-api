@@ -13,6 +13,10 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Main class to parse JSON FHIR payloads.
+ * Also used to perform string replacement on the final JSON output, where necessary.
+ */
 @Component
 public class FhirParser {
 

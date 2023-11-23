@@ -26,6 +26,8 @@ import java.util.List;
  * Mapping from HL7 to FHIR to represent personal preferences of the patient.
  *
  * CMET: UKCT_MT144046UK01
+ * Snomed: 162961000000108
+ * @see: NIAD-2319
  */
 public class PersonalPreferencesMapper implements XmlToFhirMapper {
 

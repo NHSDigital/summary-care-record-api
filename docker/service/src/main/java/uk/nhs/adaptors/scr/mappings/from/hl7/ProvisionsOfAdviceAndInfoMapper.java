@@ -27,6 +27,8 @@ import java.util.List;
  * Maps the Provision Of Advice And Information from HL7 to FHIR.
  *
  * CMET: UKCT_MT144049UK01
+ * Snomed: 163101000000102
+ * @see: NIAD-2318
  */
 public class ProvisionsOfAdviceAndInfoMapper implements XmlToFhirMapper {
 

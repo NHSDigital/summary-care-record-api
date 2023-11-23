@@ -21,7 +21,8 @@ import uk.nhs.adaptors.scr.utils.XmlUtils;
  * Mapping from HL7 to FHIR for risks to patient.
  *
  * CMET: UKCT_MT144054UK01
- * @see: NIAD-2324
+ * SNOMED: 163231000000100
+ * @see: NIAD-2324 and NIAD-2307
  */
 @Slf4j
 @Component

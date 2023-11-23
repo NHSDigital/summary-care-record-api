@@ -11,6 +11,7 @@ import static uk.nhs.adaptors.scr.utils.DateUtil.formatDateToHl7;
  *
  * CMET: UKCT_MT144038UK02
  * SNOMED: 162991000000102
+ * @see: NIAD-2310
  */
 public class ProblemMapper {
     public Problem mapProblem(Condition condition) {

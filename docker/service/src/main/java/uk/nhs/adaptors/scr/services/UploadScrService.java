@@ -32,6 +32,9 @@ import static org.springframework.http.HttpHeaders.RETRY_AFTER;
 import static uk.nhs.adaptors.scr.clients.spine.SpineHttpClient.getHeader;
 import static uk.nhs.adaptors.scr.utils.DocumentBuilderUtil.parseDocument;
 
+/**
+ * Service to upload HL7 based SCRs to Spine.
+ */
 @Component
 @Slf4j
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))

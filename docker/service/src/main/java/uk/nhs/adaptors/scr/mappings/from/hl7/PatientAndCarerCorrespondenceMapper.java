@@ -27,6 +27,8 @@ import java.util.List;
  * mapped separately.
  *
  * CMET: UKCT_MT144035UK01
+ * Snomed: 163181000000107
+ * @see: NIAD-2322
  */
 public class PatientAndCarerCorrespondenceMapper implements XmlToFhirMapper {
 

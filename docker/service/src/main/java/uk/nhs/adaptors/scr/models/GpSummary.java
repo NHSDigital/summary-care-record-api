@@ -49,6 +49,11 @@ import java.util.stream.Stream;
 import static org.hl7.fhir.r4.model.Bundle.BundleType.DOCUMENT;
 import static uk.nhs.adaptors.scr.utils.FhirHelper.UUID_IDENTIFIER_SYSTEM;
 
+/**
+ * Main GP Summary model class.
+ * Includes the properties of GP Summary and fromBundle method to parse a FHIR GP Summary bundle, and
+ * standard getters/setters.
+ */
 @Getter
 @Setter
 @Slf4j
@@ -130,6 +135,7 @@ public class GpSummary {
      * Determination of withheld information is done by parsing the html information attached to the header.
      * Those that have information to display will have elements other than the ones specified below.
      * This is done like this because there is not always a structured object to accompany the headers.
+     * See NIAD-2710, NIAD-2741 and NIAD-2742.
      */
     public static boolean hasInformationThatIsNotWithheld(XhtmlNode html) {
         // A list of common HTML element IDs that any withheld information will contain.

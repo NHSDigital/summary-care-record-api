@@ -30,6 +30,7 @@ import java.util.List;
  *
  * CMET: UKCT_MT144038UK02
  * SNOMED: 162991000000102
+ * @see: NIAD-2310
  */
 public class ProblemsMapper implements XmlToFhirMapper {
     private final CodedEntryMapper codedEntryMapper;

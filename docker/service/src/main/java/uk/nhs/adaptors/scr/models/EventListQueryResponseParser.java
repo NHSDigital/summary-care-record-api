@@ -9,7 +9,10 @@ import org.w3c.dom.Document;
 import uk.nhs.adaptors.scr.utils.XmlUtils;
 
 import static uk.nhs.adaptors.scr.models.AcsPermission.ASK;
-
+/**
+ * EventList is integral to the requests to get the SCR from Spine, specifically, getting the latest SCR ID
+ * It's therefore used heavily in GetSCRService.
+ */
 @Getter
 @Component
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
