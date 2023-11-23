@@ -101,7 +101,5 @@ public class FamilyHistoryMapperTest extends BaseFhirMapperTest {
         var template = TemplateUtils.loadPartialTemplate("FamilyHistories.mustache");
         var resultStr = TemplateUtils.fillTemplate(template, gpSummary);
         assertThat(resultStr).isEqualToIgnoringWhitespace(expectedHtmlYear);
-
-
     }
 }

@@ -35,7 +35,7 @@ public class XmlToFhirMapperTest {
         assertThat(date.getValue().toString()).isEqualTo("Fri Jul 31 00:00:00 GMT 2023");
 
         date = parseDate("2023-07", InstantType.class);
-        assertThat(date.getValue().toString()).isEqualTo("Mon Jul 31 00:00:00 BST 2023");
+        assertThat(date.getValue().toString()).isEqualTo("Wed Jul 01 00:00:00 GMT 2023");
 
         date = parseDate("2023", InstantType.class);
         assertThat(date.getValue().toString()).isEqualTo("Sun Dec 31 00:00:00 GMT 2023");

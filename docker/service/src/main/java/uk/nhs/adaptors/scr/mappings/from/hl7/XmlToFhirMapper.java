@@ -65,14 +65,14 @@ public interface XmlToFhirMapper {
         if (isValidDate(date, DATE_TIME_SECONDS_PATTERN)) {
             LocalDateTime parsed = LocalDateTime.parse(date, DateTimeFormatter.ofPattern(DATE_TIME_SECONDS_PATTERN));
             baseDateTimeType.setPrecision(SECOND);
-            baseDateTimeType.setTimeZone(TimeZone.getTimeZone("Europe/London"));
+            baseDateTimeType.setTimeZone(TimeZone.getTimeZone("UTC"));
             baseDateTimeType.setSecond(parsed.getSecond());
             setHoursMinutesPart(baseDateTimeType, parsed);
             setDatePart(baseDateTimeType, parsed.getDayOfMonth(), parsed.getMonthValue(), parsed.getYear());
         } else if (isValidDate(date, DATE_TIME_MINUTES_PATTERN)) {
             LocalDateTime parsed = LocalDateTime.parse(date, DateTimeFormatter.ofPattern(DATE_TIME_MINUTES_PATTERN));
             baseDateTimeType.setPrecision(MINUTE);
-            baseDateTimeType.setTimeZone(TimeZone.getTimeZone("Europe/London"));
+            baseDateTimeType.setTimeZone(TimeZone.getTimeZone("UTC"));
             setHoursMinutesPart(baseDateTimeType, parsed);
             setDatePart(baseDateTimeType, parsed.getDayOfMonth(), parsed.getMonthValue(), parsed.getYear());
         } else if (isValidDate(date, DATE_PATTERN)) {
@@ -81,13 +81,15 @@ public interface XmlToFhirMapper {
             setDatePart(baseDateTimeType, parsed.getDayOfMonth(), parsed.getMonthValue(), parsed.getYear());
             baseDateTimeType.setMillis(dayPrecision);
         } else if (isValidDate(date, YEAR_MONTH_PATTERN_DASH)) {
+            // We use precision DAY here, even though we want precision MONTH.
+            // This is because using MONTH triggers a bug in the third party handling which results in a timezone
+            // of BST being used.
             String[] parts = date.split("-");
             String year = parts[0];
             String month = parts[1];
-            baseDateTimeType.setTimeZone(TimeZone.getTimeZone("Europe/London"));
-            baseDateTimeType.setPrecision(MONTH);
-            baseDateTimeType.setYear(parseInt(year) + 1);
-            baseDateTimeType.setMonth(parseInt(month) - 1);
+            baseDateTimeType.setTimeZone(TimeZone.getTimeZone("UTC"));
+            baseDateTimeType.setPrecision(DAY);
+            setDatePart(baseDateTimeType, 1, parseInt(month), Integer.parseInt(year));
             baseDateTimeType.setMillis(monthPrecision);
         } else if (isValidDate(date, YEAR_MONTH_PATTERN)) {
             String year = date.substring(0, YEAR_PATTERN.length());
