@@ -13,11 +13,12 @@ import static uk.nhs.adaptors.scr.utils.DateUtil.formatDateToHl7;
 @Component
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 /**
- * Mapping from FHIR to HL7 for Findings such as by not limited to:
+ * Mapping from FHIR to HL7 for Clinical Observations and Findings such as by not limited to:
  * Blood pressure, height, weight, temperature, clinical findings.
  *
  * CMET: UKCT_MT144043UK02
  * SNOMED: 163131000000108
+ * @see: NIAD-2311 and NIAD-2314
  */
 public class FindingMapper {
 

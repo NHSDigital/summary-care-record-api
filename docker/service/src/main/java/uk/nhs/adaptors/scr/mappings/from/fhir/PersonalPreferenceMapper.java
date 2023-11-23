@@ -17,6 +17,8 @@ import static uk.nhs.adaptors.scr.utils.DateUtil.formatDateToHl7;
  * Mapping from FHIR to HL7 to represent personal preferences of the patient
  *
  * CMET: UKCT_MT144046UK01
+ * Snomed: 162961000000108
+ * @see: NIAD-2319
  */
 public class PersonalPreferenceMapper {
 

@@ -24,6 +24,8 @@ import static uk.nhs.adaptors.scr.utils.DateUtil.formatDateToHl7;
  * mapped separately.
  *
  * CMET: UKCT_MT144035UK01
+ * SNOMED: 163191000000109
+ * @see: NIAD-2624
  */
 public class ThirdPartyCorrespondenceMapper {
 
@@ -43,6 +45,13 @@ public class ThirdPartyCorrespondenceMapper {
         return obj;
     }
 
+    /**
+     * Adds the string "Additional information records..." to the Third Party Correspondence CRE including a list
+     * of which non-core CREs have been found.
+     *
+     * @param additionalInformationHeaders
+     * @return
+     */
     public ThirdPartyCorrespondence mapAdditionalInformationButtonEntry(
             Map<String, String> additionalInformationHeaders) {
 

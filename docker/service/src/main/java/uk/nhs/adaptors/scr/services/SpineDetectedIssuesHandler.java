@@ -12,6 +12,9 @@ import java.util.List;
 import static java.util.stream.Collectors.joining;
 import static org.springframework.util.CollectionUtils.isEmpty;
 
+/**
+ * When certain HTTP response codes are detected, throw appropriate exceptions in our application.
+ */
 @Component
 public class SpineDetectedIssuesHandler {
 

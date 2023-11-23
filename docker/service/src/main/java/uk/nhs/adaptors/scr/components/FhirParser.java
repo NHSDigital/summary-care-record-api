@@ -8,6 +8,10 @@ import org.springframework.stereotype.Component;
 import uk.nhs.adaptors.scr.exceptions.FhirValidationException;
 import uk.nhs.adaptors.scr.logging.LogExecutionTime;
 
+/**
+ * Main class to parse JSON FHIR payloads.
+ * Also used to perform string replacement on the final JSON output, where necessary.
+ */
 @Component
 public class FhirParser {
 
@@ -29,6 +33,13 @@ public class FhirParser {
         }
     }
 
+    /**
+     * NME Medicus requested that all <td/> values in output JSON be replaced with <td></td>.
+     * 
+     * See NIAD-2827
+     * @param resource
+     * @return
+     */
     public String encodeToJson(IBaseResource resource) {
         String output = jsonParser.setPrettyPrint(true).encodeResourceToString(resource);
         output = output.replace("<td/>", "<td></td>");

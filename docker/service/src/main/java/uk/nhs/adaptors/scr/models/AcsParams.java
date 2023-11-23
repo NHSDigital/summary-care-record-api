@@ -3,6 +3,10 @@ package uk.nhs.adaptors.scr.models;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * Model of AcsParams, used by AcsService for the
+ * Access Control Service, which in turn powers the $setPermission endpoint.
+ */
 @Getter
 @Setter
 public class AcsParams {

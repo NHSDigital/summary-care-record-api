@@ -32,6 +32,7 @@ import static org.hl7.fhir.r4.model.Encounter.EncounterStatus.FINISHED;
  * Intended, Requested, Promised, Proposed, Booked.
  *
  * CMET: UKCT_MT144037UK01
+ * @see: NIAD-2316
  */
 public class CareEventsMapper implements XmlToFhirMapper {
 

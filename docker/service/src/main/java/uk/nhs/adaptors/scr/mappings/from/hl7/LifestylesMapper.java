@@ -35,7 +35,8 @@ import static uk.nhs.adaptors.scr.mappings.from.hl7.XmlToFhirMapper.parseDate;
  * File & class name pluralised to avoid confusion/conflicts with mappings.from fhir.
  *
  * CMET: UKCT_MT144036UK01
- * @see: NIAD-2324
+ * SNOMED: 163021000000107
+ * @see: NIAD-2324 and NIAD-2325
  */
 @Component
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))

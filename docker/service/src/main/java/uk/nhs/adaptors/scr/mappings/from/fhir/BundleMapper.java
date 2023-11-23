@@ -11,10 +11,15 @@ import uk.nhs.adaptors.scr.logging.LogExecutionTime;
 import uk.nhs.adaptors.scr.models.GpSummary;
 import uk.nhs.adaptors.scr.utils.TemplateUtils;
 
+/**
+ * This is the origin mapper which subsequently calls all the other mappers (through GpSummary.fomBundle).
+ * It fills in a template file which contains the encompassing SOAP envelope for the HL7 document.
+ * FHIR to HL7 conversion involves extracting values from parsable FHIR (JSON) and using it to fill in
+ * mustache templates.
+ */
 @Component
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class BundleMapper {
-
     private static final Mustache REPC_RM150007UK05_TEMPLATE =
         TemplateUtils.loadTemplate("REPC_RM150007UK05.mustache");
 
@@ -23,6 +28,7 @@ public class BundleMapper {
     @LogExecutionTime
     public String map(Bundle bundle, String nhsdAsid) {
         try {
+            // Call mappers for each resource type.
             GpSummary gpSummary = GpSummary.fromBundle(bundle, nhsdAsid);
             gpSummary.setPartyIdFrom(scrConfiguration.getPartyIdFrom());
             gpSummary.setPartyIdTo(scrConfiguration.getPartyIdTo());

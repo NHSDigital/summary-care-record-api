@@ -19,6 +19,7 @@ import static uk.nhs.adaptors.scr.utils.DateUtil.formatDateToHl7;
  *
  * CMET: UKCT_MT144045UK01
  * SNOMED: 163141000000104
+ * @see: NIAD-2313
  */
 public class InvestigationMapper {
 

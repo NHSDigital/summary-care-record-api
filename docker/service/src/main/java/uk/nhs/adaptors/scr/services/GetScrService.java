@@ -62,6 +62,9 @@ import static uk.nhs.adaptors.scr.mappings.from.hl7.HtmlParser.serialize;
 import static uk.nhs.adaptors.scr.utils.FhirHelper.randomUUID;
 import static uk.nhs.adaptors.scr.utils.TemplateUtils.loadTemplate;
 
+/**
+ * Service for retrieving SCRs from Spine and begin parsing.
+ */
 @Component
 @Slf4j
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))

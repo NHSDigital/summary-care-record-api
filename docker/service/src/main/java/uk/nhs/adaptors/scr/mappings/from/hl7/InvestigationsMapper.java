@@ -28,6 +28,8 @@ import uk.nhs.adaptors.scr.utils.XmlUtils;
  * File & class name pluralised to avoid confusion/conflicts with mappings.from fhir.
  *
  * CMET: UKCT_MT144045UK01
+ * SNOMED: 163141000000104
+ * @see: NIAD-2313
  */
 public class InvestigationsMapper implements XmlToFhirMapper {
 

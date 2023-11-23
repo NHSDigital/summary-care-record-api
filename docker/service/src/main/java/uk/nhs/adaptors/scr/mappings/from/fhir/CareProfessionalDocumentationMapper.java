@@ -18,6 +18,7 @@ import uk.nhs.adaptors.scr.models.xml.CareProfessionalDocumentation;
  * mapped separately.
  *
  * CMET: UKCT_MT144035UK01
+ * Snomed: 163171000000105
  * @see: NIAD-2321
  */
 public class CareProfessionalDocumentationMapper {

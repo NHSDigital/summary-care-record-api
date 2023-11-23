@@ -33,6 +33,10 @@ import static uk.nhs.adaptors.scr.config.ConversationIdFilter.CORRELATION_ID_MDC
 import static uk.nhs.adaptors.scr.utils.TemplateUtils.fillTemplate;
 import static uk.nhs.adaptors.scr.utils.TemplateUtils.loadTemplate;
 
+/**
+ * Access Control Service which control which prepares and sends the $setPermissions endpoint
+ * via spineClient (SpineClientContract) sendAcsData and the AcsController.
+ */
 @Component
 @Slf4j
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))

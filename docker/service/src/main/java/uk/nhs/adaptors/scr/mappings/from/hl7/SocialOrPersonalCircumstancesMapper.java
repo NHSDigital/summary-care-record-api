@@ -22,6 +22,7 @@ import uk.nhs.adaptors.scr.utils.XmlUtils;
  * Closely related to lifestyle.
  *
  * CMET: UKCT_MT144036UK01
+ * SNOMED: 163021000000107
  * @see: NIAD-2324
  */
 @Slf4j

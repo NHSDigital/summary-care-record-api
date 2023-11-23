@@ -26,6 +26,7 @@ import static uk.nhs.adaptors.scr.utils.DateUtil.formatTimestampToFhir;
  * mapped separately.
  *
  * CMET: UKCT_MT144035UK01
+ * Snomed: 163171000000105
  * @see: NIAD-2321
  */
 @Slf4j
