@@ -36,6 +36,16 @@ public interface XmlToFhirMapper {
 
     List<? extends Resource> map(Node document);
 
+    /**
+     * Takes a date, and parses it into a BaseDateTimeObject.
+     * Dates may be received in partial format, e.g. YYYY, YYYY-mm, which are invalid but we still need to preserve
+     * them as-is for clinical safety. Due to limitations on the third party FHIR parser code, we instead allocate a
+     * microsecond value to each type of partial date. 001, for years only precision amount, 002 for months precision
+     * amount (meaning, year and month), and day precision is 003 (year, month, day with no time).
+     * @param date
+     * @return
+     */
+
     @SneakyThrows
     static <T extends BaseDateTimeType> T parseDate(String date, Class<T> clazz) {
         BaseDateTimeType baseDateTimeType;
