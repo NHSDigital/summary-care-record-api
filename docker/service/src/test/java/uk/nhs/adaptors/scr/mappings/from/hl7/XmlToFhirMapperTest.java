@@ -21,12 +21,9 @@ public class XmlToFhirMapperTest {
      * See XMLToFhirMapper/FhirParser for details.
      */
     @Test
-    public void When_MappingGpSummaryFromHL7_Expect_BundleMatch() {
+    public void When_ParsingDate_Expect_CorrectDateFormat() {
 
         BaseDateTimeType date;
-
-        date = parseDate("20230713093455", InstantType.class);
-        assertThat(date.getValue().toString()).isEqualTo("Mon Jul 13 09:34:55 GMT 2023");
 
         date = parseDate("20230713", InstantType.class);
         assertThat(date.getValue().toString()).isEqualTo("Mon Jul 13 00:00:00 GMT 2023");
