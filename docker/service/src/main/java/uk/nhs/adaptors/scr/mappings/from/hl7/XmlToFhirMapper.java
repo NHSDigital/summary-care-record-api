@@ -18,7 +18,6 @@ import java.util.TimeZone;
 
 import static ca.uhn.fhir.model.api.TemporalPrecisionEnum.DAY;
 import static ca.uhn.fhir.model.api.TemporalPrecisionEnum.MINUTE;
-import static ca.uhn.fhir.model.api.TemporalPrecisionEnum.MONTH;
 import static ca.uhn.fhir.model.api.TemporalPrecisionEnum.SECOND;
 import static ca.uhn.fhir.model.api.TemporalPrecisionEnum.YEAR;
 import static ca.uhn.fhir.model.api.TemporalPrecisionEnum.MILLI;
