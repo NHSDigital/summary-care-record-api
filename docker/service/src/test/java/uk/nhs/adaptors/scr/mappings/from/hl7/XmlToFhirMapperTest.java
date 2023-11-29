@@ -27,6 +27,7 @@ public class XmlToFhirMapperTest {
         date = parseDate("20230713093455", InstantType.class);
         assertThat(date.getValue().toString()).contains("Jul 13");
         assertThat(date.getValue().toString()).contains("Jul 13 09:34:55");
+        assertThat(date.getValue().toString()).contains("Jul 13 09:34:55 GMT 2023");
         //assertThat(date.getValue().toString()).contains("Mon Jul 13 09:34:55 GMT 2023");
     }
 }
