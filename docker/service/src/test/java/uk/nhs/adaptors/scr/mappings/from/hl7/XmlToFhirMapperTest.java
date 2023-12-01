@@ -7,8 +7,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import uk.nhs.adaptors.scr.exceptions.ScrBaseException;
 
-import java.util.TimeZone;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static uk.nhs.adaptors.scr.mappings.from.hl7.XmlToFhirMapper.parseDate;
