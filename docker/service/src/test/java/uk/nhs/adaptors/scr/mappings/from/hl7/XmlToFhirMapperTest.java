@@ -7,6 +7,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import uk.nhs.adaptors.scr.exceptions.ScrBaseException;
 
+import java.util.TimeZone;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static uk.nhs.adaptors.scr.mappings.from.hl7.XmlToFhirMapper.parseDate;
@@ -26,16 +28,16 @@ public class XmlToFhirMapperTest {
         BaseDateTimeType date;
 
         date = parseDate("20230713", InstantType.class);
-        assertThat(date.getValue().toString()).isEqualTo("Mon Jul 13 00:00:00 GMT 2023");
+        assertThat(date.getValueAsString()).isEqualTo("2023-07-13");
 
         date = parseDate("202307", InstantType.class);
-        assertThat(date.getValue().toString()).isEqualTo("Fri Jul 31 00:00:00 GMT 2023");
+        assertThat(date.getValueAsString()).isEqualTo("2023-07-31T00:00:00.002");
 
         date = parseDate("2023-07", InstantType.class);
-        assertThat(date.getValue().toString()).isEqualTo("Wed Jul 01 00:00:00 GMT 2023");
+        assertThat(date.getValueAsString()).isEqualTo("2023-07-01");
 
         date = parseDate("2023", InstantType.class);
-        assertThat(date.getValue().toString()).isEqualTo("Sun Dec 31 00:00:00 GMT 2023");
+        assertThat(date.getValueAsString()).isEqualTo("2023");
 
         assertThrows(ScrBaseException.class, () -> {
             parseDate("-2023", InstantType.class);
