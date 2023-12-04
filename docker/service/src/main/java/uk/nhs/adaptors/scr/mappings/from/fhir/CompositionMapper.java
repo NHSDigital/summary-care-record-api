@@ -19,6 +19,13 @@ import static uk.nhs.adaptors.scr.utils.DocumentBuilderUtil.parseDocument;
 import static uk.nhs.adaptors.scr.utils.FhirHelper.getDomainResource;
 import static uk.nhs.adaptors.scr.utils.FhirHelper.randomUUID;
 
+/**
+ * An FHIR SCR will contain multiple resource-types. The parent resourceType will be Bundle.
+ * Others may include Composition, Practitioner, PractitionerRole, Organization and Patient.
+ * This is the FHIR to HL7 mapper of the Composition resource type.
+ *
+ * See: src/test/resources/gp_summary/standard_gp_summary.json
+ */
 public class CompositionMapper {
 
     private static final String CARE_PROFESSIONAL_DOC_CODE = "163171000000105";
@@ -132,6 +139,8 @@ public class CompositionMapper {
             var divChildNodes = divDocument.getDocumentElement().getChildNodes();
             for (int i = 0; i < divChildNodes.getLength(); i++) {
                 String toReplaceWith = divChildNodes.item(i).getTextContent();
+
+                // There has previously been incorrect verbiage in some SCRs. This helps to standardise language.
                 if (toReplaceWith.contains("One or more entries have been deliberately withheld from this GP Summary.")) {
                     toReplaceWith = toReplaceWith.replace("deliberately withheld", "intentionally withheld");
                     divChildNodes.item(i).setTextContent(toReplaceWith);
@@ -139,7 +148,7 @@ public class CompositionMapper {
                 bodyNode.appendChild(htmlDocument.importNode(divChildNodes.item(i), true));
             }
         }
-        // set UUID
+        // Set UUID.
         presentation.setPresentationId(randomUUID());
         presentation.setPresentationText(serialize(htmlDocument));
 

@@ -34,7 +34,15 @@ import static uk.nhs.adaptors.scr.utils.FhirHelper.randomUUID;
 
 @Component
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
-public class DiagnosisMapper implements XmlToFhirMapper {
+/**
+ * Mapping from HL7 to FHIR for a diagnosis.
+ * File & class name pluralised to avoid confusion/conflicts with mappings.from fhir.
+ *
+ * CMET: UKCT_MT144042UK01
+ * SNOMED: 163001000000103
+ * @see: NIAD-2309
+ */
+public class DiagnosesMapper implements XmlToFhirMapper {
 
     private static final String GP_SUMMARY_XPATH = "//QUPC_IN210000UK04/ControlActEvent/subject//GPSummary";
     private static final String PERTINENT_CRET_BASE_PATH =

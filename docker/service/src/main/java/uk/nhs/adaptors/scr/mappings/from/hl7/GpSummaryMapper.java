@@ -35,7 +35,6 @@ public class GpSummaryMapper implements XmlToFhirMapper {
 
     private static final String BASE_XPATH = "//QUPC_IN210000UK04/ControlActEvent/subject//GPSummary";
     private static final String EVENT_ID_XPATH = "//QUPC_IN210000UK04/ControlActEvent/subject/queryResponseEvent/event/eventID/@root";
-
     private static final String GP_SUMMARY_ID_XPATH = BASE_XPATH + "/id/@root";
     private static final String GP_SUMMARY_CODE_CODE_XPATH = BASE_XPATH + "/code/@code";
     private static final String GP_SUMMARY_CODE_DISPLAY_NAME_XPATH = BASE_XPATH + "/code/@displayName";

@@ -20,8 +20,13 @@ import uk.nhs.adaptors.scr.utils.XmlUtils;
 import static uk.nhs.adaptors.scr.utils.DateUtil.formatTimestampToFhir;
 
 /**
- * Maps the Care Professional Documentation HL7 XML to FHIR JSON.
+ * Mapping from HL7 to FHIR for Care professional documentation.
+ * File & class name pluralised to avoid confusion/conflicts with mappings.from fhir.
+ * Despite having the same CMET number, Third party correspondence, and Patient or carer correspondence are
+ * mapped separately.
  *
+ * CMET: UKCT_MT144035UK01
+ * Snomed: 163171000000105
  * @see: NIAD-2321
  */
 @Slf4j

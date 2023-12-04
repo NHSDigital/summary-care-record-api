@@ -13,6 +13,10 @@ import uk.nhs.adaptors.scr.models.GpSummary;
 import static uk.nhs.adaptors.scr.utils.FhirHelper.NHS_NUMBER_IDENTIFIER_SYSTEM;
 import static uk.nhs.adaptors.scr.utils.FhirHelper.getDomainResource;
 
+/**
+ * Map the patient section from FHIR's "entry.patient" resource type, into HL7.
+ * Called by BundleMapper's call to GpSummary.fromBundle.
+ */
 @Component
 public class PatientMapper {
 

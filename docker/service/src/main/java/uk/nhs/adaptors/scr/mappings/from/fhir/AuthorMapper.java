@@ -9,6 +9,10 @@ import static uk.nhs.adaptors.scr.mappings.from.fhir.ParticipantAgentMapper.setP
 import static uk.nhs.adaptors.scr.utils.DateUtil.formatTimestampToHl7;
 import static uk.nhs.adaptors.scr.utils.FhirHelper.getDomainResource;
 
+/**
+ * Map the author section from FHIR's "composition" resource type, into HL7.
+ * Called by BundleMapper's call to GpSummary.fromBundle.
+ */
 public class AuthorMapper {
     public static void mapAuthor(GpSummary gpSummary, Bundle bundle) {
         var composition = getDomainResource(bundle, Composition.class);

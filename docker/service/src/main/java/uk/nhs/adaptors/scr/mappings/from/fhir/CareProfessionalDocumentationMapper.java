@@ -12,6 +12,15 @@ import uk.nhs.adaptors.scr.models.xml.CareProfessionalDocumentation;
 @Slf4j
 @Component
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
+/**
+ * Mapping from FHIR to HL7 for Care professional documentation.
+ * Despite having the same CMET number, Third party correspondence, and Patient or carer correspondence are
+ * mapped separately.
+ *
+ * CMET: UKCT_MT144035UK01
+ * Snomed: 163171000000105
+ * @see: NIAD-2321
+ */
 public class CareProfessionalDocumentationMapper {
 
     public CareProfessionalDocumentation map(Communication communication) {

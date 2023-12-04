@@ -7,6 +7,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
+/**
+ * Service for /spine-directory/FHIR/R4/healthcheck/deep API endpoint.
+ * When called from each environment, queries the provided url and returns JSON status detail.
+ */
 @Component
 public class SdsHealthIndicator implements HealthIndicator {
 
