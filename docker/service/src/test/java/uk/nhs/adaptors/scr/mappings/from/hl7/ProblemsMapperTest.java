@@ -139,6 +139,7 @@ public class ProblemsMapperTest extends BaseHL7MapperTest {
 //    @Test
 //    public void When_MappingFromHl7_Expect_MatchJson() {
 //        var html = getHtmlExample(RESOURCE_DIRECTORY, BASIC_FILE_NAME);
+//
 //        var expectedJson = getJsonExample(RESOURCE_DIRECTORY, BASIC_FILE_NAME);
 //
 //        var result = problemsMapper.map(html);

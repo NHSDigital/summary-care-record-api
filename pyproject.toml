@@ -16,7 +16,6 @@ authors = [
 readme = 'README.md'
 
 repository = "https://github.com/NHSDigital/summary-care-record-api"
-homepage = ""
 
 keywords = ["healthcare", "uk", "nhs"] #TODO add additional keywords
 
