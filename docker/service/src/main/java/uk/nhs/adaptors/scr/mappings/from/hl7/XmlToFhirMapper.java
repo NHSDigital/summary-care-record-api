@@ -86,10 +86,10 @@ public interface XmlToFhirMapper {
             String[] parts = date.split("-");
             String year = parts[0];
             String month = parts[1];
-            baseDateTimeType.setTimeZone(TimeZone.getTimeZone("UTC"));
-            baseDateTimeType.setPrecision(DAY);
-            setDatePart(baseDateTimeType, 1, parseInt(month), Integer.parseInt(year));
+            baseDateTimeType.setPrecision(MILLI);
             baseDateTimeType.setMillis(monthPrecision);
+            baseDateTimeType.setYear(parseInt(year));
+            baseDateTimeType.setMonth(parseInt(month) - 1);
         } else if (isValidDate(date, YEAR_MONTH_PATTERN)) {
             String year = date.substring(0, YEAR_PATTERN.length());
             String month = date.substring(YEAR_PATTERN.length());
