@@ -1,0 +1,41 @@
+{
+    "resourceType": "Observation",
+    "id": "51089E5B-0840-4237-8D91-CFC0238E83B4",
+    "meta": {
+        "profile": [
+            "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Observation"
+        ]
+    },
+    "identifier": [
+        {
+            "value": "51089E5B-0840-4237-8D91-CFC0238E83B4"
+        }
+    ],
+    "status": "final",
+    "category": [
+        {
+            "coding": [
+                {
+                    "system": "http://snomed.info/sct",
+                    "code": "163051000000102",
+                    "display": "FamilyHistory"
+                }
+            ]
+        }
+    ],
+    "code": {
+        "coding": [
+            {
+                "system": "http://snomed.info/sct",
+                "code": "289916006",
+                "display": "family history of kidney disease"
+            }
+        ]
+    },
+    "effectivePeriod":{
+        "start":"1990-06"
+    },
+    "encounter": {
+        "reference": "Encounter/0G582D97-8G89-11EA-8B4G-B741F13EFC48"
+    }
+}

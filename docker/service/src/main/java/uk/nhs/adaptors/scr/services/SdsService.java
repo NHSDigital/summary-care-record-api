@@ -12,6 +12,10 @@ import uk.nhs.adaptors.scr.config.SdsConfiguration;
 
 import java.net.URISyntaxException;
 
+/**
+ * Service to determine PractitionerRole coding code from a new Spine request.
+ * E.g. get_scr/init_upload_success/1-basic.response.json
+ */
 @Component
 @Slf4j
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))

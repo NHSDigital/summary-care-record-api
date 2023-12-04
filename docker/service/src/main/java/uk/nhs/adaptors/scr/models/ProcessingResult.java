@@ -6,6 +6,9 @@ import uk.nhs.adaptors.scr.exceptions.ParseProcessingResultException;
 
 import java.util.regex.Pattern;
 
+/**
+ * Model used to process results of a Spine call into a soapEnvelope and HL7 body.
+ */
 @Data
 @Slf4j
 public class ProcessingResult {

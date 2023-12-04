@@ -16,9 +16,6 @@ import static uk.nhs.adaptors.scr.utils.FhirHelper.randomUUID;
 @Component
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class InteractionMapper {
-
-    private static final String DATE_TIME_PATTERN = "yyyyMMddHHmmss";
-
     private static final String INTERACTION_ID_XPATH = "//QUPC_IN210000UK04/id/@root";
     private static final String INTERACTION_CREATION_TIME_XPATH = "//QUPC_IN210000UK04/creationTime/@value";
 

@@ -27,6 +27,14 @@ import static uk.nhs.adaptors.scr.utils.FhirHelper.getDomainResourceList;
 import static uk.nhs.adaptors.scr.utils.FhirHelper.getResourceByReference;
 
 @Slf4j
+/**
+ * Mapping from FHIR to HL7 of health conditions of a patient.
+ * These are Condition "resourceTypes" within FHIR.
+ * Health conditions may be diagnoses or problems.
+ * So this class acts as a parent container for these two.
+ *
+ * See: src/test/resources/problem/example-1.json
+ */
 public class ConditionMapper {
 
     private static final String PARTICIPATION_TYPE_SYSTEM = "http://terminology.hl7.org/CodeSystem/v3-ParticipationType";
@@ -63,6 +71,11 @@ public class ConditionMapper {
             });
     }
 
+    /**
+     * List many diagnoses, that you may map each individual diagnosis.
+     * @param bundle
+     * @return
+     */
     private static List<Diagnosis> mapDiagnoses(Bundle bundle) {
         return getDomainResourceList(bundle, Condition.class).stream()
             .filter(IS_DIAGNOSES)
@@ -70,6 +83,11 @@ public class ConditionMapper {
             .collect(Collectors.toList());
     }
 
+    /**
+     * List many problems, that you may map each individual problem.
+     * @param bundle
+     * @return
+     */
     private static List<Problem> mapProblems(Bundle bundle) {
         var mapper = new ProblemMapper();
         return getDomainResourceList(bundle, Condition.class).stream()
@@ -78,6 +96,13 @@ public class ConditionMapper {
             .collect(Collectors.toList());
     }
 
+    /**
+     * Map an individual diagnosis
+     * @param condition
+     * @param bundle
+     * @return
+     * @throws FhirMappingException
+     */
     private static Diagnosis mapDiagnosis(Condition condition, Bundle bundle) throws FhirMappingException {
         var diagnosis = new Diagnosis();
 

@@ -8,10 +8,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(MockitoExtension.class)
-public class DiagnosisMapperTest extends BaseHL7MapperTest {
+public class DiagnosesMapperTest extends BaseHL7MapperTest {
 
     @InjectMocks
-    private DiagnosisMapper diagnosisMapper;
+    private DiagnosesMapper diagnosesMapper;
 
     private static final String PERTINENT_INFORMATION_BASE_PATH = "//QUPC_IN210000UK04/ControlActEvent/subject//"
         + "GPSummary/pertinentInformation2/pertinentCREType[.//UKCT_MT144042UK01.Diagnosis]";
@@ -24,7 +24,7 @@ public class DiagnosisMapperTest extends BaseHL7MapperTest {
     public void When_MappingFromHl7_Expect_GetId() {
         var html = getHtmlExample(RESOURCE_DIRECTORY, FILE_NAME);
 
-        var result = diagnosisMapper.map(html);
+        var result = diagnosesMapper.map(html);
 
         assertThat(result.get(0).getId()).isEqualTo(ID);
     }
@@ -33,7 +33,7 @@ public class DiagnosisMapperTest extends BaseHL7MapperTest {
     public void When_MappingFromHl7_Expect_XmlUtilsHit() {
         var html = getHtmlExample(RESOURCE_DIRECTORY, FILE_NAME);
 
-        diagnosisMapper.map(html);
+        diagnosesMapper.map(html);
 
         verifyXmlUtilsHits(html, PERTINENT_INFORMATION_BASE_PATH);
     }
@@ -42,7 +42,7 @@ public class DiagnosisMapperTest extends BaseHL7MapperTest {
     public void When_MappingFromHl7_Expect_CodedEntryHit() {
         var html = getHtmlExample(RESOURCE_DIRECTORY, FILE_NAME);
 
-        diagnosisMapper.map(html);
+        diagnosesMapper.map(html);
 
         verifyCodedEntryHits();
     }
@@ -51,7 +51,7 @@ public class DiagnosisMapperTest extends BaseHL7MapperTest {
     public void When_MappingFromHl7_Expect_DateTimeFormatted() {
         var html = getHtmlExample(RESOURCE_DIRECTORY, FILE_NAME);
 
-        var result = diagnosisMapper.map(html);
+        var result = diagnosesMapper.map(html);
 
         var resultCondition = (Condition) result.get(0);
 
@@ -62,7 +62,7 @@ public class DiagnosisMapperTest extends BaseHL7MapperTest {
     public void When_MappingFromHl7_Expect_CodingMapped() {
         var html = getHtmlExample(RESOURCE_DIRECTORY, FILE_NAME);
 
-        var result = diagnosisMapper.map(html);
+        var result = diagnosesMapper.map(html);
 
         var resultEncounter = (Condition) result.get(0);
         var codingFirstRep = resultEncounter.getCode().getCodingFirstRep();
@@ -81,7 +81,7 @@ public class DiagnosisMapperTest extends BaseHL7MapperTest {
     public void When_MappingFromHl7_Expect_ClinicalStatusMapped() {
         var html = getHtmlExample(RESOURCE_DIRECTORY, FILE_NAME);
 
-        var result = diagnosisMapper.map(html);
+        var result = diagnosesMapper.map(html);
 
         var resultCondition = (Condition) result.get(0);
 
@@ -99,7 +99,7 @@ public class DiagnosisMapperTest extends BaseHL7MapperTest {
         var html = getHtmlExample(RESOURCE_DIRECTORY, FILE_NAME);
         var expectedJson = getJsonExample(RESOURCE_DIRECTORY, FILE_NAME);
 
-        var result = diagnosisMapper.map(html);
+        var result = diagnosesMapper.map(html);
 
         var actualJson = encodeToJson(result.get(0));
 
