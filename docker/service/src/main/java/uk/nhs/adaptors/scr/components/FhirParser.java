@@ -97,7 +97,7 @@ public class FhirParser {
         output = output.replace("<td/>", "<td></td>");
 
         List<String> days = findDateRegularExpression(output, "\\d{1,4}\\-\\d{1,2}\\-\\d{2,4}T00:00:00.003");
-        List<String> months = findDateRegularExpression(output, "\\d{1,4}\\-\\d{1,2}\\-\\d{2,4}T00:00:00.002");
+        List<String> months = findDateRegularExpression(output, "\\d{1,4}\\-\\d{1,2}\\-\\d{2,4}T00:00:00.002\\+00:00");
         List<String> years = findDateRegularExpression(output, "\\d{1,4}\\-\\d{1,2}\\-\\d{2,4}T00:00:00.001");
 
         int dayStringCutoff = 10;

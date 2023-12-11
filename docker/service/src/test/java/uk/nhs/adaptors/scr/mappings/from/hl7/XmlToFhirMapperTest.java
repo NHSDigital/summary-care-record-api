@@ -29,10 +29,10 @@ public class XmlToFhirMapperTest {
         assertThat(date.getValueAsString()).isEqualTo("2023-07-13");
 
         date = parseDate("202307", InstantType.class);
-        assertThat(date.getValueAsString()).isEqualTo("2023-07-31T00:00:00.002");
+        assertThat(date.getValueAsString()).isEqualTo("2023-07-31T00:00:00.002+00:00");
 
         date = parseDate("2023-07", InstantType.class);
-        assertThat(date.getValueAsString()).isEqualTo("2023-07-31T00:00:00.002");
+        assertThat(date.getValueAsString()).isEqualTo("2023-07-31T00:00:00.002+00:00");
 
         date = parseDate("2023", InstantType.class);
         assertThat(date.getValueAsString()).isEqualTo("2023");
