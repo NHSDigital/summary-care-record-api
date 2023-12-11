@@ -87,7 +87,7 @@ public class FhirParser {
      * microsecond value to each type of partial date. 001, for years only precision amount, 002 for months precision
      * amount (meaning, year and month), and day precision is 003 (year, month, day with no time).
      * This transformation finds the relevant microseconded datetime in JSON and replaces it with the date with original
-     * accuracy, before finally returning the output/JSON string FHIR bundle.
+     * accuracy, before finally returning the output/JSON string FHIR bundle. 
      * @param resource
      * @return
      */
