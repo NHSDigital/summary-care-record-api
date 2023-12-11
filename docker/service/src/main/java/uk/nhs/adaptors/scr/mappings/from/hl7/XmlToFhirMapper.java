@@ -64,20 +64,20 @@ public interface XmlToFhirMapper {
         if (isValidDate(date, DATE_TIME_SECONDS_PATTERN)) {
             LocalDateTime parsed = LocalDateTime.parse(date, DateTimeFormatter.ofPattern(DATE_TIME_SECONDS_PATTERN));
             baseDateTimeType.setPrecision(SECOND);
-            baseDateTimeType.setTimeZone(TimeZone.getTimeZone("GMT"));
+            baseDateTimeType.setTimeZone(TimeZone.getTimeZone("Europe/London"));
             baseDateTimeType.setSecond(parsed.getSecond());
             setHoursMinutesPart(baseDateTimeType, parsed);
             setDatePart(baseDateTimeType, parsed.getDayOfMonth(), parsed.getMonthValue(), parsed.getYear());
         } else if (isValidDate(date, DATE_TIME_MINUTES_PATTERN)) {
             LocalDateTime parsed = LocalDateTime.parse(date, DateTimeFormatter.ofPattern(DATE_TIME_MINUTES_PATTERN));
             baseDateTimeType.setPrecision(MINUTE);
-            baseDateTimeType.setTimeZone(TimeZone.getTimeZone("GMT"));
+            baseDateTimeType.setTimeZone(TimeZone.getTimeZone("Europe/London"));
             setHoursMinutesPart(baseDateTimeType, parsed);
             setDatePart(baseDateTimeType, parsed.getDayOfMonth(), parsed.getMonthValue(), parsed.getYear());
         } else if (isValidDate(date, DATE_PATTERN)) {
             LocalDate parsed = LocalDate.parse(date, DateTimeFormatter.ofPattern(DATE_PATTERN));
             baseDateTimeType.setPrecision(DAY);
-            baseDateTimeType.setTimeZone(TimeZone.getTimeZone("GMT"));
+            baseDateTimeType.setTimeZone(TimeZone.getTimeZone("Europe/London"));
             setDatePart(baseDateTimeType, parsed.getDayOfMonth(), parsed.getMonthValue(), parsed.getYear());
             baseDateTimeType.setMillis(dayPrecision);
         } else if (isValidDate(date, YEAR_MONTH_PATTERN_DASH)) {
@@ -88,7 +88,7 @@ public interface XmlToFhirMapper {
             String year = parts[0];
             String month = parts[1];
             baseDateTimeType.setPrecision(MILLI);
-            baseDateTimeType.setTimeZone(TimeZone.getTimeZone("GMT"));
+            baseDateTimeType.setTimeZone(TimeZone.getTimeZone("Europe/London"));
             baseDateTimeType.setMillis(monthPrecision);
             baseDateTimeType.setYear(parseInt(year));
             baseDateTimeType.setMonth(parseInt(month) - 1);
@@ -96,13 +96,13 @@ public interface XmlToFhirMapper {
             String year = date.substring(0, YEAR_PATTERN.length());
             String month = date.substring(YEAR_PATTERN.length());
             baseDateTimeType.setPrecision(MILLI);
-            baseDateTimeType.setTimeZone(TimeZone.getTimeZone("GMT"));
+            baseDateTimeType.setTimeZone(TimeZone.getTimeZone("Europe/London"));
             baseDateTimeType.setMillis(monthPrecision);
             baseDateTimeType.setYear(parseInt(year));
             baseDateTimeType.setMonth(parseInt(month) - 1);
         } else if (isValidDate(date, YEAR_PATTERN)) {
             baseDateTimeType.setPrecision(YEAR);
-            baseDateTimeType.setTimeZone(TimeZone.getTimeZone("GMT"));
+            baseDateTimeType.setTimeZone(TimeZone.getTimeZone("Europe/London"));
             baseDateTimeType.setYear(parseInt(date) + 1);
             baseDateTimeType.setMillis(yearPrecision);
         } else {
