@@ -25,10 +25,10 @@ import uk.nhs.adaptors.scr.models.AcsPermission;
 import uk.nhs.adaptors.scr.models.RequestData;
 
 import java.net.URISyntaxException;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 
 import static java.time.OffsetDateTime.now;
-import static java.time.ZoneOffset.UTC;
 import static uk.nhs.adaptors.scr.config.ConversationIdFilter.CORRELATION_ID_MDC_KEY;
 import static uk.nhs.adaptors.scr.utils.TemplateUtils.fillTemplate;
 import static uk.nhs.adaptors.scr.utils.TemplateUtils.loadTemplate;
@@ -101,7 +101,7 @@ public class AcsService {
                                      String nhsdIdentity) {
         AcsParams acsParams = new AcsParams()
             .setGeneratedMessageId(MDC.get(CORRELATION_ID_MDC_KEY))
-            .setMessageCreationTime(DateTimeFormatter.ofPattern("yyyyMMddHHmmss").format(now(UTC)))
+            .setMessageCreationTime(DateTimeFormatter.ofPattern("yyyyMMddHHmmss").format(now(ZoneId.of("Europe/London"))))
             .setNhsNumber(getNhsNumber(parameter))
             .setSenderFromASID(requestData.getNhsdAsid())
             .setSpineToASID(scrConfiguration.getNhsdAsidTo())

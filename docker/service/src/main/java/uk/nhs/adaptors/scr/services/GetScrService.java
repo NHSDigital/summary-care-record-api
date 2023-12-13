@@ -49,11 +49,11 @@ import uk.nhs.adaptors.scr.models.EventListQueryResponseParser;
 import uk.nhs.adaptors.scr.models.EventQueryParams;
 import uk.nhs.adaptors.scr.utils.TemplateUtils;
 
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.stream.Stream;
 
 import static java.time.OffsetDateTime.now;
-import static java.time.ZoneOffset.UTC;
 import static java.util.Arrays.asList;
 import static org.hl7.fhir.r4.model.Bundle.BundleType.SEARCHSET;
 import static org.hl7.fhir.r4.model.Bundle.SearchEntryMode.MATCH;
@@ -285,7 +285,7 @@ public class GetScrService {
     private String prepareEventListQueryRequest(String nhsNumber, String nhsdAsid, String clientIp) {
         EventListQueryParams eventListQueryParams = new EventListQueryParams()
                 .setGeneratedMessageId(MDC.get(CORRELATION_ID_MDC_KEY))
-                .setMessageCreationTime(DateTimeFormatter.ofPattern("YYYYMMddHHmmss").format(now(UTC)))
+                .setMessageCreationTime(DateTimeFormatter.ofPattern("YYYYMMddHHmmss").format(now(ZoneId.of("Europe/London"))))
                 .setNhsNumber(nhsNumber)
                 .setSenderFromASID(nhsdAsid)
                 .setSpineToASID(scrConfiguration.getNhsdAsidTo())
@@ -297,7 +297,7 @@ public class GetScrService {
     private String prepareEventQueryRequest(String psisEventId, String nhsNumber, String nhsdAsid, String clientIp) {
         var eventListQueryParams = new EventQueryParams()
                 .setGeneratedMessageId(MDC.get(CORRELATION_ID_MDC_KEY))
-                .setMessageCreationTime(DateTimeFormatter.ofPattern("YYYYMMddHHmmss").format(now(UTC)))
+                .setMessageCreationTime(DateTimeFormatter.ofPattern("YYYYMMddHHmmss").format(now(ZoneId.of("Europe/London"))))
                 .setNhsNumber(nhsNumber)
                 .setSenderFromASID(nhsdAsid)
                 .setSpineToASID(scrConfiguration.getNhsdAsidTo())
