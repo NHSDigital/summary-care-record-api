@@ -30,7 +30,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import com.vdurmont.emoji.EmojiParser;
 
 import static javax.xml.XMLConstants.ACCESS_EXTERNAL_DTD;
 import static javax.xml.XMLConstants.ACCESS_EXTERNAL_STYLESHEET;
@@ -115,23 +114,9 @@ public class HtmlParser {
             emptyTextNode.getParentNode().removeChild(emptyTextNode);
         }
 
-        performStringReplacement(document);
+
     }
 
-    public static void performStringReplacement(Node node) {
-        // Convert emojis.
-        if (node.getNodeType() == Node.TEXT_NODE) {
-            String text = node.getTextContent();
-            text = EmojiParser.parseToAliases(text);
-            node.setTextContent(text);
-        }
-
-        NodeList children = node.getChildNodes();
-        for (int i = 0; i < children.getLength(); i++) {
-            Node child = children.item(i);
-            performStringReplacement(child);
-        }
-    }
 
     private static Composition.SectionComponent buildSectionComponent(ParsedHtml parsedHtml) {
         var sectionComponent = new Composition.SectionComponent()
@@ -174,7 +159,7 @@ public class HtmlParser {
         transformerFactory.setAttribute(ACCESS_EXTERNAL_STYLESHEET, "");
         var transformer = transformerFactory.newTransformer();
         transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
-        transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+        transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-16");
         transformer.setOutputProperty(OutputKeys.INDENT, "no");
         return transformer;
     }
