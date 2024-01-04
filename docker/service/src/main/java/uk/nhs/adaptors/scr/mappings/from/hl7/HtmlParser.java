@@ -159,6 +159,7 @@ public class HtmlParser {
         transformerFactory.setAttribute(ACCESS_EXTERNAL_STYLESHEET, "");
         var transformer = transformerFactory.newTransformer();
         transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
+        // Set encoding to UTF-16 to support emojis.
         transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-16");
         transformer.setOutputProperty(OutputKeys.INDENT, "no");
         return transformer;
