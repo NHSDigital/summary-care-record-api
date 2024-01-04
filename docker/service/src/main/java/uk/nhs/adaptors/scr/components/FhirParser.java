@@ -92,7 +92,7 @@ public class FhirParser {
      * @return
      */
     public String encodeToJson(IBaseResource resource) {
-        String output = jsonParser.setPrettyPrint(true).encodeResourceToString(resource);
+        String output = jsonParser.setPrettyPrint(false).encodeResourceToString(resource);
 
         output = output.replace("<td/>", "<td></td>");
 
