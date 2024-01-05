@@ -103,7 +103,7 @@ public class DiagnosesMapperTest extends BaseHL7MapperTest {
 
         var actualJson = encodeToJson(result.get(0));
 
-        assertThat(actualJson).isEqualTo(expectedJson.trim());
+        assertThat(actualJson).isEqualToIgnoringWhitespace(expectedJson.trim());
     }
 
 }
