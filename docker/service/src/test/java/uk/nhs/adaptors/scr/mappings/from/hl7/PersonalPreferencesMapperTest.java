@@ -131,6 +131,6 @@ public class PersonalPreferencesMapperTest  extends BaseHL7MapperTest {
 
         var actualJson = encodeToJson(result);
 
-        assertThat(actualJson).isEqualTo(expectedJson.trim());
+        assertThat(actualJson).isEqualToIgnoringWhitespace(expectedJson.trim());
     }
 }

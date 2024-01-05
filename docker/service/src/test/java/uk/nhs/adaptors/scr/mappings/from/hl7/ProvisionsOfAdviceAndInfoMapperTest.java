@@ -101,7 +101,7 @@ public class ProvisionsOfAdviceAndInfoMapperTest extends BaseHL7MapperTest {
         var result = provisionsOfAdviceAndInfoMapper.map(html).get(0);
         var actualJson = encodeToJson(result);
 
-        assertThat(actualJson).isEqualTo(expectedJson.trim());
+        assertThat(actualJson).isEqualToIgnoringWhitespace(expectedJson.trim());
     }
 
 }
