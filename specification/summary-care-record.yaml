@@ -201,6 +201,9 @@ info:
     * If attempt 7 fails, then fail permanently.
     
     ## Operations
+    The National Integration Adaptors HIPPO team provide a support mailbox to support new market entrants integrating with this adaptor. To raise a support ticket please contact niasupport@nhs.net
+    
+    ## Operations
     Here are the links to the possible SCR operations. These endpoints are for create and consume use cases for GP systems:
     * [Get patient's Summary Care Record](#get-/Bundle)
     * [Upload patient's Summary Care Record](#post-/Bundle)
