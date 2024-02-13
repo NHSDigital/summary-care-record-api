@@ -90,7 +90,7 @@ info:
 
     For more details, see [user-restricted APIs](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation#user-restricted-apis).
 
-    The second authorisation method is [application-restricted](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation#application-restricted-apis) (signed JWT authentication), meaning a few specific API calls can be authorised by the application making the requests. This is typically provided so that GPs can perform batch updates of multiple Summary Care Records through the SCR Application (SCRa).
+    The second authorisation method is [application-restricted](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation#application-restricted-apis) (signed JWT authentication), meaning a few specific API calls can be authorised by the application making the requests. This is typically provided so that GPs can perform batch updates of multiple Summary Care Records without having to log in as a specific user.
     
     The following specific endpoint and method combinations can be used with application-restricted authentication, in addition to user-restricted authentication:
     
