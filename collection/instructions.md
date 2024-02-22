@@ -52,15 +52,26 @@ It is advised to make this call immediately after logging in when you are using 
 * Not typically used by NMEs. This is available to API internal developers to test new features. NMEs
 should leave this variable blank.
 
-## 3. How to use
+## 3. Select your new environment
 
-Each API call and section within this Postman collection has its own documentation page. Please refer to
-each of these for more details. After you have imported the collection and setup the environment variables
+In the top right of Postman, you should see an environment drop down selector which probably says
+"No environment". Select your newly imported environment.
+
+## 4. How to use
+
+* Each API call and section within this Postman collection has its own documentation page. Please refer to
+each of these for more details.
+* After you have imported the collection and setup the environment variables
 please navigate to the root folder of the collection, and click the "Authorization" tab. At the bottom
 you will see the orange "Get New Access Token" button. Click this, filling in an NHS id you have access to,
-or select one from the documentation on the same page. Then make a call to `admin/User-Info`.
-You may now start using the collection as per your needs.
-A typical SCR update happens by clicking the `bundle-round-trip` folder, and calling `Document Reference`
-then `GET GP Summary Bundle` and finally `POST GP Summary Bundle`. Please pay attention to the Tests
+or select one from the documentation on the same page.
+* Then make a call to `admin/User-Info`.
+* You will also need to set the local `nhsNumber` variable. Click on the root folder of the Postman collection.
+Click `Variables`, and set the value of the `nhsNumber` variable to the NHS number you are currently working with.
+* You may now start using the collection as per your needs.
+* A typical SCR update happens by clicking the `bundle-round-trip` folder, and calling `Document Reference`
+then `GET GP Summary Bundle` and finally `POST GP Summary Bundle`.
+* Please pay attention to the Tests
 section on each call, as we sometime set variables to make the process a little easier. Please also
-read in detail the documentation on each call of the Postman collection, and [online](https://digital.nhs.uk/developer/api-catalogue/summary-care-record-fhir).
+read in detail the documentation on each call of the Postman collection, and
+[online](https://digital.nhs.uk/developer/api-catalogue/summary-care-record-fhir).
