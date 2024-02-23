@@ -2,12 +2,19 @@
 
 ## 1. Importing the collection and environment variables
 
-* Use postman 10.21.14 or later.
+* Use Postman 10.21.14 or later
 * Go to File->Import
-* Select the request collection and environment json files
+* You will see a screen saying "Drop anywhere to import" then "Or select files". Click the word "files"
+* Select the request collection json file
+* Import
+* Next, on the left side of Postman, select "Environments", then "Import"
+* Select the environment json file
 * Import
 
 ## 2. Filling in required environment variables
+
+On the left side of Postman, click on Environments then select int (mock auth).
+Edit the variables "current values" as below.
 
 `key`
 * For the dev environment this value is taken from the [NHS Digital Onboarding Service](https://dos-test.ptl.api.platform.nhs.uk/).
@@ -52,6 +59,8 @@ It is advised to make this call immediately after logging in when you are using 
 * Not typically used by NMEs. This is available to API internal developers to test new features. NMEs
 should leave this variable blank.
 
+If you have changed any of these values, please save your environment.
+
 ## 3. Select your new environment
 
 In the top right of Postman, you should see an environment drop down selector which probably says
@@ -62,12 +71,14 @@ In the top right of Postman, you should see an environment drop down selector wh
 * Each API call and section within this Postman collection has its own documentation page. Please refer to
 each of these for more details.
 * After you have imported the collection and setup the environment variables
-please navigate to the root folder of the collection, and click the "Authorization" tab. At the bottom
-you will see the orange "Get New Access Token" button. Click this, filling in an NHS id you have access to,
-or select one from the documentation on the same page.
+please navigate to the root folder of the collection (called SCR), and click the "Authorization" tab. At the bottom
+you will see the orange "Get New Access Token" button. Click this, filling in an NHS user login id you have access to,
+or select one from the documentation on the same page. Then click "proceed" and "use token".
+* Your session will last for 10 minutes. After this you will need to reauthenticate.
 * Then make a call to `admin/User-Info`.
-* You will also need to set the local `nhsNumber` variable. Click on the root folder of the Postman collection.
-Click `Variables`, and set the value of the `nhsNumber` variable to the NHS number you are currently working with.
+* You will also need to set the local `nhsNumber` variable with an NHS patient ID.
+* Click on the root folder of the Postman collection.
+* Click `Variables`, and set the value of the `nhsNumber` variable to the NHS number you are currently working with.
 * You may now start using the collection as per your needs.
 * A typical SCR update happens by clicking the `bundle-round-trip` folder, and calling `Document Reference`
 then `GET GP Summary Bundle` and finally `POST GP Summary Bundle`.
