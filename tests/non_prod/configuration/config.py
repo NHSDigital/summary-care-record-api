@@ -18,7 +18,7 @@ PRIVATE_KEY = ENV["jwt_app_restricted_private_key_absolute_path"]
 
 BASE_URL = f"https://{ENVIRONMENT}.api.service.nhs.uk"  # Apigee proxy url
 
-IDENTITY_SERVICE = "oauth2-no-smartcard" if ENVIRONMENT == "int" else "oauth2"
+IDENTITY_SERVICE = "oauth2-mock" if ENVIRONMENT == "int" else "oauth2"
 
 AUTHORIZE_URL = f"{BASE_URL}/{IDENTITY_SERVICE}/authorize"
 TOKEN_URL = f"{BASE_URL}/{IDENTITY_SERVICE}/token"
