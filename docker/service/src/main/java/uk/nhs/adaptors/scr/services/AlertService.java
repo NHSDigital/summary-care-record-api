@@ -15,6 +15,9 @@ import uk.nhs.adaptors.scr.components.FhirParser;
 import uk.nhs.adaptors.scr.exceptions.BadRequestException;
 import uk.nhs.adaptors.scr.exceptions.UnexpectedSpineResponseException;
 
+/**
+ * Send alert to Spine as part of the AuditEvent endpoint.
+ */
 @Component
 @Slf4j
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))

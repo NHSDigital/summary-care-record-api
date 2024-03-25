@@ -36,6 +36,10 @@ import static uk.nhs.adaptors.scr.utils.DateUtil.formatDateToHl7;
 import static uk.nhs.adaptors.scr.utils.FhirHelper.getDomainResourceList;
 import static uk.nhs.adaptors.scr.utils.FhirHelper.getResourceByReference;
 
+/**
+ * Used by AuthorMapper and other places where author needs mapped.
+ * Authors are convoluted in FHIR and need this common logic to help.
+ */
 @Slf4j
 public class ParticipantAgentMapper {
 

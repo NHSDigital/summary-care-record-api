@@ -22,6 +22,13 @@ import java.util.List;
 @Slf4j
 @Component
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
+/**
+ * Mapping from HL7 to FHIR to represent personal preferences of the patient.
+ *
+ * CMET: UKCT_MT144046UK01
+ * Snomed: 162961000000108
+ * @see: NIAD-2319
+ */
 public class PersonalPreferencesMapper implements XmlToFhirMapper {
 
     private final UuidWrapper uuid;

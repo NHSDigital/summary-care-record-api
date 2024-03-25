@@ -21,6 +21,15 @@ import java.util.List;
 @Slf4j
 @Component
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
+/**
+ * Mapping from HL7 to FHIR for Patient or carer correspondence.
+ * Despite having the same CMET number, Third party correspondence, and Care professional documentation are
+ * mapped separately.
+ *
+ * CMET: UKCT_MT144035UK01
+ * Snomed: 163181000000107
+ * @see: NIAD-2322
+ */
 public class PatientAndCarerCorrespondenceMapper implements XmlToFhirMapper {
 
     private final CodedEntryMapper codedEntryMapper;

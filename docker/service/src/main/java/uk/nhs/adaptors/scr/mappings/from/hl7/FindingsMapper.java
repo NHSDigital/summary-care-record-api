@@ -37,6 +37,15 @@ import static uk.nhs.adaptors.scr.utils.FhirHelper.randomUUID;
 
 @Component
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
+/**
+ * Mapping from HL7 to FHIR for Findings such as by not limited to:
+ * Blood pressure, height, weight, temperature, clinical findings.
+ * File & class name pluralised to avoid confusion/conflicts with mappings.from fhir.
+ *
+ * CMET: UKCT_MT144043UK02
+ * SNOMED: 163131000000108
+ * @see: NIAD-2311 and NIAD-2314
+ */
 public class FindingsMapper implements XmlToFhirMapper {
 
     private static final String GP_SUMMARY_XPATH = "//QUPC_IN210000UK04/ControlActEvent/subject//GPSummary";

@@ -25,20 +25,20 @@ import java.util.List;
 @Slf4j
 @Component
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
+/**
+ * Mapping from HL7 to FHIR for Problems which highlight a clinical statement as a problem.
+ *
+ * CMET: UKCT_MT144038UK02
+ * SNOMED: 162991000000102
+ * @see: NIAD-2310
+ */
 public class ProblemsMapper implements XmlToFhirMapper {
-    private static final String DIAGNOSIS_CODE = "163001000000103";
-    private static final String DIAGNOSIS_DISPLAY = "Diagnoses";
-    private static final String ALLERGY_CODE = "";
-    private static final String ALLERGY_DISPLAY = "";
     private final CodedEntryMapper codedEntryMapper;
     private final XmlUtils xmlUtils;
     private static final String PERTINENT_CRET_BASE_PATH = "//pertinentInformation2/pertinentCREType[.//UKCT_MT144038UK02.Problem]";
     private static final String PROBLEM_BASE_PATH = "./component/UKCT_MT144038UK02.Problem";
-    private static final String PROBLEM_ALLERGY_XPATH = "./pertinentInformation/AllergiesAndAdverseReactionsIdent";
-    private static final String PROBLEM_DIAGNOSIS_XPATH = "./pertinentInformation/Diagnosis";
     private static final String CLINICAL_SYSTEM = "http://hl7.org/fhir/ValueSet/condition-clinical";
     private static final String UK_CORE_CONDITION_META = "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Condition";
-
     private static final String PERTINENT_CODE_CODE_XPATH = "./code/@code";
     private static final String PERTINENT_CODE_DISPLAY_XPATH = "./code/@displayName";
 

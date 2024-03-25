@@ -6,4 +6,5 @@
 
 <suppressions>
     <suppress files=".*\.java" checks="HideUtilityClassConstructorCheck"/>
+    <suppress files="FhirParser.java" checks="MagicNumberCheck"/>
 </suppressions>

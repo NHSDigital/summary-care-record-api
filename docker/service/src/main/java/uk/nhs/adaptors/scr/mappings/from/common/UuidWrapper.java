@@ -5,6 +5,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import java.util.UUID;
 
+/**
+ * Generate a random uppercase UUID.
+ * Used throughout to set IDs.
+ */
 @Component
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class UuidWrapper implements IUuidWrapper {

@@ -9,10 +9,17 @@ import uk.nhs.adaptors.scr.mappings.from.common.UuidWrapper;
 import uk.nhs.adaptors.scr.models.xml.CareEvent;
 
 import static uk.nhs.adaptors.scr.utils.DateUtil.formatDateToHl7;
-
 @Slf4j
 @Component
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
+/**
+ * Mapping from FHIR to HL7 for Care Events.
+ * Recording of care events including but not limited to those which are:
+ * Intended, Requested, Promised, Proposed, Booked.
+ *
+ * CMET: UKCT_MT144037UK01
+ * @see: NIAD-2316
+ */
 public class CareEventMapper {
 
     private final UuidWrapper uuid;

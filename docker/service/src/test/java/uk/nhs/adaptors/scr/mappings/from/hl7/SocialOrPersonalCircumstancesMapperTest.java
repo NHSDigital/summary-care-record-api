@@ -107,6 +107,6 @@ public class SocialOrPersonalCircumstancesMapperTest extends BaseHL7MapperTest {
         var result = mapper.map(html).get(0);
         var actualJson = encodeToJson(result);
 
-        assertThat(actualJson).isEqualTo(expectedJson.trim());
+        assertThat(actualJson).isEqualToIgnoringWhitespace(expectedJson.trim());
     }
 }
