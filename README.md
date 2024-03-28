@@ -109,7 +109,7 @@ Redeploy the API Proxy and hosted Sandbox service.
 * `APIGEE_USERNAME`
 * `APIGEE_PASSWORD`
 * `APIGEE_ORGANIZATION`
-* `APIGEE_ENVIRONMENTS` - Comma-separated list of environments to deploy to (e.g. `test,prod`)
+* `APIGEE_ENVIRONMENTS` - Comma-separated list of environments to deploy to (e.g. `test,int,prod`)
 * `APIGEE_APIPROXY` - Name of the API Proxy for deployment
 * `APIGEE_BASE_PATH` - The proxy's base path (must be unique)
 
