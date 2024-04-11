@@ -27,6 +27,9 @@ import static org.springframework.http.HttpStatus.ACCEPTED;
 import static org.springframework.http.HttpStatus.OK;
 import static uk.nhs.adaptors.scr.utils.DocumentBuilderUtil.documentBuilder;
 
+/**
+ * Mock Spine client used to respond successfully to fake Spine calls when scrConfiguration.getSandboxMode() is true.
+ */
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class SandboxSpineClient implements SpineClientContract {
 

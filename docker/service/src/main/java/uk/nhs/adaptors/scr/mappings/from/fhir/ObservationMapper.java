@@ -29,6 +29,17 @@ import static uk.nhs.adaptors.scr.utils.DateUtil.formatDateToHl7;
 import static uk.nhs.adaptors.scr.utils.FhirHelper.getDomainResourceList;
 import static uk.nhs.adaptors.scr.utils.FhirHelper.getResourceByReference;
 
+/**
+ * Map the Observation "resourceType" from FHIR, into HL7.
+ * This resource type contains the non-core CREs:
+ * - Clinical observations and findings
+ * - Investigation results
+ * - Risks to patient
+ * - Social or personal circumstances
+ * - Family history
+ * - Lifestyle
+ * Called by BundleMapper's call to GpSummary.fromBundle.
+ */
 @Slf4j
 public class ObservationMapper {
     private static final String PARTICIPATION_TYPE_SYSTEM = "http://terminology.hl7.org/CodeSystem/v3-ParticipationType";

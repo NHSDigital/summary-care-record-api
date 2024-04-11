@@ -9,7 +9,7 @@ info:
             <div class="nhsd-m-emphasis-box__image-box">
                 <figure class="nhsd-a-image">
                     <picture class="nhsd-a-image__picture">
-                        <img src="http://digital.nhs.uk/binaries/content/gallery/icons/info.svg?colour=231f20" alt="" style="object-fit:fill">
+                        <img src="https://digital.nhs.uk/binaries/content/gallery/icons/info.svg?colour=231f20" alt="" style="object-fit:fill">
                     </picture>
                 </figure>
             </div>
@@ -25,10 +25,10 @@ info:
     This API is currently only approved for use in primary care software, specifically GP software. We hope to make it available for secondary care in the future. You can vote for this on our [interactive product backlog](https://nhs-digital-api-management.featureupvote.com/suggestions/151217/summary-care-record-scr-fhir-api-other-use-cases).
 
     Also use this API to update a patient's SCR Consent Preference on the Spine ACS and to raise electronic Alerts when:
-    * a SCR is accessed without the patient’s permission
+    * a SCR is accessed without the patient's permission
     and/or
     * the equivalent of Self-Claim Legitimate Relationship is created by an individual, who subsequently accesses the patient's SCR
-    * send an SCR alert message, on those occasions when an SCR is accessed without the patient’s permission e.g., in an emergency or when the equivalent of Self-Claim Legitimate Relationship is created.
+    * send an SCR alert message, on those occasions when an SCR is accessed without the patient's permission e.g., in an emergency or when the equivalent of Self-Claim Legitimate Relationship is created.
     * update a patient's SCR Consent Preference on the Spine ACS
 
     You can:
@@ -41,7 +41,7 @@ info:
     A health or care staff providing direct care to patients must be present and authenticated with an [NHS smartcard or a modern alternative](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation/nhs-smartcards-for-developers) to use this API.
     
     ## Who can use this API
-    This API can only be used where there is a legal basis to do so. Make sure you have a valid use case before you go too far with your development. You must do this before you can go live (see ‘Onboarding’ below).
+    This API can only be used where there is a legal basis to do so. Make sure you have a valid use case before you go too far with your development. You must do this before you can go live (see 'Onboarding' below).
     
     This API is initially for use by new market entrant GP IT developers with other use cases to follow later.
 
@@ -67,12 +67,12 @@ info:
     ## Technology
     This API is [RESTful](https://digital.nhs.uk/developer/guides-and-documentation/our-api-technologies#basic-rest).
 
-    It conforms to the [FHIR](https://digital.nhs.uk/developer/guides-and-documentation/our-api-technologies#fhir) global standard for health care data exchange, specifically to [FHIR R4 (v4.0.1)](https://hl7.org/fhir/r4/), except that it does not support the [capabilities](http://hl7.org/fhir/R4/http.html#capabilities) interaction.
+    It conforms to the [FHIR](https://digital.nhs.uk/developer/guides-and-documentation/our-api-technologies#fhir) global standard for health care data exchange, specifically to [FHIR R4 (v4.0.1)](https://hl7.org/fhir/r4/), except that it does not support the [capabilities](https://hl7.org/fhir/R4/http.html#capabilities) interaction.
 
     It includes some country-specific FHIR extensions, which are built against [FHIR UK Core](https://digital.nhs.uk/services/fhir-uk-core), specifically [UK.core.r4.v2 2.0.5](https://simplifier.net/packages/uk.core.r4.v2/2.0.5).
 
     ## Network access
-    This API is available on the internet and, indirectly, on the [Health and Social Care Network (HSCN)](https://digital.nhs.uk/services/health-and-social-care-network). To use this API with [NHS smartcards](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation/nhs-smartcards-for-developers), the end user needs an HSCN connection, although internet-facing alternatives to smartcards are available.
+    This API is available on the internet and indirectly on the [Health and Social Care Network (HSCN)](https://digital.nhs.uk/services/health-and-social-care-network).
 
     For more details see [Network access for APIs](https://digital.nhs.uk/developer/guides-and-documentation/network-access-for-apis).
 
@@ -90,7 +90,7 @@ info:
 
     For more details, see [user-restricted APIs](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation#user-restricted-apis).
 
-    The second authorisation method is [application-restricted](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation#application-restricted-apis) (signed JWT authentication), meaning a few specific API calls can be authorised by the application making the requests. This is typically provided so that GPs can perform batch updates of multiple Summary Care Records through the SCR Application (SCRa).
+    The second authorisation method is [application-restricted](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation#application-restricted-apis) (signed JWT authentication), meaning a few specific API calls can be authorised by the application making the requests. This is typically provided so that GPs can perform batch updates of multiple Summary Care Records without having to log in as a specific user.
     
     The following specific endpoint and method combinations can be used with application-restricted authentication, in addition to user-restricted authentication:
     
@@ -144,7 +144,7 @@ info:
     For more information about our Production Environment, contact the [National Service Desk](ssd.nationalservicedesk@nhs.net)
 
     ## Onboarding
-    You need to get your software approved by us before it can go live with this API. We call this onboarding. The onboarding process can sometimes be quite long, so it’s worth planning well ahead.
+    You need to get your software approved by us before it can go live with this API. We call this onboarding. The onboarding process can sometimes be quite long, so it's worth planning well ahead.
     
     As part of this process, you need to demonstrate that you can manage risks and that your software conforms technically with the requirements for this API.
     
@@ -157,12 +157,12 @@ info:
             <div class="nhsd-m-emphasis-box__image-box">
                 <figure class="nhsd-a-image">
                     <picture class="nhsd-a-image__picture">
-                        <img src="http://digital.nhs.uk/binaries/content/gallery/icons/play-circle.svg?colour=231f20" alt="" style="object-fit:fill">
+                        <img src="https://digital.nhs.uk/binaries/content/gallery/icons/play-circle.svg?colour=231f20" alt="" style="object-fit:fill">
                     </picture>
                 </figure>
             </div>
             <div class="nhsd-m-emphasis-box__content-box">
-                <div data-uipath="website.contentblock.emphasis.content" class="nhsd-t-word-break"><p class="nhsd-t-body">To get started, sign in or create a <a href="http://onboarding.prod.api.platform.nhs.uk/">developer account</a>, then select 'product onboarding'.</p></div>            
+                <div data-uipath="website.contentblock.emphasis.content" class="nhsd-t-word-break"><p class="nhsd-t-body">To get started, sign in or create a <a href="https://onboarding.prod.api.platform.nhs.uk/">developer account</a>, then select 'product onboarding'.</p></div>            
             </div>
         </div>
     </div>
@@ -184,10 +184,10 @@ info:
     ## Exponential Backoff
     In the event of a transitory error:
     
-    * 429 – exceeded application rate limit (5 TPS per application)
-    * 500 – internal server error
-    * 503 – service unavailable
-    * 504 – response timed out
+    * 429 - exceeded application rate limit (5 TPS per application)
+    * 500 - internal server error
+    * 503 - service unavailable
+    * 504 - response timed out
     
     The following retries are recommended:
     
@@ -199,6 +199,9 @@ info:
     * Attempt 6: 8 hours after attempt 5
     * Attempt 7: 16 hours after attempt 6
     * If attempt 7 fails, then fail permanently.
+    
+    ## Operations
+    The National Integration Adaptors HIPPO team provide a support mailbox to support new market entrants integrating with this adaptor. To raise a support ticket please contact [niasupport@nhs.net](mailto:niasupport@nhs.net)
     
     ## Operations
     Here are the links to the possible SCR operations. These endpoints are for create and consume use cases for GP systems:
@@ -465,7 +468,7 @@ paths:
         The UUID is required to retrieve the Summary Care Record details using GET /Bundle endpoint
         and to update the details of patient's Summary Care Record using POST /Bundle endpoint.
         
-        This endpoint also returns patient’s consent status in the securityLabel attribute of a successful API response.
+        This endpoint also returns patient's consent status in the securityLabel attribute of a successful API response.
 
         To get the information you must provide patient's NHS number.
         When no NHS Number is supplied in the patient query parameter, 400 HTTP status is returned.
@@ -667,7 +670,7 @@ paths:
         | MSCA-SCR-103           | 1          | Create LR (Self Claimed) | 3                                 | Access required by Court Order     | SCR accessed for legal reasons             |
         | MSCA-SCR-103           | 1          | Create LR (Self Claimed) | 4                                 | Self-Claim Emergency Access        | SCR accessed for emergency reasons         |
         | n/a                    | 1          | n/a                      | 5                                 | n/a                                | Not a permitted combination                |
-        | MSCA-SCR-103           | 1          | Create LR (Self Claimed) | 6                                 | Other                              | SCR accessed with the patient’s permission |
+        | MSCA-SCR-103           | 1          | Create LR (Self Claimed) | 6                                 | Other                              | SCR accessed with the patient's permission |
         | MSCA-SCR-105           | 2          | Access Alert             | 1                                 | Access made in the public interest | SCR accessed for legal reasons             |
         | MSCA-SCR-105           | 2          | Access Alert             | 2                                 | Access required by statute         | SCR accessed for legal reasons             |
         | MSCA-SCR-105           | 2          | Access Alert             | 3                                 | Access required by Court Order     | SCR accessed for legal reasons             |

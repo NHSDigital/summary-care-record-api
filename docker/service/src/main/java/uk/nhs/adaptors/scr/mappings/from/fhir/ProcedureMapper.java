@@ -12,6 +12,20 @@ import java.util.stream.Collectors;
 
 import static uk.nhs.adaptors.scr.utils.FhirHelper.getDomainResourceList;
 
+/**
+ * Many of the non-core CREs have a parent category (the basis of the CRE).
+ * "Procedure" is the parent category of:
+ * - Treatments    (UKCT_MT144055UK01)
+ * Consider this mapper a parent or container for the sub-mappers.
+ * In SNOMED terms, the Communication is a "qualifier value".
+ * In FHIR terms, the Communication is a "resourceType".
+ * This method uses the Java "Predicate" interface to help with comparisons.
+ *
+ * CMET: UKCT_MT144055UK01
+ * Snomed: 163071000000106
+ * @see: NIAD-2312
+ * @see: src/test/resources/treatments/example.html
+ */
 public class ProcedureMapper {
     private static final Predicate<Procedure> IS_TREATMENT =
         procedure -> "163071000000106".equals(procedure.getCategory().getCodingFirstRep().getCode());

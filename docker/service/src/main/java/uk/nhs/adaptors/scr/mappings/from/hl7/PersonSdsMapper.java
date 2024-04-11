@@ -13,6 +13,9 @@ import static uk.nhs.adaptors.scr.utils.FhirHelper.randomUUID;
 
 @Component
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
+/**
+ * Mapping a Person on the Spine Directory Service from HL7 to FHIR.
+ */
 public class PersonSdsMapper {
 
     private static final String PERSON_NAME_XPATH = "./name";
@@ -30,7 +33,7 @@ public class PersonSdsMapper {
 
         var name = xmlUtils.getOptionalValueByXPath(personSds, PERSON_NAME_XPATH);
         if (name.isPresent()) {
-            //make human readable
+            // Make the name human-readable.
             var nameStr = humanReadableName(name.get());
 
             practitioner.addName(new HumanName().setText(nameStr));
@@ -39,6 +42,11 @@ public class PersonSdsMapper {
         return practitioner;
     }
 
+    /**
+     * Replace extra spaces in names with single space, and remove line breaks.
+     * @param nameWithSpaces
+     * @return String
+     */
     private String humanReadableName(String nameWithSpaces) {
         nameWithSpaces = nameWithSpaces.replaceAll("\\n", "");
         nameWithSpaces = nameWithSpaces.replaceAll("                            ", " ");

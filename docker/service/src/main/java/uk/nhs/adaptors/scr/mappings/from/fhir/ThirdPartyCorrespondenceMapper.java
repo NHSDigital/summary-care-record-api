@@ -18,6 +18,15 @@ import static uk.nhs.adaptors.scr.utils.DateUtil.formatDateToHl7;
 @Slf4j
 @Component
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
+/**
+ * Mapping from FHIR to HL7 for Third party correspondence.
+ * Despite having the same CMET number, Care professional documentation, and Patient or carer correspondence are
+ * mapped separately.
+ *
+ * CMET: UKCT_MT144035UK01
+ * SNOMED: 163191000000109
+ * @see: NIAD-2624
+ */
 public class ThirdPartyCorrespondenceMapper {
 
     public ThirdPartyCorrespondence mapThirdPartyCorrespondence(Communication communication) {
@@ -36,6 +45,13 @@ public class ThirdPartyCorrespondenceMapper {
         return obj;
     }
 
+    /**
+     * Adds the string "Additional information records..." to the Third Party Correspondence CRE including a list
+     * of which non-core CREs have been found.
+     *
+     * @param additionalInformationHeaders
+     * @return
+     */
     public ThirdPartyCorrespondence mapAdditionalInformationButtonEntry(
             Map<String, String> additionalInformationHeaders) {
 
