@@ -16,7 +16,7 @@
     "speccy": "github:stevenmccullaghmadetech/speccy"
   },
   "devDependencies": {
-    "apigeetool": "^0.16.1",
+    "apigeetool": "^0.16.4",
     "license-checker": "^8.0.1",
     "minimist": "^1.2.8"
   }
