@@ -47,7 +47,7 @@ public class GpSummaryTest {
         var bundle = fhirParser.parseResource(jsonFile, Bundle.class);
         var result = GpSummary.fromBundle(bundle, NHSD_ASID);
 
-        assertThat(result.getThirdPartyCorrespondences().stream().count()).isEqualTo(10);
+        assertThat(result.getThirdPartyCorrespondences().stream().count()).isNull();
     }
 
     /**
