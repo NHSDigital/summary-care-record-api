@@ -5,6 +5,7 @@ plugins {
     id "io.freefair.lombok" version "6.5.0.2"
     id "checkstyle"
     id "com.github.spotbugs" version "4.8.0"
+    id "org.sonarqube" version "4.4.1.3373"
 }
 
 apply plugin: 'java'
@@ -106,5 +107,13 @@ tasks.withType(com.github.spotbugs.snom.SpotBugsTask) {
     reports {
         xml.enabled = false
         html.enabled = true
+    }
+}
+
+sonar {
+    properties {
+        property "sonar.projectKey", "NHSDigital_summary-care-record-api"
+        property "sonar.organization", "nhsdigital"
+        property "sonar.host.url", "https://sonarcloud.io"
     }
 }

@@ -138,6 +138,7 @@ public class SpineClient implements SpineClientContract {
         try {
             Thread.sleep(initialWaitTime);
         } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
             throw new ScrTimeoutException(e);
         }
         return template.execute(ctx -> {
@@ -243,6 +244,7 @@ public class SpineClient implements SpineClientContract {
                 try {
                     Thread.sleep(retryAfter);
                 } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
                     throw new ScrTimeoutException(e);
                 }
             } else {
