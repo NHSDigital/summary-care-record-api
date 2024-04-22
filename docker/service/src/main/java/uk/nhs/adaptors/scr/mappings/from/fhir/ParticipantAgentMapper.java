@@ -300,9 +300,6 @@ public class ParticipantAgentMapper {
             }
 
             participant.setAgentPerson(agentPerson);
-        } else {
-            throw new FhirValidationException(String.format("Invalid PractitionerRole %s identifier.system or code.coding.system",
-                    practitionerRole.getId()));
         }
     }
 }
