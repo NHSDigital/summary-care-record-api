@@ -125,7 +125,7 @@ public class ScrTest {
     //         .get(HEALTHCHECK_ENDPOINT)
     //         .then()
     //         .statusCode(OK.value());
-    // 
+    //         .statusCode(OK.value());
     //}
 
     @Test
