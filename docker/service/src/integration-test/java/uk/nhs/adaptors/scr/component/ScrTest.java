@@ -125,7 +125,8 @@ public class ScrTest {
     //         .get(HEALTHCHECK_ENDPOINT)
     //         .then()
     //         .statusCode(OK.value());
-    // }
+    // 
+    //}
 
     @Test
     public void whenPostingFhirJsonThenExpect201() throws Exception {
