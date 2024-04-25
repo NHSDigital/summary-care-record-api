@@ -168,7 +168,7 @@ public class GpSummary {
 
     public static ImmutablePair<Boolean, Map<String, String>> isBundleWithAdditionalInformation(Bundle bundle) {
         // A list of all the additional headers for comparison that will trigger third party correspondence.
-        Map<String, String> additionalInformationHeaders = new HashMap();
+        Map<String, String> additionalInformationHeaders = new HashMap<>();
         additionalInformationHeaders.put("Administrative Procedures", "ProceduresHeader");
         additionalInformationHeaders.put("Care Events", "EventsHeader");
         additionalInformationHeaders.put("Care Professional Documentation", "DocumentationHeader");
@@ -211,12 +211,12 @@ public class GpSummary {
 
         // Assign all the headers that are additional information and present in the bundle.
         // Removes duplicates, if any.
-        Map<String, String> additionalInformationHeadersPresent = new HashMap();
+        Map<String, String> additionalInformationHeadersPresent = new HashMap<>();
         additionalInformationHeaders.entrySet().stream()
                 .filter(headerEntry -> headerList.contains(headerEntry.getValue()))
                 .forEach(entry -> additionalInformationHeadersPresent.put(entry.getKey(), entry.getValue()));
 
-        if (additionalInformationHeadersPresent.size() > 0) {
+        if (!additionalInformationHeadersPresent.isEmpty()) {
             return new ImmutablePair<>(true, additionalInformationHeadersPresent);
         }
 

@@ -77,7 +77,7 @@ class SpineClientTest {
             new BasicHeader("Header-Name", "headerValue")
         };
         when(spineHttpClient.sendRequest(any(HttpPost.class), eq(stringResponseHandler)))
-            .thenReturn(new SpineHttpClient.Response(HttpStatus.ACCEPTED.value(), headers, RESPONSE_BODY));
+            .thenReturn(new SpineHttpClient.Response<>(HttpStatus.ACCEPTED.value(), headers, RESPONSE_BODY));
 
         var response = spineClient.sendScrData(ACS_REQUEST_BODY, NHSD_ASID, NHSD_IDENTITY, NHSD_SESSION_URID);
 
@@ -96,7 +96,7 @@ class SpineClientTest {
     void whenSendingScrReturnsNon202ExpectResult() {
         when(spineConfiguration.getScrEndpoint()).thenReturn(SCR_ENDPOINT);
         when(spineHttpClient.sendRequest(any(HttpPost.class), eq(stringResponseHandler)))
-            .thenReturn(new SpineHttpClient.Response(HttpStatus.OK.value(), new Header[0], RESPONSE_BODY));
+            .thenReturn(new SpineHttpClient.Response<>(HttpStatus.OK.value(), new Header[0], RESPONSE_BODY));
 
         assertThatThrownBy(() -> spineClient.sendScrData(ACS_REQUEST_BODY, NHSD_ASID, NHSD_IDENTITY, NHSD_SESSION_URID))
             .isExactlyInstanceOf(UnexpectedSpineResponseException.class);
@@ -131,7 +131,7 @@ class SpineClientTest {
         when(spineConfiguration.getScrResultRepeatTimeout()).thenReturn(500L);
 
         when(spineHttpClient.sendRequest(any(), eq(stringResponseHandler)))
-            .thenReturn(new SpineHttpClient.Response(
+            .thenReturn(new SpineHttpClient.Response<>(
                 HttpStatus.ACCEPTED.value(),
                 new Header[]{
                     new BasicHeader("Retry-After", String.valueOf(200))
