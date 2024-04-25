@@ -34,8 +34,7 @@ public interface XmlToFhirMapper {
     String SNOMED_SYSTEM = "http://snomed.info/sct";
     String TIMEZONE = "Europe/London";
 
-    List<? extends Resource> map(Node document);
-
+    List<Resource> map(Node document);
 
     /**
      * Takes a date, and parses it into a BaseDateTimeObject.

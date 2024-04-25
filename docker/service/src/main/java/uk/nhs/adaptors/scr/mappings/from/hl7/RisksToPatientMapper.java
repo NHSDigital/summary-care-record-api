@@ -45,8 +45,7 @@ public class RisksToPatientMapper implements XmlToFhirMapper {
      * @param document
      * @return
      */
-    @Override
-    public List<? extends Resource> map(Node document) {
+    public List<Resource> map(Node document) {
         List<Resource> resources = new ArrayList<>();
 
         NodeList pertinentNodes = xmlUtils.getNodeListByXPath(document, PERTINENT_CRET_BASE_PATH);

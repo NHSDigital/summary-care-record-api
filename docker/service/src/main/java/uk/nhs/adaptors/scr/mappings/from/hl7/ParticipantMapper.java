@@ -25,8 +25,7 @@ public class ParticipantMapper implements XmlToFhirMapper {
     private final NonAgentRoleMapper nonAgentRoleMapper;
     private final XmlUtils xmlUtils;
 
-    @Override
-    public List<? extends Resource> map(Node informant) {
+    public List<Resource> map(Node informant) {
         List<Resource> resources = new ArrayList<>();
 
         xmlUtils.detachOptionalNodeByXPath(informant, AGENT_DEVICE_XPATH)

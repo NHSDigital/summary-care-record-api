@@ -42,8 +42,7 @@ public class InvestigationsMapper implements XmlToFhirMapper {
     private static final String UK_CORE_PROCEDURE_META = "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Procedure";
 
 
-    @Override
-    public List<? extends Resource> map(Node document) {
+    public List<Resource> map(Node document) {
         List<Resource> resources = new ArrayList<>();
 
         NodeList pertinentNodes = xmlUtils.getNodeListByXPath(document, PERTINENT_CRET_BASE_PATH);
