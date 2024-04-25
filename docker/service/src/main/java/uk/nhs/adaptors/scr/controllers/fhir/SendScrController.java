@@ -40,7 +40,7 @@ public class SendScrController {
         consumes = {APPLICATION_FHIR_JSON_VALUE},
         produces = {APPLICATION_FHIR_JSON_VALUE})
     @LogExecutionTime
-    public WebAsyncTask<ResponseEntity<?>> sendScr(
+    public WebAsyncTask<ResponseEntity<SendScrController>> sendScr(
         @RequestHeader(NHSD_ASID) @NotNull String nhsdAsid,
         @RequestHeader(CLIENT_IP) @NotNull String clientIp,
         @RequestHeader(NHSD_IDENTITY) @NotNull String nhsdIdentity,
@@ -64,7 +64,7 @@ public class SendScrController {
             .setNhsdSessionUrid(nhsdSessionUrid);
 
         var mdcContextMap = MDC.getCopyOfContextMap();
-        Callable<ResponseEntity<?>> callable = () -> {
+        Callable<ResponseEntity<SendScrController>> callable = () -> {
             MDC.setContextMap(mdcContextMap);
             uploadScrService.uploadScr(requestData);
             return ResponseEntity

@@ -60,11 +60,6 @@ public class AlertRequestValidator implements ConstraintValidator<AlertRequest, 
     private final FhirParser fhirParser;
 
     @Override
-    public void initialize(AlertRequest contactNumber) {
-        // Does not need any logic.
-    }
-
-    @Override
     public boolean isValid(String alert, ConstraintValidatorContext context) {
         try {
             AuditEvent auditEvent = fhirParser.parseResource(alert, AuditEvent.class);
