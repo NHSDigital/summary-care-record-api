@@ -17,7 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @see: NIAD-2325
  */
 @ExtendWith(MockitoExtension.class)
-public class LifestyleMapperTest extends BaseFhirMapperTest {
+public class LifestyleMapperTest extends BaseFhirMapperUtilities {
 
     private static final String RESOURCE_DIRECTORY = "lifestyle";
     private static final String STATUS_CODE = "final";

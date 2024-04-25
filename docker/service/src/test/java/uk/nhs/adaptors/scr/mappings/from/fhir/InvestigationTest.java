@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(MockitoExtension.class)
-public class InvestigationTest extends BaseFhirMapperTest {
+public class InvestigationTest extends BaseFhirMapperUtilities {
 
     @InjectMocks
     private InvestigationMapper investigation;

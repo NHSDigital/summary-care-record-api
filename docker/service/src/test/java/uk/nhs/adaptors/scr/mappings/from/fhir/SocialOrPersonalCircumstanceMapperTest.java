@@ -15,7 +15,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static uk.nhs.utils.Utils.readResourceFile;
 
 @ExtendWith(MockitoExtension.class)
-public class SocialOrPersonalCircumstanceMapperTest extends BaseFhirMapperTest {
+public class SocialOrPersonalCircumstanceMapperTest extends BaseFhirMapperUtilities {
 
     @InjectMocks
     private SocialOrPersonalCircumstanceMapper mapper;
