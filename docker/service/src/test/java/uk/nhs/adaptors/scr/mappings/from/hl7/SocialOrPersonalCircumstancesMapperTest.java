@@ -13,7 +13,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @see: NIAD-2324
  */
 @ExtendWith(MockitoExtension.class)
-public class SocialOrPersonalCircumstancesMapperTest extends BaseHL7MapperTest {
+public class SocialOrPersonalCircumstancesMapperTest extends BaseHL7MapperUtilities {
 
     @InjectMocks
     private SocialOrPersonalCircumstancesMapper mapper;

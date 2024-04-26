@@ -16,10 +16,6 @@ public class TypeCodeValidator implements ConstraintValidator<TypeCode, String> 
     private static final String SUPPORTED_TYPE = "http://snomed.info/sct|196981000000101";
 
     @Override
-    public void initialize(TypeCode contactNumber) {
-    }
-
-    @Override
     public boolean isValid(String type, ConstraintValidatorContext context) {
         if (!isScrType(type)) {
             setErrorMessage(context, String.format("Invalid value - %s in field 'type'", type));

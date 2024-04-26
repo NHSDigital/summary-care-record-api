@@ -27,7 +27,7 @@ import static org.mockito.Mockito.when;
 import static uk.nhs.utils.Utils.readResourceFile;
 
 @ExtendWith(MockitoExtension.class)
-public class BaseHL7MapperTest {
+public class BaseHL7MapperUtilities {
 
     @Mock
     private UuidWrapper uuid;

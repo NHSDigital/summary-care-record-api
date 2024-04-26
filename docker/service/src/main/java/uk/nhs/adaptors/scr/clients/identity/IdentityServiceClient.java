@@ -31,7 +31,7 @@ public class IdentityServiceClient implements IdentityServiceContract {
         HttpHeaders headers = new HttpHeaders();
         headers.set(AUTHORIZATION, authorization);
 
-        HttpEntity entity = new HttpEntity(headers);
+        HttpEntity<Object> entity = new HttpEntity<>(headers);
 
         try {
             ResponseEntity<UserInfo> response = restTemplate.exchange(

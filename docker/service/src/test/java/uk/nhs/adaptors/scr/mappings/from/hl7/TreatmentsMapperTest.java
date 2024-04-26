@@ -9,7 +9,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 
 @ExtendWith(MockitoExtension.class)
-public class TreatmentsMapperTest extends BaseHL7MapperTest {
+public class TreatmentsMapperTest extends BaseHL7MapperUtilities {
 
     @InjectMocks
     private TreatmentsMapper treatmentsMapper;

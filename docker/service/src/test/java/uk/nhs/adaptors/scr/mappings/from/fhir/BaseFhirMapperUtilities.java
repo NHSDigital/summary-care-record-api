@@ -11,7 +11,7 @@ import static org.mockito.Mockito.lenient;
 import static uk.nhs.utils.Utils.readResourceFile;
 
 @ExtendWith(MockitoExtension.class)
-public class BaseFhirMapperTest {
+public class BaseFhirMapperUtilities {
 
     @Mock
     private UuidWrapper uuid;

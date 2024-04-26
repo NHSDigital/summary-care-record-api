@@ -136,7 +136,7 @@ public class ObservationMapper {
             .collect(Collectors.toList());
     }
 
-    private static Finding mapFinding(Observation observation, Bundle bundle) {
+    private static Finding setupFindings(Observation observation) {
         var finding = new Finding();
 
         finding.setIdRoot(observation.getIdentifierFirstRep().getValue());
@@ -156,6 +156,11 @@ public class ObservationMapper {
         } else {
             throw new FhirValidationException("Observation.effective must be of type DateTimeType or Period");
         }
+        return finding;
+    }
+
+    private static Finding mapFinding(Observation observation, Bundle bundle) {
+        var finding = setupFindings(observation);
 
         var encounterReference = observation.getEncounter().getReference();
         if (StringUtils.isNotBlank(encounterReference)) {

@@ -98,9 +98,10 @@ public class DiagnosesMapper implements XmlToFhirMapper {
                         .setDisplay(pertinentCRETypeDisplay)));
 
                     if (entry.getEffectiveTimeHigh().isPresent()) {
-                        condition.setOnset(entry.getEffectiveTimeLow().get());
                         condition.setAbatement(entry.getEffectiveTimeHigh().get());
-                    } else {
+                    }
+
+                    if (entry.getEffectiveTimeLow().isPresent()) {
                         condition.setOnset(entry.getEffectiveTimeLow().get());
                     }
 
