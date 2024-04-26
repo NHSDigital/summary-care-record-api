@@ -148,7 +148,7 @@ class SpineClientTest {
     }
 
     private void assertRequestUri(List<HttpGet> requests) {
-        assertThat(!requests.isEmpty());
+        assertThat(requests).isNotEmpty();
         assertThat(requests.stream()
             .map(HttpRequestBase::getURI)
             .map(URI::toString)
