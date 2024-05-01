@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(MockitoExtension.class)
-public class TreatmentMapperTest extends BaseFhirMapperTest {
+public class TreatmentMapperTest extends BaseFhirMapperUtilities {
 
     @InjectMocks
     private TreatmentMapper treatmentMapper;

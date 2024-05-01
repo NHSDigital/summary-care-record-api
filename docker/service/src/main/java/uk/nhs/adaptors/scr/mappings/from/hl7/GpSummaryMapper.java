@@ -27,6 +27,7 @@ import org.w3c.dom.Node;
 
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
+import uk.nhs.adaptors.scr.exceptions.ScrBaseException;
 import uk.nhs.adaptors.scr.utils.XmlUtils;
 
 @Component
@@ -226,12 +227,17 @@ public class GpSummaryMapper implements XmlToFhirMapper {
     }
 
     private Reference findPractitionerRole(List<? extends Resource> authorResources) {
-        return authorResources
+
+        if (!authorResources.isEmpty()) {
+            return authorResources
                 .stream()
                 .filter(it -> it instanceof PractitionerRole)
                 .map(Reference::new)
                 .findFirst()
                 .get();
+        } else {
+            throw new ScrBaseException("No practitioner role found in GpSummary Mapper");
+        }
     }
 
     private static Composition.CompositionStatus mapCompositionStatus(String compositionStatus) {

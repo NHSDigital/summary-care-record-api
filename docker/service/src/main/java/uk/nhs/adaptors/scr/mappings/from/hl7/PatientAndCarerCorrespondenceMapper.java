@@ -41,8 +41,7 @@ public class PatientAndCarerCorrespondenceMapper implements XmlToFhirMapper {
     private static final String PATIENT_CARER_BASE_PATH = "./component/UKCT_MT144035UK01.PatientCarerCorrespondence";
     private static final String UK_CORE_PROCEDURE_META = "https://fhir.hl7.org.uk/StructureDefinition/UKCore-Communication";
 
-    @Override
-    public List<? extends Resource> map(Node document) {
+    public List<Resource> map(Node document) {
         List<Resource> resources = new ArrayList<>();
 
         NodeList pertinentNodes = xmlUtils.getNodeListByXPath(document, PERTINENT_CRET_BASE_PATH);

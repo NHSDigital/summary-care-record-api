@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(MockitoExtension.class)
-public class FamilyHistoryMapperTest extends BaseFhirMapperTest {
+public class FamilyHistoryMapperTest extends BaseFhirMapperUtilities {
 
     private static final String RESOURCE_DIRECTORY = "family_history";
     private static final String STATUS_CODE = "final";

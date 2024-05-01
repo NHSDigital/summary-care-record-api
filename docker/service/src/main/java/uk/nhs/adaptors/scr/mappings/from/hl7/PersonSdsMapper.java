@@ -48,8 +48,8 @@ public class PersonSdsMapper {
      * @return String
      */
     private String humanReadableName(String nameWithSpaces) {
-        nameWithSpaces = nameWithSpaces.replaceAll("\\n", "");
-        nameWithSpaces = nameWithSpaces.replaceAll("                            ", " ");
+        nameWithSpaces = nameWithSpaces.replace("\\n", "");
+        nameWithSpaces = nameWithSpaces.replace("                            ", " ");
         return nameWithSpaces.trim();
     }
 }

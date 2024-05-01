@@ -12,7 +12,7 @@ import uk.nhs.adaptors.scr.utils.TemplateUtils;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(MockitoExtension.class)
-public class CareProfessionalDocumentationMapperTest extends BaseFhirMapperTest {
+public class CareProfessionalDocumentationMapperTest extends BaseFhirMapperUtilities {
 
     private static final String RESOURCE_DIRECTORY = "care-professional-documentation";
     private static final String STATUS_CODE = "completed";

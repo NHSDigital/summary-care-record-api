@@ -47,8 +47,7 @@ public class CareEventsMapper implements XmlToFhirMapper {
     private List<CodeableConcept> coding = new ArrayList<>();
 
 
-    @Override
-    public List<? extends Resource> map(Node document) {
+    public List<Resource> map(Node document) {
         List<Resource> resources = new ArrayList<>();
 
         NodeList pertinentNodes = xmlUtils.getNodeListByXPath(document, PERTINENT_CRET_BASE_PATH);
