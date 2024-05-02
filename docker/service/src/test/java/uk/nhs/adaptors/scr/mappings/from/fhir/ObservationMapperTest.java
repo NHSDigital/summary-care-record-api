@@ -11,7 +11,7 @@ import uk.nhs.adaptors.scr.utils.TemplateUtils;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(MockitoExtension.class)
-public class ObservationMapperTest extends BaseFhirMapperTest {
+public class ObservationMapperTest extends BaseFhirMapperUtilities {
 
     @InjectMocks
     private ObservationMapper finding;

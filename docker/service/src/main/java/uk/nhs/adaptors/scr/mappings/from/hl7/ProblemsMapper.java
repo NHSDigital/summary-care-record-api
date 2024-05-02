@@ -42,8 +42,7 @@ public class ProblemsMapper implements XmlToFhirMapper {
     private static final String PERTINENT_CODE_CODE_XPATH = "./code/@code";
     private static final String PERTINENT_CODE_DISPLAY_XPATH = "./code/@displayName";
 
-    @Override
-    public List<? extends Resource> map(Node document) {
+    public List<Resource> map(Node document) {
         List<Resource> resources = new ArrayList<>();
 
         NodeList pertinentNodes = xmlUtils.getNodeListByXPath(document, PERTINENT_CRET_BASE_PATH);

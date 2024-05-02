@@ -48,6 +48,7 @@ public class ParticipantAgentMapper {
     private static final String RELATIONSHIP_TYPE_SYSTEM = "https://fhir.nhs.uk/STU3/ValueSet/PersonRelationshipType-1";
     private static final String ORG_SDS_SYSTEM = "https://fhir.nhs.uk/Id/ods-organization-code";
     private static final String USER_SDS_SYSTEM = "https://fhir.nhs.uk/Id/sds-user-id";
+    private static final String ID_ROOT = "1.2.826.0.1285.0.1.10";
 
     public static Participant.Author mapAuthor(Bundle bundle, EncounterParticipantComponent encounterParticipant) {
         var author = new Participant.Author();
@@ -92,7 +93,7 @@ public class ParticipantAgentMapper {
         var code = organization.getTypeFirstRep().getCodingFirstRep().getCode();
         if (StringUtils.isNotBlank(code)) {
             var representedOrganization = new Organization("representedOrganization");
-            representedOrganization.setIdRoot("1.2.826.0.1285.0.1.10");
+            representedOrganization.setIdRoot(ID_ROOT);
             representedOrganization.setIdExtension(organization.getIdentifierFirstRep().getValue());
             representedOrganization.setCodeCode(code);
             representedOrganization.setName(organization.getName());
@@ -106,7 +107,7 @@ public class ParticipantAgentMapper {
                 throw new FhirValidationException("Organization.identifier.value element is missing");
             }
             var representedOrganizationSDS = new OrganizationSDS("representedOrganizationSDS");
-            representedOrganizationSDS.setIdRoot("1.2.826.0.1285.0.1.10");
+            representedOrganizationSDS.setIdRoot(ID_ROOT);
             representedOrganizationSDS.setIdExtension(identifier.getValue());
 
             agentDevice.setOrganizationSDS(representedOrganizationSDS);
@@ -236,73 +237,87 @@ public class ParticipantAgentMapper {
                                 practitionerRole.getPractitioner().getReference(), practitionerRole.getId())));
 
         if ("http://fhir.nhs.net/Id/sds-role-profile-id".equals(practitionerRole.getIdentifierFirstRep().getSystem())) {
-            Identifier practitionerIdentifier = practitioner.getIdentifierFirstRep();
-            if (!USER_SDS_SYSTEM.equals(practitionerIdentifier.getSystem())) {
-                throw new FhirValidationException("Invalid practitioner identifier system: " + practitionerIdentifier.getSystem());
-            }
-            if (!practitionerIdentifier.hasValue()) {
-                throw new FhirValidationException("Missing practitioner identifier value");
-            }
-            var agentPersonSDS = new AgentPersonSDS();
-            agentPersonSDS.setIdExtension(practitionerRole.getIdentifierFirstRep().getValue());
-
-            var personSDS = new PersonSDS("agentPersonSDS");
-            personSDS.setIdExtension(practitionerIdentifier.getValue());
-            personSDS.setName(practitioner.getNameFirstRep().getText());
-            agentPersonSDS.setAgentPersonSDS(personSDS);
-
-            participant.setAgentPersonSDS(agentPersonSDS);
+            setupWithRoleProfileID(practitioner, practitionerRole, participant);
         } else if ("https://fhir.nhs.uk/CodeSystem/HL7v3-SDSJobRoleName".equals(practitionerRole.getCodeFirstRep().getCodingFirstRep().getSystem())) {
-            var organization = getResourceByReference(bundle, practitionerRole.getOrganization().getReference(),
-                    org.hl7.fhir.r4.model.Organization.class)
-                    .orElseThrow(() -> new FhirValidationException(
-                            String.format("Bundle is missing Organization %s that is linked to PractitionerRole %s",
-                                    practitionerRole.getOrganization().getReference(), practitionerRole.getId())));
-
-            var agentPerson = new AgentPerson();
-            agentPerson.setCodeCode(practitionerRole.getCodeFirstRep().getCodingFirstRep().getCode());
-            agentPerson.setCodeDisplayName(practitionerRole.getCodeFirstRep().getCodingFirstRep().getDisplay());
-            agentPerson.setAddress(organization.getAddressFirstRep().getText());
-            agentPerson.setTelecom(organization.getTelecom().stream()
-                    .map(telecom -> new AgentPerson.Telecom()
-                            .setUse(AgentPerson.Telecom.mapUse(Optional
-                                    .ofNullable(telecom.getUse())
-                                    .orElse(ContactPoint.ContactPointUse.WORK)))
-                            .setValue(telecom.getValue()))
-                    .collect(Collectors.toList()));
-
-            var person = new Person("agentPerson");
-            person.setName(practitioner.getNameFirstRep().getText());
-            agentPerson.setAgentPerson(person);
-
-            Identifier identifier = organization.getIdentifierFirstRep();
-            if (organization.getTypeFirstRep().getCodingFirstRep().getCode() != null) {
-                var representedOrganization = new Organization("representedOrganization");
-                representedOrganization.setIdRoot(identifier.getSystem());
-                representedOrganization.setIdExtension(identifier.getValue());
-                representedOrganization.setCodeCode(organization.getTypeFirstRep().getCodingFirstRep().getCode());
-                representedOrganization.setName(organization.getName());
-                agentPerson.setRepresentedOrganization(representedOrganization);
-            } else if (organization.hasIdentifier()) {
-                var representedOrganizationSDS = new OrganizationSDS("representedOrganizationSDS");
-                if (ORG_SDS_SYSTEM.equals(identifier.getSystem())) {
-                    if (!identifier.hasValue()) {
-                        throw new FhirValidationException("Organization.identifier.value element is missing");
-                    }
-                    representedOrganizationSDS.setIdRoot("1.2.826.0.1285.0.1.10");
-                } else {
-                    representedOrganizationSDS.setIdRoot("1.2.826.0.1285.0.2.0.109");
-                }
-
-                representedOrganizationSDS.setIdExtension(identifier.getValue());
-                representedOrganizationSDS.setName(organization.getName());
-                agentPerson.setRepresentedOrganizationSDS(representedOrganizationSDS);
-            }
-
-            participant.setAgentPerson(agentPerson);
+            setupWithJobRoleName(bundle, practitionerRole, practitioner, participant);
         } else {
             throw new FhirValidationException(String.format("Invalid PractitionerRole %s identifier.system or code.coding.system",
                     practitionerRole.getId()));
         }
+    }
+
+    private static void setupWithRoleProfileID(Practitioner practitioner,
+                                               PractitionerRole practitionerRole,
+                                               Participant participant) {
+        Identifier practitionerIdentifier = practitioner.getIdentifierFirstRep();
+        if (!USER_SDS_SYSTEM.equals(practitionerIdentifier.getSystem())) {
+            throw new FhirValidationException("Invalid practitioner identifier system: " + practitionerIdentifier.getSystem());
+        }
+        if (!practitionerIdentifier.hasValue()) {
+            throw new FhirValidationException("Missing practitioner identifier value");
+        }
+        var agentPersonSDS = new AgentPersonSDS();
+        agentPersonSDS.setIdExtension(practitionerRole.getIdentifierFirstRep().getValue());
+
+        var personSDS = new PersonSDS("agentPersonSDS");
+        personSDS.setIdExtension(practitionerIdentifier.getValue());
+        personSDS.setName(practitioner.getNameFirstRep().getText());
+        agentPersonSDS.setAgentPersonSDS(personSDS);
+
+        participant.setAgentPersonSDS(agentPersonSDS);
+    }
+
+    private static void setupWithJobRoleName(Bundle bundle,
+                                             PractitionerRole practitionerRole,
+                                             Practitioner practitioner,
+                                             Participant participant) {
+
+        var organization = getResourceByReference(bundle, practitionerRole.getOrganization().getReference(),
+            org.hl7.fhir.r4.model.Organization.class)
+            .orElseThrow(() -> new FhirValidationException(
+                String.format("Bundle is missing Organization %s that is linked to PractitionerRole %s",
+                    practitionerRole.getOrganization().getReference(), practitionerRole.getId())));
+
+        var agentPerson = new AgentPerson();
+        agentPerson.setCodeCode(practitionerRole.getCodeFirstRep().getCodingFirstRep().getCode());
+        agentPerson.setCodeDisplayName(practitionerRole.getCodeFirstRep().getCodingFirstRep().getDisplay());
+        agentPerson.setAddress(organization.getAddressFirstRep().getText());
+        agentPerson.setTelecom(organization.getTelecom().stream()
+            .map(telecom -> new AgentPerson.Telecom()
+                .setUse(AgentPerson.Telecom.mapUse(Optional
+                    .ofNullable(telecom.getUse())
+                    .orElse(ContactPoint.ContactPointUse.WORK)))
+                .setValue(telecom.getValue()))
+            .collect(Collectors.toList()));
+
+        var person = new Person("agentPerson");
+        person.setName(practitioner.getNameFirstRep().getText());
+        agentPerson.setAgentPerson(person);
+
+        Identifier identifier = organization.getIdentifierFirstRep();
+        if (organization.getTypeFirstRep().getCodingFirstRep().getCode() != null) {
+            var representedOrganization = new Organization("representedOrganization");
+            representedOrganization.setIdRoot(identifier.getSystem());
+            representedOrganization.setIdExtension(identifier.getValue());
+            representedOrganization.setCodeCode(organization.getTypeFirstRep().getCodingFirstRep().getCode());
+            representedOrganization.setName(organization.getName());
+            agentPerson.setRepresentedOrganization(representedOrganization);
+        } else if (organization.hasIdentifier()) {
+            var representedOrganizationSDS = new OrganizationSDS("representedOrganizationSDS");
+            if (ORG_SDS_SYSTEM.equals(identifier.getSystem())) {
+                if (!identifier.hasValue()) {
+                    throw new FhirValidationException("Organization.identifier.value element is missing");
+                }
+                representedOrganizationSDS.setIdRoot(ID_ROOT);
+            } else {
+                representedOrganizationSDS.setIdRoot("1.2.826.0.1285.0.2.0.109");
+            }
+
+            representedOrganizationSDS.setIdExtension(identifier.getValue());
+            representedOrganizationSDS.setName(organization.getName());
+            agentPerson.setRepresentedOrganizationSDS(representedOrganizationSDS);
+        }
+
+        participant.setAgentPerson(agentPerson);
     }
 }

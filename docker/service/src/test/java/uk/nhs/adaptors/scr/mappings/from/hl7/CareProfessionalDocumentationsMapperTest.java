@@ -13,7 +13,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @see: NIAD-2321
  */
 @ExtendWith(MockitoExtension.class)
-public class CareProfessionalDocumentationsMapperTest extends BaseHL7MapperTest {
+public class CareProfessionalDocumentationsMapperTest extends BaseHL7MapperUtilities {
 
     @InjectMocks
     private CareProfessionalDocumentationsMapper mapper;

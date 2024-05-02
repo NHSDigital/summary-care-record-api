@@ -19,7 +19,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
 
 @ExtendWith(MockitoExtension.class)
-public class FamilyHistoriesMapperTest extends BaseHL7MapperTest {
+public class FamilyHistoriesMapperTest extends BaseHL7MapperUtilities {
 
     @Mock
     private ParticipantMapper participantMapper;

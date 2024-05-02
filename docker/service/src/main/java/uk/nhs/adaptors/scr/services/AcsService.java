@@ -20,6 +20,7 @@ import uk.nhs.adaptors.scr.components.FhirParser;
 import uk.nhs.adaptors.scr.config.ScrConfiguration;
 import uk.nhs.adaptors.scr.config.SpineConfiguration;
 import uk.nhs.adaptors.scr.exceptions.BadRequestException;
+import uk.nhs.adaptors.scr.exceptions.ScrBaseException;
 import uk.nhs.adaptors.scr.models.AcsParams;
 import uk.nhs.adaptors.scr.models.AcsPermission;
 import uk.nhs.adaptors.scr.models.RequestData;
@@ -116,31 +117,43 @@ public class AcsService {
     }
 
     private static String getNhsNumber(ParametersParameterComponent parameter) {
-        return parameter.getPart().stream()
-            .filter(p -> NHS_NUMBER_PART_NAME.equals(p.getName()))
-            .findFirst()
-            .get()
-            .getValue()
-            .toString();
+        if (!parameter.getPart().isEmpty()) {
+            return parameter.getPart().stream()
+                .filter(p -> NHS_NUMBER_PART_NAME.equals(p.getName()))
+                .findFirst()
+                .get()
+                .getValue()
+                .toString();
+        } else {
+            throw new ScrBaseException("No NHS number found in AcsService file, getNhsNumber");
+        }
     }
 
     private static AcsPermission getPermission(ParametersParameterComponent parameter) {
-        Coding coding = (Coding) parameter.getPart()
-            .stream()
-            .filter(p -> PERMISSION_CODE_PART_NAME.equals(p.getName()))
-            .filter(p -> PERMISSION_CODE_SYSTEM.equals(((Coding) p.getValue()).getSystem()))
-            .findFirst()
-            .get()
-            .getValue();
+        if (!parameter.getPart().isEmpty()) {
+            Coding coding = (Coding) parameter.getPart()
+                .stream()
+                .filter(p -> PERMISSION_CODE_PART_NAME.equals(p.getName()))
+                .filter(p -> PERMISSION_CODE_SYSTEM.equals(((Coding) p.getValue()).getSystem()))
+                .findFirst()
+                .get()
+                .getValue();
 
-        String permissionValue = coding.getCode();
-        return AcsPermission.fromValue(permissionValue);
+            String permissionValue = coding.getCode();
+            return AcsPermission.fromValue(permissionValue);
+        } else {
+            throw new ScrBaseException("No permission found in AcsService file, getPermission");
+        }
     }
 
     private static ParametersParameterComponent getSetPermissionParameter(Parameters parameters) {
-        return parameters.getParameter().stream()
-            .filter(p -> SET_PERMISSION_PARAM_NAME.equals(p.getName()))
-            .findFirst()
-            .get();
+        if (!parameters.getParameter().isEmpty()) {
+            return parameters.getParameter().stream()
+                .filter(p -> SET_PERMISSION_PARAM_NAME.equals(p.getName()))
+                .findFirst()
+                .get();
+        } else {
+            throw new ScrBaseException("No session permission parameter found in AcsService file, getSetPermissionParameter");
+        }
     }
 }
