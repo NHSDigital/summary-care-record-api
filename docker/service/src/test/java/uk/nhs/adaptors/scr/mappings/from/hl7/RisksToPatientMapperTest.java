@@ -14,7 +14,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @see: https://simplifier.net/guide/SummaryCareRecordWithCodedData/Risktopatient?version=current
  */
 @ExtendWith(MockitoExtension.class)
-public class RisksToPatientMapperTest extends BaseHL7MapperTest {
+public class RisksToPatientMapperTest extends BaseHL7MapperUtilities {
 
     @InjectMocks
     private RisksToPatientMapper mapper;

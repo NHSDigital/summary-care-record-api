@@ -33,8 +33,7 @@ public class AgentDeviceMapper implements XmlToFhirMapper {
     private final OrganisationSdsMapper organisationSdsMapper;
     private final XmlUtils xmlUtils;
 
-    @Override
-    public List<? extends Resource> map(Node agentDevice) {
+    public List<Resource> map(Node agentDevice) {
         List<Resource> resources = new ArrayList<>();
 
         var role = new PractitionerRole();

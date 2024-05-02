@@ -285,7 +285,7 @@ public class GetScrService {
     private String prepareEventListQueryRequest(String nhsNumber, String nhsdAsid, String clientIp) {
         EventListQueryParams eventListQueryParams = new EventListQueryParams()
                 .setGeneratedMessageId(MDC.get(CORRELATION_ID_MDC_KEY))
-                .setMessageCreationTime(DateTimeFormatter.ofPattern("YYYYMMddHHmmss").format(now(ZoneId.of("Europe/London"))))
+                .setMessageCreationTime(DateTimeFormatter.ofPattern("yyyyMMddHHmmss").format(now(ZoneId.of("Europe/London"))))
                 .setNhsNumber(nhsNumber)
                 .setSenderFromASID(nhsdAsid)
                 .setSpineToASID(scrConfiguration.getNhsdAsidTo())
@@ -297,7 +297,7 @@ public class GetScrService {
     private String prepareEventQueryRequest(String psisEventId, String nhsNumber, String nhsdAsid, String clientIp) {
         var eventListQueryParams = new EventQueryParams()
                 .setGeneratedMessageId(MDC.get(CORRELATION_ID_MDC_KEY))
-                .setMessageCreationTime(DateTimeFormatter.ofPattern("YYYYMMddHHmmss").format(now(ZoneId.of("Europe/London"))))
+                .setMessageCreationTime(DateTimeFormatter.ofPattern("yyyyMMddHHmmss").format(now(ZoneId.of("Europe/London"))))
                 .setNhsNumber(nhsNumber)
                 .setSenderFromASID(nhsdAsid)
                 .setSpineToASID(scrConfiguration.getNhsdAsidTo())

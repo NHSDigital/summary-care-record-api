@@ -14,10 +14,6 @@ public class RecordCountValidator implements ConstraintValidator<RecordCount, In
     private static final Integer SUPPORTED_COUNT = 1;
 
     @Override
-    public void initialize(RecordCount contactNumber) {
-    }
-
-    @Override
     public boolean isValid(Integer count, ConstraintValidatorContext context) {
         if (!isScrCount(count)) {
             setErrorMessage(context, String.format("Invalid value - %s in field '_count'", count));

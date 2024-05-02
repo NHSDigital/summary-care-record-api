@@ -29,10 +29,6 @@ public class AcsRequestValidator implements ConstraintValidator<AcsRequest, Stri
     private final FhirParser fhirParser;
 
     @Override
-    public void initialize(AcsRequest contactNumber) {
-    }
-
-    @Override
     public boolean isValid(String requestBody, ConstraintValidatorContext context) {
         try {
             Parameters parameters = fhirParser.parseResource(requestBody, Parameters.class);

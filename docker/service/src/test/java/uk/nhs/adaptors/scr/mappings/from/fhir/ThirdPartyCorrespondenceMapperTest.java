@@ -17,7 +17,7 @@ import java.util.Map;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(MockitoExtension.class)
-public class ThirdPartyCorrespondenceMapperTest extends BaseFhirMapperTest {
+public class ThirdPartyCorrespondenceMapperTest extends BaseFhirMapperUtilities {
 
     @InjectMocks
     private ThirdPartyCorrespondenceMapper thirdPartyCorrMapper;
