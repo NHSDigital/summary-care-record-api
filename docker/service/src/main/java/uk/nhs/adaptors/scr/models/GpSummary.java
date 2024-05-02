@@ -168,28 +168,25 @@ public class GpSummary {
 
     public static ImmutablePair<Boolean, Map<String, String>> isBundleWithAdditionalInformation(Bundle bundle) {
         // A list of all the additional headers for comparison that will trigger third party correspondence.
-        Map<String, String> additionalInformationHeaders = new HashMap() {
-            {
-                put("Administrative Procedures", "ProceduresHeader");
-                put("Care Events", "EventsHeader");
-                put("Care Professional Documentation", "DocumentationHeader");
-                put("Clinical Observations and Findings", "ObservationsHeader");
-                put("Diagnoses", "DiagnosesHeader");
-                put("Family History", "HistoryHeader");
-                put("Investigation Results", "ResultsHeader");
-                put("Investigations", "InvestigationsHeader");
-                put("Lifestyle", "LifestyleHeader");
-                put("Patient/Carer Correspondence", "PatientCarerCorrespondenceHeader");
-                put("Personal Preferences", "PreferencesHeader");
-                put("Problems and Issues", "ProblemsHeader");
-                put("Provision of Advice and Information to Patients and Carers", "AdviceHeader");
-                put("Risks to Patient", "RisksToPatientHeader");
-                put("Social and Personal Circumstances", "CircumstancesHeader");
-                put("Treatments", "TreatmentsHeader");
-                put("Risks to Care Professional or Third Party", "RisksToProfessionalHeader");
-                put("Services, Care Professionals and Carers", "ServicesHeader");
-            }
-        };
+        Map<String, String> additionalInformationHeaders = new HashMap<>();
+        additionalInformationHeaders.put("Administrative Procedures", "ProceduresHeader");
+        additionalInformationHeaders.put("Care Events", "EventsHeader");
+        additionalInformationHeaders.put("Care Professional Documentation", "DocumentationHeader");
+        additionalInformationHeaders.put("Clinical Observations and Findings", "ObservationsHeader");
+        additionalInformationHeaders.put("Diagnoses", "DiagnosesHeader");
+        additionalInformationHeaders.put("Family History", "HistoryHeader");
+        additionalInformationHeaders.put("Investigation Results", "ResultsHeader");
+        additionalInformationHeaders.put("Investigations", "InvestigationsHeader");
+        additionalInformationHeaders.put("Lifestyle", "LifestyleHeader");
+        additionalInformationHeaders.put("Patient/Carer Correspondence", "PatientCarerCorrespondenceHeader");
+        additionalInformationHeaders.put("Personal Preferences", "PreferencesHeader");
+        additionalInformationHeaders.put("Problems and Issues", "ProblemsHeader");
+        additionalInformationHeaders.put("Provision of Advice and Information to Patients and Carers", "AdviceHeader");
+        additionalInformationHeaders.put("Risks to Patient", "RisksToPatientHeader");
+        additionalInformationHeaders.put("Social and Personal Circumstances", "CircumstancesHeader");
+        additionalInformationHeaders.put("Treatments", "TreatmentsHeader");
+        additionalInformationHeaders.put("Risks to Care Professional or Third Party", "RisksToProfessionalHeader");
+        additionalInformationHeaders.put("Services, Care Professionals and Carers", "ServicesHeader");
 
         Property gpList = bundle.getEntry().get(0).getResource().getChildByName("section"); // Entries stored in this section.
 
@@ -214,12 +211,12 @@ public class GpSummary {
 
         // Assign all the headers that are additional information and present in the bundle.
         // Removes duplicates, if any.
-        Map<String, String> additionalInformationHeadersPresent = new HashMap();
+        Map<String, String> additionalInformationHeadersPresent = new HashMap<>();
         additionalInformationHeaders.entrySet().stream()
                 .filter(headerEntry -> headerList.contains(headerEntry.getValue()))
                 .forEach(entry -> additionalInformationHeadersPresent.put(entry.getKey(), entry.getValue()));
 
-        if (additionalInformationHeadersPresent.size() > 0) {
+        if (!additionalInformationHeadersPresent.isEmpty()) {
             return new ImmutablePair<>(true, additionalInformationHeadersPresent);
         }
 

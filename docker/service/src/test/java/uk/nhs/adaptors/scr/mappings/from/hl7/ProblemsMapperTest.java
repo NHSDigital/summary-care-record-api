@@ -9,7 +9,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(MockitoExtension.class)
-public class ProblemsMapperTest extends BaseHL7MapperTest {
+public class ProblemsMapperTest extends BaseHL7MapperUtilities {
 
     @InjectMocks
     private ProblemsMapper problemsMapper;

@@ -66,9 +66,9 @@ public class SandboxSpineClient implements SpineClientContract {
         Document document = parseXml(requestBody);
         String nhsNumber = xmlUtils.getValueByXPath(document, SET_ACS_NHS_NUMBER_XPATH);
         if (EXISTING_NHS_NUMBER.equals(nhsNumber)) {
-            return new Response(OK.value(), null, getResourceAsXmlDocument(setAcsSuccess));
+            return new Response<>(OK.value(), null, getResourceAsXmlDocument(setAcsSuccess));
         } else {
-            return new Response(OK.value(), null, getResourceAsXmlDocument(setAcsIncorrectNhsNumber));
+            return new Response<>(OK.value(), null, getResourceAsXmlDocument(setAcsIncorrectNhsNumber));
         }
     }
 
@@ -80,7 +80,7 @@ public class SandboxSpineClient implements SpineClientContract {
             new BasicHeader(RETRY_AFTER, "100")
         };
         sleep(scrConfiguration.getSandboxDelay());
-        return new Response(ACCEPTED.value(), headers, null);
+        return new Response<>(ACCEPTED.value(), headers, null);
     }
 
     @Override
@@ -101,9 +101,9 @@ public class SandboxSpineClient implements SpineClientContract {
 
         switch (nhsNumber) {
             case EXISTING_NHS_NUMBER:
-                return new Response(OK.value(), null, getResourceAsXmlDocument(getScrIdSuccess));
+                return new Response<>(OK.value(), null, getResourceAsXmlDocument(getScrIdSuccess));
             default:
-                return new Response(OK.value(), null, getResourceAsXmlDocument(getScrIdNoConsent));
+                return new Response<>(OK.value(), null, getResourceAsXmlDocument(getScrIdNoConsent));
         }
     }
 
@@ -111,12 +111,12 @@ public class SandboxSpineClient implements SpineClientContract {
     @Override
     public Response<Document> sendGetScr(String requestBody, String nhsdAsid) {
         sleep(scrConfiguration.getSandboxDelay());
-        return new Response(OK.value(), null, getResourceAsXmlDocument(getScrSuccess));
+        return new Response<>(OK.value(), null, getResourceAsXmlDocument(getScrSuccess));
     }
 
     @Override
     public Response<String> sendAlert(String requestBody, String nhsdAsid, String nhsdIdentity, String nhsdSessionUrid) {
-        return new Response(OK.value(), null, null);
+        return new Response<>(OK.value(), null, null);
     }
 
     @SneakyThrows

@@ -41,13 +41,14 @@ public class AlertRequestValidator implements ConstraintValidator<AlertRequest, 
     //type 6 = other
     private static final List<String> SUBTYPE_CODES = asList("1", "2", "3", "4", "5", "6");
 
+    private static final MultiValuedMap<String, String> DISALLOWED_TYPE_SUBTYPE_COMBOS = new ArrayListValuedHashMap<>();
+
     //Disallowed alert type and subtype combinations
-    private static final MultiValuedMap<String, String> DISALLOWED_TYPE_SUBTYPE_COMBOS = new ArrayListValuedHashMap<>() {{
-            put("1", "5");
-            put("2", "4");
-            put("2", "6");
-        }
-    };
+    static {
+        DISALLOWED_TYPE_SUBTYPE_COMBOS.put("1", "5");
+        DISALLOWED_TYPE_SUBTYPE_COMBOS.put("2", "4");
+        DISALLOWED_TYPE_SUBTYPE_COMBOS.put("2", "6");
+    }
 
     private static final String EXTENSION_URL = "https://fhir.nhs.uk/StructureDefinition/Extension-SCR-NotificationMessage";
     private static final String TYPE_SYSTEM = "https://fhir.nhs.uk/CodeSystem/SCR-AlertType";
@@ -57,10 +58,6 @@ public class AlertRequestValidator implements ConstraintValidator<AlertRequest, 
     private static final String PERSON_SYSTEM = "https://fhir.nhs.uk/Id/sds-user-id";
 
     private final FhirParser fhirParser;
-
-    @Override
-    public void initialize(AlertRequest contactNumber) {
-    }
 
     @Override
     public boolean isValid(String alert, ConstraintValidatorContext context) {

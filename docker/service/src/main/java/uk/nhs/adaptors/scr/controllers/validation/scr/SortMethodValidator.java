@@ -16,10 +16,6 @@ public class SortMethodValidator implements ConstraintValidator<SortMethod, Stri
     private static final String SUPPORTED_SORT = "date";
 
     @Override
-    public void initialize(SortMethod contactNumber) {
-    }
-
-    @Override
     public boolean isValid(String sort, ConstraintValidatorContext context) {
         if (!isScrSort(sort)) {
             setErrorMessage(context, String.format("Invalid value - %s in field '_sort'", sort));

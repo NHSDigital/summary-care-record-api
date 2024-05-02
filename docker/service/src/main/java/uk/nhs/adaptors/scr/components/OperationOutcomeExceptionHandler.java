@@ -49,6 +49,7 @@ import static uk.nhs.adaptors.scr.utils.OperationOutcomeUtils.createOperationOut
 @RestController
 @Slf4j
 public class OperationOutcomeExceptionHandler extends ResponseEntityExceptionHandler {
+    private final FhirParser fhirParser;
 
     private static final Map<String, List<HttpMethod>> ALLOWED_METHODS = Map.of(
         "/Bundle", List.of(GET, POST),
@@ -59,7 +60,9 @@ public class OperationOutcomeExceptionHandler extends ResponseEntityExceptionHan
     );
 
     @Autowired
-    private FhirParser fhirParser;
+    public OperationOutcomeExceptionHandler(FhirParser fhirParser) {
+        this.fhirParser = fhirParser;
+    }
 
     @Override
     protected ResponseEntity<Object> handleNoHandlerFoundException(

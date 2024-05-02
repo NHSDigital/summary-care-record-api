@@ -23,7 +23,7 @@ import static org.mockito.Mockito.doReturn;
  * @see: NIAD-2325
  */
 @ExtendWith(MockitoExtension.class)
-public class LifestylesMapperTest extends BaseHL7MapperTest {
+public class LifestylesMapperTest extends BaseHL7MapperUtilities {
     @Mock
     private ParticipantMapper participantMapper;
 

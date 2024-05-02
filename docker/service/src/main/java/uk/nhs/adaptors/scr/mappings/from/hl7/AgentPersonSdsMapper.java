@@ -26,8 +26,7 @@ public class AgentPersonSdsMapper implements XmlToFhirMapper {
     private final PersonSdsMapper personSdsMapper;
     private final XmlUtils xmlUtils;
 
-    @Override
-    public List<? extends Resource> map(Node agentPersonSds) {
+    public List<Resource> map(Node agentPersonSds) {
         List<Resource> resources = new ArrayList<>();
 
         PractitionerRole role = mapPractitionerRole(agentPersonSds);

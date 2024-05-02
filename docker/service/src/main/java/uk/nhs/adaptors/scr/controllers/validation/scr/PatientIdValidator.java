@@ -16,10 +16,6 @@ public class PatientIdValidator implements ConstraintValidator<PatientId, String
     private static final String PATIENT_ID_PREFIX = "https://fhir.nhs.uk/Id/nhs-number|";
 
     @Override
-    public void initialize(PatientId contactNumber) {
-    }
-
-    @Override
     public boolean isValid(String patientId, ConstraintValidatorContext context) {
         if (!isNhsNumber(patientId)) {
             setErrorMessage(context, String.format("Invalid value - %s in field 'patient'", patientId));

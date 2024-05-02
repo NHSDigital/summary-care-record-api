@@ -23,7 +23,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
-public class GpSummaryMapperTest extends BaseHL7MapperTest {
+public class GpSummaryMapperTest extends BaseHL7MapperUtilities {
     @InjectMocks
     private GpSummaryMapper gpSummaryMapper;
     @Mock
