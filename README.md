@@ -1,4 +1,4 @@
-# Summary Care Record API
+# Summary Care Record FHIR API
 
 [![Build](https://github.com/NHSDigital/summary-care-record-api/actions/workflows/continuous-integration.yml/badge.svg)](https://github.com/NHSDigital/summary-care-record-api/actions/workflows/continuous-integration.yml)
 
