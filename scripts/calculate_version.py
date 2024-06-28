@@ -11,7 +11,7 @@ Commands can be included in commit messages like '+major APM-123 Do thing'
 Commands:
     +major                 Increment the major version
     +minor                 Increment the minor version
-    +setstatus <status>    Set the prerelease status to <status>
+    +setstatus <status>    Set the prerelease status to <status>, defaults to "alpha"
     +clearstatus           Clear the prerelease status
     +startversioning       Reset version to v1.0.0-alpha
 """
