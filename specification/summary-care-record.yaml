@@ -20,7 +20,7 @@ info:
     </div>
     
     ## Version
-    The current released version of this API is 2.3 while minor updates may be available on PTL environments.
+    The current released version of this API is 2.4 while minor updates may be available on PTL environments.
 
     ## Overview
     Use this API to access or update a patient's [Summary Care Record (SCR)](https://digital.nhs.uk/services/summary-care-records-scr) - an electronic record of important patient information, created from GP medical records. SCRs can be seen and used by authorised staff in other areas of the health and care system involved in the patient's direct care.
