@@ -24,6 +24,10 @@ The contents of this repository are protected by Crown Copyright © 2024.
 
 ## Development
 
+### Version
+
+The current release is version 3.0
+
 ### Requirements
 * make
 * nodejs + npm/yarn
