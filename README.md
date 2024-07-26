@@ -26,7 +26,7 @@ The contents of this repository are protected by Crown Copyright © 2024.
 
 ### Version
 
-The current release is version 3.0
+The current release is version 3.0 stable.
 
 ### Requirements
 * make
