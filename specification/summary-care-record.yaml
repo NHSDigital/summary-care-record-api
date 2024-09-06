@@ -68,11 +68,13 @@ info:
     If you have any other queries, [contact us](https://digital.nhs.uk/developer/help-and-support).
 
     ## Technology
-    This API is [RESTful](https://digital.nhs.uk/developer/guides-and-documentation/our-api-technologies#basic-rest), uses UTF-8 encoding and supports all relevant special characters.
+    This API is [RESTful](https://digital.nhs.uk/developer/guides-and-documentation/our-api-technologies#basic-rest).
 
     It conforms to the [FHIR](https://digital.nhs.uk/developer/guides-and-documentation/our-api-technologies#fhir) global standard for health care data exchange, specifically to [FHIR R4 (v4.0.1)](https://hl7.org/fhir/r4/), except that it does not support the [capabilities](https://hl7.org/fhir/R4/http.html#capabilities) interaction.
 
     It includes some country-specific FHIR extensions, which are built against [FHIR UK Core](https://digital.nhs.uk/services/fhir-uk-core), specifically [UK.core.r4.v2 2.0.5](https://simplifier.net/packages/uk.core.r4.v2/2.0.5).
+    
+    The interactions between the SCR FHIR API and Spine have been tested with a wide range of special characters including emojis with appropriate Fitzpatrick modifiers. In accordance with HL7-FHIR specifications, this API operates with UTF-8 encoding.
 
     ## Network access
     This API is available on the internet and indirectly on the [Health and Social Care Network (HSCN)](https://digital.nhs.uk/services/health-and-social-care-network).
