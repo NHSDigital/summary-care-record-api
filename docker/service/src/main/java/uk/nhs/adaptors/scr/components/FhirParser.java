@@ -80,7 +80,7 @@ public class FhirParser {
 
     /**
      * Takes a resource (usually a bundle), and encodes it to JSON for FHIR output.
-     * After-wards, two transformations occur. One to replace <td/> with <td></td> to help NMEs parse HTML.
+     * Afterwards, two transformations occur. One to replace <td/> with <td></td> to help NMEs parse HTML.
      * The next transformation is related to partial dates which may be present in the SCRs.
      * Dates may be received in partial format, e.g. YYYY, YYYY-mm, which are invalid but we still need to preserve
      * them as-is for clinical safety. Due to limitations on the third party FHIR parser code, we instead allocate a
