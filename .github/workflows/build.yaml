@@ -1,4 +1,4 @@
-name: SCR FHIR API Sonar Cloud
+name: Sonar Cloud Run
 on:
   push:
     branches:
