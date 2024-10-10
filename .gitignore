@@ -12,3 +12,4 @@ __pycache__/
 .idea/
 .venv/
 smoketest-report.xml
+*.code-workspace
