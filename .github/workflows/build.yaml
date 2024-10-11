@@ -3,7 +3,6 @@ on:
   push:
     branches:
       - master
-      - 'NIAD*'
   pull_request:
     types: [opened, synchronize, reopened]
 
@@ -14,10 +13,14 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          # Disabling shallow clones is recommended for improving the relevancy of reporting
           fetch-depth: 0
       - name: SonarQube Scan
         uses: sonarsource/sonarqube-scan-action@v3.0.0 # Ex: v2.1.0, See the latest version at https://github.com/marketplace/actions/official-sonarqube-scan
+        with:
+          args: >
+            -Dsonar.organization=nhsdigital
+            -Dsonar.projectKey=NHSDigital_summary-care-record-api
+            -Dsonar.verbose=true
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ vars.SONAR_HOST_URL }}

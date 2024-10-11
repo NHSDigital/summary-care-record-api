@@ -112,9 +112,9 @@ tasks.withType(com.github.spotbugs.snom.SpotBugsTask) {
 
 sonar {
     properties {
-        property "sonar.projectKey", "NHSDigital_summary-care-record-api"
-        property "sonar.organization", "nhsdigital"
-        property "sonar.host.url", "https://sonarcloud.io"
+        property "sonar.projectKey", 'NHSDigital_summary-care-record-api'
+        property "sonar.organization", 'nhsdigital'
+        property "sonar.host.url", ' https://sonarcloud.io'
         property "sonar.gradle.skipCompile", true
     }
 }
