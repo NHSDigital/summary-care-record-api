@@ -40,6 +40,7 @@ jobs:
               -Dsonar.organization=nhsdigital
               -Dsonar.projectKey=NHSDigital_summary-care-record-api
               -Dsonar.verbose=true
+              -Dsonar.java.binaries=build
           env:
             SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
             SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
