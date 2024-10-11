@@ -110,7 +110,7 @@ tasks.withType(com.github.spotbugs.snom.SpotBugsTask) {
     }
 }
 
-sonar {
+sonarqube {
     properties {
         property "sonar.projectKey", 'NHSDigital_summary-care-record-api'
         property "sonar.organization", 'nhsdigital'
