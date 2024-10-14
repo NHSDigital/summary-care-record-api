@@ -1,4 +1,4 @@
-name: SonarCloud
+name: Run Sonar Scan
 on:
   push:
     branches:
@@ -6,7 +6,7 @@ on:
   pull_request:
     types: [opened, synchronize, reopened]
 jobs:
-  build:
+  buildThenSonarScan:
     name: Build and analyze
     runs-on: ubuntu-latest
     steps:
@@ -30,8 +30,16 @@ jobs:
           path: ~/.gradle/caches
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
           restore-keys: ${{ runner.os }}-gradle
-      - name: Build and analyze
+      - name: Build
+        run: cd docker/service && gradle wrapper --gradle-version 7.4.2 && ./gradlew build
+      - name: SonarQube Scan
+        uses: sonarsource/sonarqube-scan-action@v3.0.0 # Ex: v2.1.0, See the latest version at https://github.com/marketplace/actions/official-sonarqube-scan
+        with:
+          args: >
+            -Dsonar.organization=nhsdigital
+            -Dsonar.projectKey=NHSDigital_summary-care-record-api
+            -Dsonar.verbose=true
+            -Dsonar.java.binaries=.
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: cd docker/service && gradle wrapper --gradle-version 7.4.2 && ./gradlew build sonar --info  # Gradle version needed
+          SONAR_HOST_URL: https://sonarcloud.io
