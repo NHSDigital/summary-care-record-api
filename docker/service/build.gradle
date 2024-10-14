@@ -114,7 +114,7 @@ sonarqube {
     properties {
         property "sonar.projectKey", 'NHSDigital_summary-care-record-api'
         property "sonar.organization", 'nhsdigital'
-        property "sonar.host.url", ' https://sonarcloud.io'
+        property "sonar.host.url", 'https://sonarcloud.io'
         property "sonar.gradle.skipCompile", true
     }
 }
