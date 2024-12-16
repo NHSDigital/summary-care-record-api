@@ -114,7 +114,7 @@ info:
     | Integration test                       | `https://int.api.service.nhs.uk/summary-care-record/FHIR/R4`    |
     | Production                             | `https://api.service.nhs.uk/summary-care-record/FHIR/R4`    |
     
-    ## NME Testing
+    ## NME testing
     The approach to testing for external developers is as follows.
     
     For sandbox, New Market Entrants (NMEs) should perform Self Testing, followed by Integration Testing which will be available on the Assurance Technical Evidencing. NMEs need to meet these to progress in integration.
@@ -186,7 +186,7 @@ info:
     
     Errors specific to each API are shown in the Endpoints section, under Response. See our [reference guide](https://digital.nhs.uk/developer/guides-and-documentation/reference-guide#http-status-codes) for more on errors.
     
-    ## Exponential Backoff
+    ## Exponential backoff
     In the event of a transitory error:
     
     * 429 - exceeded application rate limit (5 TPS per application)
@@ -206,7 +206,16 @@ info:
     * If attempt 7 fails, then fail permanently.
     
     ## Support
-    The National Integration Adaptors & APIs (NIA) Support team provide a support mailbox to support new market entrants integrating with this adaptor. To raise a support ticket please contact [niasupport@nhs.net](mailto:niasupport@nhs.net)
+    Support for new market entrants integrating with this adaptor can be provided by raising a support ticket via the follow methods, please quote ‘SCR FHIR API’ when raising.
+    
+    For technical support enquiries:
+
+    * email the National Service Desk [ssd.nationalservicedesk@nhs.net](ssd.nationalservicedesk@nhs.net) or visit the [NHS Digital Customer Portal](https://www.support.digitalservices.nhs.uk/csm) 
+    * telephone 0300 303 5035
+
+    For general enquiries:
+    
+    * email [enquiries@nhsdigital.nhs.uk](mailto:enquiries@nhsdigital.nhs.uk)
     
     ## Operations
     Here are the links to the possible SCR operations. These endpoints are for create and consume use cases for GP systems:
