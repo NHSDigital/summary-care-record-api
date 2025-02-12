@@ -1,5 +1,6 @@
 [project]
 python = "^3.10"
+name = "summary-care-record-api"
 
 [tool.poetry]
 name = "summary-care-record-api"
