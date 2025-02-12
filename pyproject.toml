@@ -1,7 +1,3 @@
-[project]
-python = "^3.8"
-
-
 [tool.poetry]
 name = "summary-care-record-api"
 version = "0.0.1-alpha"
