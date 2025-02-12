@@ -5,6 +5,7 @@ name = "summary-care-record-api"
 [tool.poetry]
 name = "summary-care-record-api"
 version = "0.0.1-alpha"
+package-mode = false
 description = "TODO"
 
 license = "MIT"
