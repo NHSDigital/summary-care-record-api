@@ -1,5 +1,8 @@
-[tool.poetry]
+[project]
+python = "^3.10"
 name = "summary-care-record-api"
+
+[tool.poetry]
 version = "0.0.1-alpha"
 description = "TODO"
 
