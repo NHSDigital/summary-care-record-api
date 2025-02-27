@@ -9,7 +9,7 @@ guard-%:
 install: install-node install-python install-hooks
 
 install-python:
-	poetry install
+	poetry install --no-root
 
 install-node:
 	npm install
