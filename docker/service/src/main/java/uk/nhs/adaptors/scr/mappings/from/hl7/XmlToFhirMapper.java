@@ -1,8 +1,7 @@
 package uk.nhs.adaptors.scr.mappings.from.hl7;
 
 import lombok.SneakyThrows;
-
-import org.hibernate.validator.internal.util.logging.LoggerFactory;
+import org.slf4j.LoggerFactory;
 import org.hl7.fhir.r4.model.BaseDateTimeType;
 import org.hl7.fhir.r4.model.DateTimeType;
 import org.hl7.fhir.r4.model.InstantType;
@@ -15,7 +14,6 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
@@ -25,10 +23,6 @@ import static ca.uhn.fhir.model.api.TemporalPrecisionEnum.SECOND;
 import static ca.uhn.fhir.model.api.TemporalPrecisionEnum.YEAR;
 import static ca.uhn.fhir.model.api.TemporalPrecisionEnum.MILLI;
 import static java.lang.Integer.parseInt;
-
-import java.lang.System.Logger;
-import java.lang.System.Logger.Level;
-
 
 public interface XmlToFhirMapper {
     // List of known date/time formats which may be present in HL7 based SCR.
@@ -41,16 +35,9 @@ public interface XmlToFhirMapper {
     String SNOMED_SYSTEM = "http://snomed.info/sct";
     String TIMEZONE = "Europe/London";
 
-    // private static Logger logger() {
-    //     final class LogHolder {
-    //         private static final Logger LOGGER = LoggerFactory.getLogger(XmlToFhirMapper.class);
-    //     }
-    //     return LogHolder.LOGGER;
-    // }    
-    
     List<Resource> map(Node document);
 
-     /**
+    /**
      * Takes a date, and parses it into a BaseDateTimeObject.
      * Dates may be received in partial format, e.g. YYYY, YYYY-mm, which are invalid, but we still need to preserve
      * them as-is for clinical safety. Due to limitations on the third party FHIR parser code, we instead allocate a
@@ -75,8 +62,6 @@ public interface XmlToFhirMapper {
         int monthPrecision = 2;
         int yearPrecision = 1;
 
-        Date defaultDate;
-        defaultDate = new Date(0);
 
         if (isValidDate(date, DATE_TIME_SECONDS_PATTERN)) {
             LocalDateTime parsed = LocalDateTime.parse(date, DateTimeFormatter.ofPattern(DATE_TIME_SECONDS_PATTERN));
@@ -123,10 +108,14 @@ public interface XmlToFhirMapper {
             baseDateTimeType.setYear(parseInt(date) + 1);
             baseDateTimeType.setMillis(yearPrecision);
         } else if (date.equals("1")) {
+            date = "19700101";
+            LocalDate parsed = LocalDate.parse(date, DateTimeFormatter.ofPattern(DATE_PATTERN));
+            baseDateTimeType.setPrecision(DAY);
             baseDateTimeType.setTimeZone(TimeZone.getTimeZone(TIMEZONE));
-            baseDateTimeType.setValue(defaultDate);
-            // logger().log(Level.ERROR, "Invalid date value:1 updated");
-
+            setDatePart(baseDateTimeType, parsed.getDayOfMonth(), parsed.getMonthValue(), parsed.getYear());
+            baseDateTimeType.setMillis(dayPrecision);
+            org.slf4j.Logger logger = LoggerFactory.getLogger(XmlToFhirMapper.class);
+            logger.error("Invalid date value:1 updated");
         } else {
             throw new ScrBaseException("Unsupported date format: " + date);
         }
@@ -162,5 +151,4 @@ public interface XmlToFhirMapper {
         baseDateTimeType.setMonth(monthValue - 1);
         baseDateTimeType.setYear(year);
     }
-  
 }
