@@ -2,24 +2,21 @@
 python = "^3.10"
 name = "summary-care-record-api"
 
+
 [tool.poetry]
 name = "summary-care-record-api"
-version = "0.0.1-alpha"
-package-mode = false
-description = "TODO"
+version = "3.0.5-alpha"
+description = "NHS Hosted adaptor to convert HL7 based patient Summary Care Records into JSON FHIR, and vice-versa."
 
 license = "MIT"
 
-authors = [
-    #TODO add authors
-]
+authors = []
 
 readme = 'README.md'
 
 repository = "https://github.com/NHSDigital/summary-care-record-api"
 
-keywords = ["healthcare", "uk", "nhs"] #TODO add additional keywords
-
+keywords = ["healthcare", "uk", "nhs"]
 
 [tool.poetry.dependencies]
 certifi = ">=2024.7.4"
@@ -32,13 +29,12 @@ locust = "^1.2"
 polling2 = "^0.4.7"
 pytest-bdd = "^4.0.1"
 pytest-rerunfailures = "^9.1.1"
-python = "^3.8"
+python = "^3.10"
 python-dateutil = "^2.8.1"
 pyyaml = "^6.0.2"
 requests = "^2.32.3"
 semver = "^2.10.2"
 werkzeug = "3.0.3"
-
 
 [tool.poetry.dev-dependencies]
 flake8 = "^3.8.3"
@@ -49,6 +45,5 @@ pytest_check = "^1.0.1"
 pyjwt = "^2.0.1"
 pytest-rerunfailures = "9.1.1"
 pip-licenses = "^3.5.3"
-
 
 [tool.poetry.scripts]
