@@ -1,5 +1,5 @@
 [project]
-python = "^3.10"
+python = "^3.9"
 name = "summary-care-record-api"
 
 
@@ -29,9 +29,9 @@ locust = "^1.2"
 polling2 = "^0.4.7"
 pytest-bdd = "^4.0.1"
 pytest-rerunfailures = "^9.1.1"
-python = "^3.10"
+python = "^3.9"
 python-dateutil = "^2.8.1"
-pyyaml = "^6.0.2"
+pyyaml = "^5.2"
 requests = "^2.32.3"
 semver = "^2.10.2"
 werkzeug = "3.0.3"
