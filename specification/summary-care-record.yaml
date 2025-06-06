@@ -3,7 +3,7 @@ info:
   version: 1.0.0
   title: Summary Care Record API
   description: |
-    
+
     <div class="nhsd-m-emphasis-box nhsd-m-emphasis-box--emphasis nhsd-!t-margin-bottom-6" aria-label="Highlighted Information">
         <div class="nhsd-a-box nhsd-a-box--border-blue">
             <div class="nhsd-m-emphasis-box__image-box">
@@ -18,13 +18,13 @@ info:
             </div>
         </div>
     </div>
-    
+
     ## Version
     The current released version of this API is 3.0 while minor updates may be available on PTL environments.
 
     ## Overview
     Use this API to access or update a patient's [Summary Care Record (SCR)](https://digital.nhs.uk/services/summary-care-records-scr) - an electronic record of important patient information, created from GP medical records. SCRs can be seen and used by authorised staff in other areas of the health and care system involved in the patient's direct care.
-    
+
     This API is currently only approved for use in primary care software, specifically GP software. We hope to make it available for secondary care in the future. You can vote for this on our [interactive product backlog](https://nhs-digital-api-management.featureupvote.com/suggestions/151217/summary-care-record-scr-fhir-api-other-use-cases).
 
     Also use this API to update a patient's SCR Consent Preference on the Spine ACS and to raise electronic Alerts when:
@@ -40,12 +40,12 @@ info:
     * upload a patient's SCR
     * send a privacy alert message, if you have to override a patient's dissent to view their SCR 
     * update a patient's SCR Consent Preference on the Spine ACS
-    
+
     A health or care staff providing direct care to patients must be present and authenticated with an [NHS smartcard or a modern alternative](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation/nhs-smartcards-for-developers) to use this API.
-    
+
     ## Who can use this API
     This API can only be used where there is a legal basis to do so. Make sure you have a valid use case before you go too far with your development. You must do this before you can go live (see 'Onboarding' below).
-    
+
     This API is initially for use by new market entrant GP IT developers with other use cases to follow later.
 
     ## Related APIs
@@ -53,12 +53,12 @@ info:
       - [Personal Demographics Service (FHIR) API](https://digital.nhs.uk/developer/api-catalogue/personal-demographics-service-fhir) - use this API to search for patients and retrieve their details.  This API can also be used to update their details in some cases. This is the latest version of the PDS API and is recommended for all new integrators.
 
     This API has endpoints enabling you to get and set access permissions, the same as the [Access Control Service (ACS) HL7 V3 API](https://digital.nhs.uk/developer/api-catalogue/access-control-service-hl7-v3) which it partly replaces.
-    
+
     ## API status and roadmap
     This API is initially for use by new market entrant GP IT developers with other use cases to follow later.
-    
+
     This API is [in production, beta](https://digital.nhs.uk/developer/guides-and-documentation/reference-guide#statuses), meaning:
-    
+
     - the API is available in our sandbox and integration test environments
     - the API is available for production (private beta) use
     - we might make breaking changes, but only if we cannot avoid it, and we'll give advance notice
@@ -73,7 +73,7 @@ info:
     It conforms to the [FHIR](https://digital.nhs.uk/developer/guides-and-documentation/our-api-technologies#fhir) global standard for health care data exchange, specifically to [FHIR R4 (v4.0.1)](https://hl7.org/fhir/r4/), except that it does not support the [capabilities](https://hl7.org/fhir/R4/http.html#capabilities) interaction.
 
     It includes some country-specific FHIR extensions, which are built against [FHIR UK Core](https://digital.nhs.uk/services/fhir-uk-core), specifically [UK.core.r4.v2 2.0.5](https://simplifier.net/packages/uk.core.r4.v2/2.0.5).
-    
+
     The interactions between the SCR FHIR API and Spine have been tested with a wide range of special characters including emojis with appropriate Fitzpatrick modifiers. In accordance with HL7-FHIR specifications, this API operates with UTF-8 encoding.
 
     ## Network access
@@ -88,21 +88,19 @@ info:
     - a health or care staff providing direct care to patients
     - strongly authenticated, using either an [NHS smartcard or a modern alternative](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation/nhs-smartcards-for-developers) available via [NHS Care Identity Service 2 (NHS CIS2)](https://digital.nhs.uk/services/nhs-identity)
 
-    The API uses OAuth 2.0 to authorise the calling system. It supports the following security patterns:
-
+    The API uses OAuth 2.0 to authorise the calling system. It only supports CIS2 combined authentication and authorisation (see link below). Do not use separate authentication and authorisation:
     - [user-restricted RESTful API - using NHS CIS2 - combined authentication and authorisation](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation/user-restricted-restful-apis-nhs-cis2-combined-authentication-and-authorisation)
-    - [user-restricted RESTful API - using NHS CIS2 - separate authentication and authorisation](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation/user-restricted-restful-apis-nhs-cis2-separate-authentication-and-authorisation)
 
     For more details, see [user-restricted APIs](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation#user-restricted-apis).
 
     The second authorisation method is [application-restricted](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation#application-restricted-apis) (signed JWT authentication), meaning a few specific API calls can be authorised by the application making the requests. This is typically provided so that GPs can perform batch updates of multiple Summary Care Records without having to log in as a specific user.
-    
+
     The following specific endpoint and method combinations can be used with application-restricted authentication, in addition to user-restricted authentication:
-    
+
     - GET DocumentReference
     - GET Bundle
     - POST Bundle
-    
+
     For more details, see:
     - [application-restricted APIs](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation#application-restricted-apis) and 
     - [application-restricted RESTful APIs - signed with JWT authentication](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation/application-restricted-restful-apis-signed-jwt-authentication)
@@ -113,10 +111,10 @@ info:
     | Sandbox                                | `https://sandbox.api.service.nhs.uk/summary-care-record/FHIR/R4`|
     | Integration test                       | `https://int.api.service.nhs.uk/summary-care-record/FHIR/R4`    |
     | Production                             | `https://api.service.nhs.uk/summary-care-record/FHIR/R4`    |
-    
+
     ## NME Testing
     The approach to testing for external developers is as follows.
-    
+
     For sandbox, New Market Entrants (NMEs) should perform Self Testing, followed by Integration Testing which will be available on the Assurance Technical Evidencing. NMEs need to meet these to progress in integration.
 
     ### Sandbox testing
@@ -145,18 +143,18 @@ info:
     * is for formal use in a live environment
     * is stateful, so persists updates
     * includes authorisation, with [smartcard](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation/nhs-smartcards-for-developers)
- 
+
     For more information about our Production Environment, contact the [National Service Desk](ssd.nationalservicedesk@nhs.net)
 
     ## Onboarding
     You need to get your software approved by us before it can go live with this API. We call this onboarding. The onboarding process can sometimes be quite long, so it's worth planning well ahead.
-    
+
     As part of this process, you need to demonstrate that you can manage risks and that your software conforms technically with the requirements for this API.
-    
+
     Information on this page might impact the design of your software. For details, see [Onboarding support information](https://digital.nhs.uk/developer/api-catalogue/summary-care-record-fhir/onboarding-support-information).
-    
+
     To understand how our online digital onboarding process works, see [digital onboarding](https://digital.nhs.uk/developer/guides-and-documentation/digital-onboarding).
-    
+
     <div class="nhsd-m-emphasis-box nhsd-m-emphasis-box--emphasis nhsd-!t-margin-bottom-6" aria-label="Highlighted Information">
         <div class="nhsd-a-box nhsd-a-box--border-blue">
             <div class="nhsd-m-emphasis-box__image-box">
@@ -171,31 +169,31 @@ info:
             </div>
         </div>
     </div>
-    
+
     ### Troubleshooting
-    
+
     * After setting up your new application through the NHS Developer Portal and connecting it to the Summary Care Record API, you will need to ensure your application has a valid ASID custom attribute. ITOC support services should be able to ensure your ASID values are setup to use the [QUPC_IN190000UK04](https://data.developer.nhs.uk/dms/mim/4.2.00/Domains/PSIS%20Query/Document%20files/PSIS%20Query%20IM.htm#_Toc_Section_6.2) interaction. This interaction is for access to resources on Personal Spine Information Service (PSIS), the former name of Summary Care Record. If this isn't setup, you may encounter 403 Forbidden errors when accessing records. This can be checked by emailing [itoc.supportdesk@nhs.net](mailto:itoc.supportdesk@nhs.net).
     * ITOC should also be able to apply the GP summary v3 message set to the endpoints for you.
-    
+
     ## Errors
     We use standard HTTP status codes to show whether an API request succeeded or not. They are usually in the range:
 
     * 200 to 299 if it succeeded, including code 202 if it was accepted by an API that needs to wait for further action
     * 400 to 499 if it failed because of a client error by your application
     * 500 to 599 if it failed because of an error on our server
-    
+
     Errors specific to each API are shown in the Endpoints section, under Response. See our [reference guide](https://digital.nhs.uk/developer/guides-and-documentation/reference-guide#http-status-codes) for more on errors.
-    
+
     ## Exponential Backoff
     In the event of a transitory error:
-    
+
     * 429 - exceeded application rate limit (5 TPS per application)
     * 500 - internal server error
     * 503 - service unavailable
     * 504 - response timed out
-    
+
     The following retries are recommended:
-    
+
     * Attempt 1: 1 minute after first failure
     * Attempt 2: 30 minutes after attempt 1
     * Attempt 3: 60 minutes after attempt 2
@@ -204,10 +202,10 @@ info:
     * Attempt 6: 8 hours after attempt 5
     * Attempt 7: 16 hours after attempt 6
     * If attempt 7 fails, then fail permanently.
-    
+
     ## Support
     The National Integration Adaptors & APIs (NIA) Support team provide a support mailbox to support new market entrants integrating with this adaptor. To raise a support ticket please contact [niasupport@nhs.net](mailto:niasupport@nhs.net)
-    
+
     ## Operations
     Here are the links to the possible SCR operations. These endpoints are for create and consume use cases for GP systems:
     * [Get patient's Summary Care Record](#get-/Bundle)
@@ -220,7 +218,7 @@ info:
     name: MIT
   contact:
     name: Summary Care Record FHIR API Support
-    url: 'https://digital.nhs.uk/developer/help-and-support'
+    url: "https://digital.nhs.uk/developer/help-and-support"
     email: api.management@nhs.net
 x-nhsd-api-platform:
   meta:
@@ -230,23 +228,23 @@ x-nhsd-api-platform:
     description: This is a generated template API
     pipeline_name_prefix: "Summary-Care-Record"
 servers:
-  - url: 'https://sandbox.api.service.nhs.uk/summary-care-record/FHIR/R4'
+  - url: "https://sandbox.api.service.nhs.uk/summary-care-record/FHIR/R4"
     description: Sandbox environment
-  - url: 'https://int.api.service.nhs.uk/summary-care-record/FHIR/R4'
+  - url: "https://int.api.service.nhs.uk/summary-care-record/FHIR/R4"
     description: Integration test environment.
 x-spec-publication:
   operation-order:
-  - operations:
-    - method: GET
-      path: /DocumentReference
-    - method: GET
-      path: /Bundle
-    - method: POST
-      path: /Bundle
-    - method: POST
-      path: /AuditEvent
-    - method: POST
-      path: /$setPermission
+    - operations:
+        - method: GET
+          path: /DocumentReference
+        - method: GET
+          path: /Bundle
+        - method: POST
+          path: /Bundle
+        - method: POST
+          path: /AuditEvent
+        - method: POST
+          path: /$setPermission
 paths:
   /Bundle:
     post:
@@ -257,26 +255,26 @@ paths:
         To execute the upload you must provide patient's NHS number.
         In case of an update, before executing the request, latest UUID must be obtained using GET /DocumentReference endpoint
         and set inside the request body.
-        
+
         ## Usage diagram
         ![POST SCR Diagram](https://raw.githubusercontent.com/NHSDigital/summary-care-record-api/various-documentation-changes/specification/components/resources/images/diagram-1.jpg)
 
         ## Sandbox test scenarios
         You can test the following scenarios in our sandbox environment:
-        
+
         | Scenario                          | Request                                           | Response                                                                                                                              |
         | ----------------------------------| ------------------------------------------------- | -------------------- |
         | Happy path                        | `Patient.identifier.value`=`9000000009`           | HTTP Status 201      |
         | No patient's consent to store SCR | `Patient.identifier.value`=`9111231130`           | HTTP Status 403      |
-      
+
       summary: Upload patient's Summary Care Record
       operationId: upload-scr
       parameters:
-        - $ref: '#/components/parameters/BearerAuthorization'
-        - $ref: '#/components/parameters/CorrelationID'
-        - $ref: '#/components/parameters/RequestID'
-        - $ref: '#/components/parameters/RoleID'
-        - $ref: '#/components/parameters/ContentType'
+        - $ref: "#/components/parameters/BearerAuthorization"
+        - $ref: "#/components/parameters/CorrelationID"
+        - $ref: "#/components/parameters/RequestID"
+        - $ref: "#/components/parameters/RoleID"
+        - $ref: "#/components/parameters/ContentType"
       requestBody:
         required: true
         content:
@@ -366,9 +364,9 @@ paths:
         You must specify the NHS number and the UUID of the latest Summary Care Record of this patient. This UUID should be obtained using the GET /DocumentReference endpoint.
 
         If you specify an out-of-date UUID, this endpoint returns a Bundle with 0 entries.
-        
+
         ## Usage diagram
-        
+
         ![GET SCR Diagram](https://raw.githubusercontent.com/NHSDigital/summary-care-record-api/various-documentation-changes/specification/components/resources/images/diagram-2.jpg)
 
         ## Sandbox test scenarios
@@ -379,13 +377,13 @@ paths:
         | Happy path                       | `composition.identifier`=`FA60BE64-1F34-11EB-A2A8-000C29A364EB` `composition.subject:Patient.identifier`=`9000000009`               | HTTP Status 200 - Full Bundle     |
         | No results                       | `composition.identifier`=`81CC2DA0-8882-11EB-B538-0800200C9A66` `composition.subject:Patient.identifier`=`9000000033`               | HTTP Status 200 - Empty Bundle    |
         | Invalid results                  | `composition.identifier`=`INVALID ID` `composition.subject:Patient.identifier`=`INVALID NHS NUMBER`                                 | HTTP Status 400 - Invalid Request |
-        
+
       summary: Get patient's Summary Care Record
       operationId: get-scr
       parameters:
-        - $ref: '#/components/parameters/BearerAuthorization'
-        - $ref: '#/components/parameters/CorrelationID'
-        - $ref: '#/components/parameters/RequestID'
+        - $ref: "#/components/parameters/BearerAuthorization"
+        - $ref: "#/components/parameters/CorrelationID"
+        - $ref: "#/components/parameters/RequestID"
         - in: query
           name: composition.identifier
           description: Latest Patient's Summary Care Record identifier. Can be obtained using GET /DocumentReference endpoint.
@@ -472,7 +470,7 @@ paths:
         Use this endpoint to retrieve UUID of patient's latest record.
         The UUID is required to retrieve the Summary Care Record details using GET /Bundle endpoint
         and to update the details of patient's Summary Care Record using POST /Bundle endpoint.
-        
+
         This endpoint also returns patient's consent status in the securityLabel attribute of a successful API response.
 
         To get the information you must provide patient's NHS number.
@@ -480,18 +478,18 @@ paths:
 
         ## Sandbox test scenarios
         You can test the following scenarios in our sandbox environment:
-        
+
         | Scenario                          | Request                           | Response                           |
         | ----------------------------------| --------------------------------- | ---------------------------------- |
         | Happy path                        | `nhs-number=9000000009`           | HTTP Status 200 - Full Bundle      |
         | Empty result                      | `nhs-number=9000000033`           | HTTP Status 200 - Empty Bundle     |
         | Invalid results                   | `nhs-number=INVALID NHS NUMBER`   | HTTP Status 400 - Invalid Request  |
-        
+
       parameters:
-        - $ref: '#/components/parameters/BearerAuthorization'
-        - $ref: '#/components/parameters/CorrelationID'
-        - $ref: '#/components/parameters/RequestID'
-        - $ref: '#/components/parameters/RoleID'
+        - $ref: "#/components/parameters/BearerAuthorization"
+        - $ref: "#/components/parameters/CorrelationID"
+        - $ref: "#/components/parameters/RequestID"
+        - $ref: "#/components/parameters/RoleID"
         - in: query
           name: patient
           description: The patient's NHS number. Must be preceded with FHIR identifier (eg."patient=https://fhir.nhs.uk/Id/nhs-number|9000000009")
@@ -499,7 +497,7 @@ paths:
           example: https://fhir.nhs.uk/Id/nhs-number|9000000009
           schema:
             type: string
-            
+
         - in: query
           name: type
           description: General Practice Summary snomed code. Must be equal "type=http://snomed.info/sct|196981000000101"
@@ -507,7 +505,7 @@ paths:
           example: http://snomed.info/sct|196981000000101
           schema:
             type: string
-          
+
         - in: query
           name: _sort
           description: Defines how Patient's SCR list should be sorted in order to retrieve the latest one. The only supported value is _sort=date. If a different value is provided 400 HTTP status will be returned.
@@ -515,7 +513,7 @@ paths:
           example: date
           schema:
             type: string
-             
+
         - in: query
           name: _count
           description: Defines the number of latest patient SCR IDs that could be retrieved. Currently the only supported value is _count=1. If a different value is provided 400 HTTP status will be returned.
@@ -523,7 +521,7 @@ paths:
           example: 1
           schema:
             type: integer
-              
+
       responses:
         "200":
           description: Success response
@@ -600,13 +598,13 @@ paths:
         | -------------------------------- | ---------------------------------------------------------------------------- | -------------------- |
         | Happy path                       | `NHSD-Session-URID`=`555254240100`; `nhsNumber`=`9000000009`                 | HTTP Status 201      |
         | Patient not found                | `NHSD-Session-URID`=`555254240100`; `nhsNumber`=`9111231130`                 | HTTP Status 400      |
-        
+
       parameters:
-        - $ref: '#/components/parameters/BearerAuthorization'
-        - $ref: '#/components/parameters/CorrelationID'
-        - $ref: '#/components/parameters/RequestID'
-        - $ref: '#/components/parameters/RoleID'
-        - $ref: '#/components/parameters/ContentType'
+        - $ref: "#/components/parameters/BearerAuthorization"
+        - $ref: "#/components/parameters/CorrelationID"
+        - $ref: "#/components/parameters/RequestID"
+        - $ref: "#/components/parameters/RoleID"
+        - $ref: "#/components/parameters/ContentType"
       requestBody:
         required: true
         content:
@@ -615,8 +613,8 @@ paths:
               $ref: components/schemas/Parameters.yaml
             example:
               $ref: components/examples/SetPermission.json
-      responses: 
-        "201": 
+      responses:
+        "201":
           description: Permission successfully updated
         "4XX":
           description: |
@@ -666,7 +664,7 @@ paths:
       description: |
         ## Overview
         Use this endpoint to raise an Electronic Alert to an organisation's Privacy Officer(s) when a Care Professional in the same organisation creates a Self-Claim LR or accesses an SCR without the patient's permission.
-        
+
         The following combinations of type and subtype are possible. Note the non-permitted combinations in this list:
         | Requirement Identifier | Alert Type | Alert Type Display       | Alert Sub-Type<br>(“Reason Code”) | Alert Sub-Type (“Reason Display”)  | Business Scenario Notes                    |
         | ---------------------- | ---------- | ------------------------ | --------------------------------- | ---------------------------------- | ------------------------------------------ |
@@ -682,20 +680,20 @@ paths:
         | n/a                    | 2          | n/a                      | 4                                 | n/a                                | Not a permitted combination                |
         | MSCA-SCR-104           | 2          | Access Alert             | 5                                 | Access made in an emergency        | SCR accessed for emergency reasons.        |
         | n/a                    | 2          | n/a                      | 6                                 | n/a                                | Not a permitted combination                |
-        
+
         ## Sandbox test scenarios
         You can test the following scenarios in our sandbox environment:
 
         | Scenario                         | Request                                  | Response             |
         | -------------------------------- | ---------------------------------------- | -------------------- |
         | Happy path                       | `nhsNumber`=`9000000009`                 | HTTP Status 201      |
-        
+
       parameters:
-        - $ref: '#/components/parameters/BearerAuthorization'
-        - $ref: '#/components/parameters/CorrelationID'
-        - $ref: '#/components/parameters/RequestID'
-        - $ref: '#/components/parameters/RoleID'
-        - $ref: '#/components/parameters/ContentType'
+        - $ref: "#/components/parameters/BearerAuthorization"
+        - $ref: "#/components/parameters/CorrelationID"
+        - $ref: "#/components/parameters/RequestID"
+        - $ref: "#/components/parameters/RoleID"
+        - $ref: "#/components/parameters/ContentType"
       requestBody:
         required: true
         content:
@@ -759,7 +757,7 @@ components:
       schema:
         type: string
         format: '^Bearer\ [[:ascii:]]+$'
-        example: 'Bearer g1112R_ccQ1Ebbb4gtHBP1aaaNM'
+        example: "Bearer g1112R_ccQ1Ebbb4gtHBP1aaaNM"
     CorrelationID:
       in: header
       name: X-Correlation-ID
@@ -787,7 +785,7 @@ components:
         Mirrored back in a response header.
       schema:
         type: string
-        pattern: '^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$'
+        pattern: "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
         example: 60E0B220-8136-4CA5-AE46-1D97EF59D068
 
     RoleID:
@@ -802,8 +800,8 @@ components:
       required: false
       schema:
         type: string
-        pattern: '^[0-9]+$'
-        example: '555021935107'
+        pattern: "^[0-9]+$"
+        example: "555021935107"
     ContentType:
       in: header
       name: Content-Type
@@ -812,4 +810,4 @@ components:
       required: true
       schema:
         type: string
-        example: 'application/fhir+json'
+        example: "application/fhir+json"

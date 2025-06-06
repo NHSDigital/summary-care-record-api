@@ -43,10 +43,10 @@ import static uk.nhs.adaptors.scr.utils.FhirJsonResultMatcher.fhirJson;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@ExtendWith({SpringExtension.class})
+@ExtendWith({ SpringExtension.class })
 @DirtiesContext
 @Slf4j
-@ContextConfiguration(initializers = {WireMockInitializer.class})
+@ContextConfiguration(initializers = { WireMockInitializer.class })
 public class GetScrIdUAT {
 
     private static final String EVENT_LIST_QUERY_HEADER = "urn:nhs:names:services:psisquery/QUPC_IN180000SM04";
@@ -57,11 +57,11 @@ public class GetScrIdUAT {
     private static final String TYPE_PARAM = "http://snomed.info/sct|196981000000101";
     private static final String NHSD_ASID = "1029384756";
     private static final String CLIENT_IP = "192.168.0.24";
-    private static final String[] IGNORED_JSON_PATHS = new String[]{
-        "id",
-        "entry[*].fullUrl",
-        "entry[*].resource.subject.reference",
-        "entry[*].resource.id"
+    private static final String[] IGNORED_JSON_PATHS = new String[] {
+            "id",
+            "entry[*].fullUrl",
+            "entry[*].resource.subject.reference",
+            "entry[*].resource.id"
     };
 
     @Value("classpath:uat/responses/event-list-query/success.xml")
@@ -113,24 +113,24 @@ public class GetScrIdUAT {
 
     private void performRequestAndAssert(TestData testData, HttpStatus expectedHttpStatus) throws Exception {
         mockMvc.perform(get(GET_SCR_ID_ENDPOINT)
-            .contentType(APPLICATION_FHIR_JSON_VALUE)
-            .header(ScrHttpHeaders.NHSD_ASID, NHSD_ASID)
-            .header(ScrHttpHeaders.CLIENT_IP, CLIENT_IP)
-            .queryParam("patient", NHS_NUMBER)
-            .queryParam("type", TYPE_PARAM)
-            .queryParam("_sort", SORT_PARAM)
-            .queryParam("_count", COUNT_PARAM))
-            .andExpect(status().is(expectedHttpStatus.value()))
-            .andExpect(fhirJson(testData.getFhirResponse(), IGNORED_JSON_PATHS));
+                .contentType(APPLICATION_FHIR_JSON_VALUE)
+                .header(ScrHttpHeaders.NHSD_ASID, NHSD_ASID)
+                .header(ScrHttpHeaders.CLIENT_IP, CLIENT_IP)
+                .queryParam("patient", NHS_NUMBER)
+                .queryParam("type", TYPE_PARAM)
+                .queryParam("_sort", SORT_PARAM)
+                .queryParam("_count", COUNT_PARAM))
+                .andExpect(status().is(expectedHttpStatus.value()))
+                .andExpect(fhirJson(testData.getFhirResponse(), IGNORED_JSON_PATHS));
     }
 
     private void stubSpinePsisEndpoint(Resource response) throws IOException {
         wireMockServer.stubFor(
-            WireMock.post(spineConfiguration.getPsisQueriesEndpoint())
-                .withHeader(SOAP_ACTION, equalTo(EVENT_LIST_QUERY_HEADER))
-                .withHeader(CONTENT_TYPE, equalTo(TEXT_XML_VALUE))
-                .willReturn(aResponse()
-                    .withStatus(OK.value())
-                    .withBody(readString(response.getFile().toPath(), UTF_8))));
+                WireMock.post(spineConfiguration.getPsisQueriesEndpoint())
+                        .withHeader(SOAP_ACTION, equalTo(EVENT_LIST_QUERY_HEADER))
+                        .withHeader(CONTENT_TYPE, equalTo(TEXT_XML_VALUE))
+                        .willReturn(aResponse()
+                                .withStatus(OK.value())
+                                .withBody(readString(response.getFile().toPath(), UTF_8))));
     }
 }
