@@ -157,13 +157,14 @@ public class SetAcsUAT {
                     .withBody(readString(response.getFile().toPath(), UTF_8))));
     }
 
-    private void stubSpineAcsEndpoint(Resource response) throws IOException {
+    private void stubSdsService(Resource response) throws IOException {
         wireMockServer.stubFor(
-            WireMock.post(SPINE_ACS_ENDPOINT)
-                .withHeader(SOAP_ACTION, equalTo(ACS_QUERY_HEADER))
-                .withHeader(CONTENT_TYPE, equalTo(TEXT_XML_VALUE))
+            WireMock.get(WireMock.urlPathEqualTo(PRACTITIONER_ROLE_ENDPOINT))
+                .withQueryParam(USER_ID_QUERY_PARAM,
+                    containing(NHSD_SESSION_URID))
                 .willReturn(aResponse()
                     .withStatus(OK.value())
+                    .withHeader(CONTENT_TYPE, APPLICATION_JSON_VALUE)
                     .withBody(readString(response.getFile().toPath(), UTF_8))));
     }
 
