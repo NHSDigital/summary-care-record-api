@@ -169,13 +169,13 @@ public class SetAcsUAT {
 
     private void stubFailedSdsService() {
         wireMockServer.stubFor(
-                WireMock.get(WireMock.urlPathEqualTo(PRACTITIONER_ROLE_ENDPOINT))
-                        .withQueryParam(USER_ID_QUERY_PARAM,
-                                containing(NHSD_SESSION_URID))
-                        .willReturn(aResponse()
-                                .withStatus(OK.value())
-                                .withHeader(CONTENT_TYPE, APPLICATION_JSON_VALUE)
-                                .withBody("")));
+            WireMock.get(WireMock.urlPathEqualTo(PRACTITIONER_ROLE_ENDPOINT))
+                .withQueryParam(USER_ID_QUERY_PARAM,
+                    containing(NHSD_SESSION_URID))
+                .willReturn(aResponse()
+                    .withStatus(OK.value())
+                    .withHeader(CONTENT_TYPE, APPLICATION_JSON_VALUE)
+                    .withBody("")));
     }
 
     private void stubIdentityService(Resource response) throws IOException {
