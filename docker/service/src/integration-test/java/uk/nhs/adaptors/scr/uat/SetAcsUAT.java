@@ -44,10 +44,10 @@ import static uk.nhs.adaptors.scr.controllers.FhirMediaTypes.APPLICATION_FHIR_JS
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@ExtendWith({ SpringExtension.class })
+@ExtendWith({SpringExtension.class})
 @DirtiesContext
 @Slf4j
-@ContextConfiguration(initializers = { WireMockInitializer.class })
+@ContextConfiguration(initializers = {WireMockInitializer.class})
 public class SetAcsUAT {
     private static final String SPINE_ACS_ENDPOINT = "/sync-service";
     private static final String ACS_QUERY_HEADER = "urn:nhs:names:services:lrs/SET_RESOURCE_PERMISSIONS_INUK01";
@@ -87,7 +87,7 @@ public class SetAcsUAT {
         stubSdsService(practitionerRoleResponse);
 
         performRequest(testData.getFhirRequest())
-                .andExpect(status().isCreated());
+            .andExpect(status().isCreated());
     }
 
     @ParameterizedTest(name = "[{index}] - {0}")
@@ -97,7 +97,7 @@ public class SetAcsUAT {
         stubIdentityService(userInfoResponse);
 
         performRequest(testData.getFhirRequest())
-                .andExpect(status().isCreated());
+            .andExpect(status().isCreated());
     }
 
     @ParameterizedTest(name = "[{index}] - {0}")
@@ -107,8 +107,8 @@ public class SetAcsUAT {
         stubIdentityService(userInfoResponse);
 
         performRequest(testData.getFhirRequest())
-                .andExpect(status().isBadRequest())
-                .andExpect(content().json(testData.getFhirResponse()));
+            .andExpect(status().isBadRequest())
+            .andExpect(content().json(testData.getFhirResponse()));
     }
 
     @ParameterizedTest(name = "[{index}] - {0}")
@@ -117,8 +117,8 @@ public class SetAcsUAT {
         stubIdentityService(userInfoResponse);
 
         performRequest(testData.getFhirRequest())
-                .andExpect(status().isBadRequest())
-                .andExpect(content().json(testData.getFhirResponse()));
+            .andExpect(status().isBadRequest())
+            .andExpect(content().json(testData.getFhirResponse()));
     }
 
     @ParameterizedTest(name = "[{index}] - {0}")
@@ -137,35 +137,34 @@ public class SetAcsUAT {
 
     private ResultActions performRequest(String request) throws Exception {
         return mockMvc.perform(post(ACS_ENDPOINT)
-                .contentType(APPLICATION_FHIR_JSON)
-                .header(ScrHttpHeaders.NHSD_ASID, NHSD_ASID)
-                .header(ScrHttpHeaders.CLIENT_IP, CLIENT_IP)
-                .header(ScrHttpHeaders.NHSD_SESSION_URID, NHSD_SESSION_URID)
-                .header(ScrHttpHeaders.NHSD_IDENTITY, NHSD_IDENTITY_UUID)
-                .header(AUTHORIZATION, BEARER_TOKEN)
-                .content(request));
+            .contentType(APPLICATION_FHIR_JSON)
+            .header(ScrHttpHeaders.NHSD_ASID, NHSD_ASID)
+            .header(ScrHttpHeaders.CLIENT_IP, CLIENT_IP)
+            .header(ScrHttpHeaders.NHSD_SESSION_URID, NHSD_SESSION_URID)
+            .header(ScrHttpHeaders.NHSD_IDENTITY, NHSD_IDENTITY_UUID)
+            .header(AUTHORIZATION, BEARER_TOKEN)
+            .content(request));
 
     }
 
     private void stubSpineAcsEndpoint(Resource response) throws IOException {
         wireMockServer.stubFor(
-                WireMock.post(SPINE_ACS_ENDPOINT)
-                        .withHeader(SOAP_ACTION, equalTo(ACS_QUERY_HEADER))
-                        .withHeader(CONTENT_TYPE, equalTo(TEXT_XML_VALUE))
-                        .willReturn(aResponse()
-                                .withStatus(OK.value())
-                                .withBody(readString(response.getFile().toPath(), UTF_8))));
+            WireMock.post(SPINE_ACS_ENDPOINT)
+                .withHeader(SOAP_ACTION, equalTo(ACS_QUERY_HEADER))
+                .withHeader(CONTENT_TYPE, equalTo(TEXT_XML_VALUE))
+                .willReturn(aResponse()
+                    .withStatus(OK.value())
+                    .withBody(readString(response.getFile().toPath(), UTF_8))));
     }
 
-    private void stubSdsService(Resource response) throws IOException {
+    private void stubSpineAcsEndpoint(Resource response) throws IOException {
         wireMockServer.stubFor(
-                WireMock.get(WireMock.urlPathEqualTo(PRACTITIONER_ROLE_ENDPOINT))
-                        .withQueryParam(USER_ID_QUERY_PARAM,
-                                containing(NHSD_SESSION_URID))
-                        .willReturn(aResponse()
-                                .withStatus(OK.value())
-                                .withHeader(CONTENT_TYPE, APPLICATION_JSON_VALUE)
-                                .withBody(readString(response.getFile().toPath(), UTF_8))));
+            WireMock.post(SPINE_ACS_ENDPOINT)
+                .withHeader(SOAP_ACTION, equalTo(ACS_QUERY_HEADER))
+                .withHeader(CONTENT_TYPE, equalTo(TEXT_XML_VALUE))
+                .willReturn(aResponse()
+                    .withStatus(OK.value())
+                    .withBody(readString(response.getFile().toPath(), UTF_8))));
     }
 
     private void stubFailedSdsService() {
@@ -181,20 +180,20 @@ public class SetAcsUAT {
 
     private void stubIdentityService(Resource response) throws IOException {
         wireMockServer.stubFor(
-                WireMock.get(USER_INFO_ENDPOINT)
-                        .withHeader(AUTHORIZATION, equalTo(BEARER_TOKEN))
-                        .willReturn(aResponse()
-                                .withStatus(OK.value())
-                                .withHeader(CONTENT_TYPE, APPLICATION_JSON_VALUE)
-                                .withBody(readString(response.getFile().toPath(), UTF_8))));
+            WireMock.get(USER_INFO_ENDPOINT)
+                .withHeader(AUTHORIZATION, equalTo(BEARER_TOKEN))
+                .willReturn(aResponse()
+                    .withStatus(OK.value())
+                    .withHeader(CONTENT_TYPE, APPLICATION_JSON_VALUE)
+                    .withBody(readString(response.getFile().toPath(), UTF_8))));
     }
 
     private void stubFailedIdentityService() {
         wireMockServer.stubFor(
-                WireMock.get(USER_INFO_ENDPOINT)
-                        .withHeader(AUTHORIZATION, equalTo(BEARER_TOKEN))
-                        .willReturn(aResponse()
-                                .withStatus(BAD_REQUEST.value())
-                                .withHeader(CONTENT_TYPE, APPLICATION_JSON_VALUE)));
+            WireMock.get(USER_INFO_ENDPOINT)
+                .withHeader(AUTHORIZATION, equalTo(BEARER_TOKEN))
+                .willReturn(aResponse()
+                    .withStatus(BAD_REQUEST.value())
+                    .withHeader(CONTENT_TYPE, APPLICATION_JSON_VALUE)));
     }
 }

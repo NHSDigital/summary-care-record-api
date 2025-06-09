@@ -133,11 +133,13 @@ public class GetScrService {
             bundle.addEntry(new BundleEntryComponent()
                     .setFullUrl(getScrUrl() + "/DocumentReference/" + documentReference.getId())
                     .setResource(documentReference)
-                    .setSearch(new Bundle.BundleEntrySearchComponent().setMode(MATCH)));
+                    .setSearch(new Bundle.BundleEntrySearchComponent().setMode(MATCH))
+            );
 
             bundle.addEntry(new BundleEntryComponent()
                     .setFullUrl(patient.getId())
-                    .setResource(patient));
+                    .setResource(patient)
+            );
         } else {
             bundle.setTotal(0);
         }
@@ -233,8 +235,8 @@ public class GetScrService {
     }
 
     private DocumentReference buildDocumentReference(String nhsNumber,
-            EventListQueryResponse response,
-            Patient patient) {
+                                                     EventListQueryResponse response,
+                                                     Patient patient) {
         DocumentReference documentReference = new DocumentReference();
         documentReference.setId(randomUUID());
 
@@ -246,7 +248,8 @@ public class GetScrService {
         documentReference.setType(GP_SUMMARY_SNOMED);
         documentReference.setSubject(new Reference(patient));
 
-        DocumentReferenceContentComponent content = buildDocumentReferenceContent(nhsNumber, response.getLatestScrId());
+        DocumentReferenceContentComponent content =
+                buildDocumentReferenceContent(nhsNumber, response.getLatestScrId());
         documentReference.addContent(content);
 
         documentReference.setMasterIdentifier(new Identifier()
@@ -267,6 +270,7 @@ public class GetScrService {
         return content;
     }
 
+
     private Patient buildPatientResource(String nhsNumber) {
         Patient patient = new Patient();
         String patientResourceId = randomUUID();
@@ -281,8 +285,7 @@ public class GetScrService {
     private String prepareEventListQueryRequest(String nhsNumber, String nhsdAsid, String clientIp) {
         EventListQueryParams eventListQueryParams = new EventListQueryParams()
                 .setGeneratedMessageId(MDC.get(CORRELATION_ID_MDC_KEY))
-                .setMessageCreationTime(
-                        DateTimeFormatter.ofPattern("yyyyMMddHHmmss").format(now(ZoneId.of("Europe/London"))))
+                .setMessageCreationTime(DateTimeFormatter.ofPattern("yyyyMMddHHmmss").format(now(ZoneId.of("Europe/London"))))
                 .setNhsNumber(nhsNumber)
                 .setSenderFromASID(nhsdAsid)
                 .setSpineToASID(scrConfiguration.getNhsdAsidTo())
@@ -294,8 +297,7 @@ public class GetScrService {
     private String prepareEventQueryRequest(String psisEventId, String nhsNumber, String nhsdAsid, String clientIp) {
         var eventListQueryParams = new EventQueryParams()
                 .setGeneratedMessageId(MDC.get(CORRELATION_ID_MDC_KEY))
-                .setMessageCreationTime(
-                        DateTimeFormatter.ofPattern("yyyyMMddHHmmss").format(now(ZoneId.of("Europe/London"))))
+                .setMessageCreationTime(DateTimeFormatter.ofPattern("yyyyMMddHHmmss").format(now(ZoneId.of("Europe/London"))))
                 .setNhsNumber(nhsNumber)
                 .setSenderFromASID(nhsdAsid)
                 .setSpineToASID(scrConfiguration.getNhsdAsidTo())
