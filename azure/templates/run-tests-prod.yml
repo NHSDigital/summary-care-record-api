@@ -1,48 +1,52 @@
 steps:
-  - task: s3-cache-action@1
-    inputs:
-      key: 'poetry | $(SERVICE_NAME) | $(Pipeline.Workspace)/s/$(SERVICE_NAME)/$(SERVICE_ARTIFACT_NAME)/poetry.lock'
-      location: '$(Pipeline.Workspace)/s/$(SERVICE_NAME)/$(SERVICE_ARTIFACT_NAME)/.venv'
-      debug: true
-      alias: 'Pytest'
-    displayName: cache pytest dependencies
+    - task: UsePythonVersion@0
+      inputs:
+          versionSpec: "3.9"
 
-  - bash: |
-      make install-python
-    workingDirectory: $(Pipeline.Workspace)/s/$(SERVICE_NAME)/$(SERVICE_ARTIFACT_NAME)
-    condition: ne(variables['CacheRestored-Pytest'], 'true')
-    displayName: Setup pytests
-  # Smoketests
-  - template: "azure/components/aws-assume-role.yml@common"
-    parameters:
-      role: "auto-ops"
-      profile: "apm_ptl"
-  - bash: |
-      wait
-      sleep 350
-      export RELEASE_RELEASEID=$(Build.BuildId)
-      export SOURCE_COMMIT_ID=$(Build.SourceVersion)
-      export APIGEE_ENVIRONMENT="$(ENVIRONMENT)"
-      export SERVICE_BASE_PATH="$(SERVICE_BASE_PATH)"
-      export STATUS_ENDPOINT_API_KEY="$(status-endpoint-api-key)"
-      export APIGEE_PRODUCT="$(FULLY_QUALIFIED_SERVICE_NAME)"
-      export JWT_PRIVATE_KEY_APP_RESTRICTED_ABSOLUTE_PATH=""
-      export AUTHENTICATE_URL=""
-      export OAUTH_PROXY="oauth2"
-      export OAUTH_BASE_URI="https://$(ENVIRONMENT).api.service.nhs.uk"
-      export APIGEE_API_TOKEN="$(secret.AccessToken)"
-      export REDIRECT_URI="https://example.org/callback"
-      export CLIENT_ID="$(CLIENT_ID_INT)"
-      export CLIENT_SECRET="$(CLIENT_SECRET_INT)"
-      export JWT_PRIVATE_KEY_ABSOLUTE_PATH="$(Pipeline.Workspace)/secrets/$(JWT_TESTING_PRIVATE_KEY)"
-      export ID_TOKEN_NHS_LOGIN_PRIVATE_KEY_ABSOLUTE_PATH="$(Pipeline.Workspace)/secrets/$(ID_TOKEN_NHS_LOGIN_PRIVATE_KEY)"
+    - task: s3-cache-action@1
+      inputs:
+          key: "poetry | $(SERVICE_NAME) | $(Pipeline.Workspace)/s/$(SERVICE_NAME)/$(SERVICE_ARTIFACT_NAME)/poetry.lock"
+          location: "$(Pipeline.Workspace)/s/$(SERVICE_NAME)/$(SERVICE_ARTIFACT_NAME)/.venv"
+          debug: true
+          alias: "Pytest"
+      displayName: cache pytest dependencies
 
-      make prod-smoketest
-    workingDirectory: $(Pipeline.Workspace)/s/$(SERVICE_NAME)/$(SERVICE_ARTIFACT_NAME)
-    displayName: Run smoketests
-  - task: PublishTestResults@2
-    displayName: 'Publish smoketest results'
-    condition: always()
-    inputs:
-      testResultsFiles: '$(Pipeline.Workspace)/s/$(SERVICE_NAME)/$(SERVICE_ARTIFACT_NAME)/smoketest-report.xml'
-      failTaskOnFailedTests: true
+    - bash: |
+          make install-python
+      workingDirectory: $(Pipeline.Workspace)/s/$(SERVICE_NAME)/$(SERVICE_ARTIFACT_NAME)
+      condition: ne(variables['CacheRestored-Pytest'], 'true')
+      displayName: Setup pytests
+    # Smoketests
+    - template: "azure/components/aws-assume-role.yml@common"
+      parameters:
+          role: "auto-ops"
+          profile: "apm_ptl"
+    - bash: |
+          wait
+          sleep 350
+          export RELEASE_RELEASEID=$(Build.BuildId)
+          export SOURCE_COMMIT_ID=$(Build.SourceVersion)
+          export APIGEE_ENVIRONMENT="$(ENVIRONMENT)"
+          export SERVICE_BASE_PATH="$(SERVICE_BASE_PATH)"
+          export STATUS_ENDPOINT_API_KEY="$(status-endpoint-api-key)"
+          export APIGEE_PRODUCT="$(FULLY_QUALIFIED_SERVICE_NAME)"
+          export JWT_PRIVATE_KEY_APP_RESTRICTED_ABSOLUTE_PATH=""
+          export AUTHENTICATE_URL=""
+          export OAUTH_PROXY="oauth2"
+          export OAUTH_BASE_URI="https://$(ENVIRONMENT).api.service.nhs.uk"
+          export APIGEE_API_TOKEN="$(secret.AccessToken)"
+          export REDIRECT_URI="https://example.org/callback"
+          export CLIENT_ID="$(CLIENT_ID_INT)"
+          export CLIENT_SECRET="$(CLIENT_SECRET_INT)"
+          export JWT_PRIVATE_KEY_ABSOLUTE_PATH="$(Pipeline.Workspace)/secrets/$(JWT_TESTING_PRIVATE_KEY)"
+          export ID_TOKEN_NHS_LOGIN_PRIVATE_KEY_ABSOLUTE_PATH="$(Pipeline.Workspace)/secrets/$(ID_TOKEN_NHS_LOGIN_PRIVATE_KEY)"
+
+          make prod-smoketest
+      workingDirectory: $(Pipeline.Workspace)/s/$(SERVICE_NAME)/$(SERVICE_ARTIFACT_NAME)
+      displayName: Run smoketests
+    - task: PublishTestResults@2
+      displayName: "Publish smoketest results"
+      condition: always()
+      inputs:
+          testResultsFiles: "$(Pipeline.Workspace)/s/$(SERVICE_NAME)/$(SERVICE_ARTIFACT_NAME)/smoketest-report.xml"
+          failTaskOnFailedTests: true
