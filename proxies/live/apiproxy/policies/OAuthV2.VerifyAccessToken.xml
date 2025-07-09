@@ -1,3 +1,4 @@
 <OAuthV2 async="false" continueOnError="false" enabled="true" name="OauthV2.VerifyAccessToken">
   <Operation>VerifyAccessToken</Operation>
+  <Scope>urn:nhsd:apim:app:level3:summary-care-record, urn:nhsd:apim:user-nhs-id:aal2:summary-care-record</Scope>
 </OAuthV2>
