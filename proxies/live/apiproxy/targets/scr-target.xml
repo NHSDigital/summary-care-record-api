@@ -29,7 +29,7 @@
       </Step>
       <Step>
         <Name>AssignMessage.SetAccessModeUserRestricted</Name>
-        <Condition>(scope JavaRegex "(.+\ urn:nhsd:apim:user-nhs-id:aal2:summary-care-record\ .+|^urn:nhsd:apim:user-nhs-id:aal2:summary-care-record\ .+|.+\ urn:nhsd:apim:user-nhs-id:aal2:summary-care-record$|^urn:nhsd:apim:user-nhs-id:aal2:summary-care-record$)")</Condition>
+        <Condition>(scope JavaRegex "(.+\ urn:nhsd:apim:user-nhs-id:aal2:summary-care-record\ .+|^urn:nhsd:apim:user-nhs-id:aal2:summary-care-record\ .+|.+\ urn:nhsd:apim:user-nhs-id:aal2:summary-care-record$|^urn:nhsd:apim:user-nhs-id:aal2:summary-care-record$)" OR scope JavaRegex "(.+\ urn:nhsd:apim:user-nhs-id:aal3:summary-care-record\ .+|^urn:nhsd:apim:user-nhs-id:aal3:summary-care-record\ .+|.+\ urn:nhsd:apim:user-nhs-id:aal3:summary-care-record$|^urn:nhsd:apim:user-nhs-id:aal3:summary-care-record$)")</Condition>
       </Step>
       <Step>
         <Name>FlowCallout.UserRoleService</Name>
