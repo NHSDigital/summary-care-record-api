@@ -121,6 +121,20 @@ public class SetAcsUAT {
             .andExpect(content().json(testData.getFhirResponse()));
     }
 
+    @ParameterizedTest(name = "[{index}] - {0}")
+    @ArgumentsSource(SetAcsBadRequest.class)
+    public void testSetAcsPermissionNoRoleCodeBadRequest(TestData testData) throws Exception {
+        // FLAGSAPI-1046 should return Bad Request if no role code is returned from SDS
+        // or Identity Service
+        stubFailedIdentityService();
+        stubFailedSdsService();
+        stubSpineAcsEndpoint(acsErrorResponse);
+
+        performRequest(testData.getFhirRequest())
+                .andExpect(status().isBadRequest())
+                .andExpect(content().json(testData.getFhirResponse()));
+    }
+
     private ResultActions performRequest(String request) throws Exception {
         return mockMvc.perform(post(ACS_ENDPOINT)
             .contentType(APPLICATION_FHIR_JSON)
@@ -152,6 +166,17 @@ public class SetAcsUAT {
                     .withStatus(OK.value())
                     .withHeader(CONTENT_TYPE, APPLICATION_JSON_VALUE)
                     .withBody(readString(response.getFile().toPath(), UTF_8))));
+    }
+
+    private void stubFailedSdsService() {
+        wireMockServer.stubFor(
+            WireMock.get(WireMock.urlPathEqualTo(PRACTITIONER_ROLE_ENDPOINT))
+                .withQueryParam(USER_ID_QUERY_PARAM,
+                    containing(NHSD_SESSION_URID))
+                .willReturn(aResponse()
+                    .withStatus(OK.value())
+                    .withHeader(CONTENT_TYPE, APPLICATION_JSON_VALUE)
+                    .withBody("")));
     }
 
     private void stubIdentityService(Resource response) throws IOException {
