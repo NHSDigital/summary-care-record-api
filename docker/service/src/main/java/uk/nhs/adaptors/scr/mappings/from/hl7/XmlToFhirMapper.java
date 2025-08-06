@@ -1,6 +1,7 @@
 package uk.nhs.adaptors.scr.mappings.from.hl7;
 
 import lombok.SneakyThrows;
+import org.slf4j.LoggerFactory;
 import org.hl7.fhir.r4.model.BaseDateTimeType;
 import org.hl7.fhir.r4.model.DateTimeType;
 import org.hl7.fhir.r4.model.InstantType;
@@ -106,6 +107,15 @@ public interface XmlToFhirMapper {
             baseDateTimeType.setTimeZone(TimeZone.getTimeZone(TIMEZONE));
             baseDateTimeType.setYear(parseInt(date) + 1);
             baseDateTimeType.setMillis(yearPrecision);
+        } else if (date.equals("1")) {
+            date = "19700101";
+            LocalDate parsed = LocalDate.parse(date, DateTimeFormatter.ofPattern(DATE_PATTERN));
+            baseDateTimeType.setPrecision(DAY);
+            baseDateTimeType.setTimeZone(TimeZone.getTimeZone(TIMEZONE));
+            setDatePart(baseDateTimeType, parsed.getDayOfMonth(), parsed.getMonthValue(), parsed.getYear());
+            baseDateTimeType.setMillis(dayPrecision);
+            org.slf4j.Logger logger = LoggerFactory.getLogger(XmlToFhirMapper.class);
+            logger.error("Invalid date value:1 updated");
         } else {
             throw new ScrBaseException("Unsupported date format: " + date);
         }

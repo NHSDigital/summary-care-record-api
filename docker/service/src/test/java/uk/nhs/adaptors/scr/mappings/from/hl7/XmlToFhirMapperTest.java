@@ -37,6 +37,10 @@ public class XmlToFhirMapperTest {
         date = parseDate("2023", InstantType.class);
         assertThat(date.getValueAsString()).isEqualTo("2023");
 
+        // FLAGSAPI-806
+        date = parseDate("1", InstantType.class);
+        assertThat(date.getValueAsString()).isEqualTo("1970-01-01");
+
         assertThrows(ScrBaseException.class, () -> {
             parseDate("-2023", InstantType.class);
         });

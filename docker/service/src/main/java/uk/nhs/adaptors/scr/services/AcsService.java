@@ -90,12 +90,21 @@ public class AcsService {
 
         }
 
+        String errorMessage = String.format("Unable to determine Job Role Code for "
+                + "the given RoleID via the SDS Service: %s", nhsdSessionUrid);
+
+        // if we haven't retrieved a role code from openID we try the SDS service
         try {
-            return Pair.of(sdsService.getUserRoleCode(nhsdSessionUrid), nhsdIdentity);
+            var roleCode = sdsService.getUserRoleCode(nhsdSessionUrid);
+            if (roleCode != null && !roleCode.isEmpty()) {
+                return Pair.of(roleCode, nhsdIdentity);
+            }
         } catch (BadRequestException | URISyntaxException e) {
-            throw new BadRequestException(String.format("Unable to determine SDS Job Role Code for "
-                + "the given RoleID: %s", nhsdSessionUrid));
+            LOGGER.info(errorMessage);
+            throw new BadRequestException(errorMessage);
         }
+        LOGGER.info(errorMessage);
+        throw new BadRequestException(errorMessage);
     }
 
     private String prepareAcsRequest(ParametersParameterComponent parameter, RequestData requestData, String sdsJobRoleCode,
