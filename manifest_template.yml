@@ -71,6 +71,7 @@ apigee:
 {% endif %}
         scopes:
           - 'urn:nhsd:apim:app:level3:summary-care-record'
+          - 'urn:nhsd:apim:user-nhs-id:aal2:summary-care-record'
           - 'urn:nhsd:apim:user-nhs-id:aal3:summary-care-record'
         quota: {{ ENV.quota | default('300') }}
         quotaInterval: '1'
@@ -92,7 +93,7 @@ ACCESS_MODES:
   - name: user-restricted
     nameSuffix: ''
     displayName: Healthcare Worker
-    scopes: ['urn:nhsd:apim:user-nhs-id:aal3:summary-care-record']
+    scopes: ['urn:nhsd:apim:user-nhs-id:aal2:summary-care-record']
     requireCallbackUrl: true
     description: User restricted
   - name: application-restricted

@@ -1,10 +1,14 @@
 steps:
+  - task: UsePythonVersion@0
+    inputs:
+      versionSpec: "3.9"
+
   - task: s3-cache-action@1
     inputs:
-      key: 'poetry | $(SERVICE_NAME) | $(Pipeline.Workspace)/s/$(SERVICE_NAME)/$(SERVICE_ARTIFACT_NAME)/poetry.lock'
-      location: '$(Pipeline.Workspace)/s/$(SERVICE_NAME)/$(SERVICE_ARTIFACT_NAME)/.venv'
+      key: "poetry | $(SERVICE_NAME) | $(Pipeline.Workspace)/s/$(SERVICE_NAME)/$(SERVICE_ARTIFACT_NAME)/poetry.lock"
+      location: "$(Pipeline.Workspace)/s/$(SERVICE_NAME)/$(SERVICE_ARTIFACT_NAME)/.venv"
       debug: true
-      alias: 'Pytest'
+      alias: "Pytest"
     displayName: cache pytest dependencies
 
   - bash: |
@@ -41,8 +45,8 @@ steps:
     workingDirectory: $(Pipeline.Workspace)/s/$(SERVICE_NAME)/$(SERVICE_ARTIFACT_NAME)
     displayName: Run smoketests
   - task: PublishTestResults@2
-    displayName: 'Publish smoketest results'
+    displayName: "Publish smoketest results"
     condition: always()
     inputs:
-      testResultsFiles: '$(Pipeline.Workspace)/s/$(SERVICE_NAME)/$(SERVICE_ARTIFACT_NAME)/smoketest-report.xml'
+      testResultsFiles: "$(Pipeline.Workspace)/s/$(SERVICE_NAME)/$(SERVICE_ARTIFACT_NAME)/smoketest-report.xml"
       failTaskOnFailedTests: true

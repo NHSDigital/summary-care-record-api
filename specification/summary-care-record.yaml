@@ -25,7 +25,7 @@ info:
     ## Overview
     Use this API to access or update a patient's [Summary Care Record (SCR)](https://digital.nhs.uk/services/summary-care-records-scr) - an electronic record of important patient information, created from GP medical records. SCRs can be seen and used by authorised staff in other areas of the health and care system involved in the patient's direct care.
     
-    This API is currently only approved for use in primary care software, specifically GP software. We hope to make it available for secondary care in the future. You can vote for this on our [interactive product backlog](https://nhs-digital-api-management.featureupvote.com/suggestions/151217/summary-care-record-scr-fhir-api-other-use-cases).
+    This API is currently only approved for use in primary care software, specifically GP software. We hope to make it available for secondary care in the future.
 
     Also use this API to update a patient's SCR Consent Preference on the Spine ACS and to raise electronic Alerts when:
     * a SCR is accessed without the patient's permission
@@ -63,10 +63,6 @@ info:
     - the API is available for production (private beta) use
     - we might make breaking changes, but only if we cannot avoid it, and we'll give advance notice
 
-    To see our roadmap, or to suggest, comment or vote on features for this API, see our [interactive product backlog](https://nhs-digital-api-management.featureupvote.com/?order=popular&filter=all&tag=scr-fhir-api&deleted=0#controls).
-
-    If you have any other queries, [contact us](https://digital.nhs.uk/developer/help-and-support).
-
     ## Technology
     This API is [RESTful](https://digital.nhs.uk/developer/guides-and-documentation/our-api-technologies#basic-rest).
 
@@ -88,10 +84,8 @@ info:
     - a health or care staff providing direct care to patients
     - strongly authenticated, using either an [NHS smartcard or a modern alternative](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation/nhs-smartcards-for-developers) available via [NHS Care Identity Service 2 (NHS CIS2)](https://digital.nhs.uk/services/nhs-identity)
 
-    The API uses OAuth 2.0 to authorise the calling system. It supports the following security patterns:
-
+    The API uses OAuth 2.0 to authorise the calling system. It only supports CIS2 combined authentication and authorisation (see link below). Do not use separate authentication and authorisation:
     - [user-restricted RESTful API - using NHS CIS2 - combined authentication and authorisation](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation/user-restricted-restful-apis-nhs-cis2-combined-authentication-and-authorisation)
-    - [user-restricted RESTful API - using NHS CIS2 - separate authentication and authorisation](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation/user-restricted-restful-apis-nhs-cis2-separate-authentication-and-authorisation)
 
     For more details, see [user-restricted APIs](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation#user-restricted-apis).
 
@@ -114,7 +108,7 @@ info:
     | Integration test                       | `https://int.api.service.nhs.uk/summary-care-record/FHIR/R4`    |
     | Production                             | `https://api.service.nhs.uk/summary-care-record/FHIR/R4`    |
     
-    ## NME Testing
+    ## NME testing
     The approach to testing for external developers is as follows.
     
     For sandbox, New Market Entrants (NMEs) should perform Self Testing, followed by Integration Testing which will be available on the Assurance Technical Evidencing. NMEs need to meet these to progress in integration.
@@ -186,7 +180,7 @@ info:
     
     Errors specific to each API are shown in the Endpoints section, under Response. See our [reference guide](https://digital.nhs.uk/developer/guides-and-documentation/reference-guide#http-status-codes) for more on errors.
     
-    ## Exponential Backoff
+    ## Exponential backoff
     In the event of a transitory error:
     
     * 429 - exceeded application rate limit (5 TPS per application)
@@ -206,7 +200,16 @@ info:
     * If attempt 7 fails, then fail permanently.
     
     ## Support
-    The National Integration Adaptors & APIs (NIA) Support team provide a support mailbox to support new market entrants integrating with this adaptor. To raise a support ticket please contact [niasupport@nhs.net](mailto:niasupport@nhs.net)
+    Support for new market entrants integrating with this adaptor can be provided by raising a support ticket via the follow methods, please quote ‘SCR FHIR API’ when raising.
+    
+    For technical support enquiries:
+
+    * email the National Service Desk [ssd.nationalservicedesk@nhs.net](ssd.nationalservicedesk@nhs.net) or visit the [NHS Digital Customer Portal](https://www.support.digitalservices.nhs.uk/csm) 
+    * telephone 0300 303 5035
+
+    For general enquiries:
+    
+    * email [enquiries@nhsdigital.nhs.uk](mailto:enquiries@nhsdigital.nhs.uk)
     
     ## Operations
     Here are the links to the possible SCR operations. These endpoints are for create and consume use cases for GP systems:
@@ -215,6 +218,9 @@ info:
     * [Get patient's latest Summary Care Record identifier](#get-/DocumentReference)
     * [Update patient's consent to share SCR](#post-/$setPermission)
     * [Send a privacy alert message](#post-/AuditEvent)
+
+    ## Contact us
+    For help and support connecting to our APIs and to join our developer community, see [Help and support building healthcare software](https://digital.nhs.uk/developer/help-and-support).
 
   license:
     name: MIT
