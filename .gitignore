@@ -14,3 +14,4 @@ __pycache__/
 smoketest-report.xml
 *.code-workspace
 .python-version
+.vscode/
