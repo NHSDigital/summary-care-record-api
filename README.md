@@ -31,7 +31,7 @@ The current release is version 3.0 stable.
 ### Requirements
 * make
 * nodejs + npm/yarn
-* [poetry](https://github.com/python-poetry/poetry)
+* [poetry version 2.1.2](https://github.com/python-poetry/poetry)
 * Java 8+
 
 ### Install
