@@ -81,15 +81,15 @@ info:
     This API has two authorisation methods. The first is [user-restricted](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation#user-restricted-apis), meaning an end user must be present and authenticated to use it.
 
     The end user must be:
-    - a health or care staff providing direct care to patients
-    - strongly authenticated, using either an [NHS smartcard or a modern alternative](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation/nhs-smartcards-for-developers) available via [NHS Care Identity Service 2 (NHS CIS2)](https://digital.nhs.uk/services/nhs-identity)
+    - a health or care worker providing direct care to patients
+    - strongly authenticated, using either an [NHS smartcard or a modern alternative](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation/nhs-smartcards-for-developers) available via [CIS2 Authentication](https://digital.nhs.uk/services/care-identity-service/applications-and-services/cis2-authentication)
+    - authenticated to assurance level AAL2 or AAL3
 
-    The API uses OAuth 2.0 to authorise the calling system. It only supports CIS2 combined authentication and authorisation (see link below). Do not use separate authentication and authorisation:
-    - [user-restricted RESTful API - using NHS CIS2 - combined authentication and authorisation](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation/user-restricted-restful-apis-nhs-cis2-combined-authentication-and-authorisation)
-
-    For more details, see [user-restricted APIs](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation#user-restricted-apis).
-
-    The second authorisation method is [application-restricted](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation#application-restricted-apis) (signed JWT authentication), meaning a few specific API calls can be authorised by the application making the requests. This is typically provided so that GPs can perform batch updates of multiple Summary Care Records without having to log in as a specific user.
+    The API uses OAuth 2.0 to authorise the calling system. It supports the following security patterns:
+    - [user-restricted RESTful API - CIS2 - combined authentication and authorisation](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation/user-restricted-restful-apis-nhs-cis2-combined-authentication-and-authorisation)
+    - [user-restricted RESTful API - CIS2 - seperate authentication and authorisation](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation/user-restricted-restful-apis-cis2-separate-authentication-and-authorisation)
+    
+    The second authorisation method is [application-restricted](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation#application-restricted-apis), meaning a few specific API calls can be authorised by the application making the requests. This is typically provided so that GPs can perform batch updates of multiple Summary Care Records without having to log in as a specific user.
     
     The following specific endpoint and method combinations can be used with application-restricted authentication, in addition to user-restricted authentication:
     
@@ -97,8 +97,7 @@ info:
     - GET Bundle
     - POST Bundle
     
-    For more details, see:
-    - [application-restricted APIs](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation#application-restricted-apis) and 
+    For more details, see the following security pattern:    
     - [application-restricted RESTful APIs - signed with JWT authentication](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation/application-restricted-restful-apis-signed-jwt-authentication)
 
     ## Environments and testing
