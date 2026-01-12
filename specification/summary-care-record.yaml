@@ -288,8 +288,11 @@ paths:
           application/fhir+json:
             schema:
               $ref: components/schemas/UploadBundle.yaml
-            example:
-              $ref: components/examples/UploadScrBundle.json
+            examples:
+              Example JSON SCR Bundle:
+                summary: Example JSON SCR Bundle
+                value:
+                  $ref: components/examples/UploadScrBundle.json
       responses:
         "201":
           description: SCR successfully uploaded
@@ -413,8 +416,11 @@ paths:
             application/fhir+json:
               schema:
                 $ref: components/schemas/GetScrBundle.yaml
-              example:
-                $ref: components/examples/GetScrBundle.json
+              examples:
+                Example JSON SCR Bundle:
+                  summary: Example SCR Bundle
+                  value:
+                    $ref: components/examples/GetScrBundle.json
         "4XX":
           description: |
             An error occurred as follows:
@@ -536,8 +542,11 @@ paths:
             application/fhir+json:
               schema:
                 $ref: components/schemas/DocumentReferenceBundle.yaml
-              example:
-                $ref: components/examples/DocumentReferenceBundle.json
+              examples:
+                Example JSON SCR DocumentReference Bundle:
+                  summary: Example SCR DocumentReference Bundle
+                  value:
+                    $ref: components/examples/DocumentReferenceBundle.json
         "4XX":
           description: |
             An error occurred as follows:
@@ -618,10 +627,13 @@ paths:
           application/fhir+json:
             schema:
               $ref: components/schemas/Parameters.yaml
-            example:
-              $ref: components/examples/SetPermission.json
-      responses: 
-        "201": 
+            examples:
+              Example SetPermission Bundle:
+                summary: Example SetPermission Bundle
+                value:
+                  $ref: components/examples/SetPermission.json
+      responses:
+        "201":
           description: Permission successfully updated
         "4XX":
           description: |
@@ -707,8 +719,11 @@ paths:
           application/fhir+json:
             schema:
               $ref: components/schemas/AuditEvent.yaml
-            example:
-              $ref: components/examples/AuditEvent.json
+            examples:
+              Example JSON of AuditEvent:
+                summary: Example JSON of AuditEvent
+                value:
+                  $ref: components/examples/AuditEvent.json
       responses:
         "201":
           description: Success response
