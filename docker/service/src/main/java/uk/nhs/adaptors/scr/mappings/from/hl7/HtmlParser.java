@@ -48,22 +48,21 @@ public class HtmlParser {
         removeEmptyNodes(html);
 
         var bodyNode = xmlUtils.getNodesByXPath(html, "./body").stream()
-                .findFirst()
-                .orElseThrow(() -> new IllegalStateException("Missing body node in html"));
+            .findFirst()
+            .orElseThrow(() -> new IllegalStateException("Missing body node in html"));
 
         var childNodes = bodyNode.getChildNodes();
         if (childNodes.getLength() != 0 && !H2.equals(childNodes.item(0).getNodeName())) {
             throw new IllegalStateException("First body node must be H2");
         }
 
-        // this will hold a list of paris: H2 node as key and all next nodes (until next
-        // H2 or body end) as a new Document
+        // this will hold a list of paris: H2 node as key and all next nodes (until next H2 or body end) as a new Document
         var items = new ArrayList<Pair<Node, Document>>();
         Document targetDocument = null;
         for (int i = 0; i < childNodes.getLength(); i++) {
             var currentNode = childNodes.item(i);
             if (H2.equals(currentNode.getNodeName())) {
-                // since this is the H2, we begin to capture following nodes as a new Document
+                //since this is the H2, we begin to capture following nodes as a new Document
                 targetDocument = createNewDocument("div", "http://www.w3.org/1999/xhtml");
                 items.add(Pair.of(currentNode, targetDocument));
             } else {
@@ -71,22 +70,22 @@ public class HtmlParser {
                     throw new IllegalStateException("Target document not initialized");
                 }
                 targetDocument.getDocumentElement()
-                        .appendChild(targetDocument.importNode(currentNode, true));
+                    .appendChild(targetDocument.importNode(currentNode, true));
             }
         }
 
         return items.stream()
-                .map(kv -> ParsedHtml
-                        .builder()
-                        .html(serialize(kv.getValue()))
-                        .h2Value(kv.getKey().getTextContent())
-                        .h2Id(Optional.ofNullable(kv.getKey().getAttributes())
-                                .map(h2IdAttribute -> h2IdAttribute.getNamedItem("id"))
-                                .map(Node::getNodeValue)
-                                .orElse(null))
-                        .build())
-                .map(HtmlParser::buildSectionComponent)
-                .collect(Collectors.toList());
+            .map(kv -> ParsedHtml
+                .builder()
+                .html(serialize(kv.getValue()))
+                .h2Value(kv.getKey().getTextContent())
+                .h2Id(Optional.ofNullable(kv.getKey().getAttributes())
+                    .map(h2IdAttribute -> h2IdAttribute.getNamedItem("id"))
+                    .map(Node::getNodeValue)
+                    .orElse(null))
+                .build())
+            .map(HtmlParser::buildSectionComponent)
+            .collect(Collectors.toList());
     }
 
     @SneakyThrows
@@ -108,30 +107,32 @@ public class HtmlParser {
     @SneakyThrows
     public static void removeEmptyNodes(Node document) {
         XPathExpression xpathExp = XPathFactory.newInstance().newXPath()
-                .compile("//text()[normalize-space(.) = '']");
+            .compile("//text()[normalize-space(.) = '']");
         NodeList emptyTextNodes = (NodeList) xpathExp.evaluate(document, XPathConstants.NODESET);
         for (int i = 0; i < emptyTextNodes.getLength(); i++) {
             Node emptyTextNode = emptyTextNodes.item(i);
             emptyTextNode.getParentNode().removeChild(emptyTextNode);
         }
 
+
     }
+
 
     private static Composition.SectionComponent buildSectionComponent(ParsedHtml parsedHtml) {
         var sectionComponent = new Composition.SectionComponent()
-                .setTitle(parsedHtml.h2Value)
-                .setText(buildNarrative(parsedHtml.html));
+            .setTitle(parsedHtml.h2Value)
+            .setText(buildNarrative(parsedHtml.html));
         if (StringUtils.isNotBlank(parsedHtml.h2Id)) {
             sectionComponent.setCode(new CodeableConcept()
-                    .addCoding(new Coding()
-                            .setCode(parsedHtml.h2Id)));
+                .addCoding(new Coding()
+                    .setCode(parsedHtml.h2Id)));
         }
         return sectionComponent;
     }
 
     private static Narrative buildNarrative(String html) {
         var narrative = new Narrative()
-                .setStatus(Narrative.NarrativeStatus.GENERATED);
+            .setStatus(Narrative.NarrativeStatus.GENERATED);
         narrative.setDivAsString(html);
         return narrative;
     }

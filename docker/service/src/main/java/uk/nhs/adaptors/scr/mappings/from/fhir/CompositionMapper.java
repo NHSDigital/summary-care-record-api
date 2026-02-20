@@ -20,10 +20,8 @@ import static uk.nhs.adaptors.scr.utils.FhirHelper.getDomainResource;
 import static uk.nhs.adaptors.scr.utils.FhirHelper.randomUUID;
 
 /**
- * An FHIR SCR will contain multiple resource-types. The parent resourceType
- * will be Bundle.
- * Others may include Composition, Practitioner, PractitionerRole, Organization
- * and Patient.
+ * An FHIR SCR will contain multiple resource-types. The parent resourceType will be Bundle.
+ * Others may include Composition, Practitioner, PractitionerRole, Organization and Patient.
  * This is the FHIR to HL7 mapper of the Composition resource type.
  *
  * See: src/test/resources/gp_summary/standard_gp_summary.json
@@ -75,25 +73,21 @@ public class CompositionMapper {
         }
         Coding category = composition.getCategoryFirstRep().getCodingFirstRep();
         if (!SNOMED_SYSTEM.equals(category.getSystem())) {
-            throw new FhirValidationException(
-                    "Composition.category.coding.system not supported: " + category.getSystem());
+            throw new FhirValidationException("Composition.category.coding.system not supported: " + category.getSystem());
         }
         if (!CARE_PROFESSIONAL_DOC_CODE.equals(category.getCode())) {
             throw new FhirValidationException("Composition.category.coding.code not supported: " + category.getCode());
         }
         if (!CARE_PROFESSIONAL_DOC_DISPLAY.equals(category.getDisplay())) {
-            throw new FhirValidationException(
-                    "Composition.category.coding.display not supported: " + category.getDisplay());
+            throw new FhirValidationException("Composition.category.coding.display not supported: " + category.getDisplay());
         }
     }
 
-    private static void setCompositionRelatesToId(GpSummary gpSummary, Composition composition)
-            throws FhirMappingException {
+    private static void setCompositionRelatesToId(GpSummary gpSummary, Composition composition) throws FhirMappingException {
         if (composition.hasRelatesTo()) {
             var relatesTo = composition.getRelatesToFirstRep();
             if (!REPLACES.equals(relatesTo.getCode())) {
-                throw new FhirValidationException(
-                        "Unsupported Composition.relatesTo.code element: " + relatesTo.getCode());
+                throw new FhirValidationException("Unsupported Composition.relatesTo.code element: " + relatesTo.getCode());
             }
             if (relatesTo.getTargetIdentifier().hasValue()) {
                 gpSummary.setCompositionRelatesToId(relatesTo.getTargetIdentifier().getValue());
