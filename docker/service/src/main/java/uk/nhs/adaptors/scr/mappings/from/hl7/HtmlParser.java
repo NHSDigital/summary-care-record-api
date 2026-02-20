@@ -127,15 +127,6 @@ public class HtmlParser {
                 .addCoding(new Coding()
                     .setCode(parsedHtml.h2Id)));
         }
-        String toBeReplaced = sectionComponent.getText().getDiv().getValue();
-
-        if (toBeReplaced.contains("One or more entries have been deliberately withheld from this GP Summary.")) {
-            toBeReplaced = toBeReplaced.replace(
-                    "One or more entries have been deliberately withheld from this GP Summary.",
-                    "One or more entries have been withheld from this GP Summary.");
-            sectionComponent.getText().getDiv().setValue(toBeReplaced);
-        }
-
         return sectionComponent;
     }
 
