@@ -55,7 +55,7 @@
       },
       "text": {
         "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h3 id=\"Disclaimer\">Sourced from the patient's General Practice record. This summary may not include all the information pertinent to this patient.</h3><p id=\"CreateTime\">Summary Created: 30 Apr 2020 16:13</p><p id=\"WithheldCREItemsHeaderStatement\" class=\"HighlightedStatement\">One or more entries have been withheld from this GP Summary.</p><p id=\"Author\">Created by: WILSON, Bob (Mr)</p><p id=\"Practice\">Spine Testing, The Practice, Woodvale Terrace, Horsforth, Leeds LS18 4JW</p></div>"
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h3 id=\"Disclaimer\">Sourced from the patient's General Practice record. This summary may not include all the information pertinent to this patient.</h3><p id=\"CreateTime\">Summary Created: 30 Apr 2020 16:13</p><p id=\"WithheldCREItemsHeaderStatement\" class=\"HighlightedStatement\">One or more entries have been deliberately withheld from this GP Summary.</p><p id=\"Author\">Created by: WILSON, Bob (Mr)</p><p id=\"Practice\">Spine Testing, The Practice, Woodvale Terrace, Horsforth, Leeds LS18 4JW</p></div>"
       }
     },
     {
@@ -181,7 +181,7 @@
       },
       "text": {
         "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p id=\"WithheldCREItemsHeaderStatement\" class=\"HighlightedStatement\">One or more entries have been withheld from this GP Summary.</p><table id=\"Circumstances\"><thead><tr><th>Date</th><th>Description</th><th>Value</th><th>Supporting Information</th></tr></thead><tbody><tr class=\"oddRow\"><td>01 Apr 2020</td><td>Main spoken language English</td><td></td><td>Bilingual</td></tr><tr class=\"evenRow\"><td>31 Mar 2020</td><td>Main spoken language English</td><td></td><td>[No notes were originally recorded]</td></tr><tr class=\"oddRow\"><td>26 Mar 2020</td><td>Main spoken language Mandarin</td><td></td><td></td></tr></tbody></table><p id=\"SendTime\">Summary Sent: 30 Apr 2020 16:13</p></div>"
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p id=\"WithheldCREItemsHeaderStatement\" class=\"HighlightedStatement\">One or more entries have been deliberately withheld from this GP Summary.</p><table id=\"Circumstances\"><thead><tr><th>Date</th><th>Description</th><th>Value</th><th>Supporting Information</th></tr></thead><tbody><tr class=\"oddRow\"><td>01 Apr 2020</td><td>Main spoken language English</td><td></td><td>Bilingual</td></tr><tr class=\"evenRow\"><td>31 Mar 2020</td><td>Main spoken language English</td><td></td><td>[No notes were originally recorded]</td></tr><tr class=\"oddRow\"><td>26 Mar 2020</td><td>Main spoken language Mandarin</td><td></td><td></td></tr></tbody></table><p id=\"SendTime\">Summary Sent: 30 Apr 2020 16:13</p></div>"
       }
     }
   ]

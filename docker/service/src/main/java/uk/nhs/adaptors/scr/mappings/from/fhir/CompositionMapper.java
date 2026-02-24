@@ -138,13 +138,6 @@ public class CompositionMapper {
             removeEmptyNodes(divDocument);
             var divChildNodes = divDocument.getDocumentElement().getChildNodes();
             for (int i = 0; i < divChildNodes.getLength(); i++) {
-                String toReplaceWith = divChildNodes.item(i).getTextContent();
-
-                // There has previously been incorrect verbiage in some SCRs. This helps to standardise language.
-                if (toReplaceWith.contains("One or more entries have been deliberately withheld from this GP Summary.")) {
-                    toReplaceWith = toReplaceWith.replace("deliberately withheld", "intentionally withheld");
-                    divChildNodes.item(i).setTextContent(toReplaceWith);
-                }
                 bodyNode.appendChild(htmlDocument.importNode(divChildNodes.item(i), true));
             }
         }
